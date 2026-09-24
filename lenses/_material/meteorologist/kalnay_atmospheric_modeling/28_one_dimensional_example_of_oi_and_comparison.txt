@@ -1,0 +1,334 @@
+166
+5 Data assimilation
+where b jk are the elements of HBHT, and r jk the elements of R. This method is
+further illustrated in the following examples.
+5.4.4
+One-dimensional example of OI and comparison
+with Bratseth’s scheme
+Consider a simple example in one-dimensional grid space, with just two geopotential
+observations along the x-axis, at the points x1 = 0, and x2 = αLφ, where Lφ is the
+correlation length of geopotential observations. The grid points are also on the x-axis:
+xg = gx. For each grid point we can rewrite equations (5.4.33) and (5.4.34) as
+φa
+g = φb
+g + wg1
+	
+φo
+1 −φb
+1
+
++ wg2
+	
+φo
+2 −φb
+2
+
+(5.4.50)
+where the weights are obtained from the solution of the linear system
+(b11 + r11)wg1 + b12wg2 = b1g
+b21wg1 + (b22 + r22)wg2 = b2g
+%
+(5.4.51)
+As noted before, we have assumed that the observational errors are uncorrelated at
+different points, and that they are uncorrelated with the background errors.
+We assume as before that the background error correlation is Gaussian,
+bi j = σ 2
+φµi j = σ 2
+φe−(xi−x j)2/2L2
+φ
+(5.4.52)
+and that the ratio of the observation and background error variances is
+η = rii/bii = σ 2
+o /σ 2
+φ
+(5.4.53)
+If one of the observations is of geopotential and the second is a wind observation v,
+the term bi j can be computed as
+bi j = 1
+f
+∂E(δφiδv j)
+∂x j
+=
+σ 2
+φ
+f
+∂µi j
+∂x j
+=
+σ 2
+φ
+f
+∂e−(xi−x j)2/2L2
+φ
+∂x j
+=
+σ 2
+φ(xi −x j)
+f L2
+φ
+e−(xi−x j)2/2L2
+φ
+(5.4.54)
+In Exercise 5.4.2, this OI problem is solved directly. We now write Bratseth’s
+iterative scheme for the same grid point and allow for more than two observations.
+First we need to compute correction vector d by performing enough successive
+iterations. Assume p observations are inﬂuencing the grid point g. The ﬁrst iteration
+is simply the vector of observational increments:
+d0 =
+
+
+φo
+1 −φb
+1
+...
+φo
+p −φb
+p
+
+
+
+5.4 Multivariate statistical data assimilation methods
+167
+The following iterations are given by
+dν = Adν−1 + d0
+(5.4.55)
+The elements ai j of the matrix A are obtained as in (5.4.45), from
+ai j = δi j −(bi j + δi jri j)/m j j
+(5.4.56)
+where δi j = 1 if i = j and zero otherwise, and the scaling diagonal matrix M−1 has
+elements
+m j j =
+p
+
+k=1
+|b jk + δ jkr jk|
+(5.4.57)
+chosen by Bratseth to speed up convergence.
+Once enough iterations have been performed for d, the grid-point analysis is
+obtained from
+φa
+g = φb
+g +
+ 
+bg1 · · · bgp
+!
+
+
+1/m11
+0
+· · ·
+0
+0
+1/m22 · · ·
+0
+...
+...
+...
+0
+0
+· · · 1/m pp
+
+
+
+
+d1
+...
+dp
+
+
+(5.4.58)
+As shown before, d converges with large ν towards
+dν →M(B + R)−1d0
+so that
+φa
+g →φb
+g +
+ 
+bg1 · · · bgp
+!
+
+
+b11 + r11
+b12
+· · ·
+b1p
+b21
+b22 + r22 · · ·
+b2p
+...
+...
+...
+bp1
+bp2
+· · · bpp + rpp
+
+
+−1 
+
+d1
+...
+dp
+
+
+0
+(5.4.59)
+which is the OI analysis.
+Exercise 5.4.2: (adapted from Bratseth, 1986)
+(1) Write a FORTRAN or MATLAB code to solve an OI analysis (5.4.59) with
+two observations. Assume that the background is zero, i.e., compute just the
+analysis increments for the geopotential, using the following default values:
+σφ = 200 m2/s2; σo = 100 m2/s2; f = 10−4 s−1; Lφ = 500 km;
+x = 50 km; distance between the observations x2 −x1 = αLφ, α = 1; the
+observational increments are (φo
+1 −φb
+1) = 500 m2/s2, (φo
+2 −φb
+2) = 0.
+Compute the geopotential analysis increments at all the grid points
+between −2Lφ and 2Lφ.
+
+168
+5 Data assimilation
+Plot the analysis at the grid points and the two observational points.
+Compute and plot the estimated analysis error at each point.
+(2) Same as (1) but varying the distance between the observations (α = 1,
+√
+2, 2).
+(3) Do the default exercise again but change the ratio of the observation and
+background error variances, η = 0.0, 0.5, 1.0, 2.0.
+(4) Assume that one has a “credulous” analysis that believes that η = 0.0,
+whereas the real ratio between observation and background error variance is
+η = 1.0. Compare the true analysis error with the estimated analysis error.
+Exercise 5.4.3: Adapt the program written in Exercise 5.4.2 to two multivariate
+observations, φ1,v1; φ2,v2. Take the default values in Exercise 5.4.2, and assume
+	
+φo
+1 −φb
+1
+
+= 500 m2/s2, vo
+1 −vb
+1 = 0
+	
+φo
+2 −φb
+2
+
+= 0, vo
+2 −vb
+2 = 0
+Perform the analysis over the grid points as in Exercise 5.4.2.(1)
+Exercise 5.4.4: Perform a Bratseth iterative OI and determine how many iterations
+are required to obtain a satisfactory approximation to OI (compare with the exact OI
+solution obtained in Exercise 5.4.2).
+5.5
+3D-Var, the physical space analysis scheme (PSAS),
+and their relationship to OI
+We saw in Section 5.3 that there is an important equivalence between the formulation
+of the optimal analysis of a scalar by minimizing the analysis error variance (ﬁnding
+the optimal weights through a least squares approach) and solving the same problem
+through a variational approach (ﬁnding the analysis that minimizes a cost function
+measuring its distance to the background and to the observations). The same is true
+when the analysis involves a full three-dimensional ﬁeld, as in Section 5.4.1. In the
+derivation of OI, we found the optimal weight matrix W that minimized the analysis
+error covariance (a matrix). Lorenc (1986) showed that this solution is equivalent
+to a speciﬁc variational assimilation problem: Find the optimal analysis xa ﬁeld that
+minimizes a (scalar) cost function, where the cost function is deﬁned as the distance
+between x and the background xb, weighted by the inverse of the background error
+covariance, plus the distance to the observations yo,weighted by the inverse of the
+observations error covariance:
+2J(x) = (x −xb)T B−1(x −xb) + [yo −H(x)]T R−1[yo −H(x)]
+(5.5.1)
+We saw in Section 5.3.2 for the case of a simple scalar with two measurements that
+the variational cost function can be derived through a maximum likelihood approach,
+
+5.5 3D-Var, the physical space analysis scheme (PSAS)
+169
+i.e., the analysis is the most likely state of the atmosphere, given the two independent
+measurements. Similarly we can deﬁne here the likelihood (Edwards, 1984) of the
+true state given the background ﬁeld (6-h forecast) and the new observations:
+LB(x||xb) = pB(xb|x) =
+1
+(2π)n/2 |B|1/2 e−1
+2 [(xb−x)T B−1(xb−x)]
+(5.5.2a)
+LR(x||yo) = pR(yo|x) =
+1
+(2π)p/2 |R|1/2 e−1
+2 [(yo−H(x))T R−1(yo−H(x))]
+(5.5.2b)
+Since the background and new observations are independent, their joint probability
+is the product of the two Gaussian probabilities. The most likely state x of the
+atmosphere (analysis) maximizes the joint probability. This maximum is also attained
+when the logarithm of the joint probability is maximized, which is the same as
+minimizing the cost function (5.5.1).
+Alternatively, the cost function (5.5.1) can also be derived based on a Bayesian
+approach.1 In this case we assume that the true ﬁeld is a realization of a random
+process deﬁned by the prior probability distribution function (given the background
+ﬁeld)
+pB(x) =
+1
+(2π)n/2 |B|1/2 e−1
+2 [(xb−x)T B−1(xb−x)]
+Bayes theorem indicates that given the new observations yo, the a posteriori proba-
+bility distribution of the true ﬁeld is
+P(x|yo) = p(yo|x)pB(x)
+p(yo)
+(5.5.3)
+The Bayesian estimate of the true state is the one that maximizes the a posteriori
+probability (5.5.3). The denominator in (5.5.3) is the “climatological” distribution of
+observations, and does not depend on the current true state x. Therefore the maximum
+of the a posteriori probability is attained when the numerator is maximum, and is
+given by the minimum of the cost function (5.5.1).
+The minimum of J(x) in (5.5.1) is attained for x = xa, i.e., the analysis is given
+by the solution of
+∇xJ(xa) = 0
+(5.5.4)
+An exact solution can be obtained in the following way. As we did in Section 5.4.1, we
+can expand the second term of (5.5.1), the observational differences, assuming that
+the analysis is a close approximation to the truth and therefore to the observations,
+and linearizing H around the background value:
+yo −H(x) = yo −H[xb + (x −xb)] = {yo −H(xb)} −H(x −xb)
+(5.5.5)
+1 I am grateful to Peter Lyster for a discussion about this topic.
+
+170
+5 Data assimilation
+Substituting (5.5.5) into (5.5.1) we get
+2J(x) = (x −xb)T B−1(x −xb)
++ [{yo −H(xb)} −H(x −xb)]T R−1[{yo −H(xb)} −H(x −xb)]
+(5.5.6)
+Expanding the products, and using the rules to transpose matrix products, we then
+get
+2J(x) = (x −xb)T B−1(x −xb) + (x −xb)T HT R−1H(x −xb)
+−{yo −H(xb)}T R−1H(x −xb) −(x −xb)T HT R−1{yo −H(xb)}
++{yo −H(xb)}T R−1{yo −H(xb)}
+(5.5.7)
+The cost function is a quadratic function of the analysis increments (x −xb) and
+therefore we can use Remark 5.4.1(d): Given a quadratic function F(x) = 1
+2xT Ax +
+dT x + c, where A is a symmetric matrix, d is a vector and c a scalar, the gradient is
+given by ∇F(x) = Ax + d. The gradient of the cost function J with respect to x (or
+with respect to (x −xb)) is
+∇J(x) = B−1(x −xb) + HT R−1H(x −xb) −HT R−1{yo −H(xb)}
+(5.5.8)
+We now set ∇J(xa) = 0 to ensure that J is a minimum, and obtain an equation for
+(xa −xb)
+(B−1 + HT R−1H)(xa −xb) = HT R−1{yo −H(xb)}
+(5.5.9)
+or
+xa = xb + (B−1 + HT R−1H)−1HT R−1{yo −H(xb)}
+(5.5.10)
+which, in incremental form, is
+δxa = (B−1 + HT R−1H)−1HT R−1δyo
+Formally, this is the solution of the variational (3D-Var) analysis problem, but in
+practice the solution is obtained through minimization algorithms for J(x) using
+iterative methods for minimization such as the conjugate gradient or quasi-Newton
+methods.
+Note that the control variable for the minimization (i.e., the variable with respect to
+which we are minimizing the cost function J) is now the analysis, not the weights as in
+OI. The equivalence between the minimization of the analysis error variance (ﬁnding
+the optimal weights through a least squares approach), and the three-dimensional
+variational cost function approach (ﬁnding the optimal analysis that minimizes the
+distance to the observations weighted by the inverse of the error variance) is an
+important property.

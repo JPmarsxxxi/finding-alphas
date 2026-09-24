@@ -1,0 +1,870 @@
+3
+Continuous time limit, Ito calculus and path integrals
+Comment oser parler des lois du hasard ? Le hasard n’est-il pas l’antith`ese de toute loi ?†
+(Joseph Bertrand, Calcul des probabilit´es.)
+3.1 Divisibility and the continuous time limit
+3.1.1 Divisibility
+We have discussed in the previous chapter how the sum of two iid random variables can
+be computed if the distribution of these two variables is known. One can ask the opposite
+question: knowing the probability distribution of a variable X, is it possible to ﬁnd two iid
+random variables such that X = δX1 + δX2, or more precisely such that the distribution of
+X can be written as the convolution of two identical distributions. If this is possible, the
+variable X is said to be divisible.
+We already know cases where this is possible. For example, if X has a Gaussian dis-
+tribution of variance σ 2, one can choose X1 and X2 to be have Gaussian distribution of
+variance σ 2/2. More generally, if X is a L´evy stable random variable of parameter aµ (see
+Eq. (1.20)), then X1 and X2 are also L´evy stable random variables with parameter aµ/2.
+However, all random variables are not divisible: as we show below, if X has a uniform
+distribution in the interval [a, b], it cannot be written as X = δX1 + δX2 with δX1, δX2 iid.
+More formally, this problem translates into the properties of characteristic functions ˆP(z).
+Since the convolution amounts to a simple product for characteristic functions, the question
+is whether the square root of a characteristic function is still the Fourier transform of a
+bona ﬁde probability distribution, i.e. a non negative function of integral equal to one. This
+imposes certain conditions on the characteristic function, for example on the cumulants
+when they exist. For example, the kurtosis κ of any probability distribution is bounded from
+below by −2. This comes from the inequality ⟨x4⟩≥⟨x2⟩2, which itself is a consequence
+of the positivity of the distribution P(x). This is enough to show that a uniform variable
+is not divisible. The kurtosis of the uniform distribution is equal to κ = −6/5. From the
+additivity of the cumulants under convolution, the kurtosis κ1 of the putative distribution
+P1 such that P = [P1]∗2 has to be twice that of P, i.e. κ1 = −12/5 < −2. Therefore P1
+cannot be everywhere positive, and does not correspond to a probability distribution.
+† How dare we speak of the laws of chance? Is not chance the antithesis of all law?
+
+44
+Continuous time limit, Ito calculus and path integrals
+3.1.2 Inﬁnite divisibility
+One can obviously generalize the above question to the case of N-divisibility: can one
+decompose a random variable X as a sum of N iid random variables? Said differently, when
+is ˆP(z)1/N the Fourier transform of a probability distribution? Again, the case of Gaussian
+variables is simple. Consider a Gaussian random variable of variance σ 2T and zero mean.†
+Its characteristic function is given by ˆP(z) = exp −σ 2z2T . Taking the Nth root we ﬁnd
+ˆP(z)1/N = exp −σ 2z2T/N, i.e. the characteristic function of a Gaussian distribution of
+variance σ 2T/N. One can take the N →∞limit, and ﬁnd that a Gaussian random variable
+of variance σ 2T can be thought of as an inﬁnite sum of random Gaussian increments δXi
+of vanishing variance:
+X N =
+N−1
+
+i=0
+δXi −→X(T ) =
+ T
+0
+d X(t),
+t = T i
+N .
+(3.1)
+In the limit N →∞, the quantity t becomes continuous and can be thought of as ‘time’.
+The resulting ‘trajectory’ X(t) is then called the continuous time Brownian motion and has
+many very interesting properties. For example, X(λt) is a Gaussian variable of variance
+equal to that of X(t) multiplied by a factor λ. One can also show that X(t) is continuous
+in the following sense. The probability P>(ϵ) that any one of the N increments exceeds in
+size a certain small but ﬁnite value ϵ is given by:
+P>(ϵ) = 1 −
+
+1 −2
+ ∞
+ϵ
+exp −Nu2/2σ 2T
+
+2πσ 2T/N
+du
+N
+.
+(3.2)
+In the limit N →∞, ϵ ﬁxed, one can use an asymptotic estimate of the above integral to
+ﬁnd:
+P>(ϵ) ≃1 −
+
+1 −
+
+2T
+π N
+σ
+ϵ exp −Nϵ2
+2σ 2T
+N
+≃
+
+2NT
+π
+σ
+ϵ exp −Nϵ2
+2σ 2T ,
+(3.3)
+which tends to zero when N →∞. Therefore, in the continuous time limit, almost surely,
+the resulting process does not jump.
+Another simple example of inﬁnite divisibility is when X is a L´evy stable random vari-
+able of parameter aµ, then the increments δX are also L´evy stable random variables with
+parameter aµ/N. However, this process is not continuous in the large N limit, since in this
+case one has, for a symmetric distribution:
+P>(ϵ) ≃1 −
+
+1 −2
+ ∞
+ϵ
+Aµ
+Nµu1+µ du
+N
+−→1 −exp[−2(A/ϵ)µ],
+(3.4)
+which is ﬁnite. Therefore there is ﬁnite probability to observe a discontinuity of amplitude
+> ϵ in the ‘trajectory’ X(t).
+† We introduce a factor T that will prove useful when taking the continuum limit. The symbol σ 2 is a variance
+per unit time, or a diffusion constant and its squared-root (σ) is called the volatility.
+
+3.1 Divisibility and the continuous time limit
+45
+A graphical representation of these two processes was shown in Figures 2.2 and 2.3.
+The L´evy process shown in Figure 2.3 has a few clear ﬁnite discontinuities, while the
+Gaussian one (Fig. 2.2) looks continuous to the eye. Strictly speaking, the processes shown
+are discrete (hence discontinuous), but the largest scale is indistinguishable (to the eye)
+from a true continuum limit.
+Due to the additivity of the cumulants (when they exist), one can assert in the general
+case that the iid increments needed to reconstruct the variable X have a variance which is a
+factor N smaller than the variance of X, but a kurtosis a factor N larger than that of X. The
+only way to obtain a random variable with a ﬁnite kurtosis in the limit N →∞is to start
+with increments that have an inﬁnite kurtosis. More generally, the normalized cumulants of
+the increments λn are a factor N n/2−1 larger than those of the variable X.
+3.1.3 Poisson jump processes
+Let us consider a random sequence of N increments δXi constructed as follows: for each
+i, the value of δXi is chosen to be either 0 with probability 1 −p/N, or to a ﬁnite value
+(‘jump’) distributed according to a certain law PJ(δx), with probability p/N, where p is
+ﬁnite. The quantity p is therefore the average number of jumps in the trajectories. It is
+straightforward to write down the probability density of individual increments,
+P1(δx) =
+	
+1 −p
+N
+
+δ(δx −0) + p
+N
+ˆPJ(δx),
+(3.5)
+where δ(.) is the Dirac function corresponding to the cases where δX = 0. The variance of
+the increments is equal to p⟨δx2⟩J/N, whereas the kurtosis is given by:
+κ = N⟨δx4⟩J
+p⟨δx2⟩2
+J
+−3,
+(3.6)
+where ⟨. . .⟩J refers to the moments of PJ(δx). In the limit where p is ﬁxed and N →∞,
+the increments have a vanishing variance and a diverging kurtosis.
+Introducing the characteristic functions and noting that the Fourier transform of δ(.) is
+unity, allows one to get the following expression:
+ˆP(z) =
+	
+1 −p
+N + p
+N
+ˆPJ(z)
+
+N
+.
+(3.7)
+It can be useful to realize that since the increments are independent and the number of
+jumps n has a binomial distribution, the distribution P of the sum of these increments can
+also be written as:
+ˆP(z) =
+N
+
+n=0
+Cn
+N
+	 p
+N
+
+n 	
+1 −p
+N
+
+N−n
+[ ˆPJ(z)]n[1]N−n,
+(3.8)
+where [1] in the above expression comes from the Dirac peak at zero.
+
+46
+Continuous time limit, Ito calculus and path integrals
+In the large N limit, Eq. (3.7) still simpliﬁes to:
+ˆP(z) = exp −p(1 −ˆPJ(z)),
+(3.9)
+and deﬁnes a Poisson jump process of intensity p. By construction, this Poisson jump
+process is inﬁnitely divisible, as is obvious from the above form of ˆP(z): the 1/Nth power
+of ˆP(z) corresponds to the same jump process with a reduced intensity p/N.
+One can generalize the above construction by allowing the increments to be, with prob-
+ability 1 −p/N, Gaussian with variance σ 2/N instead of being zero. The process is then,
+in the limit N →∞, a mixture of a continuous Brownian motion interrupted by random
+jumps of ﬁnite amplitude. The average number of jumps is equal to N × p/N = p. The
+corresponding characteristic function reads:
+ˆP(z) = exp −1
+2σ 2z2 −p(1 −ˆPJ(z)).
+(3.10)
+Any inﬁnitely divisible process can be written as a mixture of a continuous Brownian
+motion and a Poisson jump process. Therefore, any non Gaussian inﬁnitely divisible process
+contains jumps and cannot be continuous in the continuous time limit.
+L´evy and truncated L´evy processes
+As an illustration, it is interesting to consider the case where jumps are power law distributed,
+as:
+PJ(δx) =
+Aµ
+2µ|δx|1+µ (|δx| −A),
+(3.11)
+where  is the Heaviside function, and µ < 2. The quantity 1 −ˆPJ(z) reads in this case:
+1 −ˆPJ(z) = Aµ
+µ
+ ∞
+A
+1 −cos zu
+u1+µ
+du.
+(3.12)
+Note that when µ < 2, the above integral converges in the limit A →0, and is equal to
+cµ|z|µ, where cµ is a certain constant. If we take the limit A →0 and p →∞in Eq. (3.9)
+such as to keep the product pAµ ﬁxed, we discover that ˆP(z) is precisely the characteristic
+function of a symmetric L´evy stable distribution. This is expected since the average number
+of jumps p tends to inﬁnity when A →0, and therefore the variable X is an inﬁnite sum of
+random increments of diverging variance.
+In order to construct truncated L´evy processes, one simply introduces an exponential
+cut-off in the distribution of jumps given by Eq. (3.11), as:
+PJ(δx) ≃
+Aµ
+2µ|δx|1+µ exp(−α|δx|)(|δx| −A),
+(3.13)
+where the normalization is only correct in the limit αA →0. The quantity 1 −ˆPJ(z) reads
+in this case:
+1 −ˆPJ(z) ≃Aµ
+µ
+ ∞
+A
+(1 −cos zu)e−αu
+u1+µ
+du,
+(3.14)
+
+3.2 Functions of the Brownian motion and Ito calculus
+47
+which, in the limit A →0, exactly reproduces Eq. (1.26). Therefore, the truncated L´evy
+process is by construction inﬁnitely divisible, and has jumps in the continuous time limit.†
+3.2 Functions of the Brownian motion and Ito calculus
+3.2.1 Ito’s lemma
+Letus return to the case ofGaussianincrementswhich, asshownabove,leadstoacontinuous
+process X(t) in the continuous time limit. Since in this limit, increments are vanishingly
+small, one can expect that some type of differential calculus could be devised. Consider a
+certain function F(X, t), possibly explicitly time dependent, of the process X. How does
+F(X, t) vary between t and t + dt? The usual rule of differential calculus is to write:
+dF = ∂F
+∂t dt + ∂F
+∂X d X(t).
+(3.15)
+However, one can see that this formula is at best ambiguous, for the following reason.
+Take for example F(X, t) = X2, and average the value of F over all realizations of the
+Gaussian process. By deﬁnition, one obtains the variance of the process, which is equal to
+σ 2t. Therefore, d⟨F⟩≡σ 2dt. On the other hand, if we average Eq. (3.15) and note that for
+our particular case ∂F/∂t ≡0, we obtain:
+⟨dF⟩= 2⟨X(t)d X(t)⟩= 2 lim
+N→∞⟨XiδXi⟩,
+(3.16)
+where the last equality refers to the discrete construction of the Brownian motion. This con-
+struction assumes that each increment δXi is an independent random variable, in particular
+independent of Xi since the latter is the sum of increments up to i −1 but excluding i.
+Since we assume that δXi has a zero mean, one would then ﬁnds ⟨dF⟩= 2⟨XiδXi⟩= 0,
+in contradiction of the direct result d⟨F⟩≡σ 2dt.
+This apparent contradiction comes from the fact that the notation d X(t) is misleading,
+because the order of magnitude of d X(t) is not dt, as would be in ordinary differential
+calculus, but of order
+√
+dt, which is much larger. A way to see this is again to refer to the
+discrete case where the variance of the increments is σ 2/N. Since dt is the limit when N
+is large of 1/N, the order of magnitude of the elementary increments which become d X
+in the continuous time limit is indeed σ/
+√
+N = σ
+√
+dt.‡ Therefore, although the Brownian
+motion is continuous, it is not differentiable since d X/dt →∞when dt →0.
+This has a very important consequence for the differential calculus rules since terms of
+order d X2 are of ﬁrst order in dt, and should be carefully retained. Let us illustrate this in
+details in the above case F(X, t) = F(X) = X2, by ﬁrst concentrating on the discrete case.
+Since F(xi) = x2
+i , one has:
+F(xi+1) −F(xi) = (xi+1 + xi)(xi+1 −xi) = (2xi + δxi)δxi = 2xiδxi + δx2
+i .
+(3.17)
+† See Koponen (1995).
+‡ In the following, we choose T = 1.
+
+48
+Continuous time limit, Ito calculus and path integrals
+The ﬁrst term is the F′(x)dx expected from differential calculus. The second is a random
+variable of mean equal to ⟨δx2
+i ⟩= σ 2/N and variance ⟨δx4
+i ⟩−⟨δx2
+i ⟩2 = 2σ 4/N 2 (recall
+that δx is Gaussian). Therefore, one can write:
+δx2
+i = σ 2
+N +
+√
+2σ 2
+N
+ξi,
+(3.18)
+where ξ is a random variable of zero mean and unit variance. The point now is that the
+effect of ξ is in fact negligible in the limit N →∞, and that this last term can be dropped.
+Indeed, if we sum Eq. (3.17) from i = 0 to i = N −1, we ﬁnd:
+N−1
+
+i=0
+F(xi+1) −F(xi) =
+N−1
+
+i=0
+2xiδxi + σ 2 +
+√
+2σ 2
+N
+N−1
+
+i=0
+ξi.
+(3.19)
+But the last term, using the CLT, is of order
+√
+2Nσ 2/N and vanishes in the large N limit. It
+therefore does not contribute, in that limit, to the evolution of F. One can see this at work
+on Fig. 3.1, where we have plotted n
+i=1 δx2
+i as a function of n for N = 100, 1000 and
+10000. One observes very clearly that for large N, n
+i=1 δx2
+i is very well approximated by
+σ 2n/N. This is in fact yet another illustration of the CLT.
+Coming back to Eq. (3.17), we conclude that in the continuum limit where the random
+term containing ξ can be discarded in Eq. (3.18), one can write:
+dF = 2Xd X + σ 2dt.
+(3.20)
+One now ﬁnds the correct result for ⟨dF⟩, namely σ 2dt.
+n/N
+0
+1
+0
+1
+N=10000
+0
+1
+n/N
+0
+1
+0
+1
+0
+1
+N=1000
+0
+1
+n/N
+0
+1
+Σ
+n
+i=1 δxi
+2 / N
+0
+1
+0
+1
+N=100
+0
+1
+Fig. 3.1. Illustration of the Ito lemma at work. In the continuum limit the random variable
+ t
+0 d X 2
+becomes equal to σ 2t with certainty. In this example, we have shown n
+i=1 δx2
+i , for increments δxi
+with variance 1/N. As N goes to inﬁnity we approach the continuum limit, where the ﬂuctuating
+sum becomes a straight line.
+
+3.2 Functions of the Brownian motion and Ito calculus
+49
+Turning now to the general case where F is arbitrary, one ﬁnds:
+F(xi+1) = F(xi + δxi) = F(xi) + F′(xi)δxi + 1
+2 F′′(xi)δx2
+i + · · ·
+(3.21)
+where the terms neglected are of order δx3, that is (dt)3/2 in the continuous time limit, and
+therefore much smaller than dt. The same argument as above suggests that one can neglect
+the random part in δx2
+i . This comes from the fact that one can, if F is sufﬁciently regu-
+lar, apply the CLT to the sum N−1
+i=0 F′′(xi)ξi, and ﬁnd, as above, that the contribution of
+this term vanishes as N −1/2. A more rigorous proof constitutes the famous Ito lemma,
+which makes precise the so-called stochastic differential rule for a general function
+F(X, t):
+dF = ∂F
+∂t dt + ∂F
+∂X d X(t) + σ 2
+2
+∂2F
+∂x2 dt,
+(3.22)
+where the last term is known as the Ito correction which appears because d X is of order
+√
+dt and not dt. The above Ito formula is at the heart of many applications, in particular in
+mathematical ﬁnance. Its use for option pricing will be discussed in Chapter 16.
+Note that Ito’s formula (3.22) is not time reversal invariant. Assume again that F does not
+explicitly depend on time. Reversing the arrow of time changes d X into −d X, but keeps the
+Ito correction unchanged, so that dF does not become −dF, as one might have expected.
+The reason for this is the explicit choice of an arrow of time when one assumes that δXi is
+chosen after the point Xi is known.
+One can extend in a straightforward way the above formula to the case where F depends
+on several, possibly correlated Brownian motions Xα(t), with α = 1, . . . , M:
+dF = ∂F
+∂t dt +
+M
+
+α=1
+∂F
+∂Xα
+d Xα(t) +
+M
+
+α,β=1
+Cαβ
+2
+∂2F
+∂Xα∂Xβ
+dt,
+(3.23)
+with Cαβ = ⟨d Xαd Xβ⟩.
+3.2.2 Novikov’s formula
+One can derive an important formula for an arbitrary function G(ξ1, ξ2, . . . , ξM) of
+correlated Gaussian variables ξ1, ξ2, . . . , ξM, which reads:
+⟨ξiG⟩=
+M
+
+j=1
+⟨ξiξ j⟩
+ ∂G
+∂x j
+
+.
+(3.24)
+This formula can easily be obtained by using the multivariate Gaussian distribution:
+P(ξ1, ξ2, . . . , ξM) = 1
+Z exp −1
+2
+M
+
+k,ℓ=1
+ξkC−1
+kℓξℓ,
+(3.25)
+
+50
+Continuous time limit, Ito calculus and path integrals
+where the C is the correlation matrix Ckℓ≡⟨ξkξℓ⟩, and Z a normalization factor equal
+to (2π)M/2√
+detC. Therefore, the following identity is true:
+ξi P ≡−
+M
+
+j=1
+Ci j
+∂P
+∂ξ j
+,
+(3.26)
+as can be seen by inspection, using the fact that 
+j Ci jC−1
+jℓ≡δiℓ. Inserting this formula
+in the integral deﬁning ⟨ξiG⟩, and integrating by parts over all variables ξ j, one ﬁnally
+ends up with Eq. (3.24).
+3.2.3 Stratonovich’s prescription
+As an application of the Novikov’s formula, we consider another construction of the
+continuous time Brownian motion, where the increments d X have a small but non zero
+correlation time τ that we will take inﬁnitely small after the continuous time limit dt →0
+has been taken. If τ ̸= 0, then X becomes differentiable and we choose:
+d X(t)
+dt
+d X(t′)
+dt′
+
+= σ 2
+τ g
+|t −t′|
+τ
+
+,
+(3.27)
+where g is a certain decaying function that we normalize as
+2
+ ∞
+0
+g(u)du = 1.
+(3.28)
+The reason of this normalization is the following: since X(t) =
+ t
+0 d X(t′), one has:
+⟨X(t)2⟩=
+ t
+0
+d X(t′)
+dt′
+dt′
+2
+=
+ t
+0
+ t
+0
+d X(t′)
+dt′
+d X(t′′)
+dt′′
+
+dt′dt′′.
+(3.29)
+Using (3.27) one then has:
+⟨X(t)2⟩= σ 2
+τ
+ t
+0
+ t−t′
+−t′
+g
+|t′′ −t′|
+τ
+
+dt′′
+
+dt′.
+(3.30)
+Changing variable to u = |t′′ −t′|/τ and assuming that τ is very small, one ﬁnally
+ﬁnds:
+⟨X(t)2⟩= σ 2t
+ ∞
+−∞
+g(|u|)du,
+(3.31)
+which we want to identify with σ 2t in order to keep the same variance as for the above
+construction of the Brownian motion.
+Since X is now differentiable (because τ is ﬁnite), one can apply the usual differential
+rule Eq. (3.15) to any function F(X, t). But now it is no longer true, in our above example
+where F(X, t) = X 2, that X(t) and d X(t) are uncorrelated, which was the origin of the
+contradiction discussed above. The average of the product F′(X)d X(t) can actually
+be computed using the continuous time version of Novikov’s formula, where the role
+of the ξ’s is played by the d X/dt’s. Noting that ∂X(t)/∂d X(t′) = 1 when t > t′ and 0
+
+3.3 Other techniques
+51
+Table 3.1. Differences between Ito and Stratonovich prescriptions.
+Ito
+Stratonovich
+⟨d X 2⟩= σ 2dt
+⟨d X 2⟩= σ 2dt
+⟨Xd X⟩= 0
+⟨Xd X⟩= σ 2dt/2
+dF(X, t) = ∂F
+∂X d X + ∂F
+∂t dt + σ 2
+2
+∂2 F
+∂X2 dt
+dF(X, t) = ∂F
+∂X d X + ∂F
+∂t dt
+functions are evaluated before the increments
+functions are evaluated simultaneously to the
+increments
+process dF not time reversal invariant
+process dF time reversal invariant
+standard in ﬁnance
+standard in physics
+otherwise, one has, using Eq. (3.24):
+
+F′(X(t), t)d X(t)
+dt
+
+=
+ t
+0
+d X(t)
+dt
+d X(t′)
+dt′
+
+⟨F′′(X(t), t)⟩dt′,
+(3.32)
+or, using again (3.27) and the change of variable u = |t −t′|/τ,
+
+F′(X(t), t)d X(t)
+dt
+
+= ⟨F′′(X(t), t)⟩σ 2
+ ∞
+0
+g(u)du = σ 2
+2 ⟨F′′(X(t), t)⟩,
+(3.33)
+because the integral over u is only half of what is needed to obtain the full normalization
+of g. Note that the last term is exactly the average of the Ito correction term. So, in this
+case, the average of Eq. (3.15) where the Ito term is absent is identical to the average
+of the Ito formula, which assumes that d X(t) is independent of the past. This point of
+view (no correction term but a small correlation time) is called the Stratonovich pre-
+scription. A summary of the differences between the Ito and Stratonovich prescriptions
+is given in Table 3.1.
+3.3 Other techniques
+3.3.1 Path integrals
+Let us now discuss another important aspect of random processes, concerning the prob-
+ability to observe a whole trajectory, and not only its ‘end point’ X. Again, it is
+more convenient to think ﬁrst in discrete time. The probability to observe a certain
+trajectory T = {x1, x2, . . . , xN}, knowing the starting point x0 is, for iid increments,
+given by:
+P(T ) =
+N−1
+
+i=0
+P1(xi+1 −xi),
+(3.34)
+where P1 is the elementary distribution of the increments. It often happens that one has
+to compute the average over all trajectories of a quantity O that depends on the whole
+trajectory. In simple cases, this quantity is expressed only in terms of the different positions
+
+52
+Continuous time limit, Ito calculus and path integrals
+xi along the trajectory, for example:
+O = exp
+N−1
+
+i=0
+V (xi),
+(3.35)
+where V (x) is a certain function of x. An example of this form arises in the context of the
+interest rate curve and will be given in Chapter 19. The average is thus expressed as:
+⟨O⟩N =
+
+N−1
+
+i=0
+
+P1(xi+1 −xi)eV (xi)dxi
+
+.
+(3.36)
+It is interesting to introduce a restricted average, where only trajectories ending at a given
+point x are taken into account:
+O(x, N) ≡
+
+δ(xN −x)
+N−1
+
+i=0
+
+P1(xi+1 −xi)eV (xi)dxi
+
+,
+(3.37)
+with, obviously, ⟨O⟩N =
+
+O(x, N)dx. From the above deﬁnitions, one can write the fol-
+lowing recursion rule to relate the quantities at ‘time’ N + 1 and N:
+O(x, N + 1) = eV (x)
+
+P1(x −x′)O(x′, N).
+(3.38)
+This equation is exact. It is interesting to consider its continuous time limit, which can be
+obtained by assuming that V is of order dt (i.e. V = ˆV dt), and that P1 is very sharply
+peaked around its mean m dt, with a variance equal to σ 2dt, with dt very small. Now,
+we can Taylor expand O(x′, N) around x in powers of x′ −x. If all the rescaled moments
+ˆmn = mn/σ n of P1 are ﬁnite, one ﬁnds:
+O(x, N + 1) = edt ˆV (x)
+
+O(x −mdt, N)
++
+∞
+
+n=2
+(−1)n ˆmnσ n
+n!
+∂nO(x −mdt, N)
+∂xn
+(dt)n/2
+
+.
+(3.39)
+Expanding this last formula to order dt and neglecting terms of order (dt)3/2 and higher,
+we ﬁnd:
+lim
+dt→0
+O(x, N + 1) −O(x, N)
+dt
+≡∂O(x, T )
+∂T
+= −m ∂O(x, T )
+∂x
++ σ 2
+2
+∂2O(x, T )
+∂x2
++ ˆV (x)O(x, T ). (3.40)
+Therefore, the quantity O(x, t) obeys a partial differential ‘diffusion’ equation, with a
+source term equal to ˆV (x)O(x, t). One can thus interpret O(x, t) as a density of Brow-
+nian walkers which ‘proliferate’ or disappear with an x-dependent rate ˆV (x), i.e. each
+walker has a probability ˆV (x)dt to give one offspring if ˆV (x) > 0 or to disappear
+if ˆV (x) < 0.
+
+3.3 Other techniques
+53
+We have thus shown a very interesting result: the quantity deﬁned as a path integral,
+Eq. (3.37) obeys a certain partial differential equation. Conversely, it can be very useful to
+represent the solution of a partial differential equation of the type (3.40) as a path integral,
+which can easily be simulated using Monte-Carlo methods, using for example the language
+of Brownian walkers alluded to above. The continuous limit of Eq. (3.37) can be constructed
+when P1 is Gaussian, in which case:
+N−1
+
+i=0
+P1(xi+1 −xi)eV (xi) =
+N−1
+
+i=0
+exp
+
+−
+1
+2σ 2dt (xi+1 −xi −mdt)2 + dt ˆV (xi)
+
+−→dt→0 exp
+
+−
+ T
+0
+
+1
+2σ 2
+dx
+dt −m
+2
+−ˆV (x)
+
+dt
+
+.
+(3.41)
+Therefore, the quantity O(x, T ), deﬁned as:
+O(x, T ) =
+ x(T )=x
+x(0)=x0
+exp
+
+−
+ T
+0
+
+1
+2σ 2
+dx
+dt −m
+2
+−ˆV (x)
+
+dt
+
+Dx,
+(3.42)
+where Dx is the differential measure over paths and where the paths are constrained to start
+from point x0 and arrive at point x, is the solution of the partial differential equation (3.40)
+with initial condition O(x, T = 0) = δ(x −x0). This is the Feynmann–Kac path integral
+representation.
+Note that one can generalize this construction to the case where the mean increment m
+and the variance σ 2 depend both on x and t.
+3.3.2 Girsanov’s formula and the Martin–Siggia–Rose trick (∗)
+Let us end this rather technical chapter on two variations on path integral representations.
+Suppose that one wants to compute the average of a certain quantity O over biased Brownian
+motion trajectories, with a certain local bias m(x, t):
+⟨O⟩m ≡
+ 
+t
+O(x, t) exp
+ T
+0
+1
+2σ 2
+dx
+dt −m(x, t)
+2
+dt
+
+Dx.
+(3.43)
+Expanding the square, we see that this average can be seen as an average over an ensemble
+of unbiased Brownian motion trajectories of a modiﬁed observable ˆO that reads:
+ˆO(x, t) = O(x, t) exp
+m(x, t)
+σ 2
+dx
+dt −m(x, t)2
+2σ 2
+
+,
+(3.44)
+such that
+⟨O⟩m = ⟨ˆO⟩0.
+(3.45)
+This is called the Girsanov formula (see e.g. Baxter and Rennie (1996)).
+
+54
+Continuous time limit, Ito calculus and path integrals
+Another ‘trick’, that can be useful in some circumstances, is to introduce an auxiliary
+dynamical variable ˆx(t) and to rewrite:
+exp
+ T
+0
+−1
+2σ 2
+dx
+dt −m(x, t)
+2
+dt
+
+∝
+
+exp
+ T
+0
+
+−σ 2
+2 ˆx(t)2 + i
+dx
+dt −m(x, t)
+
+ˆx(t)
+
+dt
+
+Dˆx,
+(3.46)
+where i2 = −1 in the above formula. This transformation, plugged in the general path
+integral (3.42), is usually called the Martin-Siggia-Rose representation (see e.g. Zinn–Justin
+(1989)).
+3.4 Summary
+r An inﬁnitely divisible process is one that can be decomposed as an inﬁnite sum of
+iid increments. The only inﬁnitely divisible continuous process is continuous time
+Brownian motion. Other inﬁnitely divisible processes, such as L´evy and truncated
+L´evy processes, contain discontinuities (jumps).
+r The time evolution of a function of continuous time Brownian motion is described
+by Ito’s stochastic calculus rules, Eq. (3.22). Compared to ordinary differential
+calculus there appears an extra second order differential term.
+r Further reading
+M. Baxter, A. Rennie, Financial Calculus, An Introduction to Derivative Pricing, Cambridge
+University Press, Cambridge, 1996.
+N. Ikeda, S. Watanabe, M. Fukushima, H. Kunita, Ito’s stochastic calculus and probability theory,
+Tokyo, Springer, 1996.
+P. L´evy, Th´eorie de l’addition des variables al´eatoires, Gauthier Villars, Paris, 1937–1954.
+A. Papoulis, Probability, Random Variables, and Stochastic Processes, 3rd edn, McGraw-Hill, New
+York, 1991.
+N. G. van Kampen, Stochastic processes in physics and chemistry, North Holland, 1981.
+J. Zinn-Justin, Quantum ﬁeld theory and critical phenomena, Oxford University Press, 1989.
+r Specialized paper
+I. Koponen, Analytic approach to the problem of convergence to truncated L´evy ﬂights towards the
+Gaussian stochastic process, Physical Review, E 52, 1197 (1995).

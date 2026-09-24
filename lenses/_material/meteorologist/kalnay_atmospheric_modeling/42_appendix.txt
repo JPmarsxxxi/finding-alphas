@@ -1,0 +1,450 @@
+Appendix C
+Post-processing of numerical model output
+to obtain station weather forecasts
+If the numerical model forecasts are skillful, the forecast variables should be strongly
+related to the weather parameters of interest to the “person in the street” and for other
+important applications. These include precipitation (amount and type), surface wind,
+and surface temperature, visibility, cloud amount and type, etc. However, the model
+output variables are not optimal direct estimates of local weather forecasts. This is
+because models have biases, the bottom surface of the models is not a good represen-
+tation of the actual orography, and models may not represent well the effect of local
+forcings important for local weather forecasts. In addition, models do not forecast
+some required parameters, such as visibility and probability of thunderstorms.
+In order to optimize the use of numerical weather forecasts as guidance for human
+forecasters, it has been customary to use statistical methods to “post-process” the
+model forecasts and adapt them to produce local forecasts. In this appendix we
+discuss three of the methods that have been used for this purpose.
+C.1
+Model Output Statistics1 (MOS)
+This method, when applied under ideal circumstances, is the gold standard of NWP
+model output post-processing (Glahn and Lowry, 1972, Carter et al., 1989). MOS
+is essentially multiple linear regression, where the predictors hnj are model forecast
+variables(e.g.,temperature,humidity,orwindatanygridpoint,eithernearthesurface
+1 I am grateful to J. Paul Dallavalle of the National Weather Service for information about MOS
+and Perfect Prog. The NWS homepage for statistical guidance is in http://www.nws.noaa.gov/
+tdl/synop/index.html
+276
+
+Post-processing of numerical model output
+277
+or in the upper levels), and may also include other astronomical or geographical
+parameters (such as latitude, longitude and time of the year) valid at time tn. The
+predictors could also include past observations. The predictand yn is a station weather
+observation (e.g., maximum temperature or wind speed) valid at the same time as
+the forecast. Here, as in any statistical regression, the quality of the results improves
+with the quality and length of the training data set used to determine the regression
+coefﬁcients b j.
+The dependent data set used for determining the regression coefﬁcients is
+yn = y(tn)
+n = 1, . . . , N
+hnj = h j(tn)
+n = 1, . . . , N; j = 1, . . . , J
+%
+(C.1.1)
+where we consider one predictand yn as a function of time tn and J predictors hnj.
+The linear regression (forecast) equation is
+ˆyn = b0 +
+J
+
+j=1
+b jhnj =
+J
+
+j=0
+b jhnj
+(C.1.2)
+where for convenience the predictors associated with the constant term b0 are deﬁned
+as hn0 ≡1. In linear regression the coefﬁcients b j are determined by minimizing the
+sum of squares of the forecast errors over the training period (e.g., Wilks, 1995). The
+sum of squared errors is given by:
+SSE =
+N
+
+n=1
+(yn −ˆyn)2 =
+N
+
+n=1
+e2
+n
+(C.1.3)
+Taking the derivatives with respect to the coefﬁcients b j and setting them to zero we
+obtain:
+∂SSE
+∂b j
+= 0 =
+N
+
+n=1
+(yn −
+J
+
+l=0
+blhnl)hnj
+j = 0, 1, . . . , J
+(C.1.4)
+or
+N
+
+n=1
+,
+hT
+jnyn −hT
+jn
+J
+
+l=0
+hnlbl
+-
+= 0
+j = 0, . . . , J
+(C.1.5)
+where hT
+jn = hnj. Equations (C.1.5) are the “normal” equations for multiple linear re-
+gression that determine the linear regression coefﬁcients b j, j = 0, . . . , J. In matrix
+form, they can be written as
+HT Hb = HT y
+or
+b =
+	
+HT H
+
+−1 HT y
+(C.1.6)
+
+278
+Appendix C
+where
+H =
+
+
+1
+h11
+. . .
+h1J
+1
+h21
+. . .
+h2J
+...
+...
+hnj
+...
+1
+hN1
+. . .
+hNJ
+
+
+b =
+
+
+b0
+b1
+...
+bJ
+
+
+y =
+
+
+y1
+y2
+...
+yN
+
+
+(C.1.7)
+are, respectively, the dependent sample predictor matrix (model output variables,
+geographical and astronomical parameters, etc.), the vector of regression coefﬁcients,
+and the vector of predictands in the dependent sample.
+⌢y = Hb, e = y −Hb are the
+linear predictions and the prediction error, respectively, in the dependent sample. The
+dependent estimate of the error variance of the prediction is s2
+e = SSE/(N −J −1)
+since the number of degrees of freedom is N −J −1. This indicates that one should
+avoid overﬁtting the dependent sample by ensuring that N >> J. For independent
+data, the expected error can be considerably larger than the dependent estimate s2
+e
+because of the uncertainties in estimating the coefﬁcients b j. The best way to estimate
+the skill of MOS (or any statistical prediction) that can be expected when applied
+to independent data is to perform cross-validation. This can be done by reserving a
+portion (such as 10%) of the dependent data, deriving the regression coefﬁcients from
+the other 90%, and then applying it to the unused 10%. The process can be repeated
+10 times with different subsets of the dependent data to increase the conﬁdence of
+the cross-validation, but this also increases the computational cost.
+It is clear that for a MOS system to perform optimally, several conditions must be
+fulﬁlled:
+(a) The training period should be as long as possible (at least several years).
+(b) The model-based forecasting system should be kept unchanged to the
+maximum extent possible during the training period.
+(c) After training, the MOS system should be applied to future model forecasts
+that also use the same unchanged model system.
+These conditions, while favorable for the MOS performance, are not favorable for
+the continued improvement of the NWP model, since they require “frozen” models.
+The main advantage of MOS is that if the conditions stated above are satisﬁed, it
+achieves the best possible linear prediction. Another advantage is that it naturally
+takes into account the fact that forecast skill decreases with the forecast length, since
+the training sample will include, for instance, the information that a 1-day model
+prediction is on the average considerably more skillful than a 3-day prediction. The
+main disadvantage of MOS is that it is not easily adapted to an operational situation
+in which the model and data assimilation systems are frequently upgraded.
+Typically, MOS equations have 10–20 predictors chosen by forward screening
+(Wilks, 1995). In the US NWS, the same MOS equations are computed for a few
+(4–10) relatively homogeneous regions in order to increase the size of the develop-
+mental database. In order to stratify the data into few but relatively homogeneous
+
+Post-processing of numerical model output
+279
+2 
+3 
+4 
+5 
+6 
+Mean absolute error (°F)
+70–71
+74–75
+78–79
+82–83
+86–87
+90–91
+94–95
+98–99
+Cool season (Oct–Mar)
+24-h MOS
+24-h LCL
+48-h MOS
+48-h LCL
+Figure C.1.1: Evolution of
+the mean absolute error
+of the MOS guidance and of
+the local ofﬁcial NWS
+forecasts (LCL) averaged
+over the USA. (Courtesy of
+J. Paul Dallavalle and
+Valery Dagostaro from the
+US NWS.)
+time periods, separate MOS equations are developed for the cool season (October–
+March) and the warm season (April–September). As shown in Table C.3.1, MOS can
+reduce very substantially the errors in the NWP model forecasts, especially at short
+lead times. At long lead times, the forecast skill is lost, so that the MOS forecast
+becomes a climatological forecast and the MOS forecast error variance asymptotes
+to the climatology error. The error variance of an individual NWP forecast, on the
+other hand, asymptotes to twice the climatological error variance, plus the square of
+the model bias (see Section 6.5).
+Figure C.1.1 shows the evolution of the error in predicting the maximum temper-
+ature by the statistical guidance (MOS) and by the local human forecasters (LCL).
+The human forecasters skill in the 2-day forecast is now as good as the one-day
+forecast was in the 1970s. The human forecasters bring added value i.e., make better
+forecasts than the MOS statistical guidance, which in turn is considerably better than
+the direct NWP model output. Nevertheless, the long-term improvements are driven
+mostly by the improvements in the NWP model and data assimilation systems, as
+discussed in Chapter 1.
+In summary, the forecast statistical guidance (and in particular MOS) adds value
+to the direct NWP model output by objectively interpreting model output to remove
+systematic biases and quantifying uncertainty, predicting parameters that the model
+does not predict, and producing site-speciﬁc forecasts. It assists forecasters provid-
+ing a ﬁrst guess for the expected local conditions, and allows convenient access to
+information on local model and climatology conditions.
+C.2
+Perfect Prog
+Perfect Prog is an approach similar to MOS, except that the regression equations are
+derived using as predictors, observations or analyses (rather than forecasts) valid at
+
+280
+Appendix C
+the prediction time, as if the forecasts were perfect. If station observations are used
+as predictors in the dependent sample, it is not possible to use the same variable
+for a predictor as for the predictand (e.g., Boston’s observed maximum surface tem-
+perature could not be used as predictor for the maximum temperature in Boston).
+However, if model analyses are used as “perfect” forecasts, one can use like variables
+as predictors. For obvious reasons, Perfect Prog has not been much used except for
+very short forecasts. Perhaps it would be possible now to use the long homogeneous
+reanalyses that have been completed (Kistler et al., 2001, Kalnay et al., 1996, Gibson
+et al., 1997) to derive very long and robust Perfect Prog statistics between model
+output and station data. After the regression between the reanalysis and station data
+is completed, the prediction of surface parameters could be done in two steps. In
+the ﬁrst step, multiple regression would be used to predict the reanalysis ﬁeld from
+model forecasts, which should be easier to achieve than predicting the station data
+directly, since a few parameters would be enough to represent the model bias and the
+decay of skill with time. In the second step, the Perfect Prog equations would be used
+to translate the predicted analysis into station weather parameters. In this approach,
+the disadvantage of Perfect Prog of not including the effective loss of skill associated
+with longer forecast lengths would be handled in the ﬁrst step discussed above. This
+approach has yet to be thoroughly explored.
+C.3
+Adaptive regression based on a simple Kalman
+ﬁlter approach2
+Adaptive regression based on Kalman ﬁltering has also been widely used as a post-
+processor. In MOS and in other statistical prediction methods such as nonlinear
+regression or neural networks, the regression coefﬁcients are computed from the
+dependent sample, and are not changed as new observations are collected until a
+new set of MOS equations are derived every 5 or 10 years. Because the regression
+coefﬁcients are constant, the order of the observations is irrelevant in MOS, so that
+older data have as much inﬂuence as the newest observations used to derive the
+coefﬁcients.
+In adaptive regression, the Kalman ﬁlter equations (Section 5.6) are applied in
+a simple, sequential formulation to the multiple regression coefﬁcients bk = b(tk),
+whose values are updated every time step, rather than keeping them constant as in
+(C.1.2):
+ˆyk =
+J
+
+j=0
+b j(tk)hkj =
+2
+1
+hk1
+. . .
+hk J
+3
+
+
+b0
+b1
+. . .
+bJ
+
+
+k
+= hT
+k bk
+(C.3.1)
+2 I am very grateful to Joaquim Ballabrera for insightful comments and suggestions that
+improved this section.
+
+Post-processing of numerical model output
+281
+If we compare this equation with those in Chapter 5, we see that it has the form of a
+forecast of observations, y f
+k = Hkbk, so that we can use the Kalman ﬁlter formulation
+with an “observation operator” H = hT
+k , a row vector in (C.1.7) corresponding to
+the time tk. Recall that Kalman ﬁltering consists of two steps (see (5.6.8)–(5.6.11)).
+In the ﬁrst step, starting from the analysis at time tk−1, we forecast the values of the
+model variables (in this case the coefﬁcients bk) and their error covariance at time
+tk. In the second step, the Kalman weight matrix is derived, and, after obtaining the
+observations at time tk, the model variables and error covariance are updated, giving
+the analysis at time tk. In adaptive regression, the “forecast” or ﬁrst guess of the
+regression coefﬁcients at tk is simply that they are the same as the (analysis) coefﬁ-
+cients at tk−1, and their error covariance is the same as that estimated in the previous
+time step, plus an additional error introduced by this “regression forecast model”:
+b f
+k = ba
+k−1
+P f
+k = Pa
+k−1 + Qk−1
+%
+(C.3.2)
+Here Qk = qkqT
+k is the “regression model” error covariance (a matrix of tunable
+coefﬁcients that is diagonal if we assume that the errors of the different coefﬁcients
+are not correlated).
+The Kalman gain or weight vector for adaptive regression is given by
+kk = P f
+k hk
+	
+hT
+k P f
+k hk + rk
+
+−1
+(C.3.3)
+Note that for a single predictand, the forecast error covariance hT
+k P f
+k hk and the
+observational error covariance Rk = rk are both scalars, and computing the Kalman
+gain matrix does not require a matrix inversion.
+At time tk the observed forecast error or innovation ek = yo
+k −hT
+k b f
+k is used to
+update the regression coefﬁcients:
+ba
+k = b f
+k + kk
+	
+yo
+k −hT
+k b f
+k
+
+Pa
+k =
+	
+I −kkhT
+k
+
+P f
+k
+%
+(C.3.4)
+In summary, the adaptive regression algorithm based on Kalman ﬁltering can be
+written as:
+y f
+k = hT
+k ba
+k−1
+P f
+k = Pa
+k−1 + Qk−1
+ek = yo
+k −y f
+k
+wk = hT
+k P f
+k hk + rk
+kk = P f
+k hkw−1
+k
+ba
+k = ba
+k−1 + kkek
+Pa
+k = P f
+k −kkwkkT
+k
+
+
+
+(C.3.5)
+
+282
+Appendix C
+Table C.3.1. rms error in the forecast of the surface temperature at 00Z averaged
+for eight US stations. In dependent regression and Kalman ﬁltering, the only
+predictor used was the direct model prediction of the temperature interpolated to
+the station. The MOS prediction has more than ten predictors and several years of
+training.
+NWP (Aviation model)
+Dependent Regression
+Adaptive Regression
+MOS
+5.36 K
+2.67 K
+3.07 K
+2.29 K
+where wk is a temporary scalar deﬁned for convenience. The two tuning parameters
+in the algorithm are rk, the observational error covariance (a scalar), and Qk, the
+“regression model” error covariance (a diagonal matrix with one coefﬁcient for the
+variance of each predictor if the errors are uncorrelated). Unlike regression, MOS, or
+neural networks, adaptive regression is sequential, and gives more weight to recent
+data than to older observations. The larger Qk, the faster older data will be forgotten.
+It also allows for observational errors rk. This method can be generalized to several
+predictands, in which case the observation error covariance matrix may also include
+observational error correlations.
+Table C.3.1 compares a simple Kalman ﬁltering applied to the 24-h surface tem-
+perature forecasts for July and August 1997 at 00Z, averaged for eight different US
+stations, using as a single predictor the global model output for surface temperature
+interpolated to each individual station. It was found that after only a few days of
+spin-up, starting with a climatological ﬁrst guess, and with minimal tuning, the adap-
+tive regression algorithm was able to reach a fairly steady error level substantially
+better than the numerical model error, and not much higher than regression on the
+dependent sample. Not surprisingly, MOS, using many more predictors and several
+years of training, provides an even better forecast than this simple AR.
+In summary, Kalman ﬁltering provides a simple algorithm for adaptive regression.
+It requires little training so that it is able to adapt rather quickly to changes in the
+model, and to long-lasting weather regimes. It is particularly good in correcting model
+biases. However, in general it is not as good as regression based on long dependent
+samples.

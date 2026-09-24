@@ -1,0 +1,41 @@
+Stocks are indexed as i = 1, ..., Nt and months by t = 1, ..., T. For ease of presentation, we assume
+a balanced panel of stocks, and defer the discussion on missing data to Section 3.1. Our objective is
+to isolate a representation of Et(ri,t+1) as a function of predictor variables that maximizes the out-
+of-sample explanatory power for realized ri,t+1. We denote those predictors as the P-dimensional
+vector zi,t, and assume the conditional expected return g⋆(·) is a ﬂexible function of these predictors.
+Despite its ﬂexibility, this framework imposes some important restrictions. The g⋆(·) function
+depends neither on i nor t. By maintaining the same form over time and across diﬀerent stocks, the
+model leverages information from the entire panel which lends stability to estimates of risk premia
+for any individual asset. This is in contrast to standard asset pricing approaches that re-estimate a
+cross-sectional model each time period, or that independently estimate time series models for each
+stock. Also, g⋆(·) depends on z only through zi,t. This means our prediction does not use information
+from the history prior to t, or from individual stocks other than the ith.
+2.1
+Sample Splitting and Tuning via Validation
+Important preliminary steps (prior to discussing speciﬁc models and regularization approaches) are
+to understand how we design disjoint sub-samples for estimation and testing and to introduce the
+notion of “hyperparameter tuning.”
+The regularization procedures discussed below, which are machine learning’s primary defense
+against overﬁtting, rely on a choice of hyperparameters (or, synonymously, “tuning parameters”).
+These are critical to the performance of machine learning methods as they control model complexity.
+Hyperparameters include, for example, the penalization parameters in lasso and elastic net, the
+number of iterated trees in boosting, the number of random trees in a forest, and the depth of
+the trees. In most cases, there is little theoretical guidance for how to “tune” hyperparameters for
+optimized out-of-sample performance.6
+We follow the most common approach in the literature and select tuning parameters adaptively
+from the data in a validation sample. In particular, we divide our sample into three disjoint time
+periods that maintain the temporal ordering of the data. The ﬁrst, or “training,” subsample is used
+to estimate the model subject to a speciﬁc set of tuning parameter values.
+The second, or “validation,” sample is used for tuning the hyperparameters. We construct fore-
+casts for data points in the validation sample based on the estimated model from the training sample.
+Next, we calculate the objective function based on forecast errors from the validation sample, and iter-
+atively search for hyperparameters that optimize the validation objective (at each step re-estimating
+the model from the training data subject to the prevailing hyperparameter values).
+Tuning parameters are chosen from the validation sample taking into account estimated param-
+eters, but the parameters are estimated from the training data alone. The idea of validation is to
+simulate an out-of-sample test of the model. Hyperparameter tuning amounts to searching for a
+degree of model complexity that tends to produce reliable out-of-sample performance. The valida-
+tion sample ﬁts are of course not truly out-of-sample because they are used for tuning, which is in
+6In machine learning, a “hyperparameter” governs the extent of estimator regularization. This usage is related to,
+but diﬀerent from, its meaning in Bayesian statistics as a parameter of a prior distribution.
+9

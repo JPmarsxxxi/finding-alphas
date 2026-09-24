@@ -1,0 +1,199 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         70 
+ 
+Chapter 6 
+The Tells are in the Data: Topics in Online Poker 
+ 
+Online poker has emerged as a major poker venue. Players of all skill and bankroll levels play 
+online, and the increased pace of the game and the ability to play multiple tables makes it 
+particularly attractive to skilled players as a vehicle for profitmaking. In this chapter, we will 
+examine a number of ideas that differentiate online play from brick and mortar play, as well as 
+scratching the surface of the important and difficult problem of reliable data naming. 
+ 
+Online play presents a different set of information to be analyzed. 
+ 
+Clearly, the most obvious difference at a glance between online play and traditional casino (brick 
+and mortar) play is the absence or limited presence of physical tells. Instead of the large amount 
+of information that could conceivably be gathered from the mannerisms and actions of a player 
+at the table in brick and mortar, players are generally confronted with some sort of flashing icon 
+or avatar. Pace of play can be an indication, but an uncertain one at best, as players often are 
+distracted from the game by external factors that have no relationship to the contents of their 
+hand. As a result, information based on betting patterns is the primary source for exploitive play 
+online. This makes playing exploitively more difficult, particularly for players who rely on tells 
+in the brick and mortar setting. 
+ 
+Online play also produces an opportunity for information gathering that is unheard of in the brick 
+and mortar world. Almost all of the online sites provide the ability to request via email or 
+otherwise access detailed hand histories of all hands on a site, including (usually) hands mucked 
+at showdown, all actions taken, etc. A player who is willing to request and process a large 
+number of hand histories can rapidly build up a database on his own play as well as on his 
+opponents. A number of commercial programs have been created to manage these hand history 
+databases. 
+ 
+The widespread availability of these programs is a major change in the way that players 
+approach the game. Many of the difficulties with gathering strategy information, particularly 
+small and unreliable sample sizes and perception bias, can be minimized because of the ability to 
+look at real, complete data for a set of hands, rather than relying on memory- and the ability to 
+classify on-the-fly as guides in characterizing opponents. Some commercial programs even 
+provide support in-game, popping up statistics, such as preflop raise percentage, flops seen 
+percentage, and so on, that have been gathered in the database over time on a particular player. 
+ 
+This increased access to data does help to rectify some of the difficulties with gathering data, but 
+at the same time we must not fall into the common error of assuming that since we can acquire a 
+large amount of raw data, that the most difficult part of the analysis has been completed. In fact, 
+this is quite untrue-gathering the raw data is almost always the easiest part of a data analysis 
+project. In analyzing data we have gathered through processes like these, there is typically 
+significant selection bias that makes gathering information about our opponent's strategies 
+difficult, hi addition, even what appears to be a relatively large number of hands is often quite 
+insufficient to assess a particular situation- or there could be a significant bias in the hands you 
+are viewing. 
+ 
+For example, suppose that you are trying to identify from empirical data a win rate for a 
+particular opponent, and you have gathered 10,000 hands on that opponent, how accurate will 
+your sample mean be as a predictor? Ignoring for a moment the Bayesian aspects of the problem, 
+suppose this opponent has been a break-even player over the course of the hand sample, with a 
+variance of perhaps 4 BB2/hand. Then a 95% confidence interval on his win rate would be -0.02 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         71 
+ 
+big bets (BB) to +0.02 BB per hand. But if you are a winning player, then this is likely an 
+underestimate of this player's "true" win rate, since you won't have gathered very much data 
+from hands where you did not play. So his "overall" win rate against the field mould generally be 
+higher than his win rate in all the hands where you are a player. 
+ 
+This is a very important idea in mining data; the only player for whom you have an unbiased 
+record of all play is you. Some groups (and even some commercial services) have attempted to 
+gather a more global view of data; however, some sites have created policies against such   
+behavior and even so, many hands are omitted. If the hands that are omitted occur randomly, 
+then there shouldn't be a very strong bias, but this is something to consider. 
+ 
+The key to using the hand history data is in finding useful, unbiased statistics that can enable us 
+to make accurate decisions. However, finding these statistics is non-trivial. For example, 
+connsider a commonly cited statistic-“voluntarily put $ in pot %.” This a single percentage figure 
+that indicates how often a player put money in the pot that was not a blind. This may serve as a 
+very rough guide to a player's looseness, but there are many factors that might influence such a 
+number. One of the authors has a database of about 15,000 hands of his own play that has a 
+"VPIP" over 50%; this is primarily because this play was largely headsup and three-handed. 
+Playing so loosely in a full game would be highly unprofitable. 
+ 
+But the difficulty of the requirement to make decisions quickly when playing online prevents us 
+from very accurately assessing anomalies like the above. In addition, using a single number there 
+neglects the problem of small sample size-that is, if we have observed 20 hands with a player, 
+and that player has entered the pot 5 times, that is hardly the same thing as a player we have 
+observed 2,000 times with 500 pot entries. Even with larger sample sizes, however, we must take 
+care to understand the effect of position and to understand the nature of the data we have 
+collected-players who frequently play in a mixture of shorthanded and full games create a 
+murkiness about global statistics that Is difficult to overcome. 
+ 
+This problem is exacerbated when trying to look at play on a particular street; it is quite difficult 
+to find a methodology that does a good job of matching situations from historical hands to the 
+current situation, giving higher weight to hands that meet the same profile as the current hand 
+(number of players in, pot size, action sequence, etc). Clearly “% of the time  player bets on the 
+turn” is a terribly misleading metric because it ignores the context of the hand-the strength of 
+distributions, the previous action, and so on. Such a statistic would only serve well in the most 
+extreme of circumstances, such as when facing a complete maniac, for example. However, if we 
+fit past data to the current situation, we often narrow the sample size too much to obtain 
+information of any use. 
+ 
+This is not to say that it is impossible to gain insight from studying hand histories-instead, it to 
+say that it is decidedly non-trivial, and we have run into many players who think that it should be 
+easy once the hand histories have been gathered to mine out meaningful information about their 
+opponent's play. We think that this overlooks the difficulties of data mining, and mat most 
+players gain little additional advantage from trying to use these techniques. 
+ 
+The major gain from hand history collection, in our view, is hi analyzing our own play. Here, we 
+lack the biases that are present in our analysis of other players' play as well as having the largest 
+sample sizes and the most complete set of hands. In fact, we highly recommend to you if you 
+haven't already) to either obtain a commercial product or perhaps write your own program to 
+gather and parse hand histories. This will enable you to analyze your own play in-depth, 
+including the ability to subdivide play by hand, by position, by limit, and so on. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         72 
+ 
+In doing this, it is generally possible to eventually drill any subdivision down to the hands that 
+make it up; we find that anecdotally, occasionally looking at the way hi which we play our hands 
+empirically on a one-by-one basis is helpful in understanding leaks or patterns of play. 
+Additionally, by reviewing your play, you will likely find many mistakes that you didn't know 
+you made; that is, places in which you played hands in ways that you wouldn't have thought you 
+would. The gap between how we intend to play and how we play in practice is often much larger 
+than we would believe. 
+ 
+One of the best things (for the winning player) about online play is the pace of the game. Online 
+play is fast! 
+ 
+Gathering statistically significant data on your own play might take place in a matter of 
+months rather than years online. 
+ 
+Suppose that we want to know our win rate to within 0.01 BB/h with 95% confidence when our 
+variance is 4 BB2/h2. Using equation 2.2, σ = √ ,we know that σ = 2 BB/hand. Then we apply 
+Equation 2.4, 	 = √, and find that our standard deviation for N hands will be 2√ .Thus, 
+2√ = 0.005, or N= 160,000 hands to gatiher statistically significant data. 
+ 
+Before online play, the Limit of hands that could be reasonably played on a sustained basis was 
+something around 35 hands per hour. So suppose that a workaday professional played 2,000 
+hours a year at 35 hands per hour. It would take him a little over two years to play this many 
+hands. 
+ 
+Online players can, with a small amount of practice, play as many as four (some report playing 
+up to eight or twelve games at once). Supposing that hill tables get about 90 hands per hour, an 
+online player can play approximately 350 hands per hour on average. Working the same 2,000 
+hour year, the online player can play this many hands in just three months. The most obvious 
+effect of this is that if a player's win rate is the same per hand from brick and mortar play to 
+online play, he can win as much as ten times as much money online. However, this is not 
+necessarily possible. 
+ 
+Online players often play better at comparable limits than their brick and mortar counterparts. 
+ 
+There are a number of factors that contribute to this: 
+ 
+• In order to sustain a poker economy that contains some winners and a rake, there must be 
+a substantial number of net losers. Often, net losers have some breaking point, where they 
+are no longer willing to continue to lose. In the brick and mortar setting, some net losers 
+can play for quite a long time before reaching this breaking point. Online, due to many 
+more hands being played, these players reach their thresholds and often quit much faster. 
+• There are barriers, both psychological and practical, to being large losers at high limits 
+online. It is typically necessary to get large sums of money onto the site through 
+electronic means. Additionally, it's harder to sustain the illusion that one is "doing all 
+right" by not keeping records online than hi brick and mortar; the requirement to keep 
+transferring more money is always present. 
+• These two factors tend to keep the number of "whales" online smaller than it is in a 
+comparable brick and mortar setting. Additionally, these effects also tend to weed out the 
+weaker players who are modest losers. Players who are small net losers can often play 
+with a little luck for a long time in brick and mortar. Online these players are bankrupted 
+or pushed back down to lower limits much faster because they reach the long run more 
+quickly. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         73 
+ 
+• Players who are interested in profit at poker often prefer the online setting because they 
+can play so many more hands. Only the biggest games in brick and mortar offer a 
+comparable edge and often have much larger variance. Making money at poker is 
+essentially a volume business, and players who are serious about making money can get 
+the most volume online. 
+ 
+As a result of all these factors, it is typical that an online game for a particular stake will be 
+tougher than the comparable game in a brick and mortar casino. In summary, online poker 
+provides a different type of challenge or opportunity for players; different skills are emphasized 
+in the online setting compared to the brick and mortar setting. 
+ 
+Key Concepts 
+• Online poker presents a different set of information to incorporate into our hand and 
+strategy reading process. Instead of physical tells, we are able to more accurately observe 
+what happened at the table by analyzing hand histories. 
+• It is sometimes possible to use hand history data to characterize our opponents' play- 
+however, small sample size problems can frustrate this effort. We can, however, use hand 
+history data to analyze our own play very effectively. 
+• Play online is generally tougher than corresponding play in a traditional casino because 
+of the speed of play and psychological barriers that may not exist offline. 
+• The only player for whom you have an unbiased record of all play is you. 
+• Gathering statistically significant data on your own play might take place in a matter of 
+months rather than years online. 
+• Online players often play better at comparable limits than their brick and mortar 
+counterparts. 
+ 
+ 
+ 

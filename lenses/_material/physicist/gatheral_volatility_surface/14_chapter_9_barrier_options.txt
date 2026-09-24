@@ -1,0 +1,593 @@
+CHAPTER9
+Barrier Options
+B
+arrier options are important building blocks for structured products, but
+their valuation can be highly model dependent. Consequently much has
+been written on the subject, notably by Taleb (1996), Wilmott (2000) and
+Carr and Chou (1997).
+Despite all the existing literature, convincing barrier option solutions are
+thin on the ground. In fact, prices quoted for certain kinds of barrier option
+can vary so much between dealers that customers can sometimes cross the
+bid-offer (that is, buy on one dealer’s offer and sell on another dealer’s bid
+for a proﬁt). So there is still plenty of scope for the ambitious modeler.
+By considering two limiting cases, we see that barrier option values
+are not always very model dependent. However, the valuation of certain
+types of barrier options can be extremely model dependent. Developing
+intuition is therefore particularly important not only to be able to estimate
+the value of a barrier options but also to know whether the output of a
+model should be trusted or not. Accordingly, we will use the insights gained
+from earlier chapters to understand the relative pricing of various types of
+barrier options under stochastic and local volatility dynamics.
+As usual, we suppose that European options of all strikes and expirations
+are traded in the market and our objective is to price barrier options
+consistently with these European option prices.
+DEFINITIONS
+A knock-out option is an option that becomes worthless when a prespeciﬁed
+‘‘barrier’’ level is reached.
+A live-out option is a special case of a knock-out option that is
+signiﬁcantly in-the-money when it knocks out.
+A knock-in option is an option that can only be exercised if a barrier
+level is reached prior to exercise. Obviously, a knock-in option is just a
+portfolio of short a knock-out option and long a European.
+107
+
+108
+THE VOLATILITY SURFACE
+An amount of money paid to a barrier option buyer if the barrier is hit
+is termed a rebate. This rebate may be paid when the barrier is hit or at
+expiration.
+LIMITING CASES
+Limit Orders
+Suppose we sell a knock-out call option with barrier B equal to the strike
+price K below the current stock price S. Suppose further that we hedge
+this position by buying one stock per option and we charge S0 −K as the
+premium. If interest rates and dividends are zero, it is clear that this hedge is
+perfect. To see this, suppose ﬁrst that the barrier is never hit: The buyer of
+the knock-out call option exercises the option and we deliver the stock. Net
+proceeds are −(ST −K) + (S0 −K) + (ST −S0) = 0. On the other hand, if
+the barrier is hit, we lose S0 −K on our purchase of stock which is perfectly
+offset by the premium we charged.
+In this special case, a knock-out option has no optionality whatsoever.
+Delta is one, gamma is zero, and vega is zero. The result is completely model
+independent; the only requirement is to have no carry on the stock for this
+construction to work.
+Now consider what this portfolio really is. So long as the stock price
+remains above the barrier level, we are net ﬂat. When the barrier is hit, the
+option knocks out and we are left long of the stock we bought to hedge.
+This is exactly the portfolio we would have if the option buyer had left
+us a stop-loss order to sell stock if the price ever reached the barrier level
+B. There is however a big difference between the two contracts—a barrier
+option like this guarantees execution at the barrier level but a conventional
+stop-loss order would get ﬁlled at the earliest opportunity after the barrier
+is hit (usually a bit below the barrier). If we could really trade continuously
+as models conventionally assume, there would be no difference between the
+two contracts. In the real world, a knock-out option needs to be priced
+more highly than the model price to compensate for the risk of the stock
+price gapping through the barrier level. Practitioners compensate for gap
+risk when pricing options by moving the barrier by some amount related to
+the expected gap in the stock price when the barrier is hit.
+In summary, in this special case when K = B < S0, the price of a knock-
+out call is given by the difference S0 −K between the current stock price
+and the strike price plus a bit to compensate for gap risk.
+Now, if the strike price K and the barrier level B are not equal but not
+so far apart with B ≤K ≤S0, it is natural to expect that neither gamma
+nor vega would be very high relative to the European option with the same
+
+Barrier Options
+109
+strike K. Nor would we expect the price of such a knock-out option to be
+very sensitive to the model used to value it (assuming of course that this
+model prices consistently with all European options). Investigation shows
+that this is indeed the case.
+European Capped Calls
+The next limiting case we consider is that of the European capped call.
+This option is a call struck at K with barrier B > S0 such that if the stock
+price reaches B before expiration, the option expires and pays out intrinsic
+of B −K.
+If the barrier is far away from the current stock price S0, the price of
+such an option cannot be very different from the price of a conventional
+European option. To see this, consider a portfolio consisting of a long
+European option struck at K (not too different from S0) and short the
+capped call. If the barrier is not hit, this portfolio pays nothing. If the
+barrier is hit, the portfolio will be long a European option and short cash
+in the amount of the intrinsic value B −K. The time value of this European
+option cannot be very high because, by assumption, B ≫S0 and moreover,
+the barrier is most likely to be hit close to expiration. Since the value of the
+capped call must be close to the value of a conventional European call, the
+value of the capped call cannot be very model dependent and should be well
+approximated by a model using Black-Scholes assumptions (no volatility
+skew) and the implied volatility of the corresponding European option.
+With this understanding of the pricing of capped calls, we are in a
+position to develop intuition for the pricing of live-out calls. To get a
+live-out call from a capped call, we need only omit the rebate at the barrier.
+We would then have a call option struck at K that goes deep-in-the-money
+as the stock price approaches the barrier B ≫K and knocks out when the
+stock price reaches B (with no rebate). So to get intuition for the pricing and
+hedging of live-out options, we need only study the pricing and hedging of
+the rebate (or one-touch option).
+THE REFLECTION PRINCIPLE
+We suppose that the stock price is driven by a constant volatility stochastic
+process with zero log-drift. That is
+dx = σdZ
+(9.1)
+with x := log (S/K).
+
+110
+THE VOLATILITY SURFACE
+In this special case, there is a very simple relationship between the price
+of a European binary option struck at B and the value of the one-touch
+option struck at B.
+Consider the realization of the zero log-drift stochastic process (9.1)
+given by the solid line in Figure 9.1. From the symmetry of the problem, the
+dashed path has the same probability of being realized as the original solid
+path. We deduce that the probability of hitting the barrier B is exactly twice
+the probability of ending up below the barrier at expiration. Putting this
+another way, the value of a one-touch option is precisely twice the value of
+a European binary put.
+To make this result appear plausible note that an at-the-money barrier
+has 100% chance of getting hit but there is only 50% chance of ending
+up below the barrier at expiration in this special case. Guessing at a
+generalization, we might suppose that the ratio of the fair value of a one-
+touch option should be given by B(S0)−1 where B(K) represents the value of
+a European binary put struck at K.
+If this guess were correct, for the Heston-Nandi model and parameters
+of Chapter 4 (v = 0.04, v = 0.04, λ = 10, η = 1, ρ = −1), where B(S0) =
+0.54614, the ratio of the one-touch price to the European binary price
+should be around B(S0)−1 = 1.831. Figure 9.2 shows how this ratio is, as
+Taleb (1996) emphasizes, very sensitive to modeling assumptions. Although
+our guess is pretty accurate for the local volatility case, it is very inaccurate
+in the stochastic volatility case.
+For comparison, consider the effect of modeling assumptions on the
+price of a European binary call. Figure 9.3 shows that modeling assumptions
+FIGURE 9.1
+A realization of the zero log-drift stochastic process and the
+reﬂected path.
+
+Barrier Options
+111
+1.05
+1.1
+1.15
+1.2
+1.25
+1.3
+Barrier
+1.6
+1.7
+1.8
+1.9
+2
+Ratio
+FIGURE 9.2
+The ratio of the value of a one-touch call to the value of a European
+binary call under stochastic volatility and local volatility assumptions as a function
+of strike. The solid line is stochastic volatility and the dashed line is local volatility.
+1.1
+1.2
+1.3
+1.4
+Barrier
+0.1
+0.2
+0.3
+0.4
+0.5
+Value
+FIGURE 9.3
+The value of a European binary call under stochastic volatility and
+local volatility assumptions as a function of strike. The solid line is stochastic
+volatility and the dashed line is local volatility. The two lines are almost
+indistinguishable.
+have no effect—the price of a European binary is independent of modeling
+assumptions and depends only on the given prices of conventional European
+options (being a limit of a call spread in this case).
+Finally, we graph the value of the one-touch option as a function of strike
+under stochastic volatility and local volatility assumptions in Figure 9.4.
+
+112
+THE VOLATILITY SURFACE
+1.1
+1.2
+1.3
+1.4
+Barrier
+0.2
+0.4
+0.6
+0.8
+1
+Value
+FIGURE 9.4
+The value of a one-touch call under stochastic volatility and local
+volatility assumptions as a function of barrier level. The solid line is stochastic
+volatility and the dashed line is local volatility.
+THE LOOKBACK HEDGING ARGUMENT
+A closely related useful hedging argument originally given by Goldman,
+Sosin, and Gatto (1979) is used to estimate the price and hedge portfolio
+of a lookback option. For our purposes, we deﬁne a lookback call to be an
+option that pays (˜S −K)+ at expiration where ˜S is the maximum stock price
+over the life of the option and K is the strike price.
+Once again, assuming zero log-drift and constant volatility, suppose we
+hedge a short position in this lookback call by holding two conventional
+European options struck at K. If the stock price never reaches K, both the
+lookback and the European option expire worthless. If and when the stock
+price does reach K and increases by some small increment K, the value of
+the lookback option must increase by K (since K + K is now the new
+maximum). The new lookback option must pay K + (˜S −(K + K))+−
+the payoff of another lookback option with a higher strike price plus a ﬁxed
+cashﬂow K.
+Assuming we were right to hedge with two calls in the ﬁrst place,
+the new hedge portfolio must be two calls struck at K + K. So we must
+rebalance our hedge portfolio by selling two calls struck at K and buying
+two calls struck at K + K. The proﬁt generated by rebalancing is
+2 C(K + K, K) −2 C(K + K, K + K) ≈−2 ∂C
+∂K
+
+S=K
+K
+
+Barrier Options
+113
+= 2 N
+
+d2
+
+S=K
+= K
+using the fact that N
+
+d2
+
+S=K = 1/2 when the log-drift is zero.
+The proﬁt generated by rebalancing is exactly what is needed to generate
+the required payoff of the lookback option and our hedge is perfect.
+One-Touch Options Again
+Now reconsider the value of a one-touch call option struck at B. It is the
+probability that the maximum stock price is greater than B. We can generate
+this payoff by taking the limit of a lookback call spread as the difference
+between the strikes gets very small. Because a lookback call has the same
+value as two European calls, a lookback call spread must have the same
+value as two European call spreads. Put another way, a one-touch option is
+worth two European binary options when the log-drift is zero.
+PUT-CALL SYMMETRY
+We now assume zero interest rates and dividends and constant volatility
+again (as opposed to zero log-drift). In this case, by inspection of the
+Black-Scholes formula, we have
+C
+B2
+S , K
+
+= K
+S P
+
+S, B2
+K
+
+From one of the many references containing closed-form formulas for
+knock-out options, we may deduce that
+DO (S, K, B) = C (S, K) −S
+B C
+B2
+S , K
+
+= C (S, K) −K
+B P
+
+S, B2
+K
+
+where DO(.) represents the value of a down-and-out call.
+By letting S = B in the above formula, we see that DO (B, K, B) = 0
+as we would expect. So, in this special case, there is a static hedge for a
+down-and-out call option that consists of long a European call with the same
+strike and short K
+B European puts struck at the reﬂection of the log-strike in
+the log-barrier (K′ = B2/K).
+
+114
+THE VOLATILITY SURFACE
+The reason this static hedge works is that the value of the call we are
+long always exactly offsets the value of the put we are short when the stock
+price reaches the barrier B.
+A special case of this special case is when B = K. In this case, we have
+DO (S, K, K) = C (S, K) −P (S, K) = S −K
+and we see again that there is no optionality—the down-and-out call option
+is worth only intrinsic value and has the same payoff as a portfolio of long
+the stock and short K bonds as we argued before.
+QUASISTATIC HEDGING AND QUALITATIVE VALUATION
+We can generalize the static hedging procedure of the previous section to
+other cases where interest rates, dividends and volatility have arbitrary
+structure. Although there is no exact static hedge in the general case, we
+can construct a portfolio that has rather small payoffs under all reasonable
+scenarios.
+A sophisticated version of this procedure known as the Lagrangian
+Uncertain Volatility Model is described by Avellaneda, Levy, and Par´as
+(1995). In this model, volatility is bounded but uncertain; volatility is
+assumed to be high when the portfolio is short gamma and low when the
+portfolio is long gamma (worst case). Thus, different prices are generated
+depending on whether an option position is long or short (a bid-offer spread
+is generated). By minimizing the bid-offer spread of a given portfolio of
+exotic options (such as barrier options) and European options with respect
+to the weights of the European options, we can determine an optimal
+hedge and the minimal bid-offer spread that would be required to guarantee
+proﬁtability assuming that volatility does indeed remain within the assumed
+bounds.
+More practically, we can use the quasi-static hedging idea to determine
+the impact of modeling assumptions on the valuation of any given barrier-
+like claim. The idea is to ﬁrst determine what the quasistatic hedge looks
+like, then ﬁgure out how this hedge behaves under various future stock price
+and volatility scenarios—a sort of mental Monte Carlo simulation. We now
+illustrate this approach with a few examples.
+Out-of-the-Money Barrier Options
+For concreteness, suppose we sell a call with strike K that knocks out at
+B < K. In this case, the quasistatic hedge portfolio is long a European call
+
+Barrier Options
+115
+0.6
+0.7
+0.8
+0.9
+1
+Barrier
+0.01
+0.02
+0.03
+0.04
+0.05
+0.06
+0.07
+Value
+FIGURE 9.5
+Values of knock-out call options struck at 1 as a function of barrier
+level. The solid line is stochastic volatility; the dashed line is local volatility.
+with strike K and short an out-of-the money European put (with strike B2/K
+in the zero log-drift case).
+If the barrier is never hit, the hedge is obviously good. On the other hand,
+if the barrier is hit, the value of the then out-of-the-money European call
+and out-of-the-money European put in the hedge portfolio depend on the
+then volatility skew. From our discussion of volatility surface dynamics in
+Chapter 8, we know that with the Heston-Nandi parameters of Chapter 4,
+the skew will be ﬂatter (less negative) under local volatility than under
+stochastic volatility. We conclude that when the barrier is hit, the hedge
+portfolio will be worth more under local volatility than under stochastic
+volatility. However, both options will be out-of-the-money so we don’t
+expect the skew effect to be very big. We therefore guess that the pricing
+of a call that knocks out out-of-the-money would be a little lower under
+local volatility (because the net expected hedging cost is lower) than under
+stochastic volatility. This guess is supported by the graphs in Figures 9.5
+and 9.6.
+One-Touch Options
+Recall that a one-touch call option pays some prespeciﬁed amount of money
+if an upside barrier is hit. Suppose we sell such a one-touch call option
+struck at B > S. The quasi-static hedge portfolio should be (approximately)
+long a strip of European binary call options struck at B. Once again, if
+the barrier is never hit, the hedge is obviously ﬁne. With the Heston-Nandi
+
+116
+THE VOLATILITY SURFACE
+0.6
+0.7
+0.8
+0.9
+Barrier
+0.11
+0.12
+0.13
+Value
+FIGURE 9.6
+Values of knock-out call options struck at 0.9 as a function of barrier
+level. The solid line is stochastic volatility; the dashed line is local volatility.
+parameters of Chapter 4,∗the skew when the barrier is hit will be ﬂatter (less
+negative) under local volatility than under stochastic volatility. It follows
+that the binary call options will be worth more under stochastic volatility.
+That is, on average the one-touch option costs less to hedge under stochastic
+volatility than under local volatility and so its upfront valuation should
+be lower under stochastic volatility. This qualitative argument explains the
+graph shown in Figure 9.4.
+Live-Out Options
+As before, we model a live-out call as a capped call minus a one-touch.
+Once again, we guess that the value of the capped call should be pretty
+much identical under stochastic and local volatility modeling assumptions.
+On the other hand, from our previous discussion, with the Heston-Nandi
+parameters of Chapter 4, we expect the value of the one-touch option to be
+lower under stochastic volatility than under local volatility.
+We conclude that with these parameters, a live-out call should be worth
+more under stochastic volatility than under local volatility. This guess is
+supported by the graph in Figure 9.7. Note that the difference in valuation
+between the two modeling assumptions can be very substantial.
+∗The implication here and in what follows is that where some result is shown to
+hold for this special choice of parameters that make computations easy, there is
+every reason to suppose that the same result holds more generally for any choice of
+stochastic volatility dynamics and parameters.
+
+Barrier Options
+117
+1.1
+1.2
+1.3
+1.4
+Barrier
+0.01
+0.02
+0.03
+0.04
+0.05
+0.06
+0.07
+Value
+FIGURE 9.7
+Values of live-out call options struck at 1 as a function of barrier level.
+The solid line is stochastic volatility; the dashed line is local volatility.
+Lookback Options
+Suppose now that we sell a lookback call option struck at K > S. The hedge
+is roughly two European call options struck at K. If the stock price never
+reaches K, the hedge is ﬁne. If and when the stock price reaches K, we need
+to sell our two European calls with strike K and buy two new calls with
+strike K + K. Equivalently, we need to sell two call spreads. Once again,
+with the Heston-Nandi parameters of Chapter 4, the skew will be more
+negative under stochastic volatility than under local volatility. We therefore
+earn more for our call spreads under stochastic volatility than under local
+volatility. We conclude that with these parameters, a lookback call option
+should be valued lower under stochastic volatility than under local volatility
+assumptions. This guess is supported by the graph in Figure 9.8. On closer
+examination, we see that the ratio of the stochastic volatility value to the
+local volatility value decreases with increasing strike. That’s because on
+average the higher the strike, the greater the time elapsed between inception
+and the ﬁrst rebalancing operation.
+ADJUSTING FOR DISCRETE MONITORING
+A practical point that is worth noting is that the discreteness effect for
+barrier options is very signiﬁcant. Often barrier option contracts specify
+that the barrier is only to be monitored at the market close. How can we
+estimate the magnitude of the effect of this on the value of a barrier option?
+
+118
+THE VOLATILITY SURFACE
+1.1
+1.2
+1.3
+1.4
+Strike
+0.02
+0.04
+0.06
+0.08
+0.1
+0.12
+0.14
+Value
+FIGURE 9.8
+Values of lookback call options as a function of strike. The solid line is
+stochastic volatility; the dashed line is local volatility.
+We can get an idea of the order of magnitude of the correction using our
+newly acquired intuition for lookback options. Without loss of generality,
+suppose a given discrete (up-) barrier option is monitored daily and consider
+the day on which the discrete maximum is ﬁrst reached. It is highly likely that
+the continuous maximum was reached on the same day. At the beginning
+of that day, the expected difference between the maximum reached and the
+ﬁnal stock price is a lookback option that is worth approximately twice a
+1-day European option or
+2 σ
+√
+T
+√
+2π
+≈0.8 σ
+√
+T
+Then, denoting the fair value of discretely monitored and continuously
+monitored options with up-barrier B by ˜V(B) and V(B) respectively, we have
+˜V (B) ≈V
+
+B e0.8 σ
+√
+T
+In fact, Broadie, Glasserman, and Kou (1999) prove the following
+theorem:
+Let V(B) be the price of a continuous barrier option, and Vm(B) be the
+price of an otherwise identical barrier option with m monitoring points.
+Then we have the approximation
+Vm(B) = V(B e±βσ√
+T/m) + o(1/√m)
+
+Barrier Options
+119
+with + for an up option and −for a down option, where the constant
+β = −ζ(1/2)
+√
+2π
+≈0.5826
+and ζ is the Riemann zeta function.
+The idea of the proof is to estimate the amount by which the discretely
+monitored stock price overshoots the barrier level (as it must in general) the
+ﬁrst time it exceeds it. The amount of overshoot is given approximately by
+B e±βσ√
+T/m −B.
+The difference in price between a discretely monitored barrier option
+and its continuously monitored equivalent is often substantial. For example,
+with σ = 0.32 and daily monitoring (
+√
+T ≈1/16), the adjustment would
+be around 0.32×0.6
+16
+= .012 (1.2% of the barrier level).
+Discretely Monitored Lookback Options
+One might guess from the previous result that the expected difference
+between the continuous maximum and the discrete maximum might be
+approximated by the same number. Broadie, Glasserman, and Kou (1999)
+prove that this is indeed the case. In their paper they show that
+E[ˆST] = E[˜ST] e−β σ
+√
+T
+(9.2)
+where ˆS is the discrete maximum, ˜S is the continuous maximum and T is
+the monitoring interval.
+An at-the-money lookback (or hindsight) option ˆL(S0, T) pays the
+discrete maximum minus the initial stock price. We can rewrite equa-
+tion (9.2) as
+ˆL(S0, T) = E[ˆST −S0]
+= E[˜ST] e−β σ
+√
+T −S0
+= ˜L(S0 e−β σ
+√
+T, T) −S0
+
+1 −e−β σ
+√
+T
+where ˜L is the equivalent continuously monitored option. Similar adjust-
+ments for other types of lookback option are given in the (Broadie,
+Glasserman, and Kou 1999).
+
+120
+THE VOLATILITY SURFACE
+PARISIAN OPTIONS
+As described in Taleb (1996), continuously monitored barrier options can
+tempt either the option buyer or seller to inﬂuence the underlying stock price
+(‘‘barrier wars’’). Discretely monitored options suffer from similar problems.
+One way to retain the beneﬁts of barrier options while minimizing the risk
+of manipulation is to specify that in order for the option to knock-in (or out
+as the case may be), the underlying stock price must stay outside the barrier
+for a minimum period of time referred to as a window. In this case, the
+option is called a Parisian option. As a further advantage, Parisian options
+have much less extreme greeks than their non-Parisian counterparts.
+Parisian-style features are common in convertible bonds and whenever
+the size of a derivative is large relative to the liquidity of the underlying stock.
+With the usual constant parameter assumptions, Parisian options can
+be valued in almost-closed form by applying some results on the excursion
+process of Brownian motion (see for example Chapter 12 of Revuz and
+Yor (1999)). However in the general case, as in most other barrier option
+valuation problems, the most natural valuation approach is numerical PDE
+as described for example by Tavella and Randall (2000).
+SOME APPLICATIONS OF BARRIER OPTIONS
+Ladders
+Consider a strip of capped calls with strikes Bi strictly increasing and greater
+than the initial stock price S0. The cap of the option with strike Bi is Bi+1
+so a rebate of Bi+1—Bi is paid when the barrier at Bi+1 is hit. The buyer of
+such an option locks in his gain each time a barrier is crossed. This gain is
+not lost if the stock price subsequently falls. Not surprisingly, this structure
+is very popular with retail investors. In the limit where the caps are very
+close to the strikes, a ladder approximates a lookback option (every time
+the stock price increases, the gain is locked in) and the value of the ladder
+would be approximately twice the value of a European option. Typically
+though, barriers would be every 10% or so and the value of the ladder
+would be around 1.5 times the value of the corresponding European option.
+Ranges
+Another popular investment is one that pays a high coupon for each day
+that the stock price remains within a range but ceases paying a coupon as
+soon as one of the boundaries is hit. This is a just a one-touch double barrier
+construction.
+
+Barrier Options
+121
+CONCLUSION
+Barrier option values can be very sensitive to modeling assumptions and
+prices must be adjusted to take this into account. Nevertheless, by under-
+standing limiting cases that are well understood, we can gain a good
+qualitative understanding of the appropriate valuation and hedge portfolio
+for any given barrier option. Market practitioners are often reluctant to
+quote on any barrier option given the potential valuation uncertainty and
+the hedging complexity. What we have shown is that this reluctance is not
+always justiﬁed—sometimes a barrier option is much less risky and easier
+to price than its European equivalent.

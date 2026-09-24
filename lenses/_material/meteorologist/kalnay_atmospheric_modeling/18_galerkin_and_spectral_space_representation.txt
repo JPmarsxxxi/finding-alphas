@@ -1,0 +1,1321 @@
+94
+3 Numerical discretization of the equations of motion
+The group velocity for this scheme,
+∂ν′
+4I
+∂k
+=
+
+6 cos kx
+4 + 2 cos kx +
+2 sin2 kx
+(4 + 2 cos kx)2
+
+c
+(3.3.13)
+is already positive for L = 3x (Fig. 3.3.1). For implicit schemes where one is
+already solving a tri-diagonal equation (see Section 3.4.2), this compact fourth order
+scheme, which has an accuracy equivalent to linear ﬁnite elements, is very accurate
+and involves little additional computational cost. The compact scheme is similar to
+Galerkin ﬁnite element approximation to space derivatives (Durran, 1999).
+3.3.2
+Galerkin and spectral space representation
+The use of spatial ﬁnite differences, as we saw in the previous section, introduces
+errors in the space derivatives, resulting in a computational phase speed slower than
+the true phase speed, especially for short waves.
+The Galerkin approach to ameliorate this problem is to perform the space dis-
+cretization using a sum of basis functions U(x, t) = K
+k=1 Ak(t)ϕk(x). Then, the
+residual (error) R(U) = ∂U/∂t + F(U) of the original PDE ∂u/∂t + F(u) = 0 is
+required to be orthogonal to the basis functions ϕ(x). The space derivatives are com-
+puted directly from the known dϕ(x)/dx. This procedure leads to a set of ordinary
+differential equations for the coefﬁcients Ak(t). If the basis functions chosen for the
+discretization are orthogonal and satisfy the boundary conditions, the derivation be-
+comes simpler. The use of local basis functions (e.g., ϕi(x) a piecewise linear function
+equal to 1 at a grid point i and zero at the neighboring points) gives rise to the ﬁnite
+element method, with accuracy similar to that of the compact fourth order scheme.
+Another popular type of Galerkin approach is the use of a global spectral expansion
+for the space discretization, which allows the space derivatives to be computed an-
+alytically rather than numerically. In one dimension, periodic boundary conditions
+suggest the use of complex Fourier series as a basis.
+Consider a periodic domain of length L, with a number of grid points Jmax = JM,
+and scale x by 2π/L. If we use discrete complex Fourier series truncated to include
+wavenumbers up to K, the spectral representation is:
+U(x j, t) =
+K
+
+k=−K
+Ak(t)eikx j
+(3.3.14)
+where A−k(t) = A∗
+k(t), and the star represents the complex conjugate.
+Alternatively, (3.3.14) can be written using real Fourier series as
+U(x j, t) = a0 +
+K
+
+k=1
+ak cos(kx) +
+K
+
+k=1
+bk sin(kx)
+(3.3.15)
+
+3.3 Space discretization methods
+95
+where
+Ak(t) = ak
+2 −i bk
+2
+k > 0
+A0 = a0
+There are 2K + 1 distinct real coefﬁcients that are determined by
+Ak(t) =
+1
+JM
+JM−1
+
+j=0
+U(x j, t)e−ikx j
+(3.3.16)
+Here we have used the orthogonality property
+1
+JM
+JM−1
+
+j = 0
+e−ikx jeilx j = δkl =
+
+1
+if k = l
+0 otherwise
+(3.3.17)
+If JM = 2K + 1, the grid representation (left-hand side of (3.3.14)) and the spectral
+representation (right-hand side of (3.3.14)) contain the same number of degrees of
+freedom, and the same information.
+Then, in the wave equation ∂U/∂t = −c∂U/∂x, we can discretize U in space as
+in (3.3.14) and compute the space derivative analytically:
+∂U(x, t)
+∂x
+=
+K
+
+k=−K
+ik Ak(t)eikx
+(3.3.18)
+If we neglect the time discretization errors, as before, and assume solutions of the
+form U(x, t) = Aeik(x−c′t), we ﬁnd that c′ = c, i.e., the computational phase speed is
+equal to the true speed (Fig. 3.3.1). The space discretization based on a spectral rep-
+resentation is extremely accurate (the space truncation errors are of “inﬁnite” order).
+This is because the space derivatives are computed analytically, not numerically, as
+done in ﬁnite differences.
+If the PDE is nonlinear, for example ∂U/∂t = −U∂U/∂x, then both the grid-point
+(“physical space”) representation and the spectral representation are very useful:
+derivatives are computed efﬁciently and accurately in spectral space, whereas non-
+linear products are computed efﬁciently in physical space. This leads to the so-called
+transform method used for spectral models: the space derivative is computed in spec-
+tral space, then U is transformed back into grid space, and the product U j (∂U/∂x) jis
+computed locally in grid space. We will see later that in order to avoid nonlinear in-
+stability introduced by aliasing of wavenumbers beyond K that appear in quadratic
+terms, the grid representation requires about 3/2 as many points as the minimum
+number of points required for a linear transform (JM = 2K +1). For this reason the
+new values of U at time (n + 1)t are usually stored in their spectral representation,
+which is more compact.
+We can use von Neumann’s criterion to determine the maximum time step allowed
+for stability using, for example, the leapfrog time scheme. The FDE is
+U n+1 −U n−1
+2t
+= ikcU n
+(3.3.19)
+
+96
+3 Numerical discretization of the equations of motion
+Assuming solutions for the wave equation of the form U n = ρneikx, we obtain that the
+ampliﬁcation factor is ρ = −ikct ±
+√
+1 −k2c2t2, and in order to have |ρ| ≤1
+we need to satisfy the stability condition
+(kct)2 ≤1
+(3.3.20)
+Since the highest wavenumber present corresponds to L = 2x, the stability cri-
+terion for spectral models is therefore ct/x ≤1/π. So, the stability criterion is
+more restrictive for spectral models than for ﬁnite difference models, but this is com-
+pensated by the fact that the accuracy, especially for shorter waves, is much higher,
+and therefore fewer short waves need to be included (Fig. 3.3.1).
+The basis functions used in spectral methods are usually the eigensolutions of
+the Laplace equation. In a rectangular domain, they are sines and cosines (e.g., the
+Regional Spectral Model (RSM), Juang et al., 1997). On a circular plate, one would
+instead use Bessel functions.
+Global atmospheric models use as basis functions spherical harmonics, which are
+the eigenfunctions of the Laplace equation on the sphere:
+∇2Y m
+n = 1
+a2
+
+1
+cos2 ϕ
+∂2Y m
+n
+∂λ2 +
+1
+cos ϕ
+∂
+∂ϕ
+
+cos ϕ ∂Y m
+n
+∂ϕ
+
+= −n(n + 1)
+a2
+Y m
+n
+(3.3.21)
+The spherical harmonics are products of Fourier series in longitude and associated
+Legendre polynomials in latitude:
+Y m
+n (λ, ϕ) = Pm
+n (µ)eimλ
+(3.3.22)
+where µ = sinϕ, m is the zonal wavenumber and n is the “total” wavenumber in
+spherical coordinates (as suggested by the Laplace equation (3.3.21)). Pm
+n are the
+associated Legendre polynomials in µ = sin ϕ = cos θ, where θ = π −ϕ is the co-
+latitude. For example, the P0
+0 = 1; P0
+1 = cos θ; P1
+1 = sin θ; P0
+2 = 1/2 (3 cos2 θ −1);
+P1
+2 = 3 sin θ cos θ; P1
+2 = 3 sin2 θ; . . .
+Using “triangular” truncation
+U(λ, ϕ, t) =
+N
+
+n=0
+n
+
+m=−n
+U m
+n (t)Y m
+n (λ, ϕ)
+(3.3.23)
+the spatial resolution is uniform throughout the sphere. This is a major advantage
+over ﬁnite differences based on a latitude–longitude grid, where the convergence of
+the meridians at the poles requires very small time steps. Although there are solu-
+tions for this “pole problem” for ﬁnite differences, the natural approach to solve the
+pole problem for global models is the use of spherical harmonics. Williamson and
+Laprise (1998) provide a comprehensive description of numerical methods for global
+models.
+
+3.3 Space discretization methods
+97
+(a)
+Pn
+m, m  4
+n  m
+n  m  2
+n  m  4
+n  m  8
+n  m  16
+2.0
+1.0
+0.0
+1.0
+2.0
+90
+60
+30
+0
+Latitude
+(b)
+Figure 3.3.2: Illustration of the characteristics of spherical harmonics, adapted from
+Williamson and Laprise (1998). (a) Depiction of three spherical harmonics with total
+wavenumber n = 6. Left, zonal wavenumber m = 0; center, m = 3; right, m = 6.
+Note that n is associated with the total wavelength (twice the distance between a
+maximum and a minimum), which is the same for the three ﬁgures. (b) and (c)
+Amplitude of Legendre polynomials for different combinations of m and n showing
+how high zonal wavenumbers are suppressed near the poles, so that the horizontal
+resolution is uniform when using a spectral representation with triangular truncation.
+Fig. 3.3.2(a) shows the shape of three spherical harmonics with total wavenum-
+ber n = 6, and zonal wavenumber m = 0, 3 and 6. Note that the distance between
+neighboring maxima and minima is similar for the three harmonics, and is associated
+with the “total” (two-dimensional) wavenumber n. Figures 3.3.2(b) and (c) show that
+the amplitude of the Legendre polynomials for high zonal wavenumbers are indeed
+
+98
+3 Numerical discretization of the equations of motion
+Pn
+m, m  32
+n  m
+n  m  2
+n  m  4
+n  m  8
+n  m  16
+2.0
+1.0
+0.0
+1.0
+2.0
+90
+60
+30
+0
+Latitude
+(c)
+Figure 3.3.2: (cont.)
+suppressed near the poles. This suppression eliminates the need for small time steps
+due to the convergence of the meridians in the poles, which are not singular points
+spectral models.
+3.3.3
+Semi-Lagrangian schemes
+Another numerical method that has become very popular in NWP models is the
+semi-Lagrangian scheme. The equations of motion, as we have seen, can in general
+be written as conservation equations
+du
+dt = S(u)
+(3.3.24)
+where the left-hand side of the equation represents a total time derivative (following
+an individual parcel) of the vector of dependent variables u. The total time derivative
+(also known as individual, substantial or Lagrangian time derivative) is conserved
+for a parcel, except for the changes introduced by the source or sink S.
+In a truly Lagrangian scheme, one would follow individual parcels (transporting
+them with the three-dimensional ﬂuid velocity), and then add the source term at the
+right time. This is not practical in general because one has to keep track of many
+individual parcels, and with time they may “bunch up” in certain areas of the ﬂuid,
+and leave others without parcels to track.
+The semi-Lagrangian scheme avoids this problem by using a regular grid as in
+the previous schemes discussed (which are denoted Eulerian, because the partial
+
+3.3 Space discretization methods
+99
+t
+tn+1
+tn
+xj -1
+x j
+DP
+AP
+Figure 3.3.3: Schematic of the semi-Lagrangian scheme. The circles represent the
+arrival point AP at the new time level (a point) and the departure point DP at the
+previous time level. The thick arrow represents the advection from DP to AP. The
+value of the variables at AP is equal to their value at DP, which is obtained by
+interpolation between neighboring points. Because there is no extrapolation, the
+semi-Lagrangian schemes are absolutely stable.
+derivative ∂u/∂t is estimated instead of the total derivative). At every new time step
+we ﬁnd out where the parcel arriving at a grid point (denoted arrival point or AP)
+came from in the previous time step (denoted departure point or DP). The value of
+u at the DP is obtained by interpolating the values of the grid points surrounding
+the departure point. Figure 3.3.3 suggests that, because there is no extrapolation, the
+semi-Lagrangian scheme is absolutely stable with respect to advection, which can be
+conﬁrmed by doing a von Neumann criterion check (Bates and McDonald, 1982).
+The semi-Lagrangian scheme can then be written using two or three time levels.
+In a three-level time scheme, for example, if MP is the middle point between the DP
+and AP, the scheme can be written as
+	
+U n+1
+j
+
+AP = (U n−1)DP + 2tS(U n)M P
+(3.3.25)
+In a two-time level scheme it could be written as
+	
+U n+1
+j
+
+AP = (U n)DP + t
+2
+
+S(U n)DP + S
+	
+U n+1
+j
+
+AP
+
+In general, for nonlinear equations ∂q/∂t = −u ∂q/∂x + S(q), so the semi-
+Lagrangian scheme for the quantity q can be written as
+qAP = qDP + S(qM P)
+(3.3.26)
+However, the DP has to be determined from the trajectory dx/dt = u integrated
+between the DP and AP, for example as
+xDP = xAP −t
+2 (UDP + UAP)
+(3.3.27)
+Since u evolves with time, UAP and UDP are not known until the DP has been
+determined, this is an implicit equation that needs to be solved iteratively. For three-
+level semi-Lagrangian schemes, the approximation
+xDP = xAP −2tUM P
+(3.3.28)
+
+100
+3 Numerical discretization of the equations of motion
+also has to be solved iteratively for UM P, but this is simpler than for the two-level
+time scheme.
+The accuracy of the semi-Lagrangian scheme depends on the accuracy of the de-
+termination of the DP, and on the determination of the value of UDP and the other
+conserved quantities q by interpolation from the neighboring points. A linear inter-
+polation between neighboring points results in excessive smoothing, especially for
+the shortest waves. For this reason cubic interpolation is preferred (Williamson and
+Laprise, 1998). This is a costly overhead of semi-Lagrangian schemes. Despite the
+additional costs, in practice this scheme has been found to be accurate and efﬁcient
+(see the general review of semi-Lagrangian methods by Staniforth and Cˆot´e (1991)).
+A “cascade” method has been proposed that results in a very efﬁcient high order inter-
+polation between the distorted Lagrangian grid and the regular Eulerian grid (Purser
+and Leslie, 1991, Leslie and Purser, 1995). This allowed Purser and Leslie to suggest
+a forward trajectory semi-Lagrangian approach instead of the conventional back-
+ward trajectory that we have so far described, which has additional advantages. (See
+Staniforth and Cˆot´e (1991), Bates et al. (1995), Purser and Leslie (1996), Williamson
+and Laprise (1998) for further details.) Combining the semi-Lagrangian approach
+with a semi-implicit treatment of gravity waves (Section 3.2.5), as ﬁrst suggested by
+Robert (1982) and Robert et al. (1985), increases its efﬁciency. Laprise et al. (1997)
+have documented a “mesoscale compressible community” model, which is nonhy-
+drostatic, three-level semi-Lagrangian, and uses the semi-implicit approach for both
+the elastic terms (three-dimensional divergence) and the gravity wave terms. As such,
+it is a ﬂexible and accurate model that can be used for a wide range of scales.
+3.3.4
+Nonlinear computational instability. Quadratically
+conservative schemes. The Arakawa Jacobian
+In 1957 Phillips published the ﬁrst “climate” or “general circulation” simulation ever
+made with a numerical model of the atmosphere. He started with a baroclinically
+unstable zonal ﬂow using a two-level quasi-geostrophic model, added small random
+perturbations, and was able to follow the baroclinic growth of the perturbations,
+and their nonlinear evolution. He obtained very realistic solutions that contributed
+signiﬁcantly to the understanding of the atmospheric circulation in mid-latitudes.
+However, his climate simulation only lasted for about 16 days: the model “blew
+up” despite the fact that care had been taken to satisfy the von Neumann criterion
+for linear computational instability. In 1959, Phillips pointed out that this instabil-
+ity, which he named nonlinear computational instability (NCI), was associated with
+nonlinear terms in the quasi-geostrophic equations, in which products of short waves
+create new waves shorter than 2x. Since these waves cannot be represented in
+the grid, they are “aliased” into longer waves. The shortest wave that can be repre-
+sented with a grid (with a wavelength 2x) corresponds to the maximum computa-
+tional wavenumber pmax = 2π/Lminx = π. However, quadratic terms with Fourier
+
+3.3 Space discretization methods
+101
+π
+π + δ
+π − δ
+0
+p
+Zp
+Zp
+3π/2
+0
+p
+2π
+π
+(a)
+(b)
+Figure 3.3.4: (a) Schematic of the effect of aliasing: the waves above p = π
+(solid line) become folded back (dashed line) and are added to the original spectrum,
+producing a spurious maximum in the energy spectrum at the cut-off wavelength
+(dotted line). (b) Schematic showing that if we use a grid with 3/2 as many grid points
+as the original grid, the total spectrum in the Fourier transform of a quadratic product
+is increased by 3/2 (i.e., pmax = 3π/2). Then aliasing of wavenumbers between 3π/2
+and 2π occurs outside the original spectrum and it is avoided within the range 0 to π.
+components will generate higher wavenumbers: e±ip1e±ip2 = e±i(p1±p2), doubling the
+maximum wavenumber. The new shorter waves, with wavenumbers p = π + δ, can-
+not be represented in the grid, and become folded back (aliased) into p′ = π −δ,
+leading to a spurious accumulation of energy at the shortest range (Fig. 3.3.4).
+The effect of NCI can be seen clearly in the following simple example: consider
+the nonlinear (quasi-linear) PDE ∂u/∂t = −u∂u/∂x and the corresponding FDE
+∂U j/∂t = −U j(U j+1 −U j−1)/2x. Suppose that at a given time t we have U1 =
+0, U2 > 0, U3 < 0, U4 = 0. Then ∂U1/∂t = 0, ∂U2/∂t > 0, ∂U3/∂t < 0, ∂U4/
+∂t = 0, i.e., U2 and U3 will grow without bound and the FDE will blow up. In fact this
+
+102
+3 Numerical discretization of the equations of motion
+will happen even for a linear model ∂u/∂t = −a(x)∂u/∂x if a1 = 0, a2 > 0, a3 < 0,
+a4 = 0. On the other hand, if a(x) is always of the same sign, and we use the same FDE
+∂U j
+∂t
+= −a j
+U j+1 −U j−1
+2x
+(3.3.29)
+we can show that
+∂
+∂t
+
+j
+U 2
+j
+a j
+= 0
+i.e., that the solution will remain bounded. Numerical experiments show that nonlin-
+earcomputationalinstabilityarisesonlywhentherearechangesinsigninthevelocity.
+Exercise 3.3.1: Prove that the above solution will remain bounded.
+There are basically two approaches for dealing with the problem of nonlinear com-
+putational instability.
+(a)
+Filtering out high wavenumbers.
+Phillips (1959) proposed transforming the grid-space solution into Fourier series
+(with sine and cosine wavenumbers from 0 to π), and chopping the upper half of the
+spectrum (wavenumbers above π/2). Since the maximum wavenumber generated in
+a quadratic term is twice the original wavenumber, this avoids spurious aliasing, and,
+indeed, Phillips found that the model could then be run indeﬁnitely. However, the
+procedure is rather inefﬁcient, since half of the spectrum is not used.
+For grid-point models, complete Fourier ﬁltering of the high wavenumbers has
+been found to be an unnecessarily strong measure to avoid nonlinear computational
+instability. Some models ﬁlter high wavenumbers but only enough to maintain com-
+putational stability. Experience shows that as long as the amplitude of the highest
+wavenumbers is not allowed to acquire ﬁnite amplitude, nonlinear computational
+stability can be avoided. For example, Kalnay-Rivas et al. (1977) combined the use
+of an energy-conserving fourth order model with a sixteenth order ﬁlter (similar to
+the eighth power of the horizontal Laplacian (Shapiro, 1970)). This efﬁciently ﬁltered
+out the shortest waves (mostly between 2x and 3x) without affecting waves of
+wavelength 4x or longer, and resulted in an accurate and economic model.1
+1 The Shapiro ﬁlter of order n of a ﬁeld Ui is a simple and efﬁcient operator given by
+U j
+2n = [1 −(−D)n]U j, where the “diffusion” operator DU j = (U j+1 −2U j + U j−1)/4 is
+applied to the original ﬁeld n times. For a Fourier component eip with wavenumber
+p = 2πx/L, the response of the operator is Deipj = −(sin2p/2)eipjso that the second order
+Shapiro ﬁlter U
+2
+j = [1 −(−D)2]U j = 1
+4(U j+1 + 2U j + U j−1) has a response
+U j
+2 = (1 −sin2 p/2)U j. This is a strong ﬁlter that zeroes out the highest wavenumber
+(L = 2x), and reduces the amplitude of even the longer waves. A higher order ﬁlter, for
+example 2n = 16, however, has the following desirable response: U j
+16 = (1 −sin16 p/2)U j,
+which still ﬁlters out 2x waves, dampens waves shorter than 4x, and essentially leaves
+longer waves unaffected.
+
+3.3 Space discretization methods
+103
+Spectral models with a wavenumber cut-off of M (i.e., with 2M + 1 degrees
+of freedom) require at least 2M + 1 grid points to be transformed into equivalent
+solutions in grid space. Orszag (1971) showed that if they are transformed into
+3M + 1 grid points before a quadratic term is computed in physical space, then
+aliasing is avoided. In other words, it is not necessary to perform the space transform
+into 4M points. The reason for this is shown schematically in Fig. 3.3.4(b): even if
+there is aliasing, it only occurs on the part of the spectrum (above p = π) that is
+eliminated anyway on the back transformation into spectral space. For this reason, in
+two horizontal dimensions, spectral models use “quadratic grids” with about (3/2)2
+as many grid points as spectral degrees of freedom, and therefore spectral models
+are “alias-free” for quadratic computations. Triple products in spectral models still
+suffer from aliasing, but this is generally not a serious problem.
+(b)
+Using quadratically conserving schemes
+Lilly (1965) showed that it is possible to create a spatial ﬁnite difference scheme
+that conserves both the mean value and its mean square value when integrated over
+a closed domain. Quadratic conservation will generally ensure that catastrophic NCI
+does not take place. Arakawa (1966) created a numerical scheme for the vorticity
+equation that conserves the mean vorticity, the mean square vorticity (enstrophy),
+and the kinetic energy. This ensures that the mean wavenumber is also conserved (as
+it is in the continuous equation), and therefore that even in the absence of diffusion
+the solution remains realistic. Arakawa and Lamb (1977) showed how an equivalent
+“Arakawa Jacobian” can be written for primitive equation models.
+Consider ﬁrst a conservation equation for the SWE written in advective form (as
+an example relevant to primitive equations):
+∂α
+∂t + v · ∇α = 0
+∂h
+∂t + v · ∇h + h∇· v = ∂h
+∂t + ∇· hv = 0
+
+
+
+(3.3.30)
+If we multiply the ﬁrst equation by h and the second by α, we can write the conser-
+vation equations in ﬂux form:
+∂hα
+∂t
++ ∇· hvα = 0
+∂h
+∂t + ∇· hv = 0
+
+
+
+(3.3.31)
+Note that from the continuity equation written in ﬂux form (second form), the total
+mass is conserved in time (Exercise 3.3.2).
+
+104
+3 Numerical discretization of the equations of motion
+Exercise 3.3.2: Show that from the continuity equation written in ﬂux form, the total
+mass is conserved in time:
+∂
+∂t
+ 
+hdxdy = 0
+Now, consider any function of G(α). Multiply the conservation equation by g(α) =
+dG/dα and integrate over a closed domain (i.e., a domain bounded by walls with
+zero normal velocities or by periodic boundary conditions). It is easy to show that
+the mean value of G(α) will be conserved in time:
+∂
+∂t
+ 
+hG(α)dxdy = 0
+(3.3.32)
+Therefore the mass weighted mean and the mean squared value of α (as well as all
+its higher moments) will be conserved. With ﬁnite differences, we can only enforce
+two independent conservation properties (Arakawa and Lamb, 1977). We discuss
+now how to enforce mean and quadratic conservation, as suggested by Lilly (1965).
+The simplest approach is to write ﬁrst the FDE continuity equation in ﬂux form. This
+constitutes the backbone of a quadratically conservative scheme, and it is also similar
+to the simplest ﬁnite volume schemes (Section 3.3.6).
+Exercise 3.3.3: Consider any function G(α) and multiply the conservation equation
+by g(α) = dG/dα and integrate over a closed domain. Show that the mean value of
+G(α) will be conserved as in (3.3.32).
+Consider Fig. 3.3.5, which shows a typical grid element with the value of α deﬁned in
+the center, and estimates of the normal mass ﬂuxes at its boundaries (e.g., (hu)i+1/2, j
+at the right wall). These estimates are used for casting the continuity FDE and for
+constructing a quadratically conservative FDE for α. The continuity FDE in ﬂux form
+is
+∂hi j
+∂t
++ (hu)i+1/2, j −(hu)i−1/2, j
+x
++ (hv)i, j+1/2 −(hv)i, j−1/2
+y
+= 0
+(3.3.33)
+It is easy to check that this FDE will conserve total mass (∂/∂t) 
+i, j
+hi, jxi, jyi, j = 0 since the mass ﬂux into one grid box will cancel the mass ﬂux
+out of the neighboring element. We now write the FDE for α using any consistent
+estimate of α at the normal walls of the grid box:
+∂hi jαi, j
+∂t
++ (hu)i+1/2, j(α)i+1/2, j −(hu)i−1/2, j(α)i−1/2, j
+x
++(hv)i, j+1/2(α)i, j+1/2 −(hv)i, j−1/2(α)i, j−1/2
+y
+= 0
+(3.3.34)
+
+3.3 Space discretization methods
+105
+(hv)i,j+1/2
+(hv)i,j-1/2
+(hu)i+1/2,j
+αi,j
+(v)
+(u)
+(v)i,j-1/2
+(u)i+1/2,j
+ζi,j Ψi,j
+Ψi+1/2,j+1/2
+Ψ
+Ψ
+Ψ
+(a)
+(b)
+(hu)i-1/2,j
+Figure 3.3.5: (a) A typical
+grid element with the value
+of α deﬁned in the center,
+and estimates of the normal
+ﬂuxes at its boundaries.
+These estimates are used for
+casting the continuity FDE
+and for constructing a
+quadratically conservative
+FDE for α (primitive
+equation model). (b) Grid
+for a simple enstrophy
+conserving FDE
+(quasi-geostrophic model).
+Again it is easy to check that this FDE will conserve the total (mass weighted) value
+of α: (∂/∂t) #i, jhi, jαi, jxi, jyi, j = 0. This is a general property of FDEs written
+in ﬂux form.
+Finally, we choose to estimate the value of α at the walls of the grid-cells as an av-
+erage between the two contiguous cells (α)i+1/2, j = (αi, j + αi+1, j)/2, and similarly
+for the other walls. With this particular choice, we obtain:
+∂hi, jαi, j
+∂t
++ (hu)i+1/2, j(αi, j + αi+1, j) −(hu)i−1/2, j(αi, j + αi−1, j)
+2x
++(hv)i, j+1/2(αi, j + αi, j+1) −(hv)i, j−1/2(αi, j + αi, j−1)
+2y
+= 0
+(3.3.35)
+We can show that this scheme is quadratically conservative. First note that we can
+construct a mass weighted quadratic conservation equation for α from either the
+advection of the ﬂux form prognostic equation for α and the continuity equation
+(prognostic equation for h):
+∂
+
+h α2
+2
+
+∂t
+= α2
+2
+∂h
+∂t + hα ∂α
+∂t = −α2
+2
+∂h
+∂t + α ∂hα
+∂t
+(3.3.36)
+The second equality suggests how to test quadratic conservation of α. Multiply
+the FDE continuity equation (3.3.33) by αi, j 2/2 and subtract it from the ﬂux form
+prognostic equation (3.3.35) multiplied by αi, j. If we do this, we ﬁnd that (because of
+
+106
+3 Numerical discretization of the equations of motion
+cancellations of mass weighted ﬂuxes of αi, j on the grid-box walls), there is indeed
+quadratic conservation:
+∂
+∂t
+
+i, j
+hi, j
+1
+2αi, j
+2xi, jyi, j = 0
+(3.3.37)
+Note that this is true no matter how the FDE for the continuity equation is written. We
+could choose several ﬁnite difference formulations, and as long as the ﬂux form of
+the FDE for hα is consistent with the continuity equation, and as long as we estimate
+α at the walls by a simple average, we have quadratic conservation and the danger
+of NCI is small.
+Exercise 3.3.4: Show that the FDE (3.3.33) will conserve total mass.
+Exercise 3.3.5: Show that the FDE (3.3.34) will conserve the total mass weighted
+value of α.
+Exercise 3.3.6: Prove from (3.3.36) that there is quadratic conservation.
+Exercise 3.3.7: Write two different FDEs for the continuity equation, i.e., two dif-
+ferent estimates of the normal mass ﬂuxes at the walls, (hu)i+1/2, j, etc.
+Finally we consider the vorticity equation, which is representative of much of the
+dynamics of the real atmosphere:
+∂ζ
+∂t = −v · ∇ζ = −∇· (vζ) = −J($, ζ)
+(3.3.38)
+where ζ = k · ∇× v = ∇2$, v = k × ∇$. The ﬂow is nondivergent, so that the
+continuity equation is simply ∇· v = 0.
+In this case a simple scheme that conserves the mean vorticity and its mean
+square (i.e., an enstrophy conserving scheme) can be written following the recipe
+given above (Kalnay-Rivas and Merkine, 1981). The continuity equation is (cf.
+Fig. 3.3.5(b))
+0 = −(u)i+1/2, j −(u)i−1/2, j
+2x
+−(v)i, j+1/2 −(v)i, j−1/2
+2y
+(3.3.39)
+where the normal velocity estimates are obtained from
+ui+1/2, j = −∂$i+1/2, j
+∂y
+≈−$i+1/2, j+1/2 −$i+1/2, j−1/2
+y
+(3.3.40)
+and similarly for the other velocities. Note that this satisﬁes the continuity equation
+automatically. Then we write the forecast equation for the vorticity in a way consistent
+
+3.3 Space discretization methods
+107
+with the continuity equation, thus ensuring conservation of the mean vorticity and
+enstrophy (mean square vorticity).
+∂ζi, j
+∂t
+= −(u)i+1/2, j(ζi, j + ζi+1, j) −(u)i−1/2, j(ζi, j + ζi−1, j)
+2x
+−(v)i, j+1/2(ζi, j + ζi, j+1) −(v)i, j−1/2(ζi, j + ζi, j−1)
+2y
+(3.3.41)
+After a new vorticity ﬁeld is obtained at t = (n + 1)t using, for example, leapfrog,
+we have to determine the new streamfunction ψ. This is done by solving the elliptic
+equation ζ = ∇2$, which in ﬁnite differences can be written as
+$i+1, j −2$i, j + $i−1, j
+x2
++ $i, j+1 −2$i, j + $i, j−1
+y2
+= ζi, j
+(3.3.42)
+In Section 3.4 we will discuss how to solve this boundary value problem.
+Once we obtain ψi, j we can obtain $i+1/2, j+1/2 by averaging the corresponding
+four surrounding values of ψi, j. This is probably the simplest FDE model of the
+barotropic atmosphere devoid of nonlinear computational instability that we can
+construct.
+Before we discuss the Arakawa Jacobian, let’s note that the continuous vorticity
+equation conserves total (kinetic) energy as well as enstrophy. Multiply the vorticity
+equation by the streamfunction:
+$ ∂ζ
+∂t = −$∇· (vζ) = −∇· (vζ$) + ζv · ∇$
+(3.3.43)
+The last term on the right-hand side vanishes because v is perpendicular to ∇$. The
+left-hand side can be shown to be the time derivative of the kinetic energy:
+$ ∂ζ
+∂t = $ ∂∇· ∇$
+∂t
+= ∂∇$ · ∇$
+∂t
+−∇$ · ∂∇$
+∂t
+= ∂v · v
+∂t
+−∂v · v/2
+∂t
+= ∂|v|2 /2
+∂t
+= ∂KE
+∂t
+(3.3.44)
+Therefore, integrating (3.3.43) over the domain, the mean kinetic energy is conserved.
+The simple scheme described above conserves vorticity and squared vorticity but not
+kinetic energy.
+Arakawa (1966) introduced a Jacobian that conserves all three properties: it
+is based on the FDE corresponding to these three equivalent formulations of the
+Jacobian:
+J($, ζ) = J1 = J2 = J3
+(3.3.45)
+
+108
+3 Numerical discretization of the equations of motion
+where
+J1 = ∂$
+∂x
+∂ζ
+∂y −∂$
+∂y
+∂ζ
+∂x
+J2 = ∂
+∂x
+
+$ ∂ζ
+∂y
+
+−∂
+∂y
+
+$ ∂ζ
+∂x
+
+J3 = ∂
+∂y
+
+ζ ∂$
+∂x
+
+−∂
+∂x
+
+ζ ∂$
+∂y
+
+
+
+
+(3.3.46)
+The Arakawa Jacobian is the ﬁnite difference Jacobian corresponding to JA = (J1 +
+J2 + J3)/3 and it conserves kinetic energy and enstrophy. Arakawa and Lamb (1977)
+showed how the Arakawa Jacobian could also be approximately constructed for
+primitive equation models.
+Exercise 3.3.8: Derive the ﬁnite difference equivalent of J1, J2 and J3
+The ratio of enstrophy to kinetic energy is proportional to the mean square of the
+wavenumber, and this quantity is conserved by the continuous frictionless vorticity
+equation. Therefore, the Arakawa conservation ensures that a long model run will
+conserve the mean square of the wavenumber, and generally look realistic (i.e., not
+become dominated by small scale noise) even without horizontal diffusion. In the real
+atmosphere, however, turbulent dissipation acts as a control on the amplitude of the
+smallest waves, and leaks their energy out of the system, so that strict conservation
+is not truly relevant. For this reason, there is no consensus among the community of
+modelers on whether the use of strictly conserving FDEs is an essential requirement.
+On the one hand, some models are based on schemes that are as conservative as pos-
+sible (remember that the continuous equations conserve all moments of the quantities
+being advected, whereas the FDEs can only conserve one or two moments). Other
+modelers prefer to use less conservative but more accurate and simpler schemes.
+They include dissipation acting at the highest wavenumbers that mimics the leakage
+of energy that takes place in reality. Experience shows that an energy-conserving
+scheme, for example, combined with a small amount of high-order horizontal diffu-
+sion, in practice also behaves very realistically, approximately conserving enstrophy.
+This is because a catastrophic loss of enstrophy occurs only when energy is allowed
+to accumulate in the shortest waves and they acquire large amplitudes. The dispute as
+to whether it is more important to have conservative FDEs or accurate (higher order
+or semi-Lagrangian) FDEs that are not conservative but avoid NCI has thus not been
+resolved.
+3.3.5
+Staggered grids
+So far all the variables we have used (e.g. h, u, v) have been deﬁned at the
+same location in a grid cell. This means that in order to compute centered space
+
+3.3 Space discretization methods
+109
+hj-1
+hj+1
+hj
+uj+1/2
+vj+1/2
+uj-1/2
+vj-1/2
+x
+x
+(a)
+(b)
+hj+1
+hj
+hj-1
+uj-1
+vj-1
+uj
+vj
+uj+1
+vj+1
+Figure 3.3.6: Staggered
+grids: (a) example of
+unstaggered grid in one
+dimension; (b) example of
+staggered grid in one
+dimension.
+differences at a point j, for example, we need to go to j + 1, and j −1, and the
+differences are computed over a distance of 2x (Fig. 3.3.6(a)). If we use instead
+a staggered grid, certain differences (such as the pressure gradient for the u equa-
+tion and the horizontal convergence term for the h equation) can be computed
+over just 1x, and, for those terms, it is equivalent to doubling the horizontal res-
+olution. (Fig. 3.3.6(b)). However, the advection terms still have to be computed
+over 2x (or 2d, where d is the distance between closest grid points of the same
+class).
+Let’s consider again the SWE in two dimensions:
+∂h
+∂t = −
+
+h
+∂u
+∂x + ∂v
+∂y
+
+−u ∂h
+∂x −v ∂h
+∂y
+∂u
+∂t = −
+
+g ∂h
+∂x + f v
+
+−u ∂u
+∂x −v ∂u
+∂y
+∂v
+∂t = −
+
+g ∂h
+∂y −f u
+
+−u ∂v
+∂x −v ∂v
+∂y
+
+
+
+(3.3.47)
+The terms in square brackets in (3.3.47) are the dominant terms for the geostrophic
+and the inertia-gravity wave dynamics. These terms are computed in different ways
+depending on the type of grid we use. The advective terms are less affected by the
+choice of alternative (staggered) grids.
+In two dimensions there are several possibilities for staggered grids (Arakawa
+and Lamb, 1977), which are shown schematically in Fig. 3.3.7. Grid A (unstag-
+gered) has several advantages and disadvantages. The advantages are its simplicity,
+and, because all variables are available at all the grid points, it is easy to construct
+a higher order accuracy scheme. Grid A tends to be favored by proponents of the
+philosophy “accuracy is more important than conservation”. Its main disadvantage is
+that all differences occur on distances 2d, and that neighboring points are not coupled
+for the pressure and convergence terms. This can give rise in time to a horizontal
+uncoupling (checkerboard pattern), which needs to be controlled by using a high
+order diffusion (e.g., Janjic, 1974, Kalnay-Rivas et al., 1977).
+Grid C has the advantage that the convergence and pressure terms in square brack-
+etsin(3.3.47)arecomputedoveradistanceofonly1d,whichisequivalenttodoubling
+the resolution of grid A. For this reason geostrophic adjustment (the dispersion of
+gravity waves generated when the ﬁelds are not in geostrophic balance, see Chapter 5)
+
+110
+3 Numerical discretization of the equations of motion
+u v h
+Unstaggered grid A
+h
+u v
+u v
+u v
+u v
+Staggered grid B
+h
+u
+u
+v
+v
+Staggered grid C
+h
+v
+v
+u
+u
+Staggered grid D
+Staggered grid E
+h
+u v
+u v
+u v
+uv
+Figure 3.3.7: Staggered
+grids in two horizontal
+dimensions: Arakawa and
+Lamb (1977) classiﬁcation.
+is computed much more accurately (Arakawa, 1997). The Coriolis acceleration terms,
+on the other hand, require horizontal averaging, making the inertia-gravity waves less
+accurate. This makes grid C less attractive for situations in which the length of the
+Rossby radius of deformation Rd = √gH/f is not large compared to the grid size
+d. The equivalent depth, H, is about 10 km for the external mode, so that Rd is
+
+3.3 Space discretization methods
+111
+h
+v
+v
+u
+u
+h
+v
+v
+u
+u
+h
+h
+h
+Even time steps
+Odd time steps
+Figure 3.3.8: The Eliassen
+grid, staggered in both
+space and time.
+about 3000 km (Chapter 6), but H is an order of magnitude smaller for the second
+vertical mode, and it becomes much smaller for higher vertical modes. Therefore,
+some atmospheric models use grid B, where the minimum distance for horizontal
+differences is
+√
+2d, rather than 1d as in grid C, but where u and v are available at the
+same locations. The NCEP Eta model is deﬁned on a grid B rotated by 45◦, denoted
+grid E by Arakawa and Lamb (1977), see Fig. 3.3.7.
+The disadvantages of staggered grids are: (a) the terms in square brackets are hard
+to implement in higher order schemes, and (b) the staggering introduces considerable
+complexity in, for example, diagnostic studies and graphical output.
+Grid D has no particular merit, but, if also staggered in time (as suggested by
+Eliassen), it becomes ideal for atmospheric ﬂow using the leapfrog scheme (see
+Fig. 3.3.8). In the Eliassen grid all differences are computed on a distance d (the
+advection also requires a horizontal average over one grid length, but this is a small
+drawback). Despite its apparent optimality, this grid has not been adopted in any
+major model, probably because of the complications of the additional staggering,
+and because it would require special procedures for starting the leapfrog scheme. Lin
+and Rood (1997) have adopted a similar idea for a global atmospheric model on the
+sphere.
+In the vertical direction, most models have adopted a staggered grid, with the
+vertical velocity deﬁned at the boundary of layers and the prognostic variables in
+the center of the layer (Fig. 3.3.9). This type of grid, introduced by Lorenz in 1960,
+allows simple quadratic conservation, and the boundary conditions of no ﬂux at
+the top and the bottom are easily fulﬁlled. However, as pointed out by Arakawa
+and Moorthi (1988), the Lorenz grid allows the development of a spurious com-
+putational mode, since the geopotential in the hydrostatic equation (and therefore
+the acceleration of the wind components) is insensitive to temperature oscillations
+of 2σ wavelength. The Lorenz grid is being replaced in some newer models by
+a vertical grid similar to the one introduced by Charney and Phillips (1953) for
+a two-level model. In the Charney–Phillips grid, the vertical staggering is more
+consistent with the hydrostatic equation and therefore it does not have the ad-
+ditional computational mode (Arakawa, 1997). A nonstaggered vertical grid, al-
+lowing a simple implementation of higher order differences in the vertical, would
+
+112
+3 Numerical discretization of the equations of motion
+u v T
+, , ,φ
+u v T
+, , ,φ
+σ
+σ
+Lorenz grid
+,
+σ
+φ
+= 0
+u v T
+, ,
+u v T
+, ,
+,σ φ
+,
+σ φ
+Charney--Phillips grid
+σ = 0
+u v T
+, , ,φ
+σ
+σ
+Unstaggered vertical grid
+σ = 0
+u v T
+, , ,φ
+u v T
+, , ,φ
+.
+.
+.
+.
+.
+.
+.
+.
+.
+Figure 3.3.9: Staggering in vertical grids. (After Arakawa and Konor, 1996.)
+ij
+D
+i +1/2j
+A
+B
+C
+Figure 3.3.10: Schematic of the two-dimensional volume centered at the point i, j
+and with walls at which ﬂuxes are computed in a ﬁnite volume method.
+also be possible, but it would also have more computational modes present in the
+solution.
+3.3.6
+Finite volume methods
+We present here a brief introduction to the ﬁnite volume approach, which is discussed
+in more detailed in texts such as Durran (1999), Fletcher (1988) and Gustaffson
+et al. (1996). The basic idea of this method is that the governing equations are ﬁrst
+written in an integral form for a ﬁnite volume, and only then are they discretized.
+This is in contrast to the methods we have seen so far, in which the equations in
+differential form are discretized using ﬁnite differences or spectral methods. The two
+approaches may or may not lead to similar discretized schemes.
+Consider for example the continuity equation and a conservation equation for a
+shallow water model written in ﬂux form, as in (3.3.31), and integrate them over a
+volume limited by walls AB, BC, C D, and DA (in this two-dimensional case, the
+volume of integration is the horizontal area, Fig. 3.3.10).
+If we integrate (3.3.31) within the volume ABC D, and apply Green’s theorem,
+we obtain
+
+3.3 Space discretization methods
+113
+d
+dt
+
+hdxdy +
+
+H · nds = 0
+d
+dt
+
+hαdxdy +
+
+(Hα) · nds = 0
+
+
+
+(3.3.48)
+where H is the normal ﬂux of h across the walls, and n is the normal vector to the
+wall. These equations can be discretized, for example, as
+d
+dt
+ 
+h
+i jxi jyi j
+!
+= −(hu
+i+1/2 j)yi+1/2 j + (hu
+i−1/2 j)yi−1/2 j
+−(hv
+i j+1/2)xi j+1/2 + (hv
+i j−1/2)xi j−1/2
+d
+dt
+ 
+αh
+i jxi jyi j
+!
+= −(huα
+i+1/2 j)yi+1/2 j + (huα
+i−1/2 j)yi−1/2 j
+−(hvα
+i j+1/2)xi j+1/2 + (hvα
+i j−1/2)xi j−1/2
+
+
+
+(3.3.49)
+Here, the overbar indicates a suitable average over the grid volume or area. It is
+evident that any scheme based on these ﬁnite volume equations will conserve the
+average mass and average mass weighted α. There are a number of choices of how
+this average can be carried out over this subgrid domain of each grid volume: one
+can assume that h and α are constant within the volume, or that they vary linearly,
+etc. A simple choice for the estimates of the average values at the center and at the
+walls leads naturally to the quadratically conservative differences presented above in
+(3.3.34) and (3.3.35):
+h
+i j = hi j
+hu
+i+1/2 j = (hi j + hi+1 j)(ui j + ui+1 j)/4
+huα
+i+1/2 j = (hu
+i+1/2 j)(αi j + αi+1 j)/2
+
+
+
+(3.3.50)
+Although in this case both methods lead to the same discretization, the ﬁnite volume
+approach allows additional ﬂexibility in the choice of discretization. For example,
+Lin and Rood (1996) developed a combination of semi-Lagrangian and ﬁnite vol-
+ume methods, in which the boundaries of the grid volume are transported to the
+new time step, rather than the centers of the volume as is done in the conventional
+semi-Lagrangian schemes (Fig. 3.3.11). Although the order of the scheme is for-
+mally low, the method seems very promising, but it requires considerable care in the
+detailed formulation in order both to remain conservative and to maintain the shape
+of the transported tracers. Lin (1997) also developed a rather simple ﬁnite volume
+expression to compute the horizontal pressure gradient force that can be applied to
+any hydrostatic vertical coordinate system. It avoids the problem of having two large
+terms in the pressure gradient computation that almost cancel each other, which is
+
+114
+3 Numerical discretization of the equations of motion
+t
+tn+1
+tn
+xj-1
+xj
+AP
+Figure 3.3.11: Schematic of the ﬂux-form semi-Lagrangian scheme (Lin and
+Rood, 1996). It differs from the regular semi-Lagrangian scheme (Fig. 3.3.3) in that
+the walls of the volume are transported to the “arrival walls”. The mass weighted
+average of the variables at the arrival volume is equal to the value at the departure
+volume (indicated by the thick segments), ensuring mass conservation. Because
+there is no extrapolation, the ﬂux-form semi-Lagrangian scheme is still absolutely
+stable.
+characteristic of the sigma and other vertical coordinate systems. There are several
+other variants of ﬁnite volume systems (e.g., Durran, 1999).
+3.4
+Boundary value problems
+3.4.1
+Introduction
+Elliptic equations are boundary value problems, with either a ﬁxed time, or a
+steady state solution at long times. Two examples of such problems arising in NWP
+are:
+(a) Finding the new streamfunction from the vorticity after the latter has been
+updated to time (n + 1)t. For example, in Section 3.3.4 we introduced the
+following enstrophy-conserving numerical scheme:
+ζ n+1
+i, j
+−ζ n−1
+i, j
+2t
+= −(u)i+1/2, j(ζi, j + ζi+1, j) −(u)i−1/2, j(ζi, j + ζi−1, j)
+2x
+−(v)i, j+1/2(ζi, j + ζi, j+1) −(v)i, j−1/2(ζi, j + ζi, j−1)
+2y
+(3.4.1)
+where we used the leapfrog scheme, and the right-hand side is evaluated at time
+t = nt. After solving for ζ n+1
+i, j , we can obtain the streamfunction by solving the
+elliptic equation (Laplace) valid at t = (n + 1)t:
+$i+1, j −2$i, j + $i+1, j
+x2
++ $i, j+1 −2$i, j + $i, j−1
+y2
+= ζi, j
+(3.4.2)
+Forthisparticularscheme,aftersolvingfor$n+1
+i, j ,weobtain$n+1
+i+1/2, j+1/2 byaveraging
+from the four surrounding corners.
+
+3.4 Boundary value problems
+115
+(b) Solving a semi-implicit elliptic equation for the heights also at (n + 1)t
+(Section 3.2.5):
+
+δ2
+2x + δ2
+2y −
+1
+t2
+
+φn+1 = −
+
+δ2
+2x + δ2
+2y +
+1
+t2
+
+φn−1
++2(δ2x Ru + δ2y Rv)
++ 1
+t (δ2xun−1 + δ2yvn−1)
+−
+2
+t Rφ = Fn
+i, j
+(3.4.3)
+These linear elliptic equations are easily solved with spectral methods in which the
+basis functions are eigenfunctions of the Laplace equation. For example, if we use
+spherical harmonics on the globe, and make use of
+∇2Y m
+n = 1
+a2
+
+1
+cos2 ϕ
+∂2Y m
+n
+∂λ2 +
+1
+cos ϕ
+∂
+∂ϕ
+
+cos ϕ ∂Y m
+n
+∂ϕ
+
+= −n(n + 1)
+a2
+Y m
+n
+(3.4.4)
+we
+can
+solve
+the
+semi-implicit
+equation
+for
+φ(λ, ϕ, t) = N
+n=0
+n
+m=−n
+φm
+n (t)Y m
+n (λ, ϕ) simply by writing the Helmholtz linear equation ∇2φn+1 −
+(1/t2)φn+1 = F corresponding to (3.4.3) component by component
+∇2φn
+m(tp+1)Y m
+n (λ, ϕ) −
+1
+t2 φn
+m(tp+1)Y m
+n (λ, ϕ) = Fn
+m(tp+1)Y m
+n (λ, ϕ)
+(3.4.5)
+so that the solution for each spherical harmonic coefﬁcient is given by
+φn
+m(tp+1) = −
+1
+n(n + 1)
+a2
++
+1
+t2
+ Fn
+m(tp+1)
+(3.4.6)
+(Note that in (3.4.5) and (3.4.6) we have used p instead of n for the time step to
+avoid confusion with the total wavenumber n.) The simplicity with which the semi-
+implicit scheme can be computed is a major advantage of spectral models. For ﬁnite
+differences, the solution is much more involved.
+The methods of solution for elliptic equations (discretized in space) are basically
+of two types: direct and iterative. Here we only present some simple examples of both
+types of methods, and refer the reader to texts such as Golub and van Loan (1996),
+Ferziger and Peric (2001), Dahlquist and Bj¨ork (1974) and Gustaffson et al. (1996)
+for more complete discussions of direct and iterative schemes. In the last decade,
+considerable work has also been done on the solution of nonsymmetric systems.

@@ -1,0 +1,668 @@
+1.5 Operational NWP and the evolution of forecast skill
+17
+reﬂection of improvements in the model, the analysis scheme used to assimilate the
+data, and the quality and quality control of the data (Chapter 5).
+1.5
+Operational NWP and the evolution of forecast skill
+Major milestones of operational numerical weather forecasting include the paper
+by Charney et al. (1950) with the ﬁrst successful forecast based on the primitive
+equations, and the ﬁrst operational forecasts performed in Sweden in September
+1954, followed 6 months later by the ﬁrst operational (real time) forecasts in the
+USA. We describe in what follows the evolution of NWP at NCEP, but as mentioned
+before, similar developments took place at several major operational NWP centers:
+in the UK, France, Germany, Japan, Australia and Canada.
+The history of operational NWP at the NMC (now NCEP) has been reviewed by
+Shuman (1989) and Kalnay et al. (1998). It started with the organization of the Joint
+Numerical Weather Prediction Unit (JNWPU) on 1 July 1954, staffed by members of
+the US Weather Bureau (later the National Weather Service, NWS), the Air Weather
+Service of the US Air Force, and the Naval Weather Service.6 Shuman pointed out that
+in the ﬁrst few years, numerical predictions could not compete with those produced
+manually. They had several serious ﬂaws, among them overprediction of cyclone
+development. Far too many cyclones were predicted to deepen into storms. With
+time, and with the joint work of modelers and practising synopticians, major sources
+of model errors were identiﬁed, and operational NWP became the central guidance
+for operational weather forecasts.
+Shuman (1989) included a chart with the evolution of the S1 score (Teweles
+and Wobus, 1954), the ﬁrst measure of error in a forecast weather chart which,
+according to Shuman (1989), was designed, tested, and modiﬁed to correlate well
+with expert forecasters’ opinions on the quality of a forecast. The S1 score measures
+the average relative error in the pressure gradient (compared to a verifying analysis
+chart). Experiments comparing two independent subjective analyses of the same
+data-rich North American region made by two experienced analysts suggested that a
+“perfect” forecast would have an S1 score of about 20%. It was also found empirically
+that forecasts with an S1 score of 70% or more were useless as synoptic guidance.
+Shuman pointed out some of the major system improvements that enabled NWP
+forecasts to overtake and surpass subjective forecasts. The ﬁrst major improvement
+took place in 1958 with the implementation of a barotropic (one-level) model, which
+was actually a reduction from the three-level model ﬁrst tried, but which included bet-
+ter ﬁnite differences and initial conditions derived from an objective analysis scheme
+(Bergthorsson and D¨o¨os, 1955, Cressman, 1959). It also extended the domain of the
+6 In 1960 the JNWPU reverted to three separate organizations: the National Meteorological
+Center (National Weather Service), the Global Weather Central (US Air Force) and the Fleet
+Numerical Oceanography Center (US Navy).
+
+18
+1 Historical overview of numerical weather prediction
+model to an octagonal grid covering the Northern Hemisphere down to 9–15◦N.
+These changes resulted in numerical forecasts that for the ﬁrst time were competitive
+with subjective forecasts, but in order to implement them JNWPU had to wait for the
+acquisition of a more powerful supercomputer, an IBM 704, to replace the previous
+IBM 701. This pattern of forecast improvements which depend on a combination of
+the better use of the data and better models, and would require more powerful super-
+computers in order to be executed in a timely manner has been repeated throughout
+the history of operational NWP. Table 1.5.1 (adapted from Shuman (1989)) summa-
+rizes the major improvements in the ﬁrst 30 years of operational numerical forecasts
+at the NWS. The ﬁrst primitive equations model (Shuman and Hovermale, 1968) was
+implemented in 1966. The ﬁrst regional system (Limited Fine Mesh or LFM model,
+Howcroft, 1971) was implemented in 1971. It was remarkable because it remained
+in use for over 20 years, and it was the basis for Model Output Statistics (MOS).
+Its development was frozen in 1986. A more advanced model and data assimilation
+system, the Regional Analysis and Forecasting System (RAFS) was implemented as
+the main guidance for North America in 1982. The RAFS was based on the multiple
+Nested Grid Model (NGM, Phillips, 1979) and on a regional OI scheme (DiMego,
+1988). The global spectral model (Sela, 1980) was implemented in 1980.
+Table 1.5.2 (from Kalnay et al., 1998 and P. Caplan, personal communication,
+2000) summarizes the major improvements implemented in the global system starting
+Table 1.5.1. Major operational implementations and computer acquisitions at
+NMC between 1955 and 1985 (adapted from Shuman, 1989)
+Year
+Operational model
+Computer
+1955
+Princeton three-level quasi-geostrophic model
+(Charney, 1954). Not used by the forecasters
+IBM 701
+1958
+Barotropic model with improved numerics, objective
+analysis initial conditions, and octagonal domain.
+IBM 704
+1962
+Three-level quasi-geostrophic model with improved
+numerics
+IBM7090(1960)
+IBM7094(1963)
+1966
+Six-layer primitive equations model (Shuman and
+Hovermale, 1968)
+CDC 6600
+1971
+LFM model (Howcroft, 1971) (ﬁrst regional model at
+NMC)
+1974
+Hough functions analysis (Flattery, 1971)
+IBM 360/195
+1978
+Seven-layer primitive equation model (hemispheric)
+1978
+OI (Bergman,1979)
+Cyber 205
+Aug 1980
+Global spectral model, R30/12 layers (Sela, 1980)
+March 1985
+Regional Analysis and Forecast System based on the
+NGM (Phillips, 1979) and OI (DiMego, 1988)
+
+1.5 Operational NWP and the evolution of forecast skill
+19
+Table 1.5.2. Major changes in the NMC/NCEP global model and data assimilation
+system since 1985 (adapted from Kalnay et al. 1998 and P. Caplan, pers. comm.,
+2000)
+Year
+Operational model
+Computer
+April 1985
+GFDL physics implemented on the global spectral
+model with silhouette orography, R40/18 layers
+Dec 1986
+New OI code with new statistics
+1987
+2nd Cyber 205
+Aug 1987
+Increased resolution to T80/18 layers,
+Penman–Montieth evapotranspiration and other
+improved physics (Caplan and White, 1989, Pan,
+1990)
+Dec 1988
+Implementation of hydrostatic complex quality
+control (CQC) (Gandin, 1988)
+1990
+Cray YMP/8cpu/
+32 megawords
+Mar 1991
+Increased resolution to T126 L18 and improved
+physics, mean orography. (Kanamitsu et al.,
+1991)
+June 1991
+New 3D-Var (Parrish and Derber, 1992, Derber
+et al., 1991)
+Nov 1991
+Addition of increments, horizontal and vertical OI
+checks to the CQC (Collins and Gandin, 1990)
+7 Dec 1992
+First ensemble system: one pair of bred forecasts at
+00Z to 10 days, extension of AVN to 10 days
+(Toth and Kalnay, 1993, Tracton and Kalnay,
+1993)
+Aug 1993
+Simpliﬁed Arakawa–Schubert cumulus convection
+(Pan and Wu, 1995). Resolution T126/28 layers
+Jan 1994
+Cray C90/16cpu/
+128 megawords
+March 1994
+Second ensemble system: ﬁve pairs of bred
+forecasts at 00Z, two pairs at 12Z, extension of
+AVN, a total of 17 global forecasts every day to
+16 days
+10 Jan 1995
+New soil hydrology (Pan and Mahrt, 1987),
+radiation, clouds, improved data assimilation.
+Reanalysis model
+25 Oct 1995
+Direct assimilation of TOVS cloud-cleared
+radiances (Derber and Wu, 1998). New planetary
+boundary layer (PBL) based on nonlocal
+diffusion (Hong and Pan, 1996). Improved CQC
+Cray C90/16cpu/
+256 megawords
+
+20
+1 Historical overview of numerical weather prediction
+Table 1.5.2. (cont.)
+Year
+Operational model
+Computer
+5 Nov 1997
+New observational error statistics. Changes to
+assimilation of TOVS radiances and addition of
+other data sources
+13 Jan 1998
+Assimilation of noncloud-cleared radiances
+(Derber et al., pers.comm.). Improved physics.
+June 1998
+Resolution increased to T170/40 layers (to
+3.5 days). Improved physics. 3D ozone data
+assimilation and forecast. Nonlinear increments
+in 3D-Var. Resolution reduced to T62/28levels
+on Oct. 1998 and upgraded back in Jan. 2000
+IBM SV2 256
+processors
+June 2000
+Ensemble resolution increased to T126 for the
+ﬁrst 60 h
+July 2000
+Tropical cyclones relocated to observed position
+every 6 h
+in 1985 with the implementation of the ﬁrst comprehensive package of physical pa-
+rameterizations from GFDL (Geophysical Fluid Dynamics Laboratory). Other major
+improvements in the physical parameterizations were made in 1991, 1993, and 1995.
+The most important changes in the data assimilation were an improved OI formu-
+lation in 1986, the ﬁrst operational 3D-Var in 1991, the replacement of the satellite
+retrievals of temperature with the direct assimilation of cloud-cleared radiances in
+1995, and the use of “raw” (not cloud-cleared) radiances in 1998. The model resolu-
+tion was increased in 1987, 1991, and 1998. The ﬁrst operational ensemble system
+was implemented in 1992 and enlarged in 1994. The resolution of the ensembles was
+increased in 2000.
+Table 1.5.3 contains a summary of the regional systems used for short-range
+forecasts (up to 48 h). The RAFS (triple nested NGM and OI) were implemented
+in 1985. The Eta model, designed with advanced ﬁnite differences, step-mountain
+coordinates, and physical parameterizations, was implemented in 1993, with the same
+80-km horizontal resolution as the NGM. It was denoted “early” because of a short
+data cut-off. The resolution was increased to 48 km, and a ﬁrst “mesoscale” version
+with 29 km and reduced coverage was implemented in 1995. A cloud prognostic
+scheme was implemented in 1995, and a new land-surface parameterization in 1996.
+The OI data assimilation was replaced by a 3D-Var in 1998, and at this time the
+early and meso-Eta models were uniﬁed into a 32-km/45-level version. Many other
+less signiﬁcant changes were also introduced into the global and regional operational
+systems and are not listed here for the sake of brevity. The Rapid Update Cycle (RUC),
+which provides frequent updates of the analysis and very-short-range forecasts over
+
+1.5 Operational NWP and the evolution of forecast skill
+21
+Table 1.5.3. Major changes in the NMC/NCEP regional modeling and data
+assimilation since 1985 (from compilations by Fedor Mesinger and Geoffrey
+DiMego, pers. comm., 1998)
+Year
+Operational model
+Computer
+March 1985
+RAFS based on triply NGM (Phillips, 1979) and
+OI (DiMego, 1988). Resolution: 80 km/16
+layers.
+Cyber 205
+August 1991
+RAFS upgraded for the last time: NGM run with
+only two grids with inner grid domain doubled
+in size. Implemented Regional Data
+Assimilation System (RDAS) with three-hourly
+updates using an improved OI analysis using all
+off-time data including Proﬁler and Aircraft
+Communication Addressing and Reporting
+System (ACARS) wind reports (DiMego et al.,
+1992) and CQC procedures (Gandin et al.,
+1993).
+Cray YMP
+8 processors
+32 megawords
+June 1993
+First operational implementation of the Eta model
+in the 00Z & 12Z early run for North America
+at 80-km and 38-layer resolution (Mesinger
+et al., 1988, Janjic, 1994, Black et al., 1993)
+September 1994
+The RUC (Benjamin et al., 1996) was
+implemented for CONUS domain with
+three-hourly OI updates at 60-km resolution on
+25 hybrid (sigma-theta) vertical levels.
+Cray C-90
+16 processors
+128 megawords
+September 1994
+Early Eta analysis upgrades (Rogers et al., 1995)
+August 1995
+A mesoscale version of the Eta model (Black,
+1994) was implemented at 03Z and 15Z for an
+extended CONUS domain, with 29-km and
+50-layer resolution and with NMC’s ﬁrst
+predictive cloud scheme (Zhao and Black,
+1994) and new coupled land-surface–
+atmosphere package (two-layer soil).
+Cray C-90
+16 processors
+256 megawords
+October 1995
+Major upgrade of early Eta runs: 48-km
+resolution, cloud scheme and Eta Data
+Assimilation System (EDAS) using
+three-hourly OI updates (Rogers et al., 1996)
+January 1996
+New coupled land-surface–atmosphere scheme
+put into early Eta runs (Chen et al., 1997,
+Mesinger, 1997)
+July–August 1996
+Nested capability demonstrated with twice-daily
+support runs for Atlanta Olympic Games with
+10-km 60-layer version of Meso Eta.
+
+22
+1 Historical overview of numerical weather prediction
+Table 1.5.3. (cont.)
+Year
+Operational model
+Computer
+February 1997
+Upgrade package implemented in the early and
+Meso Eta runs.
+February 1998
+Early Eta runs upgraded to 32 km and 45 levels
+with four soil layers. OI analysis replaced by
+3D-Var with new data sources. EDAS now
+partially cycled (soil moisture, soil temperature,
+cloud water/ice & turbulent kinetic
+energy).
+April 1998
+RUC (three-hourly) replaced by hourly RUC II
+system with extended CONUS domain, 40-km
+and 40-level resolution, additional data sources
+and extensive physics upgrades.
+June 1998
+Meso runs connected to early runs as a single
+4/day system for North American domain at
+32-km and 45-level resolution, 15Z run moved
+to 18Z, added new snow analysis. All runs
+connected with EDAS, which is fully cycled for
+all variables.
+IBM SV2
+256 processors
+continental USA (CONUS), developed at NOAA’s Forecast System Labora-
+tory, was implemented in 1994 and upgraded in 1998 (Benjamin et al., 1996).
+The 36-h S1 forecast veriﬁcation scores constitute the longest record of forecast
+veriﬁcation available anywhere. They were started in the late 1940s for subjective
+surface forecasts, before operational computer forecast guidance, and for 500 hPa in
+1954, with the ﬁrst numerical forecasts. Figure 1.1.1(a) includes the forecast scores
+for 500 hPa from 1954 until the present, as well as the scores for the 72-h forecasts. It
+is clear that the forecast skill has improved substantially over the years, and that the
+current 36-h 500-hPa forecasts are close to a level that in the 1950s would have been
+considered “perfect” (Shuman, 1989). The 72-h forecasts have also improved, and are
+now as accurate as the 36-h forecasts were about 15 years ago. This doubling of the
+skill over 10–20 years can be observed in other types of forecasts veriﬁcations as well.
+As indicated at the beginning of this chapter, the 36-h forecasts of 500 hPa showing
+the position and intensity of the large-scale atmospheric waves and centers of high and
+low pressure are generally excellent, as suggested by the nearly “perfect” S1 score.
+However, sea level pressure maps are more affected by mesoscale structures, such as
+fronts and convective systems which are still difﬁcult to forecast in detail, and hence
+they have a poorer S1 score (Fig. 1.1.1(b)). The solid line with circles starts in 1947
+with scores from subjectively made surface forecasts, then barotropic and baroclinic
+quasi-geostrophic models (Table 1.5.1), the LFM model and since 1983, the global
+
+1.5 Operational NWP and the evolution of forecast skill
+23
+0.05
+0.1
+0.15
+0.2
+0.25
+0.3
+0.35
+0.4
+1960
+1965
+1970
+1975
+1980
+1985
+1990
+1995
+2000
+Year
+0.5 inch, 1-day fcst
+0.5 inch, 2-day fcst
+1 inch, 1-day fcst
+1 inch, 2-day fcst
+Threat scores
+Figure 1.5.1: Threat scores (day 1 and day 2 for 0.5′ and 1′ 24-h accumulation,
+annual average) of human forecasters at NCEP (data courtesy of J. Hoke).
+spectral model (denoted Aviation or AVN). Other model forecasts are also presented
+separately on Fig. 1.1.1(b). Note that the AVN model and the Eta model, which con-
+tinue to be developed, show the most improvement. The development of the LFM was
+“frozen” in 1986, and that of the NGM in 1991, when more advanced systems were
+implemented, and therefore their forecasts show no further improvement with time
+(except for the effect of improved global forecasts used as a ﬁrst guess for the LFM).
+Fig. 1.5.1 shows threat scores for precipitation predictions made by expert fore-
+casters from the NCEP Hydrometeorological Prediction Center (HPC, the Meteoro-
+logical Operations Division of the former NMC). The threat score (TS) is deﬁned as
+the intersection of the predicted area of precipitation exceeding a particular threshold
+(P), in this case 0.5 inches in 24 h, and the observed area (O), divided by the union
+of the two areas: TS = (P ∩O)/(P ∪O). The bias (not shown) is deﬁned by P/O.
+The TS, also known as critical success index (CSI) is a particularly useful score for
+quantities that are relatively rare. Fig. 1.4.2 indicates that the forecasters skill in pre-
+dicting accumulated precipitation has been increasing with time, and that the current
+average skill in the 2-d forecast is as good as the 1-d forecasts were in the 1970s.
+Beyond the ﬁrst 6–12 h, the forecasts are based mostly on numerical guidance, so that
+the improvement reﬂects to a large extent improvements of the numerical forecasts,
+which the human forecasters in turn improve upon based on their knowledge and
+expertise. The forecasters also have access to several model forecasts, and they use
+their judgment in assessing which one is more accurate in each case. This constitutes
+a major source of the “value-added” by the human forecasters.
+
+24
+1 Historical overview of numerical weather prediction
+10
+20
+30
+40
+50
+60
+70
+1960
+1965
+1970
+1975
+1980
+1985
+1990
+1995
+2000
+Year
+3days - NWP
+3 days - human
+5 days - NWP
+5 days - human
+Figure 1.5.2: Hughes data: comparison of the forecast skill in the medium-range
+from NWP guidance and from human forecasters.
+The relationship between the evolution of human and numerical forecasts is clearly
+shown in a record compiled by the late F. Hughes (1987), reproduced in Fig. 1.5.2.
+It is the ﬁrst operational score maintained for the “medium-range” (beyond the ﬁrst
+two days of the forecasts). The score used by Hughes was a standardized anomaly
+correlation (SAC), which accounted for the larger variability of sea level pressure at
+higher latitudes compared to lower latitudes. Unfortunately the SAC is not directly
+comparable to other scores such as the anomaly correlation (discussed in the next
+section). The fact that until 1976 the 3-day forecast scores from the model were
+essentially constant is an indication that their rather low skill was more based on
+synoptic experience than on model guidance. The forecast skill started to improve
+after 1977 for the 3-day forecast, and after 1980 for the 5-day forecast. Note that
+the human forecasts are on the average signiﬁcantly more skillful than the numerical
+guidance, but it is the improvement in NWP forecasts that drives the improvements
+in the subjective forecasts.
+1.6
+Nonhydrostatic mesoscale models
+The hydrostatic approximation involves neglecting vertical accelerations in the ver-
+tical equation of motion, compared to gravitational acceleration. This is a very good
+approximation, even in stratiﬁed ﬂuids, as long as horizontal scales of motion are
+larger than the vertical scales. The main advantage of the hydrostatic equation (Chap-
+ter 2) is that it ﬁlters sound waves (except those propagating horizontally, or Lamb
+
+1.7 Weather predictability
+25
+waves). Because of the problem of computational instability, the absence of sound
+waves allows the use of larger time steps (the Lamb waves are handled generally
+with semi-implicit time schemes, discussed in Section 3.3).
+The hydrostatic approximation is very accurate if the horizontal scales are much
+larger than the vertical scales. For atmospheric models with horizontal grid sizes of
+the order of 100 km, the hydrostatic equation is very accurate and convenient. Fur-
+thermore, for quasi-geostrophic (slow) motion, the hydrostatic equation is accurate
+even if the horizontal scales are of the same order as the vertical scales, i.e., the
+hydrostatic approximation can be used even in mesoscale models with grid sizes of
+the order of 10 km or larger without introducing large errors.
+However, in order to represent smaller-scale phenomena such as storms or con-
+vective clouds which have vertical accelerations that are not negligible compared
+to buoyancy forces, it is necessary to use the equations of motion without the hy-
+drostatic approximation. In the last decade a number of nonhydrostatic models have
+been developed in order to simulate mesoscale phenomena in North America. They
+include the Penn State/NCAR Mesoscale Model (e.g., Dudhia, 1993), the CAPS
+Advanced Regional Prediction System (Xue et al., 1995), NCEP’s Regional Spectral
+Model (Juang et al., 1997), the Mesoscale Compressible Community (MCC) model
+(Laprise et al., 1997), the CSU RAMS (Tripoli and Cotton 1980), the US Navy
+COAMPS (Hodur, 1997). In Europe and Japan several other nonhydrostatic models
+have been developed as well.
+Sound waves, which are generally of no consequence for atmospheric ﬂow but
+would require the use of very small steps, require a special approach in nonhydrostatic
+models in order to maintain a reasonable computational efﬁciency. Sound waves
+depend on compressibility (three-dimensional divergence) for their propagation. For
+this reason, some nonhydrostatic models use the quasi-Boussinesq or “anelastic”
+equations, where the atmosphere is assumed to be separated into a hydrostatic basic
+state and perturbations, and where the density perturbations are neglected everywhere
+except in the buoyancy terms (Ogura and Phillips, 1962, Klemp and Wilhelmson,
+1978). Other approaches are the use of artiﬁcial “divergence damping” in the pressure
+gradient terms (e.g., Xue et al., 1995, Skamarock and Klemp, 1992), and the use of
+implicit time schemes for the terms affecting sound waves that are unconditionally
+stable (Durran and Klemp, 1983, Laprise et al., 1997).
+Nonhydrostatic models with an efﬁcient (e.g., semi-implicit) treatment of sound
+waves are computationally competitive with hydrostatic models, and future genera-
+tions of models may become nonhydrostatic even in the global domain.
+1.7
+Weather predictability, ensemble forecasting,
+and seasonal to interannual prediction
+In a series of remarkable papers, Lorenz (1963a,b, 1965, 1968) made the fundamental
+discovery that even with perfect models and perfect observations, the chaotic nature
+
+26
+1 Historical overview of numerical weather prediction
+of the atmosphere would impose a ﬁnite limit of about two weeks to the predictability
+of the weather. He proved this by running a simple atmospheric model, introducing
+(by mistake) exceedingly small perturbations in the initial conditions, and running the
+model again. With time, the small difference between the two forecasts became larger
+and larger, until after about two weeks, the forecasts were as different as two randomly
+chosen states of the model. In the 1960s Lorenz’s discovery, which started the theory
+of chaos, was “only of academic interest” and not relevant to operational weather
+forecasting, since at that time the skill of even two-day operational forecasts was low.
+Since then, however, computer-based forecasts have improved so much that Lorenz’s
+limit of predictability is starting to become attainable in practice, especially with
+ensemble forecasting. Furthermore, skillful prediction of longer lasting phenomena
+such as El Ni˜no is becoming feasible (Chapter 6).
+Because the skill of the forecasts decreases with time, Epstein (1969) and Leith
+(1974) suggested that instead of performing “deterministic” forecasts, stochastic
+forecasts providing an estimate of the skill of the prediction should be made. The
+only computationally feasible approach in order to achieve this goal is through “en-
+semble forecasting” in which several model forecasts are performed by introducing
+perturbations in the initial conditions or in the models themselves.
+After considerable research on how to most effectively perturb the initial con-
+ditions, ensemble forecasting was implemented operationally in December 1992 at
+both NCEP and ECMWF (Tracton and Kalnay, 1993, Toth and Kalnay, 1993, Palmer
+et al., 1993, Molteni et al., 1996, Toth and Kalnay, 1997). Since 1994 NCEP has
+been running 17 global forecasts per day, each out to 16 days, with initial pertur-
+bations obtained using the method of breeding growing perturbations. This ensures
+that the initial perturbations contain naturally growing dynamical perturbations in
+the atmosphere, which are also present in the analysis errors. The length of the fore-
+casts allows the generation of “outlooks” for the second week. The NCEP ensemble
+forecasts can be accessed through the world-wide web at the EMC home page
+(nic.fb4.noaa.gov:8000), and linking to the ensemble home page. At ECMWF, the
+perturbation method is based on the use of singular vectors, which grow even faster
+than the bred or Lyapunov vector perturbations. The ECMWF ensemble contains
+50 members (Chapter 6).
+Ensemble forecasting has accomplished two main goals: the ﬁrst one is to provide
+an ensemble average forecast that beyond the ﬁrst few days is more accurate than
+individual forecasts, because the components of the forecast that are most uncertain
+tend to be averaged out. The second and more important goal is to provide forecasters
+with an estimation of the reliability of the forecast, which because of changes in
+atmospheric predictability, varies from day to day and from region to region.
+The ﬁrst goal is illustrated in Fig. 1.7.1, prepared at the Climate Prediction Center
+(CPC, the Climate Analysis Center of the former NMC) for the veriﬁcation of the
+NCEP ensemble during the winter of 1997–8. This was an El Ni˜no winter with major
+anomalies in the atmospheric circulation, and the operational forecasts had excellent
+
+1.7 Weather predictability
+27
+0
+0.2
+0.4
+0.6
+0.8
+1
+0
+5
+10
+15
+Forecast day
+Average of 10 perturbed 
+forecasts
+Individual
+perturbed 
+forecasts
+Control (deterministic)
+forecasts, T126 and T62
+Anomaly correlation
+Figure 1.7.1: Anomaly correlation of the ensembles during the winter of 1997–8
+(controls, T126 and T62, and ten perturbed ensemble forecasts). (Data courtesy Jae
+Schemm, of NCEP.)
+skill. The control “deterministic” forecast (circles) had an “anomaly correlation”
+(AC, pattern correlation between predicted and analyzed anomalies) in the 5-day
+forecast of 80%, which is quite good. The ten perturbed ensemble members have
+individually a poorer veriﬁcation with an average AC of about 73% at 5 days. This is
+because, in the initial conditions, the control starts from the best estimate of the state
+of the atmosphere (the analysis), but growing perturbations are added to this analysis
+for each additional ensemble member. However, the ensemble average forecast tends
+to average out uncertain components, and as a result, it has better skill than the control
+forecast starting at day 5. Note that the ensemble extends by one day the length of the
+useful forecast (deﬁned as an AC greater than 60%) from about 7 days in the control
+to about 8 days in the ensemble average.
+The second goal of the ensemble forecasting, to provide guidance on the uncer-
+tainty of each forecast, is accomplished best by the use of two types of plots. The
+“spaghetti” plots show a single contour line for all 17 forecasts, and the probabilistic
+plots show, for example, what percentage of the ensemble predicts 24-h accumulated
+precipitation of more than 1 inch at each grid point (for probabilistic Quantitative
+Precipitation Forecasts or pQPF). Both of them provide guidance on the reliability
+of the forecasts in an easy-to-understand way. The use of the ensembles has provided
+the US NWS forecasters with the conﬁdence to issue storm forecasts 5–7 days in ad-
+vance when the spaghetti plots indicate good agreement in the ensemble. Conversely,
+the spaghetti plots also indicate when a short-range development may be particularly
+
+(a)
+(b)
+
+1.7 Weather predictability
+29
+difﬁcult to predict, so that the users should be made aware of the uncertainty of the
+forecast. Fig. 1.7.2(a) shows an example of the 5-day forecast for 15 November 1995,
+the ﬁrst East Coast winter storm of 1995–6: the fact that the ensemble showed good
+agreement provided the forecasters with the conﬁdence to issue a storm forecast these
+many days in advance. By contrast, Fig. 1.7.2(b) shows a 2.5-day forecast for a storm
+with veriﬁcation time 21 October 1995, and it is clear that even at this shorter range,
+the atmosphere is much less predictable and there is much more uncertainty about
+the location of the storm.
+The use of ensembles has also led to another major development, the possibility
+of an adaptive or targeted observing system. As an example, consider a case in
+which the lack of agreement among the ensemble members indicates that a 3-day
+forecast in a certain region is exceedingly uncertain, as in Fig. 1.7.2(b). Several new
+techniques have been developed to trace such a region of uncertainty backward in
+time, for example 2 days. These techniques will point to a region or regions where
+additional observations would be especially useful. The additional observations could
+be dropwinsondes launched from a reconnaissance or a pilotless airplane, additional
+rawinsondes, or especially intensive use of satellite data such as a Doppler Wind
+Lidar. If additional observations are available 24 h after the start of the originally
+critically uncertain 3-day forecast, they can increase substantially the usefulness
+of the 2-day forecast. Similarly, a few additional rawinsondes could be launched
+where short-range ensemble forecasts (12–24 h) indicate that they are most needed.
+Preliminary tests of this approach of targeted observations have been successfully
+performed within an international Fronts and Storm Track Experiment (FASTEX)
+in the North Atlantic during January and February 1997, and in the North Paciﬁc
+Experiment (NORPEX) in January and February 1998 (Szunyogh et al., 2000).
+Ensemble forecasting also provides the basic tool to extend forecasts beyond
+Lorenz’s 2-week limit of weather predictability (Chapter 6). Slowly varying surface
+forcing, especially from the tropical ocean and from land-surface anomalies, can
+produce atmospheric anomalies that are longer lasting and more predictable than
+individual weather patterns. The most notable of these is the El Ni˜no–Southern Os-
+cillation (ENSO) produced by unstable oscillations of the coupled ocean–atmosphere
+system, with a frequency of 3–7 years. Because of their long time scale, the ENSO
+oscillations should be predictable a year or more in advance (in agreement with the
+chaos theory). The ﬁrst successful experiments in this area were made by Cane et al.
+(1986) with a simple coupled atmosphere–ocean model. The warm phases of ENSO
+(ElNi˜noepisodes)areassociatedwithwarmseasurfacetemperature(SST)anomalies
+Caption for Figure 1.7.2: (a) Spaghetti plot for the 5-day forecast for 15 Nov 1995,
+a case of a very predictable storm over eastern USA. (Figure courtesy of R. Wobus,
+NCEP.) (b) Spaghetti plot for the 2.5-day forecast for 21 Oct 1995, the case of a very
+unpredictable storm over the USA. (Courtesy of R. Wobus, NCEP.) Dashes indicate
+the control forecast.
+
+30
+1 Historical overview of numerical weather prediction
+intheequatorialcentralandeasternPaciﬁcOcean,andcoldphases(LaNi˜naepisodes)
+with cold anomalies. NCEP started performing multiseasonal predictions with cou-
+pled comprehensive atmosphere–ocean models in 1995, and ECMWF did so in 1997.
+A single atmospheric forecast forced with the SST anomalies would not be use-
+ful beyond the ﬁrst week or so, when unpredictable weather variability would mask
+the forced atmospheric anomalies. Ensemble averaging many forecasts made with
+atmospheric models forced by SST anomalies (and by other slowly varying anoma-
+lies over land such as soil moisture and snow cover) allows the ﬁltering out of the
+unpredictable components of the forecast, and the retention of more of the forced
+predictable components. This ﬁltering is reﬂected in the fact that the ensemble aver-
+age for the second week of the forecasts for the winter of 1997–8 (Fig. 1.7.1) had a
+high AC of 57%, much higher than previously obtained. Researchers at the Japanese
+Meteorological Agency have performed forecasts for the 28-day average and also
+found that ensemble averaging substantially increased the information on the second
+week and the last 2 weeks of the forecast. The very successful operational forecasts
+of the ENSO episode of 1997–8 performed at both NCEP and ECMWF have been
+substantially based on the use of ensembles to extract the useful information on the
+impact of El Ni˜no from the “weather noise”.
+1.8
+The future
+The last decades have seen the expectations of Charney (1951) fulﬁlled, and an
+amazing improvement in the quality of the forecasts based on NWP guidance. From
+the active research taking place, one can envision that the next decade will continue
+to bring improvements, especially in the following areas:
+detailed short-range forecasts, using storm-scale models able to provide
+skillful predictions of severe weather;
+more sophisticated methods of data assimilation able to extract the maximum
+possible information from observing systems, especially remote sensors such
+as satellites and radars;
+development of adaptive observing systems, in which additional observations
+are placed where ensembles indicate that there is rapid error growth (low
+predictability);
+improvement in the usefulness of medium-range forecasts, especially through
+the use of ensemble forecasting;
+fully coupled atmospheric–hydrological systems, where the atmospheric
+model precipitation is appropriately downscaled and used to extend the length
+of river ﬂow prediction;
+more use of detailed atmosphere–ocean–land coupled models, in which
+long-lasting coupled anomalies such as SST and soil moisture anomalies lead
+
+1.8 The future
+31
+to more skillful predictions of anomalies in weather patterns beyond the limit
+of weather predictability (about two weeks);
+more guidance to governments and the public on subjects such as air
+pollution, ultraviolet radiation and transport of contaminants, which affect
+health;
+an explosive growth of systems with emphasis on commercial applications of
+NWP, from guidance on the state of highways to air pollution, ﬂood
+prediction, guidance to agriculture, construction, etc.

@@ -1,0 +1,471 @@
+268
+Appendix B
+The FORTRAN statement for the nonlinear forward step is:
+Z=X⋆SIN(Y⋆⋆2)
+The TLM FORTRAN statement is
+DZ=(SIN(Y⋆⋆2))⋆DX+(X⋆COS(Y⋆⋆2)⋆2⋆Y)⋆DY,
+and the adjoint FORTRAN statements for this step are
+ADX=ADX+ (SIN(Y⋆⋆2))⋆ADZ
+ADY=ADY+ (X⋆COS(Y⋆⋆2)⋆2⋆Y)⋆ADZ
+ADZ=0.0
+B.1
+Veriﬁcation
+Finally, we discuss how to verify the correctness of the tangent linear and adjoint
+codes (Navon et al., 1992). The veriﬁcation of the tangent linear model is straightfor-
+ward: for small increments in the initial conditions, the tangent linear model should
+reproduce the difference between two nonlinear integrations with quadratic errors:
+δx(t) = Lδx(0) = M[x0 + δx(0)] −M(x0) + O(|| δx ||2)
+(B.1.23)
+Therefore, Navon et al. (1992) suggested computing the pattern correlation of the left-
+and right-hand sides of (B.1.23), as well as the relative error, using an appropriate
+norm. For sufﬁciently small perturbation amplitudes, the relative error should be
+proportional to the amplitude of the initial perturbation.
+To verify the correctness of the adjoint code, Navon et al. used the identity
+(Lδx0)T (Lδx0) = (δx0)T LT (Lδx0)
+(B.1.24)
+This check can be applied to every single subroutine or DO loop:
+(AQ)T (AQ) = Q∗T [AT (AQ)]
+(B.1.25)
+Here Q represents the input of the original code, A represents either a single DO loop
+orasubroutine.Theleft-handsideinvolvesonlytheTLM,whereastheright-handside
+also involves the adjoint code. In practice, if the adjoint code is correct with respect
+to the tangent linear model, the identity (B.1.25) holds true up to machine accuracy.
+B.2
+Example of FORTRAN code
+The codes for a complete model for the nonlinear Burgers equation, its tangent linear
+model and adjoint model, kindly provided by Seon Ki Park, are presented at the end
+of the appendix. The forward model uses the leapfrog scheme for the advection term
+and the DuFort–Frankel scheme for the diffusion. The continuous Burgers equation is
+∂u
+∂t = −u ∂u
+∂x + 1
+R
+∂2u
+∂x2
+(B.2.26)
+
+Coding and checking the tangent linear and the adjoint models
+269
+and the ﬁnite differences used in the code start with a single forward step followed
+by the leapfrog/DuFort–Frankel scheme:
+u j+1
+i
+= u j−1
+i
+−t
+x
+2
+u j
+i
+ 
+u j
+i+1 −u j
+i−1
+!3
++ 2t
+x2
+2
+u j
+i+1 −
+	
+u j+1
+i
++ u j−1
+i
+
++ u j
+i
+3
+(B.2.27)
+Here the index j represents the time step and i represents space (x). Note that in the
+adjoint code, the order of the substeps and all the DO loops is reversed.
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+c
+c
+c
+Viscous BURGERS' Equation solved with Leap
+c
+c
+Frog/DuFort−Frankel scheme (see Anderson
+c
+c
+et. al. 1984).
+c
+c
+c
+c
+Leap Frog scheme has truncation erorr of
+c
+c
+O[(dt)**2, (dx)**2]. Since the truncation error
+c
+c
+contains only odd derivative terms (lead by third
+c
+c
+order derivative term), the solution will exhibit
+c
+c
+dispersion errors but no dissipation errors. The
+c
+c
+stability condition is that the Courant number
+c
+c
+(nu = c*dt/dx) be less than or equal to 1.
+c
+c
+When nu = 1, there is no dispersion error.
+c
+c
+c
+c
+DuFort−Frankel scheme for diffusion process has
+c
+c
+truncation erorr of O[(dt)**2, (dx)**2,
+c
+c
+(dt/dx)**2]. The truncation error has even terms
+c
+c
+and thus the solution will have dissipation
+c
+c
+errors. But this error depends on r=
+c
+c
+(1/R)*(dt/dx**2) and beta=k*dx. When we set r
+c
+c
+and beta small, the dissipation error is not
+c
+c
+significant.
+c
+c
+c
+c
+Author: Seon Ki Park (03/24/98)
+c
+c
+c
+c
+Reference:
+c
+c
+c
+c
+Anderson, D.A., J.C., Tannehill, R.H. Pletcher,
+c
+c
+1984: Computational Fluid Mechanics and Heat
+c
+c
+Transfer. McGraw-Hill Book Company, 599 pp.
+c
+
+270
+Appendix B
+c
+c
+ccccccccccccccccccccccccccccccccccccccccccccccccccccccc
+c
+SUBROUTINE BURGER(nx,n,ui,ub,uob,u,cost)
+c
+c
+This subroutine integrates the model from a given
+c
+initial condition xinit.
+c
+integer nx
+! Number of grid points
+integer n
+! Number of time steps
+real cost
+! Cost function
+real uob(nx,n)
+! Observations
+real ub(nx,n)
+! Basic states (u)
+real u(nx,n)
+! Model solutions (u)
+real ui(nx)
+! Initial conditions
+real dx
+! Space increment
+real dt
+! Time increment
+real R
+! Reynolds number (reciprocal of
+diffusion coefficient)
+c
+common /com-param/ dtdx, c1, c0
+real dtdx, c0, c1
+c
+R = 1000.
+c
+dx = 1.0
+dt = 0.1
+dtdx = dt/dx
+dtdxsq = dt/(dx⋆⋆2)
+c
+c1 = (2./R)⋆dtdxsq
+c0 = 1./(1.+c1)
+c
+c
+Initialize the cost function:
+c
+cost=0.
+c
+c
+Set the initial conditions:
+c
+do i=1, nx
+u(i,1)=ui(i)
+enddo
+
+Coding and checking the tangent linear and the adjoint models
+271
+c
+c
+Set the boundary conditions:
+c
+do j=1, n
+u(1,j) = 0.
+u(nx,j)= 0.
+enddo
+c
+c
+Integrate the model numerically:
+c
+c.... FTCS for first time step integration
+c
+do i=2,nx−1
+u(i,2)=u(i,1)−0.5⋆dtdx⋆u(i,1)⋆(u(i+1,1)−u(i−1,1))
+%
++0.5⋆c1⋆(u(i+1,1)−2.⋆u(i,1)+u(i−1,1))
+enddo
+c
+c.... Leap Frog/DuFort-Frankel afterwards
+c
+do j=3, n
+do i=2,nx−1
+u(i,j) = c0⋆(u(i,j−2) + c1⋆(u(i+1,j−1)−u(i,j−2)
+%
++u(i−1,j−1)) −dtdx⋆u(i,j−1)⋆(u(i+1,j−1)
+%
+−u(i−1,j−1)))
+enddo
+enddo
+c
+c
+Cost function:
+c
+do j = 1,n
+do i = 1,nx
+cost = cost + 0.5⋆(u(i,j)−uob(i,j))⋆⋆2
+enddo
+enddo
+c
+c
+Save nonlinear solutions to the basic fields:
+c
+do j=1, n
+do i=1,nx
+ub(i,j)=u(i,j)
+enddo
+enddo
+
+272
+Appendix B
+c
+return
+end
+c
+SUBROUTINE BURGER-TLM(nx,n,ui,ubasic,u)
+c
+c
+The tangent linear model of the burger's equations.
+c
+real ubasic(nx,n)
+! Basic states
+real u(nx,n)
+! TLM solutions
+real ui(nx)
+! Initial conditions
+common /com-param/ dtdx, c1, c0
+real dtdx, c0, c1
+c
+c
+Set the initial conditions:
+c
+do i=1,nx
+u(i,1)=ui(i)
+enddo
+c
+c
+Set the bundary conditions:
+c
+do j=1, n
+u(1,j) = 0.
+u(nx,j)= 0.
+enddo
+c
+c
+Integrate the model numerically:
+c
+c.... FTCS for first time step integration
+c
+do i=2,nx−1
+u(i,2) = u(i,1)
+%
+−0.5⋆dtdx⋆(u(i,1)⋆(ubasic(i+1,1)
+%
+−ubasic(i−1,1)) + ubasic(i,1)⋆(u(i+1,1)
+%
+−u(i−1,1)))
+%
++ 0.5⋆c1⋆(u(i+1,1)−2.⋆u(i,1) +u(i−1,1))
+enddo
+c
+c.... Leap Frog/DuFort-Frankel afterwards
+c
+do j=3, n
+
+Coding and checking the tangent linear and the adjoint models
+273
+do i=2,nx−1
+u(i,j) = c0⋆(u(i,j−2) + c1⋆(u(i+1,j−1)−u(i,j−2)
+%
++u(i−1,j−1)) −dtdx⋆(u(i,j−1)
+%
+⋆(ubasic(i+1,j−1)−ubasic(i−1,j−1))
+%
++ ubasic(i,j−1)⋆(u(i+1,j−1)−u(i−1,j−1))))
+enddo
+enddo
+c
+c
+Set the final value of u in ui:
+c
+do i=1,nx
+ui(i)=u(i,n)
+enddo
+c
+return
+end
+c
+SUBROUTINE BURGER-ADJ(iforcing,nx,n,ui,ubasic,uob,u)
+c
+c
+The adjoint model of the burger's equations.
+c
+real ubasic(nx,n) ! Basic states
+real uob(nx,n)
+! Observations
+real u(nx,n)
+! Model solutions
+real ui(nx)
+! Initial conditions
+real dt
+! Time increment
+real dx
+! Space increment.
+integer iforcing
+! Index for forcing in the adjoint
+common /com-param/ dtdx, c1, c0
+real dtdx, c0, c1
+c
+c
+Initialize adjoint variables:
+c
+do j = 1, n
+do i = 1, nx
+u(i,j) = 0.
+enddo
+enddo
+c
+c
+Set the final conditions:
+c
+if (iforcing.eq.0) then
+
+274
+Appendix B
+do i=1, nx
+u(i,n)=ui(i)
+ui(i) = 0.
+enddo
+else
+! Add Cost Function Part as a Forcing
+do i=1, nx
+u(i,n)=ubasic(i,n)−uob(i,n)
+ui(i) = 0.
+enddo
+endif
+c
+c
+Adjoint of Leap Frog/Dufort-Frankel
+c
+do j = n, 3, −1
+do i=nx−1, 2, −1
+u(i−1,j−1) = u(i−1,j−1) + c0⋆(c1+dtdx⋆ubasic(i,
+%
+j−1))⋆u(i,j)
+u(i+1,j−1) = u(i+1,j−1) + c0⋆(c1−dtdx⋆ubasic(i,
+%
+j−1))⋆u(i,j)
+u(i,j−1) = u(i,j−1) −c0⋆dtdx⋆(ubasic(i+1,j−1)
+%
+−ubasic(i−1, j−1))⋆u(i,j)
+u(i,j−2) = u(i,j−2) + c0⋆(1.−c1)⋆u(i,j)
+c
+u(i,j) = 0.
+enddo
+if (iforcing.eq.1) then
+do i=1,nx
+u(i,j−1) = u(i,j−1)+ubasic(i,j−1)−uob(i,j−1)
+enddo
+endif
+enddo
+c
+c
+Adjoint of FTCS
+c
+do i = nx−1, 2, −1
+u(i−1,1)=u(i−1,1)+0.5⋆(c1+dtdx⋆ubasic(i,1))⋆u(i,2)
+u(i+1,1)=u(i+1,1)+0.5⋆(c1−dtdx⋆ubasic(i,1))⋆u(i,2)
+u(i,1)=u(i,1)+u(i,2)⋆(1.−c1
+%
+−0.5⋆dtdx⋆(ubasic(i+1,1)−ubasic(i−1,1)))
+c
+u(i,2)=0.
+enddo
+c
+if (iforcing.eq.1) then
+
+Coding and checking the tangent linear and the adjoint models
+275
+do i=1,nx
+u(i,1) = u(i,1) + ubasic(i,1) −uob(i,1)
+enddo
+endif
+c
+c
+Set the boundary conditions:
+c
+do i=1, n
+u(1,i) = 0.
+u(nx,i)= 0.
+enddo
+c
+c
+Set the final value of u in ui:
+c
+do i=1,nx
+ui(i) =ui(i) + u(i,1)
+enddo
+c
+return
+end

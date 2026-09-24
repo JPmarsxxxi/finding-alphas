@@ -1,0 +1,392 @@
+developed  to  forecast  the  weather  within  the  two-week
+limit 
+of 
+deterministic 
+predictability, 
+whilst 
+simple
+statistical-empirical  models  were  used  to  predict  weather
+on  month-to-seasonal  timescales.  The  forecasts  from  the
+physics-based  models  were  precise  and  deterministic  (“it
+will be sunny” or “there will be no hurricane”), whilst the
+forecasts from the statistical-empirical models were based
+on probabilities and hence uncertain in nature.
+The two groups of meteorologists developing these
+diﬀerent  forecast  systems  hardly  talked  to  each  other—
+their methodologies had next to nothing in common.
+«  »
+I JOINED THE UK’S Met Oﬀice in the 1970s having
+completed a PhD in general relativity theory. After
+spending a few years working on the nonlinear dynamics of
+the upper region of the atmosphere known as the
+stratosphere8, in 1982 I was posted to the branch making
+long-range  weather  forecasts.  At  the  time,  I  wasn’t  super
+keen  about  this  posting,  but  in  the  scientiﬁc  civil  service
+you  do  not  always  get  to  choose.  As  it  turned  out,  it  was
+probably the best thing that happened to me in my
+scientiﬁc career.
+Pioneering  work  on  monthly  prediction  using  physics-
+based models of the atmosphere had begun to be
+performed by Indian American meteorologist Jagadish
+Shukla, from NASA, and Japanese American meteorologist
+Kiku  Miyakoda,  from  Princeton.  In  Shukla’s  studies,  the
+observed slowly varying sea-surface temperatures provided
+what are called “lower boundary conditions” for the
+atmospheric 
+models, 
+and 
+these 
+boundary 
+conditions
+generated  predictable  atmospheric  circulations  inside  the
+
+models on the monthly timescales 9. These studies made me
+realise that physics-based models could play a valuable and
+powerful role in long-range weather forecasting, alongside
+the more traditional statistical-empirical models. My
+colleagues  Chris  Folland  and  David  Parker  had  developed
+statistical-empirical  models  for  monthly-averaged  weather
+prediction over the UK. These statistical models predicted
+probabilities 
+of 
+diﬀerent 
+types 
+of 
+time-averaged
+atmospheric  circulation  patterns,  and  the  forecasts  were
+sold  to  utility  companies—water,  electricity  and  gas—to
+help their planning for the weeks and months ahead.
+We began wondering, Could the physics-based models be
+used  to  strengthen  the  skill  of  these  statistical-empirical
+models  for  long-range  predictions  over  the  UK?  Maybe—
+but in order to blend the statistical-empirical model
+approach with the physics-based model approach, the latter
+would need to be probabilistic somehow.
+It was clear that some kind of Monte Carlo method of the
+type  Leith  had  been  advocating  some  years  earlier  was
+needed. But instead of averaging the forecasts together as
+Leith  had  suggested,  we  would  need  to  estimate  forecast
+probabilities of diﬀerent types of weather patterns from the
+members of the ensemble. In this way, in November 1985,
+my colleague James Murphy and I implemented the world’s
+ﬁrst ensemble weather forecast system based on the latest
+generation of physics-based models 10. It was a very crude
+system by present-day standards.
+I recall thinking at the time: Why are we making these
+ensemble  forecasts  only  for  the  monthly  timescales?  Why
+don’t we also run these ensemble forecasts for predictions
+on  shorter  timescales,  i.e.,  within  the  two-week  limit  of
+deterministic predictability? I joined ECMWF in 1986 with
+the  aim  of  trying  to  do  something  about  this.  I  wanted  to
+take  the  ensemble  system  that  James  Murphy  and  I  had
+
+recently developed and implement something similar within
+the two-week forecast range, the focus of work at ECMWF.
+This  idea  met  some  resistance  both  from  my  research
+colleagues  and  from  the  weather  forecasters  who  made
+forecasts  for  the  media.  They  saw  the  two-week  limit  of
+deterministic predictability as a natural dividing line
+between 
+deterministic 
+prediction 
+and 
+probabilistic
+prediction.  My  colleagues’  view  was  that  when  predicting
+weather  on  timescales  shorter  than  two  weeks,  you  just
+make  a  single  best-guess  forecast  from  your  single  best-
+guess initial state using your single best-guess model.
+Hence,  these  colleagues  argued  that  when  new  computer
+resources became available—this was the era when
+computer  speed  was  increasing  exponentially  with  time—
+they should be focussed on improving the best-guess model
+and  best-guess  initial  state,  and  not  on  making  multiple
+ensemble forecasts to estimate forecast uncertainty. In
+addition, the forecasters didn’t like the idea of ensembles
+because they felt that by explicitly estimating uncertainty,
+these 
+predictions 
+were 
+somehow 
+undermining 
+their
+professionalism. Their job, they felt, was to tell it like it was
+—and not how it might or might not be.
+I did not agree. Because the atmosphere is nonlinear, its
+predictability  will  vary  from  day  to  day.  This  variation  in
+predictability  can  be  seen  in  simple  chaotic  models—see
+Fig.  10.  On  many  days,  the  atmosphere  might  indeed  be
+predictable enough so that deterministic predictions would
+be quite accurate for a long time ahead (like the top left of
+Fig. 10). However, there will be days when the atmosphere
+is  suﬀiciently  chaotic  that  the  deterministic  predictions
+could become inaccurate even after a few days of forecast
+time (like the bottom of Fig. 10). And yet we were releasing
+these deterministic forecasts to the public every day,
+without any idea whether the atmosphere is in a
+predictable  state  or  in  an  especially  chaotic  state.  If  the
+latter,  then  the  best-guess  forecasts  could  be  worse  than
+
+useless  if  people  used  them  to  make  important  decisions.
+What is it, after all, that distinguishes science from
+pseudoscience?  Surely  one  key  feature  is  an  ability  to
+handle uncertainty, to estimate error bars. Weather
+forecasting  inside  the  limit  of  deterministic  predictability
+had no reliable means of estimating these error bars.
+However, to estimate these error bars reliably, ensemble
+systems  would  need  to  have  many  more  members  than
+Leith’s  estimate  of  ten.  This  method  really  was  going  to
+take  a  lot  of  computer  time.  My  deterministic  colleagues
+were not happy.
+The 1987 storm, discussed in the introduction, was
+something  of  a  godsend.  We  ran  our  ensemble  system
+retrospectively on this storm. In the computer simulation,
+we  initialised  the  ensemble  just  over  two  days  before  the
+storm hit the UK. The ﬁfty ensemble members started with
+virtually, but not quite, identical initial conditions—ﬂaps of
+butterﬂies’  wings  if  you  like.  Just  two  days  later  the  ﬁfty
+ensemble  members  had  diverged  more  than  I  would  have
+believed  possible  (see  Fig.  28).  Some  ensemble  members
+showed intense storms. Others showed rather benign
+weather. 
+The 
+atmosphere 
+was 
+in 
+an 
+exceptionally
+unpredictable and chaotic state during this period and the
+diversity  of  possible  solutions  was  remarkably  large.  This
+was the equivalent in the real world of the explosive growth
+of  uncertainty  shown  at  the  bottom  in  Fig.  10  for  the
+Lorenz system.
+What  can  one  do  with  these  ﬁfty  forecasts?  The  last
+thing you would want to do is average the forecasts
+together in the way Leith was suggesting. If you did that,
+the  storm  solutions  would  just  get  smoothed  away  and
+there  would  be  no  chance  of  predicting  the  possibility  of
+hurricane-force winds.
+Instead,  one  can  simply  count  the  number  of  ensemble
+members with exceptional storms and treat this as a
+frequentist-based estimate of the probability for an
+
+exceptional storm. Fig. 29 is a map showing just this. It is a
+forecast  of  the  probability  of  hurricane-force  winds.  From
+Fig. 29  you  can  see  that  such  winds  are  predicted  with  a
+probability of around 30 percent or so over southern
+England. Given that “in Hertford, Hereford and Hampshire,
+hurricanes hardly ever happen 11”, a 30 percent probability
+is enormously large compared with one’s prior expectations
+of  hurricanes  over  southern  England.  At  the  very  least,
+knowing  such  a  probability,  it  might  be  prudent  to  park
+your expensive new car in the garage and not under a big
+oak tree.
+FIG. 28. An ensemble forecast for the morning of October 16, 1987, from
+initial conditions from midday on October 13. Illustrated are ﬁfty “stamp
+maps” of forecast surface pressure. The uncertainties in the initial
+conditions and in the model equations have led to enormous divergence in
+possible forecast states for the sixteenth. Some ensemble members have
+severe storms, others benign high-pressure weather.
+
+FIG. 29. A map showing the probability of hurricane-strength winds on
+October 16, 1987, based on the ensemble forecast shown in Fig. 28.
+If  ever  there  was  a  slam-dunk  example  of  the  need  for
+ensemble forecasts, this was it. The arguments and
+discussions were over. The ECMWF ensemble forecast
+system12 went operational late in 1992. At the same time,
+colleagues Eugenia Kalnay and Zoltan Toth implemented a
+similar  scheme  at  the  US  National  Weather  Service.  Over
+the coming years, all operational weather forecast centres
+around  the  world  would  implement  ensemble  prediction
+systems of one sort or another.
+
+Of course, an ensemble system like this would be useless
+if it predicted hurricanes over England all the time. Fig. 30
+illustrates  a  set  of  ensemble  “stamp  maps”  for  a  rather
+typical situation (a three-day ensemble forecast at the time
+of writing). Compared with Fig. 28, the ﬁfty pressure maps
+look fairly similar to one another and suggest a rather high
+probability  of  a  cool  northerly  air  stream  across  parts  of
+central and western Europe. There is no chance of a
+hurricane over England.
+Of  course,  it’s  not  just  midlatitude  storms  that  beneﬁt
+from ensembles. Fig. 31 shows weeklong ensemble forecast
+tracks  for  three  tropical-cyclone/hurricane  forecasts.  The
+top shows the ﬁfty forecast tracks for Cyclone Sidr, which
+hit Bangladesh in 2007. This is an example where the path
+of the storm was fairly predictable. The Bangladesh
+authorities  sent  out  clear  warnings  of  the  storm  and  few
+lives were lost. The middle shows the forecast tracks of the
+infamous  Hurricane  Katrina  ﬁve  days  before  it  hit  New
+Orleans. Here the path of the storm was much less
+predictable. At this range the most likely path was actually
+up over Florida. However, there was a second, weak
+maximum  in  the  probability  of  predicted  tracks  over  the
+Gulf of Mexico and on to New Orleans. This path became
+more and more likely as landfall time approached. Katrina
+is  an  example  of  an  only  partially  predictable  event.  The
+bottom shows an ensemble forecast for Hurricane Nadine
+in  the  Atlantic  in  2012.  In  this  case,  the  direction  Nadine
+would take was completely uncertain.
+The widely familiar probability forecasts on weather
+apps  today  give  ensemble-based  probabilistic  predictions
+right down to postcode or zip code scales. To do this, some
+additional “downscaling” software is applied to the physics-
+based  model  output.  This  is  an  area  where  AI  techniques
+are becoming more and more important.
+But  what  does  a  probability  forecast  mean?  It’s  worth
+pausing  to  think  about  this.  After  all,  it’s  easy  to  make  a
+
+probability forecast, and it seems you can’t go wrong. Just
+say, “There is an eighty percent chance of it raining
+tomorrow”. If it rains you say, “Well, I did say it would very
+likely rain!” and if it doesn’t rain you say, “Well, I did say it
+might  not  rain!”  So,  if  we  are  putting  a  lot  of  computer
+resources  into  estimating  these  probabilities,  we’d  better
+be sure we know what a forecast of 80 percent probability
+actually means and whether our forecast system captures
+this properly.
+FIG. 30. An ensemble of surface pressure “stamp maps” over Europe for a
+three-day weather forecast starting November 26, 2021. Compared with
+Fig. 28, the ensemble forecasts have not diverged much. This is a more
+typical situation in weather prediction.
+
+
+FIG. 31. Ensembles of week-long forecast tropical-cyclone/hurricane
+tracks, made using the ECMWF ensemble forecast system.
+Top: Sidr—fairly predictable.
+Middle: Katrina—fairly unpredictable.
+Bottom: Nadine—totally unpredictable!
+Suppose my weather app says that the probability of rain
+between  6  and  7  p.m.  over  my  town  on  Tuesday  is  80
+percent. This doesn’t mean that it will rain over 80 percent
+of my town on Tuesday between 6 and 7 p.m. Neither does
+it mean that it will rain for 80 percent of the time between
+6  and  7  p.m.  over  my  town  on  Tuesday.  And  ﬁnally,  it
+doesn’t  mean  that  only  80  percent  of  weather  forecast
+providers think it will rain over my town between 6 and 7
+p.m. on Tuesday. So what does it mean?
+Let’s  suppose  that  we  have  access  to  all  the  ensemble
+weather forecasts that have been made over the last year
+(from a particular weather provider, like ECMWF). That’s 2
+ensemble forecasts per day for 365 days, making 730
+ensemble  forecasts  altogether.  Now  let’s  extract  from  all
+these ensemble forecasts the ones that predicted rain
+between  6  and  7  p.m.  over  my  town  with  80  percent
+probability. That is to say, with an ensemble forecast
+comprising 50 individual forecast members, we are looking
+for ensembles where 40 out of the 50 ensemble members
+(i.e.,  80  percent  of  them)  predicted  rain  over  my  town
+between 6 and 7 p.m.
+Let’s  suppose  there  were  35  days  over  the  last  year
+when the forecast probability of rain was 80 percent. Now,
+if these forecast probabilities are reliable, we should expect
+that in reality it actually rained on 80 percent of these 35
+forecast  dates;  that  is  to  say,  it  actually  rained  on  28
+occasions. If, for example, we found it rained only on 3 of
+the dates when an 80 percent probability had been
+forecast, it is likely 13 that our ensemble forecast system is
+
+not reliable and we would need to go back to the research
+and development drawing board to try to ﬁnd out why we
+are not representing forecast uncertainties properly in our
+ensemble system.
+More  generally  and  more  succinctly,  if  the  ensemble
+system produces reliable forecast probabilities, then, from
+all  occasions  that  a  weather  event  is  predicted  with  a
+probability of p percent, the weather event should actually
+occur on p percent of these occasions. What we are doing
+here is taking a probability from the ensemble forecast and
+comparing it with a frequency of occurrence from the real
+world. The ﬁrst time I referred to “
+p percent”, it was as a
+forecast probability. The second time it was as a frequency
+of  occurrence  in  the  real  world.  It  is  this  link  between
+estimated 
+probabilities 
+of 
+occurrence 
+and 
+actual
+frequencies of occurrence that makes ensemble forecasting
+useful.
+It turns out that developing an ensemble forecast system
+whose probabilities are reliable in this way (i.e., precisely
+calibrated 
+with 
+frequencies 
+of 
+occurrence) 
+is 
+very
+challenging, especially for the most extreme types of
+weather. Merely adding random perturbations to the initial
+conditions  doesn’t  lead  to  reliable  ensembles  at  all:  with
+such perturbations, the ensemble members do not typically
+diverge from one another nearly as rapidly as they should.
+As a result, such ensembles underestimate forecast
+uncertainty,  and  the  corresponding  forecast  probabilities
+are  overconﬁdent.  Decisions  on  when  to  evacuate  a  city
+based  on  unreliable  probabilities  of  hurricane-force  winds
+could be disastrous. In order to forecast uncertainty
+reliably,  you really  have  to  understand  the  nature  of  the
+uncertainties  you  are  dealing  with—it’s  the  primacy  of
+doubt again.
+Trying  to  represent  the  butterﬂy  eﬀect  properly  in  an
+operational ensemble weather prediction system took many
+years 
+of 
+hard 
+work, 
+not 
+least 
+because 
+the 
+error
+
+characteristics of many processes relevant in determining
+the forecast initial state are diﬀicult to quantify (e.g., how
+exactly 
+information 
+in 
+observations 
+is 
+lost 
+when
+assimilating  these  observations  into  truncated  models  of
+the atmosphere). To compensate for such “uncertainty
+about uncertainty”, we implemented techniques from what
+is called generalised instability theory. Essentially the idea
+is to focus initial ensemble perturbations along state-space
+directions  in  which  the  atmospheric  circulations  are  most
+unstable. Such perturbations are known as “singular
+vectors”.  Without  such  singular-vector  perturbations,  the
+ensemble members tend to be too tightly clustered and the
+ensemble 
+is 
+overconﬁdent 
+and 
+generates 
+unreliable
+probabilities. We will return to these singular vectors when
+discussing ensemble conﬂict prediction, because the
+concept  has  relevance  more  generally.  Because  of  these
+special types of perturbations, operational ensemble
+forecast  systems  are  not  the  simple  Monte  Carlo  forecast
+systems  originally  envisaged  by  Leith,  and  so  instead  we
+now use the more general phrase “ensemble prediction” to
+describe them.
+From the time of implementation in 1992 to the time of
+writing, the ﬁfty-member ECMWF ensemble has been run
+in  parallel  with  a  more  traditional  single-member,  best-
+guess  deterministic  forecast.  The  latter  is  made  with  a
+model whose spatial resolution is around twice that of the
+ensemble model. With its higher resolution model, the
+deterministic forecast provides more detail than the
+ensemble  model.  However,  there  is  no  way  of  knowing
+whether  this  extra  detail  is  trustworthy  or  not.  As  I  write
+these words, ECMWF has just announced that in 2023 the
+horizontal resolution of the ensemble prediction system will
+be increased to 9 km (5.6 miles), the same as the
+deterministic forecast model. Essentially, in 2023, the
+ensemble  system  will  be  ECMWF’s  only  forecast  system.
+This event will mark the end of a very long road of research

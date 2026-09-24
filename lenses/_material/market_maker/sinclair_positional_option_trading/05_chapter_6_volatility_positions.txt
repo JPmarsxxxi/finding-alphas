@@ -1,0 +1,1151 @@
+CHAPTER 6
+Volatility Positions
+One of the things that make options great is that there are many ways to
+express an opinion. But this is also one of the things that make options
+tricky. Just because there are many ways to express an opinion doesn't mean
+they will all be equally good. The differences are not trivial. Some will be a
+lot worse than others.
+In this section we will compare some option positions that are primarily
+used to express views on volatility. We will look at the possible distribution
+of returns by using both GBM returns and historical data. We will also look
+at the effects of the underlying having a drift. This will generally be done
+from the perspective of a volatility seller, but the case of long volatility is a
+trivial extension.
+All of the simulations will assume that we initiate the position and then
+leave it alone until expiration. In reality, we will usually have opportunities
+to trade out of the position before then. But it is important to understand the
+terminal distribution of the P/L for several reasons:
+Even an adjusted (or hedged) position is instantaneously subject to the
+same issues as one that won't be adjusted in the future.
+Very short-dated options (depending on the market liquidity this could
+be weekly, daily, or hourly) can't meaningfully be adjusted.
+The actual adjustment procedure will be different for different traders
+so will be impossible to simulate.
+Aside: Adjustment and Position “Repair”
+“Repair” is a dangerous misnomer. First, in any other situation to repair
+something is to return it to its previous condition. But in the trading world it
+is usually taken to mean turning a losing trade into a winning trade. This is
+a falsely reassuring idea, but it can't be done. The loss is already in your
+account. That money is gone. Forget about the original trade and ask
+(6.1)
+yourself, “Given what I now know, what position do I want?” Then put that
+position on. This is completely independent of the original trade. This
+should also be done when examining winning positions. Their profits are
+also in the past. Do you like the position now? If not, do something else.
+You should adjust a position when it no longer matches your forecast or
+opinion. This is true whether it has previously made money or lost money.
+Straddles and Strangles
+The two most basic ways to short volatility are to sell either a straddle or a
+strangle. It is easy to work out the expected profit of an option position. It is
+just the position value at the volatility we sold at, minus the position value
+evaluated at the realized volatility. Or in terms of vega:
+But this doesn't tell the whole story. Unhedged option positions are not
+exposed to path dependency in the underlying, but their profitability is still
+tied to the returns of the underlying. Returns are not relevant when pricing
+options, but the final option return is enormously dependent on returns. And
+even a truly driftless process will have periods when it appears to trend.
+Further, when selling options our upside is capped by the collected
+premium, but our downside is infinite. This means that all short option
+positions will have significant negative skew in their P/L.
+Because of all this I evaluated the strategies by running simulations. I sold a
+1-year ATM straddle on a $100 stock at 30% implied volatility and then
+simulated 10,000 paths of the stock where the realized volatility was also
+30%. The drift and interest rates were both zero.
+There are two ways to quantify these results. We could either track returns
+on the margin required (for the short straddle, strategy-based margin would
+be $2,000) or in terms of dollars. Most professional option traders think in
+terms of dollars so that is what we will do, but the overall conclusions
+would be very similar if we considered returns.
+FIGURE 6.1 The profit distribution of the short straddle.
+The distribution of profits (in dollars) is shown in Figure 6.1.
+The dollar value of the straddle was $2,385 (assuming the convention of the
+options being on 100 shares). So, the maximum profit is $2,385. As the
+implied and subsequent realized volatilities were the same, the average
+profit should have been zero. The simulation confirms both of these figures.
+Statistics are summarized in Table 6.1. (The minimum is included as an
+indicative number and should not be relied on as the sampling error is huge
+for extrema. The 10th percentile is a better measure of downside risk.)
+Next we run the same simulation for a short 70/130 strangle (corresponding
+to shorting the 9-delta put and the 23-delta call). To get the same vega
+exposure as we had with the short straddle, we need to sell 1.68 strangles.
+This position has an initial value of $841. The distribution of profits (in
+dollars) is shown in Figure 6.2.
+TABLE 6.1 Summary Statistics for the Returns of a Fairly Priced Short
+Straddle
+Average
+$8.04
+Standard
+deviation
+$1,882
+Skewness
+−1.83
+Excess kurtosis
+6.41
+Median
+$384
+10th percentile
+−$2,274
+Minimum
+−
+$15,321
+Percent profitable
+57%
+FIGURE 6.2 The profits of the short strangle.
+The dollar value of the position was $841. So, the maximum profit is $841.
+Again, the average return should have been zero. As before, the simulation
+confirms both of these figures. But the results are also much more
+negatively skewed than for the straddle. And even if you don't look at the
+numbers, a quick glance at the histograms tells us a lot. The strangle hits its
+maximum profit about 60% of the time, but, because the total premium we
+took in is lower than with the straddle, the losses can be much greater.
+Statistics are summarized in Table 6.2.
+Because there are many situations in which selling volatility has a positive
+expected value, when we enter short volatility positions, we should focus on
+controlling our risk. If we can keep plugging along, the profits should
+eventually take care of themselves. So instead of just comparing the
+straddle and strangle in the case where we had no edge, we now look at the
+results where we are completely wrong. Specifically, realized volatility was
+70%. The straddle returns for this scenario are shown in Figure 6.3, and
+statistics are summarized in Table 6.3.
+TABLE 6.2 Summary Statistics for the Returns of a Fairly-Priced
+Short Strangle
+Average
+−$6.12
+Standard
+deviation
+$2,140
+Skewness
+−4.8
+Excess kurtosis
+24.2
+Median
+$841
+10th percentile
+−$1,994
+Minimum
+−
+$27,683
+Percent profitable
+78%
+FIGURE 6.3 The returns of the short straddle when our forecast was poor.
+Not a good set of results. But we were very wrong in our volatility forecast,
+so we can't really expect great results.
+But now look at the returns of the strangle in Figure 6.4 and Table 6.4.
+Again, we can see that the extreme results (minimum and 10th percentile)
+were worse than the corresponding straddle returns. However, generally
+speaking, the poor volatility forecast had similar effects on both the straddle
+and strangle results.
+TABLE 6.3 Summary Statistics for the Returns of a Mispriced Short
+Straddle
+Average
+−$3,071
+Standard
+deviation
+$5,425
+Skewness
+−4.31
+Excess kurtosis
+29.01
+Median
+−$2,143
+10th percentile
+−$7,069
+Minimum
+−
+$94,084
+Percent profitable
+25%
+FIGURE 6.4 The returns of the short strangle when our forecast was poor.
+TABLE 6.4 Summary Statistics for the Returns of a Poorly Priced
+Short Strangle
+Average
+−$3,230
+Standard
+deviation
+$9,190
+Skewness
+−4.2
+Excess kurtosis
+21.7
+Median
+−$1,650
+10th percentile
+−$10,085
+Minimum
+−
+$197,526
+Percent profitable
+36%
+Next, we look at the case where our volatility forecast was neutral (i.e.,
+30%) but there was also an unanticipated 20% drift in the underlying. The
+returns of the two option structures in this scenario are summarized in
+Tables 6.5 and 6.6.
+Again, the strangle is profitable more often than the straddle, but it can go
+more badly wrong. The difference between the average profits is largely
+due to the initial delta of the positions. The straddle had a delta of −12, and
+the strangle delta was −15. When scaled by the size of each position, this
+leads to an expected PL difference of $264.
+Differences between straddle and strangle results are not dependent on the
+actual process that generates the underlying returns. Skewed and fat-tailed
+distributions will create more dramatic results, but the straddle will still
+have fewer disasters than the strangle.
+TABLE 6.5 Summary Statistics for the Returns of a Short Straddle
+When Our Directional Forecast Was Poor
+Average
+−$800
+Standard
+deviation
+$2,914
+Skewness
+−1.62
+Excess kurtosis
+6.14
+Median
+$12
+10th percentile
+−$4,712
+Minimum
+−
+$28,143
+Percent profitable
+50%
+TABLE 6.6 Summary Statistics for the Returns of a Short Strangle
+When Our Directional Forecast Was Poor
+Average
+−$1106
+Standard
+deviation
+$3,925
+Skewness
+−4.72
+Excess kurtosis
+25.74
+Median
+$841
+10th percentile
+−$6,127
+Minimum
+−
+$38,830
+Percent profitable
+65%
+Instead of showing this by using another postulated distribution, we will
+look at the returns of the S&P 500 from January 1990 to December 2018.
+Over this entire period, volatility has been 17.6%, skewness of daily returns
+has been −0.08, and the excess kurtosis has been 8.9. We sample 252
+returns from this population to find the returns of a 1-year straddle and
+strangle on an imaginary $100 stock. Options are priced at a 17.6%
+volatility (this approach ignores autocorrelation in the returns so it isn't
+exactly what would have happened in the real index). To give each strategy
+the same vega we sell one straddle and 1.68 strangles. The simulation was
+run 1,000 times. Results are shown in Figures 6.5 and 6.6.
+FIGURE 6.5 The returns of the short 100 straddle when the underlying has
+the S&P 500 return distribution.
+FIGURE 6.6 The returns of the short 85/134 strangle (10-delta call and
+put) when the underlying has the S&P 500 return distribution.
+Again, the straddle has less downside. This is summarized in Table 6.7.
+In practice selling a strangle will often collect an implied skewness
+premium. Because the implied skew overstates the actual skewness of
+returns, this effect will raise the average profit of the strangle relative to the
+straddle, but it won't affect the relative risk conclusions.
+The strangle's win percentage is a very powerful piece of feedback that can
+trick us into doing trades like this even when they have negative
+expectation. The straddle has a better correspondence between correctness
+of forecast and profits. Hence you will be far less likely to fool yourself into
+thinking you have a volatility edge than you would with a strangle.
+TABLE 6.7 Comparing Results for Straddles and Strangles if the
+Underlying Has the Same Historical Returns
+Result
+Straddl
+e
+Strangle
+Skewness
+−1.32
+−3.27
+Excess
+kurtosis
+1.36
+9.93
+Worst case
+−$9,428
+−
+$16,522
+Worst decile
+−$3,356 −$4,211
+This is where many people who sell options “for income” go wrong. There
+is no magic in selling strangles, even if they are struck a long way out of the
+money. If you don't have an edge in volatility, you will lose eventually.
+The straddle has a payoff that is less sensitive either to extreme moves or to
+making a poor forecast. It won't be profitable as often as the strangle, nor
+will it practically ever make its theoretical maximum, but it also won't go as
+badly wrong as a strangle can.
+By choosing to sell a strangle instead of a straddle, a trader is gaining an
+increased median return in exchange for greater extreme risks. It is
+impossible for someone else to say that a choice like this is wrong as it
+depends on individual risk preferences, but by most risk metrics the straddle
+might initially appear to be the riskier position, but it really isn't.
+Aside: Delta-Hedged Positions
+This book has focused on trading options from the perspective of
+speculators and end users. These investors tend not to delta hedge much or
+at all. However, it is worth repeating the straddle and strangle comparison
+assuming we hedge daily. Both implied and realized volatilities are 30%, so
+we again expect an average profit of zero. The results of 10,000 GBM
+simulations are shown in Figures 6.7 and 6.8 and Table 6.8.
+It is clear that delta hedging does exactly what it is supposed to do: reduces
+risk. Extreme results are far more palatable than for unhedged positions. We
+also see that the differences between straddles and strangles are greatly
+minimized. The positions are not exactly the same because the strangle will
+have a more concentrated vega profile (shown in Figure 6.9). This means
+that when things are going very badly (i.e., the underlying has moved a lot)
+the straddle risk will start to decrease as we move away from the option
+strike. This need not happen for strangles. Also note that although the
+positions were scaled to have the same vega at initiation, if the stock rallies,
+the strangle picks up more vega. This increases risk during adverse events.
+FIGURE 6.7 The returns of the short straddle when hedging daily.
+FIGURE 6.8 The returns of the short 70/130 strangle when hedging daily
+TABLE 6.8 Comparing Results for Straddles and Strangles When
+Hedging Daily
+Result
+Straddl
+e
+Strangl
+e
+Average
+$7
+$22
+Median
+$12
+$126
+Skewness
+−0.2
+−2.71
+Excess
+kurtosis
+1.28
+13.32
+Worst case
+−$856 −$2,170
+Worst decile
+−$242
+−$450
+FIGURE 6.9 Vega as a function of underlying price for the straddle (solid
+line) and 70/130 strangle (dashed line).
+Hedging has the effect of reducing the variance of returns, but hedging
+drastically increases transactions costs and introduces operational issues
+associated with position monitoring. Most people who are not broker-
+dealers should probably not be dynamically hedging. For those who are
+interested, refer to Sinclair (2013) for the theory and practicalities of
+actively delta hedging.
+Butterflies and Condors
+These are the more conservative versions of straddles and strangles
+respectively. In each case, exposure to adverse moves is capped.
+Technically, these strategies are constructed from either all calls or all puts
+but in practice traders use the equivalent iron-butterfly and iron-condor
+structures. These are constructed from out-of-the-money options. Put-call
+parity means these positions are exactly the same.
+We repeat the straddle/strangle analysis to compare butterflies to condors.
+Results are shown in Figures 6.10 through 6.13 and Tables 6.9 through
+6.12. (As before, we weight the positions so they have the same vega as a
+short straddle.)
+FIGURE 6.10 The profit distribution of the fairly priced butterfly (long the
+70/130 strangle and short the 100 straddle).
+FIGURE 6.11 The profit distribution of the fairly priced condor (long the
+70/130 strangle and short the 80/120 strangle).
+FIGURE 6.12 The profit distribution of the poorly priced butterfly (long
+the 70/130 strangle and short the 100 straddle).
+FIGURE 6.13 The profit distribution of the poorly priced condor (long the
+70/130 strangle and short the 80/120 strangle).
+TABLE 6.9 Summary Statistics for the Returns of a Fairly-Priced
+Butterfly
+Average
+−$25
+Standard
+deviation
+$2,460
+Skewness
+0.4
+Excess kurtosis
+−1.4
+Median
+−$321
+10th percentile
+−
+$2,756
+Minimum
+−
+$2,756
+Percent profitable
+46%
+TABLE 6.10 Summary Statistics for the Returns of a Fairly Priced
+Condor
+Average
+−$9
+Standard
+deviation
+$2,252
+Skewness
+−0.4
+Excess kurtosis
+−1.7
+Median
+$1,524
+10th percentile
+−
+$3,032
+Minimum
+−
+$3,032
+Percent profitable
+58%
+TABLE 6.11 Summary Statistics for the Returns of a Badly Priced
+Butterfly
+Average
+−
+$1,530
+Standard
+deviation
+$2,109
+Skewness
+1.5
+Excess kurtosis
+0.8
+Median
+−
+$2,756
+10th percentile
+−
+$2,756
+Minimum
+−
+$2,756
+Percent profitable
+20%
+TABLE 6.12 Summary Statistics for the Returns of a Badly Priced
+Condor
+Average
+−$1643
+Standard
+deviation
+$2,109
+Skewness
+1.0
+Excess kurtosis
+−0.9
+Median
+−
+$3,032
+10th percentile
+−
+$3,032
+Minimum
+−
+$3,032
+Percent profitable
+26%
+Using a butterfly tames the extremely bad results of a straddle but this
+comes at the expense of incurring the maximum possible loss 26% of the
+time.
+Because a condor has less vega than a butterfly, we need to trade more of
+them to get the same volatility exposure. This means that the worst case is
+slightly worse than with the butterfly. And the condor realizes this worst
+case 30% of the time. Also, the maximum possible profit is lower than the
+butterfly's.
+Now we look at the results where we sell implied volatility at 30% and
+subsequent realized volatility is 70%. The returns of the butterfly and
+condor in this scenario are shown in Figures 6.12 and 6.13, and statistics are
+summarized in Tables 6.11 and 6.12:
+We can see that the condor has a higher winning percentage, but its wins are
+capped at the premium of $1,998. This occurred 15% of the time. By having
+a higher initial premium the butterfly can have larger wins. It wins 12% of
+the time more than $1,998. The average of these “condor-beating” wins is
+$3,342.
+In terms of risk and reward, the butterfly is to the condor what the straddle
+is to the strangle: lower winning percentage but higher upside and lower
+downside.
+Aside: Broken Wing Butterflies and Condors
+A broken wing fly or condor is one with only one long strike. For example,
+a broken wing (iron) butterfly might be long an out-of-the-money put and
+short a straddle. This has the same payoff as a one- by two-call spread, and
+we will look at the risks of these in more detail in Chapter Eight. But for
+now, I want to emphasize that a common reason for implementing these
+strategies is wrong.
+It is generally accepted that stock market down moves are more severe than
+up moves. So, many traders are only concerned with hedging short
+exposure on the downside. Be careful with this. There isn't much of a
+difference between daily up moves and down moves. For example, consider
+daily S&P 500 returns from 1990 through to the end of 2018. Summary
+statistics of absolute up and down returns are shown in Table 6.13. None of
+the differences are significant at the 5% level.
+The difference between the “speed” of breaks and rallies is real, but it is due
+to correlation effects and is also far smaller than many traders think. It is
+well known that before 1987, the index option markets had almost no
+implied volatility skew. After the crash the markets priced in the crash risk.
+But markets also massively overcompensated. This is both why put options
+are usually the most overpriced and why, if a trader wants to hedge extreme
+moves, it is generally best to hedge both extreme drops and extreme rallies.
+TABLE 6.13 Summary Statistics of S&P 500 Returns from 1990 to 2018
+Statistic
+Positive Daily
+Returns
+Negative (Absolute) Daily
+Returns
+Average
+0.0073
+0.0076
+Median
+0.0051
+0.0049
+90th
+percentile
+0.0156
+0.0177
+99th
+percentile
+0.0387
+0.0384
+Maximum
+0.1158
+0.0903
+Calendar Spread
+The calendar spread is used to speculate on relative implied volatility
+levels. Specifically, we are trying to capture the greater variance premium
+in the shorter-dated options. For example, we buy the 60-day ATM straddle
+at an implied volatility of 30% and sell the 30-day ATM straddle at an
+implied volatility of 40%. We hold the position until the front-month
+expires, and over this time realized volatility is 30%. Because the edge in
+this trade comes from the overpriced short-term implied volatility, we also
+simulate a short 1-month straddle position, which is the most direct way to
+capture this variance premium.
+Summary statistics of the PL distributions from simulations of 10,000 paths
+are shown in Table 6.14.
+The calendar spread has lower dispersion around the average P/L (which is
+the same for both positions because it is entirely due to the mispricing of
+the 1-month implied volatility). At an intuitive level, this is because, at the
+expiration of the front-month options, the spread's payoff diagram is very
+similar to the value of a butterfly. This is shown in Figure 6.14, which
+shows the P/L of the spread.
+TABLE 6.14 Summary Statistics of the PL Distribution for the Straddle
+Spread and the Short Front-Month Straddle
+Statistic
+Short
+Straddle
+Straddle
+Spread
+Average
+$261
+$265
+Standard
+deviation
+$597
+$210
+Skewness
+−1.4
+0.0
+Excess kurtosis
+2.7
+−1.4
+Median
+$411
+$260
+90th percentile
+$873
+$552
+Maximum
+$899
+$578
+10th percentile
+−$574
+−$18
+Minimum
+−$3,753
+−$66
+Percent profitable
+72%
+87%
+FIGURE 6.14 The P/L of the straddle spread at expiry of the front-month
+options.
+The cost of this risk reduction is that the spread is long vega. If implied
+volatility drops, the spread will underperform the short straddle. This risk
+can also be at odds with our volatility forecast. We are projecting that the
+front-month volatility is too high. This will usually also imply that the
+second-month volatility is also overpriced (although not by as much). So,
+the straddle spread is a long vega position that we put on when we are
+hoping volatility is overpriced.
+The spread still acts as a diversifier, but we also need to be correct on our
+view of overall, rather than relative volatility. We demonstrate this problem
+by simulating a situation in which the realized volatility is 20%. Summary
+statistics of the spread and the short straddle are shown in Table 6.15.
+We can reduce this effect by weighting the spread components, so that the
+overall position is flat vega. This will also reduce the variance reducing
+properties of the spread.
+Another weighting scheme is to calculate a volatility beta that relates the
+change in the front-month volatility to that of the second-month volatility.
+The market regime in which the benefits of the calendar spread are most
+obvious is when there is a large variance premium and a low implied
+volatility.
+As always, the trader's decision will depend on exactly what risk he is most
+concerned about.
+TABLE 6.15 Summary Statistics of the PL Distribution for the Straddle
+Spread and the Short Front-Month Straddle (Front-month implied
+volatility 
+was 
+40% 
+and 
+second-month 
+implied 
+volatility 
+was 
+30%.
+Realized volatility was 20%.)
+Statistic
+Short
+Straddle
+Straddle
+Spread
+Average
+$522
+$223
+Standard
+deviation
+$375
+$147
+Skewness
+−1.2
+−1.0
+Excess kurtosis
+1.0
+0.4
+Median
+$630
+$266
+90th percentile
+$877
+$375
+Maximum
+$900
+$380
+10th percentile
+−$16
+$10
+Statistic
+Short
+Straddle
+Straddle
+Spread
+Minimum
+−$2,141
+−$370
+Percent profitable
+89%
+91%
+Including Implied Volatility Skew
+The preceding analysis assumed that all strikes had the same implied
+volatility. Of course, this is generally not the case. Usually, the OTM puts
+will trade at a volatility premium to the ATM options. Because ATM option-
+implied volatility is the most predictive of future realized volatility
+(Bondarenko, 2003; Poon and Granger, 2003, and further references from
+Chapter Four), by selling OTM puts we can collect a volatility premium.
+This makes selling strangles relatively more attractive than would be the
+case in a world where all strikes had the same implied volatility.
+The shape of the implied volatility curve is fairly persistent. A given delta
+option's implied volatility will be a constant times the ATM implied
+volatility. For example, in the SPX the 10 delta put will have an implied
+volatility about 1.45 times the ATM volatility (Sinclair, 2013). Similarly, the
+25 delta call will usually have a volatility of about 0.88 of the ATM
+volatility. Using this rule of thumb we can surmise that the 70 strike put
+(which has a 9 delta) will trade at an implied volatility of 43.5% if the ATM
+volatility is 30%. Similarly the 130 call (23 delta) will be expected to have
+an implied volatility of 0.264.
+FIGURE 
+6.15 
+The 
+profit 
+distribution 
+of 
+a 
+strangle 
+with 
+an 
+implied
+volatility skew and a fair value for realized volatility.
+Again assume that future realized volatilities are 30%. If we run the same
+simulations as previously but price the strangle with more realistic implied
+volatilities of 43.5% for the put and 26.4% for the call, we get the results
+shown in Figure 6.15 and Table 6.16.
+These numbers are better than the strangle when all strikes are priced at a
+30% volatility (the results for both situations are shown in Table 6.17 for
+ease of comparison).
+TABLE 6.16 Summary Statistics for the Returns of a Strangle with an
+Implied Volatility Skew and a Fair Value for Realized Volatility
+Average
+$278
+Standard
+deviation
+$2,102
+Skewness
+−3.8
+Excess kurtosis
+18.0
+Median
+$1,123
+10th percentile
+−$1,765
+Minimum
+−
+$37,372
+Percent profitable
+79%
+TABLE 6.17 The Results for Both the Flat Skew Condor and the
+Skewed Case
+Statistic
+Strangle with Constant
+Strike Volatility
+Strangle with Implied
+Volatility Skew
+Average
+−$6.12
+$278
+Standard
+deviation
+$2,040
+$2,102
+Skewness
+−4.8
+−3.8
+Excess
+kurtosis
+24.2
+18.0
+Median
+$841
+$1,123
+10th percentile
+−$1,994
+−$1,765
+Minimum
+−$24,683
+−$37,372
+Percent
+profitable
+78%
+79%
+Strike Choice
+Although straddles are almost always struck at the ATM forward price, the
+other combinations require us to choose strikes.
+To do this, start with the short strikes. For straddles and butterflies this will
+be the ATM strike but for strangles and condors we want to choose strikes
+that maximize the volatility premium due to the implied volatility curve.
+The part of the implied volatility curve that is most predictive of the future
+realized volatility is the ATM, so when we are looking for a volatility edge
+we should sell a strike with the highest volatility over this value. In pure
+volatility terms that will almost always be the farthest out-of-the-money put
+strike. Consider the SPY puts in Table 6.18.
+The highest implied volatility is in the 210 strike. So let's imagine we sell
+this option and also sell the 360 call (at an implied volatility of 11.0%) to
+create a delta-neutral strangle. We assume that realized volatility was what
+the ATM predicted (14.2%). We use Monte Carlo to simulate 10,000
+instances of this strategy and get the results shown in Table 6.19. We sell
+$1,000 of vega.
+However, this combination has very little vega per option. Contrast this
+with selling the put strike that has the greatest dollar premium over what the
+option would be worth if it were priced at the ATM implied volatility. Table
+6.20 shows this choice.
+TABLE 6.18 The Put Prices of the SPY June 2020 Expiration on July
+30, 2019 (Down to the 5 Delta Strike) (SPY was 300.48.)
+Strik
+e
+Market
+Price
+Implied
+Volatility
+210
+1.68
+0.253
+215
+1.95
+0.248
+220
+2.25
+0.243
+225
+2.58
+0.237
+230
+2.95
+0.232
+235
+3.35
+0.226
+240
+3.82
+0.221
+245
+4.33
+0.215
+250
+4.91
+0.209
+255
+5.55
+0.203
+260
+6.28
+0.197
+265
+7.07
+0.192
+270
+7.96
+0.186
+275
+8.95
+0.179
+280
+10.03
+0.173
+285
+11.26
+0.167
+290
+12.57
+0.160
+Strik
+e
+Market
+Price
+Implied
+Volatility
+295
+14.10
+0.153
+300
+15.78
+0.146
+TABLE 6.19 The Summary Statistics from Selling $1000 Vega of the
+210/360 SPY Strangle
+Statistic
+Maximum Implied Volatility
+Strangle
+Average
+$6,600
+Standard
+deviation
+$105,400
+Skewness
+−5.5
+Excess kurtosis
+32.1
+Median
+$29,400
+10th percentile
+$28,670
+Minimum
+−$1,463,400
+Percent profitable
+92%
+TABLE 6.20 The Dollar Premium of Options Over Their Being Priced
+at the ATM Volatility (14.0% in this Instance)
+Strik
+e
+Market
+Price
+Priced with ATM
+Volatility
+Premium Due to Volatility
+Skew
+210
+1.68
+0.03
+1.65
+215
+1.95
+0.06
+1.89
+220
+2.25
+0.10
+2.15
+225
+2.58
+0.17
+2.41
+230
+2.95
+0.28
+2.67
+235
+3.35
+0.43
+2.92
+240
+3.82
+0.64
+3.18
+245
+4.33
+0.94
+3.39
+250
+4.91
+1.34
+3.57
+Strik
+e
+Market
+Price
+Priced with ATM
+Volatility
+Premium Due to Volatility
+Skew
+255
+5.55
+1.86
+3.69
+260
+6.28
+2.52
+3.76
+265
+7.07
+3.36
+3.71
+270
+7.96
+4.37
+3.59
+275
+8.95
+5.60
+3.35
+280
+10.03
+7.05
+2.98
+285
+11.26
+8.73
+2.53
+290
+12.57
+10.66
+1.91
+295
+14.10
+12.84
+1.26
+300
+15.78
+15.26
+0.52
+The greatest dollar premium is in the 260 strike. The market has them worth
+6.28, but if they were priced at the ATM volatility, they would only be
+worth 2.52. Assume we sell 1.2 of the 260/335 strangles so we have the
+same vega exposure as in the previous simulation. Results are summarized
+in Table 6.21.
+The statistics that describe typical results (average, median, percent
+profitable, and 10th percentile) all favor selling the highest volatility
+premium. That is to be expected. The edge in selling options comes from
+selling expensive implied volatility. However, we can also see clearly that
+when things go wrong, selling teeny options is far more painful than selling
+those with more premium.
+In summary, when selling strangles or condors we want to take advantage
+of the skew premium, but if we do this by selling the option with the
+highest implied volatility, we expose ourselves to horrendous risk. Once we
+have found our short put strike, we choose the other call strike to give the
+delta or vega profile we want.
+TABLE 
+6.21 
+The 
+Summary 
+Statistics 
+from 
+Selling 
+$1000 
+Vega 
+of
+260/335 SPY Strangles
+Statistic
+Maximum Implied Volatility
+Strangle
+Average
+$3,980
+Standard
+deviation
+$32,430
+Skewness
+−3.4
+Excess kurtosis
+15.1
+Median
+$20,092
+10th percentile
+−$37,100
+Minimum
+−$306,928
+Percent profitable
+76%
+Choosing a Hedging Strike
+The only reason we choose a short-volatility strategy is that we think
+implied volatility is too high. Consistent with this, any option we buy will
+be one that we think is overpriced. This is true even if there is no implied
+volatility skew. In the presence of a skew we will be overpaying by even
+more. The long-hedging options have negative expected value. They are a
+cost of doing business. We want to choose the ones that give us our desired
+amount of protection for the smallest amount of money.
+As an example, consider the case in which we sell a 260 put for 6.28 and
+we don't want a possible loss of more than $5,000. Our possible hedging
+options are shown in Table 6.22. The process is simple. We just find the
+hedging strike that gives the loss level we are comfortable with for the
+lowest cost.
+Maximum Loss = Profit of Hedge + Loss of Short Put − Hedge Premium +
+Short Put Premium
+So here, we would buy the 205 put for a hedge cost of $145.
+Ignoring option premia, the worst P/L will occur right at the long strike.
+Here we will have lost money on our short and have got nothing from the
+long. Below the strike, the long put and short put will cancel completely.
+Because our loss limit is $5,000 this would put the lower put strike at 210.
+(6.2)
+However, total premia received will be $628 hedge premium, so the strike
+will be lowered by this amount (divided by 100).
+TABLE 6.22 Prices and Strikes of Possible Hedging Options for Our
+Short 260 Put Position
+Strik
+e
+Market
+Price
+Max Loss of Hedged
+Portfolio
+180
+0.64
+$7,436
+185
+0.74
+$6,946
+190
+0.88
+$6,460
+195
+1.05
+$5,977
+200
+1.23
+$5,495
+205
+1.45
+$5,017
+210
+1.68
+$4,540
+215
+1.95
+$4,067
+220
+2.25
+$3,597
+It can be tempting to buy lower premia, shorter-dated options as hedges.
+This is almost always a bad idea. Generally, the consecutively purchased
+short-dated options will have a higher total premium than the single longer-
+dated option (a consequence of total variance scaling with the square root of
+time). If we also consider the extra transaction costs, the single option
+becomes even more attractive.
+We can illustrate this general rule and also show how exceptions to it can
+occur by using the Brenner and Subrahmanyam (1988) approximation.
+They show that for ATM options the BSM equation is approximated by
+Take this to be our hedging benchmark and compare it to the alternative of
+buying two options consecutively. In that case, the hedging premium would
+be
+(6.3)
+(6.4)
+The two-option hedge is more expensive if the volatility term structure is
+flat. However, if the volatility term structure is steep enough, it could be
+worth rolling the shorter term hedges. Specifically if the volatilities for each
+subperiod, σ
+1
+and σ
+2
+, and the total volatility, σ, are related by
+then it is worthwhile rolling shorter-dated hedges.
+As an example, consider the situation in which we can either buy a 2-year
+option or a 1-year option and then another 1-year option when the first one
+expires. The stock is $100, the strike is 100, volatility is 30%, and rates are
+zero. The 2-year put is worth 16.8. Each single 1-year put is worth 11.9. So
+here the 2-year option is the cheaper alternative.
+But consider the case where the 2-year option has an implied volatility of
+40% and the 1-year option has an implied volatility of 20%. Also assume
+that this term structure is constant in time, so when the first 1-year option
+expires we can buy the next one at 20% as well. Now each 1-year option is
+worth 8.0 and the 2-year option is worth 22.3. Here, we are better off
+buying a 1-year option and rolling it later.
+Expiration Choice
+As I've emphasized throughout this chapter, there is more to choosing an
+option to trade than simply finding the one that has the highest expected
+return. Many other metrics are also relevant. Median return, drawdown
+exposure, and percent of trades that are profitable are also statistics to
+consider. However, it also seems reasonable that our search can start with
+expected value and expand from there. The purpose of trading is to make
+money. Risk management should aim to protect expected value rather than
+minimize risk. The safest position is no position. That will also make no
+money.
+The profitability of option trading is driven by the variance premium. Many
+other effects are important but the variance premium will always be
+dominant. It is to options what evolution is to biology or what gravity is to
+physics. So when choosing an expiration our prime consideration is which
+one has the most variance premium. If we are selling, we want the
+expiration with the highest premium. If we are buying, we want the
+expiration with the lowest premium.
+Israelov and Tummala (2017) studied this problem and wrote a paper whose
+title is the perfect statement of our issue: “Which Index Options Should You
+Sell?” By looking at S&P 500 option performances from 1996 to 2015, they
+showed that short-dated options had the highest variance premia. Their
+explanation for this was this:
+Option buyers seek to purchase insurance for their portfolio and are
+typically concerned about monthly or quarterly returns.… It is intuitive
+that the options which most directly match these preferences are the
+most attractively compensated for option sellers. (p. 14)
+This is quite possibly true, but I think the more important reason is
+compensation for risk. Short-dated option risk is dominated by gamma, and
+long-dated option risk is due to vega. The old story is “vega wounds but
+gamma kills.” The sellers of short-dated options are taking the most risk
+and they should be most compensated. A good rule when looking for a
+variance premium is to look for situations with the most risk. The variance
+premium is (a mispriced) compensation for risk. The higher the risk, the
+higher the mispricing.
+This hypothesis is consistent with the results of Tosi and Ziegler (2017).
+Using S&P 500 option data from 1996 to 2015 they showed that the returns
+from shorting out-of-the-money put options were concentrated in the few
+days preceding their expiration. Back-month options generated almost no
+returns.
+Their proffered reason for this was:
+The concentration of the option premium at the end of the cycle
+reflects changes in options' risk characteristics. Specifically, options'
+convexity risk increases sharply close to maturity, making them more
+sensitive to jumps in the underlying price. By contrast, volatility risk
+plays a smaller role close to maturity. (abstract)
+And conclude:
+Our results imply that speculators wishing to harvest the put option
+premium should short front-month options only during the last days of
+the cycle, while investors wishing to protect against downside risk
+should use back-month options to reduce hedging costs. (abstract)
+Other studies that reach the same conclusion are by Andries et al. (2015),
+Dew-Becker et al. (2014), and van Binsbergen and Koijen (2015).
+Conclusion
+There is no “best” strategy. The choice of what to select is a matter of
+personal risk preferences. Strangles win more often than straddles but have
+less upside and more downside. Butterflies and condors are more expensive
+than straddles and strangles in terms of transaction costs. They will also
+realize their maximum possible loss a significant amount of the time.
+When choosing a short strike, the trader needs to balance receiving the most
+edge by selling the options with the highest implied volatility and the
+amount of risk that this produces. Similarly, shorter-dated options will have
+more variance premium than longer-dated ones but they also have more
+potential for catastrophe.
+Summary
+Selling OTM option structures (strangles or condors) will give higher
+median returns and a higher win percentage but this can make it more
+difficult to distinguish between good trades with expected value and
+good luck.
+The highest volatility premium is in short-dated options. Long-dated
+options have very little volatility premium.
+The highest volatility premium is in far-out-of-the-money puts. Out-of-
+the-money calls have very little volatility premium.
+...

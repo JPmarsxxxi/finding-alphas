@@ -1,0 +1,147 @@
+Preface
+E
+ver since the advent of the Black-Scholes option pricing formula, the
+study of implied volatility has become a central preoccupation for both
+academics and practitioners. As is well known, actual option prices rarely
+if ever conform to the predictions of the formula because the idealized
+assumptions required for it to hold don’t apply in the real world. Conse-
+quently, implied volatility (the volatility input to the Black-Scholes formula
+that generates the market price) in general depends on the strike and the
+expiration of the option. The collection of all such implied volatilities is
+known as the volatility surface.
+This book concerns itself with understanding the volatility surface; that
+is, why options are priced as they are and what it is that analysis of stock
+returns can tell as about how options ought to be priced.
+Pricing is consistently emphasized over hedging, although hedging and
+replication arguments are often used to generate results. Partly, that’s
+because pricing is key: How a claim is hedged affects only the width of the
+resulting distribution of returns and not the expectation. On average, no
+amount of clever hedging can make up for an initial mispricing. Partly, it’s
+because hedging in practice can be complicated and even more of an art
+than pricing.
+Throughout the book, the importance of examining different dynamical
+assumptions is stressed as is the importance of building intuition in general.
+The aim of the book is not to just present results but rather to provide
+the reader with ways of thinking about and solving practical problems
+that should have many other areas of application. By the end of the book,
+the reader should have gained substantial intuition for the latest theory
+underlying options pricing as well as some feel for the history and practice
+of trading in the equity derivatives markets. With luck, the reader will also
+be infected with some of the excitement that continues to surround the
+trading, marketing, pricing, hedging, and risk management of derivatives.
+As its title implies, this book is written by a practitioner for practitioners.
+Amongst other things, it contains a detailed derivation of the Heston
+model and explanations of many other popular models such as SVJ, SVJJ,
+SABR, and CreditGrades. The reader will also ﬁnd explanations of the
+characteristics of various types of exotic options from the humble barrier
+xxiii
+
+xxiv
+PREFACE
+option to the super exotic Napoleon. One of the themes of this book
+is the representation of implied volatility in terms of a weighted average
+over all possible future volatility scenarios. This representation is not only
+explained but is applied to help understand the impact of different modeling
+assumptions on the shape and dynamics of volatility surfaces—a topic of
+fundamental interest to traders as well as quants. Along the way, various
+practical results and tricks are presented and explained. Finally, the hot topic
+of volatility derivatives is exhaustively covered with detailed presentations
+of the latest research.
+Academics may also ﬁnd the book useful not just as a guide to the current
+state of research in volatility modeling but also to provide practical context
+for their work. Practitioners have one huge advantage over academics: They
+never have to worry about whether or not their work will be interesting to
+others. This book can thus be viewed as one practitioner’s guide to what is
+interesting and useful.
+In short, my hope is that the book will prove useful to anyone interested
+in the volatility surface whether academic or practitioner.
+Readers familiar with my New York University Courant Institute lecture
+notes will surely recognize the contents of this book. I hope that even
+aﬁcionados of the lecture notes will ﬁnd something of extra value in the
+book. The material has been expanded; there are more and better ﬁgures;
+and there’s now an index.
+The lecture notes on which this book is based were originally targeted
+at graduate students in the ﬁnal semester of a three-semester Master’s
+Program in Financial Mathematics. Students entering the program have
+undergraduate degrees in quantitative subjects such as mathematics, physics,
+or engineering. Some are part-time students already working in the industry
+looking to deepen their understanding of the mathematical aspects of their
+jobs, others are looking to obtain the necessary mathematical and ﬁnancial
+background for a career in the ﬁnancial industry. By the time they reach the
+third semester, students have studied ﬁnancial mathematics, computing and
+basic probability and stochastic processes.
+It follows that to get the most out of this book, the reader should have
+a level of familiarity with options theory and ﬁnancial markets that could
+be obtained from Wilmott (2000), for example. To be able to follow the
+mathematics, basic knowledge of probability and stochastic calculus such as
+could be obtained by reading Neftci (2000) or Mikosch (1999) are required.
+Nevertheless, my hope is that a reader willing to take the mathematical
+results on trust will still be able to follow the explanations.
+
+Preface
+xxv
+HOW THIS BOOK IS ORGANIZED
+The ﬁrst half of the book from Chapters 1 to 5 focuses on setting up the
+theoretical framework. The latter chapters of the book are more oriented
+towards practical applications. The split is not rigorous, however, and
+there are practical applications in the ﬁrst few chapters and theoretical
+constructions in the last chapter, reﬂecting that life, at least the life of a
+practicing quant, is not split into neat boxes.
+Chapter 1 provides an explanation of stochastic and local volatility;
+local variance is shown to be the risk-neutral expectation of instantaneous
+variance, a result that is applied repeatedly in later chapters. In Chapter 2,
+we present the still supremely popular Heston model and derive the Heston
+European option pricing formula. We also show how to simulate the Heston
+model.
+In Chapter 3, we derive a powerful representation for implied volatility
+in terms of local volatility. We apply this to build intuition and derive some
+properties of the implied volatility surface generated by the Heston model
+and compare with the empirically observed SPX surface. We deduce that
+stochastic volatility cannot be the whole story.
+In Chapter 4, we choose speciﬁc numerical values for the parameters
+of the Heston model, speciﬁcally ρ = −1 as originally studied by Heston
+and Nandi. We demonstrate that an approximate formula for implied
+volatility derived in Chapter 3 works particularly well in this limit. As
+a result, we are able to ﬁnd parameters of local volatility and stochastic
+volatility models that generate almost identical European option prices.
+We use these parameters repeatedly in subsequent chapters to illustrate the
+model-dependence of various claims.
+In Chapter 5, we explore the modeling of jumps. First we show why
+jumps are required. We then introduce characteristic function techniques
+and apply these to the computation of implied volatilities in models with
+jumps. We conclude by showing that the SVJ model (stochastic volatility
+with jumps in the stock price) is capable of generating a volatility surface
+that has most of the features of the empirical surface. Throughout, we build
+intuition as to how jumps should affect the shape of the volatility surface.
+In Chapter 6, we apply our work on jumps to Merton’s jump-to-ruin
+model of default. We also explain the CreditGrades model. In passing, we
+touch on capital structure arbitrage and offer the ﬁrst glimpse into the less
+than ideal world of real trading, explaining how large losses were incurred
+by market makers.
+In Chapter 7, we examine the asymptotic properties of the volatility
+surface showing that all models with stochastic volatility and jumps generate
+volatility surfaces that are roughly the same shape. In Chapter 8, we show
+
+xxvi
+PREFACE
+how the dynamics of volatility can be deduced from the time series properties
+of volatility surfaces. We also show why it is that the dynamics of the
+volatility surfaces generated by local volatility models are highly unrealistic.
+In Chapter 9, we present various types of barrier option and show how
+intuition may be developed for these by studying two simple limiting cases.
+We test our intuition (successfully) by applying it to the relative valuation of
+barrier options under stochastic and local volatility. The reﬂection principle
+and the concepts of quasi-static hedging and put-call symmetry are presented
+and applied.
+In Chapter 10, we study in detail three actual exotic cliquet transactions
+that happen to have matured so that we can explore both pricing and
+ex post performance. Speciﬁcally, we study a locally capped and globally
+ﬂoored cliquet, a reverse cliquet, and a Napoleon. Followers of the ﬁnancial
+press no doubt already recognize these deal types as having been the cause
+of substantial pain to some dealers.
+Finally, in Chapter 11, the longest of all, we focus on the pricing
+and hedging of claims whose underlying is quadratic variation. In so
+doing, we will present some of the most elegant and robust results in
+ﬁnancial mathematics, thereby explaining in part why the market in volatility
+derivatives is surprisingly active and liquid.
+—Jim Gatheral

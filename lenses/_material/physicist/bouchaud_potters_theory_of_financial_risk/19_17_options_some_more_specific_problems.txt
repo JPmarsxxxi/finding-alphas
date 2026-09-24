@@ -1,0 +1,1077 @@
+17
+Options: some more speciﬁc problems
+This chapter can be skipped at ﬁrst reading.
+(J.-P. Bouchaud, M. Potters, Theory of Financial Risk and Derivative Pricing.)
+17.1 Other elements of the balance sheet
+We have until now considered the simplest possible option problem, and tried to extract the
+fundamental ideas associated to its pricing and hedging. In reality, several complications
+may appear, either in the very deﬁnition of the option contract (see next section), or in the
+elements that must be included in the wealth balance – for example dividends or transaction
+costs – that we have neglected up to now.
+17.1.1 Interest rate and continuous dividends
+The inﬂuence of interest rates (and continuous dividends) can be estimated using different
+models for the statistics of price increments.
+These models give slightly different answers; however, in a ﬁrst approximation, they
+provide the following answer for the option price:
+C(x0, xs, T,r) = e−rT C(x0erT , xs, T,r = 0),
+(17.1)
+where C(x0, xs, T,r = 0) is simply given by the average of the pay-off over the terminal
+undrifted price distribution.
+In the presence of a non-zero continuous dividend d, the quantity x0erT should be replaced
+by x0e(r−d)T , i.e. in all cases the present price of the underlying should be replaced by the
+corresponding forward price – see Eq. (4.23).
+Let us present three different models for stock returns that all lead to the above approxi-
+mate formula; but with slightly different corrections to it in general. These three models offer
+alternative ways to understand the inﬂuence of a non-zero interest rate (and/or dividend) on
+the price of the option.
+
+17.1 Other elements of the balance sheet
+301
+Rate and dividend induced drift of the price
+In this model, one assumes that the price evolves according to xk+1 −xk = (ρ −dτ)xk +
+δxk, where dτ is the dividend over a unit time period τ, and δxk are uncorrelated random
+variables of zero mean. Note that this ‘dividend’ is, in the case of currency options, the
+interest rate corresponding to the underlying currency (and ρ is the interest rate of the
+reference currency).
+This model is convenient because if ⟨δxk⟩is zero, the average cost of the hedging strategy
+is zero, since it precisely includes the terms xk+1 −xk −(ρ −δ)xk, where δ ≡dτ. However,
+the terminal distribution of xN must be constructed by noting that:
+xN = x0(1 + ρ −δ)N +
+N−1
+
+k=0
+δxk(1 + ρ −δ)N−k−1.
+(17.2)
+Thus the terminal distribution is, for large N and small ρ −δ, a function of the difference
+x(T ) −x0e(r−d)T between the price and the futures. Furthermore, even if the δxk are inde-
+pendent random variables of variance Dτ, the variance c2(T ) of the terminal distribution is
+given by:
+c2(T ) =
+D
+2(r −d)
+
+e2(r−d)T −1
+
+,
+(17.3)
+whichisequaltoc2(T ) = DT (1 + (r −d)T )when(r −d)T →0.Thereisthusanincrease
+of the effective volatility to be used in the option pricing formula within this model. This
+increase depends on the maturity; its relative value is, for T = 1 year, r −d = 5%, equal
+to (r −d)T/2 = 2.5%. (Note indeed that c2(T ) is the square of the volatility.) Up to this
+small change of volatility, the above rule, Eq. (17.1) is therefore appropriate.
+Independence between price increments and interest rates/dividends
+The above model is perhaps not very realistic since it assumes a direct, systematic relation
+between price changes and interest rates/dividends. It might be more appropriate to consider
+the case where xk+1 −xk = δxk are uncorrelated random variables of zero mean. Reality
+is presumably in between these two limiting models. Now the terminal distribution is a
+function of the difference xN −x0, with no correction to the variance brought about by
+interest rates. However, in the present case, the cost of the hedging strategy cannot be
+neglected and reads:
+⟨WS⟩= −(ρ −δ)
+N−1
+
+k=0
+
+xkφN∗
+k (xk)
+
+.
+(17.4)
+Writing xk = x0 + k−1
+j=0 δx j, we ﬁnd that ⟨WS⟩is the sum of a term proportional to x0
+and the remainder. The ﬁrst contribution therefore reads:
+⟨WS⟩1 = −(ρ −δ)x0
+N−1
+
+k=0
+
+P(x, k|x0, 0)φN∗
+k (x) dx.
+(17.5)
+This term thus has exactly the same shape as in the case of a non-zero average return
+treated above, Eq. (15.2), with an effective mean return m1eff = −(ρ −δ)x0. If we choose
+
+302
+Options: some more speciﬁc problems
+for φ∗the suboptimal -hedge (which we know does only induce minor errors), then, as
+shown above, this hedging cost can be reabsorbed in a change of the terminal distribution,
+where xN −x0 becomes xN −x0 −m1effN, or else, to ﬁrst order: xN −x0 exp[(ρ −δ)N].
+To order (ρ −δ)N, this again corresponds to replacing the current price of the underlying
+by its forward price. For the second type of terms we write, for j < k:
+
+δx jφN∗
+k (xk)
+
+=
+
+P(x j, j|x0, 0) dx j
+
+P(xk, k|x j, j)xk −x j
+k −j φN∗
+k (xk) dxk.
+(17.6)
+This quantity is not easy to calculate in the general case. Assuming that the process is
+Gaussian allows us to use the identity:
+P(xk, k|x j, j)xk −x j
+k −j
+= −Dτ ∂P(xk, k|x j, j)
+∂xk
+;
+(17.7)
+one can therefore integrate over x j to ﬁnd a result independent of j:
+
+δx jφN∗
+k (xk)
+
+= Dτ ∂
+∂x0
+
+P(xk, k|x0, 0)φN∗
+k (xk) dxk,
+(17.8)
+or, using the expression of φN∗
+k (xk) in the Gaussian case:
+
+δx jφN∗
+k (xk)
+
+= Dτ ∂
+∂x0
+ ∞
+xs
+P(x′, N|x0, 0) dx′ = Dτ P(xs, N|x0, 0).
+(17.9)
+The contribution to the cost of the strategy is then obtained by summing over k and over
+j < k, ﬁnally leading to:
+⟨WS⟩2 ≃−N 2
+2 (ρ −δ)Dτ P(xs, N|x0, 0).
+(17.10)
+This extra cost is maximum for at-the-money options, and leads to a relative increase of the
+call price given, for Gaussian statistics, by:
+δC
+C = N
+2 (ρ −δ) = T
+2 (r −d),
+(17.11)
+exactly of the same order as for the previous model, see Eq. (17.3). This correction is again
+quite small for short maturities. (For r = 5% annual, d = 0 and T = 100 days, one ﬁnds
+δC/C ≤1%.)
+Multiplicative model
+Let us ﬁnally assume that xk+1 −xk = (ρ −δ + ηk)xk, where the ηk’s are independent
+random variables of zero mean. Therefore, the average cost of the strategy is again zero.
+Furthermore, if the elementary time step τ is small, the terminal value xN can be written as:
+log
+xN
+x0
+	
+=
+N−1
+
+k=0
+log(1 + ρ −δ + ηk) ≃N(ρ −δ) + y;
+y =
+N−1
+
+k=0
+ηk,
+(17.12)
+thus xN = x0e(r−d)T +y. Introducing the distribution P(y), the price of the option can be
+written as:
+C(x0, xs, T,r, d) = e−rT
+
+P(y) max
+
+x0e(r−d)T +y −xs, 0
+
+dy,
+(17.13)
+which is obviously of the general form, Eq. (17.1), which is exact in this case.
+
+17.1 Other elements of the balance sheet
+303
+We thus conclude that the simple rule, Eq. (17.1) above, is, for many purposes, sufﬁcient
+to account for interest rates and (continuous) dividends effects. But a more accurate formula,
+including corrections of order (r −d)T , depends somewhat on the chosen model.
+17.1.2 Interest rate corrections to the hedging strategy
+It is also important to estimate the interest rate corrections to the optimal hedging
+strategy. Here again, one could consider the above three models, that is, the systematic
+drift model, the independent model or the multiplicative model. In the former case,
+the result for a general terminal price distribution is rather involved, mainly due to
+the appearance of the conditional average detailed in Appendix D, Eq. (14.69). In the
+case where this distribution is Gaussian, the result is simply Black–Scholes’ -hedge,
+i.e. the optimal strategy is the derivative of the option price with respect to the price of
+the underlying contract (see Eq. (14.22)). As discussed in Chapter 15, this simple rule
+leads in general to a suboptimal strategy, but the relative increase of risk is rather
+small. The -hedge procedure, on the other hand, has the advantage that the price is
+independent of the average return (see Appendix D).
+In the ‘independent’ model, where the price change is unrelated to the interest rate
+and/or dividend, the order ρ correction to the optimal strategy is easier to estimate in
+general. From the general formula, Eq. (15.47), one ﬁnds:
+φ∗
+k (x) = (1 + ρ)1+k−Nφ∗0
+k (x) −r −d
+D
+xC(x, xs, N −k)
++r −d
+2D x
+
+ℓ<k
+ x −x′
+k −ℓ
+P(x, k|x′, ℓ)P(x′, ℓ|x0, 0)
+P(x, k|x0, 0)
+φ∗0
+ℓ(x′) dx′
++r −d
+2D
+
+ℓ>k
+ x′ −x
+ℓ−k x′P(x′, ℓ|x, k)φ∗0
+ℓ(x′) dx′,
+(17.14)
+where φ∗0
+k is the optimal strategy for r = d = 0.
+Finally, for the multiplicative model, the optimal strategy is given by a much simpler
+general expression:
+φ∗
+k (x) = (1 + ρ)1+k−N
+xσ 2(N −k) ×
+ ∞
+xs
+(x′ −xs) log
+
+x′
+x(1 + ρ −δ)N−k
+	
+P(x′, N|x, k) dx′.
+(17.15)
+17.1.3 Discrete dividends
+More generally, for an arbitrary dividend dk (per share) at time tk, the extra term in the
+wealth balance reads:
+WD =
+N
+
+k=1
+φN
+k (xk)dk.
+(17.16)
+Very often, this dividend occurs once a year, at a given date k0: dk = d0δk,k0. In this case, the
+corresponding share price decreases immediately by the same amount (since the value of
+the company is decreased by an amount equal to d0 times the number of outstanding shares):
+
+304
+Options: some more speciﬁc problems
+x →x −d0. Therefore, the net balance dk + δxk associated to the dividend is zero. For the
+samereason,theprobability Pd0(x, N|x0, 0)isgiven,for N > k0,by Pd0=0(x + d0, N|x0, 0).
+The option price is then equal to: Cd0(x, xs, N) ≡C(x, xs + d0, N). If the dividend d0 is not
+known in advance with certainty, this last equation should be averaged over a distribution
+P(d0) describing as well as possible the probable values of d0. A possibility is to choose
+the distribution of least information (maximum entropy) such that the average dividend is
+ﬁxed to d, which in this case reads:
+P(d0) = 1
+d
+exp(−d0/d).
+(17.17)
+17.1.4 Transaction costs
+The problem of transaction costs is important: the rebalancing of the optimal hedge as time
+passes induces extra costs that must be included in the wealth balance as well. These ‘costs’
+are of different nature – some are proportional to the number of traded shares, whereas
+another part is ﬁxed, independent of the total amount of the operation. Let us examine the
+ﬁrst situation, assuming that the rebalancing of the hedge takes place at every time step τ.
+The corresponding cost is then equal to:
+δWtrk = ν|φ∗
+k+1 −φ∗
+k |,
+(17.18)
+where ν is a measure of the transaction costs. In order to keep the discussion simple, we
+shall assume that:
+r the most important part in the variation of φ∗
+k is due to the change of price of the underlying,
+and not from the explicit time dependence of φ∗
+k (this is justiﬁed in the limit where τ ≪T );
+r δxk is small enough such that a Taylor expansion of φ∗is acceptable;
+r the kurtosis effects on φ∗are neglected, which means that the simple Black–Scholes
+-hedge is acceptable and does not lead to large hedging errors.
+One can therefore write that:
+δWtrk = ν
+δxk
+∂φ∗
+k (x)
+∂x
+ = ν|δxk|∂φ∗
+k (x)
+∂x
+,
+(17.19)
+since ∂φ∗
+k (x)/∂x is positive. The average total cost associated to rehedging is then, after a
+straightforward calculation:†
+⟨Wtr⟩=
+N−1
+
+k=0
+δWtrk
+
+= ν⟨|δx|⟩N P(xs, N|x0, 0).
+(17.20)
+The order of magnitude of ⟨|δx|⟩is given by σ1x0: for an at-the-money option,
+P(xs, N|x0, 0) ∼(σ1x0
+√
+N)−1; hence, ﬁnally, ⟨Wtr⟩∼ν
+√
+N. It is natural to compare
+⟨Wtr⟩to the option price itself, which is of order C ∼σ1x0
+√
+N:
+⟨Wtr⟩
+C
+∝
+ν
+σ1x0
+.
+(17.21)
+† One should add to the following formula the cost associated with the initial value of the hedge φ∗
+0, equal to
+νx0φ∗
+0.
+
+17.2 Other types of options
+305
+This part of the transaction costs is in general proportional to x0: taking for example
+ν = 10−4x0, τ = 1 day and a daily volatility of σ1 = 1%, one ﬁnds that the transaction
+costs represent 1% of the option price. On the other hand, for higher transaction costs
+(say ν = 10−2x0), a daily rehedging becomes absurd, since the ratio, Eq. (17.21), is of
+order 1. The rehedging frequency should then be lowered, such that the volatility on the
+scale of τ increases, such as to become larger than ν and to justify the cost of hedging.
+Remember that a small error ε in the hedging strategy only affects the risk to second order
+ε2. Note also that in practice, one often hedges several call and put options simultaneously.
+Since for some the hedge increases, and for others it decreases, part of the trades cancel
+out and will not be executed. Therefore, the total cost of hedging of an option book can be
+much smaller than inferred from the above estimate.
+In summary, the transaction costs are higher when the trading time is smaller. On the
+other hand, decreasing of τ allows one to diminish the residual risk (Fig. 14.4). This analysis
+suggests that the optimal trading frequency should be chosen such that the transaction costs
+are comparable to the residual risk.
+17.2 Other types of options: ‘puts’ and ‘exotic options’
+17.2.1 ‘Put-Call’ parity
+A ‘put’ contract is a sell option, deﬁned by a pay-off at maturity given by max(xs −x, 0).
+A put protects its owner against the risk that the shares he owns drops below the strike
+price xs. Puts on stock indices like the S&P 500 are very popular. The price of a European
+put will be noted C†[x0, xs, T ] (we reserve the notation P for a probability). This price
+can be obtained using a very simple ‘parity’ (or no arbitrage) argument. Suppose that one
+simultaneously buys a call with strike price xs, and a put with the same maturity and strike
+price. At expiry, this combination is therefore worth:
+max(x(T ) −xs, 0) −max(xs −x(T ), 0) ≡x(T ) −xs.
+(17.22)
+Exactly the same pay-off can be achieved by buying the underlying now, and selling a bond
+paying xs at maturity. Therefore, the above call+put combination must be worth:
+C[x0, xs, T ] −C†[x0, xs, T ] = x0 −xse−rT ,
+(17.23)
+which allows one to express the price of a put knowing that of a call. If interest rate effects
+are small (rT ≪1), this relation reads:
+C†[x0, xs, T ] ≃C[x0, xs, T ] + xs −x0.
+(17.24)
+Note in particular that at-the-money (xs = x0), the two contracts have the same value, which
+is obvious by symmetry (again, in the absence of interest rate effects).
+17.2.2 ‘Digital’ options
+More general option contracts can stipulate that the pay-off is not the difference between
+the value of the underlying at maturity xN and the strike price xs, but rather an arbitrary
+
+306
+Options: some more speciﬁc problems
+function Y(xN) of xN. For example, a ‘digital’ option is a pure bet, in the sense that it pays
+a ﬁxed premium Y0 whenever xN exceeds xs. Therefore:
+Y(xN) = Y0
+(xN > xs);
+Y(xN) = 0
+(xN < xs).
+(17.25)
+The price of the option in this case can be obtained following the same lines as above. In
+particular, in the absence of bias (i.e. for m = 0) the fair price is given by:
+CY(x0, N) = ⟨Y(xN)⟩=
+
+Y(x)P0(x, N|x0, 0) dx,
+(17.26)
+whereas the optimal strategy is still given by the general formula, Eq. (13.33). In particular,
+for Gaussian ﬂuctuations, one always ﬁnds the Black–Scholes recipe:
+φ∗
+Y(x) ≡∂CY[x, N]
+∂x
+.
+(17.27)
+The case of a non-zero average return can be treated as above, in Section 15.1.1. To ﬁrst
+order in m, the price of the option is given by:
+CY,m = CY,m=0 −mT
+Dτ
+∞
+
+n=3
+cn,1
+(n −1)!
+
+Y(x′) ∂n−1
+∂xn−1 P0(x′, N|x, 0) dx′,
+(17.28)
+which reveals, again, that in the Gaussian case, the average return disappears from
+the ﬁnal formula. In the presence of non-zero kurtosis, however, a (small) systematic
+correction to the fair price appears. Note that CY,m can be written as an average of Y(x)
+using the effective, ‘risk neutral’ probability Q(x) introduced in Section 15.1.1. If the
+-hedge is used, this risk neutral probability is simply P0, and the value of the drift
+disappears from the option price – see Section 15.2.2.
+17.2.3 ‘Asian’ options
+The problem is slightly more complicated in the case of the so-called ‘Asian’ options. The
+pay-off of these options is calculated not on the value of the underlying stock at maturity,
+but on a certain average of this value over a certain number of days preceding maturity.
+This procedure is used to prevent an artiﬁcial rise of the stock price precisely on the expiry
+date, a rise that could be triggered by an operator having an important long position on
+the corresponding option. The contract is thus constructed on a ﬁctitious asset, the price of
+which being deﬁned as:
+˜x =
+N
+
+i=0
+wixi,
+(17.29)
+where the {wi}’s are some weights, normalized such that N
+i=0 wi = 1, which deﬁne the
+averaging procedure. The simplest case corresponds to:
+w N = w N−1 = · · · = w N−K+1 = 1
+K ;
+wk = 0
+(k < N −K + 1),
+(17.30)
+where the average is taken over the last K days of the option life. One could however
+consider more complicated situations, for example an exponential average (wk ∝s N−k).
+
+17.2 Other types of options
+307
+The wealth balance then contains the modiﬁed pay-off: max(˜x −xs, 0), or more generally
+Y(˜x). The ﬁrst problem therefore concerns the statistics of ˜x. As we shall see, this problem
+is very similar to the case encountered in Chapter 14 where the volatility is time dependent.
+Indeed, one has:
+N
+
+i=0
+wixi =
+N
+
+i=0
+wi
+ i−1
+
+ℓ=0
+δxℓ+ x0
+
+= x0 +
+N−1
+
+k=0
+γkδxk,
+(17.31)
+where
+γk ≡
+N
+
+i=k+1
+wi.
+(17.32)
+Said differently, everything goes as if the price did not vary by an amount δxk, but by an
+amount δyk = γkδxk, distributed as:
+1
+γk
+P1
+δyk
+γk
+	
+.
+(17.33)
+In the case of Gaussian ﬂuctuations of variance Dτ, one thus ﬁnds:†
+P(˜x, N|x0, 0) =
+1
+√
+2π ˜DNτ
+exp
+
+−(˜x −x0)2
+2 ˜DNτ
+
+,
+(17.34)
+where
+˜D = D
+N
+N−1
+
+k=0
+γ 2
+k .
+(17.35)
+More generally, P(˜x, N|x0, 0) is the Fourier transform of
+N−1
+
+k=0
+ˆP1(γkz).
+(17.36)
+This information is sufﬁcient to ﬁx the option price (in the limit where the average return
+is very small) through:
+Casi[x0, xs, N] =
+ ∞
+xs
+(˜x −xs)P(˜x, N|x0, 0) d˜x.
+(17.37)
+In order to ﬁx the optimal hedging strategy, one must however calculate the following
+quantity:
+P(˜x, N|x, k)⟨δxk⟩|(x,k)→(˜x,N),
+(17.38)
+conditioned to a certain terminal value for ˜x (cf. Eq. (14.15)). The general calculation is
+given in Appendix D. For a small kurtosis, the optimal strategy reads:
+φN∗
+k (x) = ∂Casi[x, xs, N −k]
+∂x
++ κ1Dτ
+6
+γ 2
+k
+∂3Casi[x, xs, N −k]
+∂x3
+.
+(17.39)
+† The case of a multiplicative process is more involved: see, e.g. H. Gemam, M. Yor, Bessel processes, Asian
+options and perpetuities, Mathematical Finance, 3, 349 (1993).
+
+308
+Options: some more speciﬁc problems
+Note that if the instant of time ‘k’ is outside the averaging period, one has γk = 1 (since
+
+i>k wi = 1), and the formula, Eq. (14.24), is recovered. If on the contrary k gets closer
+to maturity, γk diminishes as does the correction term.
+17.2.4 ‘American’ options
+We have up to now focused our attention on ‘European’-type options, which can only be
+exercised on the day of expiry. In reality, most traded options on organized markets can
+be exercised at any time between the issue date and the expiry date: by deﬁnition, these
+are called ‘American’ options. It is obvious that the price of an American option must be
+greater or equal to the price of a European option with the same maturity and strike price,
+since the contract is a priori more favourable to the buyer. The pricing problem is therefore
+more difﬁcult, since the writer of the option must ﬁrst determine the optimal strategy that
+the buyer can follow in order to ﬁx a fair price. Now, in the absence of dividends, the
+optimal strategy for the buyer of a call option is to keep it until the expiry date, thereby
+converting de facto the option into a European option. Intuitively, this is due to the fact
+that the average ⟨max(xN −xs, 0)⟩grows with N, hence the average pay-off is higher if
+one waits longer. The argument can be made more convincing as follows. Let us deﬁne a
+‘two-shot’ option, of strike xs, which can only be exercised at times N1 and N2 > N1 only.†
+At time N1, the buyer of the option may choose to exercise a fraction f (x1) of the option,
+which in principle depends on the current price of the underlying x1. The remaining part of
+the option can then be exercised at time N2. What is the average proﬁt ⟨G⟩of the buyer at
+time N2?
+Considering the two possible cases, one obtains:
+⟨G⟩=
+ +∞
+xs
+(x2 −xs) dx2
+
+P(x2, N2|x1, N1)[1 −f (x1)]P(x1, N1|x0, 0) dx1 +
+ +∞
+xs
+f (x1)(x1 −xs)erτ(N2−N1)P(x1, N1|x0, 0) dx1,
+(17.40)
+which can be rewritten as:
+⟨G⟩= C[x0, xs, N2]erτ N2 +
+ ∞
+xs
+f (x1) × P(x1, N1|x0, 0) (x1 −xs −C[x1, xs, N2 −N1]) erτ(N2−N1) dx1.
+(17.41)
+The last expression means that if the buyer exercises a fraction f (x1) of his option, he
+pockets immediately the difference x1 −xs, but loses de facto his option, which is worth
+C[x1, xs, N2 −N1].
+The optimal strategy, such that ⟨G⟩is maximum, therefore consists in choosing f (x1)
+equal to 0 or 1, according to the sign of x1 −xs −C[x1, xs, N2 −N1]. Now, this difference
+is always negative, whatever x1 and N2 −N1. This is due to the put–call parity relation
+† Options that can be exercised at certain speciﬁc dates (more than one) are called ‘Bermudan’ options.
+
+17.2 Other types of options
+309
+(cf. Eq. (17.24)):
+C†[x1, xs, N2 −N1] = C[x1, xs, N2 −N1] −(x1 −xs) −xs
+
+1 −e−rτ(N2−N1)
+.
+(17.42)
+Since C† ≥0, C[x1, xs, N2 −N1] −(x1 −xs) is also greater or equal to zero.
+The optimal value of f (x1) is thus zero; said differently the buyer should wait until matu-
+rity to exercise his option to maximize his average proﬁt. This argument can be generalized
+to the case where the option can be exercised at any instant N1, N2, . . . , Nn with n arbitrary.
+Note however that choosing a non-zero f increases the total probability of exercising the
+option, but reduces the average proﬁt! More precisely, the total probability of reaching xs
+before maturity is twice the probability of exercising the option at expiry (if the distribution
+of δx is even, see Section 10.4). OTC American options are therefore favourable to the
+writer of the option, since some buyers might be tempted to exercise before expiry.
+It is interesting to generalize the problem and consider the case where the two strike
+prices xs1 and xs2 are different at times N1 and N2, in particular in the case where
+xs1 < xs2. The average proﬁt, Eq. (17.41), is then equal to (for r = 0):
+⟨G⟩= C[x0, xs2, N2] +
+ ∞
+xs
+f (x1)P(x1, N1|x0, 0)
+× (x1 −xs1 −C[x1, xs2, N2 −N1]) dx1.
+(17.43)
+The equation
+x∗−xs1 −C[x∗, xs2, N2 −N1] = 0
+(17.44)
+then has a non-trivial solution, leading to f (x1) = 1 for x1 > x∗. The average proﬁt of
+the buyer therefore increases, in this case, upon an early exercise of the option.
+American puts
+Naively, the case of the American puts looks rather similar to that of the calls, and these
+should therefore also be equivalent to European puts. This is not the case for the following
+reason.
+§ Using the same argument as above, one ﬁnds that the average proﬁt associated to
+a ‘two-shot’ put option with exercise dates N1, N2 is given by:
+⟨G†⟩= C†[x0, xs, N2]erτ N2 +
+ xs
+−∞
+f (x1)P(x1, N1|x0, 0)
+×(xs −x1 −C†[x1, xs, N2 −N1])erτ(N2−N1) dx1.
+(17.45)
+Now, the difference (xs −x1 −C†[x1, xs, N2 −N1]) can be transformed, using the put-call
+parity, as:
+xs
+
+1 −e−rτ(N2−N1)
+−C[x1, xs, N2 −N1].
+(17.46)
+This quantity may become positive if C[x1, xs, N2 −N1] is very small, which corresponds
+to xs ≫x1 (puts deep in the money). The smaller the value of r, the larger should be the
+§ The case of American calls with non-zero dividends is similar to the case discussed here.
+
+310
+Options: some more speciﬁc problems
+difference between x1 and xs, and the smaller the probability for this to happen. If r = 0,
+the problem of American puts is identical to that of the calls.
+In the case where the quantity (17.46) becomes positive, an ‘excess’ average proﬁt δG is
+generated, and represents the extra premium to be added to the price of the European put
+to account for the possibility of an early exercise. Let us ﬁnally note that the price of the
+American put C†
+am is necessarily always larger or equal to xs −x (since this would be the
+immediate proﬁt), and that the price of the ‘two-shot’ put is a lower bound to C†
+am.
+The perturbative calculation of δG (and thus of the ‘two-shot’ option) in the limit of small
+interest rates is not very difﬁcult. As a function of N1, δG reaches a maximum between
+N2/2 and N2. For an at-the-money put such that N2 = 100, r = 5% annual, σ = 1%
+per day and x0 = xs = 100, the maximum is reached for N1 ≈80 and the corresponding
+δG ≈0.15. This must be compared with the price of the European put, which is C† ≈4.
+The possibility of an early exercise leads in this case to a 5% increase of the price of the
+option.
+More generally, when the increments are independent and of average zero, one can
+obtain a numerical value for the price of an American put C†
+am by iterating backwards
+the following exact equation:
+C†
+am[x, xs, N] = max(xs −x, e−rτ⟨C†
+am[x + δx, xs, N + 1]⟩).
+(17.47)
+This equation means that the put is worth the average value of tomorrow’s price if it is not
+exercised today (C†
+am > xs −x), or xs −x if it is immediately exercised. The averaging
+over the price increment must be performed with the undrifted distribution if the option
+is -hedged, see Section 15.2.2.
+Using this procedure, one can calculate the price of a European, American and ‘two-
+shot’ option of maturity 100 days (Fig. 17.1). For the ‘two-shot’ option, the optimal
+value of N1 as a function of the strike is shown in the inset.
+17.2.5 ‘Barrier’ options (∗)
+Let us now turn to another family of options, called ‘barrier’ options, which are such that
+if the price of the underlying xk reaches a certain ‘barrier’ value xb during the lifetime of
+the option, the option is lost. (Conversely, there are options that are only activated if the
+value xb is reached.) This clause leads to cheaper options, which can be more attractive to
+the investor. Also, if xb > xs, the writer of the option limits his possible losses to xb −xs.
+What is the probability Pb(x, N|x0, 0) for the ﬁnal value of the underlying to be at x,
+conditioned to the fact that the price has not reached the barrier value xb?
+In some cases, it is possible to give an exact answer to this question, using the so-called
+method of images. Let us suppose that for each time step, the price x can only change by
+an discrete amount, ±1 tick. The method of images is explained graphically in Figure 17.2:
+one can notice that all the trajectories going through xb between k = 0 and k = N has a
+‘mirror’ trajectory, with a statistical weight precisely equal (for m = 0) to the one of the
+trajectory one wishes to exclude. It is clear that the conditional probability we are looking
+for is obtained by subtracting the weight of these image trajectories:
+Pb(x, N|x0, 0) = P(x, N|x0, 0) −P(x, N|2xb −x0, 0).
+(17.48)
+
+17.2 Other types of options
+311
+0.8
+1
+1.2
+xs/x0
+0
+50
+100
+Topt
+0.8
+1
+1.2
+xs/x0
+0
+0.1
+0.2
+C
+American
+two-shot
+European
+Fig. 17.1. Price of a European, American and ‘two-shot’ put option as a function of the strike, for a
+100-days maturity and a daily volatility of 1% and r = 1%. The top curve is the American price,
+while the bottom curve is the European price. In the inset is shown the optimal exercise time N1 as a
+function of the strike for the ‘two-shot’ option.
+In the general case where the variations of x are not limited to 0 , ± 1, the previous
+argument fails, as one can easily be convinced by considering the case where δx takes
+the values ±1 and ±2. However, if the possible variations of the price during the time τ
+are small, the error coming from the uncertainty about the exact crossing time is small,
+and leads to an error on the price Cb of the barrier option on the order of ⟨|δx|⟩times the
+total probability of ever touching the barrier. Discarding this correction, the price of barrier
+options reads:
+Cb[x0, xs, N] =
+ ∞
+xs
+(x −xs)[P(x, N|x0, 0) −P(x, N|2xb −x0, 0)] dx
+≡C[x0, xs, N] −C[2xb −x0, xs, N],
+(xb < x0), or
+(17.49)
+Cb[x0, xs, N] =
+ xb
+xs
+(x −xs) [P(x, N|x0, 0) −P(x, N|2xb −x0, 0)] dx,
+(17.50)
+(xb > xs); the option is worthless whenever x0 < xb < xs.
+One can also ﬁnd ‘double barrier’ options, such that the price is constrained to remain
+within a certain channel x−
+b < x < x+
+b , or else the option vanishes. One can generalize the
+method of images to this case. The images are now successive reﬂections of the starting
+point x0 in the two parallel ‘mirrors’ x−
+b , x+
+b .
+
+312
+Options: some more speciﬁc problems
+0
+5
+10
+15
+20
+N
+-6
+-4
+-2
+0
+2
+4
+6
+Fig. 17.2. Illustration of the method of images. A trajectory, starting from the point x0 = −5 and
+reaching the point x20 = −1 can either touch or avoid the ‘barrier’ located at xb = 0. For each
+trajectory touching the barrier, as the one shown in the ﬁgure (squares), there exists one single
+trajectory (circles) starting from the point x0 = +5 and reaching the same ﬁnal point – only the last
+section of the trajectory (after the last crossing point) is common to both trajectories. In the absence
+of bias, these two trajectories have exactly the same statistical weight. The probability of reaching
+the ﬁnal point without crossing xb = 0 can thus be obtained by subtracting the weight of the image
+trajectories. Note that the argument is not exact if jump sizes are not constant.
+17.2.6 Other types of options
+One can ﬁnd many other types of options, which we shall not discuss further. Some options,
+for example, are calculated on the maximum value of the price of the underlying reached
+during a certain period. It is clear that in this case, a Gaussian or log-normal model is
+particularly inadequate, since the price of the option is directly governed by extreme events.
+Only an adequate treatment of the tails of the distribution can allow one to price this type
+of option correctly.
+17.3 The ‘Greeks’ and risk control
+The ‘Greeks’, which is the traditional name given by professionals to the derivative of the
+price of an option with respect to the price of the underlying, the volatility, etc., are often
+used for local risk control purposes. Indeed, if one assumes that the underlying asset does
+not vary too much between two instants of time t and t + τ, one may expand the variation
+
+17.4 Risk diversiﬁcation (∗)
+313
+of the option price in Taylor series:
+δC = δx + 1
+2(δx)2 + Vδσ + τ,
+(17.51)
+where δx is the change of price of the underlying. If the option is hedged by simultaneously
+selling a proportion φ of the underlying asset, one ﬁnds that the change of the portfolio
+value is, to this order:
+δW = ( −φ)δx + 1
+2(δx)2 + Vδσ + τ.
+(17.52)
+Note that the Black–Scholes (or rather, Bachelier) equation is recovered by setting φ∗= ,
+δσ ≡0, and by recalling that for a continuous-time Gaussian process, (δx)2 ≡Dτ (see
+Chapter 15). In this case, the portfolio does not change with time (δW = 0), provided that
+ = −D/2, which is precisely Eq. (16.3) in the limit τ →0.
+In reality, due to the non-Gaussian nature of δx, the large risk corresponds to cases where
+(δx)2 ≫|τ|. Assuming that one chooses to follow the -hedge procedure (which is in
+general suboptimal, see Section 14.2.2), one ﬁnds that the ﬂuctuations of the price of the
+underlying leads to an increase in the value of the portfolio of the buyer of the option (since
+ > 0). Losses can only occur if the implied volatility of the underlying decreases. If δx
+and δσ are uncorrelated (which is in general not true), one ﬁnds that the ‘instantaneous’
+variance of the portfolio is given by:
+⟨(δW)2⟩= 3 + κ1
+4
+2⟨δx2⟩2 + V2⟨δσ 2⟩,
+(17.53)
+where κ1 is the kurtosis of δx. For an at-the-money option of maturity T , one has:
+ ∼
+1
+σ x0
+√
+T
+V ∼x0
+√
+T .
+(17.54)
+Typical values are, on the scale of τ = one day, κ1 = 3 and δσ ∼σ. The  contribution to
+risk is therefore on the order of σ x0τ/
+√
+T . This is equal to the typical ﬂuctuations of the
+underlying contract multiplied by √τ/T , or equivalently the price of the option reduced by
+a factor N = T/τ. The Vega contribution is much larger for long maturities, since it is of
+order of the price of the option itself.
+17.4 Risk diversiﬁcation (∗)
+We have put the emphasis on the fact that for real world options, the Black–Scholes divine
+surprise – i.e. the fact that the risk is zero – does not occur, and a non-zero residual risk
+remains. One can ask whether this residual risk can be reduced further by including other
+assets in the hedging portfolio. Buying stocks other than the underlying to hedge an option
+can be called an ‘exogenous’ hedge. A related question concerns the hedging of a ‘basket’
+option, the pay-off of which being calculated on a linear superposition of different assets.
+A rather common example is that of ‘spread’ options, which depend on the difference of
+the price between two assets (for example the difference between the Nikkei and the S&P
+500, or between the British and German interest rates, etc.). An interesting conclusion is
+
+314
+Options: some more speciﬁc problems
+that in the Gaussian case, any exogenous hedge increases the risk. An exogenous hedge is
+only useful in the presence of non-Gaussian effects. Another possibility is to hedge some
+options using different options; in other words, one can ask how to optimize a whole ‘book’
+of options such that the global risk is minimum.
+‘Portfolio’ options and ‘exogenous’ hedging
+Let us suppose that one can buy M assets Xi, i = 1, . . . , M, the price of which being
+xi
+k at time k. As in Chapter 12, we shall suppose that these assets can be decomposed
+over a basis of independent factors Ea:
+xi
+k =
+M
+
+a=1
+viaea
+k.
+(17.55)
+The Ea are independent, of unit variance, and of distribution function Pa. The correlation
+matrix of the ﬂuctuations, ⟨δxiδx j⟩is equal to 
+a viav ja = [vv†]i j.
+One considers a general option constructed on a linear combination of all assets,
+such that the pay-off depends on the value of
+˜x =
+
+i
+fixi,
+(17.56)
+and is equal to Y(˜x) = max(˜x −xs, 0). The usual case of an option on the asset X 1
+thus corresponds to fi = δi,1. A spread option on the difference X 1 −X 2 corresponds to
+fi = δi,1 −δi,2, etc. The hedging portfolio at time k is made of all the different assets Xi,
+with weight φi
+k. The question is to determine the optimal composition of the portfolio, φi∗
+k .
+Following the general method explained in Section 13.3.3, one ﬁnds that the part of
+the risk which depends on the strategy contains both a linear and a quadratic term in
+the φ’s. Using the fact that the Ea are independent random variables, one can compute
+the functional derivative of the risk with respect to all the φi
+k({x}). Setting this functional
+derivative to zero leads to:†
+
+j
+[vv†]i jφ j
+k =
+
+ˆY(z)
+
+b
+ˆPb
+
+z
+
+j
+f jv jb
+
+×
+
+a
+via
+
+j f jv ja
+∂
+∂iz log ˆPa
+
+z
+
+j
+f jv ja
+
+dz.
+(17.57)
+Using the cumulant expansion of Pa (assumed to be even), one ﬁnds that:
+∂
+∂iz log ˆPa
+
+z
+
+j
+f jv ja
+
+= iz
+
+j
+f jv ja
+2
+−i z3
+6 κa
+
+j
+f jv ja
+4
++ · · · .
+(17.58)
+The ﬁrst term combines with
+
+a
+via
+
+j f jv ja
+,
+(17.59)
+† In the following, i denotes the unit imaginary number, except when it appears as a subscript, in which case it is
+an asset label.
+
+17.4 Risk diversiﬁcation (∗)
+315
+to yield:
+iz
+
+aj
+viav ja f j ≡iz[vv† · f ]a,
+(17.60)
+which ﬁnally leads to the following simple result:
+φi∗
+k = fiP
+
+xi
+k
+
+, xs, N −k
+
+(17.61)
+where P[{xi
+k}, xs, N −k] is the probability for the option to be exercised, calculated
+at time k. In other words, in the Gaussian case (κa ≡0) the optimal portfolio is such
+that the proportion of asset i precisely reﬂects the weight of i in the basket on which
+the option is constructed. In particular, in the case of an option on a single asset, the
+hedging strategy is not improved if one includes other assets, even if these assets are
+correlated with the former.
+However, this conclusion is only correct in the case of Gaussian ﬂuctuations and does
+not hold if the kurtosis is non-zero.
+§ In this case, an extra term appears, given by:
+δφi∗
+k = 1
+6
+
+ja
+κa[vv†]−1
+i j v ja
+
+l
+flv3
+la
+
+∂P(˜x, xs, N −k)
+∂xs
+.
+(17.62)
+This correction is not, in general, proportional to fi, and therefore suggests that, in some
+cases, an exogenous hedge can be useful. However, one should note that this correction
+is small for at-the-money options (˜x = xs), since ∂P(˜x, xs, N −k)/∂xs = 0.
+Option portfolio
+Since the risk associated with a single option is in general non-zero, the global risk of a
+portfolio of options (‘book’) is also non-zero. Suppose that the book contains pi calls of
+‘type’ i (i therefore contains the information of the strike xsi and maturity Ti). The ﬁrst
+problem to solve is that of the hedging strategy. In the absence of volatility risk, it is not
+difﬁcult to show that the optimal hedge (in the sense of variance minimization) for the book
+is the linear superposition of the optimal strategies for each individual option:†
+φ∗(x, t) =
+
+i
+piφ∗
+i (x, t).
+(17.63)
+The residual risk is then given by:
+R∗2 =
+
+i, j
+pi p jCi j,
+(17.64)
+where the ‘correlation matrix’ C is equal to:
+Ci j = ⟨max(x(Ti) −xsi, 0) max(x(Tj) −xsj, 0)⟩
+−CiC j −Dτ
+N−1
+
+k=0
+⟨φ∗
+i (x, kτ)φ∗
+j (x, kτ)⟩,
+(17.65)
+§ The case of L´evy ﬂuctuations is also such that an exogenous hedge is useless.
+† Note however that this would not be true for other risk measures, such as the fourth moment of the wealth
+balance, or the value-at-risk.
+
+316
+Options: some more speciﬁc problems
+where Ci is the price of the option i. If the constraint on the pi’s is of the form 
+i pi = 1,
+the optimum portfolio is given by:
+p∗
+i =
+
+j C−1
+i j
+
+i, j C−1
+i j
+(17.66)
+(remember that by assumption the mean return associated to an option is zero). Very often,
+however, the constraint is rather of the type 
+i |pi| = 1, for which the problem becomes
+much more intricate, see Section 12.2.2.
+Let us ﬁnally note that we have not considered, in the above calculation, the risk associated
+with volatility ﬂuctuations, which is rather important in practice. It is common practice
+to try to hedge, if possible, this volatility risk using other types of options (for example, an
+exotic option can be hedged using a ‘plain vanilla’ option). A generalization of the Black–
+Scholes argument (assuming that option prices themselves follow a Gaussian process, which
+is far from being the case) suggests that the optimal strategy is to hold a fraction
+˜ = ∂C2
+∂σ
+∂C1
+∂σ
+(17.67)
+of options of type 2 to hedge the volatility risk associated with an option of type 1. Using
+the formalism established in Chapter 14, one could work out the correct hedging strategy,
+taking into account the non-Gaussian nature of the price variations of options.
+17.5 Summary
+r In the presence of interest rates and dividends, the option price is given, in a ﬁrst
+approximation, by the discounted value of the option price with zero interest rate
+and dividends, computed as if the current price was the futures price, see Eq. (17.1).
+r In the presence of transaction costs, the rehedging time should be such that the
+volatility on this rehedging time is much larger than the fractional cost, otherwise
+the total cost of hedging would become comparable to the price of the option itself.
+r The general method of wealth balance can be applied to different types of ‘exotic’
+options. If these options are -hedged, their price can be computed by replacing the
+true distribution of returns by the ‘detrended’ distribution (‘risk neutral’ valuation).
+r Further reading
+J. C. Hull, Futures, Options and Other Derivatives, Prentice Hall, Upper Saddle River, NJ, 1997.
+I. Nelken (ed.), The Handbook of Exotic Options, Irwin, Chicago, IL, 1996.
+N. Taleb, Dynamical Hedging: Managing Vanilla and Exotic Options, Wiley, New York, 1998.
+P. Wilmott, J. N. Dewynne, S. D. Howison, Option Pricing: Mathematical Models and Computation,
+Oxford Financial Press, Oxford, 1993.
+P. Wilmott, Derivatives, The Theory and Practice of Financial Engineering, John Wiley, 1998.
+P. Wilmott, Paul Wilmott Introduces Quantitative Finance, John Wiley, 2001.

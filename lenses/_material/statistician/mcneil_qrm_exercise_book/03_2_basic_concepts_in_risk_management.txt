@@ -1,0 +1,310 @@
+2 Basic Concepts in Risk Management
+Review
+Exercise 2.1 (Notions of capital)
+In each of the following situations a certain notion of capital discussed in MFE (2015, Sec-
+tion 2.1.3) is most relevant for the decision maker. Explain which notion of capital that
+is.
+a) A ﬁnancial analyst who uses balance-sheet data to value a ﬁrm.
+b) A chief risk oﬃcer of an insurance company who has to decide on the appropriate level of
+reinsurance.
+c) A regulator who has to decide on shutting down a bank with many bad loans on its book.
+Exercise 2.2 (Diﬀerent notions of ﬁnancial distress)
+a) Brieﬂy explain the diﬀerence between illiquidity, insolvency, default and bankruptcy.
+b) Describe a scenario where a ﬁnancial company is insolvent but has not defaulted.
+c) Describe a scenario where a ﬁnancial company has defaulted but is not insolvent.
+Exercise 2.3 (Valuation of a real-estate investment)
+Suppose the manager of a real-estate fund has to value a particular ﬂat in Zurich, Switzerland.
+Relate the following three methods for the valuation of the ﬂat to the valuation methods
+discussed in MFE (2015, Section 2.2.2).
+a) The manager takes the purchase price of the ﬂat from several years ago and reduces it by
+an annual depreciation of 1% to allow for wear and tear.
+b) The manager ﬁnds transaction prices for similar ﬂats in the neighborhood and uses them to
+compute a price per square metre. She then multiplies the square-metre price by the size of
+the ﬂat.
+c) The manager estimates prices per square meter from a broad Swiss property price index
+and makes an ad hoc adjustment of 20% to account for the location of the ﬂat in Zurich.
+Exercise 2.4 (Translation invariance of risk measures)
+Show that a translation-invariant risk measure can be interpreted as the amount of capital
+that needs to be added to a position so that it becomes acceptable to a regulator.
+Exercise 2.5 (Subadditivity of risk measures)
+Explain why subadditivity is often considered a desirable property of a risk measure.
+13
+
+2 Basic Concepts in Risk Management
+Exercise 2.6 (VaR and expected shortfall)
+a) Give mathematically precise deﬁnitions of value-at-risk VaRα(L) and expected shortfall
+ESα(L) for a random loss L at conﬁdence level α ∈(0, 1).
+b) Explain the relative advantages of each risk measure over the other.
+Exercise 2.7 (Superadditivity scenarios for VaR)
+Describe some models for ﬁnancial losses that can lead to situations where VaRα is superadditive.
+Exercise 2.8 (Additivity for two linearly dependent random variables)
+Consider an arbitrary random variable X and let Y = aX + b for constants a > 0 and b ∈R.
+Show that VaRα(X + Y ) = VaRα(X) + VaRα(Y ) for α ∈(0, 1).
+Basic
+Exercise 2.9 (Risk-neutral valuation for interest-rate derivatives)
+Consider a two-period model. Denote by rt, t ∈{0, 1}, the simple interest rate from t to t + 1,
+so that 1 monetary unit invested at t is worth 1 + rt at t + 1. Assume that r0 is 1.5% and
+that r1 takes the values 1% and 2% with probability 1/2. Denote by p(t, T) the price at t of a
+zero-coupon bond with maturity T and face value 1.
+a) Write down p(0, 1) and p(1, 2) for the cases r1 = 0.01 and r1 = 0.02.
+b) Suppose a long zero-coupon bond with maturity T = 2 and face value 1 is traded for
+0.969729 at t = 0. In this setup an equivalent martingale measure Q is characterized by the
+probability q = Q(r1 = 0.01). Compute q from p(0, 2).
+c) Apply risk-neutral valuation to price a stylized ﬂoor contract which pays an amount of 1 if
+r1 < r0.
+Note. In general, a ﬂoor contract is an option which provides protection against low interest
+rates.
+Exercise 2.10 (Mapping of a stock portfolio aﬀected by exchange rates)
+Consider a portfolio P consisting of two stocks St,1, St,2, where St,1 denotes the value of stock 1
+in EUR and St,2 denotes the value of stock 2 in CHF. Let eCHF
+t
+denote the CHF/EUR exchange
+rate at time t. In other words, 1 CHF is worth eCHF
+t
+EUR at t. Furthermore, denote by λ1 and
+λ2 the number of shares in stocks 1 and 2 in P, respectively.
+a) Derive the value Vt in EUR of P at time t in terms of the risk factors Zt,j = log St,j,
+j ∈{1, 2}, and Zt,3 = log eCHF
+t
+. What is the corresponding mapping?
+b) Derive the value Vt+1 of P at time t + 1 and the one-period loss Lt+1.
+c) Derive the linearized one-period loss L∆
+t+1 and express it in terms of portfolio weights w1, w2
+(the values of each stock investment relative to the value Vt of the overall portfolio).
+14
+
+Basic
+Exercise 2.11 (Properties of VaR and expected shortfall)
+a) Show that VaRα is a monotone, translation invariant and positive-homogeneous risk measure.
+b) Why can we conclude that ESα also satisﬁes these properties?
+Exercise 2.12 (VaR and ES for continuous distributions with ﬁnite mean)
+Compute VaRα(L) and ESα(L) in the following cases:
+a) L has an exponential distribution with rate parameter λ > 0, that is L ∼Exp(λ).
+b) L has a log-normal distribution, that is log L ∼N(µ, σ2).
+c) L has the Weibull distribution with distribution function F(x) = 1 −exp(−√x/10), x ≥0.
+d) L has a Pareto distribution Pa(θ, 1) with distribution function F(x) = 1 −(1 + x)−θ, x ≥0,
+θ > 0. Under what condition on θ does ESα(L) exist?
+Exercise 2.13 (VaR and ES for a distribution function with jumps)
+Suppose that the loss L has distribution function
+F(x) =
+
+
+
+
+
+
+
+0,
+x < 1,
+1 −1/(1 + x),
+x ∈[1, 3),
+1 −1/x2,
+x ≥3.
+(E1)
+a) Plot the graph of F.
+b) Compute value-at-risk VaRα(L) at conﬁdence levels α = 85% and α = 95%.
+c) Compute expected shortfall ESα(L) at conﬁdence level α = 85%.
+Exercise 2.14 (VaR for a binomial model of a stock price)
+Consider a portfolio consisting of a single stock with current value St = 100. Each year, the
+stock price either increases by 4% with probability 0.8 or decreases by 4% with probability 0.2.
+Compute VaRα for α ∈{0.7, 0.95, 0.96, 0.99} over a time horizon of two years.
+Exercise 2.15 (VaR and ES for a discrete distribution)
+The following table contains the net proﬁts on two lines of business A and B of a company
+XYZ:
+Net proﬁt
+Outcome
+Probability
+Line A
+Line B
+ω1
+0.82
+1000
+1000
+ω2
+0.04
+1000
+0
+ω3
+0.04
+0
+1000
+ω4
+0.02
+0
+0
+ω5
+0.04
+1000
+−10 000
+ω6
+0.04
+−10 000
+1000
+a) Calculate VaR0.95 and ES0.95 for each of the business lines A and B.
+15
+
+2 Basic Concepts in Risk Management
+b) Calculate VaR0.95 and ES0.95 for the combined proﬁts of A and B.
+How do your answers ﬁt in with your knowledge of the coherence of the value-at-risk and
+expected shortfall risk measures?
+Exercise 2.16 (Expected shortfall for t distributions)
+Compute ESα for a standard t distribution with ν degrees of freedom, L ∼tν. Give a condition
+that guarantees that ESα(L) exists.
+Exercise 2.17 (VaR and ES for bivariate normal risks)
+Consider two stocks whose log-returns are bivariate normally distributed with annualized
+volatilities σ1 = 0.2, σ2 = 0.25 and correlation ρ = 0.4. Assume that the expected returns are
+equal to 0 and that one year consists of 250 trading days. Consider a portfolio with current
+value Vt = 106 (in EUR) and portfolio weights w1 = 0.7 and w2 = 0.3. Furthermore, denote
+by L∆
+t+1 the linearized loss (using log-prices of the stocks as risk factors). Compute the daily
+VaR0.99(L∆
+t+1) and ES0.99(L∆
+t+1) for the portfolio. How does the answer change if ρ = 0.6?
+Exercise 2.18 (Basic historical simulation)
+Consider two stocks, indexed by j ∈{1, 2}, with current values St,1 = 1000 and St,2 = 100 in
+some unit of currency. The monthly log-returns of both stocks over the last 10 months are
+given in the following table (values in %):
+Lag k
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+Log-return of S1 at lag k
+−16.1
+5.1
+−0.4
+−2.5
+−4
+10.5
+5.2
+−2.9
+19.1
+0.4
+Log-return of S2 at lag k
+−8.2
+3.1
+0.4
+−1.5
+−3
+4.5
+2
+−3.7
+10.9
+−0.4
+Table E.2.1 Monthly log-returns of the two stocks over the last 10 months (in %).
+Use historical simulation to estimate the one-month VaR at conﬁdence level α = 0.9 for the
+linearized loss L∆for the following two portfolios:
+a) A portfolio consisting of two shares of the ﬁrst stock S1.
+b) A portfolio consisting of one share of the ﬁrst stock and 10 shares of the second stock.
+Exercise 2.19 (Axioms of coherence for standard deviation)
+Consider the risk measure ϱ(L) =
+√
+var L on the space M = L2(Ω, F, P) of random vari-
+ables with ﬁnite second moment. For each axiom of coherence, either prove it or provide a
+counterexample to show it does not hold.
+Exercise 2.20 (Superadditivity of VaR for two iid Bernoulli random variables)
+Let L1, L2 be independent and identically distributed (iid) Bernoulli random variables such
+that P(Lj = 0) = 1 −p and P(Lj = 1) = p, j ∈{1, 2}, for some p ∈(0, 1). For which α ∈(0, 1)
+is VaRα superadditive, that is VaRα(L1 + L2) > VaRα(L1) + VaRα(L2)?
+16
+
+Basic
+Exercise 2.21 (VaR under strictly increasing transformations of a loss)
+Let L be a random loss and h : R →R a continuous and strictly increasing function. Show that
+VaRα(h(L)) = h(VaRα(L)),
+α ∈(0, 1).
+Exercise 2.22 (Subadditivity of VaR for bivariate normal random variables)
+Let (L1, L2) have a bivariate normal distribution with µj = E(Lj), σ2
+j = var(Lj), j ∈{1, 2},
+and ρ = corr(L1, L2).
+a) Compute VaRα(Lj), j ∈{1, 2}, and VaRα(L1 + L2).
+b) Show that VaRα is subadditive if and only if α ∈[1/2, 1).
+c) Plot the graphs of α 7→VaRα(L1 + L2) for standard normal L1, L2 with correlation values
+ρ ∈{−1, −0.5, 0, 0.5, 1}. Comment on the monotonicity behaviour with respect to ρ.
+Exercise 2.23 (Shortfall-to-quantile ratio for exponential, normal and Pareto)
+Calculate the ratio
+lim
+α→1−
+ESα(L)
+VaRα(L)
+in the following cases. Comment on the diﬀerences from a risk management perspective.
+a) L ∼Exp(λ) with distribution function F(x) = 1 −exp(−λx), x ≥0, λ > 0 (a light-tailed
+distribution).
+b) L ∼N(0, 1) (also light-tailed).
+c) L ∼Pa(θ, 1) with distribution function F(x) = 1 −(1 + x)−θ, x ≥0, θ > 1 (a heavy-tailed
+distribution).
+Exercise 2.24 (Matching VaR and ES)
+Under the Basel III guidelines, the risk measure underlying the capital requirements for market
+risk has changed from VaR to expected shortfall; see BIS (2016) and BIS (2017). In order that
+the overall capital requirement remains constant, the conﬁdence level of ES can be adjusted.
+Use numerical root ﬁnding to determine the value of α such that ESα(L) = VaR0.99(L) in
+the following cases.
+a) L ∼N(µ, σ2).
+Hint. First show that it is suﬃcient to consider L ∼N(0, 1).
+b) L ∼t3.5.
+Exercise 2.25 (Matching VaR and ES for Pareto distributions)
+Let β ∈(0, 1) and L ∼Pa(θ, 1) with distribution function F(x) = 1 −(1 + x)−θ, x ≥0, θ > 1.
+a) Determine analytically the conﬁdence level α ∈(0, β] such that ESα(L) = VaRβ(L) and
+give the range of β values for which the equation has a solution.
+b) Suppose that β is such that the equation has a solution. Show that α is given by an
+increasing function of θ and explain why this is the case.
+17
+
+2 Basic Concepts in Risk Management
+Advanced
+Exercise 2.26 (Superadditivity of VaR for two iid exponential random variables)
+For j ∈{1, 2} let Fj denote the distribution function of Lj and let FL1+L2 denote the distribution
+function of L1 + L2.
+a) Show that superadditivity of VaRα is equivalent to
+α > FL1+L2(F ←
+L1(α) + F ←
+L2(α)).
+b) Now assume that L1 and L2 are iid exponentially distributed with distribution function
+F(x) = 1 −exp(−λx), x ≥0, λ > 0. Show that VaRα is superadditive if and only if
+(1 −α)(1 −2 log(1 −α)) > 1.
+c) Determine the set of α values for which VaRα is superadditive using numerical root ﬁnding.
+Exercise 2.27 (Superadditivity of VaR for iid Bernoulli random variables)
+For d ≥2 let Y1, . . . , Yd be iid Bernoulli risks such that Yj ∼B(1, p) for p ∈[0, 1]. Show that
+VaRα is superadditive if and only if (1 −p)d < α ≤1 −p.
+Exercise 2.28 (Superadditivity of VaR for a heavy tailed distribution)
+Let L1 and L2 be independent random variables with distribution function F(x) = 1 −x−1/2,
+x ∈[1, ∞). This is a form of Pareto distribution with inﬁnite mean. Show that VaRα(L1+L2) >
+VaRα(L1) + VaRα(L2) for all α ∈(0, 1).
+Hint. Show that the distribution function FL1+L2 of L1 + L2 is given by FL1+L2(x) = 1 −
+2√x −1/x, x ≥2.
+Exercise 2.29 (Median shortfall)
+Let the loss L have continuous distribution function FL. The risk measure median shortfall at
+conﬁdence level α ∈[0, 1) is given by
+MSα(L) = F ←
+L|L>VaRα(L)(1/2),
+where FL|L>VaRα(L) denotes the conditional distribution of L given that L exceeds VaRα(L).
+a) Express FL|L>VaRα(L) in terms of FL.
+b) Show that MSα(L) = VaR 1+α
+2 (L) and interpret this result.
+c) Let FL(x) = 1 −(1 + x)−θ, x ≥0, θ > 1, be the distribution function of the Pareto
+distribution. Compute
+lim
+α→1−
+ESα(L)
+MSα(L)
+and interpret this result from a risk management perspective.
+18
+
+Advanced
+Exercise 2.30 (Shortfall-to-quantile ratio for t)
+Let L ∼tν(µ, σ2) for ν > 1, µ ∈R, σ > 0. Compute VaRα(L) and ESα(L). Show that
+lim
+α→1−
+ESα(L)
+VaRα(L) =
+ν
+ν −1
+and interpret this result from a risk management perspective.
+19
+

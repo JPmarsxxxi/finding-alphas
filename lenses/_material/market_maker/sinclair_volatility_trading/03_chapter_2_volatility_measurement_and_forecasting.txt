@@ -1,0 +1,1680 @@
+C H A P T E R 2
+Volatility
+Measurement
+and Forecasting
+W
+e have seen that to ﬁnd an edge in option trading we need an es-
+timate of future realized volatility to trade against that implied by
+the options. But before we can forecast future volatility, we need
+to be able to measure what it has been in the past. In this chapter we look
+at methods of historical volatility measurement including close-to-close
+volatility, Parkinson volatility, Rogers-Satchell volatility, Garman-Klass
+volatility, and Yang-Zhang volatility. We discuss the efﬁciency (how quickly
+our estimated value converges to the true value) and bias (whether our
+method systematically estimates above or below the true value) of each es-
+timator and also how each is perturbed by different aspects of real markets
+such as fat tails in the return distribution, trends, and microstructure noise.
+We discuss different frequencies of measurement. Once we understand
+what is meant by historical volatility, we can look at its properties. We
+demonstrate mean reversion, volatility clustering, and seasonality effects.
+DEFINING AND MEASURING VOLATILITY
+For trading we need more than a point estimate of future volatility; we
+need some estimate of possible range of volatilities. To ﬁnd this we exam-
+ine the construction and sampling properties of volatility cones. Measuring
+volatility and having a forecast of its distribution are essential for success-
+fully trading options. Sadly, it is not sufﬁcient. Buying volatility because it
+is cheap or selling because it is rich is seldom a good idea. Often things
+15
+
+16
+VOLATILITY TRADING
+will be cheap for a reason. Any forecast we make has to be supplemented
+by our fundamental analysis (e.g., what catalyst will appear to cause the
+volatility to rise? or what are we hoping will not happen if we are short?).
+The markets are very complex and interrelated, and all measurements and
+forecasts must be placed in the context of the current trading environment.
+Measuring volatility is not like measuring price. Instantaneous volatil-
+ity is unobservable. It needs time to manifest itself. Measuring it is some-
+thing of an art form and we need to choose between various statistical
+estimators. In fact, Poon (2005) lists over 100 references on volatility fore-
+casting, which gives some idea of the difﬁculty of the problem. We do not
+attempt to ﬁnd a deﬁnitive answer here. Instead, we look at a number of
+different estimators, learn their strengths and deﬁciencies, and determine
+where each should best be applied.
+DEFINITION OF VOLATILITY
+The standard deﬁnition of volatility is the square root of the variance. And
+variance is deﬁned as
+s2 = 1
+N
+N
+
+i=1
+(xi −¯x)2
+(2.1a)
+where
+(for our purposes) xi are the logarithmic returns
+¯x is the mean return in the sample
+N is the sample size
+To express the variance in annualized terms, we would need to multi-
+ply the raw variance by the annualization factor given by N, the number of
+trading periods in a year—for example, 252 if using daily data, as this is the
+number of trading days in a year (at least in the United States).
+If the historical price series includes the payment of a dividend (or a
+stock split), we must adjust the price series. The effect of a stock going
+ex-dividend makes it look like there was volatility even though there
+was none. If this adjustment is not done, our volatility estimate may
+well be wrong by several percentage points. For example, if we have a 3
+percent price drop due to the stock going ex-dividend, it looks like a 48
+percent move on an annualized basis (i.e., 0.03
+√
+252). Obviously this is
+very signiﬁcant.
+There are several different ways of making this adjustment. The ﬁrst
+is simply to subtract the dividend from the price before the ex-dividend
+
+Volatility Measurement and Forecasting
+17
+date. This leaves the absolute values of the day-to-day changes before the
+ex-dividend date unchanged, but if we have enough dividends in the series
+this process can lead to apparently negative stock prices.
+A better method is to multiply by an adjustment factor that leaves the
+percentage changes unaffected. This factor is
+1 −dividend
+price
+(2.1a)
+Prices before the ex-dividend date are multiplied by this factor. This
+is backward adjustment. Alternatively, it is possible to forward-adjust
+prices, which would mean that the current price won’t be the same as the
+adjusted price.
+In ﬁnance it is very difﬁcult to distinguish mean returns (drift) from
+variance (this is a central problem in many arguments about trading meth-
+ods and results), and estimates of the mean return are notoriously noisy,
+especially for small samples. So we generally set the mean return in equa-
+tion (2.1a) to zero. This increases accuracy of measurement by removing a
+source of noise.
+s2 = 1
+N
+N
+
+i=1
+(xi)2
+(2.1b)
+Equations (2.1a) and (2.1b) make no assumptions about the distribu-
+tion, other than that the sum converges. All ﬁnite samples have variance.
+However, to use volatility for pricing options, we need to make assump-
+tions about the process generating the returns. As mentioned in Chapter
+1, the BSM model assumed that the returns were normally distributed. In
+this case variance completely characterizes the shape of the distribution.
+We know this isn’t true, but we still expect variance (and hence volatil-
+ity) to be a very important parameter, indeed the dominant parameter, for
+describing the width of the return distribution.
+To estimate the population variance from this sample variance we need
+to make the conversion (Kenny and Keeping 1951):
+σ 2 =
+N
+N −1s2
+(2.2)
+Unfortunately, some authorities choose to avoid this step by directly
+deﬁning the sample variance to be
+s2 =
+1
+N −1
+N
+
+i=1
+(xi −¯x)2
+(2.3)
+
+18
+VOLATILITY TRADING
+so that is already an unbiased estimator for the population variance. It is
+very important to know exactly which deﬁnition you are dealing with, and
+this seems to be a recurring source of confusion. Always check for the
+(N −1) factor in the denominator. The Microsoft Excel function VAR uses
+this second convention.
+Equations (2.2) and (2.3) give unbiased estimates of variance, but sim-
+ply taking the square root will give an estimate of volatility that is biased
+low. This is because of Jensen’s inequality, which states that the average of
+a square root is always less than the square root of the average. Speciﬁcally
+E (s) = E
+
+s2
+
+<
+
+E(s2) =
+√
+σ 2 = σ
+One must correct for this.
+If we assume that the true process is a normal distribution of returns,
+we can use the fact that the distribution of the sample standard deviation
+as a function of the length of the sample is given by
+fN(s) = 2
+ N
+2σ 2
+ N−1
+2
+
+ N −1
+2
+ exp
+−Ns2
+2σ 2
+
+sN−2
+(2.4)
+where
+s
+is the sample standard deviation
+σ
+is the population standard deviation
+(x) is the gamma function deﬁned by (n) = (n −1)!
+This is plotted in Figure 2.1.
+0
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+1.4
+1.6
+1.8
+2
+0.5
+0
+1.5
+1
+2.5
+2
+s
+f(s)
+N=5
+N=10
+FIGURE 2.1
+The Distribution of the Sample Standard Deviation
+
+Volatility Measurement and Forecasting
+19
+TABLE 2.1
+Correction Factor as a Function of Sample Size
+Sample Size
+b(N)
+5
+0.840749
+10
+0.922746
+20
+0.961945
+50
+0.984912
+100
+0.992478
+200
+0.996245
+We see that increasing the sample size, N, shifts the peak of the distri-
+bution to the right—toward the population standard deviation. So a larger
+sample is less biased. The extent of this bias can be exactly quantiﬁed by
+the relationship
+¯s = b(N)σ
+(2.5)
+where
+b(N) =
+
+2
+N
+
+ N
+2
+
+
+ N −1
+2
+
+(2.6)
+s/b is an unbiased estimator of the population standard deviation
+Table 2.1 gives the size of b for various sample sizes.
+This corrects the bias. This means that it will not systematically over-
+or underestimate the true volatility. However, this estimator converges
+to the true volatility slowly, which is technically referred to as being
+inefﬁcient.
+The variance of the estimator is given by
+var (s) = 1
+N
+
+N −1 −2
+2
+ N
+2
+
+2
+ N −1
+2
+
+
+σ 2
+(2.7)
+Figure 2.2 shows the dependence on the variance (of the sample vari-
+ance) of various sample sizes.
+
+20
+VOLATILITY TRADING
+0
+0.01
+0.02
+0.03
+0.04
+0.05
+0.06
+0.07
+0.08
+0.09
+0.1
+0
+20
+40
+60
+80
+100
+120
+N
+Variance of Sample/True Variance
+FIGURE 2.2
+The Convergence of the Variance (of the Sample Variance) to the
+True Population Variance as a Function of the Sample Size N
+Mental arithmetic involving the gamma function can be tricky. A
+simpler approximation to this equation would be more useful. First we
+note that
+
+
+k + 1
+2
+
+ (k)
+=
+√
+k
+
+1 −1
+8k +
+1
+128k2 + · · ·
+
+(2.8)
+So to leading order in N we eventually get
+b (N)2 ≈1 −3
+2N
+(2.9)
+Therefore equations (2.6) and (2.7) give us
+var(s) ≈σ 2
+2N
+(2.10)
+This gives a simpler expression for levels of the conﬁdence interval
+of the measured volatility. Table 2.2 shows how the conﬁdence interval
+varies as we change N, the sample size. We can see that this is generally an
+excellent approximation to the exact result, per equation (2.7).
+So using more data would get us closer to the true result in this case.
+While this is no problem if we are measuring the volatility of an unchang-
+ing process, it is problematic for ﬁnancial markets. If we use too little data
+we will have a noisy measurement of volatility that, due to sampling er-
+ror, might not be close to the true volatility; but if we use too much data
+we will be using information that is no longer relevant to the current state
+
+Volatility Measurement and Forecasting
+21
+TABLE 2.2
+Conﬁdence Interval as a Function of Sample Size N
+Sample Size
+True Volatility
+Standard Deviation
+Approx. Standard Deviation
+5
+0.3
+0.091557
+0.094868
+10
+0.3
+0.066096
+0.067082
+20
+0.3
+0.047113
+0.047434
+30
+0.3
+0.03856
+0.03873
+50
+0.3
+0.029923
+0.03
+100
+0.3
+0.021186
+0.021213
+of the market. Choosing the right compromise is something of an art, and
+the most appropriate solution will be dependent on current market condi-
+tions. However, it is obvious that the commonly used method of measuring
+volatility from the last 30 closing prices gives an unacceptably large sam-
+pling error. The 95 percent conﬁdence interval of two standard deviations
+means that we could be off by as much as 25 percent of the true value!
+Sampling error is not the same as measurement error. In a physics ex-
+periment we might only be able to measure a certain quantity to a limited
+degree of precision, due to the limitations of the measuring device or the
+experimental setup. But if we ignore the bid/ask spread, the price of a stock
+is an exact number. So the historical volatility is an exact number. There is
+no uncertainty due to measurement. But there is uncertainty over whether
+the measure number is truly representative of the underlying reality. The
+situation has an analogy in baseball. When a player goes ﬁve for ﬁve he did
+hit 1.000. That is beyond dispute. But no one would claim he is truly a 1.000
+hitter. We have just been lucky enough to see the portion of his career when
+he hit well. There will be other days when he goes hitless. Similarly we need
+to remember that, like hitting ability, volatility is an unobservable quantity
+that we can only estimate. Our measurements are distorted reﬂections of
+the true volatility in the same way that a handful of plate appearances can
+only give a partial picture of a baseball player’s true ability.
+Before addressing this, let’s note that another reason the close-to-close
+estimator is useful is because it can be rewritten in a form that allows us to
+easily relate typical average stock moves to volatility, which is very useful
+for traders.
+The deﬁnition of the standard deviation involves the square root of an
+average of squares, and we typically don’t have good intuition about how
+these behave. So instead we will look at an estimator based on the typical
+stock move. This is
+σ = 19.896
+
+1
+N
+N
+
+t=1
+|Rt|
+
+(2.11)
+
+22
+VOLATILITY TRADING
+This is because
+E [|Rt|] =
+
+2
+π σ
+(2.12)
+This means that
+averagemove = 0.04986σ S ≈σ S
+20
+(2.13)
+This allows a simple translation between daily returns and annualized
+volatility. Multiplying the daily return by 20 gives a useful quick-and-dirty
+estimate of annualized volatility.
+There are two basic ways of addressing the problem of the large sam-
+pling error. We can use the close-to-close estimator with higher-frequency
+data, or we can use another estimator that doesn’t throw away all data
+points other than closing prices. Each has limitations. First we will try to
+develop better estimators, an approach that is also more generally applica-
+ble. If we can ﬁnd a better estimator we could always apply it to higher-
+frequency data.
+ALTERNATIVE VOLATILITY ESTIMATORS
+The ﬁrst such estimator was developed by Parkinson (Parkinson 1980). His
+estimator is
+σ =
+
+
+
+
+1
+4N ln 2
+N
+
+i=1
+
+ln hi
+li
+2
+(2.14)
+where
+hi is the high price in the trading period
+li
+is the low price
+As before, this would need to be annualized by multiplying it by the
+square root of the number of trading periods in a year. It makes sense that
+the range could give an estimate of volatility. That is generally what traders
+perceive volatility to be. It also seems likely that this estimate would need
+fewer time periods to converge to the true volatility as it uses two prices
+from each period, instead of just one as with the close-to-close estimator.
+This is true. The Parkinson estimator is about ﬁve times more efﬁcient at
+estimating volatility than the close-to-close estimator when it is tested on
+an artiﬁcially generated geometric Brownian motion (GBM). (Efﬁciency is
+
+Volatility Measurement and Forecasting
+23
+TABLE 2.3
+Sampling Error in
+Parkinson Variance
+Sample Size
+Parkinson Variance/
+True Variance
+5
+0.55
+10
+0.65
+20
+0.74
+50
+0.82
+100
+0.86
+200
+0.92
+deﬁned as the ratio of the variance of the close-to-close estimator to the
+range-based estimator).
+If prices are continuous, the Parkinson estimate of variance is unbiased
+(but remember that there is a bias introduced by Jensen’s inequality when
+we convert any variance estimate to a volatility estimate). However, prices
+are only sampled discretely. This is true both because markets only trade
+in discrete units and, more important, because markets are only open for
+part of the day. This means that the unobservable true price may not make
+a high or a low when we can actually measure it. So we will systematically
+underestimate volatility by using an estimator based on the observed range.
+Garman and Klass (Garman and Klass 1980) showed by simulation the
+underestimation due to discrete sampling as a function of sample size, as
+shown in Table 2.3.
+The fact that this biases the estimates of volatility low comes as a sur-
+prise to some. There is a pervasive misunderstanding that the Parkinson es-
+timator is biased high, as it is impossible to actually trade at the extremes.
+This is true but irrelevant. Parkinson makes no claims about being able
+to trade at the extremes of the range, just that the range is related to the
+volatility. It is an estimator of volatility, not of tradability.
+This bias is clearly a signiﬁcant issue. As a practical matter, the vari-
+ance estimate can be unbiased by dividing by these correction factors as
+we did in the case of the close-to-close estimator. But this does not address
+the fact that opening jumps exist in the price series.
+The other well-known volatility estimator was developed by Garman
+and Klass. It is
+σ =
+
+
+
+ 1
+N
+N
+
+i=1
+1
+2
+
+ln hi
+li
+2
+−1
+N
+N
+
+i=1
+(2 ln 2 −1)
+
+ln ci
+ci−1
+2
+(2.15)
+
+24
+VOLATILITY TRADING
+TABLE 2.4
+Sampling Error in Garman-Klass Variance
+Sample Size
+Garman-Klass Variance/
+True Variance
+5
+0.38
+10
+0.51
+20
+0.64
+50
+0.73
+100
+0.80
+200
+0.85
+This estimator is up to eight times as efﬁcient as the close-to-close esti-
+mator (the exact efﬁciency improvement is dependent on the sample size)
+but is also biased due to the discrete sampling leading to a low estimate of
+the range. Its bias is actually worse than the Parkinson estimator, as shown
+in Table 2.4 (also from Garman and Klass 1980).
+If we know what the bias is, it can be corrected. More problemati-
+cally, the studies that show improved efﬁciency of these estimators rely on
+assumptions that do not apply to real markets. In particular they as-
+sume that the underlying follows a driftless GBM and trades continuously.
+Rogers, Satchell, and Yoon (Rogers and Satchell 1991; Rogers, Satchell,
+and Yoon 1994) relax this restriction and introduce an estimator that out-
+performs the others when a drift term is introduced:
+σ =
+
+
+
+ 1
+N
+N
+
+i=1
+
+ln hi
+ci
+ 
+ln hi
+oi
+
++
+
+ln li
+ci
+ 
+ln li
+oi
+
+(2.16)
+More recently, Yang and Zhang (2000) derive an estimator that also al-
+lows for opening jumps. It is basically a weighted average of the Rogers,
+Satchell, and Yoon estimator, the close-to-open volatility, and the open-to-
+close volatility. In some simulations it can have efﬁciency 14 times greater
+than the close-to-close volatility. But this is highly dependent on the pro-
+portion of volatility caused by opening jumps. If these jumps dominate, the
+estimator performs no better than the close-to-close estimator. It is
+σ =
+
+σ 2o + kσ 2c + (1 −k) σ 2rs
+(2.17a)
+where
+σ 2
+o =
+1
+N −1
+N
+
+i=1
+ln
+ oi
+ci−1
+2
+(2.17b)
+
+Volatility Measurement and Forecasting
+25
+σ 2
+c =
+1
+N −1
+N
+
+i=1
+ln
+ ci
+oi−1
+2
+(2.17c)
+σ 2
+rs =
+1
+N −1
+N
+
+i=1
+
+ln hi
+ci
+ 
+ln hi
+oi
+
++
+
+ln li
+ci
+ 
+ln li
+oi
+
+(2.17d)
+k =
+0.34
+1 + N + 1
+N −1
+(2.17e)
+Brandt and Kinlay (2005) show that both of these estimators are down-
+ward biased. This should not be a surprise as both are dependent on ex-
+treme prices and continuity was still assumed.
+At this point we have ﬁve estimators, each constructed to address a
+shortcoming of the last. So each iteration should be better. Is our choice
+of which estimator to use obvious? Not really. When Brandt and Kinlay
+performed tests on more realistic simulated data (discretely sampled, with
+drift and jumps), the differences between the estimators became less dis-
+tinct. Under these circumstances the Garman-Klass and Yang-Zhang es-
+timators are biased slightly high and all of the nonclassical estimators
+have similar efﬁciencies. Further, the correlation between the estimators
+is much higher when tested on real market data than on simulated data
+(correlations are shown in Table 2.5 and Table 2.6).
+The overall conclusion we need to draw is that there really is no in-
+dication that any one estimator is best. All measures contain information.
+Given that we are now unable to decide on purely mathematical grounds,
+TABLE 2.5
+Correlations between the Volatility Estimators for Simulated Data
+Close-to-
+Close
+Parkinson
+Garman-
+Klass
+Rogers-
+Satchell
+Yang-
+Zhang
+Close-to-Close
+1.00
+0.7
+0.689
+0.394
+0.693
+Parkinson
+1.00
+0.768
+0.745
+0.777
+Garman-Klass
+1.00
+0.804
+0.995
+Rogers-Satchell
+1.00
+0.813
+Yang-Zhang
+1.00
+Source: M. W. Brandt and J. Kinlay, “Estimating Historical Volatility,” Investment
+Analytics, 2005.
+The data was sampled at ﬁve-minute intervals for a 25-day period. The volatility
+was stochastic with a mean of 14 percent and a drift of 8 percent.
+
+26
+VOLATILITY TRADING
+TABLE 2.6
+Correlations between the Volatility Estimators for S&P 500 Market
+Data
+Close-to-
+Close
+Parkinson
+Garman-
+Klass
+Rogers-
+Satchell
+Yang-
+Zhang
+Close-to-Close
+1.00
+0.975
+0.944
+0.911
+0.942
+Parkinson
+1.00
+0.991
+0.976
+0.99
+Garman-Klass
+1.00
+0.994
+0.999
+Rogers-Satchell
+1.00
+0.996
+Yang-Zhang
+1.00
+Source: M. W. Brandt and J. Kinlay, “Estimating Historical Volatility,” Investment
+Analytics, 2005.
+The data was sampled at ﬁve-minute intervals from January 4, 1988, to December
+31, 2003.
+we should consider what the various estimators are actually telling us and
+make our choice based on this criterion. For example, if the Parkinson
+volatility is 40 percent and the close-to-close volatility is 20 percent, we
+can reasonably conclude that much of the true volatility is being driven by
+large intraday ranges and that the closing prices underrepresent the true
+volatility of the process. This is useful knowledge when deciding how best
+to hedge. (Actually, it would have been useful knowledge. How useful it
+would be going forward is another matter, but it seems reasonable that
+some classes of stocks such as American depositary receipts, or ADRs, will
+have somewhat predictable Parkinson/close ratios, as much new informa-
+tion is revealed when the stocks are not trading.)
+Close-to-Close Estimator
+Good Points
+r It has well-understood sampling properties.
+r It is easy to correct bias.
+r It is easy to convert to a form involving typical daily moves.
+Bad Points
+r It is a very inefﬁcient use of data and converges very slowly.
+Parkinson Estimator
+Good Points
+r Using daily range seems sensible and provides completely separate in-
+formation from using time-based sampling such as closing prices.
+
+Volatility Measurement and Forecasting
+27
+Bad Points
+r It is really only appropriate for measuring the volatility of a GBM pro-
+cess. In particular it cannot handle trends and jumps.
+r It systematically underestimates volatility.
+Garman-Klass Estimator
+Good Points
+r It is up to eight times more efﬁcient than close-to-close estimator.
+r It makes the best use of the commonly available price information.
+Bad Points
+r It is even more biased than the Parkinson estimator.
+Rogers-Satchell Estimator
+Good Points
+r It allows for the presence of trends.
+Bad Points
+r It still cannot deal with jumps.
+Yang-Zhang Estimator
+Good Points
+r It is speciﬁcally designed to have minimum estimation error.
+r It can handle both drift and jumps.
+r It is the most efﬁcient in its use of available data.
+Bad Points
+r The performance degrades to that of close-to-close estimator when
+process is dominated by jumps.
+USING HIGHER-FREQUENCY DATA
+Having gone about as far as we can with estimator choice, we now look
+at improving our estimates by using more data in our sample: higher-
+frequency data. The beneﬁts of doing so are fairly obvious. However we
+
+28
+VOLATILITY TRADING
+0
+0.5
+1
+1.5
+2
+2.5
+Time
+Price
+FIGURE 2.3
+Two Price Paths with the Same Open, High, Low, and Close
+choose our sampling period, things happen that are not captured by the
+extremes or the closing prices. This is illustrated in Figure 2.3.
+Clearly one path is more volatile than the other, but any estimator using
+open, high, low, and close will give the same result. Using higher-frequency
+data somewhat avoids this problem.
+A major issue with using higher-frequency data is with its availability.
+Daily data is free, and for stocks with enough liquidity to have listed options
+it is fairly reliable. Higher-frequency data is expensive and generally must
+be obtained through specialist data vendors. It seems likely that this will
+become less of an issue in the future.
+As we sample at higher frequencies we generally improve the qual-
+ity of our measurement because we have increased the number of data
+points in our sample without increasing the calendar time we are measur-
+ing over. However, as we go to very high frequencies (exactly what this
+means is product speciﬁc, but we generally mean time intervals of a minute
+or less) we lose the ability to know what the true price actually is. Con-
+sider for example, a stock that has a true volatility of 30 percent. Using 15-
+minute prices, a 0.1 percent bid/ask spread can change our measurement
+by about 2 percent due to our taking a noisy estimate of the true underly-
+ing price as our input. The true price could be up to 0.1 percent away from
+our actual observation. This problem becomes more acute as we increase
+the sampling frequency. Finding optimal sampling frequencies in the pres-
+ence of microstructure noise was addressed by Ait-Sahalia et al. (2005),
+but the econometric techniques necessary and the data storage required
+probably put such methods out of the reach of most option traders for the
+near future.
+
+Volatility Measurement and Forecasting
+29
+To avoid these issues we need to choose a sampling period that is large
+compared to the typical trade time. This will vary from product to product,
+but 15 to 30 minutes should be a good place to start.
+When analyzing daily returns, seasonality is not really a huge issue.
+There is some evidence that stock volatilities are lower on Fridays and
+higher on Mondays but the differences are very small. However, there are
+two very important seasonal effects in high-frequency data that we need to
+be aware of.
+The ﬁrst is that the overnight return needs to be accounted for. In the
+United States, equities trade on the exchanges for six and a half hours. So
+the overnight return could clearly be very different in magnitude. It is also
+very different in character. Most relevant news occurs during the trading
+day, and a signiﬁcant amount of volatility is driven by trading volume, prac-
+tically all of which occurs during public trading periods.
+First we just ignore the overnight return and take the ﬁrst return of the
+day to be
+x0 = ln
+ Sopen
+Sclose−1
+
+(2.18)
+instead of
+x0 = ln
+ Sclose
+Sclose−1
+
+(2.19)
+All other returns are calculated in the normal way. Now we just es-
+timate volatility as before and annualize the result with the appropriate
+factor (for example, there are 13 half-hour periods in a trading day, so we
+would multiply the result by the square root of 13 times 252 U.S. trading
+days per year).
+Next we need to determine the amount of total variance that occurs
+during the trading day. This can be estimated by calculating the normal
+close-to-close volatility from daily data and comparing this with the volatil-
+ity calculated using the returns from the daily open to the daily close. For
+most American stocks, about 85 percent of the total volatility is due to ac-
+tivity that occurs during the trading day (indexes are higher at around 90
+percent and ADRs are lower at around 60 to 70 percent). If we divide the
+raw volatility estimate by this factor we obtain the opening jump–adjusted,
+high-frequency volatility estimator. The great advantage of using more data
+in this way is that a given time period contains more data points and thus
+leads to a smaller sampling error. While using the past 250 trading days
+to estimate current volatility seems somewhat inappropriate, 250 half-hour
+
+30
+VOLATILITY TRADING
+0
+0.05
+0.1
+0.15
+0.2
+0.25
+0.3
+8
+9
+10
+11
+12
+13
+14
+15
+16
+Central Standard Time
+MSFT Volatility
+FIGURE 2.4
+MSFT Intraday Volatility
+trading periods spans only 20 trading days. Assuming that the true process
+is stationary over such a period is far less optimistic.
+The other aspect of seasonality to keep in mind is that the true volatil-
+ity varies wildly throughout the trading day, and the variation is rather pre-
+dictable. Figures 2.4 through 2.6 show the intraday volatility calculated as
+the average of the Parkinson volatility of 30-minute returns for the time
+period from April 23 to June 4, 2007. We show the pattern for Microsoft
+(MSFT), Citigroup (C), and Genentech (DNA). Each shows a similar pat-
+tern in which volatility peaks at the open, dies down during the day, and
+has a small resurgence toward the close. This pattern has also been docu-
+mented in currencies, bonds, and equity indexes (Lequex 1999).
+0
+0.05
+0.1
+0.15
+0.2
+0.25
+0.3
+8
+9
+10
+11
+12
+13
+14
+15
+16
+Central Standard Time
+C Volatility
+FIGURE 2.5
+C Intraday Volatility
+
+Volatility Measurement and Forecasting
+31
+0
+0.05
+0.1
+0.15
+0.2
+0.25
+8
+9
+10
+11
+12
+13
+14
+15
+16
+Central Standard Time
+DNA Volatility
+FIGURE 2.6
+DNA Intraday Volatility
+This is interesting, but when we trade options we are really interested
+in the average volatility over a long period (known as integrated volatility
+in the econometric literature). On time scales of longer than a few days, the
+fast intraday seasonality will average out, and for time periods shorter than
+this, the effects of path dependency will massively overwhelm inaccuracies
+in volatility prediction.
+Traders who insist on sampling at very high frequencies will have to
+deal seriously with the issues of microstructure. This topic is well beyond
+the scope of this book. Those interested could start with Gencay et al.
+(2001) or Lequex (1999).
+FORECASTING VOLATILITY
+Now that we have seen how to measure what volatility currently is, we
+need to forecast what it will be over the lifetime of the option. This will ob-
+viously be more difﬁcult. Before we start applying any mathematics, let’s
+look at some of the characteristics of what we are trying to forecast. How
+does volatility behave? Figure 2.7 shows the volatility of the S&P 500 esti-
+mated using a rolling 50-day window from the start of 1990 until the end of
+July 2007.
+We have to be a little careful here that statements we make are about
+the actual volatility and are not about artifacts of the measurement process.
+But there are some things that seem fairly evident.
+
+32
+VOLATILITY TRADING
+0
+0.05
+0.1
+0.15
+0.2
+0.25
+0.3
+0.35
+0.4
+0.45
+0.5
+3/14/90
+3/14/91
+3/14/92
+3/14/93
+3/14/94
+3/14/95
+3/14/96
+3/14/97
+3/14/98
+3/14/99
+3/14/00
+3/14/01
+3/14/02
+3/14/03
+3/14/04
+3/14/05
+3/14/06
+3/14/07
+Volatility
+FIGURE 2.7
+S&P 500 Volatility (Together with Its Average Value)
+r The volatility of the volatility is positively related to the level.
+r There are more large moves up than down.
+r It seems to be, locally at least, mean-reverting, it is pulled towards its
+long-term mean (this is discussed in more depth in Chapter 3).
+These general features need to be kept in mind as we try to make
+volatility forecasts.
+The simplest forecasting method is just to assume that the next N days
+will be like the past N. So if we have measured the volatility (using what-
+ever estimator) over the past 30 days to be 20 percent, we will use this
+as our forecast for the next 30. This is sometimes known as the moving
+window method. The obvious problem with this forecast is that a big move
+in the stock’s price, say a jump due to good earnings, will stay in the volatil-
+ity estimate for N days and then drop out abruptly. This effect is shown in
+Figure 2.8.
+Clearly the volatility forecast after the jump should not be 100 per-
+cent. The jump, a huge event, has already happened and is very atypical.
+Obviously it is biasing the forecast. (Note that it is not biasing the esti-
+mate of current volatility. Volatility over the previous 30 days was indeed
+100 percent). A standard way to address this is to use the exponentially
+weighted moving average model. This takes the form
+σ 2
+t = λσ 2
+t−1 + (1 −λ)r2
+(2.20)
+where λ is a parameter between zero and one.
+
+Volatility Measurement and Forecasting
+33
+0
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+Date
+30-Day Volatility
+6/20/06
+7/4/06
+7/18/06
+8/15/06
+8/1/06
+8/29/06
+9/12/06
+9/26/06
+10/10/06
+10/24/06
+11/7/06
+11/21/06
+12/5/06
+12/19/06
+1/2/07
+1/16/07
+1/30/07
+2/13/07
+2/27/07
+3/13/07
+3/27/07
+4/10/07
+4/24/07
+FIGURE 2.8
+The 30-Day Moving Window Close-to-Close Volatility for True Reli-
+gion Apparel Inc. (TRLG) between June 20, 2006, and May 7, 2007
+This models the variance as a weighted average between the most re-
+cent squared returns and the previous variance. (We have used the vari-
+ance form here because it is normally stated in this way, as are the later
+time-series models we look at.) A lower value of λ means less emphasis is
+placed on the more distant past and more on the most recent observation.
+Generally values of between 0.9 and 0.99 are used.
+This method has the virtues of being simple to use and understand. It
+has the drawback of being a stupid solution. If the event truly was an outlier
+we would be better off excluding it from our data set when we forecast
+what volatility will be in the future. An exponential weighting may smooth
+the jumps in our volatility forecast but it does so purely to make things look
+pretty: A better solution is for the trader to decide if the event really was an
+outlier and, if it was, to then exclude it, or to treat it as a somewhat special
+case that could occur again and weight its contribution accordingly. To
+postulate that its effect decays exponentially really just dodges the issue.
+For example, a jump due to earnings is clearly an abnormal event. It
+would be good trading practice to exclude this from future forecasts (un-
+less they include future earnings dates). Why would it make sense to use an
+exponential decay? The earnings announcement was a single event. There
+won’t be a lesser earnings announcement the next day as well, and an even
+smaller one the day after that.
+A further problem with this method is that it doesn’t take into account
+the context of the most recent measurement. Both casual examination
+(look at Figure 2.7) and careful statistical analysis show that volatility is
+
+34
+VOLATILITY TRADING
+a mean-reverting process; high volatility is likely to be followed by periods
+of lower volatility and vice versa. The exponentially weighted moving aver-
+age (EWMA) forecast ignores this. The forecast variance tomorrow is the
+same as the forecast variance for the day after and for all days after that.
+The famous generalized auto-regressive conditional heteroskedasticity
+(GARCH) family of models addresses this by adding a long-term average
+variance that we expect variance to revert to, so that if variance is currently
+high we may expect it to stay high in the near term (as in the EWMA model)
+but to eventually revert to normality. The GARCH(1,1) model is
+σ 2
+t = γ V + αr2
+t−1 + βσ 2
+t−1
+(2.21)
+where V is the long-term variance.
+Clearly we must have
+γ + α + β = 1
+(2.22)
+And when γ = 0, α = 1 −λ, and β = λ, we recover the EWMA model
+as a special case. Generally this model is written in the form
+σ 2
+t = ω + αr2
+t−1 + βσ 2
+t−1
+(2.23)
+This is a more convenient form to use when estimating the parameters
+but it is used at the expense of a nice interpretation for the meaning of the
+ﬁrst term. Now the long-term variance is given by
+V =
+ω
+1 −α −β
+(2.24)
+Instead of having dependence on only the ﬁrst lagged returns and vari-
+ances it is possible to further generalize the model to include the past p
+returns and the past q variances. This results in the GARCH(p,q) model.
+σ 2
+t = ω + α1r2
+t−1 + · · · + αpr2
+t−p + β1σ 2
+t−1 + · · · βqσ 2
+t−q
+(2.25)
+To use GARCH to forecast volatility, we approach the subject itera-
+tively. Clearly for some time step in the future,
+σ 2
+t+τ = ω + αr2
+t+τ−1 + βσ 2
+t+τ−1
+(2.26)
+or
+σ 2
+t+1 = (1 −α −β) V + αr2
+t + βσ 2
+t
+so
+σ 2
+t+τ −V = α
+
+r2
+t+τ−1 −V
+
++ β
+
+σ 2
+t+τ−1 −V
+
+(2.27)
+
+Volatility Measurement and Forecasting
+35
+And if we use the fact that
+E
+
+r2
+t
+
+= σ 2
+t
+we get
+E
+
+σ 2
+t+τ −V
+
+= (α + β) E
+
+σ 2
+t+τ−1 −V
+
+and iterating we get
+E
+
+σ 2
+t+τ −V
+
+= (α + β) E
+
+σ 2
+t+τ−1 −V
+
+E
+
+σ 2
+t+τ
+
+= V + (α + β)τ 
+σ 2
+t −V
+
+(2.28)
+Equation (2.28) can be used to generate a term structure for the volatil-
+ity forecast. Figure 2.9 shows such a term structure for volatility after ﬁtting
+a GARCH(1,1) model to the daily return series for Microsoft (MSFT) using
+data from May 21, 2003, to May 21, 2007. The estimated parameters for the
+process were ω = 0.00000505, α = 0.053, and β = 0.884.
+GARCH models can only produce term structures that exponentially
+tend toward the long-term mean. They cannot account for the humped
+volatility term structures that are often observed in the market, where,
+for example, the two-month volatility is above both the one-month and
+three-month levels. This indicates that the option market does not believe
+in GARCH.
+0.1
+0.11
+0.12
+0.13
+0.14
+0.15
+0.16
+0.17
+0
+20
+40
+60
+80
+100
+120
+Time (Days)
+Volatility
+FIGURE 2.9
+The Term Structure of Volatility Predicted by a GARCH(1,1) Model for
+MSFT on May 21, 2007
+
+36
+VOLATILITY TRADING
+Maximum Likelihood Estimation
+Generally, when traders or risk managers use EWMA, they arbitrarily
+choose the smoothing parameter, λ. We could also do this for GARCH and
+arbitrarily set values for the parameters. However, those who believe the
+variance process is described by a GARCH model generally do not do this,
+relying instead on maximum likelihood estimation to ﬁnd the parameters
+for each underlying. (This is one of the often-stated objections to GARCH:
+that it is subject to retrospective curve ﬁtting of the parameters. More cor-
+rectly, this is a possible problem with the common implementation of the
+model rather than with the model itself.)
+Maximum likelihood estimation (MLE) is a method for estimating
+the parameters of a probability distribution. Likelihood differs from
+probability. Probability refers to the chance that a future event occurs,
+whereas likelihood refers to past events. In MLE the parameters are cho-
+sen to maximize the probability of the ﬁnal observed outcome actually
+happening.
+A commonly cited example is estimating the number of cabs in a city.
+All we know is that all cabs are given a unique number and that numbers
+are consecutively issued, with no numbers being skipped. If the ﬁrst cab
+we see has number 2028, what is our MLE estimate? Clearly there can be
+no fewer than 2028 cabs. Recall that MLE looks to ﬁnd the parameter that
+makes the observation most likely. In this case if there were exactly 2,028
+cabs in the city our chances of spotting that particular car would be 1/2,028.
+If there were any more cars than this we would have had a smaller chance
+of seeing exactly that one. So the MLE estimate is 2,028. Note that although
+this is our best estimate, it could be a long way from the actual number.
+There could well be 10,000 cabs. But MLE makes the best use of the infor-
+mation available to us.
+The next example is less trivial, although still somewhat contrived.
+Let’s assume that we toss a coin 10 times. We don’t know whether it is a
+fair coin—in fact, it could be one of three coins. One coin comes up heads
+one-third of the time, another gives heads half of the time, and the third
+yields heads two-thirds of the time. If we get six heads in our experiment,
+what coin is it most likely that we were using?
+Let p be the (unknown) probability of throwing a head. So the prob-
+ability of getting a tail is 1 −p. The result of a coin toss is described
+by the binomial distribution. The probability of getting h heads from N
+tosses is
+Pr(h) =
+n!
+(n −h)!h! ph(1 −p)n−h
+(2.29)
+
+Volatility Measurement and Forecasting
+37
+So
+Pr(h = 6|p = 1/3) =
+10!
+(4)!5!
+1
+3
+6 2
+3
+4
+≈0.057
+(2.30)
+Pr(h = 6|p = 1/2) =
+10!
+(4)!5!
+1
+2
+6 1
+2
+4
+≈0.205
+(2.31)
+Pr(h = 6|p = 2/3) =
+10!
+(4)!5!
+2
+3
+6 1
+3
+4
+≈0.228
+(2.32)
+So in this case it is most likely that we have been tossing the coin that
+comes up heads two-thirds of the time.
+This is an example of applying MLE to a discrete distribution. The case
+of a continuous distribution involves similar reasoning.
+The likelihood function for a GARCH(1, 1) model is given by
+t
+i=1
+
+
+1
+
+2πσ 2
+i
+exp
+−r2
+i
+2σ 2
+i
+
+
+(2.33)
+although it is normal to use the equivalent log-likelihood version:
+t
+
+i=1
+
+−ln
+
+σ 2
+i
+
+−r2
+i
+σ 2
+i
+
+(2.34)
+A spreadsheet is given where we estimate the parameters of a
+GARCH(1,1) model by maximizing the (log) likelihood function.
+After using the spreadsheet to ﬁt a GARCH(1,1) model to a few price
+series, the reader is likely to discover a problem: The log-likelihood func-
+tion is very ﬂat. The solver algorithm is likely to have difﬁculties ﬁtting a
+model, as there will be very small changes in the likelihood for a wide range
+of parameters. This can be somewhat addressed by using variance target-
+ing, where the omega term is set equal to the unconditional variance of the
+sample multiplied by (1 – α – β), and we only vary the alpha and beta terms.
+Still, it may be necessary to use more sophisticated numerical tech-
+niques if we want to use GARCH models extensively. These could also pro-
+vide statistics giving the goodness of ﬁt of the model. There are a number
+of reasons why the model may not ﬁt the data well. These include:
+r Insufﬁcient data. Generally at least 1,000 data points are required.
+r Poor initial values for the parameters.
+
+38
+VOLATILITY TRADING
+r Persistent seasonality contained in the data. This is a particular prob-
+lem with intraday data.
+r Wrong model. The data just isn’t consistent with the model chosen!
+Econometricians have developed a large number of models to address
+this last issue. I list some of the more common models here, but this list
+is far from exhaustive. In fact, since the original work by Engle (1982),
+an enormous number of versions have been developed.1 One paper docu-
+ments a comparative test of 330 models (Hansen and Lunde 2005).
+r Exponential GARCH (EGARCH) models the log of the variance. This
+means it can incorporate asymmetry, as negative shocks can have a
+different effect to positive shocks (Nelson 1991).
+r GJR-GARCH is another asymmetric model where an extra term is
+present in the case of downward shocks (Glosten et al. 1993).
+r Integrated GARCH (IGARCH) further constrains the parameters so
+that alpha and beta sum to one.
+r Threshold GARCH (TGARCH) has an extra term that applies when
+shocks are negative, again allowing asymmetry.
+r Absolute Value GARCH (AGARCH) directly models volatility instead
+of variance (Taylor 1986; Schwert 1989).
+r Component GARCH (CGARCH) models the variance as the sum of sev-
+eral processes or components. One could be used to capture the short-
+term response to shock and another to capture the long-term response.
+This allows the model to capture long memory effects (Engle and Lee
+1999; Ding and Granger 1996).
+It certainly seems that GARCH does capture some elements of the
+time evolution of variance. Further, it can be motivated by a fairly sim-
+ple microstructure-based argument (Sato and Takayasu 2002). However,
+the fact that so many models exist in the family, with no one being deﬁni-
+tively superior, can certainly be seen as a negative. Also, if we estimate
+the parameters of the model using MLE, then reestimate the model at a
+later date, we ﬁnd little persistence in the values of the parameters. This
+would also seem to indicate that the model was not a particularly good
+description of reality. Also note that this model is meant to be predictive,
+not just descriptive. Unlike BSM, which is just a conceptual framework, a
+volatility forecast really does need to have good correspondence with the
+future.
+1Engle actually developed ARCH. The GARCH model was ﬁrst proposed by Boller-
+slev (1986). ARCH is GARCH(0,1).
+
+Volatility Measurement and Forecasting
+39
+FORECASTING THE VOLATILITY
+DISTRIBUTION
+In addition to the GARCH family, there are many other methods for pre-
+dicting time series. These include neural networks, genetic algorithms, and
+classical econometric methods such as the ARMA family of models. We
+don’t touch on these here for several reasons: I have seen no conclusive ev-
+idence that they are any good at predicting; genetic algorithms and neural
+nets are very specialized methods that are easy to misuse; and while time
+series analysis is probably a good thing to know (refer to Taylor 1986), it is
+doubtful that spending a great deal of time trying to reﬁne a point forecast
+is worth it.
+Even if we agree with the Nobel Prize committee that the GARCH
+“models have become indispensible tools not only for researchers, but
+also for analysts on ﬁnancial markets, who use them in asset pricing and
+in evaluating portfolio risk,”2 it isn’t actually the breakthrough that an
+option trader needs. A point forecast of volatility just isn’t all that use-
+ful. We need a forecast of the volatility distribution. Selling one-month
+implied volatility at 15 percent might seem like a good idea if we have a
+forecast of 12 percent. It will seem less like a good idea if we know that
+one-month realized volatility has had a range of 11 to 35 percent. It isn’t
+just the forecast that is necessary. It is putting the forecast into the context
+of a volatility range. A simple way to do this is through the use of volatility
+cones.
+As stated in the seminal paper on the subject (Burghart and Lane 1990),
+“The purpose of a volatility cone is to illustrate the ranges of volatility ex-
+perience for different trading horizons.” Let’s look at the example of MSFT
+volatility for the four years ending April 30, 2007. We calculate volatility
+(here we use the close-to-close estimator but there is no reason another
+estimator could not be used) over nonoverlapping periods of 20 trading
+days, 40 trading days, 60 trading days, 120 trading days, and 240 trad-
+ing days. These correspond closely to one calendar month, two months,
+three months, six months, and one year. The results are displayed in
+Figure 2.10.
+When displayed graphically, we can see why this method was called
+a volatility cone. The cone shows the tendency for short-term volatilities
+to ﬂuctuate more widely than longer-dated volatilities. On the one hand
+this is obvious, as big moves will be averaged away in the longer term. On
+the other hand, we also know that volatility measurements are prone to
+2From the press release accompanying the announcement of the 2003 prize for eco-
+nomics, http://nobelprize.org/nobel prizes/economics/laureates/2003/press.html
+
+40
+VOLATILITY TRADING
+0
+0.05
+0.1
+0.15
+0.2
+0.25
+0.3
+0.35
+0.4
+0.45
+0.5
+20
+40
+60
+120
+240
+Time (Days)
+Volatility
+FIGURE 2.10
+The Volatility Cone for MSFT, Generated from the Four Years of
+Closing Prices Ending on April 30, 2007
+sampling error, and this more dramatically affects shorter measurement
+periods (refer back to Table 2.2, where we saw how sampling error is
+dependent on sample size). Further, in order to gain the most information
+from a given price series, it would generally be necessary to use overlap-
+ping data. This clearly will induce an artiﬁcial degree of correlation in the
+estimates of volatility and will bias our results somewhat.
+We need to take all of this into account. Speciﬁcally, we need to know
+how much bias is introduced into our volatility estimates by using overlap-
+ping data. This problem was studied extensively by Hodges and Tompkins
+(2002). They ﬁnd that variance measured from overlapping return series
+need to be multiplied by the adjustment factor
+m =
+1
+1 −h
+n + h2 −1
+3n2
+(2.35)
+where
+h is the length of each subseries (for example, 20 days)
+n = (T −h) + 1 is the number of distinct subseries available for a
+total number of observations T
+So for the example given in Table 2.7, where we need to adjust the
+variance measured over 60-day subperiods from 1,006 data points, the
+adjustment factor would be 1.06, or approximately 1.03 when applied to
+the volatility. Using this adjustment factor means we can use rolling win-
+dows for estimating volatility, which makes volatility cones a very useful
+trading tool.
+
+Volatility Measurement and Forecasting
+41
+TABLE 2.7
+The Volatility Cone Numbers for MSFT, Generated from the Four
+Years of Prices Up to April 30, 2007
+20-Day
+volatility
+40-Day
+volatility
+60-Day
+volatility
+120-Day
+volatility
+Maximum
+0.465
+0.352
+0.287
+0.258
+75%
+0.213
+0.213
+0.225
+0.2
+Median
+0.159
+0.172
+0.169
+0.181
+25%
+0.123
+0.149
+0.147
+0.161
+Minimum
+0.062
+0.096
+0.091
+0.136
+In fact, given that for stocks and many futures the impact of news is far
+more important than any other factor in projecting and forecasting realized
+volatility, we may generally be best served by comparing implied volatility
+to the historical volatility distribution given by the volatility cone. Selling
+one-month implied volatility at 35 percent because this is in the 90th per-
+centile for one-month volatility over the past two years can form the basis
+of a sensible trading plan. Selling 35 percent because GARCH is forecasting
+the realized volatility to be 20 percent is less sensible. The point forecast
+isn’t as important as the possible distribution of results.
+Obviously, it is also possible to construct volatility cones from the
+other volatility estimators.
+The volatility cone is very useful for placing current market informa-
+tion (realized volatility, implied volatility, and the spread between them)
+into historical context. But it doesn’t place it in the context of the current
+overall market. This is also something to monitor. If we had a choice of sell-
+ing Citigroup’s implied volatility at 39 percent when realized is 26 percent,
+or selling the S&P 500 implied volatility at 24 percent when its realized was
+18 percent, we should think carefully. We are not getting much more edge
+as a percentage for selling the single stock than we are for the index. Con-
+sider using the implied/realized spread of the index as a benchmark for the
+amount of edge you look for in all of your trades. Things change, and this
+context is always very important.
+Volatility cones are often not very helpful to market makers or other
+very active traders. In fact, they can be very irritating. This is because
+whenever the volatility cone tells you that implied volatility is historically
+high, you will already be short it. Generally you will have been selling it all
+the way up, and will now be sitting on a losing position. But at least you
+will now know that implied volatility is at all-time high, and now might not
+be the best time to cover. Market makers will lose money in these types of
+situations anyway. Ignorance can’t help.
+When making forecasts we will generally ﬁnd that the implied volatil-
+ity is equal to or signiﬁcantly above our forecast volatility. The BSM
+
+42
+VOLATILITY TRADING
+implied volatility is in general an upwardly biased estimate. For example, it
+is not uncommon for our forecasts to be 30 percent below current implied
+volatilities, but we practically never see the converse. There are a number
+of obvious reasons for this:
+r By selling implied volatility we are selling insurance. Thus there is a
+risk premium associated with it.
+r Perfectly reasonable things could happen that have never happened
+before. These will not be taken into account if we only base our fore-
+cast on past data.
+r Market microstructure encourages implied volatility to be biased high.
+Market makers make the bulk of their money by collecting the bid/ask
+spread in the options. They will willingly bias their quotes a little too
+high to protect their business. In essence, they are buying insurance
+(slight long volatility exposure, particularly on the downside), as any
+prudent business owner will do.
+The incorrect conclusion to draw from this discussion is that we can
+always proﬁt by selling implied volatility. Remember that insurance com-
+panies proﬁt largely from the proﬁts made by reinvesting the insurance
+premium. This opportunity isn’t available to option traders using borrowed
+funds. The option insurance premium alone isn’t a good enough reason to
+sell options. But we need to acknowledge its existence and debias our fore-
+casts accordingly so that we can tell if an option really is too expensive. So
+we adjust each forecast by subtracting the usual implied/forecast spread.
+For example, the realized/implied spread for the S&P 500 can be
+loosely proxied by the spread between the rolling 30-day close-to-close
+volatility and the Chicago Board Options Exchange Volatility Index (VIX).
+(The construction and interpretation of the VIX is covered in Appendix A.)
+This is shown in Figure 2.11. Note that the VIX is almost always above the
+30-day rolling volatility. You need to know the average amount of this pre-
+mium. Remember that you should be looking for things that are out of the
+15
+20
+25
+30
+Vol
+0
+5
+10
+39400
+39200
+39000
+38800
+Volatility
+Date
+VIX
+FIGURE 2.11
+The VIX and the S&P 500 30-Day Volatility
+
+Volatility Measurement and Forecasting
+43
+–6
+–4
+–2
+0
+2
+4
+6
+8
+10
+12
+3/24/06
+10/10/06
+4/28/07
+11/14/07
+Date
+Implied Premium
+FIGURE 2.12
+The Implied Volatility Premium for the S&P 500
+ordinary. The actual spread is shown in Figure 2.12. Here the average value
+is 3.09. This is the crucial value to remember. (Note also that the period
+in April 2007 where the spread went negative corresponds to a spike in
+the 30-day close-to-close volatility. This was largely caused by the problem
+with historical volatilities being backward-looking, as discussed earlier and
+shown in Figure 2.8.)
+For position traders, context-adjusted volatility cones can be very use-
+ful as they get to monitor volatility without having to continuously make
+markets. They can wait to establish a position as it reaches the highs (and
+the market makers will generally be eager to lighten up their positions at
+this point). Position traders have to take advantage of the fact that they can
+be selective. Trading may look like a competitive activity but it shouldn’t
+be about posturing. There is no need to always have a position. Lions are
+smart and powerful hunters, but they don’t waste energy ﬁghting rhinos.
+They wait until the wounded antelope gets separated from the herd.
+SUMMARY
+Measuring and forecasting volatility is essential when trading options.
+Forecasting in particular is something of an art, and the selection of an
+estimator (or more probably a combination of estimators), a sampling
+frequency, and a forecasting methodology will need to be based on
+experience. Some methods work better in different market conditions
+than others. However, there are a number of things that should always be
+considered:
+r Estimate volatility using a variety of methods, keeping in mind the
+strengths and weaknesses of each.
+r Try to choose a sample length that achieves a balance between includ-
+ing data from periods that is no longer relevant and using too little data
+so that sampling error dominates.
+
+44
+VOLATILITY TRADING
+r Place the forecast in context by using a volatility cone.
+r Further consider the state of the entire market to determine if the par-
+ticular implied volatility under examination is at an extreme level or
+whether this is just an appropriate level given the state of the broad
+market.
+r Be selective with your trades. Wait for an edge that is clear, measur-
+able, and understandable.

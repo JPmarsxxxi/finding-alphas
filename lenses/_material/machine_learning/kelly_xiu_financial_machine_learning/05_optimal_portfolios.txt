@@ -1,0 +1,1097 @@
+5
+Optimal Portfolios
+In this section, we discuss and analyze machine learning approaches
+to portfolio choice. The portfolio choice problem lies at the heart of
+ﬁnance. It aims for eﬃcient allocation of investor resources to achieve
+growth-optimal savings, and all major problems in asset pricing have an
+intimate association with it. Under weak economic assumptions (such as
+the absence of arbitrage), the mean-variance eﬃcient portfolio (MVE) in
+an economy is a tradable representation of the stochastic discount factor
+(SDF), and thus summarizes the way market participants trade oﬀrisk
+and return to arrive at equilibrium prices (Hansen and Richard, 1987).
+Likewise, individual assets’ exposures to the MVE portfolio map one-
+for-one into assets expected returns, meaning that the MVE amounts to
+a one-factor beta pricing model that explains cross-sectional diﬀerences
+in average returns (Roll, 1977). And, in the return prediction problem
+analyzed in Section 3, prediction performance is ubiquitously evaluated
+in terms of the beneﬁts it confers in optimal portfolios.
+There are many statistical approaches available for pursuing optimal
+portfolios. All approaches combine aspects of the distributional prop-
+erties of assets (their risk and reward) and investors’ preferences over
+the risk-return tradeoﬀ. The seminal Markowitz (1952) problem endows
+105
+
+106
+Optimal Portfolios
+investors with knowledge of the return distribution.1 Without the need
+to estimate this distribution, portfolio choice is a one-step problem of
+utility maximization. Invoking Hayek’s quote from the introduction,
+“if we command complete knowledge of available means, the problem
+which remains is purely one of logic.” This, once again, is emphatically
+not the economic problem the investor faces. The investor’s portfolio
+choice problem in inextricably tied to estimation, which is necessary
+to confront their lack of knowledge about the return distribution. The
+investor makes portfolio decisions with highly imperfect information.
+Since Markowitz, a massive literature proposes methodological tools
+to solve the estimation problem and arrive at beneﬁcial portfolios. It is
+a stubborn problem whose nuances often thwart clever methodological
+innovations. Practical success hinges on an ability to inform the utility
+objective with limited data. In other words, the portfolio problem is
+ripe for machine learning solutions.
+An emergent literature proposes new solutions rooted in machine
+learning ideas of shrinkage, model selection, and ﬂexible parameteriza-
+tion. First, machine learning forecasts, derived from purely statistical
+considerations (such as return or risk prediction models) may be plugged
+into the portfolio choice problem and treated as known quantities. An
+investor that treats the estimation and portfolio objectives in isolation,
+however, is behaving suboptimally. Estimation noise acts as a source of
+risk for the investor’s portfolio, so a complete segregation of the esti-
+mation problem unnecessarily sacriﬁces utility. Intuitively, the investor
+can do better by understanding the properties of estimation noise and
+accounting for it in their risk-return tradeoﬀcalculations. This calls for
+integrated consideration of estimation and utility optimization, leading
+once again to problem formulations that are attractively addressed with
+machine learning methods. We begin our discussion by illustrating the
+limitations of naive solutions that segregate the estimation and utility
+maximization problems. This provides a foundational understanding
+1There is a substantial theoretical literature that extends the Markowitz problem
+with sophisticated forms of preferences, return distributions, portfolio constraints, and
+market frictions, while maintaining the assumption that investors have all necessary
+knowledge of the return distribution. Brandt (2010) and Fabozzi et al. (2010) survey
+portions of this literature.
+
+5.1. “Plug-in” Portfolios
+107
+upon which we build our discussion of machine learning tools that
+improve portfolio choice solutions.
+5.1
+“Plug-in” Portfolios
+We begin with an illuminating derivation from Kan and Zhou (2007)
+who analyze the impact of parameter estimation in a tractable portfolio
+choice problem. The one period return on N assets in excess of the risk
+free rate, Rt, is an i.i.d. normal vector with ﬁrst and second moments
+µ ∈RN and Σ ∈RN×N. Investor attitudes are summarized by quadratic
+utility with risk aversion γ, and the investor seeks a portfolio of risky
+assets w ∈RN (in combination with the risk-free asset) to maximize
+one-period expected utility:
+E[U(w)|µ, Σ] = w′µ −γ
+2w′Σw.
+(5.1)
+When the distribution of returns is known, the utility maximizing
+portfolio solution is
+w∗= 1
+γ Σ−1µ.
+(5.2)
+Once we account for the reality of imperfect knowledge of the return
+distribution, investors must decide how to use available information in
+order to optimize the utility they derive from their portfolio. We assume
+that investors have at their disposal an i.i.d. sample of T observations
+drawn from the aforementioned return distribution.
+A simple and common approach to portfolio choice treats the statis-
+tical objective of estimating return distributions in isolation. First, the
+investor infers the mean and covariance of returns while disregarding
+the utility speciﬁcation. Second, the investor treats estimates bµ and bΣ
+as the true return moments and, given these, selects portfolio weights to
+optimize utility. This is known colloquially as the “plug-in” estimator,
+because it leads to a solution that replaces inputs to the solution (5.2)
+with estimated counterparts
+bw = 1
+γ
+bΣ−1bµ.
+(5.3)
+The motivation of the plug-in solution comes from the fact that, if
+bµ and bΣ are consistent estimates, then bw is also consistent for w∗. It
+
+108
+Optimal Portfolios
+oﬀers a simple and direct use of machine learning forecasts to achieve
+the desired economic end. While consistency of bw can be an attractive
+theoretical property, rarely do we have suﬃcient data for convergence
+properties to kick-in. When N is large, consistency is in peril. Thus,
+unfortunately, the plug-in portfolio solution has a tendency to perform
+poorly in practice, and is disastrous in settings where the number of
+assets begins to approach the number of training observations (Jobson
+and Korkie, 1980; Michaud, 1989).
+Kan and Zhou (2007) connect the portfolio estimation problem
+to statistical decision theory by noting that the diﬀerence in investor
+utility arising from the “true” optimal portfolio (w∗) versus the plug-in
+portfolio ( bw) can be treated as an economic loss function with expected
+value
+E[L(w∗, bw)|µ, Σ] = U(w∗) −E[U( bw)|µ, Σ].
+(5.4)
+This is the well known statistical “risk function,” which in the current
+environment can be viewed as the certainty equivalent cost of using a
+suboptimal portfolio weight.
+Suppose the investor estimates µ and Σ using the sample suﬃcient
+statistics
+bµ = 1
+T
+T
+X
+t=1
+Rt,
+bΣ = 1
+T
+T
+X
+t=1
+(Rt −bµ)(Rt −bµ)′,
+then Kan and Zhou (2007) show that the risk function of the plug-in
+portfolio is
+E[L(w∗, bw)|µ, Σ] = a1
+SR2
+2γ + a2
+(5.5)
+where SR2 is the squared Sharpe ratio of the true optimal strategy w∗
+and (a1, a2) are constants that depend only on the number of sample
+observations T and the number of assets N.2 The formula shows that
+the expected loss is zero for w∗and is strictly positive for any other
+weight. Holding N ﬁxed, both a1 and a2 approach zero as T increases,
+suggesting that the loss is inconsequential when T is large relative to
+2The explicit formulae are given by a1 = 1−
+T
+T −N−2
+h
+2 −
+T (T −2)
+(T −N−1)(T −N−4)
+i
+, a2 =
+NT (T −2)
+(T −N−1)(T −N−2)(T −N−4).
+
+5.1. “Plug-in” Portfolios
+109
+N. Holding T ﬁxed, both a1 and a2 are increasing in N, meaning that
+the loss becomes more severe when there are more parameters (more
+assets), all else equal. And the investor suﬀers a bigger loss when the
+Sharpe ratio is higher or risk aversion is lower as both of these lead the
+investor to tilt toward risky assets, which in turn increases the investor’s
+exposure to estimation uncertainty.
+Equation (5.5) makes it possible to quantify the utility cost of the
+plug-in estimator in reasonable calibrations. These costs suggest large
+utility shortfalls for investors that unduly rely on consistency properties
+of bw. But beyond its high dimensional challenge, a glaring disadvantage
+of the plug-in solution is its inadmissibility. Other portfolio rules, such
+as those based on shrinkage or Bayesian decision theoretic approaches,
+improve expected out-of-sample performance for any values of the true
+moments µ and Σ. The plug-in estimator is in this sense an especially
+unattractive portfolio solution. Its inadmissibility stems from the failure
+to account for dependence of end-use utility on parameter estimation.
+By placing their analysis in a decision theoretical framework, Kan
+and Zhou (2007) next provide a straightforward demonstration that
+investors have tools at their disposal to mitigate out-of-sample utility
+loss and easily improve over the plug-in portfolio. In particular, an
+investor can understand ex ante how estimation uncertainty impacts
+their out-of-sample utility, and how she can internalize this impact with
+modiﬁed portfolio rules that reduce the deleterious eﬀects of estimation
+noise. Kan and Zhou (2007) demonstrate plug-in portfolio inadmissibility
+by proving that simple portfolio tweaks (like tilting the plug-in solution
+toward a heavier weight in the risk-free asset or mixing it with the
+plug-in minimum variance portfolio) produce higher expected utility for
+any value of µ and Σ. This insight is the essence of statistical decision
+theory—outcomes are improved by integrating aspects of the investor’s
+utility objective into the statistical problem of weight estimation, rather
+than treating estimation and utility maximization as distinct problems.3
+3There is a large literature analyzing portfolio choice through a Bayesian and
+economic decision theoretical lens (see the survey of Avramov and Zhou (2010)).
+Early examples such as Jorion (1986) and Frost and Savarino (1986) demonstrate
+the utility beneﬁts conferred by Bayes-Stein shrinkage solutions. Other contributions
+in this area use informative and economically motivated priors (Black and Litterman,
+
+110
+Optimal Portfolios
+But the decision theoretical approach also gives rise to a paradox.
+The problem formulation above is extraordinary simple. Returns are i.i.d.
+normal. Preferences are quadratic. There is no aspect of the problem
+that is ambiguous or unspeciﬁed. It would seem, then, that any solution
+to this problem (decision theoretical or otherwise) must be similarly
+clear cut and unambiguous. But this is not the case! To see this, let
+us take stock of what each assumption buys us. The i.i.d. normality
+assumption implies that sample means and covariances are suﬃcient
+statistics for the investor’s information set (the sample of T return
+observations). From this we know that any eﬀective solution to the
+quadratic utility problem should depend on data through these two
+statistics and no others, so we know to restrict solutions to the form
+bw = f(bµ, bΣ).
+(5.6)
+Next, quadratic utility plus i.i.d. normality buys us some analytical
+tractability of the expected loss in (5.5).4 We seek a portfolio rule
+that minimizes E[L(w∗, bw)|µ, Σ]. But, without further guidance on the
+function f, the problem of minimizing expected loss is ill-posed. Herein
+lies the paradox. The seemingly complete formulation of the Markowitz
+problem delivers an unambiguous solution only when the parameters
+are known. Once estimation uncertainty must be accounted for, the
+problem provides insuﬃcient guidance for estimating portfolio rules
+that maximize expected out-of-sample utility.
+Some make progress by imposing a speciﬁc form of f. For example,
+to demonstrate inadmissibility of the plug-in solution, Kan and Zhou
+(2007) restrict f to a set of linear functions and show that within this set
+there are portfolio solutions that uniformly dominate the plug-in rule.
+Meanwhile they note that good choices for bw “can potentially be a very
+complex nonlinear function of bµ and bΣ and there can be inﬁnitely many
+ways to construct it. However, it is not an easy matter to determine the
+1992; Pastor, 2000; Pastor and Stambaugh, 2000; Tu and Zhou, 2010). While these
+are not machine learning methods per se, they paved the way for development of
+integrated estimation and utility optimization solutions that are now the norm among
+machine learning portfolio methods.
+4But this analytical tractability only obtains for certain choices of f (for example,
+those linear in bµ, bΣ−1, or bΣ−1bµ).
+
+5.2. Integrated Estimation and Optimization
+111
+optimal f(bµ, bΣ).” Tu and Zhou (2010) and Kan et al. (2022) elaborate on
+this idea with alternative portfolio combinations and propose portfolio
+rules that aim to minimize utility loss under estimation uncertainty.
+Yuan and Zhou (2022) extend this analysis to the high-dimensional case
+where N > T. Instead of restricting the functional form of portfolio
+strategies f, Da et al. (2022) make progress on this problem by imposing
+restrictions on the data generating process of returns.
+5.2
+Integrated Estimation and Optimization
+So where does the inadmissibility paradox leave us more generally? We
+have an unknown function f appearing in an economic problem—this
+is an ideal opportunity to leverage the strengths of machine learning.
+In the current setting how might this work? Perhaps we can choose
+a ﬂexible model like a neural network to parameterize f and search
+for function parameter values that maximizes expected out-of-sample
+utility (or, equivalently, minimizes the risk function E[L(w∗, bw)|µ, Σ])?
+The problem is that E[L(w∗, bw)|µ, Σ] can only be derived for certain
+special cases like the plug-in estimator. For general f, the expected
+out-of-sample utility is not available in closed form, and if it were it
+depends on the unknown true parameters µ and Σ.
+A feasible alternative approach is to choose the portfolio rule f to
+optimize in-sample utility, and to regularize the estimator to encourage
+stable out-of-sample portfolio performance (e.g., via cross-validation).
+This falls neatly into the typical two-step machine learning workﬂow:
+Step 1. Choose a class of functions indexed by a tuning parameter
+(for example, the class might be linear ridge models, which are
+indexed by the ridge penalty z) and use the training sample to
+estimate model parameters (one set of estimates for each value of
+z). Take note of how immediately the simple, analytical Markowitz
+paradigm morphs into a machine learning problem. When the true
+parameters are known, the tightly speciﬁed Markowitz environ-
+ment gives a simple and intuitive closed-form portfolio solution.
+Yet with just a sprinkling of estimation uncertainty, the decision
+theoretical problem is only partially speciﬁed and the portfolio rule
+
+112
+Optimal Portfolios
+that minimizes out-of-sample loss cannot be pinned down. This
+leads us to use the economic objective as the estimation objective.
+In other words, the decision theoretical structure of the problem
+compels us to integrate the statistical and economic objectives
+and to consider open-minded machine learning speciﬁcations.
+Step 2. In the validation sample, choose tuning parameters (e.g.,
+a speciﬁc ridge penalty z) to optimize expected out-of-sample
+performance. The theoretical underpinnings of regularization are
+rooted minimization of estimation risk. In the Kan and Zhou
+(2007) framework these underpinnings are explicit and regulariza-
+tion is pursued through analytical calculations. The more standard
+course of action replaces the theoretical calculations with empirics.
+Expected out-of-sample utility is approximated by realized utility
+in the validation sample, and the value of z that maximizes vali-
+dation utility is selected. This empirical cross-validation obviates
+the need for theoretical simpliﬁcations that would be necessary
+to optimize expected utility directly.
+Once the portfolio choice problem is cast in the machine learning
+frame, one can begin generalizing any otherwise restrictive assumptions.
+For example, the return distribution need not be normal nor i.i.d., since
+we do not need to explicitly calculate expected out-of-sample utility.
+We can thus write the general portfolio rule as
+bw = f(XT ),
+(5.7)
+where XT collates all data relevant to the decision making process. It
+may include the return sample {Rt}T
+t=1 itself as well as any conditioning
+variables that modulate the conditional return distribution. We can
+likewise swap out preference speciﬁcations to accommodate tail risk
+concerns, multiple-horizon objectives, or other complications.
+5.3
+Maximum Sharpe Ratio Regression
+Frontier machine learning methods for portfolio choice directly take
+utility optimization into consideration when estimating portfolio rules.
+
+5.3. Maximum Sharpe Ratio Regression
+113
+Important early progress in machine learning portfolio choice comes
+from Ait-Sahalia and Brandt (2001), Brandt and Santa-Clara (2006),
+and Brandt et al. (2009). Their central contribution is to formalize the
+portfolio problem as a one-step procedure that integrates utility maxi-
+mization into the statistical problem of weight function estimation. The
+approach makes no distributional assumptions for returns. Instead, it
+speciﬁes investor utility and an explicit functional form for the investor’s
+portfolio weight function in terms of observable covariates. Parameters
+of the weight function are estimated by maximizing average in-sample
+utility. Following Brandt (1999), we refer to this as the “parametric
+portfolio weight” approach.
+To keep our presentation concrete, we continue in the spirit of
+Markowitz and specialize our analysis to the mean-variance utility
+framework. Our primary motivation for doing so is that we can cast the
+“parametric portfolio weight” as an OLS regression. To do so, we rely on
+Theorem 1 of Britten-Jones (1999) who shows that the Markowitz plug-
+in solution in (5.3) is proportional to the OLS coeﬃcient in a regression
+of a constant vector on the sample asset returns. In particular, the OLS
+regression
+1 = w′Rt + ut
+(5.8)
+delivers coeﬃcient5
+wOLS ∝bΣ−1bµ.
+Intuitively, regression (5.8) seeks a combination of the risky excess
+returns Rt that behaves as closely as possible to a positive constant.
+This is tantamount to ﬁnding the combination of risky assets with the
+highest possible in-sample Sharpe ratio. While this is exactly propor-
+tional to identifying the in-sample tangency portfolio of risky assets, we
+will see that the regression formulation is attractive for incorporating
+machine learning methods into parameterized portfolio problems. Going
+forward, we dub regressions of the form (5.8) as “maximum Sharpe
+ratio regression,” or MSRR.
+Brandt et al. (2009) focus on the portfolio weight parameterization
+wi,t = ¯wi,t + s′
+i,tβ
+(5.9)
+5To derive this result, note that wOLS = (bΣ + bµbµ′)−1bµ = bΣ−1bµ(1 + bµbΣ−1bµ)−1.
+
+114
+Optimal Portfolios
+where ¯wi,t is some known benchmark weight of asset i at time t, and
+si,t is a set of K signals that enter linearly into the portfolio rule with
+K-dimensional coeﬃcient vector β. This introduces scope for dynamic
+portfolio weights that vary with conditioning variables. For notational
+simplicity, we normalize ¯wi,t to zero and stack weights and signals into
+the vector equation6
+wt = Stβ,
+(5.10)
+where wt is N × 1 and St is N × K. Substituting into (5.8), MSRR
+becomes
+1 = β′(S′
+t−1Rt) + ut = β′Ft + ut.
+(5.11)
+We may view wt as a set of dynamic weights on the N base assets Rt. Or,
+equivalently, β is a set of static weights on K “factors” (characteristic-
+managed portfolios):
+Ft = S′
+t−1Rt.
+(5.12)
+In other words, the restriction that the same signal combo applies for all
+assets immediately converts this into a cross-sectional trading strategy
+(since F represents portfolios formed as a cross-sectional covariance
+of returns with each of the signals individually). The estimated port-
+folio coeﬃcients are bβ = d
+Cov(F)−1bE(F). In the language of Brandt
+and Santa-Clara (2006), the MSRR weight parameterization in (5.10)
+“augments the asset space,” from the space of base returns to the space
+of factors. With this augmentation, we arrive back at the basic problem
+in (5.8) that estimates ﬁxed portfolio weights on factors. A beneﬁt of
+the MSRR formulation is that we have simple OLS test statistics at
+our disposal for evaluating the contribution of each signal (as originally
+proposed by Britten-Jones, 1999).
+Brandt (1999) summarizes the beneﬁts of parametric portfolio rules,
+noting
+“the return modeling step is without doubt the Achilles’ heel
+of the traditional econometric approach.... Focusing directly
+6Brandt et al. (2009) also note the ease of accommodating industry neutrality or
+other weight centering choices as well as handling time-varying cross-section sizes
+(in which case they recommend the normalization
+1
+Nt s′
+i,tβ in (5.9), where Nt is the
+number of assets at period t). We abstract from these considerations for notational
+simplicity.
+
+5.3. Maximum Sharpe Ratio Regression
+115
+on the optimal portfolio weights therefore reduces consid-
+erably the room for model mispeciﬁcation and estimation
+error.”
+They emphasize that estimation error control stems from a highly
+culled parameter dimension (relative to estimating all assets’ means
+and covariances).
+The Brandt et al. (2009) empirical application studies portfolio rules
+for thousands of stocks using only three parameters (that is, condition-
+ing only on stocks’ size, value, and short-term reversal characteristics).
+The least squares formulation for parameterized portfolio rules prompts
+a brainstorm of adaptations to incorporate machine learning struc-
+tures. We are immediately tempted to consider large K regressions
+for incorporating a rich set of conditioning information, including for
+example the full zoo of factor signals and perhaps their interactions with
+macroeconomic state variables, along with the usual machine learning
+regularization strategies for shrinkage and model selection. The idea of
+lasso-regularized parametric portfolios is broached by Brandt and Santa-
+Clara (2006) and Brandt et al. (2009), and thoroughly investigated by
+DeMiguel et al. (2020).7 The beauty of MSRR is that eﬃcient software
+for lasso and elastic-net regression can be deployed for the portfolio
+choice problem straight oﬀ-the-shelf. This covers essentially all varieties
+of penalized regression that employ ℓ1 or ℓ2 parameter penalties, which
+includes a range of realistic portfolio considerations like leverage control
+(often formulated as an ℓ1 penalty) or trading costs adjustments (often
+modeled as an ℓ2 penalty). In the special case of ridge regression with
+penalty z, the penalized MSRR objective is
+min
+w
+X
+t
+(1 −β′Ft)2 + zβ′β
+(5.13)
+with solution
+bβ ∝( d
+Cov(F) + zI)−1bE(F),
+(5.14)
+which modiﬁes the standard sample tangency portfolio of factors by
+shrinking the sample covariance toward identity. This naturally connects
+7Ao et al. (2018) also study a related lasso-regularized portfolio choice problem
+that they call MAXSER.
+
+116
+Optimal Portfolios
+with the broader topic of covariance shrinkage for portfolio optimization
+discussed by Ledoit and Wolf (2004) and Ledoit and Wolf (2012).
+Together with the ease of manipulating MSRR speciﬁcations, the
+viability of penalized linear formulations raises exciting prospects for
+parametric portfolio design. For example, we can break the restriction
+of identical coeﬃcients for all assets in (5.10) with the modiﬁcation
+wi,t = s′
+i,tβi
+(5.15)
+and associated regression representation
+1 = vec(B)′{vec(St−1) ⊙(Rt ⊗1K)} + ut,
+(5.16)
+where B = [β1, ..., βN]. This regression has the interpretation of ﬁnding
+the tangency portfolio among NK “managed” strategies, with each
+individual strategy an interaction of return on asset i with one of its
+signals. A minor modiﬁcation of this problem makes it possible to
+accommodate assets with diﬀerent sets of predictors. As a twist on the
+applicability of penalized MSRR, one interesting approach would be
+to penalize βi −¯β, which allows some heterogeneity across assets but
+shrinks all assets’ weight rules toward the average rule, in the spirit of
+empirical Bayes.
+Brandt et al. (2009) discusses a number of extensions and reﬁne-
+ments to their parametric portfolio problem, including non-negative
+transformations of weights for long-only strategies, trading cost consid-
+erations, and multi-period investment horizons. Most of these extensions
+can be folded into the MSRR framework outlined here as long as the
+mean-variance objective is retained. For more general utility functions,
+estimation must step out of the OLS regression framework and requires
+numerical optimization. This is more computationally challenging for
+high-dimensional parameterization but adds very little conceptual com-
+plexity.
+5.4
+High Complexity MSRR
+MSRR is adaptable to sophisticated machine learning models such as
+neural networks. One simple example of a potential MSRR network
+architecture is shown in Figure 5.1. A set of L “raw” signals for stock
+
+5.4. High Complexity MSRR
+117
+θ
+β
+wi,t=β′Si,t(θ)
+Si,t(θ)=q(Xi,t; θ)
+Xi,t
+Figure 5.1: MSRR Neural Network
+Note: Illustration of a simple neural architecture mapping conditioning variables Xi,t
+into optimal portfolio weights wi,t.
+i, denoted Xi,t, are inputs to the network. These propagate through
+a sequence of nonlinear transformations (parameterized by network
+coeﬃcients θ) to produce a vector of K output signals, Si,t(θ) = q(Xi,t; θ)
+where q ∈RL →RK. Then an otherwise standard MSRR formulation
+uses the transformed characteristics to derive the mean-variance eﬃcient
+portfolio rule:
+1 = β′St−1(θ)′Rt + ut.
+(5.17)
+Estimation of the parameters (β, θ) is a nonlinear least squares prob-
+lem that is straightforward to implement with oﬀ-the-shelf neural net-
+work software packages. The interpretation of this estimation is that it
+searches for ﬂexible nonlinear transformations of the original signals set
+to engineer new asset characteristics that can actively manage positions
+in the base assets and produce high Sharpe ratio strategies.
+Simon et al. (2022) pursue this framework using a feed-forward
+neural network in the portfolio weight function with three hidden layers
+of 32, 16, and 8 neurons in each layer, respectively. They show that the
+neural network enhances parametric portfolio performance. The linear
+portfolio speciﬁcation with the same predictors earns an annualized
+out-of-sample Sharpe ratio of 1.8, while the neural network portfolio
+achieves a Sharpe ratio of 2.5, or a 40% improvement.
+Didisheim et al. (2023) prove theoretically that the “virtue of com-
+plexity” also holds in mean-variance eﬃcient portfolio construction.
+Under weak assumptions, the Sharpe ratio of a machine learning portfo-
+lio is increasing in model parameterization. Empirically, they present one
+especially convenient neural speciﬁcation derived within the framework
+
+118
+Optimal Portfolios
+of Section 2. In particular, they propose a neural architecture using
+random feature ridge regression. The formulation is identical to (5.17)
+except that the neural coeﬃcients θ are randomly generated rather than
+estimated. As predicted by theory, the realized out-of-sample Sharpe
+ratio in their empirical analysis is increasing with the number of model
+parameters and ﬂattens out around 4 when 30,000 parameters are used.
+5.5
+SDF Estimation and Portfolio Choice
+The equivalence between portfolio eﬃciency and other asset pricing
+restrictions, like zero alphas in a beta pricing model or satisfaction
+of SDF-based Euler equations, imply that there are statistical objec-
+tives (besides utility objectives) to work from when estimating optimal
+portfolios. Much of the ﬁnancial machine learning literature focuses on
+SDF estimation. Knowledge of the SDF is interesting for a number of
+economic questions, such as inferring investor preferences, quantifying
+pricing errors, and eliciting the key sources of risk that inﬂuence asset
+prices. In practice, however, the ﬁnancial machine learning literature
+has placed insuﬃcient restrictions on the SDF estimation problem to
+answer questions about speciﬁc economic mechanisms. Instead, this
+literature tends to evaluate estimation results in terms of the out-of-
+sample Sharpe ratio of the estimated SDF. That is, machine learning
+approaches to SDF estimation focus on the mean-variance portfolio
+choice problem, motivated by Hansen and Richard (1987)’s theorem of
+SDF and mean-variance frontier equivalence.
+The typical formulation of the SDF estimation problem is the follow-
+ing. If an SDF exists (given, for example, the absence of arbitrage), it
+can be represented as a portfolio w of excess returns (barring a constant
+term)
+Mt = 1 −w′Rt.
+(5.18)
+Furthermore, an SDF must satisfy the standard investor Euler equation
+at the heart of asset pricing theory:
+E[MtRt] = 0.
+(5.19)
+Combining these we see:
+E[Rt −RtR′
+tw] = 0.
+(5.20)
+
+5.5. SDF Estimation and Portfolio Choice
+119
+This equation identiﬁes a tradable SDF. Note that it is also the ﬁrst-
+order condition to the Britten-Jones (1999) MSRR problem,
+min
+w E
+h
+(1 −w′Rt)2i
+,
+which formally connects the problems of SDF estimation and Sharpe
+ratio maximization, and thus it results in the tangency portfolio as the
+estimated SDF weights.
+Kozak et al. (2020) propose an SDF estimation problem in a condi-
+tional and parameterized form that has a close connection to MSRR.
+In particular, they posit an SDF portfolio wt = Stβ just as in (5.10),
+and note that this implies an SDF of the form
+Mt = 1 −β′Ft
+(5.21)
+with Ft deﬁned in (5.12).8 In other words, the SDF that prices assets con-
+ditionally can be viewed as a static portfolio of characteristic-managed
+factors. The main contribution of Kozak et al. (2020) is to introduce reg-
+ularization into the conditional SDF estimation problem. They primarily
+analyze ridge regularization, which directly maps to the MSRR ridge
+estimator in equation (5.14). Rotating their estimator into the space of
+principal components of the factors, Kozak et al. (2020) show that ridge
+shrinkage induces heavier shrinkage for lower ranked components. They
+oﬀer an insightful take on this derivation: “The economic interpretation
+is that we judge as implausible that a PC with low eigenvalue could con-
+tribute substantially to the volatility of the SDF and hence to the overall
+maximum squared Sharpe ratio.” Kozak (2020) uses a kernel method
+to estimate a high dimensional SDF with a clever implementation of
+the “kernel trick” that circumvents the need to estimate an exorbitant
+number of parameters.
+The empirical results of Kozak et al. (2020) indicate that their
+methodology of estimating a factor-based SDF with penalized regres-
+sion delivers a portfolio with economically potent (and statistically
+signiﬁcant) out-of-sample performance relative to standard benchmark
+8Kozak et al. (2020) normalize the SDF to have mean 1: Mt = 1−β′(Ft −E(Ft)).
+We adopt a diﬀerent normalization to conform to the MSRR problem in Britten-Jones
+(1999).
+
+120
+Optimal Portfolios
+asset pricing models. Constructing the SDF from 50 anomaly factor
+portfolios results in an SDF with an annualized information ratio of
+0.65 versus the CAPM. If instead of using 50 characteristics for their
+set of signals, they supplement the raw characteristics with second and
+third powers of those characteristics as well as pairwise characteristic
+interactions (for a total of 1,375 signals), this information ratio increases
+to 1.32.9
+Giglio et al. (2021b) analyze and compare the asymptotic properties
+of Kozak et al. (2020)’s estimator with PCA and RP-PCA-based estima-
+tors proposed by Giglio and Xiu (2021) and Lettau and Pelger (2020a),
+in a common unconditional factor model framework (4.1). With bγ and
+bV deﬁned by (4.6) and (4.4) the PCA-based SDF estimator is given by
+c
+Mt = 1 −bγ′ bVt.
+Giglio et al. (2021b) show that the ridge and PCA-based estimators are
+consistent as long as factors are pervasive.
+Unlike Kozak et al. (2020) who model the SDF as a portfolio of
+anomaly factors, Chen et al. (2021) extend the SDF estimation problem
+by modeling weights on individual stocks. Their model deviates from
+MSRR and the parametric portfolio problem in a few interesting ways.
+First, they allowing for a ﬂexible weight function that includes a recur-
+rent neural network component. Second, they formulate their estimator
+via GMM with a sophisticated instrumentation scheme. Beginning from
+a conditional version of the basic Euler equation in (5.20), Chen et al.
+(2021) rewrite the GMM objective function as
+min
+w max
+g
+1
+N
+N
+X
+j=1
+E
+" 
+1 −
+N
+X
+i=1
+w(SM,t, Si,t)Ri,t+1
+!
+Rj,t+1g(SM,t, Sj,t)
+# .
+(5.22)
+The function w(SM,t, Si,t) describes the weight of the ith stocks in the
+tradable SDF, which is a scalar function of macroeconomic predictors
+(SM,t, which inﬂuence all assets’ weights) and stock-speciﬁc predictors
+(Si,t, which only directly inﬂuence the weight of stock i). It uses an
+LSTM to capture dynamic behavior of SM,t, whose output ﬂows into a
+9Information ratios are inferred from alphas and standard errors reported in
+Table 4 of Kozak et al. (2020).
+
+5.5. SDF Estimation and Portfolio Choice
+121
+This ﬁgures shows the model architecture of GAN (Generative Adversarial Network) with RNN (Recurrent Neural
+Network) with LSTM cells. The SDF network has two parts: (1) A LSTM estimates a small number of macroeco-
+nomic states. (2) These states together with the ﬁrm-characteristics are used in a FFN to construct a candidate
+SDF for a given set of test assets. The conditioning network also has two networks: (1) It creates its own set of
+macroeconomic states, (2) which it combines with the ﬁrm-characteristics in a FFN to ﬁnd mispriced test assets for
+a given SDF M. These two networks compete until convergence, that is neither the SDF nor the test assets can be
+improved.
+Figure 5.2: Chen et al. (2021)’s Network Architecture
+Note: Source: Chen et al. (2021).
+feed-forward network where it is combined with the stock-level predictors
+to produce the ﬁnal portfolio weight output (see the top portion of
+Figure 5.2).
+The function g(SM,t, Sj,t) is a set of D instrumental variables which
+provide the system of moment conditions necessary to estimate the
+portfolio weight function. The instrumental variables, however, are
+derived from the underlying data via the network function, g. The
+structure of g mirrors the structure of w. Macroeconomic dynamics are
+captured with an LSTM, and the output is combined with stock-speciﬁc
+variables Sj,t in a feed-forward network to produce instruments for the
+Euler equation pricing errors of asset j. The loss function is the norm
+of the pricing errors aggregated across all stocks, which is minimized to
+arrive at weight function estimates.
+Perhaps the most interesting aspect of this speciﬁcation is that
+instrumental variables are generated in an adversarial manner. While
+the estimator searches for an SDF weight function that minimizes
+pricing errors for given a set of instruments (the outer minimization
+objective in (5.22)), it simultaneously searches for the instrumental
+variables function that casts the given SDF in the worst possible light
+(the inner minimization objective in (5.22)).
+Motivated by these empirical studies of machine learning SDFs,
+
+122
+Optimal Portfolios
+Didisheim et al. (2023) theoretically analyze the role that model com-
+plexity plays shaping the properties of SDF estimators. Like Kelly et al.
+(2022a), they focus on high-dimensional ridge estimators with two main
+diﬀerences. First, they move from a single asset time series setting with
+a single asset to a panel setting with an arbitrary number of risky
+assets. Second, they reorient the statistical objective from time series
+forecasting to SDF optimization. In this setting, Didisheim et al. (2023)
+explicitly derive an SDF’s expected out-of-sample Sharpe ratio and
+cross-sectional pricing errors as a function of its complexity. Their cen-
+tral result is that expected out-of-sample SDF performance is strictly
+improving in SDF model complexity when appropriate shrinkage is
+employed. They report empirical analyses that align closely with their
+theoretical predictions. Speciﬁcally, they ﬁnd that the best empirical
+asset pricing models have an extremely large number of factors (more
+than the number of training observations or base assets).
+5.5.1
+Non-tradable SDF Estimation
+The preceding section focuses on estimating an SDF represented in the
+space of excess returns, or as a tradable portfolio. As noted, the rather
+minimal economic structure imposed in these estimation problems make
+it diﬃcult to investigate economic mechanisms. A smaller but equally
+interesting literature infers an SDF by balancing structure and ﬂexibility,
+including using (semi-)nonparametric model components embedded in
+a partial structural framework and conducting hypothesis tests.
+It is fascinating to recognize that the idea of parameterizing asset
+pricing models using neural networks appears as early in the litera-
+ture as Bansal and Viswanathan (1993). These prescient speciﬁcations
+have all of the basic ingredients that appear in more recent work, but
+are constrained by smaller data sets and thus study small network
+speciﬁcations.
+Chen and Ludvigson (2009) is perhaps the ﬁnest example to date of
+this approach. Their model environment is broadly rooted in the nonlin-
+ear habit consumption utility speciﬁcation of Campbell and Cochrane
+(1999) and related models of Menzly et al. (2004), Wachter (2006),
+and Yogo (2006). As the authors rightly point out, the variety of habit
+
+5.5. SDF Estimation and Portfolio Choice
+123
+speciﬁcations in the literature suggest “the functional form of the habit
+should be treated, not as a given, but as part and parcel of any empirical
+investigation,” and in turn they pursue a habit model by “placing as
+few restrictions as possible on the speciﬁcation of the habit and no
+parametric restrictions on the law of motion for consumption.”
+The model of Chen and Ludvigson (2009) is best summarized by its
+speciﬁcation of habit consumption, which is the key driver of investors’
+marginal utility. In particular, habit consumption is
+Xt = Ctg
+Ct−1
+Ct
+, ..., Ct−L
+Ct
+
+,
+where Ct is consumption level at time t and g is the “habit function”
+that modulates the habit level as a function of consumption in the recent
+L periods. Habit impacts investor well-being via the utility function
+U = E
+ ∞
+X
+t=0
+δt (Ct −Xt)1−γ −1
+1 −γ
+!
+,
+which in turn deﬁnes the SDF (where δ and γ are the time discount
+factor and risk aversion, respectively). In contrast to Campbell and
+Cochrane (1999) who specify an explicit functional form for g, Chen
+and Ludvigson (2009) use a feed-forward neural network as a generic
+approximating model for the habit function.
+Like Chen et al. (2021), they estimate an SDF by minimizing the
+norm of model-implied Euler equation conditional moments with macro-
+ﬁnance data as instruments. A particularly appealing aspect of the
+analysis is the care taken to choose the size of the neural network and
+conduct statistical tests in line with asymptotic theory upon which their
+tests rely. First, they extend the asymptotic theory of Ai and Chen
+(2003) and Ai and Chen (2007) for “sieve minimum distance (SMD)”
+estimation of neural networks to accommodate the serial correlation in
+asset pricing data. Ultimately, they decide on a small model by machine
+learning standards (only 18 parameters), but with a sample of only 200
+observations this restraint lends credibility to their tests.
+The payoﬀfrom careful asymptotic analysis is the ability to conduct
+hypothesis tests for various aspects of habit persistence in investor
+preferences. Results favor a nonlinear habit function over linear, and
+
+124
+Optimal Portfolios
+internal habit formation (i.e., dictated by one’s own consumption history)
+rather than external habit (or “keeping up with the Joneses”). Lastly,
+they conduct a comparison of pricing errors from their estimated habit
+model versus other leading asset pricing models such as the three-
+factor model (Fama and French, 1993) and the log consumption-wealth
+ratio CAPM model (Lettau and Ludvigson, 2001), and ﬁnd signiﬁcant
+improvements in pricing of size and book-to-market sorted portfolios
+with neural network habit formulation.
+5.5.2
+Hansen-Jagannathan Distance
+The GMM (and the related SMD) SDF estimation approach is rooted
+in the problem of minimizing squared pricing errors. The pricing error
+is deﬁned by the Euler equation, and may be represented as the average
+discounted excess return (which should be zero according to the Euler
+equation) or as the diﬀerence between the undiscounted average excess
+return and the model-based prediction of this quantity. While it is
+convenient to directly compare models in terms of their pricing errors,
+Hansen and Jagannathan (1997) emphasize that the eﬃcient GMM
+estimator uses a model-dependent weighting matrix to aggregate pricing
+errors, which means we cannot compare models in terms of their opti-
+mized GMM loss function values. As a solution to the model comparison
+problem, Hansen and Jagannathan (1997) recommend evaluating all
+models in terms of a common loss function whose weighting matrix
+is independent of the models. In particular, they propose a distance
+metric of the form
+HJ2
+m = min
+θm e(θm)′ ˜Σ−1e(θm),
+(5.23)
+where e(θm) is the vector of pricing errors associated with the mth
+model (which is parameterized by θm). The square root of equation
+(5.23) is known as the “HJ-distance.” There are two key aspects to note
+in its formulation. First, pricing errors are weighted by ˜Σ = 1
+T
+P
+t RtR′
+t,
+which is model independent, and thus puts all models on equal footing
+for comparison. Second, the pricing errors are based on the parameters
+that minimize the HJ-distance, as opposed to those dictated by the
+eﬃcient GMM objective.
+
+5.5. SDF Estimation and Portfolio Choice
+125
+While these diﬀerences versus the standard GMM objective function
+are subtle, they equip the HJ-distance with some extraordinary theoreti-
+cal properties. First, Hansen and Jagannathan (1997) show that HJm is
+equal to the pricing error of the most mispriced portfolio of base assets
+(those corresponding to the vector e) arising from model m. That is,
+the HJ-distance describes the best that model m can do in minimizing
+the worst-case pricing error.10 Second, the HJ-distance describes the
+least squares distance between the (potentially misspeciﬁed) SDF of
+model m and the SDF family that correctly prices all assets.
+Both of these properties imply that the HJ-distance is a particularly
+attractive objective function for training machine learning models of the
+SDF and optimal portfolios. A machine learning model that minimizes
+the HJ-distance will be robust (as it seeks to minimize worst-case model
+performance) and will deliver a model that is minimally misspeciﬁed in
+an ℓ2 sense. Training machine learning models via HJ-distance aligns
+with Ludvigson (2013)’s admonition
+“for greater emphasis in empirical work on methodologies
+that facilitate the comparison of competing misspeciﬁed mod-
+els, while reducing emphasis on individual hypothesis tests
+of whether a single model is speciﬁed without error.”
+Progress has begun in integrating the HJ-distance into ﬁnancial
+machine learning problems. Kozak et al. (2020) link their SDF estimation
+approach to an HJ-distance minimization problem with a ridge (or lasso)
+penalty. Theirs can be viewed as an unconditional HJ-distance applied to
+the space of factors. Recently, Gagliardini and Ronchetti (2019), Antoine
+et al. (2018), and Nagel and Singleton (2011) analyze approaches to
+model comparison via a conditional HJ-distance. Didisheim et al. (2023)
+derive the theoretical behavior of the HJ-distance in complex machine
+learning models and show that the distance is decreasing in model
+complexity. There remains large scope for future research into machine
+learning models trained through the conditional or unconditional HJ-
+distance.
+10This worst-case portfolio is essentially the “Markowitz portfolio” of pricing
+errors, achieving the highest pricing error per unit of volatility.
+
+126
+Optimal Portfolios
+5.6
+Trading Costs and Reinforcement Learning
+The ﬁnancial machine learning literature provides a ﬂexible framework
+to combine several characteristics into a single measure of overall ex-
+pected returns (e.g. Gu et al., 2020b). The same literature documents
+the relative “feature importance” of diﬀerent return prediction char-
+acteristics (e.g. Chen et al., 2021). These ﬁndings suggest that the
+prediction success of machine learning methods is often driven by short-
+lived characteristics that work well for small and illiquid stocks e.g.
+Avramov et al., 2022a, suggesting that they might be less important
+for the real economy (e.g. Van Binsbergen and Opp, 2019). The high
+transaction costs of portfolio strategies based on machine learning imply
+that these strategies are diﬃcult to implement in practice and, more
+broadly, raise questions about the relevance and interpretation of the
+predictability documented in this literature. Do machine learning ex-
+pected return estimates merely tell us about mispricings that investors
+do not bother to arbitrage away because the costs are too large, the
+mispricing too ﬂeeting, and the mispriced markets too small to matter?
+Or, do trading-cost-aware machine learning predictions also work for
+large stocks, over signiﬁcant time periods, and in a way that matters
+for many investor types, thus leading to new and important economic
+insights?
+It is common in ﬁnancial research to separate the question of port-
+folio implementability from the return prediction (or portfolio weight
+estimation) component of the problem. In this approach, the estimation
+problem abstracts from transaction costs and turnover, and it is not
+uncommon for the resultant investment strategies to produce negative
+returns net of transaction costs. There is a natural explanation for this
+result. It’s not that the market doesn’t know predictive patterns are
+there; it’s that the patterns are there because they are too costly to
+trade or due to other limits-to-arbitrage. This is a critical challenge for
+predictive methods in ﬁnance. Without somehow embedding limits-to-
+arbitrage into the statistical prediction model, the model will tend to
+isolate predictive patterns that are unrealistic to trade because these are
+the ones currently unexploited in the market. This does not rule out the
+possibility that there are predictable phenomena that may be practically
+
+5.6. Trading Costs and Reinforcement Learning
+127
+exploited; i.e., predictability that is proﬁtable net of trading costs. It
+just means that without guidance on costs, a statistical model cannot
+distinguish between implementable and non-implementable predictive
+patterns. So, if it’s the case that the most prominent predictable pat-
+terns in returns are those that are associated with limits-to-arbitrage (a
+plausible scenario given the unsparing competition in securities markets),
+these will be the ﬁrst ones isolated by ML prediction models.
+This section discusses attempts to derive machine learning portfolios
+that can be realistically implemented by market participants with
+large assets under management, such as large pension funds or other
+professional asset managers. If a strategy is implementable at scale, then
+the predictive variables that drive such portfolio demands are likely to
+be informative about equilibrium discount rates.
+5.6.1
+Trading Costs
+The literature on portfolio choice in the face of trading costs typically
+solves the problem by assuming that the trading cost function is known
+or that trading cost data is available. This obviates the need for an
+“exploration” step in a machine learning portfolio choice algorithm,
+keeping the problem more or less in a standard supervised learning
+framework and avoiding reinforcement learning machinery. Brandt et al.
+(2009) take this approach in the baseline parameterized portfolio setup.
+Recently, Jensen et al. (2022) introduce a known trading cost function
+into the portfolio choice objective, then use a combination of machine
+learning and economic restrictions to learn the optimal portfolio rule.
+We outline their model and learning solution here.
+The ﬁnance literature has long wrestled with the technical challenges
+of trading cost frictions in portfolio choice (e.g. Balduzzi and Lynch,
+1999; Lynch and Balduzzi, 2000). Garleanu and Pedersen (2013) derive
+analytical portfolios amid trading costs. Their key theoretical result is
+that, in the presence of trading costs, optimal portfolios depend not
+just on one period expected returns Et[Rt+1], but on expectations of
+returns over all future horizons, Et[Rt+τ] τ = 1, 2, ....11 Because of this,
+11Intuitively, the investor prefers to trade on long-lived predictive patterns because
+the cost of trading can be amortized over many periods, while short-lived predictability
+
+128
+Optimal Portfolios
+the idea of approaching the return prediction problem with machine
+learning while accounting for trading costs faces tension. Garleanu and
+Pedersen (2013) achieve a tractable portfolio solution by linking all
+horizons together with a linear autoregression speciﬁcation, which keeps
+the parameterization small and collapses the sequence of expectations
+collapses to a linear function of prevailing signal values. Machine learn-
+ing typically seeks ﬂexibility in the return prediction model; but if
+separate return prediction models are needed for all future horizons
+the environment quickly explodes into an intractable speciﬁcation even
+by machine learning standards. How can we maintain ﬂexibility in the
+model speciﬁcation without making restrictive assumptions about the
+dynamics of expected returns?12
+Jensen et al. (2022) resolve this tension with three key innovations.
+First, they relax the linearity of expected returns in predictive signals
+and allow for nonlinear prediction functions. Second, they relax the
+autoregressive expected return assumption of Garleanu and Pedersen
+(2013) by requiring stationary but otherwise unrestricted time series
+dynamics. From these two solutions, they are able to theoretically derive
+a portfolio rule as a generic function of conditioning signals. Their third
+contribution is to show that a component of this portfolio rule (the “aim”
+function to which the investor gradually migrates her portfolio) can be
+parameterized with a neural network speciﬁcation, which sidesteps the
+aforementioned diﬃculty of requiring diﬀerent machine learning return
+prediction models for diﬀerent investment horizons.13 Their solution is
+an example of a model that combines the beneﬁts of economic structure
+with the ﬂexibility of machine learning. The economics appear in the
+form of a solution to the investor’s utility maximization problem, which
+imposes a form of dynamic consistency on the portfolio rule. Only after
+this step is the ﬂexible machine learning function injected into the
+portfolio rule while maintaining the economic coherence of the rule.
+is quickly cannibalized due to frequent portfolio adjustments.
+12Another complementary tension in this setting is that, if a trading cost portfolio
+solution must build forecasts for many return horizons, the number of training
+observations falls as the forecast horizon increases, so there is generally little data to
+inform long horizons forecasts.
+13This requires the assumption that signals are Markovian, but their dynamics
+need not be further speciﬁed.
+
+5.6. Trading Costs and Reinforcement Learning
+129
+Speciﬁcally, the investor seeks a portfolio wt to maximize net-of-cost
+quadratic utility:
+utility = E
+
+µ(st)′wt −κt
+2 (wt −gtwt−1)′ Λ (wt −gtwt−1) −γt
+2 w′
+tΣwt
+
+(5.24)
+where µ(st), Σ and Λ summarize asset means, covariances, and trading
+costs, respectively. These vary over time in predictable ways related to
+the conditioning variable set st, though for purposes here we discuss
+the simpliﬁed model with static covariances and trading costs. κt is
+investor assets under management (the scale of the investor’s portfolio
+is a ﬁrst-order consideration for trading costs) and gt is wealth growth
+from the previous period. Proposition 3 of Jensen et al. (2022) shows
+that the optimal portfolio rule in the presence of trading costs is
+wt ≈mgtwt−1 + (I −m)At
+(5.25)
+where the investor partially trades from the inherited portfolio wt−1
+toward the “aim” portfolio At at time t:
+At = (I −m)−1
+∞
+X
+τ=0
+(mΛ−1¯gΛ)τ cEt
+ 1
+γ Σ−1µ(st+τ)
+|
+{z
+}
+Markowitzt+τ
+
+.
+(5.26)
+The aim portfolio depends on m, a nonlinear matrix function of trading
+costs and covariances, as well as the mean portfolio growth rate ¯g = E[gt].
+The aim portfolio is an exponentially smoothed average of of period-by-
+period Markowitz portfolios, which reﬂects the fact that adjustments
+are costly so it is advantageous to smooth portfolio views over time.
+The portfolio solution may be rewritten as an inﬁnite sum of past aim
+portfolios and their growth over time:
+wt =
+∞
+X
+θ=0
+ θ
+Y
+τ=1
+m gt−τ+1
+!
+(I −m)A(st−θ) .
+(5.27)
+This solution in (5.27) embeds all of the relevant dynamic economic
+structure necessary for an optimal portfolio in the presence of trading
+costs. But it also shows that, if we substitute this solution into the
+original utility maximization problem, the learning task may be reduced
+
+130
+Optimal Portfolios
+to ﬁnding the aim portfolio function A(·) that maximizes expected
+utility. Based on this insight, Jensen et al. (2022) use the random Fourier
+features neural network speciﬁcation (as in Kelly et al., 2022a; Didisheim
+et al., 2023), but rather than approximating the return prediction
+function they directly approximate the aim function, A(·) = f(st)β for
+f a set of P known random feature functions and β is the regression
+coeﬃcient vector in RP . Empirically, their one-step, trading-cost-aware
+portfolio learning algorithm delivers superior net-of-cost performance
+compared to standard two-step approaches in the literature that ﬁrst
+learn portfolios agnostic of trading costs then smooth the learned
+portfolio over time to mitigate costs.
+5.6.2
+Reinforcement Learning
+Reinforcement learning broadly consists of machine learning models for
+solving a sequential decision making problem under uncertainty. They
+are especially powerful for modeling environments in which an agent
+takes an action to maximize some cumulative reward function but the
+state of the system and thus the distribution of future outcomes is
+inﬂuenced by the agent’s action. In this case, the agent’s choices are key
+conditioning variables for learning the payoﬀfunction. But since most
+state/action pairs are not observed in the past, the data can be thought
+of as largely unlabeled, and thus the model does not lend itself to direct
+supervision. Because relevant labels are only precipitated by the agent’s
+actions, much of reinforcement learning splits eﬀort between learning
+by experimentation (“exploration”) and optimizing future expected
+rewards given what they’ve learned (“exploitation”).
+That the agent seeks to optimize future rewards means that rein-
+forcement learning may be a valuable tool for portfolio choice. However,
+in the basic portfolio choice problem outlined earlier, the state of the
+system is not inﬂuenced by the investor’s decisions. The investor is
+treated as a price taker, so any portfolio she builds does not perturb
+the dynamics of risk and return going forward. Thus, given data on
+realized returns of the base assets, machine learning portfolio choice
+can be pursued with supervised learning techniques. In other words,
+the beneﬁts of reinforcement learning for a price taker may be limited.
+
+5.6. Trading Costs and Reinforcement Learning
+131
+Of course, the price-taker assumption is unrealistic for many in-
+vestors. Financial intermediaries such as asset managers and banks are
+often the most active participants in ﬁnancial markets. Their promi-
+nence as “marginal traders” and their tendency to trade large volumes
+means that their portfolio decisions have price impact and thus alter
+the state of the system. Such an investor must learn how their decisions
+aﬀect market dynamics, and this introduces an incentive to experiment
+with actions as part of the learning algorithm. That is, once investors
+must internalize their own price impact, the tools of reinforcement
+learning are well-suited to the portfolio choice problem.
+The mainstream ﬁnance literature has seen minimal work on re-
+inforcement learning for portfolio choice,14 though there is a sizable
+computer science literature on the topic. The more prominent is an
+investor’s price impact in dictating their future rewards, the more
+valuable reinforcement learning methods become. As such, the ﬁnance
+profession’s tendency to focus on relatively low frequency investment
+strategies makes it somewhat unsurprising that reinforcement learning
+has not taken hold, though we expect this to change in coming years.
+Meanwhile, the computer science literature has largely applied reinforce-
+ment learning to higher frequency portfolio problems related to market
+making and trade execution. While we do not cover this literature here,
+for interested readers we recommend the survey of Hambly et al. (2022).
+14Cong et al. (2020) is one example.

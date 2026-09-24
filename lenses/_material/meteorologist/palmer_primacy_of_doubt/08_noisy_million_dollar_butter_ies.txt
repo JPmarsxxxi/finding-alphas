@@ -1,0 +1,416 @@
+3
+Noisy, Million-Dollar Butterﬂies
+WATCHING  WATER  FLOW  DOWN  A  WATERFALL  CAN  BE
+MESMERISING.  The  ﬂow  at  the  very  top  is  quite  smooth
+—“laminar”,  as  it  is  sometimes  called.  But  as  it  starts  its
+journey down, the water breaks into a myriad of pieces. We
+might try to follow the path of one small parcel of ﬂuid, but
+it  breaks  into  yet  smaller  pieces  which  soon  become  too
+small to follow individually. Is the science of chaos for such
+complex  systems  fundamentally  similar  or  fundamentally
+diﬀerent to what Lorenz had found with his three-variable
+model? We will ﬁnd that the growth of uncertainty in such
+complex systems is like chaos on steroids, so much that our
+deterministic mathematical models seem to fail us. This has
+important  consequences  whose  implications  extend  well
+beyond waterfalls.
+«  »
+THE  UBIQUITOUS  PHENOMENON  OF  turbulence  has  both
+fascinated  and  perplexed  scientists.  Werner  Heisenberg,
+one of the founding fathers of quantum mechanics,
+famously remarked: “When I meet God, I am going to ask
+him  two  questions.  Why  [Einstein’s  theory  of]  relativity?
+
+And why turbulence? I really believe he will have an
+answer for the ﬁrst!”
+As 
+we 
+will 
+see, 
+turbulence 
+continues 
+to 
+fox
+mathematicians today. One of the most important unsolved
+mathematical problems relates to the question of just how
+predictable turbulent ﬂow really is. How far down a
+waterfall could Laplace’s daemon predict the motion of an
+individual small piece of ﬂuid? All the way down? A tenth of
+the  way  down?  Big  prizes  (and  considerable  kudos)  await
+the  person  who  can  advance  our  knowledge  of  such  a
+problem. As I will discuss in this chapter, the phenomenon
+of chaos as described in the last two chapters may not be
+unpredictable enough to describe turbulence adequately.
+In the 1940s, the Russian mathematician Andrey
+Kolmogorov 
+developed 
+a 
+mathematical 
+model 
+of
+turbulence. In his model, a turbulent ﬂuid is characterised
+by  a  spectrum  of  interacting  eddies  or  whirls,  some  big,
+some medium sized, some small. Energy is injected on the
+largest  scale,  e.g.,  by  stirring  a  tank  of  water  with  a  big
+paddle or, in the case of the atmosphere, by the sun, which
+preferentially  warms  the  equatorial  regions  of  the  Earth.
+The  energy  then  cascades1  down  to  smaller  and  smaller
+scales,  where  eventually  it  dissipates  by  increasing  the
+irregular  motion  of  individual  molecules,  manifest  by  a
+general  warming  of  the  ﬂuid.  As  we  have  discussed,  this
+dissipation eﬀect is characterised by an internal frictional
+property of a ﬂuid known as its viscosity. A pithy
+description  of  Kolmogorov’s  cascade  of  energy  was  given
+by  the  polymath  Lewis  Fry  Richardson  (whom  we  shall
+meet several times in this book)2:
+Big whirls have little whirls
+That feed on their velocity,
+And little whirls have lesser whirls
+And so on to viscosity.
+
+An example of turbulent ﬂuid ﬂow with multiple whirls of
+diﬀerent scales is shown in Fig. 14.
+The  atmosphere  itself  is  a  turbulent  ﬂuid  system.  The
+very  largest-scale  whirls  in  the  atmosphere  are  the  jet
+streams3, rivers of fast-moving air in the high atmosphere.
+Aircraft  avoid  jet  streams  when  ﬂying  from  east  to  west,
+and try to catch them when ﬂying west to east. The location
+of the jet streams is not ﬁxed, but varies from day to day,
+month to month and season to season. The jet streams do
+not  always  ﬂow  directly  from  west  to  east,  but  can  have
+large meanders towards higher and lower latitudes
+(perhaps reminiscent of the meandering of a river of water
+as it wends its way to the sea). These meanders have scales
+of  10,000  km  (6,213  miles)  or  so.  They  can  cause  long
+spells of unusual weather. In February 2021, a meander in
+the jet stream caused Texas to experience record-breaking
+cold  weather  for  around  ten  days.  In  July  2021,  another
+meander  caused  parts  of  British  Columbia  to  experience
+record-breaking  hot  temperatures,  reaching  almost  50°C
+(122°F).
+
+FIG. 14. A computer simulation of turbulence, characterised by a spectrum
+of eddies or whirls, some big, some small. We shall be referring to this
+simulation again.
+The jet streams, in turn, determine the evolution of low-
+pressure weather systems—or midlatitude cyclones, as they
+are often called—that routinely bring rain and strong winds
+to those of us who live in midlatitude regions. These
+midlatitude  cyclones  have  scales  around  1,000  km  (620
+miles), and so are smaller in spatial scale than the
+meanders  of  the  jet  streams.  Inside  a  cyclone,  regions  of
+warm  and  cold  air  are  separated  by  features  known  as
+fronts, close to which many of the rain-bearing clouds are
+clustered. Big thunderstorm clouds can have scales
+between 10 and 100 km (6.2 and 62 miles). Inside
+individual  clouds,  the  air  can  be  particularly  turbulent,
+which  is  why  ﬂying  through  clouds  can  be  an  unpleasant
+experience. In extremis, such turbulent eddies can cause a
+plane  to  crash.  And  embedded  in  one  of  these  sub-cloud
+eddies are even smaller-scale whirls that may not be
+
+energetic enough to buﬀet an aircraft but can be detected
+by small balloons. And so on to viscosity.
+FIG. 15. The Navier-Stokes equation as a work of art.
+Fluid motion is described mathematically by an equation
+discovered independently in the nineteenth century by the
+French mathematician Claude Navier and the Irish
+mathematician George Stokes. Based on Newton’s laws of
+
+motion,  the  nonlinear  Navier-Stokes  equation4  describes,
+with twenty-three symbols, the motion of every whirl in the
+atmosphere, from the smallest to the largest (see Fig. 15).
+Being based on Newton’s laws, the Navier-Stokes equation
+is  deterministic;  it  contains  no  indeterminate  or  random
+terms.
+This 
+equation 
+appears 
+to 
+generate 
+a 
+type 
+of
+unpredictability and uncertainty which is much more
+radical than the type of chaos we have met so far: not only
+can  Laplace’s  daemon  not  predict  arbitrarily  far  into  the
+future, it cannot predict beyond a ﬁxed ﬁnite time horizon.
+This remarkable result was set out in a paper published by
+Ed  Lorenz  (yes,  him  again!)  in  19695,  six  years  after  his
+famous  paper  on  the  geometry  of  chaos  was  published.
+Here is part of the abstract of Lorenz’s 1969 paper:
+“It  is  proposed  that  certain  formally  deterministic  ﬂuid
+systems which possess many scales of motion are
+observationally 
+indistinguishable 
+from 
+indeterministic
+systems; speciﬁcally, that two states of the system diﬀering
+initially by a small ‘observational error’ will evolve into two
+states diﬀering as greatly as randomly chosen states of the
+system within a ﬁnite time interval, which cannot be
+lengthened by reducing the amplitude of the initial error
+.”
+The  last  clause  (my  italics)  is  the  killer.  In  the  type  of
+chaos  described  in  the  last  chapter,  the  more  we  can
+reduce the uncertainty in the initial state, the farther ahead
+we can predict. Put another way, you tell me how far ahead
+you want to predict and I will tell you how accurately you
+need to know the initial conditions. However, according to
+Lorenz’s  1969  paper,  in  a  complex  system  that  contains
+many scales of motion which interact with each other, you
+will not be able to predict beyond some ﬁxed predictability
+horizon no matter how well you know the initial conditions.
+In this picture, the limit where the uncertainty in the initial
+conditions is strictly zero is what’s called a singular limit.
+
+According 
+to 
+Lorenz, 
+even 
+if 
+the 
+uncertainty 
+was
+inﬁnitesimally  diﬀerent  to  zero,  we  would  not  be  able  to
+predict beyond a ﬁnite horizon in time. We will meet
+singular limits again when we discuss quantum physics.
+Lorenz  gave  a  popular  account  of  his  1969  paper  at  a
+meeting in 1971 of the American Academy for the
+Advancement of Science. This 1971 talk has become
+famous because of the title: “Does the Flap of a Butterﬂy’s
+Wings in Brazil Lead to a Tornado in Texas?”; it is the origin
+of  the  phrase  “the  butterﬂy  eﬀect”.  What  I  am  going  to
+describe is the original meaning of the phrase “the
+butterﬂy eﬀect”6. It is more radical than the meaning that
+is usually attributed to it today, described in Chapter 1.
+To  solve  the  Navier-Stokes  equation,  we  will  need  a
+computer, indeed a very powerful computer. To make use of
+the  computer,  we  must  ﬁrst  transform  the  Navier-Stokes
+equation into a form that the computer can understand. To
+do  this  we  create  a  ﬁnite  mathematical  representation  of
+the  atmosphere  by  partitioning  it  into  a  number  of  small
+but  ﬁnite  volumes  which  are  called  “gridboxes”  (see  Fig.
+16). In this mathematical representation, the atmosphere is
+assumed to be homogeneous and hence unvarying on
+scales smaller than the gridbox scale. That is to say, in this
+ﬁnite mathematical representation, all the turbulent scales
+of  motion  that  are  smaller  than  the  gridbox  scale  are
+assumed  to  be  unimportant  and  are  therefore  removed
+from  the  computer’s  representation  of  the  Navier-Stokes
+equation.  Hence,  the  representation  of  the  Navier-Stokes
+equation that the computer sees is not the original
+equation, but the mathematical model based on this
+simpliﬁed atmosphere.
+The  smaller  the  size  of  the  gridbox,  the  more  accurate
+the 
+computer’s 
+representation 
+of 
+the 
+Navier-Stokes
+equation. However, the smaller the gridbox, the more
+powerful the computer we will need to solve the equation.
+
+Let’s  suppose  that  the  gridboxes  in  our  model  have  a
+horizontal  dimension  of  100  km7,  which  might  describe  a
+weather forecast model from a few decades ago.
+To  estimate  the  future  weather,  we  will  need  a  set  of
+initial conditions corresponding to today’s weather 8. These
+initial conditions—of temperature, pressure, wind velocity,
+humidity  and  so  on  around  the  world—are  determined  by
+observations of today’s weather. These come from a
+combination  of  remote  satellite  measurements  and  in  situ
+instruments on weather balloons.
+We will assume that we have plentiful perfectly accurate
+observations  of  the  atmosphere  everywhere  around  the
+globe. This doesn’t mean that the initial conditions for our
+weather  forecast  model  are  perfect  and  without  error.  As
+mentioned,  all  of  the  whirls  in  the  atmosphere  on  scales
+smaller  than  100  km  are  necessarily  missing  from  the
+model’s 
+initial 
+state, 
+even 
+though 
+we 
+may 
+have
+observations  of  these  small-scale  whirls.  Because  of  the
+ﬁnite size of the model gridboxes, we are unable to
+“assimilate”9  all  the  sub-100-km  information  provided  by
+the observations into the model’s initial state.
+Now let’s suppose we are interested in predicting
+weather systems only on scales of, say, 1,000 km or more.
+We  might  think  that,  as  a  result,  we  don’t  have  to  worry
+that scales smaller than 100 km are missing in the model’s
+initial  conditions.  However,  we  would  be  wrong  to  think
+this. Because of the nonlinear nature of turbulence, these
+initial sub-100-km-scale errors will grow in amplitude and
+in spatial scale as the forecast proceeds. They will after a
+few  days  become  large,  1,000-km-scale  forecast  errors.
+Eventually, even forecasts of the 10,000-km-scale meanders
+in  the  jet  stream  will  be  in  error  because  of  the  missing
+sub-100-km scales.
+
+FIG. 16. A schematic of gridboxes in an atmospheric model.
+With a 100-km gridbox model, we can, on average,
+forecast 1,000-km weather patterns to about a week ahead.
+Not bad, but suppose we really want to predict the day-to-
+day evolution of the weather three weeks ahead. A way to
+improve the forecast would be to decrease the size of the
+gridbox  from,  say,  100  km  to  50  km.  This  increases  the
+
+number  of  gridboxes  in  our  model,  which  means  we  will
+need a more powerful computer to make the forecasts. OK,
+suppose we have a new computer to do this. With the new
+model, errors in the computer model’s initial conditions will
+now be conﬁned to scales smaller than 50 km, rather than
+100  km  as  before.  This  will  reduce  the  initial-condition
+error  and  will  allow  us  to  predict  the  weather  for  longer
+than seven days. But how much longer?
+Lorenz in his 1969 paper concluded that such a doubling
+of model resolution would not lead to an extra seven days
+of  skilful  forecast  time.  Using  the  theory  developed  by
+Kolmogorov,  he  estimated  that  a  doubling  of  resolution
+would give us only an extra 7 / 2 = 3.5 days of prediction
+time. 
+The 
+fundamental 
+reason 
+for 
+this 
+is 
+that 
+in
+Kolmogorov’s theory, errors grow faster on smaller scales.
+For example, a small error in the structure of a 1,000-km-
+scale  weather  system  will  get  twice  as  big  after  a  day  or
+two of forecast time, whilst a small error in the structure of
+a 1-km-scale cloud will get twice as big after only an hour
+or two.
+Continuing in this way, Lorenz argued that each doubling
+of the resolution of the model will increase our prediction
+time by only half of what the previous doubling achieved.
+So, if we decrease the size of a gridbox in our model in a
+series of steps from 100 km to 50 km, to 25 km to 12.5 km,
+our prediction time will increase from 7 days to 7(1 + ½) =
+10.5 days, to 7(1 + ½ + ¼) = 12.25 days, to 7(1 + ½ + ¼ +
+⅛)  =  13.125  days.  This  is  clearly  a  law  of  diminishing
+returns, since each doubling of model resolution provides a
+smaller and smaller gain in prediction time10.
+Can you see a problem here? If we keep increasing the
+resolution of the model again and again and again until the
+gridboxes become inﬁnitesimally small—in which case, with
+our perfect observations, the initial error will also become
+inﬁnitesimally small—we are not going to be able to predict
+
+forever,  as  we  might  think  we  should  be  able,  given  the
+determinism of the Navier-Stokes equation. Instead, we will
+be able on average to predict for only a maximum of 7(1 +
+½ + ¼ + ⅛ + 1⁄16… ) days ahead, where there are now an
+inﬁnite number of fractions inside the brackets, each a half
+of the one before. In this limit, the predictability timescale
+sums to 7 × 2 = 14 days, because 1 + ½ + ¼ + ⅛ + 1⁄16…
+=  2.  That  is  to  say,  even  with  perfect  observations  of  the
+weather,  we  can  predict  ahead  for  only  14  days.  In  this
+picture, the idea of predicting ahead 3 weeks would be an
+in-principle impossibility, even for an omniscient being like
+Laplace’s  daemon!  This  is  the  real  meaning  behind  the
+butterﬂy eﬀect.
+But is the butterﬂy eﬀect literally true? Well, the Navier-
+Stokes equation does not take account of quantum physics,
+so going to the limit of inﬁnitesimal-scale errors is artiﬁcial.
+A  better  question  would  be  this:  Does  the  Navier-Stokes
+equation exhibit a ﬁnite predictability horizon? The truth is,
+we don’t know for sure. In his 1969 paper, Lorenz was fully
+aware that he hadn’t rigorously proved that the initial-value
+problem for the Navier-Stokes equation had a ﬁnite
+predictability horizon; his arguments were plausible but did
+not come up to the rigorous standard of proof in
+mathematics.  That’s  why  he  says  in  the  abstract  quoted
+earlier “it is proposed that”, not “it is proved that”. Indeed,
+over  ﬁfty  years  later,  we  still  don’t  know  whether  the
+butterﬂy  eﬀect  is  literally  true  or  not.  Understanding  this
+property of the Navier-Stokes equation remains one of the
+most important unsolved problems in mathematics: it is one
+of the Clay Mathematics Institute’s Millennium Prize
+problems, set at the beginning of the twenty-ﬁrst century11.
+This list of problems is a modern update of a set of
+mathematical  problems  posed  by  German  mathematician
+David Hilbert at the beginning of the twentieth century
+12.
+Solving any of the Millennium Prize problems will win you a
+
+million-dollar  prize—hence  the  title  of  this  chapter.  The
+only Millennium Prize problem to have been solved at the
+time  of  writing  was  one  posed  by  Poincaré  in  the  ﬁeld  of
+topology.
+On the other hand, evidence from computer models
+suggests  the  butterﬂy  eﬀect  is  true  in  practice.  We  don’t
+have computers powerful enough for us to reduce the size
+of the gridboxes to the scale of butterﬂies. However, if we
+reduce the gridbox size to the size of individual clouds, we
+do indeed ﬁnd that forecasts of large-scale weather can be
+very  sensitive  to  uncertainties  in  these  small-scale  cloud
+structures. Not only that, fourteen days does seem to
+represent well the limit to which we can predict the
+detailed motion of weather systems, on average.
+This takes us back to the discussion in Chapter 1 as to
+why weather is unpredictable. Back in the 1950s, the
+experts  would  have  said  it  is  unpredictable  because  the
+atmosphere  is  turbulent  and  contains  many  whirls  and
+eddies of diﬀerent scales. I mentioned that Lorenz’s
+intuition  at  the  time  was  that  the  atmosphere  would  be
+unpredictable even if the atmosphere had as few as three
+degrees of freedom.
+Both  views  are  correct.  In  1963,  Lorenz  showed  that  a
+model with just three variables could be chaotically
+unpredictable.  However,  in  1969  Lorenz  showed  that  the
+experts were right too—a system with a very large number
+of  variables  (big  whirls  and  small  whirls)  could  be much
+more unpredictable than a system with a very small
+number of variables. In practice, the latter is actually the
+key reason why the atmosphere is unpredictable.
+For  this  reason,  we  must  distinguish  between  what  is
+called low-order chaos (or low-dimensional chaos) and
+high-order  chaos  (or  high-dimensional  chaos).  Here  the
+word  “dimension”  refers  to  the  dimension  of  state  space,
+i.e., the number of variables needed to describe the system
+being  studied.  Recall  trouser  state  space  as  an  example.
+
+The  number  of  variables  in  a  system  describable  by  low-
+order chaos is suﬀiciently small that they can all be
+represented  in  a  computer.  By  contrast,  the  number  of
+variables in a system describable by high-order chaos is so
+large  that  not  all  can  be  represented  in  a  computer.  The
+Lorenz model described in Chapters 1 and 2 is an example
+of low-order chaos. Turbulence, as described by the Navier-
+Stokes equation, is an example of high-order chaos.
+However, we are now on the horns of a dilemma. On the
+one hand, we must limit the number of whirls in order to be
+able  to  solve  the  Navier-Stokes  equation.  Essentially,  we
+must reduce the dimension of weather state space to
+something a powerful supercomputer can manage, a billion
+or so. However, in so doing, the model has lost all
+knowledge of the butterﬂies (i.e., tiny whirls) in the
+atmosphere.  As  we  have  seen,  these  butterﬂies  can  and
+indeed will cause the weather forecast to go completely oﬀ
+the  rails  after  some  ﬁnite  time.  A  model  without  these
+butterﬂies  could  produce  detailed  forecasts  that  may  in
+reality  be  complete  nonsense.  And  if  that’s  the  case,  the
+forecasts  will  lead  us  up  the  garden  path  in  predicting
+things that may never happen, or, in Michael Fish’s case, in
+not predicting things that do happen.
+We  solve  this  problem  by  representing  the  unresolved
+ﬂapping butterﬂies by random numbers. That is to say, we
+deliberately  make  our  models  noisy13.  A  fancy  word  for
+randomness is “stochasticity”. In this way, modern weather
+forecast models (and, increasingly, climate models—see
+Chapter 6) are stochastic in nature. If we run an ensemble
+of forecasts using our stochastic weather model, even when
+each ensemble member has absolutely identical initial
+conditions,  the  individual  members  of  the  ensemble  will
+still spread apart from each other, because each ensemble
+member  has  diﬀerent  realisations  of  the  random  noise  in
+the model equations. Put another way, to represent a high-

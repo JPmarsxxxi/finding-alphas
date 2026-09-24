@@ -1,0 +1,370 @@
+60
+2 The continuous equations
+2.6
+Primitive equations and vertical coordinates
+As Charney (1951) foresaw, most NWP modelers went back to using the primitive
+equations, with the hydrostatic approximation, but without quasi-geostrophic ﬁlter-
+ing. Quasi-geostrophic models are now reserved for simple problems where the main
+motivation is the understanding of atmospheric or ocean dynamics.
+Exercise 2.6.1: Give two or more reasons why using the primitive equations, with
+the hydrostatic approximation but without quasi-geostrophic ﬁltering was a desirable
+goal.
+So far we have used z as the vertical coordinate. When we make the hydrostatic
+approximation, as in the primitive equations, the use of pressure vertical coordinates
+becomes very advantageous. We can also use any arbitrary variable ζ(x, y, z, t) as
+the vertical coordinate as long as it is a monotonic function of z (Kasahara, 1974).
+The most commonly used vertical coordinates are height z, pressure p, a normalized
+pressure σ (Phillips, 1957), potential temperature θ (Eliassen, 1949), and several
+kinds of hybrid coordinates (e.g., Simmons and Burridge, 1981, Johnson et al., 1993,
+Purser, pers. comm., Bleck and Benjamin 1993).
+2.6.1
+General vertical coordinates
+When we transform the vertical coordinate, a variable A(x, y, z, t) becomes
+A(x, y, ζ(x, y, z, t), t). The horizontal coordinates and time remain the same. Let s
+represent x, y, or t. Then, from Fig. 2.6.1(a)
+D −B
+s
+= C −B
+s
++ D −C
+z
+· z
+s
+so that
+∂A
+∂s
+
+ζ
+=
+∂A
+∂s
+
+z
++
+∂A
+∂z
+
+s
+∂z
+∂s
+
+ζ
+(2.6.1)
+and
+∂A
+∂ζ = ∂A
+∂z
+∂z
+∂ζ
+or
+∂A
+∂z = ∂A
+∂ζ
+∂ζ
+∂z
+(2.6.2)
+Substituting (2.6.2) in (2.6.1), we get
+∂A
+∂s
+
+ς
+=
+∂A
+∂s
+
+z
++
+∂A
+∂ς
+ ∂ς
+∂z
+ ∂z
+∂s
+
+ς
+(2.6.3)
+
+2.6 Primitive equations and vertical coordinates
+61
+D
+C
+B
+z
+s (x, y, or t)
+(a)
+∆s
+∆z
+
+∆p=∆Mg
+∆x
+∆y
+(b)
+Figure 2.6.1: (a) Schematic showing the relationship between the derivatives of A at
+constant ζ and at constant Z. The points B and D represent values of A on a ζ-surface
+and B and C those on a constant z surface. (b) Schematic of a parcel of air in a
+hydrostatic system, where p is proportional to the change in mass per unit area M.
+From this relationship (for s = x, y) we can get an expression for the horizontal
+gradient of a scalar A in ζ coordinates:
+∇ζ A = ∇z A +
+∂A
+∂ζ
+ ∂ζ
+∂z
+
+∇ζ z
+(2.6.4)
+and for the horizontal divergence of a vector B:
+∇ζ · B = ∇z · B +
+∂B
+∂ζ
+
+·
+∂ζ
+∂z
+
+∇ζ z
+(2.6.5)
+The total derivative of A(x, y, ζ, t) is given by
+d A
+dt =
+∂A
+∂t
+
+ς
++ v · ∇ς A + ˙ς ∂A
+∂ς
+(2.6.6)
+
+62
+2 The continuous equations
+The horizontal pressure gradient is therefore
+1
+ρ ∇z p = 1
+ρ
+
+∇ς p −
+ ∂p
+∂ς
+ ∂ς
+∂z
+
+∇ςz
+
+(2.6.7)
+which becomes, using the hydrostatic equation ∂p/∂φ = −ρ,
+1
+ρ ∇z p = 1
+ρ ∇ζ p + ∇ζφ
+(2.6.8)
+In summary the horizontal momentum equations become
+dv
+dt = −α∇ς p −∇ςφ −f k × v + F
+(2.6.9)
+and the hydrostatic equation ∂p/∂z = −ρg becomes
+∂p
+∂ς
+∂ς
+∂z = −ρg
+or
+∂p
+∂ς = −ρ ∂φ
+∂ς
+(2.6.10)
+The continuity equation can be derived from the conservation of mass for an inﬁnites-
+imal parcel: the hydrostatic equation indicates that the mass of a parcel is proportional
+to the increase in pressure from the top to the bottom of the parcel (Fig. 2.6.1(b)):
+gM = xyp
+(2.6.11)
+Now, p = (∂p/∂ς)ς, so that taking a logarithmic total derivative, and noting
+that
+1
+x
+dx
+dt
+→∂u
+∂x
+and the same with the other space variables, we obtain
+d
+dt
+
+ln ∂p
+∂ς
+
++ ∇· vH + ∂˙ς
+∂ς = 0
+(2.6.12)
+The thermodynamic equation is as before
+C p
+T
+θ
+dθ
+dt = C p
+dT
+dt −α dp
+dt = Q
+(2.6.13)
+The kinematic lower boundary condition is that the surface of the earth is a material
+surface: the ﬂow can only be parallel to it, not normal. This means that once a parcel
+touches the surface it is “stuck” to it. This can be expressed as
+d(ς −ςs)
+dt
+= 0
+at
+ς = ςs
+
+2.6 Primitive equations and vertical coordinates
+63
+or
+dς
+dt = ∂ςs
+∂t + v · ∇ςs
+at
+ς = ςs
+(2.6.14)
+This kinematic boundary condition is well deﬁned although in practice it may not be
+accurate, for example, when there is subgrid-scale orography.
+Atthetop,unfortunately,theboundaryconditionisnotsowelldeﬁned:As z →∞,
+p →0, but in general there is no satisfactory way to express this condition for a ﬁnite
+vertical resolution model. Most models assume a simple condition of a “rigid top”
+(i.e., making the top surface a material surface)
+dς
+dt = 0 at ς = ςT
+(2.6.15)
+but this is an artiﬁcial boundary condition that introduces spurious effects. For ex-
+ample, Kalnay and Toth (1996) showed that a rigid top introduces artiﬁcial “upside-
+down” baroclinic instabilities in the NCEP global model, and similar observations
+were made by Hartmann et al. (1997) with the ECMWF model. If the top of the
+model is sufﬁciently high, and there is enough vertical resolution, the upward mov-
+ing perturbations are damped in the model (as they are in nature), and the spurious
+interaction with the artiﬁcial top may remain small. Alternatively, radiation condi-
+tions enforcing the condition that energy can only propagate upwards can be used,
+but they are not simple to implement.
+2.6.2
+Pressure coordinates
+These coordinates are a natural choice for a hydrostatic atmosphere (Eliassen,
+1949). They greatly simplify the equations of motion: the horizontal pressure gra-
+dient becomes irrotational, and the continuity equation becomes simply zero three-
+dimensional divergence, a diagnostic linear equation.
+As a result the geostrophic wind relationship is also simpler: vg = (1/f )k × ∇φ.
+For this reason, rawinsonde measurements have been made in pressure coordinates
+since the early 1950s.
+In pressure coordinates, ∂p/∂ς ≡1, the total derivative operator (2.6.6) is given
+by
+d
+dt = ∂
+∂t + v · ∇+ ω ∂
+∂p
+where the vertical velocity in pressure coordinates is ω = dp/dt. The primitive
+equations become:
+dv
+dt = −∇pφ −f k × v + F
+(2.6.16)
+∂φ
+∂p = −α
+(2.6.17)
+
+64
+2 The continuous equations
+∇p · v + ∂ω
+∂p = 0
+(2.6.18)
+and the thermodynamic equation (2.6.13) is unchanged.
+The geostrophic and thermal wind relationships are especially simple in pressure
+coordinates:
+vg = 1
+f k × ∇φ
+and
+∂vg
+∂p = −R
+f p k × ∇T
+(2.6.19)
+On the other hand, the bottom boundary condition is not simple in pressure coordi-
+nates because the pressure surfaces intersect the surface:
+ω = ∂ps
+∂t + v · ∇ps
+at
+p = ps
+(2.6.20)
+This requires knowing the rate of change of ps:
+∂ps
+∂t + v · ∇ps = −
+∞
+
+0
+∇p · vdp
+(2.6.21)
+This complication of the surface boundary condition in pressure coordinates led
+Phillips (1957) to the invention of sigma coordinates (next subsection).
+Instead of the horizontal momentum equations, we can use the prognostic equa-
+tions for the vorticity ζ and divergence δ, obtained by applying the operators k · ∇x
+and ∇· to the momentum equations. In pressure coordinates these equations are
+∂ς
+∂t + v · ∇( f + ς) + ω∂ς
+∂p + ( f + ς)∇· v + k · ∇ω × ∂v
+∂p = 0
+(2.6.22)
+∂δ
+∂t + ∇· (v · ∇v) + ω ∂δ
+∂p + ∇ω · ∂v
+∂p + ∇· ( f k × v) + ∇2φ = 0
+(2.6.23)
+2.6.3
+Sigma and eta coordinates
+Because of the complication of the bottom boundary conditions, Phillips (1957)
+introduced “normalized pressure” or “sigma” coordinates, where σ = p/ps and
+ps(x, y, t) is the surface pressure. These are by far the most widely used vertical
+coordinates. At the surface, σ = 1, and at p = 0, σ = 0, so that the top and bottom
+boundary conditions are ˙σ = 0. More generally, allowing for a rigid top at a ﬁnite
+pressure pT = const.,
+σ = p −pT
+pS −pT
+= p −pT
+π
+(2.6.24)
+with ˙σ = 0 at σ = 0, 1.
+The continuity equation is
+∂π
+∂t = −∇· (πv) −∂π ˙σ
+∂σ
+(2.6.25)
+
+2.6 Primitive equations and vertical coordinates
+65
+The surface pressure tendency equation is:
+∂π
+∂t = ∂pS
+∂t
+= −∇·
+1
+
+0
+(πv)dσ
+(2.6.26)
+Substituting back into the continuity equation, one can determine ˙σ diagnostically
+from the horizontal wind ﬁeld v.
+Exercise 2.6.2: Derive (2.6.25) and (2.6.26)
+Despite their popularity, sigma coordinates have a serious disadvantage: the pressure
+gradient becomes the difference between two terms:
+dv
+dt = −α∇σ p −∇σφ −f k × v + F
+(2.6.27)
+where the ﬁrst term, if sigma surfaces are steep, may not have the information that
+went into the ﬁnite difference calculation of the second. To avoid the resulting errors,
+Mesinger (1984) introduced a step-mountain coordinate denoted “eta” (used in the
+Eta model at NCEP, e.g., Mesinger et al. (1988), Janjic (1990), Black (1994)):
+η = p
+pS
+po(z)
+1000 mb
+(2.6.28)
+The ﬁrst factor is the standard sigma coordinate, the second is a scaling factor, with
+po(z) the pressure in the standard atmosphere. Mountains are deﬁned as boxes, whose
+tops have to coincide with a model eta level (Fig. 2.6.2). As a result of the scaling, the
+eta surfaces are almost horizontal, and the pressure gradient is computed accurately.
+At NCEP, the Eta model has proven to be very skillful especially in predicting storms.
+etaN
+etaN-1
+etaN-2
+etaN-3
+etaN-4
+Figure 2.6.2: Schematic of the eta coordinate.

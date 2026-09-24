@@ -1,0 +1,603 @@
+CHAPTER6
+Modeling Default Risk
+I
+t’s clear from Chapter 5 that jumps are required to explain the shape
+of the implied volatility surface. In the single-stock case, there is a much
+more direct and obvious explanation for the volatility skew: default risk.
+We shall see that if the credit spread—and so default risk—is high, implied
+volatility skews can be extreme.
+MERTON’S MODEL OF DEFAULT
+As we have come to expect, Wilmott (2000) gives an excellent introduction
+to the modeling of default risk. There are two broad types of default
+risk model used by practitioners: so-called structural models and so-called
+reduced form models. I found the following useful description by Jabairu
+Stork on Wilmott.com:
+A structural model (of ﬁrm default) postulates that default occurs
+when some economic variable (like ﬁrm value) crosses some barrier
+(like debt value), typically using a contingent claims model to
+support this assertion and to ﬁnd the probability of default. Both
+H-W and Creditgrades∗are models of this form.
+A reduced form model models default as a random occur-
+rence—there is no observable or latent variable which triggers the
+default event, it just happens. The Dufﬁe and Singleton (1999)
+model is a reduced form model. These models are easy to calibrate,
+but because they lack any ability to explain why default happens,
+I think they make most people nervous. Basically, you estimate an
+intensity for the arrival of default (possibly as a function of time,
+possibly as a stochastic process, possibly as a function of other
+things.)
+∗See Finkelstein (2002) and Lardy (2002).
+74
+
+Modeling Default Risk
+75
+The model introduced in Merton (1974) is the simplest possible
+example of a reduced form model. It supposes that there some proba-
+bility λ(t) per unit time of the stock price jumping to zero (the hazard
+rate), whereupon default occurs. Jumps are independent of the stock price
+process. Then, contingent claims must satisfy the jump diffusion valuation
+equation (5.3) with E[J] = 0. It is particulary straightforward to value a
+call option because for a call, V(SJ, t) = 0. Substitution into equation (5.3)
+gives
+∂V
+∂t + 1
+2σ 2 S2 ∂2V
+∂S2 + rS∂V
+∂S −rV −λ(t)
+
+V −S ∂V
+∂S
+
+= 0
+(6.1)
+We immediately recognize equation (6.1) as the Black-Scholes equation
+with a shifted interest rate r + λ. Its solution is of course the Black-Scholes
+formula with this shifted rate.
+The meaning of this shifted rate is particularly clear if we assume no
+recovery (in the case of default) on the issuer’s bonds so that B(JS, t) = 0.
+Then, the risky bond price B(t, T) must also satisfy equation (6.1) with the
+solution
+B(t, T) = e−
+ T
+t (r(s)+λ(s))ds
+We identify the shifted rate r + λ with the yield (risk-free rate plus credit
+spread) of a risky bond. The situation is a little more complicated (but not
+too much more) if we allow some recovery R on default.
+Intuition
+It may at ﬁrst seem surprising that the Black-Scholes formula could be a
+solution of an equation that has a jump to zero (the so-called jump to ruin)
+in it. There is an economic reason for this, however.
+Recall that the derivation of the Black-Scholes formula involves the
+construction of a replicating portfolio for a call option involving just
+stock and risk-free bonds. Suppose instead, we were to construct this
+portfolio using stock and risky bonds. So long as there is no jump
+to ruin, the derivation goes through as before and the portfolio is self-
+ﬁnancing. If there is a jump to ruin, assuming no recovery on the bond,
+both the bond and the stock jump to zero—the portfolio is still self-
+ﬁnancing!
+What would happen if we were to hedge a short call option position
+using stock and risk-free bonds following the standard Black-Scholes hedg-
+ing recipe (as most practitioners actually do)? We would be long stock and
+
+76
+THE VOLATILITY SURFACE
+short risk-free bonds and, in the case of default, the call would end up
+worthless, the stock would be worthless, and we would get full recovery on
+our risk-free bonds. In other words, on default, we would have a windfall
+gain. On the other hand, relative to hedging with risky bonds, we would
+forego the higher carry (or yield).
+Implications for the Volatility Skew
+All issuers of stock have some probability of defaulting. There is a very active
+credit derivative market that prices default-risk (see Default-Risk.com for
+background). Black-Scholes implied volatilities are computed by inserting
+the risk-free rate into the Black-Scholes formula. However, as we just
+showed, in Merton’s model, call option prices are correctly obtained by
+substituting the risky rate into the Black-Scholes formula. This induces a
+skew that can become extremely steep for short-dated options on stocks
+whose issuers have high credit spreads.
+In Figure 6.1, we graph the implied volatility for various issuer credit
+spreads assuming that options are correctly priced using the Merton
+model. We see that the downside skew that the model generates can be
+extreme.
+0.3
+0.2
+0.1
+0.1
+0.2
+0.3
+Logstrike
+0.25
+0.3
+0.35
+0.4
+Implied Volatility
+FIGURE 6.1
+Three-month implied volatilities from the Merton model assuming a
+stock volatility of 20% and credit spreads of 100 bp (solid), 200 bp (dashed) and
+300 bp (long-dashed).
+
+Modeling Default Risk
+77
+CAPITAL STRUCTURE ARBITRAGE
+Capital structure arbitrage is the term used to describe the fashion for
+arbitraging equity claims against ﬁxed income and convertible claims. At
+its most sophisticated, practitioners build elaborate models of the capital
+structure of a company to determine the relative values of the various
+claims—in particular, stock, bonds, and convertible bonds. At its simplest,
+the trader looks to see if equity puts are cheaper than credit derivatives and
+if so buys the one and sells the other. To understand this, we review put-call
+parity.
+Put-Call Parity
+We saw previously that in the Merton model the value of an equity call
+option is given by the Black-Scholes formula for a call with the risk-free
+rate replaced by the risky rate. What about put options? To make the
+previous arguments work, the put option would need to be worthless
+after the jump to ruin occurs. That would be the case if the put in
+question were to be written by the issuer of the stock. In that case, when
+default occurs, assuming zero recovery, the put options would also be
+worth nothing. So the Black-Scholes formula for a put with the risk-free
+rate replaced by the risky rate does value put options written by the
+issuer.
+What about put options written by some default-free counterparty (for
+example, an exchange)? When default occurs, this put option should be
+worth the strike price. We already know how to value a call written by a
+default-free counterparty; by deﬁnition, the issuer of a stock cannot default
+on a call on his or her own stock, so the value of a call written by the issuer
+of the stock equals the value of a call written by a default-free counterparty.
+We obtain the value of a put by put-call parity: using risk-free bonds in the
+case of the default-free counterparty and risky bonds in the case of the risky
+counterparty.
+Denoting the value of a risk-free put, call and bond by P0, C0, and B0
+and the value of risky claims on the issuer (I) of the stock by PI, CI, and BI,
+we obtain
+P0 = C0 + KB0 −S (from put-call parity with risk-free bonds)
+= CI + KB0 −S (risk-free and issuer-written calls have the same value)
+= PI + S −KBI + KB0 −S (from put-call parity with risky bonds)
+= PI + K(B0 −BI)
+
+78
+THE VOLATILITY SURFACE
+As we would expect, the risk-free put is worth more than the risky put.
+The excess value is equal to the difference in risky and risk-free bond prices
+(times the strike price). With maturity-independent rates and credit spreads
+for clarity and setting t = 0, we obtain
+B0 −BI = e−rT 
+1 −e−λT
+which is just the discounted probability of default in the Merton model.
+In words, the extra value is the strike price times the (pseudo-) probability
+that default occurs. This payoff is also more or less exactly the payoff of a
+default put in the credit derivatives market.
+The Arbitrage
+Referring back to Figure 6.1, we see that the downside implied volatility
+skew can be extreme for stocks whose issuers have high credit spreads.
+Equity option market makers (until recently at least) made do with heuristic
+rules to determine whether a skew looked reasonable or not; implied
+volatility skews of the magnitude shown in Figure 6.1 seemed just too
+extreme to be considered reasonable. Taking advantage of the market
+maker’s lack of understanding, the trader buys an equity option on the
+exchange at a ‘‘very high’’ (but, of course, insufﬁciently high) implied
+volatility and sells a default put on the same stock in the credit derivatives
+market locking in a risk-free return.
+This actually happened and hedge funds were able to lock in risk-free
+gains for a period of time. During this period, market makers saw what
+were to them extremely steep volatility skews get even steeper and they lost
+money.
+Ultimately, skews became so steep that the hedge funds made money
+risk-free the other way round—through put spreads. A popular trade for
+a hedge fund was to buy one at-the-money put and sell two puts struck at
+half the current stock price. As we can see from Figure 6.2, this strategy has
+only positive payoffs so if this can be traded ﬂat or for a net credit, it is a
+pure arbitrage.
+The life of a market maker is not a happy one—it seems that graduate
+degree level understanding is required to avoid getting arbitraged!
+We see that there is a lower bound to the price of a put given by the
+credit default swap market and an upper bound given by spread arbitrage.
+To make this more concrete, consider the upper and lower bounds for a 0.5
+strike one-year option with credit spreads of 100 bp, 200 bp and 300 bp
+displayed in Table 6.1.
+
+Modeling Default Risk
+79
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+Final stock price
+0.1
+0.2
+0.3
+0.4
+0.5
+Payoff
+FIGURE 6.2
+Payoff of the 1 × 2 put spread combination: buy one put with strike
+1.0 and sell two puts with strike 0.5.
+TABLE 6.1
+Upper and lower arbitrage bounds
+for one-year 0.5 strike options for various credit
+spreads (at-the-money volatility is 20%).
+Credit Spread (bp) Lower Bound Upper Bound
+250
+0.0123
+0.0398
+500
+0.0244
+0.0398
+750
+0.0361
+0.0398
+Assuming 20% at-the-money volatility, the upper bound is computed
+as half the value of an at-the-money option which is 0.0398 in each case.
+On the other hand, the lower bounds are just the present value of the
+strike price∗times the probability of default. We see that the lower bound
+increases steadily towards the upper bound as the credit spread increases for
+ﬁxed at-the-money implied volatility. It’s easy to see how a market maker
+could have exceeded the upper bound given the steady increase in skews.
+LOCAL AND IMPLIED VOLATILITY
+IN THE JUMP-TO-RUIN MODEL
+As noted already, the value of a call option is given by the Black-Scholes
+formula with the interest rate shifted by the hazard rate.
+∗We are still assuming zero rates so the PV factor is always one.
+
+80
+THE VOLATILITY SURFACE
+We recall formula (1.6) for local volatility from Chapter 1:
+σ 2
+loc(K, T, S) =
+∂C
+∂T
+1
+2 K2 ∂2C
+∂K2
+(6.2)
+Because the Black-Scholes formula C for a call option is linearly
+homogenous in the stock price S and the strike price K, we have the
+relation
+C = S ∂C
+∂S + K ∂C
+∂K
+It follows that
+K2 ∂2C
+∂K2 = S2 ∂2C
+∂S2
+Also, in the jump-to-ruin case with zero interest rates and dividends, we
+have
+∂C
+∂T = 1
+2 σ 2 S2 ∂2C
+∂S2 + λ S ∂C
+∂S −λ C
+where σ is the volatility (diffusion coefﬁcient) and λ is the hazard rate.
+Rewriting this in terms of derivatives with respect to K gives
+∂C
+∂T = 1
+2 σ 2 K2 ∂2C
+∂K2 −λ K ∂C
+∂K
+Substituting into equation (6.2) gives
+σ 2
+loc(K, T, S) = σ 2 −λ
+K ∂C
+∂K
+1
+2 K2 ∂2C
+∂K2
+= σ 2 + 2 λ σ
+√
+T N(d2)
+N′(d2)
+with
+d2 = log S/K + λ T
+σ
+√
+T
+−σ
+√
+T
+2
+
+Modeling Default Risk
+81
+For very low strikes K/S ≪1, we have d2 ≫0 and
+N(d2) ≈1
+N′(d2) =
+1
+√
+2π
+e−d2
+2/2
+Then, for very low strikes,
+σ 2
+loc(K, T, S) ≈σ 2 + 2 λ σ
+√
+T
+√
+2π e+d2
+2/2
+Figure 6.3 shows a typical jump-to-ruin local variance surface. From
+Chapter 3, we know that implied variance (volatility squared) is a gamma-
+weighted average of local variances. It follows that implied volatility in
+the jump-to-ruin model increases very fast as the strike decreases from
+at-the-money and tends to the constant σ for high strikes—exactly con-
+sistent with Figure 6.1 and quite different from the stochastic volatility
+case.
+0.4
+0
+0.4
+Logstrike
+0
+0.5
+1.
+Expiration
+0.
+0.3
+0.6
+FIGURE 6.3
+Local variance plot with λ = 0.05 and σ = 0.2.
+
+82
+THE VOLATILITY SURFACE
+THE EFFECT OF DEFAULT RISK ON OPTION PRICES
+To make the foregoing a little more concrete, consider the implied volatilities
+of January-05 options on GT (Goodyear Tire and Rubber) as of October
+20, 2004.
+We noted earlier that the price of a European call option in the
+Merton jump-to-ruin model is given by the Black-Scholes formula with
+a shifted interest rate. Our experiment is to ﬁnd the shifted rate and
+constant volatility that generate prices closest to the European option
+prices∗computed using these implied volatilities (i.e., the best ﬁt parameters
+of the Merton model).
+We ﬁnd the best ﬁt parameters:
+λ = 0.01934
+σ = 0.3946
+With these parameters, we may compute call option prices and compute the
+standard (risk-free) Black-Scholes implied volatilities. The results are shown
+in Table 6.2.
+In fact, because GT credit spreads are very high, the Merton model ﬁts
+the left wing of the volatility skew very well as shown in Figure 6.4.
+TABLE 6.2
+Implied volatilities for January 2005 options on GT as of October 20,
+2004 (GT was trading at 9.40). Merton vols are volatilities generated from the
+Merton model with ﬁtted parameters.
+Strike
+Bid Vol.
+Ask Vol.
+Merton Vol.
+2.50
+147.2%
+145.2%
+5.00
+73.6%
+88.3%
+85.8%
+7.50
+48.3%
+58.2%
+51.2%
+10.00
+38.1%
+45.0%
+43.1%
+12.50
+41.2%
+48.1%
+41.5%
+15.00
+51.2%
+54.3%
+40.9%
+17.50
+64.5%
+66.5%
+40.6%
+20.00
+77.3%
+40.0%
+25.00
+94.7%
+40.0%
+30.00
+108.3%
+40.0%
+∗Note that traded options are American. We are making the reasonable assumption
+here that American implied volatilities are close to European implied volatilities.
+
+Modeling Default Risk
+83
+1
+0.5
+0.5
+1
+Log strike
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+1.4
+Implied Vol
+FIGURE 6.4
+The triangles represent bid and offer volatilities and the solid line is
+the Merton model ﬁt.
+However, the Merton model produces a skew that is a little too steep for
+low strikes and as predicted generates no right wing (high strike structure)
+at all and that’s just not consistent with the data. As we are by now well
+aware from our study of stochastic volatility, the positively sloped right
+wing in the empirically observed volatility surface reﬂects uncertainty in the
+future level of volatility; the ﬂat right wing in the Merton model reﬂects its
+deterministic volatility assumption.
+Finally, we might ask whether or not the ﬁtted parameters are realistic.
+The volatility estimate σ = 39.46% is clearly realistic from inspection of
+the implied volatilities. To see that the hazard rate estimate of λ = 0.01934
+is also realistic, we note that the fair price of a zero coupon bond of GT
+(assuming zero rates) should be given by
+Pt = e−λ t R + (1 −e−λ t)
+where R is the recovery rate. With Bloomberg’s standard assumed recovery
+rate of 0.4, the credit spread of this bond would be found by solving
+Pt = e−ct = e−λ t R + (1 −e−λ t)
+With the above choices of λ and R, we obtain
+c = 4.58%
+
+84
+THE VOLATILITY SURFACE
+This compares with the 5-year credit default swap (CDS) rate of over 5%
+for GT; the derived credit spread is almost certainly too high for 3-month
+paper. However, the main point remains: most of the volatility skew for
+stocks with high credit spreads can be ascribed to default risk.
+THE CREDITGRADES MODEL
+If Merton’s jump-to-ruin model is the prototypical reduced form model,
+then the prototypical structural model is the one due to Black and Scholes
+(1973) and Merton (1974) that models equity as a call option on the value
+of a company. The value of the company V is assumed to diffuse with no
+jumps. Debt is then equivalent to a call writer’s position of long V and short
+the call on V. There is then a very natural connection between the stock
+price and stock volatility; as the stock price declines, the company gets more
+leveraged and stock volatility increases, exactly as observed empirically.
+Obviously, this generates an implied volatility skew too.
+The one big practical problem with this simple model is that there is no
+way to generate signiﬁcant short-dated credit spreads; default occurs when
+the value of the company hits a certain level below the current value and
+for short times, there is insufﬁcient time for the V process to diffuse to the
+barrier. Finkelstein (2002) and Lardy (2002) resolve this by making the level
+of the default barrier uncertain. This extra feature is even intuitive: Who
+would claim to know exactly what level V would have to reach for default
+to occur? For example American Airlines (AMR) currently has negative
+book value but has an enterprise value of over $13 billion.
+Model Setup
+V is assumed to evolve as a driftless geometric Brownian motion, so
+dVt
+Vt
+= σ dW
+where σ is the volatility of ﬁrm value V.
+The level of V at which the company defaults is given by L D where D is
+today’s value of its debt (per share) and L is the recovery rate. As discussed
+above, it is further assumed that the recovery rate L is a lognormally
+distributed random variable with mean L and standard deviation λ so that
+L D = L D eλ Z−λ2/2
+where Z ∼N(0, 1). The random variable Z is assumed to be independent
+of Wt.
+
+Modeling Default Risk
+85
+Survival Probability
+Deﬁne
+Xt := σ Wt −λ Z −σ 2 t
+2
+−λ2
+2
+Then Xt is normally distributed with
+E [Xt] = −σ 2
+2
+
+t + λ2
+σ 2
+
+Var [Xt] = σ 2
+
+t + λ2
+σ 2
+
+This leads us to approximate X with a Brownian motion ˆX with drift −σ 2/2
+and variance σ 2 that starts at 0 at the time −t := −λ2/σ 2 with ˆX−t = 0.
+Obviously X isn’t really a Brownian motion with drift but its moments
+agree with those of ˆX for t ≥0.
+Default occurs when
+V = V0 eσ Wt−σ 2 t/2 = L D = L D eλ Z−λ2/2
+or equivalently when
+Xt = log
+
+L D
+V0
+	
+−λ2
+Since ˆX is a Brownian motion with drift, the probability of survival (or the
+probability of not hitting the default barrier) is given by the Black-Scholes-
+like formula
+Pt = N
+
+−At
+2 + log d
+At
+
+−d N
+
+−At
+2 −log d
+At
+
+with
+d = V0 eλ2
+L D
+; A2
+t = σ 2 t + λ2
+Since Pt is the probability of survival up to time t, it may be estimated
+directly from the prices of risky instruments such as bonds and credit
+default swaps (CDS).
+
+86
+THE VOLATILITY SURFACE
+As an aside, we could avoid approximating X with ˆX by computing
+the survival probability conditional on a given default barrier level L
+and integrating over the distribution of barrier levels. This gives rise to an
+expression for the survival probability that contains the cumulative bivariate
+density but is numerically little different in practice.
+Equity Volatility
+The stock price S is approximately related (neglecting the time value of the
+option) to the ﬁrm value V via
+V ≈L D + S
+Then
+σ ∼δV
+V ≈
+δS
+S + L D = δS
+S
+S
+S + L D ∼σS
+S
+S + L D
+where σS is the stock volatility. We see that as the stock price rises, keeping
+σ ﬁxed, the volatility σS of the stock declines. Conversely, as the stock price
+S approaches zero, the stock volatility increases as 1/S.
+Model Calibration
+We end up with the following model in terms of market observables
+Pt = N
+
+−At
+2 + log d
+At
+
+−d N
+
+−At
+2 −log d
+At
+
+(6.3)
+with
+d = S0 + L D
+L D
+eλ2; A2
+t =
+
+σ ∗
+S
+S∗
+S∗+ L D
+2
+t + λ2
+where S∗is some reference stock price and σ ∗
+S the stock volatility at
+that price.
+In the technical document Finger (2002), L and λ are derived from
+historical recovery data and D is from balance sheet data. With sufﬁciently
+many bonds, we could also impute all of the parameters from the term
+structure of credit spreads (or equivalently, the term structure of the survival
+probability Pt). Getting L, λ and D from company and industry data rather
+than from the term structure of credit spreads would theoretically enable us
+to identify rich and cheap claims.
+From our perspective however, we content ourselves with the realization
+that once again, credit spreads are explicitly related to the volatility skew,
+only this time in the context of a more realistic model.

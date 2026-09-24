@@ -1,0 +1,173 @@
+244
+6 Atmospheric predictability and ensemble forecasting
+threshold. They both verify on 6 April 2001. Note that the short-range forecast has
+many areas with probabilities equal to zero or above 95%, indicating that all the
+ensemble members agree that there will be no precipitation or at least 5 mm accu-
+mulated precipitation respectively. In the 7-day forecast, the areas with maximum
+probability of precipitation are generally in agreement with the short-range forecast,
+indicating the presence of skill. However, by this time there are few areas of consen-
+sus on either rain or no rain among the forecasts, since their solutions have dispersed
+signiﬁcantly over a week.
+6.5.2
+Singular vectors
+ECMWF developed and implemented operationally in December 1992 an ensemble
+forecasting system based on initial perturbations that are linear combinations of the
+singular vectors of the 36-h tangent linear model (Molteni et al., 1996, Molteni and
+Palmer, 1993, Buizza, 1997, Buizza et al., 1997).
+As discussed in Section 6.3, the singular vectors yi(t0) used to create the initial
+perturbations at the time t0 are obtained as the leading eigenvectors ˆyi(t0) of
+(W−1)T LT PT PLW−1ˆy(t0) = σ 2ˆy(t0)
+(6.5.1)
+subject to
+ˆyT (to)ˆy(to) = 1
+and
+y(to) = W−1ˆy(to)
+(6.5.2)
+ECMWF used as the projection operator P, a symmetric projector operator that
+includes only forecast perturbations north of 30◦N, and as the initial norm the total
+energy norm W−1. The linear tangent model L and its adjoint LT are computed for the
+36-h forecasts (and more recently for the 48-h forecast), which determine the length
+of the “optimization interval” (Section 6.3). Barkmeijer et al. (1998) tested the use of
+the analysis error covariance as the initial norm instead of the energy norm with good
+results. The singular vectors obtained with this norm were closer to bred vectors than
+those obtained with the total energy norm. They also found that the use of evolved
+vectors (also closer to Lyapunov or bred vectors) resulted in improved results. More
+recent experiments with a simpliﬁed Kalman ﬁlter also resulted in promising results
+(Fischer et al., 1998).
+From (6.5.1) and (6.5.2), the initial singular vectors yi(t0) are the perturbations
+with maximum energy growth north of 30◦N, for the time interval 0–36 h (Buizza,
+1994), or more recently, 0–48 h. The method used to obtain the singular vectors is the
+Lanczos algorithm (Golub and Van Loan, 1996), which requires integrating forward
+with L for a period t (36 or 48 h), and backward with LT . This forward–backward
+integration has to be performed about three times the number of singular vectors
+desired. Figure 6.5.7 shows an example of the horizontal structure corresponding to
+the initial and ﬁnal singular vectors #1, 3 and 6. Figure 6.5.8 shows the corresponding
+initial and evolved vertical energy structure (Buizza, 1997). Singular vectors deﬁned
+
+6.5 Operational ensemble forecasting methods
+245
+(a)
+(b)
+(c)
+(d)
+(e)
+(f)
+951105 PSI - SV = 1
+951105 PSI - SV = 3
+951105 PSI - SV = 6
+951107 PSI - SV = 1
+951107 PSI - SV = 3
+951107 PSI - SV = 6
+Figure 6.5.7: Singular vectors numbers 1 (top panels), 3 (middle panels), and 6
+(bottom panels) at initial (left panels) and optimization time (right panels). Each panel
+shows the singular vector streamfunction at model level 11 (approximately 500 hPa),
+superimposed to the trajectory 500-hPa geopotential height ﬁeld. Streamfunction
+contour interval is 0.5 × 10−8 m2 s−1 for left panels and 20 times larger for the right
+panels; geopotential height contour interval is 80 m (from Buizza, 1997).
+
+246
+6 Atmospheric predictability and ensemble forecasting
+4
+8
+12
+16
+0
+10 20 30 40 50 60 70 80 90 100
+4
+8
+12
+16
+4
+8
+12
+16
+ENERGY
+0
+10 20 30 40 50 60 70 80 90 100
+ENERGY
+0
+10 20 30 40 50 60 70 80 90 100
+ENERGY
+LEVEL N
+LEVEL N
+LEVEL N
+95110512 - SV = 1
+95110512 - SV = 3
+95110512 - SV = 6
+(a)
+(b)
+(c)
+Figure 6.5.8: Total energy
+(m2 s−2) vertical proﬁle of
+the (a) ﬁrst, (b) third, and
+(c) sixth singular vector of
+5 November 1995, at the
+initial (dashed line, values
+multiplied by 100) and
+optimization (solid line)
+times. Note that singular
+vectors are normalized to
+have unit initial total energy
+norm. (From Buizza, 1997.)
+with the total energy norm tend to have a maximum initial energy at low levels
+(about 700 hPa), and their ﬁnal (evolved) energy at the tropopause level. In 1996,
+when they were using 36-h forecasts for the linear tangent model, ECMWF used
+16 singular vectors selected from 38 leading singular vectors. This required a daily
+integration equivalent to about 3 × 36 × 2 × 38 hours of model integration with
+either L or LT to create the perturbations. For this reason, the computation was done
+with a lower resolution (T42/19 level) than the operational model. A second set
+of perturbations was added for the Southern Hemisphere, which originally had no
+perturbations, requiring additional computations.
+The selection of 16 singular vectors is such that the ﬁrst four are always selected,
+and from the ﬁfth on, each subsequent singular vector is selected if 50% of its
+energy is located outside the regions where the singular vectors already selected are
+localized. Once the 16 singular vectors are selected, an orthogonal rotation in phase
+space and a ﬁnal rescaling are performed to construct the ensemble perturbations.
+The purpose of the phase-space rotation is to generate perturbations that have the
+same globally averaged energy as the singular vectors but smaller local maxima and
+
+6.5 Operational ensemble forecasting methods
+247
+more uniform spatial distribution. The rotated singular vectors are characterized by
+having similar growth rates (at least to the period of optimization). The rotation
+is deﬁned to minimize the local ratio between the perturbation amplitude and the
+amplitude of the analysis error estimate of the ECMWF OI analysis. The rescaling
+allows local amplitudes up to
+√
+1.5 larger than the OI error.
+The 16 rotated perturbations are three-dimensional ﬁelds of temperature, vortic-
+ity, divergence, and surface pressure (no moisture, since the propagator L is “dry”,
+although there has been more recent work to include physical processes in the tan-
+gent linear model and adjoint). They are added and subtracted to the control initial
+conditions to create 33 initial conditions (32 + control), from which the ensemble
+forecast is run with the nonlinear model at T63 resolution.
+In 1997 ECMWF changed the system to an ensemble of 50 members (plus control)
+run at a resolution of T156 (with a linear Gaussian grid, since their use of a semi-
+Lagrangian scheme allows the use of a more efﬁcient linear rather than quadratic
+grid). This increase in resolution had a major positive effect on the quality of the
+ECMWF ensemble forecasting system. In March 1998 ECMWF added to the initial
+perturbations the evolved (or ﬁnal) singular vectors from 48 h before the analysis
+time, which also resulted in improved results. The 2-day evolved singular vectors are
+much closer to the Lyapunov vectors (or bred vectors) (Barkmeijer et al., 1998).
+Initially both NCEP and ECMWF considered in their ensembles only the errors
+generated by uncertainties in the initial conditions, and neglected the additional errors
+due to the models themselves. This is a reasonable (but not perfect) assumption only
+for the extratropics (Reynolds et al., 1994). In 1998 ECMWF tested an innovative
+way to account for the fact that the model has deﬁciencies (Buizza et al., 1999). The
+time derivatives of the physical parameterizations are multiplied by Gaussian random
+numbers with a mean of 1.0 and a standard deviation of 0.2, which have a time lag
+correlation of several hours and horizontal correlation of a few hundred kilometers.
+This introduction of randomness in the “physics” had a very good impact on the
+ensemble. It increased the ensemble spread to levels similar to those of the control
+forecast error, which is a necessary condition if “nature” (the verifying analysis) is
+to be a plausible member of the ensemble (Toth and Kalnay, 1993).
+6.5.3
+Ensembles based on multiple data assimilation
+Houtekamer et al. (1996) and Houtekamer and Mitchell (1998) have developed a
+very promising ensemble forecasting system based on running an ensemble of data
+assimilation systems to create the initial conditions. In their different data assimila-
+tion systems they add random errors to the observations (in addition to the original
+observational errors) and include different parameters in the physical parameteriza-
+tions of the model in different ensembles. This is a promising approach, related to but
+more general than breeding. One novel approach introduced by Houtekamer et al.
+(1996) is the use of perturbations in the physical parameterizations in the models

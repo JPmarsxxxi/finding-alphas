@@ -1,0 +1,464 @@
+5.5 3D-Var, the physical space analysis scheme (PSAS)
+171
+5.5.1
+Equivalence between the OI and 3D-Var
+statistical problems
+We now demonstrate the equivalence of the 3D-Var solution and the OI analysis
+solution obtained in Section 5.4.1 (Lorenc, 1986). We have to show that the weight
+matrix that multiplies the innovation {yo −H(xb)} = δyo in (5.5.10) is the same as
+the weight matrix obtained with OI, i.e., that
+W = (B−1 + HT R−1H)−1HT R−1 = (BHT )(R + HBHT )−1
+(5.5.11)
+This identity is a variant of the Sherman–Morrison–Woodbury formula (Golub and
+Van Loan, 1996). If the variables that we are observing are the same as the model
+variables, i.e., if H = HT = I, then it is rather straightforward to prove (5.5.11), using
+the rules for the inverse and transpose of a matrix product. However, in general H is
+rectangular, and noninvertible. The equality (5.5.11) can be proven2 by considering
+the following block matrix equation:
+,
+R
+H
+HT −B−1
+- ,
+w
+δxa
+-
+=
+,
+δyo
+0
+-
+(5.5.12)
+where w is a vector which will be discussed further in Section 5.5.2. We want to
+derive from (5.5.12) an equation of the form δxa = Wδyo. Eliminating w from both
+block rows in (5.5.12) we ﬁnd that δxa = (B−1 + HT R−1H)−1HT R−1δyo, the 3D-Var
+version of the weight matrix. On the other hand, eliminating δxa from both block
+rows, we obtain an equation for the vector w, w = (R + HBHT )−1δyo. From this,
+substituting w in the second block row of (5.5.12), we obtain the OI version of the
+weight matrix: δxa = BHT (HBHT + R)−1δyo. This demonstrates the formal equiv-
+alence of the problems solved by 3D-Var and OI. Because the methods of solution
+are different, however, their results are different, and most centers have adopted the
+3D-Var approach.
+Exercise 5.5.1: Prove (5.5.11), using the rules for the inverse and transpose of a
+matrix product assuming H = 1.
+5.5.2
+Physical space analysis system (PSAS)
+Da Silva et al. (1995) introduced another scheme related to 3D-Var and OI, in which
+the minimization is performed in the (physical) space of the observations, rather than
+in the model space as in the 3D-Var scheme (spectral variables in the NCEP scheme
+(Parrish and Derber, 1992)). They solved the same OI/3D-Var equation (5.5.10),
+2 I am very grateful to Jim Purser for suggesting this elegant proof of (5.5.11) and for pointing
+out the relationship (5.5.17).
+
+172
+5 Data assimilation
+written as in the OI approach,
+δxa = (BHT )(R + HBHT )−1δyo
+(5.5.13)
+but separated it into two steps:
+w = (R + HBHT )−1δyo
+(5.5.14)
+followed by
+δxa = (BHT )w
+(5.5.15)
+The ﬁrst step is the most computer intensive, and is solved by minimization of a cost
+function:
+J(w) = 1
+2wT (R + HBHT )w −wT [yo −H(xb)]
+(5.5.16)
+If the number of observations is much smaller than the number of degrees of freedom
+in the model, this is a more efﬁcient method for achieving results similar to those of
+3D-Var.
+Exercise 5.5.1 indicates that the intermediate solution vector w is also given by
+w = R−1(δyo −Hδxa) = R−1[yo −H(xa)]
+(5.5.17)
+i.e., it is the misﬁt of the observations to the analysis weighted by the inverse of the
+observation covariance matrix.
+5.5.3
+Final comments on the relative advantages
+of 3D-Var, PSAS and OI
+Although the three statistical interpolation methods, 3D-Var, OI, and PSAS, have
+been shown to formally solve the same problem, there are important differences in
+the methods of solution. As indicated before, in practice OI requires the introduction
+of a number of approximations, and local solution of the analysis, grid point by grid
+point, or small volume by small volume (Lorenc, 1981). This in turn requires the use
+of a “radius of inﬂuence” and selection of only the stations closest to the grid point
+or volume being analyzed. The background error covariance matrix also has to be
+locally approximated.
+Despite their formal equivalence, 3D-Var and the closely related PSAS have sev-
+eral important advantages with respect to OI, because the cost function (5.5.1) is
+minimized using global minimization algorithms, and as a result it makes unneces-
+sary many of the simplifying approximations required by OI (Parrish and Derber,
+1992, Derber et al., 1991, Courtier et al., 1998, Rabier et al., 1998, Andersson et al.,
+1998):
+
+5.5 3D-Var, the physical space analysis scheme (PSAS)
+173
+(a) In 3D-Var (and PSAS) there is no data selection, all available data are used
+simultaneously. This avoids jumpiness in the boundaries between regions that
+have selected different observations.
+(b) In OI the background error covariance has been crudely obtained assuming,
+for example, separability of the correlation into products of horizontal and
+vertical gaussian correlations, and that the background errors are in
+geostrophic balance. The background error covariance matrix for 3D-Var,
+although it may still require simplifying assumptions, can be deﬁned with a
+more general, global approach, rather than the local approximations used in
+OI. In particular, most centers have adopted the “NMC method” (Parrish and
+Derber, 1992) for estimating the forecast error covariance:
+B ≈αE{[x f (48 h) −x f (24 h)][x f (48 h) −x f (24 h)]T }
+(5.5.18)
+As indicated in (5.5.18), in the “NMC” (now NCEP) method, the structure of
+the forecast or background error covariance is estimated as the average over
+many (e.g., 50) differences between two short-range model forecasts
+verifying at the same time. The magnitude of the covariance is then
+appropriately scaled. In this approximation, rather than estimating the
+structure of the forecast error covariance from differences with rawinsondes
+(Thiebaux and Pedder, 1987, Hollingsworth and L¨onnberg, 1986), the
+model–forecast differences themselves provide a multivariate global forecast
+difference covariance. The forecast covariance (5.5.18) strictly speaking is
+the covariance of the forecast differences and is only a proxy for the structure
+of forecast errors. Nevertheless, it has been shown to produce better results
+than previous estimates computed from forecast minus observation estimates.
+An important reason for this improvement is that the rawinsonde network
+does not have enough density to allow a proper estimate of the global
+structures (Parrish and Derber, 1992, Rabier et al., 1998), whereas (5.5.18)
+provides a global representation of the forecast error structures. In the NCEP
+system, the analysis variables are based on the spectral model forecast
+variables. This allows a major simpliﬁcation: the assumption of horizontal
+homogeneity and isotropy of the error covariance imply that the spectral
+model errors are uncorrelated, i.e., the background error covariance in
+spectral space is diagonal. In the vertical, Parrish and Derber (1992) use an
+empirical orthogonal function expansion of (5.5.18).
+(c) The background error covariance B has a fundamental impact in determining
+the characteristics of the OI analysis increment. Essentially, the analysis
+increment can only occur within the subspace spanned by B.
+This can be easily demonstrated if we assume that the background error covari-
+ance is spanned by a single vector b, i.e., B = bbT . This assumes that the forecast
+
+174
+5 Data assimilation
+error can take place only in the direction of b. Assume also for simplicity that H = I,
+i.e., that the model variables are observed at all the model grid points, and that
+R = α2I, i.e., that the observational errors are uncorrelated and equal. Then the so-
+lution of the OI problem δxa = xa −xb = BHT [HBH + R]−1 [yo −H(xb)] can be
+written exactly as δxa = bbT δyo/(bT b + α2).
+Note that the analysis increment has the direction of b, and that its magnitude is
+proportional to the projection of the observational increment upon the subspace of
+the vector b (a similar formula with α2 = 0 was used by Kalnay and Toth, (1994)).
+If
+H ̸= I,
+we
+can
+write
+˜b = Hb.
+Then
+Hδx = HBHT [HBH + R]−1
+× [yo −H(xb)], and from the previous formula we obtain
+δxa = bbT HT [yo −H(xb)]
+bT HT Hb + α2
+(5.5.19)
+again showing that the analysis increment takes place in the direction of b, with an
+amplitude proportional to the projection of innovation onto the subspace of b.
+Exercise 5.5.2: Prove (5.5.19) for a vector b of dimension 2.
+If B = k
+i=1 bi, spanning a subspace of dimension k < n, the dimension of
+the model, then the 3D-Var cost function 2J(x) = (x −xb)T B−1(x −xb)+ [yo −
+H(x)]T R−1[yo −H(x)] can be used to show again that the analysis increment has
+to be within the k-dimensional subspace spanned by the vectors bi. This is because
+outside this subspace, the inverse of the covariance matrix is inﬁnitely large, and
+therefore increments not within the k-dimensional subspace are forbidden because
+they would result in large increases of the value of the cost function.
+(d) It is possible to add constraints to the cost function without increasing the
+cost of the minimization. For example, Parrish and Derber (1992) included a
+“penalty” term in the cost function (5.5.1) forcing simultaneously the analysis
+increments to approximately satisfy the linear global balance equation. In OI,
+the imposition of the geostrophic constraint on the increments ensured only
+an approximate balance in the analysis. In practice it was found necessary to
+follow the OI analysis with a nonlinear normal mode initialization
+(Section 5.7). With the global balance equation added as a weak constraint to
+the cost function, the NCEP global model spin up (indicated for example by
+the change of precipitation over the ﬁrst 12 hours of integration) was reduced
+by more than an order of magnitude compared with the results obtained with
+OI. In other words, with the implementation of 3D-Var it became unnecessary
+to perform a separate initialization step in the analysis cycle.
+
+5.6 Advanced data assimilation methods
+175
+(e) It is also possible to incorporate important nonlinear relationships between
+observed variables and model variables in the H operator in the minimization
+of the cost function (5.5.1) by performing “inner” iterations with the
+linearized H observation operator kept constant and “outer” iterations in
+which it is updated. This is harder to do in the OI approach.
+(f) The introduction of 3D-Var has allowed three-dimensional variational
+assimilation of radiances (Derber and Wu, 1998). In this approach, there is no
+attempt to perform retrievals and, instead, each satellite sensor is taken as an
+independent observation with uncorrelated errors. As a result, for each
+satellite observation spot, even if some channel measurements are rejected
+because of cloud contamination, others may still be used. In addition, because
+all the data are assimilated simultaneously, information from one channel at a
+certain location can inﬂuence the use of satellite data at a different
+geographical location. The quality control of the observations becomes easier
+and more reliable when it is made in the space of the observations than in the
+space of the retrievals.3
+(g) It is also possible to include quality control of the observations within the
+3D-Var analysis (Section 5.6).
+(h) Cohn et al. (1998) have shown that the observation-space form of 3D-Var
+(PSAS) offers opportunities, through the grouping of data, to improve the
+preconditioning of the problem in an iterative solution.
+5.6
+Advanced data assimilation methods with evolving
+forecast error covariance
+In Section 5.4 we have discussed OI, which minimizes the expected analysis error
+covariance, and its practical implementations, and in Section 5.5 the closely related
+3D-Var and PSAS methods, solving essentially the same problem but minimizing
+a cost function. In these methods, the forecast error covariance matrix is estimated
+once and for all, as if the forecast errors were statistically stationary.
+From Fig. 5.6.1 we can evaluate whether this is indeed a good approximation.
+It shows the 6-h forecast errors in the western and eastern thirds of the USA from
+3 Joiner and Da Silva (1998) pointed out that the use of retrievals from remotely sensed
+observations is a viable option within the variational analysis approach, as long as the
+innovation vector is computed consistently with the use of retrievals from radiances. If Dyo is
+the (linearized) retrieval algorithm applied to satellite radiances to obtain, e.g., temperature and
+moisture proﬁles, then the innovation vector should be computed consistently as Dyo −DFxb,
+where F is the forward (linearized radiative transfer) algorithm that converts model variables
+into model radiances. In other words, the forward observational operator in (5.5.13) is H = DF,
+and the observational error covariance for the retrievals becomes E[(Dδyo)(Dδyo)T ] =
+DE[δyoδyoT ]DT = DRDT instead of R, which is the observation error covariance when
+radiances are directly assimilated. If this method is applied to OI, the weight matrix becomes
+K = BFT BT (DFBFT DT + DRDT )−1.
+
+176
+5 Data assimilation
+1958 f06 500 mb RMS Z–inc West US vs East US
+27
+24
+21
+18
+15
+12
+9
+6
+3
+0
+FEB
+MAR
+APR
+MAY
+JUN
+JUL
+AUG
+SEP
+OCT
+NOV
+DEC
+1958
+West US = 9.28108
+East US = 10.3295
+Figure 5.6.1: Daily variation of the rms increment between the 6-h forecast and the
+analysis over two data-rich regions in the USA, from the NCEP-NCAR reanalysis
+(Kistler et al., 2001): (a) 1958; (b) 1996. The average error is indicated in the box.
+the NCEP/NCAR reanalysis (Kistler et al., 2001) estimated from the difference be-
+tween the forecast and the analysis or analysis increments. Since in these data-rich
+regions the analysis is close to the truth, the analysis increment is a good estimate
+of the forecast error. Figure 5.6.1(a) corresponds to 1958 and Fig. 5.6.1(b) is calcu-
+lated for 1996. The NCEP/NCAR reanalysis used a 3D-Var data assimilation system
+unchanged in time, so that the difference between the ﬁgures is due only to the
+changes in the observing system. Over these four decades the improvements in the
+observing system in the Northern Hemisphere show a positive impact on the 6-h
+forecast errors of about 20%, with the average analysis increment reduced from
+about 10 m to 8 m. Note that the NCEP/NCAR reanalysis used satellite temperature
+retrievals, not direct assimilation of radiances, which would probably have resulted
+in larger improvements. However, the most striking result apparent in the ﬁgure is
+that the day-to-day variability in the forecast error (with a time scale of a few days)
+is about as large as the average error, not just in 1958 but even in 1996. This ﬁgure
+emphasizes the importance of the “errors of the day” (Kalnay et al., 1997), which
+
+5.6 Advanced data assimilation methods
+177
+1996
+f06 500 mb RMS Z–inc West US vs East US
+27
+24
+21
+18
+15
+12
+9
+6
+3
+0
+FEB
+MAR
+APR
+MAY
+JUN
+JUL
+AUG
+SEP
+OCT
+NOV
+DEC
+1996
+West   US = 7.46983
+East   US = 8.48114
+Figure 5.6.1: (cont.)
+in these areas are dominated presumably by baroclinic instabilities of synoptic time
+scales, and which are ignored when the forecast error covariance is assumed to be
+constant.
+In this section we give a brief introduction to more advanced (and much costlier)
+schemes that include, at least implicitly, the evolution of the forecast error covariance.
+A number of papers in Ghil et al. (1997) provide more details about the theory and
+practice of some of these methods. Ide et al. (1997) is a brief but extremely clear
+overview.
+5.6.1
+Extended Kalman ﬁltering
+As we discussed in Section 5.3 for the simple case of a scalar analysis, the Kalman
+ﬁlter (KF) is formally very similar to OI, but with one major difference: the forecast
+or background error covariance P f (ti) is advanced using the model itself, rather than
+estimating it as a constant covariance matrix B.
+Following the notation of Ide et al. (1997), let x f (ti) = Mi−1 [xa(ti−1)] represent
+the (nonlinear) model forecast that advances from the previous analysis time ti−1
+
+178
+5 Data assimilation
+to the current ti. The model is imperfect (in particular, it has been discretized, so
+that subgrid processes are not included). Therefore, we assume that for the true
+atmosphere
+xt(ti) = Mi−1[xt(ti−1)] + η(ti−1)
+(5.6.1)
+where η is a noise process with zero mean and covariance matrix Qi−1 = E(ηi−1ηT
+i−1)
+(in other words, when starting from perfect initial conditions, the forecast error is
+given by −ηi−1, where the negative sign is chosen for convenience). Although we are
+assuming that the mean error is zero, in reality model errors have signiﬁcant biases
+that should be taken into account. Dee and DaSilva (1998) showed how to estimate
+and remove these model biases.
+In the extended Kalman ﬁlter, the forecast error covariance is obtained linearizing
+the model about the nonlinear trajectory of the model between ti−1 and ti, so that if
+we introduce a perturbation in the initial conditions, the ﬁnal perturbation is given
+by
+x(ti) + δx(ti) = Mi−1 [x(ti−1) + δx(ti−1)]
+= Mi−1 [x(ti−1)] + Li−1δx(ti−1) + O(|δx|2)
+(5.6.2)
+The linear tangent model Li−1 is a matrix that transforms an initial perturbation at
+time ti−1 to the ﬁnal perturbation at time ti (Lorenz, 1965). The linear tangent model
+and its transpose or adjoint model LT
+i−1 will be discussed in more detail in Chapter 6,
+which is devoted to predictability, and in Appendix B. We point out here that if there
+are several steps in a time interval t0 −ti, the linear tangent model that advances a
+perturbation from t0 to ti is given by the product of the linear tangent model matrices
+that advance it over each step:
+L(t0, ti) =
+0
+.
+j=i−1
+L(t j, t j+1) =
+0
+.
+j=i−1
+L j = Li−1Li−2 · · · L0
+(5.6.3)
+Therefore, the adjoint model (transpose of the linear tangent model) is given by
+L(ti, t0)T =
+i−1
+.
+j=0
+L(t j+1, t j)T =
+i−1
+.
+j=0
+LT
+j
+(5.6.4)
+Equation (5.6.4) shows that the adjoint model “advances” a perturbation backwards
+in time, from the ﬁnal to the initial time. Adjoint models are discussed in more detail
+in Chapter 6 and in Appendix B.
+As we did in OI and 3D-Var, observations are assumed to have random errors with
+zero mean and an observational error covariance matrix Ri = E(εo
+i εoT
+i ), where
+yo
+i = H(xt(ti)) + εo
+i
+(5.6.5)
+and H is the forward or observation operator.
+
+5.6 Advanced data assimilation methods
+179
+Note that the forecast error over a 6-h forecast depends on the initial (analysis)
+error and on the errors introduced by the forecast model during that period:
+ε f
+i = Mi−1
+	
+xt
+i−1
+
++ ηi −Mi−1
+	
+xa
+i−1
+
+= Mi−1
+	
+xa
+i−1 + xt
+i−1 −xa
+i−1
+
++ηi −Mi−1
+	
+xa
+i−1
+
+≈Li−1εa
+i−1 + ηi
+(5.6.6)
+where we have neglected higher order terms.
+The analysis and forecast error covariances are deﬁned, as usual, from their cor-
+responding errors at the appropriate time:
+Pi = E
+	
+εiεT
+i
+
+(5.6.7)
+From these equations we can deﬁne extended Kalman ﬁltering which consists of a
+“forecast step” that advances the forecast and the forecast error covariance, followed
+by an “analysis” or update step, a sequence analogous to OI. After the forecast step,
+an optimal weight matrix or Kalman gain matrix is calculated as in OI, and this matrix
+is used in the analysis step.
+The forecast step is
+x f (ti) = Mi−1[xa(ti−1)]
+P f (ti) = Li−1Pa(ti−1)LT
+i−1 + Q(ti−1)
+
+
+
+(5.6.8)
+The analysis step is written as in OI, with
+xa(ti) = x f (ti) + Kidi
+Pa(ti) = (I −KiHi)P f (ti)
+
+
+
+(5.6.9)
+where
+di = yo
+i −H[x f (ti)]
+(5.6.10)
+is the observational increment or innovation.
+The formula for the Kalman gain or weight matrix in (5.6.10), computed after
+completing the forecast step, is obtained by minimizing the analysis error covariance
+Pa
+i . It is given by the same formula derived for OI, but with the constant background
+error covariance B replaced by the evolved forecast error covariance P f (ti):
+Ki = P f (ti)HT
+i [Ri + HiP f (ti)HT ]−1
+(5.6.11)
+The extended Kalman ﬁlter is the “gold standard” of data assimilation. Even if a
+system starts with a poor initial guess of the state of the atmosphere, the extended
+Kalman ﬁlter may go through an initial transient period of a week or so, after which
+it should provide the best linear unbiased estimate of the state of the atmosphere and
+its error covariance. However, if the system is very unstable, and the observations are
+not frequent enough, it is possible for the linearization to become inaccurate, and the
+extended Kalman ﬁlter may drift away from the true solution (Miller et al., 1994).

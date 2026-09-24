@@ -1,0 +1,42 @@
+1.6
+What Machine Learning Cannot Do
+Machine learning has great potential for improving risk premium measurement, which is funda-
+mentally a problem of prediction. It amounts to best approximating the conditional expectation
+E(ri,t+1|Ft), where ri,t+1 is an asset’s return in excess of the risk-free rate, and Ft is the true and
+unobservable information set of market participants. This is a domain in which machine learning
+algorithms excel.
+But these improved predictions are only measurements. The measurements do not tell us about
+economic mechanisms or equilibria. Machine learning methods on their own do not identify deep
+fundamental associations among asset prices and conditioning variables. When the objective is to
+understand economic mechanisms, machine learning may still be useful. It requires the economist to
+add structure—to build a hypothesized mechanism into the estimation problem—and decide how to
+introduce a machine learning algorithm subject to this structure. A nascent literature has begun to
+make progress marrying machine learning with equilibrium asset pricing (for example, Kelly et al.,
+2019; Feng et al., 2019), and this remains an exciting direction for future research.
+1.7
+Literature
+Our work extends the empirical literature on stock return prediction, which comes in two basic
+strands. The ﬁrst strand models diﬀerences in expected returns across stocks as a function of stock-
+level characteristics, and is exempliﬁed by Fama and French (2008) and Lewellen (2015). The typical
+approach in this literature runs cross-sectional regressions5 of future stock returns on a few lagged
+stock characteristics.
+The second strand forecasts the time series of returns and is surveyed by
+Koijen and Nieuwerburgh (2011) and Rapach and Zhou (2013). This literature typically conducts
+time series regressions of broad aggregate portfolio returns on a small number of macroeconomic
+predictor variables.
+These traditional methods have potentially severe limitations that more advanced statistical tools
+in machine learning can help overcome. Most important is that regressions and portfolio sorts are
+ill-suited to handle the large numbers of predictor variables that the literature has accumulated over
+ﬁve decades. The challenge is how to assess the incremental predictive content of a newly proposed
+predictor while jointly controlling for the gamut of extant signals (or, relatedly, handling the multiple
+comparisons and false discovery problem). Our primary contribution is to demonstrate potent return
+predictability that is harnessable from the large collection of existing variables when machine learning
+methods are used.
+Machine learning methods have appeared sporadically in the asset pricing literature. Rapach
+et al. (2013) apply lasso to predict global equity market returns using lagged returns of all countries.
+Several papers apply neural-networks to forecast derivatives prices (Hutchinson et al., 1994; Yao
+et al., 2000, among others). Khandani et al. (2010) and Butaru et al. (2016) use regression trees
+to predict consumer credit card delinquencies and defaults. Sirignano et al. (2016) estimate a deep
+5In addition to least squares regression, the literature often sorts assets into portfolios on the basis of characteristics
+and studies portfolio averages—a form of nonparametric regression.
+7

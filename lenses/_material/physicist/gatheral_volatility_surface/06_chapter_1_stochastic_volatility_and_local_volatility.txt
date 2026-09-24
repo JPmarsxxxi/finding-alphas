@@ -1,0 +1,857 @@
+CHAPTER1
+Stochastic Volatility
+and Local Volatility
+I
+n this chapter, we begin our exploration of the volatility surface by intro-
+ducing stochastic volatility—the notion that volatility varies in a random
+fashion. Local variance is then shown to be a conditional expectation of
+the instantaneous variance so that various quantities of interest (such as
+option prices) may sometimes be computed as though future volatility were
+deterministic rather than stochastic.
+STOCHASTIC VOLATILITY
+That it might make sense to model volatility as a random variable should
+be clear to the most casual observer of equity markets. To be convinced,
+one need only recall the stock market crash of October 1987. Nevertheless,
+given the success of the Black-Scholes model in parsimoniously describing
+market options prices, it’s not immediately obvious what the beneﬁts of
+making such a modeling choice might be.
+Stochastic volatility (SV) models are useful because they explain in a
+self-consistent way why options with different strikes and expirations have
+different Black-Scholes implied volatilities—that is, the ‘‘volatility smile.’’
+Moreover, unlike alternative models that can ﬁt the smile (such as local
+volatility models, for example), SV models assume realistic dynamics for
+the underlying. Although SV price processes are sometimes accused of being
+ad hoc, on the contrary, they can be viewed as arising from Brownian
+motion subordinated to a random clock. This clock time, often referred to
+as trading time, may be identiﬁed with the volume of trades or the frequency
+of trading (Clark 1973); the idea is that as trading activity ﬂuctuates, so
+does volatility.
+1
+
+2
+THE VOLATILITY SURFACE
+0.2
+0.1
+0.0
+0.1
+FIGURE 1.1
+SPX daily log returns from December 31, 1984, to December 31,
+2004. Note the −22.9% return on October 19, 1987!
+From a hedging perspective, traders who use the Black-Scholes model
+must continuously change the volatility assumption in order to match
+market prices. Their hedge ratios change accordingly in an uncontrolled
+way: SV models bring some order into this chaos.
+A practical point that is more pertinent to a recurring theme of this
+book is that the prices of exotic options given by models based on Black-
+Scholes assumptions can be wildly wrong and dealers in such options are
+motivated to ﬁnd models that can take the volatility smile into account
+when pricing these.
+In Figure 1.1, we plot the log returns of SPX over a 15-year period;
+we see that large moves follow large moves and small moves follow small
+moves (so-called ‘‘volatility clustering’’). In Figure 1.2, we plot the frequency
+distribution of SPX log returns over the 77-year period from 1928 to 2005.
+We see that this distribution is highly peaked and fat-tailed relative to the
+normal distribution. The Q-Q plot in Figure 1.3 shows just how extreme
+the tails of the empirical distribution of returns are relative to the normal
+distribution. (This plot would be a straight line if the empirical distribution
+were normal.)
+Fat tails and the high central peak are characteristics of mixtures of
+distributions with different variances. This motivates us to model variance
+as a random variable. The volatility clustering feature implies that volatility
+(or variance) is auto-correlated. In the model, this is a consequence of the
+mean reversion of volatility.∗
+∗Note that simple jump-diffusion models do not have this property. After a jump,
+the stock price volatility does not change.
+
+Stochastic Volatility and Local Volatility
+3
+0.20
+0.15
+0.10
+0.05
+0.00
+0.05
+0.10
+0
+10
+20
+30
+40
+50
+60
+70
+FIGURE 1.2
+Frequency distribution of (77 years of) SPX daily log returns compared
+with the normal distribution. Although the −22.9% return on October 19, 1987, is
+not directly visible, the x-axis has been extended to the left to accommodate it!
+FIGURE 1.3
+Q-Q plot of SPX daily log returns compared with the normal
+distribution. Note the extreme tails.
+
+4
+THE VOLATILITY SURFACE
+There is a simple economic argument that justiﬁes the mean reversion
+of volatility. (The same argument is used to justify the mean reversion of
+interest rates.) Consider the distribution of the volatility of IBM in 100 years
+time. If volatility were not mean reverting (i.e., if the distribution of volatility
+were not stable), the probability of the volatility of IBM being between 1%
+and 100% would be rather low. Since we believe that it is overwhelmingly
+likely that the volatility of IBM would in fact lie in that range, we deduce
+that volatility must be mean reverting.
+Having motivated the description of variance as a mean reverting
+random variable, we are now ready to derive the valuation equation.
+Derivation of the Valuation Equation
+In this section, we follow Wilmott (2000) closely. Suppose that the stock
+price S and its variance v satisfy the following SDEs:
+dSt = µt St dt + √vt St dZ1
+(1.1)
+dvt = α(St, vt, t) dt + η β(St, vt, t) √vtdZ2
+(1.2)
+with
+
+dZ1 dZ2
+
+= ρ dt
+where µt is the (deterministic) instantaneous drift of stock price returns, η
+is the volatility of volatility and ρ is the correlation between random stock
+price returns and changes in vt. dZ1 and dZ2 are Wiener processes.
+The stochastic process (1.1) followed by the stock price is equivalent
+to the one assumed in the derivation of Black and Scholes (1973). This
+ensures that the standard time-dependent volatility version of the Black-
+Scholes formula (as derived in Section 8.6 of Wilmott (2000) for example)
+may be retrieved in the limit η →0. In practical applications, this is a key
+requirement of a stochastic volatility option pricing model as practitioners’
+intuition for the behavior of option prices is invariably expressed within the
+framework of the Black-Scholes formula.
+In contrast, the stochastic process (1.2) followed by the variance is very
+general. We don’t assume anything about the functional forms of α(·) and
+β(·). In particular, we don’t assume a square root process for variance.
+In the Black-Scholes case, there is only one source of randomness, the
+stock price, which can be hedged with stock. In the present case, random
+changes in volatility also need to be hedged in order to form a riskless
+portfolio. So we set up a portfolio  containing the option being priced,
+whose value we denote by V(S, v, t), a quantity − of the stock and
+
+Stochastic Volatility and Local Volatility
+5
+a quantity −1 of another asset whose value V1 depends on volatility.
+We have
+ = V − S −1 V1
+The change in this portfolio in a time dt is given by
+d =
+∂V
+∂t + 1
+2 v S2 ∂2V
+∂S2 + ρ η v β S ∂2V
+∂v ∂S + 1
+2η2vβ2 ∂2V
+∂v2
+
+dt
+−1
+∂V1
+∂t + 1
+2 v S2 ∂2V1
+∂S2 + ρ η v β S ∂2V1
+∂v ∂S + 1
+2 η2 v β2 ∂2V1
+∂v2
+
+dt
++
+∂V
+∂S −1
+∂V1
+∂S −
+
+dS
++
+∂V
+∂v −1
+∂V1
+∂v
+
+dv
+where, for clarity, we have eliminated the explicit dependence on t of the
+state variables St and vt and the dependence of α and β on the state variables.
+To make the portfolio instantaneously risk-free, we must choose
+∂V
+∂S −1
+∂V1
+∂S − = 0
+to eliminate dS terms, and
+∂V
+∂v −1
+∂V1
+∂v = 0
+to eliminate dv terms. This leaves us with
+d =
+∂V
+∂t + 1
+2v S2 ∂2V
+∂S2 + ρ η v β S ∂2V
+∂v∂S + 1
+2η2 vβ2 ∂2V
+∂v2
+
+dt
+−1
+∂V1
+∂t + 1
+2v S2 ∂2V1
+∂S2 + ρηv β S∂2V1
+∂v∂S + 1
+2η2 v β2 ∂2V1
+∂v2
+
+dt
+= r  dt
+= r(V −S −1V1) dt
+where we have used the fact that the return on a risk-free portfolio must
+equal the risk-free rate r, which we will assume to be deterministic for our
+purposes. Collecting all V terms on the left-hand side and all V1 terms on
+
+6
+THE VOLATILITY SURFACE
+the right-hand side, we get
+∂V
+∂t + 1
+2v S2 ∂2V
+∂S2 + ρη v β S ∂2V
+∂v∂S + 1
+2η2vβ2 ∂2V
+∂v2 + rS ∂V
+∂S −rV
+∂V
+∂v
+=
+∂V1
+∂t + 1
+2v S2 ∂2V1
+∂S2 + ρη vβ S ∂2V1
+∂v∂S + 1
+2η2vβ2 ∂2V1
+∂v2 + rS ∂V1
+∂S −rV1
+∂V1
+∂v
+The left-hand side is a function of V only and the right-hand side is a
+function of V1 only. The only way that this can be is for both sides to
+be equal to some function f of the independent variables S, v and t. We
+deduce that
+∂V
+∂t + 1
+2 v S2 ∂2V
+∂S2 + ρ η v β S ∂2V
+∂v ∂S + 1
+2 η2 v β2 ∂2V
+∂v2 + r S ∂V
+∂S −r V
+= −
+
+α −φ β √v
+ ∂V
+∂v
+(1.3)
+where, without loss of generality, we have written the arbitrary function f
+of S, v and t as
+
+α −φ β √v
+
+, where α and β are the drift and volatility
+functions from the SDE (1.2) for instantaneous variance.
+The Market Price of Volatility Risk
+φ(S, v, t) is called the market price of
+volatility risk. To see why, we again follow Wilmott’s argument.
+Consider the portfolio 1 consisting of a delta-hedged (but not vega-
+hedged) option V. Then
+1 = V −∂V
+∂S S
+and again applying Itˆo’s lemma,
+d1 =
+∂V
+∂t + 1
+2 v S2 ∂2V
+∂S2 + ρ η v β S ∂2V
+∂v ∂S + 1
+2η2 v β2 ∂2V
+∂v2
+
+dt
++
+∂V
+∂S −
+
+dS +
+∂V
+∂v
+
+dv
+
+Stochastic Volatility and Local Volatility
+7
+Because the option is delta-hedged, the coefﬁcient of dS is zero and we are
+left with
+d1 −r 1 dt
+=
+∂V
+∂t + 1
+2vS2 ∂2V
+∂S2 + ρηvβS ∂2V
+∂v∂S + 1
+2η2vβ2 ∂2V
+∂v2 −rS∂V
+∂S −r V
+
+dt
++ ∂V
+∂v dv
+= β √v ∂V
+∂v
+
+φ(S, v, t) dt + dZ2
+
+where we have used both the valuation equation (1.3) and the SDE (1.2)
+for v. We see that the extra return per unit of volatility risk dZ2 is given
+by φ(S, v, t) dt and so in analogy with the Capital Asset Pricing Model, φ is
+known as the market price of volatility risk.
+Now, deﬁning the risk-neutral drift as
+α′ = α −β √v φ
+we see that, as far as pricing of options is concerned, we could have started
+with the risk-neutral SDE for v,
+dv = α′ dt + β √v dZ2
+and got identical results with no explicit price of risk term because we are
+in the risk-neutral world.
+In what follows, we always assume that the SDEs for S and v are in risk-
+neutral terms because we are invariably interested in ﬁtting models to option
+prices. Effectively, we assume that we are imputing the risk-neutral measure
+directly by ﬁtting the parameters of the process that we are imposing.
+Were we interested in the connection between the pricing of options
+and the behavior of the time series of historical returns of the underlying, we
+would need to understand the connection between the statistical measure
+under which the drift of the variance process v is α and the risk-neutral
+process under which the drift of the variance process is α′. From now on,
+we act as if we are risk-neutral and drop the prime.
+LOCAL VOLATILITY
+History
+Given the computational complexity of stochastic volatility models and
+the difﬁculty of ﬁtting parameters to the current prices of vanilla options,
+
+8
+THE VOLATILITY SURFACE
+practitioners sought a simpler way of pricing exotic options consistently
+with the volatility skew. Since before Breeden and Litzenberger (1978), it
+was understood (at least by ﬂoor traders) that the risk-neutral density could
+be derived from the market prices of European options. The breakthrough
+came when Dupire (1994) and Derman and Kani (1994)∗noted that
+under risk neutrality, there was a unique diffusion process consistent with
+these distributions. The corresponding unique state-dependent diffusion
+coefﬁcient σL(S, t), consistent with current European option prices, is known
+as the local volatility function.
+It is unlikely that Dupire, Derman, and Kani ever thought of local
+volatility as representing a model of how volatilities actually evolve. Rather,
+it is likely that they thought of local volatilities as representing some kind of
+average over all possible instantaneous volatilities in a stochastic volatility
+world (an ‘‘effective theory’’). Local volatility models do not therefore really
+represent a separate class of models; the idea is more to make a simplifying
+assumption that allows practitioners to price exotic options consistently
+with the known prices of vanilla options.
+As if any proof were needed, Dumas, Fleming, and Whaley (1998) per-
+formed an empirical analysis that conﬁrmed that the dynamics of the implied
+volatility surface were not consistent with the assumption of constant local
+volatilities.
+Later on, we show that local volatility is indeed an average over instan-
+taneous volatilities, formalizing the intuition of those practitioners who ﬁrst
+introduced the concept.
+A Brief Review of Dupire’s Work
+For a given expiration T and current stock price S0, the collection
+{C (S0, K, T)} of undiscounted option prices of different strikes yields the
+risk-neutral density function ϕ of the ﬁnal spot ST through the relationship
+C (S0, K, T) =
+	 ∞
+K
+dST ϕ (ST, T; S0) (ST −K)
+Differentiate this twice with respect to K to obtain
+ϕ (K, T; S0) = ∂2C
+∂K2
+∗Dupire published the continuous time theory and Derman and Kani, a discrete time
+binomial tree version.
+
+Stochastic Volatility and Local Volatility
+9
+so the Arrow-Debreu prices for each expiration may be recovered by twice
+differentiating the undiscounted option price with respect to K. This process
+is familiar to any option trader as the construction of an (inﬁnite size)
+inﬁnitesimally tight butterﬂy around the strike whose maximum payoff
+is one.
+Given the distribution of ﬁnal spot prices ST for each time T conditional
+on some starting spot price S0, Dupire shows that there is a unique risk
+neutral diffusion process which generates these distributions. That is, given
+the set of all European option prices, we may determine the functional
+form of the diffusion parameter (local volatility) of the unique risk neutral
+diffusion process which generates these prices. Noting that the local volatility
+will in general be a function of the current stock price S0, we write this
+process as
+dS
+S = µt dt + σ (St, t; S0) dZ
+Application of Itˆo’s lemma together with risk neutrality, gives rise to a partial
+differential equation for functions of the stock price, which is a straightfor-
+ward generalization of Black-Scholes. In particular, the pseudo-probability
+densities ϕ (K, T; S0) = ∂2C
+∂K2 must satisfy the Fokker-Planck equation. This
+leads to the following equation for the undiscounted option price C in terms
+of the strike price K:
+∂C
+∂T = σ 2 K2
+2
+∂2C
+∂K2 + (rt −Dt)
+
+C −K ∂C
+∂K
+
+(1.4)
+where rt is the risk-free rate, Dt is the dividend yield and C is short for
+C (S0, K, T).
+Derivation of the Dupire Equation
+Suppose the stock price diffuses with risk-neutral drift µt (= rt −Dt) and
+local volatility σ (S, t) according to the equation:
+dS
+S = µt dt + σ (St, t) dZ
+The undiscounted risk-neutral value C (S0, K, T) of a European option with
+strike K and expiration T is given by
+C (S0, K, T) =
+	 ∞
+K
+dST ϕ (ST, T; S0) (ST −K)
+(1.5)
+
+10
+THE VOLATILITY SURFACE
+Here ϕ (ST, T; S0) is the pseudo-probability density of the ﬁnal spot at time
+T. It evolves according to the Fokker-Planck equation:
+1
+2
+∂2
+∂S2
+T
+
+σ 2S2
+T ϕ
+
+−S ∂
+∂ST
+(µ ST ϕ) = ∂ϕ
+∂T
+Differentiating with respect to K gives
+∂C
+∂K = −
+	 ∞
+K
+dST ϕ (ST, T; S0)
+∂2C
+∂K2 = ϕ (K, T; S0)
+Now, differentiating (1.5) with respect to time gives
+∂C
+∂T =
+	 ∞
+K
+dST
+ ∂
+∂T ϕ (ST, T; S0)
+
+(ST −K)
+=
+	 ∞
+K
+dST
+
+1
+2
+∂2
+∂S2
+T
+
+σ 2S2
+Tϕ
+
+−
+∂
+∂ST
+(µ ST ϕ)
+
+(ST −K)
+Integrating by parts twice gives:
+∂C
+∂T = σ 2 K2
+2
+ϕ +
+	 ∞
+K
+dST µ ST ϕ
+= σ 2 K2
+2
+∂2C
+∂K2 + µ (T)
+
+−K∂C
+∂K
+
+which is the Dupire equation when the underlying stock has risk-neutral
+drift µ. That is, the forward price of the stock at time T is given by
+FT = S0 exp
+	 T
+0
+dt µt
+
+Were we to express the option price as a function of the forward price
+FT = S0 exp
+ T
+0 µ(t)dt
+∗
+, we would get the same expression minus the drift
+term. That is,
+∂C
+∂T = 1
+2 σ 2 K2 ∂2C
+∂K2
+∗From now on, µ(T) represents the risk-neutral drift of the stock price process,
+which is the risk-free rate r(T) minus the dividend yield D(T).
+
+Stochastic Volatility and Local Volatility
+11
+where C now represents C (FT, K, T). Inverting this gives
+σ 2(K, T, S0) =
+∂C
+∂T
+1
+2 K2 ∂2C
+∂K2
+(1.6)
+The right-hand side of equation (1.6) can be computed from known Euro-
+pean option prices. So, given a complete set of European option prices
+for all strikes and expirations, local volatilities are given uniquely by
+equation (1.6).
+We can view equation (1.6) as a deﬁnition of the local volatility function
+regardless of what kind of process (stochastic volatility for example) actually
+governs the evolution of volatility.
+Local Volatility in Terms of Implied Volatility
+Market prices of options are quoted in terms of Black-Scholes implied
+volatility σBS (K, T; S0). In other words, we may write
+C (S0, K, T) = CBS (S0, K, σBS (S0, K, T) , T)
+It will be more convenient for us to work in terms of two dimensionless
+variables: the Black-Scholes implied total variance w deﬁned by
+w (S0, K, T) := σ 2
+BS (S0, K, T) T
+and the log-strike y deﬁned by
+y = log
+
+ K
+FT
+
+where FT = S0 exp
+ T
+0 dt µ(t)
+
+gives the forward price of the stock at time
+0. In terms of these variables, the Black-Scholes formula for the future value
+of the option price becomes
+CBS (FT, y, w) = FT
+
+N
+
+d1
+
+−eyN
+
+d2
+
+= FT
+
+N
+
+−y
+√w +
+√w
+2
+
+−eyN
+
+−y
+√w −
+√w
+2
+
+(1.7)
+and the Dupire equation (1.4) becomes
+∂C
+∂T = vL
+2
+∂2C
+∂y2 −∂C
+∂y
+
++ µ (T) C
+(1.8)
+
+12
+THE VOLATILITY SURFACE
+with vL = σ 2 (S0, K, T) representing the local variance. Now, by taking
+derivatives of the Black-Scholes formula, we obtain
+∂2CBS
+∂w2
+=
+
+−1
+8 −
+1
+2 w +
+y2
+2 w2
+ ∂CBS
+∂w
+∂2CBS
+∂y∂w =
+
+1
+2 −y
+w
+ ∂CBS
+∂w
+∂2CBS
+∂y2
+−∂CBS
+∂y
+= 2 ∂CBS
+∂w
+(1.9)
+We may transform equation (1.8) into an equation in terms of implied
+variance by making the substitutions
+∂C
+∂y = ∂CBS
+∂y
++ ∂CBS
+∂w
+∂w
+∂y
+∂2C
+∂y2 = ∂2CBS
+∂y2
++ 2∂2CBS
+∂y∂w
+∂w
+∂y + ∂2CBS
+∂w2
+
+∂w
+∂y
+2
++ ∂CBS
+∂w
+∂2w
+∂y2
+∂C
+∂T = ∂CBS
+∂T
++ ∂CBS
+∂w
+∂w
+∂T = ∂CBS
+∂w
+∂w
+∂T + µ (T) CBS
+where the last equality follows from the fact that the only explicit dependence
+of the option price on T in equation (1.7) is through the forward price
+FT = S0 exp
+ T
+0 dt µ (t)
+
+. Equation (1.4) now becomes (cancelling µ (T) C
+terms on each side)
+∂CBS
+∂w
+∂w
+∂T
+= vL
+2
+
+−∂CBS
+∂y
++ ∂2CBS
+∂y2
+−∂CBS
+∂w
+∂w
+∂y + 2∂2CBS
+∂y∂w
+∂w
+∂y
++ ∂2CBS
+∂w2
+
+∂w
+∂y
+2
++ ∂CBS
+∂w
+∂2w
+∂y2
+
+= vL
+2
+∂CBS
+∂w
+
+2 −∂w
+∂y + 2
+
+1
+2 −y
+w
+ ∂w
+∂y
++
+
+−1
+8 −1
+2w + y2
+2w2
+ 
+∂w
+∂y
+2
++ ∂2w
+∂y2
+
+
+Stochastic Volatility and Local Volatility
+13
+Then, taking out a factor of ∂CBS
+∂w and simplifying, we get
+∂w
+∂T = vL
+
+1 −y
+w
+∂w
+∂y + 1
+4
+
+−1
+4 −1
+w + y2
+w2
+ 
+∂w
+∂y
+2
++ 1
+2
+∂2w
+∂y2
+
+Inverting this gives our ﬁnal result:
+vL =
+∂w
+∂T
+1 −y
+w
+∂w
+∂y + 1
+4
+
+−1
+4 −1
+w + y2
+w2
+ 
+∂w
+∂y
+2
++ 1
+2
+∂2w
+∂y2
+(1.10)
+Special Case: No Skew∗
+If the skew ∂w
+∂y is zero, we must have
+vL = ∂w
+∂T
+So the local variance in this case reduces to the forward Black-Scholes
+implied variance. The solution to this is, of course,
+w (T) =
+	 T
+0
+vL (t) dt
+Local Variance as a Conditional Expectation
+of Instantaneous Variance
+This result was originally independently derived by Dupire (1996) and
+Derman and Kani (1998). Following now the elegant derivation by Derman
+and Kani, assume the same stochastic process for the stock price as in equa-
+tion (1.1) but write it in terms of the forward price Ft,T = St exp
+ T
+t ds µs
+
+:
+dFt,T = √vtFt,TdZ
+(1.11)
+Note that dFT,T = dST. The undiscounted value of a European option with
+strike K expiring at time T is given by
+C (S0, K, T) = E
+
+(ST −K)+
+∗Note that this implies that
+∂
+∂KσBS (S0, K, T) is zero.
+
+14
+THE VOLATILITY SURFACE
+Differentiating once with respect to K gives
+∂C
+∂K = −E [θ (ST −K)]
+where θ(·) is the Heaviside function. Differentiating again with respect to
+K gives
+∂2C
+∂K2 = E [δ (ST −K)]
+where δ(·) is the Dirac δ function.
+Now a formal application of Itˆo’s lemma to the terminal payoff of the
+option (and using dFT,T = dST) gives the identity
+d (ST −K)+ = θ (ST −K) dST + 1
+2 vT S2
+T δ (ST −K) dT
+Taking conditional expectations of each side, and using the fact that Ft,T is
+a martingale, we get
+dC = dE
+
+(ST −K)+
+= 1
+2 E
+
+vT S2
+T δ (ST −K)
+
+dT
+Also, we can write
+E
+
+vTS2
+T δ (ST −K)
+
+= E [vT |ST = K] 1
+2K2 E [δ (ST −K)]
+= E [vT |ST = K] 1
+2K2 ∂2C
+∂K2
+Putting this together, we get
+∂C
+∂T = E [vT |ST = K] 1
+2K2 ∂2C
+∂K2
+Comparing this with the deﬁnition of local volatility (equation (1.6)), we
+see that
+σ 2(K, T, S0) = E [vT |ST = K]
+(1.12)
+That is, local variance is the risk-neutral expectation of the instantaneous
+variance conditional on the ﬁnal stock price ST being equal to the strike
+price K.

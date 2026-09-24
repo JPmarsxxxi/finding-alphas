@@ -1,0 +1,5276 @@
+ 
+103
+Part III
+Risk Modeling of Financial Instruments
+
+ 
+104
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+105
+Part III:  Risk Modeling of Financial Instruments
+Chapter 6.
+Market risk methodology
+ 
+6.1  Step 1—Identifying exposures and cash ﬂows
+107
+6.1.1  
+Fixed Income
+107
+6.1.2  
+Foreign exchange
+115
+6.1.3  
+Equities
+117
+6.1.4  
+Commodities
+117
+6.2  Step 2—Mapping cash ﬂows onto RiskMetrics vertices
+117
+6.2.1  
+RiskMetrics vertices
+117
+6.2.2  
+Computing RiskMetrics cash ﬂows
+119
+6.3  Step 3—Computing Value-at-Risk
+121
+6.3.1  
+Relating changes in position values to underlying returns
+122
+6.3.2  
+Simple VaR calculation
+125
+6.3.3  
+Delta-gamma VaR methodology (for portfolios containing options)
+129
+6.4  Examples
+134
+
+ 
+106
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+107
+Part III:  Risk Modeling of Financial Instruments
+Chapter 6.
+Market risk methodology
+ 
+Peter Zangari
+Morgan Guaranty Trust Company
+Risk Management Research
+(1-212) 648-8641
+ 
+zangari_peter@jpmorgan.com
+ 
+This chapter explains the methodology RiskMetrics uses to calculate VaR for portfolios that 
+include multiple instruments such as simple bonds, swaps, foreign exchange, equity and other 
+positions.
+The chapter is organized as follows:
+• Section 6.1 describes how to decompose various positions into cash ﬂows.
+• Section 6.2 covers how to convert or map the actual cash ﬂows onto the corresponding 
+RiskMetrics vertices.
+• Section 6.3 explains two analytical approaches to measuring VaR.
+• Section 6.4 presents a number of examples to illustrate the application of the RiskMetrics 
+methodology.
+ 
+6.1  Step 1—Identifying exposures and cash ﬂows
+ 
+The RiskMetrics building block for describing any position is a cash ﬂow. A cash ﬂow is deﬁned 
+by an amount of a currency, a payment date and the credit standing of the payor. 
+Once determined, these cash ﬂows are marked-to-market. Marking-to-market a position’s cash 
+ﬂows means determining the present value of the cash ﬂows given 
+ 
+current
+ 
+ market rates and 
+prices. This procedure requires current market rates, including the current on-the-run yield curve 
+for newly issued debt, and a zero-coupon yield curve on instruments that pay no cash ﬂow until 
+maturity.
+ 
+1
+ 
+ The zero coupon rate is the relevant rate for discounting cash ﬂows received in a partic-
+ular future period.
+ 
+2
+ 
+We now describe how to express positions in ﬁxed income, foreign exchange, equity, and com-
+modities in terms of cash ﬂows. The general process of describing a position in terms of cash ﬂows 
+is known as mapping.
+ 
+6.1.1  Fixed Income
+ 
+Interest rate positions describe the distribution of cash ﬂows over time. Practitioners have applied 
+various methods to express, or map, the cash ﬂows of interest rate positions, the most common 
+three being (1) duration map, (2) principal map, and (3) cash ﬂow map. In this book we use the 
+cash ﬂow map method, but for comparison, present the two other methods as viable alternatives.
+• Duration map
+The ﬁrst and most common method to characterize a position’s cash ﬂows is by its duration 
+(the weighted average life of a position’s interest and principal payments). Macaulay duration 
+is a measure of the weighted average maturity of an instrument’s cash ﬂows. Modiﬁed dura-
+tion is a measure of a bond’s price sensitivity to changes in interest rates. In general, duration 
+provides risk managers with a simpliﬁed view of a portfolio’s market risk. Its main drawback 
+is that it assumes a linear relationship between price changes and yield changes. Moreover, 
+ 
+1
+ 
+See 
+ 
+The J. P. Morgan/Arthur Andersen Guide to Corporate Exposure Management
+ 
+ (p. 54, 1994). 
+ 
+2
+ 
+It is often suggested that implied forward rates are required to estimate the ﬂoating rates to be paid in future peri-
+ods. In this document, however, we will show why forward rates are not necessarily required.
+
+ 
+108
+Chapter 6.  Market risk methodology
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+this approach works well when there are so-called parallel shifts in the yield curve but poorly 
+when yield curves twist. Duration maps are used extensively in ﬁxed income investment man-
+agement. Many investment managers’ activities are constrained by risk limits expressed in 
+terms of portfolio duration.
+• Principal map
+A second method, used extensively over the last two decades by commercial banks, is to 
+describe a global position in terms of when principal payments occur. These “principal” maps 
+form the basis for asset/liability management. ARBLs (Assets Repricing Before Liabilities) 
+are used by banks to quantify interest rate risk in terms of cumulative assets maturing before 
+liabilities. This method is employed most often when risks are expressed and earnings are 
+accounted for on an accrual basis. The main problem with principal maps is that they assume 
+that all interest payments occur at current market rates. This is often not a good assumption 
+particularly when positions include ﬁxed rate instruments with long maturities and when 
+interest rates are volatile. Principal maps describe an instrument only as a function of the 
+value and timing of redemption.
+• Cash ﬂow map
+The third method, and the one RiskMetrics applies is known as cash ﬂow mapping. Fixed 
+income securities can be easily represented as cash ﬂows given their standard future stream of 
+payments. In practice, this is equivalent to decomposing a bond into a stream of zero-coupon 
+instruments. Complications in applying this technique can arise, however, when some of these 
+cash ﬂows are uncertain, as with callable or puttable bonds. 
+The following example shows how each of the mapping methodologies can be applied in practice. 
+Chart 6.1 shows how a 10-year French OAT (FRF 100,000 francs nominal, 7.5% of April 2005) 
+can be mapped under the approaches listed above:
+• The duration map associates the market value of the instrument against the bond’s Macaulay 
+duration of 6.88 years.
+• The principal map allocates the market value of the bond to the 10-year maturity vertex.
+• The cash ﬂow map shows the distribution over time of the current market value of all future 
+streams (coupons 
+ 
++ 
+ 
+principals).
+As shown in Chart 6.1, the cash ﬂow map (present valued) treats all cash ﬂows separately and 
+does not group them together as do the duration and principal maps. Cash ﬂow mapping is the 
+preferred alternative because it treats cash ﬂows as being distinct and separate, enabling us to 
+model the risk of the ﬁxed income position better than if the cash ﬂows were simply repre-
+sented by a grouped cash ﬂow as in the duration and principal maps.
+
+ 
+Sec. 6.1  Step 1—Identifying exposures and cash flows
+109
+Part III:  Risk Modeling of Financial Instruments
+ 
+Chart 6.1
+ 
+French franc 10-year benchmark maps
+ 
+amounts in thousands of market value
+6.1.1.1  Simple bonds
+ 
+Consider a hypothetical bond with a par value of 100, a maturity of 4 years and a coupon rate of 
+5%. Assume that the bond is purchased at time 0 and that coupon payments are payed on an annual 
+basis at the beginning of each year. Chart 6.2 shows the bond’s cash ﬂows.
+ 
+3
+ 
+ 
+In general, arrows pointing upwards signify cash inﬂows and arrows pointing downwards repre-
+sent outﬂows. Also, a cash ﬂow’s magnitude is proportional to the length of the arrow; the taller 
+(shorter) the arrow the greater (lower) the cash ﬂow.
+ 
+Chart 6.2
+ 
+Cash ﬂow representation of a simple bond
+ 
+We can represent the cash ﬂows of the simple bond in our example as cash ﬂows from four zero-
+coupon bonds with maturities of 1,2,3 and 4 years. This implies that on a risk basis, there is no dif-
+ference between holding the simple bond or the corresponding four zero-coupon bonds. 
+ 
+6.1.1.2  Floating rate notes (FRN)
+ 
+A 
+ 
+ﬂoating rate note (FRN)
+ 
+ is an instrument that is based on a principal, P, that pays ﬂoating cou-
+pons. A FRN’s coupon payment is deﬁned as the product of the principal and a ﬂoating rate that is 
+set some time in advance of the actual coupon payment. For example, if coupon payments are paid 
+on a semiannual basis, the 6-month LIBOR rate would be used to determine the payment in 
+6 month’s time. The coupon payments would adjust accordingly depending on the current 6-month 
+LIBOR rate when the ﬂoating rate is reset. The principal is exchanged at both the beginning and 
+end of the FRN’s life.
+ 
+3
+ 
+We ignore the payment for the bond. That is, we do not account for the initial (negative) cash ﬂow at time 0.
+Principal flows
+Duration
+Cash flows
+95
+97
+99
+01
+03
+05
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+95
+97
+99
+01
+03
+05
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+95
+97
+99
+01
+03
+05
+0
+5
+10
+15
+20
+25
+30
+35
+40
+45
+50
+0          1          2          3          4
+5          5          5
+105
+years
+
+ 
+110
+Chapter 6.  Market risk methodology
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Chart 6.3 shows the cash ﬂows for a hypothetical FRN lasting 4 years. The ﬂoating payments are 
+represented by the gray shaded arrows. The black arrows represent ﬁxed payments. All payments 
+are assumed to occur on a yearly basis.
+ 
+Chart 6.3
+ 
+Cash ﬂow representation of a FRN
+ 
+Notice that the ﬁrst payment (at year 1) is known, and therefore, ﬁxed. Also, the last payment rep-
+resents the fact that the principal is known at the fourth year, but the ﬁnal coupon payment is 
+unknown. We now show how to evaluate the future ﬂoating payments. 
+Suppose that at time t (between 0 and 1 year), a risk manager is interested in analyzing the ﬂoating 
+payment that will be received in year 3. The rate that determines this value is set in the second year 
+and lasts one year. Now, implied forward rates are often used to forecast ﬂoating rates. The funda-
+mental arbitrage relationship between current and future rates implies that the 1-year rate, as of 
+year 2 satisﬁes the expression
+[6.1]
+where 
+ 
+r
+ 
+i,j
+ 
+ 
+ 
+is the 
+ 
+i
+ 
+-year rate set at time 
+ 
+j
+ 
+ and 
+ 
+f
+ 
+i,j
+ 
+ is the 
+ 
+i
+ 
+ period forward rate set at time 
+ 
+j
+ 
+. So, for 
+example, 
+ 
+f
+ 
+1,2 
+ 
+is the 1-year rate, beginning at the second year. It follows that the cash ﬂow implied 
+by this rate occurs in year 3. Since we know at time 
+ 
+t
+ 
+ both 
+ 
+r
+ 
+2-
+ 
+t,t
+ 
+ (the 2-t year rate) and 
+ 
+r
+ 
+3-
+ 
+t,t
+ 
+ (the 
+3-t year rate), we can solve for the implied forward rate as a function of observed rates. i.e.,
+[6.2]
+We can apply same technique to all other implied forward rates so that we can solve for 
+ 
+f
+ 
+1,1
+ 
+, 
+ 
+f
+ 
+1,2
+ 
+, 
+ 
+f
+ 
+1,3
+ 
+ and determine the expected future payments. The forecast coupon payment, for example, at 
+time 3 is 
+. The present value of this payment at time 
+ 
+t
+ 
+, is simply 
+. 
+Substituting Eq. [6.2] into the expression for the discounted coupon payment yields,
+[6.3]
+Equation [6.3] shows that the expected coupon payment can be written in terms of known zero 
+coupon rates. We can apply similar methods to the other coupon payments so that we can write the 
+cash ﬂows of the FRN as
+[6.4]
+The right-hand side of Eq. [6.4] is equal to
+years
+0          1          2          3          4
+t
+1
+r2
+t
+–
+t,
++
+(
+)
+1
+f 1 2
+,
++
+(
+)
+⋅
+1
+r3
+t
+–
+t,
++
+(
+)
+=
+f 1 2
+,
+1
+r3
+t
+–
+t,
++
+(
+)
+1
+r2
+t
+–
+t,
++
+(
+)
+-----------------------------
+1
+–
+=
+P
+f 1 2
+,
+⋅
+P
+f 1 2
+,
+⋅
+(
+)
+1
+r3
+t
+–
+t,
++
+(
+)
+⁄
+P
+f
+⋅
+1 2
+,
+1
+r3
+t
+–
+t,
++
+(
+)
+-----------------------------
+P
+1
+r2
+t
+–
+t,
++
+(
+)
+-----------------------------
+=
+P
+1
+r3
+t
+–
+t,
++
+(
+)
+-----------------------------
+–
+PFRN
+P r1 0
+,
+⋅
+1
+r1
+t
+–
+t,
++
+(
+)
+-----------------------------
+=
+P
+f 1 1
+,
+⋅
+1
+r2
+t
+–
+t,
++
+(
+)
+-----------------------------
+P
+f 1 2
+,
+⋅
+1
+r3
+t
+–
+t,
++
+(
+)
+-----------------------------
+P
+f 1 3
+,
+⋅
+1
+r4
+t
+–
+t,
++
+(
+)
+-----------------------------
+P
+1
+r4
+t
+–
+t,
++
+(
+)
+-----------------------------
++
++
++
++
+
+ 
+Sec. 6.1  Step 1—Identifying exposures and cash flows
+111
+Part III:  Risk Modeling of Financial Instruments
+ 
+[6.5]
+Equation [6.5] collapses to the present value 
+[6.6]
+Chart 6.4 shows that the cash ﬂow of the FRN from the time t perspective, is 
+. There-
+fore, we would treat the FRN’s cash ﬂows as a cash ﬂow from a zero coupon bond with maturity 
+1-
+ 
+t
+ 
+ period.
+ 
+Chart 6.4 
+ 
+Estimated cash ﬂows of a FRN
+ 
+Notice that if the cash ﬂows in Chart 6.3 were computed relative to time zero (the start of the 
+FRN), rather than to time 
+ 
+t
+ 
+, the cash ﬂow would be simply P at t = 0, representing the par value of 
+the FRN at its start.
+6.1.1.3  Simple interest-rate swaps
+Investors enter into interest-rate swaps to change their exposure to interest rate uncertainty by 
+exchanging interest ﬂows. In order to understand how to identify a simple interest-rate swap’s cash 
+ﬂows, a swap should be thought of as a portfolio consisting of one ﬁxed and one ﬂoating rate 
+instrument. Speciﬁcally, the ﬁxed leg is represented by a simple bond without an exchange of prin-
+cipal. The ﬂoating leg is a FRN with the caveat that the principal is used only to determine coupon 
+payments, and is not exchanged. 
+Chart 6.5 shows the cash ﬂows of an interest-rate swap that receives ﬁxed rate and pays the ﬂoat-
+ing rate.
+Chart 6.5
+Cash ﬂow representation of simple interest rate swap
+P r1 0
+,
+⋅
+1
+r1
+t t,
+–
++
+(
+)
+-----------------------------
+P
+1
+r1
+t t,
+–
++
+(
+)
+-----------------------------
+P
+1
+r2
+t t,
+–
++
+(
+)
+-----------------------------
+–
+
+
+
+
+P
+1
+r2
+t t,
+–
++
+(
+)
+-----------------------------
+P
+1
+r3
+t t,
+–
++
+(
+)
+-----------------------------
+–
+
+
+
+
++
++
++
+P
+1
+r3
+t t,
+–
++
+(
+)
+-----------------------------
+P
+1
+r4
+t t,
+–
++
+(
+)
+-----------------------------
+–
+
+
+
+
+P
+1
+r4
+t t,
+–
++
+(
+)
+-----------------------------
++
+P
+1
+r1 0
+,
++
+(
+)
+⋅
+1
+r1
+t t,
+–
++
+(
+)
+---------------------------------
+P 1
+r1 0
+,
++
+(
+)
+years
+0          1          2          3          4
+P(1 + r1,0)
+t
+0          1          2          3          4
+0          1          2          3          4
+Receive
+Fixed side
+years
+t
+t
+Pay
+Floating side
+
+112
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+We compute the cash ﬂows relative to time t, (again, between 0 and 1 year) after the start of the 
+swap. The cash ﬂows on the ﬁxed side are simply the ﬁxed coupon payments over the next 4 years 
+which, as already explained in Section 6.1.1.1, are treated as holding four zero-coupon bonds. The 
+cash ﬂows on the ﬂoating side are derived in the exact manner as the payments for the FRN 
+(except now we are short the ﬂoating payments). The present value of the cash ﬂow map of the 
+ﬂoating side of the swap is given by Eq. [6.7] 
+[6.7]
+,
+where P is the principal of the swap. Notice the similarity between this cash ﬂow and that given by 
+Eq. [6.6] for the FRN. Hence, we can represent the cash ﬂows on the ﬂoating side of the swap as 
+being short a zero coupon bond with maturity 1-t.
+6.1.1.4  Forward starting swap
+A forward starting swap is an instrument where one enters into an agreement to swap interest pay-
+ments at some future date. Unlike a simple swap none of the ﬂoating rates are ﬁxed in advance. 
+Chart 6.6 shows the cash ﬂows of a forward starting swap.   
+Chart 6.6 
+Cash ﬂow representation of forward starting swap
+Suppose that an investor enters into a forward starting swap with 5 years to maturity at some time t 
+(the trade date), and the start date of the swap, (i.e., the date when the ﬂoating rates are ﬁxed) is 
+year 2. Starting in year 3, payments are made every year until year 5. The cash ﬂows for this 
+instrument are essentially the same as a simple interest-rate swap, but now the ﬁrst ﬂoating pay-
+ment is unknown.
+The cash ﬂows on the ﬁxed side are simply the cash ﬂows discounted back to time t. On the ﬂoat-
+ing side, the cash ﬂows are, again, determined by the implied forward rates. The cash ﬂow map for 
+the (short) ﬂoating payments is represented by Eq. [6.8]. 
+[6.8]
+P
+1
+r1 0
+,
++
+(
+)
+⋅
+1
+r1
+t t,
+–
++
+(
+)
+---------------------------------
+–
+0          1          2          3          4          5
+Receive
+Fixed side
+0          1          2          3          4          5
+years
+t
+t
+Pay
+Floating side
+P
+1
+r2
+t
+–
+t,
++
+(
+)
+-----------------------------
+–
+
+Sec. 6.1  Step 1—Identifying exposures and cash flows
+113
+Part III:  Risk Modeling of Financial Instruments
+Chart 6.7 depicts this cash ﬂow.
+Chart 6.7
+Cash ﬂows of the ﬂoating payments in a forward starting swap
+Notice that this cash ﬂow map is equivalent to being short a 2-t zero coupon bond.
+6.1.1.5  Forward rate agreement (FRA)
+A forward rate agreement (FRA) is an interest rate contract. It locks in an interest rate, either a 
+borrowing rate (buying a FRA) or a lending rate (selling a FRA) for a speciﬁc period in the future. 
+FRAs are similar to futures but are over-the-counter instruments and can be customized for any 
+maturity. 
+A FRA is a notional contract. Therefore, there is no exchange of principal at the expiry date (i.e., 
+the ﬁxing date). In effect, FRAs allow market participants to lock in a forward rate that equals the 
+implied break even rate between money market and term deposits.4 To understand how to map the 
+cash ﬂows of a FRA, let’s consider a simple, hypothetical example of a purchase of a 3 vs. 6 FRA 
+at r% on a notional amount P. This is equivalent to locking in a borrowing rate for 3 months start-
+ing in 3 months. The notation 3 vs. 6 thus refers to the start date of the underlying versus the end 
+date of the underlying, with the start date being the delivery date of the contract. 
+Chart 6.8 depicts the cash ﬂows of this FRA. 
+Chart 6.8
+Cash ﬂow representation of FRA
+i
+We can replicate these cash ﬂows by going long the current 3-month rate and short the 6-month 
+rate as shown in Chart 6.9. 
+4 For more details on FRAs, refer to Valuing and Using FRAs (Hakim Mamoni, October, 1994, JP Morgan 
+publication).
+years
+0          1          2          3          4           5
+-P
+t
+0                           3m                           6m
+
+114
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+Chart 6.9
+Replicating cash ﬂows of 3-month vs. 6-month FRA
+Note that the gray arrows no longer represent ﬂoating payments. The gray and black arrows repre-
+sent the cash ﬂows associated with going short a 6-month zero coupon bond and long a 3-month 
+zero coupon bond, respectively. The beneﬁt of working with the cash ﬂows in Chart 6.9 rather than 
+in Chart 6.8, is that the latter requires information on forward rates whereas the former does not.
+6.1.1.6  Interest rate future
+We now consider the cash ﬂow map of a 3-month Eurodollar future contract that expires in 
+3 months’. Taking time 0 to represent the current date, we represent the future’s cash ﬂows by an 
+outﬂow in 3 months and an inﬂow in 6 months, as shown in Chart 6.10.
+Chart 6.10
+Cash ﬂow representation of 3-month Eurodollar future
+To be more speciﬁc, if the current USD 3-month Eurodollar deposit rate is 7.20%, a purchaser of 
+this futures contract would face a cash outﬂow of USD 981,800 in 3 months and a cash inﬂow of 
+USD 1,000,000 in 6 months. We can then represent these cash ﬂows as being short the current 3-
+month rate and investing this money in the current 6-month rate. Hence, the cash ﬂows of this 
+Eurodollar futures contract can be replicated by a short 3-month position and a long 6-month posi-
+tion as shown in Chart 6.11.
+Chart 6.11
+Replicating cash ﬂows of a Eurodollar futures contract
+0                           3m                           6m
+0                           3m                           6m
+0                           3m                           6m
+
+Sec. 6.1  Step 1—Identifying exposures and cash flows
+115
+Part III:  Risk Modeling of Financial Instruments
+6.1.2  Foreign exchange
+Financial positions are described in terms of a base or “home” currency. For example, American 
+institutions report risks in U.S. dollars, while German institutions use Deutsche marks. A risk 
+manager’s risk proﬁle is not independent of the currency in which risk is reported. For example, 
+consider two investors. One investor is based in US dollars, the other in Italian lira. Both investors 
+purchase an Italian government bond. Whereas the USD based investor is exposed to both interest 
+rate and exchange rate risk (by way of the ITL/USD exchange rate), the lira based investor is 
+exposed only to interest rate risk. Therefore, an important step to measure foreign exchange risk is 
+to understand how cash ﬂows are generated by foreign exchange positions.
+6.1.2.1  Spot positions
+Describing cash ﬂows of spot foreign exchange positions is trivial. Graphically, up and down 
+arrows represent long and short positions in foreign exchange, respectively. 
+6.1.2.2  Forward foreign exchange positions
+A foreign exchange (FX) forward is an agreement to exchange at a future date, an amount of one 
+currency for another at a speciﬁed forward rate. Mapping a forward foreign exchange position is 
+facilitated by the ability to express the forward as a function of two interest rates and a spot for-
+eign exchange rate.5 For example, Chart 6.12 shows the cash ﬂows of an FX forward that allows 
+an investor to buy Deutsche marks with US dollars in 6 months’ time at a prespeciﬁed forward 
+rate. 
+Chart 6.12
+FX forward to buy Deutsche marks with US dollars in 6 months
+We can replicate these cash ﬂows by borrowing dollars at time 0 at the 6-month interest rate 
+ and immediately investing these dollars in Germany at a rate 
+, This scenario would 
+generate the cash ﬂows which, at the 6-month mark, are identical to those of the forward contract. 
+These cash ﬂows are shown in Chart 6.13.
+Chart 6.13
+Replicating cash ﬂows of an FX forward
+The ability to replicate future foreign exchange cash ﬂows with interest rate positions results from 
+what is known as interest rate parity (IRP). We now demonstrate this condition. Let the spot rate, 
+, of the home currency expressed in units of foreign currency, (e.g., if the home currency is the 
+US dollars and the foreign currency is Deutsche marks, 
+ is expressed in US dollars per Deutsche 
+5 For simplicity, we ignore other factors such as transaction costs and possible risk premia.
+0                                                          6m
+Buy DEM
+Sell USD
+rUSD t,
+rDEM t,
+0                                                     6m
+Buy DEM
+Sell USD
+Lend DEM
+Borrow USD
+St
+St
+
+116
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+marks (USD/DEM)). The forward rate, 
+, is the exchange rate observed at time t, which guaran-
+tees a spot rate at some future time T. Under interest rate parity the following condition holds
+[6.9]
+It follows from IRP that the ability to convert cash ﬂows of an FX forward into equivalent borrow-
+ing and lending positions implies that holding an FX forward involves cash ﬂows that are exposed 
+to both foreign exchange and interest risk.
+6.1.2.3  Currency swaps
+Currency swaps are swaps for which the two legs of the swap are each denominated in a different 
+currency. For example, one party might receive ﬁxed rate Deutsche marks, the other ﬂoating rate 
+US dollars. Unlike an interest-rate swap, the notional principal in a currency swap is exchanged at 
+the beginning and end of the swap.6
+Chart 6.14 shows the cash ﬂows for a hypothetical currency swap with a maturity of 4 years and 
+paying ﬁxed rate Deutsche marks and ﬂoating rate US dollars on an annual basis. For complete-
+ness, we present the cash ﬂows associated with the initial exchange of principal.
+Chart 6.14
+Actual cash ﬂows of currency swap
+From the perspective of holding the swap at time t between 0 and year 1, the ﬁxed leg of the swap 
+has the same cash ﬂows as the simple bond presented in Section 6.1.1.1. The cash ﬂows of the 
+ﬂoating leg are the same as that as a short position in a FRN.
+6.1.3  Equities 
+The cash ﬂows of equity are simple spot positions expressed in home currency equivalents. Equity 
+positions held in foreign countries are subject to foreign exchange risk in addition to the risk from 
+holding equity. 
+6 There are currency swaps where one or both of the notional amounts are not exchanged.
+Ft
+Ft
+S
+=
+t
+1
+r
++
+USD t,
+(
+)
+1
+r
++
+DEM t,
+(
+)
+--------------------------------
+years
+DEM
+0          1          2          3          4          5
+0          1          2          3          4          5
+USD
+t
+t
+DEM
++ final coupon
+USD
++ final coupon
+
+Sec. 6.2  Step 2—Mapping cash flows onto RiskMetrics vertices
+117
+Part III:  Risk Modeling of Financial Instruments
+6.1.4  Commodities
+Exposures to commodities can be explained using a framework similar to that of interest rates. 
+Risks arise in both the spot market (you purchase a product today and store it over time) and from 
+transactions that take place in the future (e.g., physical delivery of a product in one month’s time). 
+6.1.4.1  Commodity futures contract
+Commodity futures contracts enable investors to trade products for future delivery with relative 
+ease and also serve as a price setting and risk transferring mechanisms for commodity producers. 
+These contracts provide market participants with valuable information about the term structure of 
+commodities prices. 
+6.1.4.2  Commodity swap
+Institutions do not have to limit themselves to futures contracts when they participate in the com-
+modity markets. They can enter into swaps to change their exposure to interest rates, currency, 
+and/or commodity risks. A typical commodity swap entails an institution to paying (receiving) 
+ﬁxed amounts in exchange for receiving (paying) variable amounts with respect to an index (e.g., 
+an average of the daily price of the nearby natural gas futures contract). 
+In many respects, commodity swaps are similar to interest-rate swaps. Unlike an interest-rate swap 
+the underlying instrument of a commodity swap can be of variable quality thereby making the 
+terms of the transaction more complex.
+6.2  Step 2—Mapping cash ﬂows onto RiskMetrics vertices
+In the last section we described cash ﬂows generated by particular classes of instruments. Finan-
+cial instruments, in general, can generate numerous cash ﬂows, each one occurring at a unique 
+time. This gives rise to an unwieldy number of combinations of cash ﬂow dates when many instru-
+ments are considered. As a result, we are faced with the impractical task of having to compute an 
+intractable number of volatilities and correlations for the VaR calculation. To more easily estimate 
+the risks associated with instruments’ cash ﬂows, we need to simplify the time structure of these 
+cash ﬂows. 
+The RiskMetrics method of simplifying time structure involves cash ﬂow mapping, i.e., redistrib-
+uting (mapping) the observed cash ﬂows onto so-called RiskMetrics vertices, to produce 
+RiskMetrics cash ﬂows.
+6.2.1  RiskMetrics vertices
+All RiskMetrics cash ﬂows use one or more of the 14 RiskMetrics vertices shown below (and on 
+page 107).
+1m
+3m
+6m
+12m 2yr
+3yr
+4yr
+5yr
+7yr
+9yr
+10yr 15yr 20yr 30yr
+These vertices have two important properties: 
+• They are ﬁxed and hold at any time now and in the future for all instruments, linear and non-
+linear. (J.P. Morgan can occasionally redeﬁne these vertices to keep up with market trends.) 
+• RiskMetrics data sets provide volatilities and correlations for each of these vertices (and only 
+for these vertices).
+Mapping an actual cash ﬂow involves splitting it between the two closest RiskMetrics vertices 
+(unless the cash ﬂow happens to coincide with a RiskMetrics vertex). For example, a cash ﬂow 
+occurring in 6 years is represented as a combination of a 5-year and a 7-year cash ﬂow. Chart 6.15 
+
+118
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+shows how the actual cash ﬂow occurring at year 6 is split into the synthetic (RiskMetrics) cash 
+ﬂows occurring at the 5- and 7-year vertices.
+Chart 6.15
+RiskMetrics cash ﬂow mapping
+The two fractions of the cash ﬂow are weighted such that the following three conditions hold:
+1.
+Market value is preserved. The total market value of the two RiskMetrics cash ﬂows must 
+be equal to the market value of the original cash ﬂow.
+2.
+Market risk is preserved. The market risk of the portfolio of the RiskMetrics cash ﬂows 
+must also be equal to the market risk of the original cash ﬂow.
+3.
+Sign is preserved. The RiskMetrics cash ﬂows have the same sign as the original cash ﬂow.
+In the trivial case that the actual vertex and RiskMetrics vertex coincide, 100% of the actual cash 
+ﬂow is allocated to the RiskMetrics vertex.
+It is important to understand that RiskMetrics cash ﬂow mapping differs from conventional map-
+ping methods in the three conditions that it stipulates. A common practice used to date throughout 
+the ﬁnancial industry has been to follow two standard rules when allocating cash ﬂows between 
+vertices:
+1.
+Maintain present value. For example, the sum of the cash ﬂows maturing in 5 and 7 years 
+must be equal to the original cash ﬂow occurring in year 6.
+2.
+Maintain duration. The duration of the combination of 5- and 7-year cash ﬂows must also 
+be equal to the duration of the 6-year cash ﬂow.
+Cash ﬂow maps like these are similar to a barbell type trade, where an existing position is replaced 
+by a combination of two instruments distributed along the yield curve under the condition that the 
+trade remains duration neutral. Barbell trades are entered into by investors who are duration-con-
+strained but have a view on a shift in the yield curve. What is a perfectly defensible investment 
+strategy, however, cannot be simply applied to risk estimation.
+6.2.2  Computing RiskMetrics cash ﬂows
+For allocating actual cash ﬂows to RiskMetrics vertices, RiskMetrics proposes a methodology that 
+is based on the variance (σ2) of ﬁnancial returns. The advantage of working with the variance is 
+that it is a risk measure closely associated with one of the ways RiskMetrics computes VaR, 
+namely the simple VaR method as opposed to the delta-gamma or Monte Carlo methods.
+         5          6          7
+         5          6          7
+years
+years
+Actual
+Cashflows
+RiskMetrics
+Cashflows
+
+Sec. 6.2  Step 2—Mapping cash flows onto RiskMetrics vertices
+119
+Part III:  Risk Modeling of Financial Instruments
+In order to facilitate the necessary mapping, the RiskMetrics data sets provide users with volatili-
+ties on, and correlations across many instruments in 33 markets. For example, in the US govern-
+ment bond market, RiskMetrics data sets provide volatilities and correlations on the 2-, 3-, 4-, 5-, 
+7-, 9-, 10-, 15-, 20-, and 30-year zero coupon bonds.
+We now demonstrate how to convert actual cash ﬂows to RiskMetrics cash ﬂows, continuing with 
+the example of allocating a cash ﬂow in year 6 to the 5- and 7-year vertices (Chart 6.15). We 
+denote the allocations to the 5- and 7-year vertices by α and (1-α), respectively. The procedure 
+presented below is not restricted to ﬁxed income instruments, but applies to all future cash ﬂows.
+1.
+Calculate the actual cash ﬂow’s interpolated yield:
+We obtain the 6-year yield, y6, from a linear interpolation of the 5- and 7-year yields pro-
+vided in the RiskMetrics data sets. Using the following equation, 
+[6.10]
+If an actual cash ﬂow vertex is not equidistant between the two RiskMetrics vertices, then 
+the greater of the two values, 
+ is assigned to the closer RiskMetrics vertex. 
+2.
+Determine the actual cash ﬂow’s present value:
+From the 6-year zero yield, 
+, we determine the present value, 
+, of the cash ﬂow occur-
+ring at the 6-year vertex. (In general, 
+ denotes the present value of a cash ﬂow occurring 
+in i years.)
+3.
+Calculate the standard deviation of the price return on the actual cash ﬂow:
+We obtain the standard deviation, σ6, of the return on the 6-year zero coupon bond, by a lin-
+ear interpolation of the standard deviations of the 5- and 7-year price returns, i.e., 
+, respectively.
+Note that 
+are provided in the RiskMetrics data sets as the VaR statistics 
+, respectively. Hence, 1.65σ6 is the interpolated VaR. 
+To obtain σ6, we use the following equation: 
+[6.11]
+where
+from Eq. [6.10]
+y6
+aˆ y5
+1
+aˆ
+–
+(
+) y7
++
+          0
+aˆ
+1
+≤
+≤
+=
+where y6
+interpolated 6-year zero yield
+=
+aˆ
+linear weighting coefficient,  aˆ
+0.5 in this example
+=
+=
+y5
+5-year zero yield
+=
+y7
+7-year zero yield
+=
+aˆ and (1
+aˆ ) ,
+–
+y6
+P6
+Pi
+σ5 and σ7
+σ5 and σ7
+1.65σ5 and 1.65σ7
+σ6
+aˆσ5
+1
+aˆ
+–
+(
+) σ7
++
+          0
+aˆ
+1
+≤
+≤
+=
+ aˆ
+linear weighting coefficient 
+=
+σ5
+standard deviation of the 5-year return
+=
+σ7
+standard deviation of the 7-year return
+=
+
+120
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+4.
+Compute the allocation, α and (1-α), from the following equation:
+[6.12]
+where  ρ5,7, is the correlation between the 5- and 7- year returns. (Note that 
+ is pro-
+vided in the correlation matrix in RiskMetrics data sets). 
+Equation  [6.12] can be written in the quadratic form
+[6.13]
+where
+The solution to 
+ is given by
+[6.14]
+ 
+Notice that Eq. [6.14] yields two solutions (roots). We choose the solution that satisﬁes the 
+three conditions listed on page 118. 
+5.
+Distribute the actual cash ﬂow onto the RiskMetrics vertices:
+Split the actual cash ﬂow at year 6 into two components, α and (1-α), where you allocate α 
+to the 5-year RiskMetrics vertex and (1-α) to the 7-year RiskMetrics vertex.
+Using the steps above, we compute a RiskMetrics cash ﬂow map from the following real-world 
+data. Suppose that on July 31, 1996, the cash ﬂow occurring in 6 years is USD 100. The 
+RiskMetrics daily data sets provide the statistics shown in Table 6.1, from which we calculate the 
+data shown in Table 6.2.7
+7 Recall that RiskMetrics provides VaR statistics—that is, 1.65 times the standard deviation.
+Variance r6yr
+(
+)
+Variance [αr5yr
+1
+α
+–
+(
+) r7yr],  or the equivalent
++
+=
+σ6
+2
+α
+2σ5
+2
+2α 1
+α
+–
+(
+) ρ5 7
+, σ5σ7
+1
+α
+–
+(
+)
+2σ7
+2
++
++
+=
+ρ5 7
+,
+aα
+2
+bα
+c
++
++
+0
+=
+a
+σ5
+2
+σ7
+2
+2ρ5 7
+, σ5σ7
+–
++
+=
+b
+2ρ5 7
+, σ5σ7
+2σ7
+2
+–
+=
+c
+σ7
+2
+σ6
+2
+–
+=
+α
+α
+b
+–
+b
+2
+4ac
+–
+±
+2a
+--------------------------------------
+=
+
+Sec. 6.3  Step 3—Computing Value-at-Risk
+121
+Part III:  Risk Modeling of Financial Instruments
+To solve for α, we substitute the values in Tables 6.1 and 6.2 into Eq. [6.13] to ﬁnd the following 
+values:
+which in Eq. [6.14], yields the solutions 
+ and 
+. We disqualify the ﬁrst solu-
+tion since (1−α) violates the sign preservation condition (page 118). 
+From Step 2 on page 119, the present value of USD 100 in 6 years is USD 93.74, i.e., the 6-year 
+cash ﬂow. We allocate 49.66% (USD 46.55) of it to the 5-year vertex and 50.33% (USD 47.17) to 
+the 7-year vertex. We thus obtain the RiskMetrics cash ﬂow map shown in Chart 6.15.
+The preceding example demonstrated how to map a single cash ﬂow to RiskMetrics vertices. In 
+practice portfolios often contain many cash ﬂows, each of which has to be mapped to the 
+RiskMetrics vertices. In such instances, cash ﬂow mapping simply requires a repeated application 
+of the methodology explained in this section. 
+6.3  Step 3—Computing Value-at-Risk 
+This section explains two analytical approaches to measuring Value-at-Risk:  simple VaR for lin-
+ear instruments, and delta-gamma VaR for nonlinear instruments, where the terms “linear” and 
+“nonlinear” describe the relationship of a position’s underlying returns to the position’s relative 
+change in value. (For more information about simple VaR methodology, see Section 6.3.2. For 
+more information about delta-gamma methodology, see Section 6.3.3.)
+In the simple VaR approach, we assume that returns on securities follow a conditionally multivari-
+ate normal distribution (see Chapter 4) and that the relative change in a position’s value is a linear 
+function of the underlying return. Deﬁning VaR as the 5th percentile of the distribution of a portfo-
+Table 6.1
+Data provided in the daily RiskMetrics data set
+y5
+5-year yield 
+6.605%
+y7
+7-year yield
+6.745%
+volatility on the 5-year bond price return
+0.5770%
+volatility on the 7-year bond price return
+0.8095%
+correlation between the 5- and 7-year bond returns
+0.9975
+Table 6.2
+Data calculated from the daily RiskMetrics data set
+y6
+6-year yield
+  (from Eq. [6.10], where 
+)
+6.675%
+standard deviation on the 6-year bond price return
+0.4202%
+variance on the 6-year bond price return 
+  (from Eq. [6.11])
+1.765 × 10−3%
+variance on the 5-year bond price return
+1.223 × 10−3%
+variance on the 7-year bond price return
+2.406 × 10−3%
+1.65σ5
+1.65σ7
+ρ5 7
+,
+aˆ
+0.5
+=
+σ6
+σ6
+2
+σ5
+2
+σ7
+2
+a
+2.14
+10
+6
+–
+×
+=
+b
+1.39
+10
+5
+–
+×
+–
+=
+c
+6.41
+10
+6
+–
+×
+=
+α
+5.999
+=
+α
+0.489
+=
+
+122
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+lio’s relative changes, we compute VaR as 1.65 times the portfolio’s standard deviation, where the 
+multiple 1.65 is derived from the normal distribution. This standard deviation depends on the vol-
+atilities and correlations of the underlying returns and on the present value of cash ﬂows.
+In the delta-gamma approach, we continue to assume that returns on securities are normally dis-
+tributed, but allow for a nonlinear relationship between the position’s value and the underlying 
+returns. Speciﬁcally, we allow for a second-order or gamma effect, which implies that the distribu-
+tion of the portfolio’s relative change is no longer normal. Therefore, we cannot deﬁne VaR as 
+1.65 times the portfolio’s standard deviation. Instead, we compute VaR in two basic steps. First, 
+we calculate the ﬁrst four moments of the portfolio’s return distribution, i.e., the mean, standard 
+deviation, skewness and kurtosis. Second, we ﬁnd a distribution that has the same four moments 
+and then calculate the ﬁfth percentile of this distribution, from which we ﬁnally compute the VaR.
+The choice of approach depends on the type of positions that are at risk, i.e., linear or non-linear 
+positions, as deﬁned above.
+6.3.1  Relating changes in position values to underlying returns
+This section explains the linearity and nonlinearity of instruments in the context of RiskMetrics 
+methodology.
+Value-at-Risk measures the market risk of a portfolio. We deﬁne a portfolio as a set of positions, 
+each of which is composed of some underlying security. In order to calculate the risk of the portfo-
+lio, we must be able to compute the risks of the positions that compose the portfolio. This requires 
+an understanding of how a position’s value changes when the value on its underlying security 
+changes. Thus, we classify positions into simple positions, which are linear, and into derivative 
+positions, which can be further broken down into linear and nonlinear derivative positions. 
+As an example of a simple position, the relative change in value of a USD 100 million dollar posi-
+tion in DEM is a linear function of the relative change in value in the USD/DEM exchange rate 
+(i.e., the return on the USD/DEM exchange rate).
+The value of derivative positions depends on the value of some other security. For example, the 
+value of a forward rate agreement, a linear derivative, depends on the value of some future interest 
+rate. In contrast, other derivatives may have a nonlinear relationship between the relative change 
+in value of the derivative position and the value of the underlying security. For example, the rela-
+tive change in value of an option on the USD/FRF exchange rate is a nonlinear function of the 
+return on that rate. 
+
+Sec. 6.3  Step 3—Computing Value-at-Risk
+123
+Part III:  Risk Modeling of Financial Instruments
+Chart 6.16 shows how the return on a position varies with the return on the underlying security. 
+Chart 6.16
+Linear and nonlinear payoff functions
+The straight lines in Chart 6.16 signify a constant relationship between the position and underlying 
+security. The black line represents a one-to-one relationship between the position value and the 
+underlying security. Note that for a payoff to be linear, the movement between the position value 
+and the underlying security’s value does not have to be one-to-one. For example, the change in 
+value of a simple option can be expressed in terms of the “delta” (slope) of the underlying security, 
+where the delta varies between −1 and +1. Chart 6.16 shows a payoff function where delta is 0.5 
+(gray line).
+When payoffs are nonlinear there is no longer a “straight line” relationship between the position 
+value and the underlying security’s value. Chart 6.16 shows that the payoff line is curved such that 
+the position value can change dramatically as the underlying security value increases. The convex-
+ity of the line is quantiﬁed by the parameter “gamma”.
+In summary, linear payoffs are characterized by a constant slope, delta. Their convexity, gamma, is 
+always equal to zero. VaR for such instruments is calculated from the simple VaR methodology 
+(Section 6.3.2). For nonlinear payoffs, delta can take on any value between −1 and +1, while 
+gamma is always non-zero, accounting for the observed curvature of the payoff function. Nonlin-
+ear instruments are thus treated by the delta-gamma methodology (although the same methodol-
+ogy can also be used to handle linear instruments. See Section 6.3.3 on page 129).
+Table 6.3 lists selected positions (instruments), their underlying returns, and the relationship 
+between the two. 
+Table 6.3 
+Relationship between instrument and underlying price/rate
+Type of position
+Instrument*
+Underlying price/rate†
+Simple (linear):
+Bond
+Bond price§ 
+Stock
+Local market index
+Foreign exchange
+FX rate
+Commodity
+Commodity price
+IR swap
+Swap price
+Linear derivative:
+Floating rate note
+Money market price
+Position value
+Underlying security
+
+124
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+6.3.1.1  Linear positions
+Using the qualitative information in the preceding section, we now formally derive the relation-
+ship between the relative change in the value of a position and an underlying return for linear 
+instruments. 
+We denote the relative change in value of the ith position, at time t, as 
+. In the simple case 
+where there is a linear one-to-one correspondence between the relative change in value of this 
+position and some underlying return 
+, we have 
+.8 In general, we denote a position 
+that is linearly related to an underlying return as 
+, where δ is a scalar.
+Notice that in the case of ﬁxed income instruments, the underlying value is deﬁned in terms of 
+prices on zero equivalent bonds (Table 6.3). Alternatively, underlying returns could have been 
+deﬁned in terms of yields. For example, in the case of bonds, there is no longer a one-to-one corre-
+spondence between a change in the underlying yield and the change in the price of the instrument. 
+In fact, the relationship between the change in price of the bond and yield is nonlinear. Since we 
+only deal with zero-coupon bonds we focus on these. Further, we work with continuous com-
+pounding.
+Assuming continuous compounding, the price of an N-period zero-coupon bond at time t, Pt, with 
+yield yt is 
+[6.15]
+ 
+A second order approximation to the relative change in Pt yields
+[6.16]
+Now, if we deﬁne the return rt in terms of relative yield changes, i.e., 
+, then we 
+have
+[6.17]
+8 Technically, this results from the fact that the derivative of the price of the security with respect to the underlying 
+price is 1.
+FX forward
+FX rate/money market price
+Forward rate agreement
+Money market price
+Currency swap
+Swap price/FX rate
+Nonlinear derivative:
+Stock Option
+Stock price
+Bond Option
+Bond price
+FX Option
+FX rate
+* Treated by 
+. See the remainder of Section 6.3.
+† Treated by 
+. See the remainder of Section 6.3.
+§ Note, however, the relationship between a bond price and its yield is nonlinear.
+Table 6.3 (continued)
+Relationship between instrument and underlying price/rate
+Type of position
+Instrument*
+Underlying price/rate†
+r t
+)
+rt
+r i t,
+)
+r j t,
+r i t,
+r j t,
+=
+)
+r i t,
+δr j t,
+=
+)
+Pt
+e 
+ytN
+–
+=
+r t
+ytN ∆yt yt
+⁄
+(
+)
+–
+1
+2-- ytN
+(
+)
+2 ∆yt yt
+⁄
+(
+)
+2
++
+=
+)
+rt
+∆yt yt
+⁄
+(
+)
+=
+r t
+ytN rt
+( )
+–
+1
+2-- ytN
+(
+)
+2 rt
+( )
+2
++
+=
+)
+
+Sec. 6.3  Step 3—Computing Value-at-Risk
+125
+Part III:  Risk Modeling of Financial Instruments
+Equation [6.17] reveals two properties:  (1) If we ignore the second term on the right-hand side we 
+ﬁnd that the relative price change is linearly, but not in one-to-one correspondence, related to the 
+return on yield. (2) If we include the second term, then there is a nonlinear relationship between 
+return, rt, and relative price change.
+6.3.1.2  Nonlinear positions (options)
+In options positions there is a nonlinear relationship between the change in value of the position 
+and the underlying return. We explain this relationship with a simple stock option. For a given set 
+of parameters denote the option’s price by 
+ where 
+ is the spot price on the 
+underlying stock at time t, 
+ is the option’s exercise price, 
+ is the time to maturity of the option 
+in terms of a year, 
+ is the riskless rate of a security that matures when the option does, and 
+ is 
+the standard deviation of the log stock price change over the horizon of the option. 
+In order to obtain an expression for the return on the option, 
+, we approximate the future 
+value of the option 
+ with a second-order Taylor series expansion around the 
+current values (spot rates), 
+. This yields,
+[6.18]
+which can be rewritten in the more concise form
+[6.19]
+ 
+Notice that dV, the change in value of the option, is in units of price P thus δ is unitless and Γ is in 
+units of 1/P. Writing Eq. [6.19] in terms of relative changes, we get
+[6.20]
+where 
+ measures the leverage effect of holding the option, 
+ measures the relative change in the 
+value of the option given a change in the value of the price 
+, 
+ measures the relative change in 
+the value of the option given a change in the value of .
+As Eq. [6.20] shows, the relative change, 
+, in the option is a nonlinear function of 
+, the return 
+on the underlying stock price, since it involves the term 
+. 
+6.3.2  Simple VaR calculation
+In this section we provide the general formula to compute VaR for linear instruments. (These 
+instruments include the ﬁrst nine listed in Table 6.3.) The example provided below deals exclu-
+sively with the VaR calculation at the 95% conﬁdence interval using the data provided by Risk-
+Metrics. 
+Consider a portfolio that consists of N positions and that each of the positions consists of one cash 
+ﬂow on which we have volatility and correlation forecasts. Denote the relative change in value of 
+the nth position by 
+. We can write the change in value of the portfolio, 
+, as
+[6.21]
+V Pt K τ ρ σ
+,
+, , ,
+(
+)
+Pt
+K
+τ
+ρ
+σ
+r i t,
+)
+V Pt
+1
++
+K τ ρ σ
+,
+, , ,
+(
+)
+Pt K τ ρ  and σ
+,
+, , ,
+V Pt
+1
++
+K τ ρ σ
+,
+, , ,
+(
+)
+V0 Pt K τ ρ σ
+,
+, , ,
+(
+)
+P
+∂
+∂V
+
+
+
+Pt
+1
++
+Pt
+–
+(
+)
+1
+2--
+P
+2
+2
+∂
+∂V
+
+
+
+
+
+
+Pt
+1
++
+Pt
+–
+(
+)
+2
++
++
+≅
+dV
+δ dP
+(
+)
+1
+2--Γ dP
+(
+)
+2
++
+≅
+r t
+η
+δrt
+1
+2--ΓPtrt
+2
++
+⋅
+≅
+)
+η
+δ
+Pt
+Γ
+δ
+r t
+)
+rt
+rt
+2
+r n t,
+)
+r p t,
+)
+r p t,
+ωn r n t,
+n
+1
+=
+N
+∑
+ωnδnrn t,
+n
+1
+=
+N
+∑
+=
+=
+)
+)
+
+126
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+where 
+ is the total (nominal) amount invested in the nth position. For example, suppose that the 
+total current market value of a portfolio is $100 and that $10 is allocated to the ﬁrst position. It fol-
+lows that 
+ = $10. 
+Now, suppose that the VaR forecast horizon is one day. In RiskMetrics, the VaR on a portfolio of 
+simple linear instruments can be computed by 1.65 times the standard deviation of 
+—the 
+portfolio return, one day ahead.The expression of VaR is given as follows. 
+[6.22]
+  (Value-at-Risk estimate)
+where
+[6.23]
+ 
+is the individual VaR vector (1xN) and
+[6.24]
+ 
+is the NxN correlation matrix of the returns on the underlying cash ﬂows.
+The above computations are for portfolios whose returns can be reasonably approximated by the 
+conditional normal distribution. In other words, it is assumed that the portfolio return follows a 
+conditional normal distribution.
+6.3.2.1  Fixed income instruments
+In this section we address two important issues related to calculating the VaR on a portfolio of 
+ﬁxed income instruments. The ﬁrst issue relates to what variable should be used to measure vola-
+tility and correlation. In other words, should we compute volatilities and correlations on prices or 
+on yields? The second issue deals with incorporating the “roll down” and “pull-to-par” effects of 
+bonds into VaR calculations. 
+We discussed in Section 6.3.1.1 that one may choose to model either the yield (interest rate) or the 
+price of a ﬁxed income instrument. RiskMetrics computes the price volatilities and correla-
+tions on all ﬁxed income instruments. This is done by ﬁrst computing zero rates for all instru-
+ments with a maturity of over one year, and then constructing prices from these series using the 
+expression (continuous compounding).
+[6.25]
+ 
+where yt is the current yield on the N-period zero-coupon bond.
+For money market rates, i.e., instruments with a maturity of less than one-year, prices are con-
+structed from the formula 
+[6.26]
+ωn
+ω1
+r p t,
+)
+VaRt
+σt t
+1
+– Rt t
+1
+– σt t
+1
+–
+T
+=
+σt t
+1
+–
+1.65σ1 t t
+1
+–
+,
+ω1δ1    1.65σ2 t t
+1
+–
+,
+ω2δ2 …    1.65σN t t
+1
+–
+,
+ωNδN
+[
+]
+=
+Rt t
+1
+–
+1
+ρ12 t t
+1
+–
+,
+… ρ1N t t
+1
+–
+,
+ρ21 t t
+1
+–
+,
+1
+…
+…
+…
+…
+…
+…
+ρN1 t t
+1
+–
+,
+…
+…
+1
+=
+Pt
+e 
+y
+– tN
+=
+Pt
+1
+1
+yt
++
+(
+)
+N
+-----------------------
+=
+
+Sec. 6.3  Step 3—Computing Value-at-Risk
+127
+Part III:  Risk Modeling of Financial Instruments
+Since practitioners often think of volatilities on ﬁxed income instruments in terms of yield, we 
+present the price volatility in terms of yield volatility. Starting with Eq. [6.25], we ﬁnd the price 
+return to be
+[6.27]
+Therefore, the standard deviation of price returns under continuous compounding is given by the 
+expression
+[6.28]
+where 
+ is the standard deviation of 
+. What Eq. [6.28] states is that price 
+return volatility is the maturity on the underlying instrument times the standard deviation of the 
+absolute changes in yields.
+Performing the same exercise on Eq. [6.26] we ﬁnd the price return to be
+[6.29]
+In this case (discrete compounding) the standard deviation of price returns is 
+[6.30]
+where 
+ is the standard deviation of 
+.
+We now explain how to incorporate the unique features of ﬁxed income instruments in VaR calcu-
+lations.9 Traditionally, RiskMetrics treats a cash ﬂow as a zero coupon bond and subjects it to two 
+assumptions:  (1) There is no expected change in the market value of such a bond, and (2) the vol-
+atility of the bond’s market value scales up with the square root of the time horizon. In reality, the 
+bond’s market value systematically increases toward its par value (the “pull to par” effect), and its 
+daily volatility decreases as it moves closer to par (the “roll down” effect). The two assumptions 
+imply that the cash ﬂow is treated as a generic bond (a bond whose maturity is always the same) 
+rather than as an instrument whose maturity decreases with time. While this leads to an accurate 
+depiction of the risk of the future cash ﬂow for short forecast horizons, for longer horizons, it can 
+result in a signiﬁcant overstatement of risk.
+Suppose that as of today, a USD based investor currently holds a one-year USD money market 
+deposit and is interested in computing a Value-at-Risk estimate of this instrument over a 3-month 
+forecast horizon. That is, the investor would like to know the maximum loss on this deposit (at a 
+95% conﬁdence level) if he held the deposit for 3 months. To compute the risk of this position we 
+compute the VaR of holding 9-month deposit with a forecast horizon 3-months. In other words, we 
+are measuring the volatility on the 9-month deposit over a 3-month forecast horizon. To do this we 
+use the current 9-month money market rates. This addresses the “roll down effect”. In addition, the 
+expected value of holding a one-year deposit for 3 months is not zero. Instead, the mean return is 
+9 This section is based on the article by Christopher C. Finger, “Accounting for the “pull to par” and “roll down” for 
+RiskMetrics cash ﬂows”, RiskMetrics Monitor, September 16, 1996.
+rt
+Pt Pt
+1
+–
+⁄
+(
+)
+ln
+N yt
+1
+–
+yt
+–
+(
+)
+=
+=
+σt
+Nσ yt
+1
+–
+yt
+–
+(
+)
+=
+σ yt
+1
+–
+yt
+–
+(
+)
+yt
+1
+–
+yt
+–
+rt
+Pt Pt
+1
+–
+⁄
+(
+)
+ln
+=
+N
+1
+yt
+1
+–
++
+1
+yt
++
+-------------------
+
+
+
+
+
+
+ln
+=
+σt
+Nσ
+1
+yt
++
+1
+yt
+1
+–
++
+-------------------
+
+
+
+
+
+
+ln
+=
+σ
+1
+yt
++
+1
+yt
+1
+–
++
+-------------------
+
+
+
+
+
+
+ln
+1
+yt
++
+1
+yt
+1
+–
++
+-------------------
+
+
+
+
+
+
+ln
+
+128
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+non-zero reﬂecting the pull-to-par phenomenon. Chart 6.17 presents a visual description of the 
+situation.
+Chart 6.17
+VaR horizon and maturity of money market deposit
+In general, the methodology to measure the VaR of a future cash ﬂow(s) that occurs in T days over 
+a forecast horizon of t days (t < T) is as follows. 
+1.
+Use the T-t rate, 
+, to discount the cash ﬂow occurring in T days time. Denote the 
+present value of this cash ﬂow by 
+2.
+Compute VaR as 
+.
+Note that in the preceding example, T = 360, t = 90, 
+ is the 270-day rate and 
+ is the stan-
+dard deviation of the distribution of returns on the 270-day rate. 
+6.3.2.2  Equity positions
+The market risk of the stock, VaRt, is deﬁned as the market value of the investment in that stock, 
+Vt, multiplied by the price volatility estimate of that stock’s returns, 
+.
+[6.31]
+Since RiskMetrics does not publish volatility estimates for individual stocks, equity positions are 
+mapped to their respective local indices. This methodology is based upon the principles of single-
+index models (the Capital Asset Pricing Model is one example) that relate the return of a stock to 
+the return of a stock (market) index in order to attempt to forecast the correlation structure 
+between securities. Let the return of a stock, 
+, be deﬁned as
+[6.32]
+where
+As such, the returns of an asset are explained by market-speciﬁc components 
+ and by 
+stock-speciﬁc components 
+. Similarly, the total variance of a stock is a function of the 
+market- and ﬁrm-speciﬁc variances. 
+Today
+VaR forecast
+horizon
+MM deposit expires
+0
+90 days
+360 days
+yT
+t
+–
+VT
+t
+–
+VT
+t
+–
+σT
+t
+–
+t
+
+
+
+
+⋅
+yT
+t
+–
+σT
+t
+–
+1.65σt
+VaRt
+Vt 1.65σt
+⋅
+=
+rt
+rt
+βtrm t,
+αt
+εt
++
++
+=
+rt
+ return of the stock
+=
+rm t,
+the return of the market index
+=
+βt
+beta a  measure of the expected change in r
+,
+t given a change in rm t,
+=
+αt
+the expected value of a stock's return that is firm-specific
+=
+εt
+the random element of the firm-specific return with E εt
+[
+]
+0 and E εt
+[
+]
+2
+σεt
+2
+=
+=
+=
+βtRm t,
+(
+)
+3
+αt
+εt
++
+(
+)
+
+Sec. 6.3  Step 3—Computing Value-at-Risk
+129
+Part III:  Risk Modeling of Financial Instruments
+Since the ﬁrm-speciﬁc component can be diversiﬁed away by increasing the number of different 
+equities that comprise a given portfolio, the market risk, VaRt, of the stock can be expressed as a 
+function of the stock index
+[6.33]
+.
+Substituting Eq. [6.33] into Eq. [6.31] yields
+[6.34]
+,
+where
+.
+As with individual stocks, Eq. [6.34] should also be used to calculate the VaR for positions that 
+consist of issue that themselves are part of the EMBI+.
+6.3.3  Delta-gamma VaR methodology (for portfolios containing options) 
+In this section we describe a methodology known as delta-gamma that allows users to compute the 
+Value-at-Risk of a portfolio that contains options. Speciﬁcally, we provide a methodology to incor-
+porate the delta, gamma and theta of individual options in the VaR calculation. We explain this 
+methodology by ﬁrst showing how it applies to a single option and then to a portfolio that contains 
+three options. To keep our examples simple, we assume that each option is a function of one cash 
+ﬂow. In other words, we can write the return on each option as 
+[6.35]
+For a complete derivation of Eq. [6.35], see Appendix D. Similarly, we can write the returns on the 
+other two options as 
+[6.36]
+ and 
+Let’s begin by demonstrating the effect of incorporating gamma and theta components on the 
+return distribution of the option. We do so by comparing the statistical features on the return on 
+option 1, 
+, and the return of its underlying cash ﬂow, 
+. Recall that RiskMetrics assumes 
+that the returns on the underlying assets, 
+, are normally distributed with mean 0 and variance 
+σt
+2
+βt
+2σm t,
+2
+σεt
+2
++
+=
+VaRt
+Vt βt 1.65σm t,
+⋅
+⋅
+=
+1.65σm t,
+the RiskMetrics VaR estimate for the appropriate stock index
+=
+r 1 t,
+δ˜
+=
+1r1 t,
+0.5Γ˜ 1r1 t,
+2
+θ˜ 1n
++
++
+)
+where δ˜
+1
+η1δ1
+=
+Γ˜ 1
+η1P1 t, Γ1
+=
+θ˜ 1
+θ1 V1
+⁄
+=
+n
+VaR forecast horizon
+=
+V1
+option′s premium
+=
+r 2 t,
+δ˜
+=
+2r2 t,
+0.5Γ˜ 2r2 t,
+2
+θ˜ 2n
++
++
+)
+r 3 t,
+δ˜
+=
+3r3 t,
+0.5Γ˜ 3r3 t,
+2
+θ˜ 3n
++
++
+)
+r 1 t,
+)
+r1 t,
+r1 t,
+
+130
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+. Table 6.4 shows the ﬁrst four moments10—the mean, variance, skewness, and kurtosis—for 
+ and 
+.
+The results presented in Table 6.4 point to three interesting ﬁndings. 
+• First, even though it is assumed that the return on the underlying has a zero mean return, this 
+is not true for the option’s return unless both gamma and theta are zero. Also, the sign of the 
+option’s mean will be determined by the relative magnitudes and signs of both gamma and 
+theta and whether one is long or short the option. 
+• Second, the variance of the return on the option differs from the variance of the return on the 
+underlying instrument by the factor 
+. 
+• And third, depending on whether one is long or short the option determines whether the return 
+on the option distribution is negatively or positively skewed. To see this, on a short option 
+position, 
+ and therefore 
+. Consequently, the term 
+ in the skewness expres-
+sion will be negative. As an example of this point, Chart 6.18 shows the probability density 
+functions for long and short options positions (along with the normal probability curve). 
+10 See Section 4.5.2.1 for the deﬁnition of these moments.
+Table 6.4
+Statistical features of an option and its underlying return
+Statistical 
+parameter
+ Option
+Underlying
+Return
+Mean
+0
+Variance
+Skewness
+0
+Kurtosis
+3
+σ1 t,
+2
+r 1 t,
+)
+r1 t,
+r 1 t,
+)
+r1 t,
+0.5Γ˜ σ
+2
+1 t,
+θ˜ 1n
++
+δ˜
+1
+2σ1 t,
+2
+0.5Γ˜ 2σ
+4
++
+1 t,
+σ1 t,
+2
+3δ˜
+1
+2Γ˜ 1σ1 t,
+4
+  Γ˜ 1
+3σ
+6
++
+1 t,
+12δ˜
+1
+2Γ˜ 1
+2σ1 t,
+6
+3Γ˜ 1
+4σ
+8
++
+1 t,
+3σ1 t,
+4
++
+σ1 t,
+4
+δ˜
+1
+2
+0.5Γ˜ 2σ
+2
++
+1 t,
+
+
+
+
+V1
+0 
+<
+Γ˜ 1
+0 
+<
+Γ˜ 3
+
+Sec. 6.3  Step 3—Computing Value-at-Risk
+131
+Part III:  Risk Modeling of Financial Instruments
+Chart 6.18
+Long and short option positions
+negative and positive skewness
+Note that in variance and kurtosis, the sign of 
+ is immaterial since in these expressions 
+ is 
+raised to an even power. 
+Now, to determine the numerical values of the moments presented in Table 6.4 we need estimates 
+of 
+, 
+, 
+ and 
+. Estimates of the ﬁrst three parameters are easily found by applying a 
+Black-Scholes type valuation model. The variance, 
+, is given in the RiskMetrics data sets. 
+Having obtained the ﬁrst four moments of 
+’s distribution, we ﬁnd a distribution that has the 
+same moments but whose distribution we know exactly. In other words, we match the moments of 
+’s distribution to one of a set of possible distributions known as Johnson distributions. Here, 
+“matching moments” simply means ﬁnding a distribution that has the same mean, standard devia-
+tion, skewness and kurtosis as 
+’s. The name Johnson comes from the statistician Norman 
+Johnson who described a process of matching a particular distribution to a given set of moments.   
+Matching moments to a family of distributions requires that we specify a transformation from the 
+option’s return 
+ to a return, 
+, that has a standard normal distribution. For example, 
+Johnson (1949) suggested the general transformation
+[6.37]
+where f( ) is a monotonic function and , ,  and  are parameters whose values are determined 
+by 
+’s ﬁrst four moments. In addition to the normal distribution, the Johnson family of distri-
+butions consists of three types of transformations.
+[6.38]
+[6.39]
+and 
+0
+0.05
+0.10
+0.15
+0.20
+0.25
+0.30
+0.35
+0.40
+0.45
+-6
+-5
+-4
+-3
+-2
+-1
+0
+1
+2
+3
+4
+5
+6
+PDF
+Standard deviation
+Negative skew
+Positive skew
+Normal
+Γ˜  
+Γ˜  
+δ˜
+1
+Γ˜ 1
+θ˜ 1
+σ1 t,
+2
+σ1 t,
+2
+r 1 t,
+)
+r 1 t,
+)
+r 1 t,
+)
+r 1 t,
+)
+r1 t,
+r1 t,
+a
+bf
+r 1 t,
+c
+–
+d
+--------------------
+
+
+
+
++
+=
+)
+a b c
+d
+r 1 t,
+)
+r1 t,
+a
+b
+r 1 t,
+c
+–
+d
+--------------------
+
+
+
+       (Lognormal )
+log
++
+=
+)
+r1 t,
+a
+b
+h
+1
+–
+r 1 t,
+c
+–
+d
+--------------------
+
+
+
+
+sin
+     (Unbounded )
++
+=
+)
+
+132
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+[6.40]
+with the restriction 
+.
+To ﬁnd estimates of 
+, ,  and , we apply a modiﬁed version of Hill, Hill and Holder’s (1976) 
+algorithm.11 Given these estimates we can calculate any percentile of 
+’s distribution given 
+the corresponding standard normal percentile (e.g., −1.65). This approximate percentile is then 
+used in the VaR calculation. For example, suppose that we have estimates of 
+, 
+, 
+ and 
+ 
+and that they result in the following moments:  mean = 0.2, variance = 1, skewness coefﬁcient = 
+0.75 and kurtosis coefﬁcient = 7. Note that these numbers would be derived from the formulae pre-
+sented in Table 6.3. Applying the Hill et. al. algorithm we ﬁnd that the selected distribution is 
+“Unbounded” with parameter estimates: a = −0.582, b = 1.768, c = −0.353, and d = 1.406. 
+Therefore, the percentile of 
+’s distribution is based on the transformation
+[6.41]
+Setting 
+= −1.65, the estimated 5th percentile of 
+’s distribution is −1.45. That is, the 
+option’s ﬁfth percentile is increased by 0.20. In this hypothetical example, the incorporation of 
+gamma and theta reduces the risk relative to holding the underlying. 
+We now show that it is straightforward to compute the VaR of a portfolio of options. In particular, 
+we show this for the case of a portfolio that contains three options. We begin by writing the portfo-
+lio return as 
+[6.42]
+ 
+where 
+To compute the moments of 
+’s distribution we need the RiskMetrics covariance matrix, Σ, of 
+the underlying returns 
+, and the delta, gamma and theta cash ﬂow vectors that are 
+deﬁned as follows:
+[6.43]
+,  
+, and 
+We ﬁnd the 5th percentile 
+’s distribution the same way we found the 5th percentile of 
+’s 
+distribution, as shown previously. The only difference is that now the expressions for the four 
+moments are more complicated. For example, the mean and variance of the portfolio return are 
+11 These original algorithms (numbers 99 and 100) are available in their entirety on the Web at the StatLib—Grifﬁths 
+and Hill Archive. The URL is http://lib.stat.cmu.edu/grifﬁths-hill/. 
+r1 t,
+a
+b
+r 1 t,
+c
+–
+c
+d
+r 1 t,
+–
++
+-----------------------------
+
+
+
+
+
+
+     (Bounded )
+log
++
+=
+)
+)
+c
+r 1 t,
+c
+d
++
+<
+<
+(
+)
+)
+a b c
+d
+r 1 t,
+)
+δ˜
+1
+Γ˜ 1
+θ˜ 1
+σ1 t,
+2
+r 1 t,
+)
+r 1 t,
+h
+r1 t,
+a
+–
+(
+)
+b
+-----------------------
+
+
+
+
+d
+c
++
+⋅
+sin
+=
+)
+r1 t,
+r 1 t,
+)
+r p t,
+ω1 r 1 t,
+ω2 r 2 t,
+ω3 r 3 t,
++
++
+=
+)
+)
+)
+)
+ωi
+Vi
+Vi
+i
+1
+=
+3
+∑
+--------------
+=
+r p t,
+)
+r1 t,
+r
+,
+2 t,
+r
+,
+3 t,
+{
+}
+δ˜
+δ1˜
+δ2˜
+δ3˜
+=
+Γ˜
+Γ1˜
+0
+0
+0 Γ2˜
+0
+0
+0 Γ3˜
+=
+θ˜
+θ1˜
+θ2˜
+θ3˜
+=
+r p t,
+)
+r 1 t,
+)
+
+Sec. 6.3  Step 3—Computing Value-at-Risk
+133
+Part III:  Risk Modeling of Financial Instruments
+[6.44]
+ and 
+[6.45]
+where “trace” is an operator that sums the diagonal elements of a matrix.
+The delta-gamma methodology described in this section extends to options that have more than 
+one underlying cash ﬂow (e.g., bond option). We have presented a simple example purposely to 
+facilitate our exposition of the methodology. See, Appendix D for an assessment of the 
+methodology.
+Finally, the methodologies presented in Section 6.3 do not require simulation. All that is necessary 
+for computing VaR is a covariance matrix, ﬁnancial parameters (such as delta, gamma and theta) 
+and position values. In the next chapter we present a methodology known as structured Monte 
+Carlo that computes VaR by ﬁrst simulating future paths of ﬁnancial prices and/or rates.
+µp t,
+0.5 trace Γ˜ Σ
+[
+]
+θi˜
+i
+1
+=
+3
+∑
++
+⋅
+=
+σp t,
+2
+δ˜′Σδ˜
+0.5
++
+trace
+Γ˜ Σ
+(
+)
+2
+⋅
+=
+
+134
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+6.4  Examples
+In this section we present nine examples of VaR calculations for the various instruments discussed 
+in this chapter. Note that the diskette symbol placed to the left of each example means that the 
+example appears on the enclosed diskette at the back of the book.
+Ex. 6.1
+Government bond mapping of a single cash ﬂow
+Suppose that on March 27, 1995, an investor owns FRF 100,000 of the French OAT benchmark 
+7.5% maturing in April 2005. This bond pays coupon ﬂows of FRF 7,500 each over the next 10 
+years and returns the principal investment at maturity. One of these ﬂows occurs in 6.08 years, 
+between the standard vertices of 5 and 7 years (for which volatilities and correlations are avail-
+able). 
+All the data required to compute the cash ﬂow map is readily available in the RiskMetrics data sets 
+except for the price volatility (1.65σ6.08) of the original cash ﬂow’s present value. This must be 
+interpolated from the price volatilities already determined for the RiskMetrics vertices. 
+Applying the three conditions on page 118 and using Eqs. [6.10]–[6.14] with the RiskMetrics data 
+in Table 6.5, we solve for the allocation α (and (1-α)), and obtain the values  α = 4.30 and 
+α = 0.4073. Given the constraint that both of the allocated cash flows must have the same sign as 
+the original cash ﬂow, we reject the ﬁrst solution, which would lead to a short position in the sec-
+ond proxy cash ﬂow. As a result, our original cash ﬂow of FRF 7,500, whose present value is FRF 
+4,774, must be mapped as a combination of a 5-year maturity cash ﬂow of FRF 1,944 (40.73% of 
+the original cash ﬂow’s PV) and a 7-year maturity cash ﬂow of FRF 2,829 (59.27% of the original 
+cash ﬂow’s PV).
+The cash ﬂow map is shown in Table 6.6. 
+Table 6.5
+RiskMetrics data for 27, March 1995
+RiskMetrics
+Vertex
+Yield,%
+P. Vol,* 
+(1.65σt) 
+Yield Vol,† 
+(1.65σt)
+Correlation Matrix,
+ ρij
+5yr
+7yr
+5yr
+7.628
+0.533
+1.50
+1.000
+0.963
+7yr
+7.794
+0.696
+1.37
+0.963
+1.000
+*  P. Vol = price volatility, also called the VaR statistic.
+†  While this data is provided in the data set, it is not used in this calculation. 
+Table 6.6
+RiskMetrics map of single cash ﬂow
+Step 1*
+Step 2*†
+Step 3*
+Step 4*
+Step 5*
+Coupon 
+Flow
+Term
+Yield,%
+(Actual)
+Yield,% (y6.08) 
+(Interpolated)
+(PV)6.08‡
+P. Vol, (1.65σt)§
+(RiskMetrics)
+P. Vol, (1.65σ6.08)§
+(Interpolated)
+RiskMetrics 
+Vertex
+Allocation
+RiskMetrics 
+Cash ﬂow
+7.628
+0.533
+5yr
+0.4073
+1,950
+7,500
+6.08yr
+7.717
+4,774
+0.624
+7.794
+0.696
+7yr
+0.3927
+2,824
+* Step from the mapping procedure on pages 119–121. Also, data in this column is calculated from the data in Table 6.5. Note that in Step 3 the price volatility, 
+1.65σ6.08, rather than the standard deviation alone, is computed.
+† In this example 
+.
+‡ PV = present value.
+§ P. Vol = price volatility, also called the VaR statistic.
+aˆ
+0.46
+=
+
+Sec. 6.4  Examples
+135
+Part III:  Risk Modeling of Financial Instruments
+Ex. 6.2
+ Government bond mapping of multiple cash ﬂows
+A full set of positions can easily be mapped in the same fashion as the single cash ﬂow in the last 
+example. 
+The example below takes the instrument in Ex. 6.1, i.e., the 10-year French OAT benchmark on 
+March 27, 1995, and decomposes all of the component cash ﬂows according to the method 
+described on pages 119–121, to create a detailed RiskMetrics cash ﬂow map. Table 6.7 shows how 
+the 100,000 French franc nominal position whose market value is FRF 97,400, is decomposed into 
+nine representative present value cash ﬂows. The table also shows the VaR for the cash ﬂow at 
+each RiskMetrics vertex and the diversiﬁed Value-at-Risk.
+In this example, note that the ﬁrst cash ﬂow (on 25-Apr-95) occurs in less than one month’s time 
+relative to March 27, but is allocated at 100% weight to the 1-month RiskMetrics vertex. The rea-
+son for 100% allocation is that vertices shorter than one month are not deﬁned in the RiskMetrics 
+data sets.
+Table 6.7
+RiskMetrics map for multiple cash ﬂows
+Money market rate volatilities are used for vertices below 2 years. Government bond zero volatili-
+ties are used for 2-year and other vertices.
+Bond data
+RiskMetrics™ vertices
+1m
+1y
+2y
+3y
+4y
+5y
+7y
+10y
+15y
+Yield volatility
+7.00
+3.16
+2.10
+1.74
+1.63
+1.50
+1.37
+1.36
+1.29
+Settlement
+30-Mar
+Current yield
+8.25
+7.04
+7.28
+7.39
+7.54
+7.63
+7.79
+7.92
+8.15
+Principal
+100,000
+Price volatility
+0.04
+0.21
+0.29
+0.36
+0.46
+0.53
+0.70
+1.00
+1.46
+Price
+97.4
+Correlation Matrix
+1m
+1.00
+0.75
+0.53
+0.48
+0.45
+0.42
+0.33
+0.33
+0.33
+Coupon
+7.50
+1y
+0.75
+1.00
+0.88
+0.81
+0.78
+0.74
+0.61
+0.63
+0.58
+Basis
+365
+2y
+0.53
+0.88
+1.00
+0.99
+0.96
+0.92
+0.80
+0.82
+0.76
+3y
+0.48
+0.81
+0.99
+1.00
+0.98
+0.95
+0.85
+0.87
+0.81
+4y
+0.45
+0.78
+0.96
+0.98
+1.00
+0.99
+0.91
+0.93
+0.88
+5y
+0.42
+0.74
+0.92
+0.95
+0.99
+1.00
+0.96
+0.96
+0.93
+7y
+0.33
+0.61
+0.80
+0.85
+0.91
+0.96
+1.00
+1.00
+0.99
+10y
+0.33
+0.63
+0.82
+0.87
+0.93
+0.96
+1.00
+1.00
+0.99
+15y
+0.33
+0.58
+0.76
+0.81
+0.88
+0.93
+0.99
+0.99
+1.00
+Date
+Flow
+Term
+Yield
+PV Md. Dur
+P.Vol
+25-Apr-95
+7,500
+0.071
+8.204
+7,456
+0.066
+0.032 7,456
+25-Apr-96
+7,500
+1.074
+7.056
+6,970
+1.003
+0.218
+5,594
+1,376
+25-Apr-97
+7,500
+2.074
+7.284
+6,482
+1.933
+0.292
+5,780
+703
+25-Apr-98
+7,500
+3.074
+7.402
+6,022
+2.862
+0.366
+5,505
+517
+25-Apr-99
+7,500
+4.074
+7.543
+5,577
+3.788
+0.463
+5,105
+472
+25-Apr-00
+7,500
+5.077
+7.635
+5,162
+4.717
+0.539
+4,923
+240
+25-Apr-01
+7,500
+6.077
+7.720
+4,773
+5.641
+0.624
+1,944
+2,829
+25-Apr-02
+7,500
+7.077
+7.798
+4,408
+6.565
+0.703
+4,302
+107
+25-Apr-03
+7,500
+8.077
+7.855
+4,072
+7.488
+0.805
+2,589
+1,483
+25-Apr-04
+7,500
+9.079
+7.895
+3,762
+8.415
+0.905
+1,131
+2,631
+25-Apr-05 107,500 10.079
+7.919 49,863
+9.340
+1.004
+49,019
+844
+RiskMetrics™ vertices
+1m
+1y
+2y
+3y
+4y
+5y
+7y
+10y
+15y
+Total Vertex Mapping
+7,456
+5,594
+7,156
+6,207
+5,622
+7,339
+11,091
+53,239
+844
+RiskMetrics™ Vertex VaR
+3
+12
+20
+22
+26
+39
+77
+530
+12
+Diversified Value at Risk
+727 FRF over the next 24 hours
+% of market value
+0.7%
+
+136
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+Ex. 6.3
+Forward rate agreement cash ﬂow mapping and VaR 
+A forward rate agreement is an interest-rate contract. It locks in an interest rate, either a borrowing 
+rate (buying a FRA) or a lending rate (selling a FRA) for a speciﬁc period in the future. FRAs are 
+similar to futures, but are over-the-counter instruments and can be customized for any maturity.
+Because a FRA is a notional contract, there is no exchange of principal at the expiry date (i.e., the 
+ﬁxing date). If the rate is higher at settlement than the FRA rate agreed by the counterparties when 
+they traded, then the seller of a FRA agrees to pay the buyer the present value of the interest rate 
+differential applied to the nominal amount agreed upon at the time of the trade. The interest rate 
+differential is between the FRA rate and the observed ﬁxing rate for the period. In most cases this 
+is the LIBOR rate for any given currency.
+The general FRA pricing equation is given by
+[6.46]
+where
+In effect, FRAs allow market participants to lock in a forward rate that equals the implied break-
+even rate between money market term deposits. 
+Given that a FRA is a linear combination of money market rates, it is simple to express its degree 
+of risk as a function of the combination of these rates. 
+Suppose that on January 6, 1995 you sold a 6x12 FRA on a notional 1 million French francs at 
+7.24%. This is equivalent to locking in an investment rate for 6 months starting in 6 months’ time. 
+The rate of 7.24% is calculated by combining the 6- and 12-month money market rates using the 
+general pricing equation, Eq. [6.46], which can be rewritten as follows to reﬂect the no-arbitrage 
+condition:
+[6.47]
+where
+This FRA transaction is equivalent to borrowing FRF 1 million for 6 months on a discount basis 
+(i.e., total liability of FRF 1 million in 6 months’ time) and investing the proceeds (FRF 969,121) 
+for 12 months. This combination can be mapped easily into the RiskMetrics vertices as shown in 
+Table 6.8. The current present value of these two positions is shown in column (6). The Value-at-
+YTS
+TLFRA
+×
+1
+YL
+TL
+B
+-----
+⋅
+
+
+
+
++
+1
+YS
+TS
+B
+-----
+⋅
+
+
+
+
++
+---------------------------------
+1
+–
+B
+TL
+TS
+–
+-----------------
+⋅
+=
+YL
+yield of the longer maturity leg
+=
+TL
+maturity of the longer maturity leg in days
+=
+B
+Basis (360 or 365)
+=
+YS
+yield of the shorter maturity leg
+=
+TS
+maturity of the shorter maturity leg in days
+=
+1
+Y12m
+365
+365
+--------
+⋅
++
+
+
+
+
+1
+Y6m
+181
+365
+--------
+⋅
++
+
+
+
+
+1
+Y6
+12F
+×
+RA
+184
+365
+--------
+⋅
++
+
+
+
+
+⋅
+=
+ Y6m Y12m
+,
+6- and 12-month French franc yields, respectively
+=
+Y6m Y12m
+,
+6 x 12 FRA rate
+=
+
+Sec. 6.4  Examples
+137
+Part III:  Risk Modeling of Financial Instruments
+Example 6.3 (continued)
+Risk of each leg of the FRA over a 1-month horizon period, shown in column (9), is obtained by 
+multiplying the absolute present value of the position by the monthly price volatility of the equiv-
+alent maturity deposit. The portfolio VaR is obtained by applying the 6- to 12-month correlation to 
+the VaR estimate from column (9).
+One month into the trade, the mapping becomes somewhat more complex as the cash ﬂows have 
+now shorter maturities (the instrument is now in fact a 5x11 FRA). The 5-month cash ﬂow must be 
+mapped as a combination of 3-month and 6-month RiskMetrics vertices (Table 6.9), while the 
+11-month cash ﬂow must be split between the 6-month and 12-month vertices.
+Table 6.8
+Mapping a 6x12 short FRF FRA at inception
+Observed data
+RiskMetrics data set
+Calculated values
+(1)
+(2)
+(3)
+(4)
+(5)
+(6)
+(7)
+(8)
+(9)
+Cash ﬂow
+Term
+(mths.)
+Yield,%
+Volatilities
+Correlation matrix
+Present 
+value
+RiskMetrics 
+vertex
+RiskMetrics 
+cash ﬂow
+VaR 
+estimate
+Yield
+Price
+6m
+12m
+−1,000,000
+6
+6.39
+6.94
+0.21
+1.00
+0.70
+-969,121
+6m
+−969,121
+2,081
+1,036,317
+12
+6.93
+7.42
+0.48
+0.70
+1.00
+969,121
+12m
+969,121
+4,662
+Total
+0
+0
+Portfolio VaR
+3,530
+Table 6.9
+Mapping a 6x12 short FRF FRA held for one month
+Observed data
+RiskMetrics data set
+Calculated values
+Cash ﬂow
+Term
+(mths.)
+Volatilities 
+Correlation matrix
+Yield,%
+Present 
+value
+RiskMetrics 
+vertex
+RiskMetrics 
+cash ﬂow
+VaR 
+estimate
+Yield
+Price
+3m
+6m
+12m
+6.77
+0.1
+1
+0.81
+0.67
+3m
+−302,232
+−296
+−1,000,000
+5
+6.12
+−975,302
+7.91
+0.19
+0.81
+1.00
+0.68
+−1,048
+6m
+−549,300
+1,036,317
+11
+6.65
+976,894
+7.14
+0.41
+0.67
+0.68
+1.00
+12m
+853,124
+3,533
+Total
+1,592
+1,592
+Portfolio VaR
+2,777
+
+138
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+Example 6.3 (continued)
+One month into the trade, the change in market value of the contract is a positive FRF 1,592. This 
+is well within the range of possible gains or losses predicted (with a 95% probability) by the previ-
+ous month’s Value-at-Risk estimate of FRF 3,530.
+Unwinding a FRA, i.e., hedging out the interest rate risk between the FRA rate and the market 
+rate, before maturity requires entering into a contract of opposite sign at dates that no longer qual-
+ify as standard maturities. If you wanted to unwind the position in this example one month after 
+the dealing date, you would have to ask a quote to buy a 5x11 FRA, a broken dated instrument that 
+is less liquid and therefore is quoted at higher bid-offer spreads. The rates in column (1) above do 
+not take this into account. They were derived by interpolating rates between standard maturities. 
+Actual market quotes would have been slightly less favorable, reducing the proﬁt on the transac-
+tion. This risk is liquidity related and is not identiﬁed in the VaR calculations.
+
+Sec. 6.4  Examples
+139
+Part III:  Risk Modeling of Financial Instruments
+Ex. 6.4
+Structured note
+The basic concepts used to estimate the market risk of simple derivatives can be extended to more 
+complex instruments. Suppose that in early 1994, when the market consensus was that German 
+rates were to continue to decline, you had purchased a “one year index note linked to two year 
+rates”. This 1-year instrument leveraged a view that the DEM 2-year swap rate in 1-year’s time 
+would be below the forward rate measured at the time the transaction was entered into.
+The characteristics of the instrument are shown in Table 6.10.
+While seemingly complex, this transaction is in fact little more (disregarding minor convexity 
+issues) than a bond to which a leveraged long-dated FRA had been attached. As a holder of the 
+note, you were long the 3-year swap rate and short the 1-year rate, with signiﬁcant leverage 
+attached to the difference. 
+Table 6.11 shows how the leveraged note can be decomposed into the cash ﬂows of the two under-
+lying building blocks:
+• The 1-year DEM 35 million bond with a 5.10% coupon.
+• The forward swap (2-year swap starting in one year). The forward principal cash ﬂows of the 
+swap are equal to 20 times the notional amount of the note divided by the PVBP (price value 
+of a basis point) of a 2-year instrument, or 1.86 in this case. The forward coupons are equal to 
+the forward principal times the coupon rate of 5.10%.
+Combining the bond and the swap creates three annual cash ﬂows where the investor is short DEM 
+340 million in the 1-year, and long DEM 19 and DEM 396 million in the 2- and 3-year maturities. 
+At issue, the market value of these cash ﬂows is equal to DEM 35 million, the instrument’s issue 
+price.
+Table 6.10
+Structured note speciﬁcation
+Issuer
+Company A
+Format
+Euro Medium Term Note
+Issue date
+9 February 94
+Maturity date
+9 February 95
+Issue price
+100%
+Amount
+DEM 35,000,000
+Coupon
+5.10%
+Strike
+5.10%
+Redemption value
+100%+20*(Strike- 2-year DEM swap rate)
+* Although these details are hypothetical, similar products were marketed in 1994.
+Table 6.11
+Actual cash ﬂows of a structured note
+Term
+(years)
+Bond
+Swap
+Total 
+cash ﬂow
+Principal
+Coupon
+Principal
+Coupon
+1
+35,000,000
+1,785,000
+−376,996,928
+−340,211,928
+2
+19,226,843
+19,226,843
+3
+376,996,928
+19,226,843
+396,223,771
+
+140
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+Example 6.4 (continued)
+Each of the three cash ﬂows is mapped to RiskMetrics vertices to produce the cash ﬂow map 
+shown in Table 6.12.
+Using the appropriate volatilities and correlations as of February 9, 1994, the Value-at-Risk of 
+such a position over a 1-month horizon was around DEM 2.15 million.
+One month into the life of the instrument on March 9, the mapping and risk estimation could have 
+been repeated using updated interest rates as well as updated RiskMetrics volatilities and correla-
+tions. Table 6.13 shows the result. 
+The movement in market rates led the market value of the note to fall by over DEM 4 million, 
+twice the maximum amount expected to happen with a 95% probability using the previous 
+month’s RiskMetrics volatilities and correlations. Why?
+Table 6.12
+VaR calculation of structured note
+One month forecast horizon
+Observed data
+RiskMetrics data set
+Calculated values
+Cash ﬂow
+Term
+(years)
+Yield,%
+Price 
+volatility
+Correlation matrix
+Present 
+value
+RiskMetrics 
+vertex
+RiskMetrics 
+cash ﬂow
+VaR 
+estimate
+1y
+2y
+3y
+−340,211,928
+1
+5.48
+0.33
+1.00
+0.46
+0.43
+−322,536,906
+1y
+322,536,906
+1,067,597
+19,226,843
+2
+5.15
+0.46
+0.46
+1.00
+0.95
+17,389,594
+2y
+17,389,594
+79,644
+396,223,772
+3
+5.22
+0.68
+0.43
+0.95
+1.00
+340,147,312
+3y
+340,147,312
+2,309,600
+Total
+35,000,000
+Portfolio VaR
+2,155,108
+Table 6.13
+VaR calculation on structured note
+One-month into life of instrument
+Observed data
+RiskMetrics data set
+Calculated values
+Cash ﬂow
+Term
+(years)
+Yield,%
+Price 
+volatility
+Correlation matrix
+Present 
+value
+RiskMetrics 
+vertex
+RiskMetrics 
+cash ﬂow
+VaR 
+estimate
+6m
+1y
+2y
+3y
+0.16
+1.00
+0.83
+0.58
+0.54
+6m
+−43,218,017
+68,023
+−340,211,928
+0.9
+5.53
+−975,302
+0.35
+0.83
+1.00
+0.58
+0.54
+960,250
+1y
+−277,979,823
+19,226,843
+1.9
+5.53
+17,399,085
+0.65
+0.58
+0.58
+0.94
+1.00
+2y
+39,059,679
+252180
+19,226,843
+2.9
+5.68
+337,230,727
+1.03
+0.54
+0.54
+0.94
+1.00
+3y
+312,934,965
+3,218,971
+Total
+30,976,801
+−4,203,199
+Portfolio VaR
+3,018,143
+
+Sec. 6.4  Examples
+141
+Part III:  Risk Modeling of Financial Instruments
+Example 6.4 (continued)
+Chart 6.19 shows the 3-year DEM swap rate moved 45+bp from 5.22% to slightly above 5.68% 
+during the month—twice the maximum amount expected with a 95% probability (4.56% × 5.22%; 
+i.e., 23 basis points). This was clearly a large rate move. The RiskMetrics volatility estimate 
+increased from 4.56% to 6.37% as of March 9. This reﬂects the rapid adjustment to recent obser-
+vations resulting from the use of an exponential moving average estimation method. Correspond-
+ingly the VaR of the structured note increased 44% over the period to just over DEM 3 million.
+Chart 6.19
+DEM 3-year swaps in Q1-94
+The message in these examples is that with proper cash ﬂow mapping, the risks in complex deriv-
+atives can be easily estimated using the RiskMetrics methodology and data sets.
+Jan-1994
+Feb-1994
+Mar-1994
+Apr-1994
+May-1994
+3.5
+4.5
+5.5
+6.5
+7.5
+8.5
+9.5
+10.5
+Monthly yield volatility
+3-year DEM zero swap yield
+Percent
+
+142
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+Ex. 6.5
+Interest-rate swap
+Investors enter into swaps to change their exposure to interest rate uncertainty by exchanging 
+interest ﬂows. In order to understand how to map its cash ﬂows, a swap should be thought of as a 
+portfolio of one ﬁxed- and one ﬂoating-rate transaction. Speciﬁcally, the ﬁxed leg of a swap is 
+mapped as if it were a bond, while the ﬂoating leg is considered to be a FRN.
+Market risk estimation is straightforward if the value of each leg is considered separately. The 
+ﬁxed leg exposes an investor to interest rate variability as would a bond. Since the ﬂoating leg is 
+valued as if it were a FRN, if interest rates change, then forward rates used to value the leg change 
+and it will revalue to par. Once a ﬂoating payment is set, the remaining portion of the ﬂoating leg 
+will revalue to par, and we need only consider interest rate exposure with respect to that set cash 
+ﬂow. The details of this will be provided in a forthcoming edition of the RiskMetrics Monitor.
+Consider the following example. A company that enters into a 5-year USD interest-rate swap pays 
+9.379% ﬁxed and receives ﬂoating cash ﬂows indexed off of 1-year USD LIBOR ﬂat on a notional 
+amount of USD 1,000,000. For simplicity, the reset/payment dates are annual. Table 6.14 presents 
+the data used to estimate the market risk of this transaction.
+Table 6.14
+Cash ﬂow mapping and VaR of interest-rate swap
+Observed data
+RiskMetrics data set
+Calculated values
+Term
+Zero rate
+Cash ﬂow
+Price 
+volatility, %
+Correlation matrix
+Net present 
+value, USD
+Fixed
+Floating
+1yr
+2yr
+3yr
+4yr
+5yr
+1yr
+8.75
+−86,247
+1,000,000
+0.027
+1.000
+0.949
+0.933
+0.923
+0.911
+913,753
+2yr
+9.08
+−85,986
+0.067
+0.949
+1.000
+0.982
+0.978
+0.964
+−85,986
+3yr
+9.24
+−85,860
+0.112
+0.933
+0.982
+1.0000
+0.995
+0.984
+85,860
+4yr
+9.34
+−85,782
+0.149
+0.923
+0.978
+0.995
+1.000
+0.986
+85,782
+5yr
+9.42
+−999,629
+0.190
+0.911
+0.964
+0.984
+0.986
+1.000
+−999,629
+Total
+−343,505
+Portfolio VaR
+1,958
+
+Sec. 6.4  Examples
+143
+Part III:  Risk Modeling of Financial Instruments
+Ex. 6.6
+Foreign exchange forward 
+Below is an example of how to calculate the market risk of buying a 1-year 153,000,000 DEM/
+USD foreign exchange forward. Note that buying a DEM/USD foreign exchange forward is equiv-
+alent to borrowing US dollars for 1-year (short money market position) and using them to pur-
+chase Deutsche marks in one year’s time (short foreign exchange position). We take the holding 
+period to be one day. Based on a 1-day volatility forecast, the foreign exchange risk, in USD, is 
+$904,922 (94,004,163 × 0.963%) as shown in Table 6.15. The interest rate risk is calculated by 
+multiplying the current market value of each 12-month leg (the short in USD and the long in 
+DEM) times its respective interest rate volatility. Therefore, the Value-at-Risk for a 1-day holding 
+period is $912,880. 
+Table 6.15
+VaR on foreign exchange forward
+Observed data
+RiskMetrics data set
+Calculated values
+Instrument
+Cash ﬂow
+Term
+(years)
+Yield,%
+Price 
+volatility
+Correlation matrix
+Present 
+value, USD
+VaR 
+estimate
+DEM FX
+DEM 1y
+USD 1y
+DEM Spot FX
+—
+0.963
+1.0000
+−0.0035
+−0.0042
+−94,004,163
+−904,922
+DEM 1y
+153,000,000
+1
+6.12
+0.074
+−0.0035
+1.0000
+0.1240
+94,004,163
+45,855
+USD 1y
+−99,820,670
+1
+6.65
+0.116
+−0.0042
+0.1240
+1.0000
+−94,004,163
+−108,624
+Total
+94,004,163
+Portfolio VaR
+3,530
+
+144
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+Ex. 6.7
+Equity 
+Consider a three-asset portfolio in which an investor holds stocks ABC and XYZ (both U.S. com-
+panies) as well as a basket of stocks that replicate the S & P 500 index. The market risk of this 
+portfolio, VaRp, is
+[6.48]
+Rewriting this equation in terms of Eq. [6.48] 
+[6.49]
+where
+yields
+[6.50]
+Factoring the common term and solving for the portfolio VaR results in
+[6.51]
+The methodology for estimating the market risk of a multi-index portfolio is similar to the process 
+above and takes into account correlation among indices as well as foreign exchange rates. Since all 
+positions must be described in a base or “home” currency, you need to account for foreign 
+exchange risk.
+VaRp
+V ABC 1.65σRABC
+⋅
+(
+)
+V XYZ 1.65σRXYZ
+⋅
+(
+)
++
+=
++ VSP500 1.65σRSP500
+⋅
+VaRs
+Vs βs 1.65σRM
+⋅
+⋅
+=
+1.65σRM
+the RiskMetrics volatility estimate for the appropriate stock index,
+=
+VaRp
+V ABC βABC 1.65σRSP500
+⋅
+⋅
+(
+)
+V XYZ βXYZ 1.65σRSP500
+⋅
+⋅
+(
+)
++
+=
++ VSP500 1.65σRSP500
+⋅
+(
+)
+VaRp
+1.65σRSP500
+V ABC βABC
+⋅
+(
+)
+V XYZ βXYZ
+⋅
+(
+)
+VSP500
++
++
+[
+]
+=
+4.832% 1 000 000 0.5
+(
+)
+1 000 000
+,
+,
+(
+)
+1.5
+(
+)
+1 000 000
+,
+,
++
++
+,
+,
+[
+]
+=
+4.832% 3 000 000
+,
+,
+(
+)
+=
+USD 144 960
+,
+=
+
+Sec. 6.4  Examples
+145
+Part III:  Risk Modeling of Financial Instruments
+Ex. 6.8
+Commodity futures contract
+Suppose on July 1, 1994 you bought a 6-month WTI future on a notional USD 18.3 million (1 mil-
+lion barrels multiplied by a price of USD 18.30 per barrel). The market and RiskMetrics data for 
+that date are presented in Table 6.16.
+The initial Value-at-Risk for a 1-month horizon is approximately USD 1.7 million. This represents 
+the maximum amount, with 95% conﬁdence, that one can expect to lose from this transaction over 
+the next 25 business days. Since the ﬂow occurs in 6 months, the entire position is mapped to the 
+6-month WTI vertex, therefore calculating the Value-at-Risk of this transaction on the trade date is 
+simply
+[6.52]
+One month into the trade, the cash ﬂow mapping becomes slightly more complex. Table 6.17 
+shows the new VaR of this transaction. 
+Table 6.16
+Market data and RiskMetrics estimates as of trade date July 1, 1994
+WTI future
+Correlation matrix
+Vertex
+LIBOR
+Term
+Price
+Volatility
+3m
+6m
+3m
+5.563
+0.250
+10.25
+1.000
+6m
+5.813
+0.500
+18.30
+9.47
+0.992
+1.000
+Table 6.17
+Cash ﬂow mapping and VaR of commodity futures contract
+Term
+Zero rate
+Cash ﬂow 
+(PV)
+Price volatility, %
+Correlation matrix
+RiskMetrics 
+vertex
+RiskMetrics 
+cash ﬂow
+3m
+6m
+4.810
+6.212
+1.00
+0.992
+3m
+13,084,859
+4m
+5.068
+17,924,465
+5.190
+5.739
+0.992
+1.00
+6m
+4,839,605
+Portfolio VaR
+1,417,343
+VaR6m Future
+PV of cash flow RiskMetrics volatility estimate
+⋅
+=
+18 300 000
+,
+,
+1
+5.813%
+100
+------------------
+
+
+
+
+0.5
+⋅
++
+----------------------------------------------
+9.47%
+⋅
+=
+USD 1.7 million
+=
+
+146
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+Ex. 6.9
+ Delta-gamma methodology
+Consider the situation where a USD (US dollar) based investor currently holds a USD 1million 
+equivalent position in a French government bond that matures in 6 years and a call option on 
+Deutsche marks that expires in 3 months. Since market risk is measured in terms of a portfolio’s 
+return distribution, the ﬁrst step to computing VaR is to write down an expression for this portfolio’s 
+return, 
+, which consists of one French government bond and one foreign exchange option. Here, 
+return is deﬁned as the one-day relative price change in the portfolio’s value. The return on the port-
+folio is given by the expression
+[6.53]
+where ro is the return on the option, and rB is the return on the French government bond.
+We now provide a more detailed expression for the returns on the bond and option. Since the cash 
+ﬂow generated by the bond does not coincide with a speciﬁc RiskMetrics vertex, we must map it to 
+the two nearest RiskMetrics vertices. Suppose we map 49% of the cash ﬂow that arrives in 6 years’ 
+time to the 5-year vertex and 51 percent of the cash ﬂow to the 7-year vertex. If we denote the re-
+turns on the 5 and 7-year bonds by 
+ and 
+, respectively, we can write the return on the French 
+government bond as
+[6.54]
+Writing the return on the option is more involved. We write the return on the option as a function 
+of its delta, gamma and theta components. The one-day return on the option is given by the expres-
+sion12
+[6.55]
+where 
+ is the one-day return on the DEM/USD exchange rate
+ is the spot position in USD/DEM
+V is the price of the option, or premium.
+ is the ratio of 
+ to V. The parameter 
+ measures the leverage from holding 
+the option.
+ is the “delta” of the option. Delta measures the change in the value of the option given 
+a change in the underlying exchange rate.
+ is the “gamma” of the option. Gamma measures the change in 
+ given a change in 
+the underlying exchange rate.
+ is the “theta” of the option. Theta measures the change in the value of the option for 
+a given change in the option’s time to expiry.
+n is the forecast horizon over which VaR is measured. In this example n is 1 for one day.
+12 We derive this expression in Appendix D.
+RP
+r p
+r o
+rB
++
+=
+)
+)
+r5
+r7
+rB
+0.49r5
+0.51r7
++
+=
+r 0
+αδrUSD/DEM
+0.5αΓPUSD/DEMrUSD/DEM
+2
+V
+1
+– θn
++
++
+=
+)
+rUSD/DEM
+PUSD/DEM
+α
+PUSD/DEM
+α
+δ
+Γ
+δ
+θ
+
+Sec. 6.4  Examples
+147
+Part III:  Risk Modeling of Financial Instruments
+Example 6.9 (continued)
+We can now write the return on the portfolio as 
+[6.56]
+In particular, we ﬁnd the ﬁrst four moments of 
+’s distribution that correspond to the mean, vari-
+ance, skewness and kurtosis (a measure of tail thickness). These moments depend only on the price 
+of the option, the current market prices of the underlying securities, the option’s “greeks” , 
+, 
+, 
+and the RiskMetrics covariance matrix,
+. In this example, 
+ is the covariance matrix of returns 
+, 
+ and 
+.
+Let’s take a simple hypothetical example to describe the delta-gamma methodology. Table 6.18 pre-
+sents the necessary statistics on the bond and option positions to apply delta-gamma. 
+To compute VaR we require the covariance matrix 
+[6.57]
+which, when using the information in Table 6.18 yields
+[6.58]
+Also, we need the cash ﬂows corresponding to the delta components of the portfolio,
+[6.59]
+the cash ﬂows corresponding to the gamma components of the portfolio,
+Table 6.18
+Portfolio speciﬁcation
+Bond
+Option
+ 
+V = USD 3.7191
+Portfolio PV = USD 103.719
+r p
+0.49r5
+0.51R7
+αδrUSD/DEM
+0.5αΓPUSD/DEMrUSD/DEM
+2
+V
+1
+– θn
++
++
++
++
+=
+)
+rp
+δ Γ
+θ
+Σ
+Σ
+r5
+r7
+rUSD/DEM
+σ5
+0.95%
+=
+σUSD/DEM
+1%
+=
+σ7
+1%
+=
+δ
+0.9032
+=
+ρ5 7
+,
+0.85
+=
+Γ
+0.0566
+=
+PB
+USD 100
+=
+θ
+0.9156
+–
+=
+PUSd/DEM
+USD 346.3
+=
+Σ
+σ6y
+2
+σ6y USD/DEM
+,
+2
+σ6y USD/DEM
+,
+2
+σUSD/DEM
+2
+=
+Σ
+0.009025 0.008075
+0.008075 0.01000
+ (in percent)
+=
+δ˜ =
+100
+81.352
+  Delta cash flow on bond           
+Delta cash flow on FX option
+
+148
+Chapter 6.  Market risk methodology
+RiskMetrics —Technical Document
+Fourth Edition
+Example 6.9 (continued)
+[6.60]
+and, the cash ﬂows corresponding to the theta components of the portfolio.
+[6.61]
+The implied moments of this portfolio’s distribution are presented in Table 6.19.
+Based on the information presented above, VaR estimates of this portfolio over a one-day forecast 
+horizon are presented in Table 6.20 for three conﬁdence levels. For comparison we also present VaR 
+based on the normal model and VaR that excludes the theta effect.
+Table 6.19
+Portfolio statistics
+Moments
+Including theta
+Excluding theta
+mean
+−0.1608
+0.0854
+variance
+2.8927
+2.8927
+skewness coefﬁcient
+0.2747
+0.2747
+kurtosis coefﬁcient
+3.0997
+3.0997
+Table 6.20
+Value-at-Risk estimates (USD)
+one-day forecast horizon: total portfolio value is 103.719
+VaR percentile
+Normal
+Delta-gamma
+(excluding theta)
+Delta-gamma
+(including theta)
+5.0%
+−2.799
+−2.579
+−2.826
+2.5%
+−3.325
+−3.018
+−3.265
+1.0%
+−3.953
+−3.523
+−3.953
+Γ˜ =
+0
+1708.47
+Zero gamma cash flow on bond              
+Gamma cash flow for FX option             
+θ˜ =
+0
+0.2462
+–
+Zero theta cashflow on bond              
+ Theta cashflow for FX option              
+
+ 
+149
+Part III:  Risk Modeling of Financial Instruments
+Chapter 7.
+Monte Carlo
+ 
+7.1  Scenario generation
+151
+7.2  Portfolio valuation
+155
+7.2.1  
+Full valuation
+155
+7.2.2  
+Linear approximation
+156
+7.2.3  
+Higher order approximations
+156
+7.3  Summary
+157
+7.4  Comments
+159
+
+ 
+150
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+151
+Part III:  Risk Modeling of Financial Instruments
+Chapter 7.
+Monte Carlo
+ 
+Christopher C. Finger
+Morgan Guaranty Trust Company
+Risk Management Research
+(1-212) 648-4657
+ 
+ﬁnger_christopher@jpmorgan.com
+ 
+In the previous chapter, we illustrated how to combine cash ﬂows, volatilities, and correlations 
+analytically to compute the Value-at-Risk for a portfolio. We have seen that this methodology is 
+applicable to linear instruments, as well as to non-linear instruments whose values can be well 
+approximated by a Taylor series expansion (that is, by its “greeks”). 
+In this chapter, we outline a Monte Carlo framework under which it is possible to compute VaR for 
+portfolios whose instruments may not be amenable to the analytic treatment. We will see that this 
+methodology produces an estimate for the entire probability distribution of portfolio values, and 
+not just one risk measure.
+The Monte Carlo methodology consists of three major steps:
+1.
+ 
+Scenario generation
+ 
+—Using the volatility and correlation estimates for the underlying 
+assets in our portfolio, we produce a large number of future price scenarios in accordance 
+with the lognormal models described previously.
+2.
+ 
+Portfolio valuation
+ 
+—For each scenario, we compute a portfolio value.
+3.
+ 
+Summary
+ 
+—We report the results of the simulation, either as a portfolio distribution or as a 
+particular risk measure.
+We devote one section of this chapter to each of the three steps above.
+To better demonstrate the methodology, we will consider throughout this section a portfolio com-
+prised of two assets: a future cash ﬂow stream of DEM 1M to be received in one year’s time and 
+an at the money put option with contract size of DEM 1M and expiration date one month in the 
+future. Assume the implied volatility at which the option is priced is 14%. We see that our portfo-
+lio value is dependent on the USD/DEM exchange rate and the one year DEM bond price. (Techni-
+cally, the value of the option also changes with USD interest rates and the implied volatility, but 
+we will not consider these effects.) Our risk horizon for the example will be ﬁve days.
+ 
+7.1  Scenario generation
+ 
+We ﬁrst recall the lognormal model which we assume for all underlying instruments. Consider a 
+forecast horizon of  days. If an instrument’s price today is 
+, and our estimate for the one day 
+volatility of this instrument is 
+, then we model the price of the instrument in  days by
+[7.1]
+where 
+ is a standard normal random variable. Thus, the procedure to generate scenarios is to 
+generate standard normal variates and use Eq. [7.1] to produce future prices. The procedure for the 
+multivariate case is similar, with the added complication that the 
+’s corresponding to each 
+instrument must be correlated according to our correlation estimates.
+In practice, it is straightforward to generate independent normal variates; generating arbitrarily 
+correlated variates is more involved, however. Suppose we wish to generate 
+ normal variates 
+with unit variance and correlations given by the x
+ matrix 
+. The general idea is to generate  
+independent variates, and then combine these variates is such a way to achieve the desired correla-
+tions. To be more precise, the procedure is as follows:
+• Decompose 
+ using the Cholesky factorization, yielding a lower triangular matrix 
+ such 
+that 
+. We provide details on this factorization below and in Appendix E.
+t
+P0
+σ
+t
+Pt
+P0e
+σ tY
+=
+Y
+Y
+n
+n
+n
+Λ
+n
+Λ
+A
+Λ
+AA′
+=
+
+ 
+152
+Chapter 7.  Monte Carlo
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+• Generate an 
+x
+ vector 
+ of independent standard normal variates.
+• Let 
+. The elements of 
+ will each have unit variance and will be correlated accord-
+ing to 
+.
+To illustrate the intuition behind using the Cholesky decomposition, consider the case where we 
+wish to generate two variates with correlation matrix 
+[7.2]
+The Cholesky factorization of 
+ is given by
+[7.3]
+(It is easy to check that 
+.) Now say that 
+ is a 
+x
+ vector containing independent stan-
+dard normal random variables 
+ and 
+. If we let 
+, then the elements of 
+ are given 
+by
+[7.4a]
+ and
+[7.4b]
+ 
+Clearly, 
+ has unit variance, and since 
+ and 
+ are independent, the variance of 
+ is given 
+by
+[7.5]
+Again using the fact that 
+ and 
+ are independent, we see that the expected value of 
+ is 
+just 
+, and so the correlation is as desired.
+Note that it is not necessary to use the Cholesky factorization, since any matrix 
+ which satisﬁes 
+ will serve in the procedure above. A singular value or eigenvalue decomposition would 
+yield the same results. The Cholesky approach is advantageous since the lower triangular structure 
+of 
+ means that fewer operations are necessary in the 
+ multiplication. Further, there exist 
+recursive algorithms to compute the Cholesky factorization; we provide details on this in 
+Appendix E. On the other hand, the Cholesky decomposition requires a positive-deﬁnite correla-
+tion matrix; large matrices obtained from the RiskMetrics data do not always have this property.
+Using the procedure above to generate random variates with arbitrary correlations, we may gener-
+ate scenarios of asset prices. For example, suppose we wish to model the prices of two assets  
+days into the future. Let 
+ and 
+ indicate the prices of the assets today, let 
+ and 
+ 
+indicate the daily volatilities of the assets, and let 
+ indicate the correlation between the two 
+assets. To generate a future price scenario, we generate correlated standard normal variates 
+ 
+and 
+ as outlined above and compute the future prices by
+[7.6a]
+ and
+n
+1
+Z
+Z
+AY
+=
+Z
+Λ
+Λ
+1 ρ
+ρ 1
+=
+Λ
+A
+1
+0
+ρ
+1
+ρ
+2
+–
+=
+AA′
+Λ
+=
+Y
+2
+1
+Y1
+Y2
+Z
+AY
+=
+Z
+Z1
+Y1
+=
+Z2
+ρY1
+1
+ρ
+2
+–
+Y2
++
+=
+Z1
+Y1
+Y2
+Z2
+ρ
+2Var Y1
+(
+)
+1
+ρ
+2
+–
+
+
+
+2
+Var Y2
+(
+)
++
+1
+=
+Y1
+Y2
+Z1Z2
+ρ
+A
+Λ
+AA′
+=
+A
+AZ
+t
+P0
+1
+( )
+P0
+2
+( )
+σ1
+σ2
+ρ
+Z1
+Z2
+Pt
+1
+( )
+P0
+1
+( ) e
+σ1 tZ1
+=
+
+ 
+Sec. 7.1  Scenario generation
+153
+Part III:  Risk Modeling of Financial Instruments
+ 
+[7.6b]
+ 
+To generate a collection of scenarios, we simply repeat this procedure the required number of 
+times.
+For our example portfolio, the two underlying assets to be simulated are the USD/DEM exchange 
+rate and the one year DEM bond price. Suppose that the current one year German interest rate is 
+10% (meaning the present value of a one year 1M DEM notional bond is DEM 909,091) and that 
+the current USD/DEM exchange rate is 0.65. We take as the daily volatilities of these two assets 
+ and 
+ and as the correlation between the two 
+. 
+To generate one thousand scenarios for values of the two underlying assets in ﬁve days, we ﬁrst 
+use the approach above to generate one thousand pairs of standard normal variates whose correla-
+tion is 
+. Label each pair 
+ and 
+. We present histograms for the results in Chart 7.1. Note 
+that the distributions are essentially the same.
+ 
+Chart 7.1
+ 
+Frequency distributions for 
+ and 
+ 
+1000 trials
+ 
+The next step is to apply Eq. [7.6a] and Eq. [7.6b]. This will create the actual scenarios for our 
+assets. Thus, for each pair 
+ and 
+, we create future prices 
+ and 
+ by applying
+[7.7a]
+ 
+and
+[7.7b]
+Of course, to express the bond price in USD (accounting for both the exchange rate and interest 
+rate risk for the bond), it is necessary to multiply the bond price by the exchange rate in each sce-
+nario. Charts 7.2 and 7.3 show the distributions of future prices, 
+ and 
+, respectively, 
+obtained by one thousand simulations. Note that the distributions are no longer bell shaped, and 
+Pt
+2
+( )
+P0
+2
+( ) e
+σ2 tZ2
+=
+σFX
+0.0042
+=
+σB
+0.0008
+=
+ρ
+0.17
+–
+=
+ρ
+ZFX
+ZB
+ZFX
+ZB
+-3.5
+-2.8
+-2.0
+-1.3
+-0.5
+0.3
+1.0
+1.8
+2.5
+3.3
+0
+20
+40
+60
+80
+100
+120
+USD/DEM
+DEM Bond
+Frequency
+Standard deviation
+ZFX
+ZB
+PFX
+PB
+PFX
+0.65e
+0.0042
+5
+ZFX
+×
+×
+=
+PB
+909 091
+,
+e
+0.0008
+5
+ZB
+×
+×
+=
+PB
+PFX
+
+ 
+154
+Chapter 7.  Monte Carlo
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+for the bond price, the distribution shows a marked asymmetry. This is due to the transformation 
+we make from normal to lognormal variates by applying Eq. [7.7a] and Eq. [7.7b].
+ 
+Chart 7.2
+ 
+Frequency distribution for DEM bond price
+ 
+1000 trials
+Chart 7.3
+ 
+Frequency distribution for USD/DEM exchange rate
+ 
+1000 trials
+ 
+In Table 7.1, we present the ﬁrst ten scenarios that we generate.
+904
+905
+906
+907
+908
+909
+910
+911
+912
+914
+915
+0
+20
+40
+60
+80
+100
+120
+Frequency
+Bond price
+0.631
+0.637
+0.642
+0.648
+0.654
+0.659
+0.665
+0.670
+0
+20
+40
+60
+80
+100
+120
+140
+160
+180
+200
+Frequency
+USD/DEM exchange rate
+
+ 
+Sec. 7.1  Scenario generation
+155
+Part III:  Risk Modeling of Financial Instruments
+ 
+Portfolio valuation
+In the previous section, we illustrated how to generate scenarios of future prices for the underlying 
+instruments in a portfolio. Here, we take up the next step, how to value the portfolio for each of 
+these scenarios. We will examine three alternatives: full valuation, linear approximation, and 
+higher order approximation. Each of the alternatives is parametric, that is, an approach in which 
+the value of all securities in the portfolio is obtained through the values of its underlying assets, 
+and differ only in their methods for valuing non-linear instruments given underlying prices.
+Recall that at the current time, the present value of our cash ﬂow is DEM 909,091, or USD 
+590,909.   The value of the option is USD 10,479.
+ 
+7.1.1  Full valuation
+ 
+This is the most straightforward and most accurate alternative, but also the most intense computa-
+tionally. We assume some type of pricing formula, in our case the Black-Scholes option pricing 
+formula, with which we may value our option in each of the scenarios which we have generated. 
+Say 
+ gives the premium (in USD) associated with the option of selling one DEM given 
+spot USD/DEM rate of , strike rate of , and expiration date  years into the future. (Again, this 
+function will also depend on interest rates and the implied volatility, but we will not model 
+changes in these variables, and so will suppress them in the notation.) 
+In our example, for a scenario in which the USD/DEM rate has moved to  after ﬁve days, our 
+option’s value (in USD) moves from 
+ to 
+. The results of applying this method to our scenarios are dis-
+ 
+Table 7.1
+ 
+Monte Carlo scenarios
+ 
+1000 trials
+ 
+USD/DEM
+PV of cash ﬂow 
+(DEM)
+PV of cash ﬂow 
+(USD)
+ 
+0.6500
+906,663
+589,350
+0.6540
+907,898
+593,742
+0.6606
+911,214
+601,935
+0.6513
+908,004
+591,399
+0.6707
+910,074
+610,430
+0.6444
+908,478
+585,460
+0.6569
+908,860
+597,053
+0.6559
+906,797
+594,789
+0.6530
+906,931
+592,267
+0.6625
+920,768
+603,348
+V S K τ
+,
+,
+(
+)
+S
+K
+τ
+R
+1 000 000
+V 0.65 0.65 1
+12
+-----
+,
+,
+
+
+
+
+×
+,
+,
+1 000 000
+V R 0.65 1
+12
+-----
+5
+365
+--------
+–
+,
+,
+
+
+
+
+×
+,
+,
+
+ 
+156
+Chapter 7.  Monte Carlo
+RiskMetrics
+ 
+ —Technical Document
+Fourth Edition
+played in Table 7.2. Note that scenarios with moderate changes in the bond price can display sig-
+niﬁcant changes in the value of the option.
+7.1.2  Linear approximation
+Because utilizing the Black-Scholes formula can be intensive computationally, particularly for a 
+large number of scenarios, it is often desirable to use a simple approximation to the formula. The 
+simplest such approximation is to estimate changes in the option value via a linear model, which is 
+commonly known as the “delta approximation.” In this case, given an initial option value 
+ and 
+an initial exchange rate 
+, we approximate a future option value 
+ at a future exchange rate 
+ by 
+[7.8]
+where 
+[7.9]
+is the ﬁrst derivative of the option price with respect to the spot exchange rate.
+For our example, 
+ is USD/DEM 0.0105 and 
+ is USD/DEM 0.65. (To compute the price of 
+our particular option contract, we multiply 
+ by DEM 1M, the notional amount of the contract.) 
+The value of 
+ for our option is −0.4919. Table 7.2 illustrates the results of the delta approxima-
+tion for valuing the option’s price. Note that for the delta approximation, it is still possible to uti-
+lize the standard RiskMetrics methodology without resorting to simulations.
+7.1.3  Higher order approximations
+It can be seen in Table 7.2 that the delta approximation is reasonably accurate for scenarios where 
+the exchange rate does not change signiﬁcantly, but less so in the more extreme cases. It is possi-
+ble to improve this approximation by including the “gamma effect”, which accounts for second 
+Table 7.2
+Monte Carlo scenarios—valuation of option
+1000 trials
+Value of option (USD)
+USD/DEM
+PV of cash ﬂow 
+(USD)
+Full
+Delta
+Delta/Gamma
+Delta/Gamma/
+Theta
+0.6500
+589,350
+9,558
+10,458
+10,458
+9,597
+0.6540
+593,742
+7,752
+8,524
+8,644
+7,783
+0.6606
+601,935
+5,273
+5,272
+6,122
+5,261
+0.6513
+591,399
+8,945
+9,831
+9,844
+8,893
+0.6707
+610,430
+2,680
+273
+3,541
+2,680
+0.6444
+585,460
+12,575
+13,214
+13,449
+12,588
+0.6569
+597,053
+6,562
+7,073
+7,437
+6,576
+0.6559
+594,789
+6,950
+7,565
+7,832
+6,971
+0.6530
+592,267
+8,156
+8,981
+9,052
+8,190
+0.6625
+603,348
+4,691
+4,349
+5,528
+4,667
+V0
+R0
+V1
+R1
+V1
+V0
+δ P1
+P
+–
+(
+)
++
+=
+δ
+∂
+∂R
+------V P S τ
+, ,
+(
+) P0
+=
+V0
+R0
+V0
+δ
+
+Sec. 7.2  Summary
+157
+Part III:  Risk Modeling of Financial Instruments
+order effects of changes in the spot rate, and the “theta effect”, which accounts for changes in the 
+time to maturity of the option. The two formulas associated with these added effects are
+[7.10]
+ and
+[7.11]
+where  is the length of the forecast horizon and  and  are deﬁned by
+[7.12a]
+ and
+[7.12b]
+Using the values 
+= DEM/USD 15.14 and 
+= USD/DEM 0.0629 per year, we value our portfolio 
+for each of our scenarios. The results of these approximations are displayed in Table 7.2. A plot 
+illustrating the differences between the various methods of valuation is displayed in Chart 7.4; the 
+delta/gamma/theta approximation is not plotted since for the values considered, it almost perfectly 
+duplicates the full valuation case. Note that even for these higher order approximations, analytical 
+methods exist for computing percentiles of the portfolio distribution. See, for example, the method 
+outlined in Chapter 6.
+Chart 7.4
+Value of put option on USD/DEM
+strike = 0.65 USD/DEM; Value in USD/DEM
+7.2  Summary
+Finally, after generating a large number of scenarios and valuing the portfolio under each of them, 
+it is necessary to make some conclusions based on the results. Clearly, one measure which we 
+would like to report is the portfolio’s Value-at-Risk. This is done simply by ordering the portfolio 
+return scenarios and picking out the result corresponding to the desired conﬁdence level. 
+V1
+V0
+δ P1
+P0
+–
+(
+)
+1
+2--Γ P1
+P0
+–
+(
+)
+2
++
++
+=
+V1
+V0
+δ P1
+P0
+–
+(
+)
+1
+2--Γ P1
+P0
+–
+(
+)
+2
+θt
+–
++
++
+=
+t
+Γ
+θ
+Γ
+∂
+2
+∂R
+2
+---------V P S τ
+, ,
+(
+) P0
+=
+θ
+∂
+∂τ
+-----V P S τ
+, ,
+(
+) τ0
+=
+Γ
+θ
+0.60
+0.61
+0.62
+0.63
+0.64
+0.65
+0.66
+0.67
+0.68
+0.69
+0.70
+-0.02
+-0.01
+0
+0.01
+0.02
+0.03
+0.04
+0.05
+0.06
+USD/DEM exchange rate
+Full valuation
+Delta
+Delta + gamma
+Option value
+
+158
+Chapter 7.  Monte Carlo
+RiskMetrics —Technical Document
+Fourth Edition
+For example, to compute the 5% worst case loss using 1000 trials, we order the scenarios and 
+choose the 50th (5% × 1000) lowest absolute return. The percentiles computed for our example 
+under the various methods for portfolio valuation are reported in Table 7.3.
+Thus, at the 5% conﬁdence level and in the full valuation case, we obtain a Value-at-Risk of USD 
+4,559, or about 0.75% of the current portfolio value. 
+A particularly nice feature of the Monte Carlo approach is that we obtain an estimate for the entire 
+distribution of portfolio returns. This allows us to compute other risk measures if we desire, and 
+also to examine the shape of the distribution. Chart 7.5 illustrates the return distribution for our 
+example. Note that the distribution is signiﬁcantly more skewed than the distributions for the 
+underlying assets (see Chart 7.5), which is a result of the non-linearity of the option position.
+Chart 7.5
+Distribution of portfolio returns
+1000 trials
+Table 7.3
+Value-at-Risk for example portfolio
+1000 trials
+Portfolio return (USD)
+Percentile, %
+Full
+Delta
+Delta/Gamma
+Delta/Gamma/Theta
+1.0
+(5,750)
+(5,949)
+(4,945)
+(5,806)
+2.5
+(5,079)
+(5,006)
+(4,245)
+(5,106)
+5.0
+(4,559)
+(4,392)
+(3,708)
+(4,569)
+10.0
+(3,662)
+(3,299)
+(2,825)
+(3,686)
+25.0
+(2,496)
+(1,808)
+(1,606)
+(2,467)
+50.0
+(840)
+(22)
+50
+(812)
+75.0
+915
+1,689
+1,813
+951
+90.0
+2,801
+3,215
+3,666
+2,805
+95.0
+4,311
+4,331
+5,165
+4,304
+97.5
+5,509
+5,317
+6,350
+5,489
+99.0
+6,652
+6,224
+7,489
+6,628
+594,469
+599,621
+604,772
+609,923
+615,074
+0
+25
+50
+75
+100
+125
+150
+175
+Full(     )
+Frequency
+Portfolio return (USD)
+Delta + gamma (      )
+Delta(       )
+
+Sec. 7.3  Comments
+159
+Part III:  Risk Modeling of Financial Instruments
+7.3  Comments
+In our example, we treated the bond by assuming a lognormal process for its price. While this is 
+convenient computationally, it can lead to unrealistic results since the model does not insure posi-
+tive discount rates. In this case, it is possible to generate a scenario where the individual bond 
+prices are realistic, but where the forward rate implied by the two simulated prices is negative.
+We have examined a number of methods to rectify this problem, including decomposing yield 
+curve moves into principal components. In the end, we have concluded that since regularly 
+observed bond prices and volatilities make the problems above quite rare, and since the methods 
+we have investigated only improve the situation slightly, it is not worth the effort to implement a 
+more sophisticated method than what we have outlined in this chapter. We suggest a straight 
+Monte Carlo simulation with our methodology coupled with a check for unrealistic discount or 
+forward rates. Scenarios which yield these unrealistic rates should be rejected from consideration.
+
+160
+Chapter 7.  Monte Carlo
+RiskMetrics —Technical Document
+Fourth Edition

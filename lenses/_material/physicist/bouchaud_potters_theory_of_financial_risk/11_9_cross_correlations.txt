@@ -1,0 +1,1577 @@
+9
+Cross-correlations
+La science est obscure — peut-ˆetre parce que la v´erit´e est sombre.†
+(Victor Hugo)
+9.1 Correlation matrices and principal component analysis
+9.1.1 Introduction
+The previous chapters were concerned with the statistics of individual assets, disregarding
+any possible cross-correlations between these different assets. However, as we shall see in
+Chapter 10, an important aspect of risk management is the estimation of the correlations
+between the price movements of different assets. The probability of large losses for a certain
+portfolio or option book is dominated by correlated moves of its different constituents – for
+example, a position which is simultaneously long in stocks and short in bonds is risky
+because stocks and bonds tend to move in opposite directions in crisis periods. (This is the
+so-called ‘ﬂight to quality’ effect.) The study of correlation (or covariance) matrices thus
+has a long history in ﬁnance, and is one of the cornerstone of Markowitz’s theory of optimal
+portfolios (see Chapter 12).
+In order to measure these correlations, one often deﬁnes the covariance matrix C between
+all the assets in the universe one decides to work in. (Other possible deﬁnitions of these
+correlations, in particular for strongly ﬂuctuating assets, will be described in Chapter 11).
+The number of such assets will be called M. The matrix elements Ci j of C are obtained as:‡
+Ci j = ⟨ηiη j⟩−mim j,
+(9.1)
+where ηi = δxi/xi is the return of asset i, and mi its average return, that we will, without
+loss of generality, set to zero in the following. (One can always shift the returns by −mi in
+the following formulae if needed.)
+Once this matrix is constructed, it is natural to ask for the interpretation of its eigenvalues
+and eigenvectors. Note that since the matrix is symmetric, the eigenvalues are all real
+numbers. These numbers are also all positive, otherwise it would be possible to ﬁnd a linear
+† Science is obscure — maybe because truth is dark.
+‡ The correlation matrix is usually deﬁned in terms of rescaled returns with unit volatility.
+
+146
+Cross-correlations
+combination of the xi (in other words, a certain portfolio of the different assets) with a
+negative variance. We will call va the normalized eigenvector corresponding to eigenvalue
+λa, with a = 1, . . . , M. By deﬁnition, an eigenvector is a linear combination of the different
+assets i such that Cva = λava. The vector va is the list of the weights va,i in this linear
+combination of the different assets i. More precisely, let us consider a portfolio such that
+the dollar amount of stock i is va,i (the number of stocks is thus va,i/xi). The variance of
+the return of such a portfolio is thus:
+σ 2
+a =
+ M
+
+i=1
+va,i
+xi
+δxi
+2
+=
+M
+
+i, j=1
+va,iva, jCi j ≡va · Cva.
+(9.2)
+But since va is an eigenvector corresponding to eigenvalue λa, we see that λa is precisely
+the variance of the portfolio constructed from the weights va,i. Furthermore, using the fact
+that different eigenvectors are orthogonal, it is easy to see that the correlation of the returns
+of two portfolios constructed from two different eigenvectors is zero:
+ M
+
+i=1
+va,i
+xi
+δxi
+  M
+
+j=1
+vb, j
+x j
+δx j
+
+= vb · Cva = 0
+(b ̸= a).
+(9.3)
+We have thus obtained a set of uncorrelated random returns ea, which are the returns of
+the portfolios constructed from the weights va,i:
+ea =
+M
+
+i=1
+va,iηi;
+⟨eaeb⟩= λaδa,b.
+(9.4)
+Conversely, one can think of the initial returns as a linear combination of the uncorrelated
+factors Ea:
+δxi
+xi
+= ηi =
+M
+
+a=1
+va,iea,
+(9.5)
+where the last equality holds because the transformation matrix va,i from the initial vectors
+to the eigenvectors is orthogonal. This decomposition is called a principal component
+analysis, where the correlated ﬂuctuations of a set of random variables is decomposed in
+terms of the ﬂuctuations of underlying uncorrelated factors. In the case of ﬁnancial returns,
+the principal components Ea often have an economic interpretation in terms of sectors of
+activity (see Section 9.3.2).
+
+9.1 Correlation matrices and principal component analysis
+147
+9.1.2 Gaussian correlated variables
+When the returns are Gaussian random variables, more precisely, when the joint distribution
+of the ηi can be written as:†
+PG(η1, η2, . . . , ηM) =
+1
+
+(2π)M det C
+exp
+
+−1
+2
+
+i j
+ηi
+
+C−1	
+i j η j
+
+,
+(9.6)
+where (C−1)i j denotes the elements of the matrix inverse of C, then, the principal com-
+ponents Ea are themselves independent Gaussian random variables: any set of correlated
+Gaussian random variables can always be decomposed as a linear combination of indepen-
+dent Gaussian random variables (the converse is obviously true since the sum of Gaussian
+random variables is a Gaussian random variable). In other words, correlated Gaussian ran-
+dom variables are fully characterized by their correlation matrix. This is not true in general,
+much more information is needed to describe the interdependence of non Gaussian corre-
+lated variables. This will be discussed further in Section 9.2.
+9.1.3 Empirical correlation matrices
+A reliable empirical determination of a correlation matrix turns out to be difﬁcult: if one
+considers M assets, the correlation matrix contains M(M −1)/2 entries, which must be
+determined from M time series of length N; if N is not very large compared to M, one should
+expect that the determination of the covariances is noisy, and therefore that the empirical
+correlation matrix is to a large extent random, i.e. the structure of the matrix is dominated
+by ‘measurement’ noise. If this is the case, one should be very careful when using this
+correlation matrix in applications. From this point of view, it is interesting to compare the
+properties of an empirical correlation matrix C to a ‘null hypothesis’ purely random matrix
+as one could obtain from a ﬁnite time series of strictly uncorrelated assets. Deviations from
+the random matrix case might then suggest the presence of true information.
+The empirical correlation matrix C is constructed from the time series of price returns
+ηi(k) (where i labels the asset and k the time) through the equation:
+Ci j = 1
+N
+N
+
+k=1
+ηi(k)η j(k).
+(9.7)
+In this section we assume that the average value of the η’s has been subtracted off, and that
+the η’s are rescaled to have a constant unit volatility. The null hypothesis of independent
+assets, which we consider now, translates itself in the assumption that the coefﬁcients
+† The fact that the marginal distribution of individual returns is Gaussian is not sufﬁcient for the following
+discussion to hold, see Section 9.2.7 for a detailed discussion.
+
+148
+Cross-correlations
+0
+20
+40
+60
+λ
+0
+2
+4
+6
+ρ(λ)
+0
+1
+λ
+0
+2
+4
+6
+ρ(λ)
+Market
+2
+3
+Fig. 9.1. Smoothed density of the eigenvalues of C, where the correlation matrix C is extracted from
+M = 406 assets of the S&P 500 during the years 1991–96. For comparison we have plotted the
+density Eq. (9.61) for Q = 3.22 and σ 2 = 0.85: this is the theoretical value obtained assuming that
+the matrix is purely random except for its highest eigenvalue (dotted line). A better ﬁt can be
+obtained with a smaller value of σ 2 = 0.74 (solid line), corresponding to 74% of the total variance.
+Inset: same plot, but including the highest eigenvalue corresponding to the ‘market’, which is found
+to be ∼30 times greater than λmax.
+ηi(k) are independent, identically distributed, random variables.† The theory of random
+matrices, brieﬂy expounded in Appendices A and B, allows one to compute the density of
+eigenvalues of C, ρC(λ), in the limit of very large matrices: it is given by Eq. (9.61), with
+Q = N/M.
+Now, we want to compare the empirical distribution of the eigenvalues of the correlation
+matrix of stocks corresponding to different markets with the theoretical prediction given by
+Eq. (9.61) in Appendix B, based on the assumption that the correlation matrix is random. We
+have studied numerically the density of eigenvalues of the correlation matrix of M = 406
+assets of the S&P 500, based on daily variations during the years 1991–96, for a total of
+N = 1309 days (the corresponding value of Q is 3.22). An immediate observation is that
+the highest eigenvalue λ1 is 25 times larger than the predicted λmax (Fig. 9.1, inset). The
+corresponding eigenvector is, as expected, the ‘market’ itself, i.e. it has roughly equal com-
+ponents on all the M stocks. The simplest ‘pure noise’ hypothesis is therefore inconsistent
+with the value of λ1. A more reasonable idea is that the component of the correlation
+† Note that even if the ‘true’ correlation matrix Ctrue is the identity matrix, its empirical determination from a
+ﬁnite time series will generate non-trivial eigenvectors and eigenvalues.
+
+9.2 Non-Gaussian correlated variables
+149
+matrix which are orthogonal to the ‘market’ are pure noise. This amounts to subtracting the
+contribution of λ1 from the nominal value σ 2 = 1, leading to σ 2 = 1 −λ1/M = 0.85. The
+corresponding ﬁt of the empirical distribution is shown as a dotted line in Figure 9.1. Several
+eigenvalues are still above λmax and contain some information about different economic
+sectors, thereby reducing the variance of the effectively random part of the correlation
+matrix. One can therefore treat σ 2 as an adjustable parameter. The best ﬁt is obtained for
+σ 2 = 0.74, and corresponds to the dark line in Figure 9.1, which accounts quite satisfactorily
+for 94% of the spectrum, whereas the 6% highest eigenvalues still exceed the theoretical
+upper edge by a substantial amount. These 6% highest eigenvalues are however responsible
+for 26% of the total volatility.
+One can repeat the above analysis on different stock markets (e.g. Paris, London, Zurich),
+or on volatility correlation matrices, to ﬁnd very similar results. In a ﬁrst approximation, the
+location of the theoretical edge, determined by ﬁtting the part of the density which contains
+most of the eigenvalues, allows one to distinguish ‘information’ from ‘noise’.
+The conclusion of this section is therefore that a large part of the empirical correlation
+matrices must be considered as ‘noise’, and cannot be trusted for risk management. In
+Chapter10,wewilldwellonMarkowitz’portfoliotheory,whichassumesthatthecorrelation
+matrix is perfectly known. This theory must therefore be taken with a grain of salt, bearing
+in mind the results of the present section.
+9.2 Non-Gaussian correlated variables
+There are many different ways to construct non-Gaussian correlated variables, correspond-
+ing to different underlying mechanisms. In the section, we elaborate on three simple ways
+to generate these multivariate non-Gaussian statistics: a linear model where one sums in-
+dependent non-Gaussian variables, a non-linear model where one imposes a non-linear
+transformation to multivariate Gaussian variables, and ﬁnally a stochastic volatility model
+where multivariate Gaussian variables are multiplied by a common random factor.
+9.2.1 Sums of non Gaussian variables
+We have seen in Section 9.1.1 above that correlated Gaussian variables can always be
+written as a linear superposition of independent random Gaussian variables. This sug-
+gests an immediate generalization in order to construct non Gaussian correlated variables.
+One can for example consider independent but non Gaussian elementary ‘factors’ Ea,
+with an arbitrary probability distribution Pa(ea), and deﬁne the correlated variables of
+interest as:
+ηi =
+M
+
+a=1
+va,iea,
+(9.8)
+where the va,i are the elements of a certain rotation matrix that diagonalizes the correlation
+matrix of the η variables. This means that the Ea can be obtained from the ηi by applying
+
+150
+Cross-correlations
+the inverse transformation:
+ea =
+M
+
+i=1
+va,iηi.
+(9.9)
+A particularly interesting case is when Pa(ea) has power tails:
+Pa(ea) ≃|ea|→±∞
+µAµ
+a
+|ea|1+µ ,
+(9.10)
+where the exponent µ does not depend on the factor Ea. In this case, using the results of
+Appendix C, the ηi also have power-law tails with the same exponent µ, and with a tail
+amplitude given by:
+Aµ
+i =
+M
+
+a=1
+|va,i|µAµ
+a .
+(9.11)
+A special case is when the Ea are L´evy stable variables, with µ < 2. Then, since the sum
+of independent L´evy stable random variables is also a L´evy stable variable, the marginal
+distribution of the ηi’s is a L´evy stable distribution. The ηi’s then form a set of multivariate
+L´evy stable random variables, see Section 9.2.6.
+9.2.2 Non-linear transformation of correlated Gaussian variables
+Another possibility is to start from independent Gaussian variables Ea, and build the ηi’s
+in two steps, as:
+˜ηi =
+M
+
+a=1
+va,iea
+ηi = Fi [˜ηi] ,
+(9.12)
+where Fi is a certain non-linear function, chosen such that the marginal distribution of the ηi
+matches the empirical distribution Pi(ηi). More precisely, since ˜ηi is Gaussian, one should
+have, if Fi is monotonous:
+Pi(ηi) = PG(˜ηi)
+
+d˜ηi
+dηi
+ ,
+(9.13)
+where PG(.) is the Gaussian distribution. One therefore encodes the correlations is the
+construction of the intermediate Gaussian random variables ˜ηi, before converting them into
+a set of random variables with the correct marginal probability distributions.
+9.2.3 Copulas
+The above idea of a non linear transformation of correlated Gaussian variables to
+obtain correlated variables with an arbitrary marginal distribution can be generalized,
+and leads to the notion of copulas. Let us consider N random variables η1, η2, . . . , ηN,
+with a joint distribution P(η1, η2, . . . , ηN). The marginal distributions are Pi(ηi), and
+the corresponding cumulative distributions Pi<. By construction, the random variables
+
+9.2 Non-Gaussian correlated variables
+151
+ui ≡Pi<(ηi) are uniformly distributed in the interval [0, 1]. The joint distribution of
+the ui deﬁnes the copula of the joint distribution P above. It characterizes the structure
+of the correlations, but is by construction independent of the marginal distributions, in
+the sense that any non linear transformation of the random variables leaves the copula
+invariant. More precisely, let C(u1, u2, . . . , uN) be a function from [0, 1]N to [0, 1],
+that is a non decreasing function of all its arguments. The function C(u1, u2, . . . , uN),
+called the copula, is the joint cumulative distribution of the ui. To any joint distribution
+P(η1, η2, . . . , ηN) one can associate a unique copula C. Conversely, any function C that
+has the above properties can be used to deﬁne a joint distribution P(η1, η2, . . . , ηN) with
+the desired marginals, by deﬁning the ηi through:
+ηi = P−1
+i< (ui).
+(9.14)
+The ‘non-linear’ model described in the previous subsection therefore corresponds to a
+Gaussian copula.
+9.2.4 Comparison of the two models
+Given a set of non Gaussian correlated variables, which of the above two models is most
+faithful in describing the data? In order to test the linear model where each variable is the
+sum of independent non Gaussian variables, one can ﬁrst diagonalize the correlation matrix
+and construct the factors Ea using Eq. (9.9). One can then transform each of these Ea as
+˜ea = F−1
+a (ea) such that the marginal distribution of each ˜Ea is Gaussian of unit variance.
+The assumption of the linear model is that the Ea (and thus the ˜Ea) are independent. One
+can therefore study the following correlation function (which is a generalized kurtosis, see
+Section 9.2.7):
+Kab =
+˜e2
+a˜e2
+b
+
+−
+˜e2
+a
+ ˜e2
+b
+
+−2⟨˜ea˜eb⟩2,
+(9.15)
+which should be very small if the linear model holds. Note that, because the individual ˜Ea
+are Gaussian by construction, one has Kaa = 0. A global measure of the merit of the model
+could be deﬁned as:
+K l =
+1
+M(M −1)
+
+a̸=b
+Kab.
+(9.16)
+As for the non linear model of correlations, one should ﬁrst construct from the ηi the
+intermediate Gaussian variables such that ˜ηi = F−1
+i
+(ηi), then determine the correlation
+matrix ˜C of the ˜ηi in order to ﬁnd the ea from:
+ea =
+M
+
+i=1
+˜va,i ˜ηi,
+(9.17)
+where ˜va,i is the rotation matrix that diagonalizes ˜C. The assumption of the non-linear
+model is that the resulting ea are independent Gaussian random variables. By construction,
+the ea are uncorrelated, and can be normalized to have unit variance. The ﬁrst non trivial
+
+152
+Cross-correlations
+test for independence is thus to consider again the above non linear correlation function:
+Kab =
+
+e2
+ae2
+b
+
+−
+
+e2
+a
+ 
+e2
+b
+
+−2⟨eaeb⟩2,
+(9.18)
+(where now the last term ⟨eaeb⟩2 = 0 by construction), and the global merit of the non-linear
+model:
+K nl =
+1
+M(M −1)
+
+a̸=b
+Kab.
+(9.19)
+The best of the two descriptions corresponds to one with K closest to zero. These numbers
+are directly comparable since in both cases, the role of the tail events has been regularized
+by the change of variable that transforms them into Gaussian variables. We have computed
+these quantities averaged over all 50 × 99 pairs made of 100 U.S. stocks from 1993 to
+1999. We ﬁnd K nl = 0.118 and K l = 0.182, which shows that the non-linear, Gaussian
+copula model is better than a linear model of non-Gaussian factors. However, the residual
+‘cross-kurtosis’ K nl is still signiﬁcant, showing that the non linear model is not capturing all
+the correlations. As discussed at length in Chapter 7 and in the next section, Section 9.2.5,
+volatility ﬂuctuations appears to be an important source of non linear correlations in ﬁnancial
+markets. We thus expect, and will indeed ﬁnd, that a model which explicitly accounts for
+these volatility ﬂuctuations should be more accurate.
+The matrix Kab can be understood as the correlation matrix of the square volatility of
+the factors. This matrix can itself be diagonalized, thereby deﬁning principal components
+of volatility ﬂuctuations. This suggests another, ﬁnancially motivated, model of correlated
+returns:
+ηi =
+M
+
+a=1
+va,i
+ M
+
+c=1
+wc,a f 2
+c
+1/2
+ea,
+(9.20)
+where the f 2
+c are now the principal components of the square volatility, and wc,a the rotation
+matrix that diagonalizes Kab. A particular case of interest is when one volatility compo-
+nent, say c = 1, dominates all the others. This means, intuitively, that the volatilities of all
+economic factors tend to increase or decrease in a strongly correlated way. In that case, one
+can write:
+ηi = f
+M
+
+a=1
+va,i ˜ea,
+˜ea ≡w1,aea,
+(9.21)
+where f = f1 is the common ﬂuctuating volatility. When the Ea are independent Gaussian
+factors and f has an inverse gamma distribution, this model generates a set of multivariate
+Student variables ηi, which we discuss in the next section.
+This idea can be directly tested on empirical data by dividing the returns of all stocks on
+a given day by a proxy of the ﬂuctuating volatility f1. Such a proxy can be constructed by
+computing the root mean square of the returns of all the stocks on a given day (a quantity that
+we will call the ‘variety’ and discuss in Section 11.2.1, see Eq. (11.24)). All the returns of a
+given day are divided by the variety, and the same test on Kab is performed on these rescaled
+returns. One now ﬁnds K nl = 0.0169 and K l = 0.0107. These numbers are much smaller
+than the ones quoted above and very small. This shows that indeed, volatility ﬂuctuations is
+
+9.2 Non-Gaussian correlated variables
+153
+themajorsourceofnonlinearcorrelationsbetweenstocks.Furthermore,oncetheﬂuctuating
+volatility effect is removed, the linear model appears better than the non-linear, Gaussian
+copula model.
+9.2.5 Multivariate Student distributions
+Let us make the above remarks more precise. Consider M correlated Gaussian variables
+˜ηi, such that their multivariate distribution is given by Eq. (9.6). Now, multiply all ˜ηi by
+the same random factor f = √µ/s, where s is a positive random variable with a gamma
+distribution:
+P(s) =
+1
+
+ µ
+2
+	s
+µ
+2 −1 e−s.
+(9.22)
+The joint distribution PS of the resulting variables ηi = √µ/s ˜ηi is clearly given by:
+PS(η1, η2, . . . , ηM)
+=
+ ∞
+0
+ s
+µ
+M/2
+P(s)PG(
+
+s/µ η1,
+
+s/µ η2, . . . ,
+
+s/µ ηM)ds,
+(9.23)
+where PG is the multivariate Gaussian (9.6) and the factor (s/µ)M/2 comes from the change
+of variables. Using the explicit form of PG with a correlation matrix ˜C, one sees that the
+integral over s can be explicitly performed, ﬁnally leading to:
+PS(η1, η2, . . . , ηM) =
+
+
+M+µ
+2
+
+
+ µ
+2
+	 
+(µπ)M det ˜C
+1
+
+1 + 1
+µ
+
+i j ηi( ˜C−1)i jη j
+ M+µ
+2
+,
+(9.24)
+which is called the multivariate Student distribution. Let us list a few useful properties of
+this distribution, that can easily be shown using the representation (9.23) above:
+r The marginal distribution of any ηi is a monovariate Student distribution of parameter µ:
+PS(ηi) =
+1
+√πµ
+
+
+1+µ
+2
+
+
+ µ
+2
+	
+˜Cµ/2
+ii
+
+˜Cii + η2
+i
+µ
+ 1+µ
+2
+.
+(9.25)
+r In the limit µ →∞, one can show that the multivariate Student distribution PS tends
+towards the multivariate Gaussian PG. This is expected, since in this limit, P(s) tends
+to a delta function δ(s −µ/2), and therefore the random volatility f = √µ/s does not
+ﬂuctuate anymore and is equal to f =
+√
+2.
+r The correlation matrix of the ηi is given, for µ > 2, by:
+Ci j = ⟨ηiη j⟩=
+µ
+µ −2
+˜Ci j.
+(9.26)
+Note that, as expected, the above result tends to the Gaussian result ˜Ci j when µ →∞
+and diverges when µ →2.
+
+154
+Cross-correlations
+r Wick’stheoremforGaussianvariables† canbeextendedtoStudentvariables.Forexample,
+one can show that:
+⟨ηiη jηkηl⟩= µ −2
+µ −4[Ci jCkl + CikC jl + CilC jk],
+(9.28)
+which again reproduces Wick’s contractions in the limit µ →∞, where the prefactor
+tends to unity.
+Finally, note that the matrix ˜Ci j can be estimated from empirical data using a maximum
+likelihood procedure. Given a time series of stock returns ηi(k), with i = 1, . . . , M and
+k = 1,.., N, the most likely matrix ˜Ci j is given by the solution of the following equation:
+˜Ci j = M + µ
+N
+N
+
+k=1
+ηi(k)η j(k)
+µ + 
+mn ηm(k)( ˜C−1)mnηn(k).
+(9.29)
+Note that in the Gaussian limit µ →∞, the denominator of the above expression is simply
+given by µ, and the ﬁnal expression is simply:
+˜Ci j = Ci j = 1
+N
+N
+
+k=1
+ηi(k)η j(k),
+(9.30)
+as it should.
+9.2.6 Multivariate L´evy variables (∗)
+Consider ﬁnally the case where the distribution of the squared volatility f 2 is a totally
+asymmetric L´evy distribution of index µ < 1. When f multiplies a single Gaussian ran-
+dom variable, the resulting product has, as mentioned in Section 7.1, a symmetric L´evy
+distribution of index 2µ. When one multiplies a set correlated Gaussian variables by the
+same f (such that f 2 has a totally asymmetric L´evy distribution), one generates a multi-
+variate symmetric L´evy distribution of index 2µ, that reads:
+PL(η1, η2, . . . , ηM) =
+ 
+..
+
+M
+
+j=1
+dz j
+2π exp
+
+−i
+
+j
+z jη j −1
+2
+
+
+i j
+ziCi jz j
+
+µ
+.
+(9.31)
+Note that this multivariate distribution is different from the one obtained in the case of
+a linear combination of independent symmetric L´evy variables of index 2µ, discussed in
+Section 9.2.1. If the ηi’s read:
+ηi =
+N
+
+b=1
+vb,ieb,
+(9.32)
+† Wick’s theorem states that the expectation value of a product of any number of multivariate Gaussian variables
+(of zero mean) can be obtained by replacing every pair of variables by the two-point correlation matrix with the
+same indices and summing over all possible pairings. For example,
+⟨ηiη jηkηl⟩= [Ci jCkl + CikC jl + CilC jk],
+(9.27)
+when {ηi} are multivariate Gaussian variables of zero mean.
+
+9.2 Non-Gaussian correlated variables
+155
+then one ﬁnds:
+P(η1, η2, . . . , ηM) =
+ 
+..
+
+M
+
+j=1
+dz j
+2π exp
+
+−i
+
+j
+z jη j −
+N
+
+b=1
+a2µ,b
+
+i j
+zivb,ivb, jz j
+
+µ
+,
+(9.33)
+where a2µ,b are related to the tail amplitude of the variables eb (see Eq. (1.20)).
+Both Eqs (9.31) and (9.33) correspond to a stable multivariate process, in the sense that
+if {η1, η2, . . . , ηM} and {η′
+1, η′
+2, . . . , η′
+M} are two realizations of the process, then the sum
+{η1 + η′
+1, η2 + η′
+2, . . . , ηM + η′
+M} has (up to a rescaling) the same multivariate distribution.
+This is particularly obvious in this last case, since:
+ηi + η′
+i =
+N
+
+b=1
+vb,i(eb + e′
+b),
+(9.34)
+where eb + e′
+b still has a symmetric L´evy distribution, due to the stability of these under
+addition.
+The most general symmetric multivariate L´evy distribution of index 2µ in fact reads:
+L2µ(η1, η2, . . . , ηM) =
+ 
+..
+
+M
+
+j=1
+dz j
+2π exp
+
+−i
+
+j
+z jη j −
+
+γ (⃗n)
+
+i j
+zinin jz j
+
+µ
+d⃗n
+
+,
+(9.35)
+where ⃗n is a unit vector on the M-dimensional sphere, and γ (⃗n) an arbitrary function that
+satisﬁes γ (⃗n) = γ (−⃗n). Equation (9.33) corresponds to the case where γ (⃗n) is concentrated
+in a ﬁnite number of directions:
+γ (⃗n) = 1
+2
+N
+
+b=1
+a2µ,b
+
+δ(⃗n −⃗vb) + δ(⃗n + ⃗vb)
+
+,
+(9.36)
+whereas Eq. (9.31) with Ci j = σ 2δi, j corresponds to a uniform function:
+γ (⃗n) ∝σ µ.
+(9.37)
+A full account of these multivariate L´evy distributions, together with their asymmetric
+generalizations, can be found in Samorodnitsky & Taqqu (1994).
+9.2.7 Weakly non Gaussian correlated variables (∗)
+Another way to characterize non Gaussian correlated variables is to introduce, from the
+joint distribution of the asset ﬂuctuations, a generalized kurtosis Ki jkl that measures the
+ﬁrst correction to Gaussian statistics. One writes:
+P(η1, η2, . . . , ηM) =
+ 
+..
+
+M
+
+j=1
+dz j
+2π exp
+
+−i
+
+j
+z j(η j −m j)
+−1
+2
+
+i j
+ziCi jz j + 1
+4!
+
+i jkl
+Ki jklziz jzkzl + . . .
+
+.
+(9.38)
+
+156
+Cross-correlations
+For Ki jkl = 0 (and also all higher order cumulants), this formula reduces to the multivariate
+Gaussian distribution, Eq. (9.6). The marginal distribution of, say, ηi, obtained by integrating
+P(η1, η2, . . . , ηM) over the M −1 other variables η j, j ̸= i, and is given by:
+P(ηi) =
+ dzi
+2π exp
+
+−izi(ηi −mi) −1
+2Ciiz2
+i + 1
+4! Kiiiiz4
+i + . . .
+
+.
+(9.39)
+This shows that whenever all ‘diagonal’ cumulants are zero (e.g. Kiiii = 0), the marginal
+distribution of ηi is Gaussian; however as soon as, say Ki ji j, is non zero, the joint distribution
+of all ηi’s is not a multivariate Gaussian.
+From a simple manipulation of Fourier variables, one establishes that the four-point
+correlation function is given by:
+⟨ηiη jηkηl⟩= Ci jCkl + CikC jl + CilC jk + Ki jkl.
+(9.40)
+The ﬁrst three terms correspond to Wick’s theorem for Gaussian variables. In the case i = k,
+j = l, one ﬁnds:
+
+η2
+i η2
+j
+
+−
+
+η2
+i
+ 
+η2
+j
+
+= 2⟨ηiη j⟩2 + Ki ji j.
+(9.41)
+Suppose that the ηi are uncorrelated, such that ⟨ηiη j⟩= 0 for i ̸= j. The above formula
+means, as we have discussed at length in Chapter 7 and in Section 9.2.5 above, that correlated
+volatility ﬂuctuations between different assets create non Gaussian effects. Note also that
+the indicators K l and K nl are indeed generalized kurtosis, and are natural candidates to
+measure non Gaussian multivariate effects, that can exist even if the monovariate kurtosis
+is zero.
+Finally, the generalized kurtosis can be computed for multivariate Student variables. One
+ﬁnds:
+Ki jkl =
+2
+µ −4[Ci jCkl + CikC jl + CilC jk].
+(9.42)
+9.3 Factors and clusters
+9.3.1 One factor models
+The empirical results of Section 9.1.3 show that the correlation matrix has one dominant
+eigenvalue λ1, much larger than all the others. This suggests that each return ηi can be
+decomposed as:
+ηi = βiφ0 + ei,
+(9.43)
+where φ0 and ei are M + 1 uncorrelated random variables, of variance respectively equal
+to 2 and σ 2
+i , and βi are ﬁxed parameters. The same random variable φ0 is common to all
+returns and corresponds to a ‘factor’ that affects all stocks, albeit with different ‘impacts’
+βi. The ei are random variables, speciﬁc to each individual stock, and are often called the id-
+iosyncratic contributions, or residuals. The correlations between stocks are, in this so called
+
+9.3 Factors and clusters
+157
+one factor model, entirely induced by the common factor φ0. In reality, as we will discuss
+below, the residuals are themselves correlated, for example when two companies belong to
+the same industrial sector.
+The correlation matrix of the one factor model is easily computed to be:
+Ci j = βiβ j2 + σ 2
+i δi, j.
+(9.44)
+If all the σi were equal to σ0, this matrix would be very easy to diagonalize: one would have
+one dominant eigenvalue λ1 = 2 
+i β2
+i + σ 2
+0 , corresponding to the eigenvector v1,i = βi,
+and M −1 eigenvalues all equal to σ 2
+0 . For M large, λ1 ∼M2β2 ≫σ 2
+0 . When M is large
+and the σi’s not very different from one another, the spectrum of C still has one dominant
+eigenvalue of order M and a sea of M −1 other ‘small’ eigenvalues, much as the empirical
+correlation matrix.
+In reality, several other eigenvalues emerge from the noise level (see Fig. 9.1), suggesting
+that one factor is not sufﬁcient to reproduce quantitatively the form of the empirical cor-
+relation matrix. The most important factor φ0 is traditionally called the ‘market’, whereas
+other relevant factors correspond to major activity sectors (for example, high technology
+stocks) and leads to a more complex structure of the correlation matrix.
+Furthermore, as discussed in Section 11.2.3 below, there exist important non linear corre-
+lations between the volatility of the market  and that of the residuals σi that, as discussed
+above, cannot be described within a linear factor model, even if the factors are non Gaussian.
+9.3.2 Multi-factor models
+Once the ‘market’ factor has been subtracted, the idiosyncratic parts ei still have non trivial
+correlations. A natural parametrization of these correlations that accounts for the existence
+of economic sectors starts by assuming the existence of uncorrelated factors φα, with α =
+1, . . . , Ns labels the Ns different sectors. One then writes:
+ei =
+Ns
+
+α=1
+βiαφα + ϵi,
+(9.45)
+where the new residuals ϵi are assumed to be uncorrelated.† A natural choice for the {βiα}
+is the Ns most signiﬁcant eigenvectors (or principal components) of the correlation matrix.
+If the different φα and ϵi are not only uncorrelated but independent, this multi-factor model
+is in fact the linear model of correlated random variables described in Section 9.2.1.
+A simple case is when each company is only sensitive to one particular sector: βiα = 1
+if company i belongs to sector α, and βiα = 0 otherwise (remember that the market
+has been subtracted). If all the residuals ϵi belonging to the same sector have the same
+variance σ 2
+α, the correlation matrix of the ei can readily be diagonalized, since it is block
+diagonal, with each block representing a one-factor model for which the results of the above
+section can be transcribed. Calling Mα the size of the sector α, to each sector is associated
+† In the ﬁnancial textbooks multi-factor models are usually introduced in the context of the Arbitrage Pricing
+Theory (APT) which relates the expected gain of an asset to its factor exposure.
+
+158
+Cross-correlations
+Table 9.1. Bloomberg sectors with size (number of
+companies in S&P 500) and example (member with
+largest market capitalization).
+Sector Name
+Size
+Example
+Basic materials
+30
+Du Pont
+Communications
+44
+Cisco Systems
+Consumer, cyclical
+73
+Wal-Mart Stores
+Consumer, non-cyclical
+89
+Pﬁzer
+Diversiﬁed
+0
+LVMH
+Energy
+27
+Exxon Mobil
+Financial
+78
+Citigroup
+Industrial
+67
+General Electric
+Technology
+59
+Microsoft
+Utilities
+33
+Southern Co.
+one large eigenvalue λα = Mα2
+α + σ 2
+α, (where 2
+α is the variance of the factor φα), and
+Mα −1 eigenvalues all equal to σ 2
+α. In this model, the ‘sea’ of small eigenvalues seen in
+Fig. 9.1 corresponds to the latter eigenvalues, whereas the large eigenvalues that emerge
+from the noise level corresponds to the λα. If, as reasonable, the α’s corresponding to
+different sectors have similar magnitudes, one sees that large λα’s correspond to large sec-
+tors (large Mα). From the results of Fig. 9.1, one sees that there are roughly twenty sectors
+that stand out. This can be compared to the classiﬁcation of economic sectors given by
+Bloomberg, see Table 9.1.
+A natural question is then: how does one identify the sectors using empirical correlation
+matrices? The statistical identiﬁcation of the sectors corresponds to a clustering problem
+that we now brieﬂy discuss.
+9.3.3 Partition around medoids
+A traditional method of clustering is to choose a priori a certain number Nc of centres
+(medoids), and to assign each point of the set to be partitioned to its nearest medoid.
+Clusters C are then the set of points closest to a given medoid. The cost function of this
+clustering is simply the total distance between all the points and their corresponding medoid,
+and the optimal choice of the medoid positions is such that this cost function is minimized.
+In the context of stocks, a medoid would be a certain portfolio, i.e. a linear combination of
+the stocks, and the quadratic distance equal to one minus the correlation coefﬁcient. The
+clusters can be seen as statistical sectors. Once clusters are identiﬁed, one can create an
+‘index’ associated to each cluster C, which one can call a ‘factor’:
+ηC =
+1
+S(C)
+
+i∈C
+ηi,
+(9.46)
+
+9.3 Factors and clusters
+159
+where S(C) is the size of the cluster C, and ηi are the returns of the stocks belonging to C.
+For the chosen (quadratic) distance, the centre of mass ηC is nothing but the medoid itself.
+When C is the whole market, ηC is the market return ηm ∝φ0, or the market ‘factor’.
+It is often very useful to analyze the performance of a given portfolio in terms of its
+exposure to the different factors, by computing the correlation (traditionally called the β’s)
+between the portfolio and the returns ηC.
+The drawback of the above method is that the choice of the number of clusters is ﬁxed
+a priori. The optimal choice, that would minimize the cost function, is that the number of
+clusters equals the number of stocks so that each stock is its own medoid, is obviously
+absurd. An interesting idea to create clusters without imposing the number of clusters, is to
+assume a block diagonal correlation matrix (as discussed in the previous section), and to
+use a maximum likelihood method to determine the most probable clusters.†
+9.3.4 Eigenvector clustering
+Since the largest eigenvectors seem to carry some useful interpretation, one can also try
+to deﬁne clusters on the basis of the structure of these eigenvectors. The largest one, v1,
+has positive (and comparable) components on all stocks, and deﬁnes the largest cluster,
+containing all stocks. The second one v2, which by construction has to be orthogonal to v1,
+has roughly half of its components positive, and half negative. This means that a probable
+move of the cloud of stocks around the average (market) ﬂuctuations is one where half
+of the stocks overperforms the market, and the other half underperforms it, or vice-versa.
+Therefore, the sign of the components of v2 can be used to group the stocks in two families.
+Each family can then be divided further, using the relative signs of v3, v4, etc. Using, say,
+the ﬁve largest eigenvectors leads to 24 = 16 different clusters (since v1 cannot be used to
+distinguish different stocks).
+9.3.5 Maximum spanning tree
+Another simple idea, due to Mantegna, is to create a tree of stocks in the following way:
+ﬁrst rank by decreasing order the M(M −1)/2 values of the correlations Ci j between all
+pair of stocks.‡ Pick the pair corresponding to the largest Ci j and create a link between these
+two stocks. Take the second largest pair, and create a link between these two. Repeat the
+operation, unless adding a link between the pair under consideration creates a loop in
+the graph, in which case skip that value of Ci j. Once all stocks have been linked at least
+once without creating loops, one ﬁnds a tree which only contains the strongest possible
+correlations, called the maximum spanning tree. An example of this construction for U.S.
+stocks is shown in Fig. 9.2.
+Now, clusters can easily be created by removing all links of the maximum spanning tree
+such that Ci j < C∗. Since the tree contains no loop, removing one link cuts the tree into
+† On this method, see Marsili (2002). Alternative methods, based on ‘fuzzy clusters’, where each stock can belong
+to different clusters, can be found in the papers cited at the end of the chapter.
+‡ In principle, one should consider |Ci j| rather than Ci j. In practice, most stocks have positive correlations.
+
+160
+Cross-correlations
+OXY
+ARC
+CHV
+MOB
+XON
+SLB
+CGP
+HAL
+BHI
+HM
+COL
+FLR
+AIG
+CI
+AXP
+F
+GM
+BS
+XRX
+TEK
+BC
+TAN
+MER
+BAC
+WFC
+DD
+MMM
+DOW
+MTC
+EK
+PRD
+WY
+IP
+AA
+CHA
+BCC
+JPM
+AGC
+ONE
+USB
+WMT
+KM
+LTD
+MAY
+TOY
+S
+SUNW
+CSC
+ORCL
+UIS
+IBM
+NSM
+HRS
+TXN HWP
+INTC MSFT
+RTNB
+ROK
+HON
+MKG
+UTX
+BA
+PEP
+IFF
+AVP
+CL
+PG
+JNJ
+BAX
+BMY
+PNU
+MRK
+CPB
+HNZ
+AEP
+UCM
+ETR
+SO
+BEL
+AIT
+T
+GTE
+GDVO CEN
+MO
+NT
+DAL
+FDX
+DIS
+NSC
+BNI
+MCD
+RAL
+BDK
+WMB
+CSCO
+KO
+GE
+Fig. 9.2. Maximum spanning tree for the U.S. stock market. Each node is a stock with its code
+name. The bonds correspond to the largest |Ci j|’s that have been retained in the construction of the
+tree. See how economic sectors emerge in this representation, with ‘leaders’ such as General
+Electric (GE) appearing as multi-connected nodes. Courtesy of R. Mantegna.
+disconnected pieces. The remaining pieces are clusters within which all remaining links
+are ‘strong’, i.e., such that Ci j ≥C∗, which can be considered as strongly correlated. The
+number of disconnected pieces grows as the correlation threshold C∗increases.
+The problem with the above methods is that one often ends up with clusters of very
+dissimilar sizes. For example, progressively dismantling the maximum spanning tree might
+create singlets,whichareclustersoftheirown. However,thefactthatclustershavedissimilar
+sizes is perhaps a reality, related to the organization of the economic activity as a whole.
+9.4 Summary
+r Cross correlations between assets are captured, at the simplest level, by the corre-
+lation matrix. The eigenvectors of this matrix can be used to express the returns
+as a linear combination of uncorrelated (but not necessarily independent) random
+variables, called principal components. The (positive) eigenvalues are the squared
+volatilities of these components. In the case of Gaussian correlated returns, the prin-
+cipal components are in fact independent.
+r The empirical determination of the full correlation matrix is difﬁcult. This is
+illustrated by comparing the spectrum of eigenvalues of the empirical correlation
+matrix with that of a purely random correlation matrix, which is known analytically
+for large matrices. Most eigenvalues can be explained in terms of a purely random
+
+9.5 Appendix A: central limit theorem for random matrices
+161
+correlation matrix, except for the largest ones, which correspond to the ﬂuctuations
+of the market as a whole, and of several industrial sectors. These correlations can be
+described within factor models, which however fail to describe non linear (volatility)
+correlations.
+r There are many ways to construct correlated non Gaussian random variables, that
+lead to different multivariate distributions. Three particularly important cases corre-
+spond to: (a) linear combination of independent, but non Gaussian, random variables;
+(b) non linear transformations of correlated Gaussian variables; and (c) correlated
+Gaussian variables multiplied by a common, random volatility. This last case gives
+rise to two interesting families of multivariate distributions: Student and L´evy.
+9.5 Appendix A: central limit theorem for random matrices
+OneinterestingapplicationoftheCLTconcernsthespectralpropertiesof‘randommatrices’.
+The theory of random matrices has made enormous progress during the past 30 years, with
+many applications in physical sciences and elsewhere. As illustrated in the previous section,
+it has been recently suggested that random matrices might also play an important role in
+ﬁnance. It is therefore appropriate to give a cursory discussion of some salient properties of
+random matrices. The simplest ensemble of random matrices is one where all elements of the
+matrix H are iid random variables, with the only constraint that the matrix be symmetrical
+(Hi j = Hji). One interesting result is that in the limit of very large matrices, the distribution
+of its eigenvalues has universal properties, which are to a large extent independent of the
+distribution of the elements of the matrix. This is actually the consequence of the CLT, as
+we will show below. Let us introduce ﬁrst some notation. The matrix H is a square, M × M
+symmetric matrix. Its eigenvalues are λa, with a = 1, . . . , M. The density of eigenvalues
+is deﬁned as:
+ρ(λ) = 1
+M
+M
+
+a=1
+δ(λ −λa),
+(9.47)
+where δ is the Dirac function. We shall also need the so-called ‘resolvent’ G(λ) of the matrix
+H, deﬁned as:
+Gi j(λ) ≡
+
+1
+λ1 −H
+
+i j
+,
+(9.48)
+where 1 is the identity matrix. The trace of G(λ) can be expressed using the eigenvalues of
+H as:
+TrG(λ) =
+M
+
+a=1
+1
+λ −λa
+.
+(9.49)
+The ‘trick’ that allows one to calculate ρ(λ) in the large M limit is the following represen-
+tation of the δ function:
+1
+x −iϵ = P P 1
+x + iπδ(x)
+(ϵ →0),
+(9.50)
+
+162
+Cross-correlations
+where P P means the principal part. Therefore, ρ(λ) can be expressed as:
+ρ(λ) = lim
+ϵ→0
+1
+Mπ ℑ(TrG(λ −iϵ)) .
+(9.51)
+Our task is therefore to obtain an expression for the resolvent G(λ). This can be done by
+establishing a recursion relation, allowing one to compute G(λ) for a matrix H with one
+extra row and one extra column, the elements of which being H0i. One then computes
+G M+1
+00
+(λ) (the superscript stands for the size of the matrix H) using the standard formula
+for matrix inversion:
+G M+1
+00
+(λ) = minor(λ1 −H)00
+det(λ1 −H)
+.
+(9.52)
+Now, one expands the determinant appearing in the denominator in minors along the ﬁrst
+row, and then each minor is itself expanded in subminors along their ﬁrst column. After a
+little thought, this ﬁnally leads to the following expression for G M+1
+00
+(λ):
+1
+G M+1
+00
+(λ)
+= λ −H00 −
+M
+
+i, j=1
+H0i H0 jG M
+i j (λ).
+(9.53)
+This relation is general, without any assumption on the Hi j. Now, we assume that the Hi j’s
+are iid random variables, of zero mean and variance equal to ⟨H 2
+i j⟩= σ 2/M. This scaling
+with M can be understood as follows: when the matrix H acts on a certain vector, each
+component of the image vector is a sum of M random variables. In order to keep the image
+vector (and thus the corresponding eigenvalue) ﬁnite when M →∞, one should scale the
+elements of the matrix with the factor 1/
+√
+M.
+One could also write a recursion relation for G M+1
+0i
+, and establish self-consistently that
+Gi j ∼1/
+√
+M for i ̸= j. On the other hand, due to the diagonal term λ, Gii remains ﬁnite for
+M →∞. This scaling allows us to discard all the terms with i ̸= j in the sum appearing
+in the right-hand side of Eq. (9.53). Furthermore, since H00 ∼1/
+√
+M, this term can be
+neglected compared to λ. This ﬁnally leads to a simpliﬁed recursion relation, valid in the
+limit M →∞:
+1
+G M+1
+00
+(λ)
+≃λ −
+M
+
+i=1
+H 2
+0iG M
+ii (λ).
+(9.54)
+Now, using the CLT, we know that the last sum converges, for large M, towards
+σ 2/M M
+i=1 G M
+ii (λ). This result is independent of the precise statistics of the H0i, provided
+their variance is ﬁnite.† This shows that G00 converges for large M towards a well-deﬁned
+limit G∞, which obeys the following limit equation:
+1
+G∞(λ) = λ −σ 2G∞(λ).
+(9.55)
+The solution to this second-order equation reads:
+G∞(λ) =
+1
+2σ 2 [λ −
+
+λ2 −4σ 2].
+(9.56)
+† The case of L´evy distributed Hi j’s with inﬁnite variance has been investigated in Cizeau & Bouchaud (1994).
+
+9.5 Appendix A: central limit theorem for random matrices
+163
+(The correct solution is chosen to recover the right limit for σ = 0.) Now, the only way
+for this quantity to have a non-zero imaginary part when one adds to λ a small imaginary
+term iϵ which tends to zero is that the square root itself is imaginary. The ﬁnal result for the
+density of eigenvalues is therefore:
+ρ(λ) =
+1
+2πσ 2
+
+4σ 2 −λ2
+for |λ| ≤2σ,
+(9.57)
+and zero elsewhere. This is the well-known ‘semi-circle’ law for the density of states,
+ﬁrst derived by Wigner. This result can be obtained by a variety of other methods if the
+distribution of matrix elements is Gaussian. In ﬁnance, one often encounters correlation
+matrices C, which have the special property of being positive deﬁnite. C can be written as
+C = HH†, where H† is the matrix transpose of H. In general, H is a rectangular matrix of
+size M × N, so C is M × M. In Section 9.1.3, M was the number of assets, and N, the
+number of observations (days). In the particular case where N = M, the eigenvalues of C
+are simply obtained from those of H by squaring them:
+λC = λ2
+H.
+(9.58)
+If one assumes that the elements of H are random variables, the density of eigenvalues
+of C can be obtained from:
+ρ(λC) dλC = 2ρ(λH) dλH
+for λH > 0,
+(9.59)
+where the factor of 2 comes from the two solutions λH = ±√λC; this then leads to:
+ρ(λC) =
+1
+2πσ 2
+
+4σ 2 −λC
+λC
+for 0 ≤λC ≤4σ 2,
+(9.60)
+and zero elsewhere. For N ̸= M, a similar formula exists, which we shall use in the follow-
+ing. In the limit N, M →∞, with a ﬁxed ratio Q = N/M ≥1, one has:†
+ρ(λC) =
+Q
+2πσ 2
+√(λmax −λC)(λC −λmin)
+λC
+,
+λmax
+min = σ 2(1 + 1/Q ± 2
+
+1/Q),
+(9.61)
+with λC ∈[λmin, λmax] and where σ 2/N is the variance of the elements of H, equivalently
+σ 2 is the average eigenvalue of C. This form is actually also valid for Q < 1, except that
+there appears a ﬁnite fraction of strictly zero eigenvalues, of weight 1 −Q (Fig. 9.3).
+The most important features predicted by Eq. (9.61) are:
+r The fact that the lower ‘edge’ of the spectrum is positive (except for Q = 1); there is
+therefore no eigenvalue between 0 and λmin. Near this edge, the density of eigenvalues
+exhibits a sharp maximum, except in the limit Q = 1 (λmin = 0) where it diverges as
+∼1/
+√
+λ.
+r The density of eigenvalues also vanishes above a certain upper edge λmax.
+† A derivation of Eq. (9.61) is given in Appendix B.
+
+164
+Cross-correlations
+0
+1
+2
+3
+4
+λ
+0
+0.5
+1
+ρ(λ)
+Q=1
+Q=2
+Q=5
+Fig. 9.3. Graph of Eq. (9.61) for Q = 1, 2 and 5.
+Note that all the above results are only valid in the limit N →∞. For ﬁnite N, the
+singularities present at both edges are smoothed: the edges become somewhat blurred, with
+a small probability of ﬁnding eigenvalues above λmax and below λmin, which goes to zero
+when N becomes large, see Bowick and Br´ezin (1991).
+9.6 Appendix B: density of eigenvalues for random correlation matrices
+This very technical appendix aims at giving a few of the steps of the computation needed to
+establish Eq. (9.61). One starts from the following representation of the resolvent G(λ) =
+TrG(λ):
+G(λ) =
+
+a
+1
+λ −λa
+= ∂
+∂λ log
+
+a
+(λ −λa) = ∂
+∂λ log det(λ1 −C) ≡∂
+∂λ Z(λ).
+(9.62)
+Using the following representation for the determinant of a symmetrical matrix A:
+[det A]−1/2 =
+
+1
+√
+2π
+M 
+exp
+
+−1
+2
+M
+
+i, j=1
+ϕiϕ j Ai j
+
+ M
+
+i=1
+dϕi,
+(9.63)
+we ﬁnd, in the case where C = HH†:
+Z(λ) = −2 log
+
+exp
+
+−λ
+2
+M
+
+i=1
+ϕ2
+i −1
+2
+M
+
+i, j=1
+N
+
+k=1
+ϕiϕ j Hik Hjk
+
+ M
+
+i=1
+ dϕi
+√
+2π
+
+.
+(9.64)
+The claim is that the quantity G(λ) is self-averaging in the large M limit. So in order to
+perform the computation we can replace G(λ) for a speciﬁc realization of H by the average
+over an ensemble of H. In fact, one can in the present case show that the average of the
+logarithm is equal, in the large N limit, to the logarithm of the average. This is not true
+in general, and one has to use the so-called ‘replica trick’ to deal with this problem: this
+amounts to taking the nth power of the quantity to be averaged (corresponding to n copies
+(replicas) of the system) and to let n go to zero at the end of the computation.†
+† For more details on this technique, see, for example, M´ezard et al. (1987).
+
+9.6 Appendix B: density of eigenvalues for random correlation matrices
+165
+We assume that the M × N variables Hik are iid Gaussian variable with zero mean and
+variance σ 2/N. To perform the average of the Hik, we notice that the integration measure
+generates a term exp −M  H 2
+ik/(2σ 2) that combines with the Hik Hjk term above. The
+summation over the index k doesn’t play any role and we get N copies of the result with
+the index k dropped. The Gaussian integral over Hi◦gives the square-root of the ratio of
+the determinant of [Mδi j/σ 2] and [Mδi j/σ 2 −ϕiϕ j]:
+
+exp
+
+−1
+2
+M
+
+i, j=1
+N
+
+k=1
+ϕiϕ j Hik Hjk
+
+
+=
+
+1 −σ 2
+N
+
+ϕ2
+i
+−N/2
+.
+(9.65)
+We then introduce a variable q ≡σ 2  ϕ2
+i /N which we ﬁx using an integral representation
+of the delta function:
+δ
+
+q −σ 2 
+ϕ2
+i /N
+
+=
+
+1
+2π exp
+
+iζ
+
+q −σ 2 
+ϕ2
+i /N
+
+dζ.
+(9.66)
+After performing the integral over the ϕi’s and writing z = 2iζ/N, we ﬁnd:
+Z(λ) = −2 log N
+4π
+ i∞
+−i∞
+ ∞
+−∞
+exp
+
+−M
+2 (log(λ −σ 2z) + Q log(1 −q) + Qqz)
+
+dq dz,
+(9.67)
+where Q = N/M. The integrals over z and q are performed by the saddle point method,
+leading to the following equations:
+Qq =
+σ 2
+λ −σ 2z
+and
+z =
+1
+1 −q .
+(9.68)
+The solution in terms of q(λ) is:
+q(λ) = σ 2(1 −Q) + Qλ ±
+
+(σ 2(1 −Q) + Qλ)2 −4σ 2Qλ
+2Qλ
+.
+(9.69)
+We ﬁnd G(λ) by differentiating Eq. (9.67) with respect to λ. The computation is greatly
+simpliﬁed if we notice that at the saddle point the partial derivatives with respect to the
+functions q(λ) and z(λ) are zero by construction. One ﬁnally ﬁnds:
+G(λ) =
+M
+λ −σ 2z(λ) = M Qq(λ)
+σ 2
+.
+(9.70)
+We can now use Eq. (9.51) and take the imaginary part of G(λ) to ﬁnd the density of
+eigenvalues:
+ρ(λ) =
+
+4σ 2Qλ −(σ 2(1 −Q) + Qλ)2
+2πλσ 2
+,
+(9.71)
+which is identical to Eq. (9.61).
+
+166
+Cross-correlations
+r Further reading
+O. Bohigas, M. J. Giannoni, Random Matrix Theory and applications, in Mathematical and Com-
+putational Methods in Nuclear Physics, Lecture Notes in Physics, vol. 209, Springer-Verlag,
+New York, 1983.
+A. Crisanti, G. Paladin and A. Vulpiani, Products of Random Matrices in Statistical Physics, Springer-
+Verlag, Berlin 1993.
+N. L. Johnson, S. Kotz, Distribution in Statistics: Continuous Multivariate Distributions, John Wiley
+& Sons, 1972.
+M. L. Mehta, Random Matrix Theory, Academic Press, New York, 1995.
+M. M´ezard, G. Parisi, M. A. Virasoro, Spin Glasses and Beyond, World Scientiﬁc, 1987.
+G. Samorodnitsky, M. S. Taqqu, Stable Non-Gaussian Random Processes, Chapman & Hall,
+New York, 1994.
+See also Chapter 11.
+r Specialized papers: multivariate statistics
+Y. Malevergne, D. Sornette, Tail Dependence of Factor Models, e-print cond-mat/0202356; Minimiz-
+ing Extremes, Risk, 15, 129 (2002).
+Y. Malevergne, D. Sornette, Testing the Gaussian Copula Hypothesis for Financial Assets Depen-
+dences, e-print cond-mat/0111310, to appear in Quantitative Finance.
+r Specialized papers: random matrices
+M. J. Bowick, E. Br´ezin, Universal scaling of the tails of the density of eigenvalues in random matrix
+models, Physics Letters, B 268, 21 (1991).
+Z. Burda, J. Jurkiewicz, M. A. Nowak, G. Papp, I. Zahed, Free Random Levy Variables and Financial
+Probabilities, e-print cond-mat/0103140.
+P. Cizeau, J.-P. Bouchaud, Theory of L´evy matrices, Physical Review, E 50, 1810 (1994).
+A. Edelmann, Eigenvalues and condition numbers of random matrices, SIAM Journal of Matrix
+Analysis and Applications, 9, 543 (1988).
+L. Laloux, P. Cizeau, J.-P. Bouchaud and M. Potters, Noise dressing of ﬁnancial correlation matrices,
+Phys. Rev. Lett., 83, 1467 (1999).
+L. Laloux, P. Cizeau, J.-P. Bouchaud and M. Potters, Noise dressing of ﬁnancial correlation matrices,
+Int. J. Theo. Appl. Fin., 3, 391 (2000).
+V. Plerou, P. Gopikrishnan, B. Rosenow, L. A. N. Amaral, H. E. Stanley, Universal and non-universal
+properties of cross-correlations in ﬁnancial time series, Phys. Rev. Lett., 83, 1471 (1999).
+V. Plerou, P. Gopikrishnan, B. Rosenow, L. A. N. Amaral, T. Guhr, H. E. Stanley, A random matrix
+approach to ﬁnancial cross-correlations, Phys. Rev., E 65, 066126 (2002).
+B. Rosenow, V. Plerou, P. Gopikrishnan, H. E. Stanley, Portfolio Optimization and the Random Magnet
+Problem, e-print cond-mat/0111537.
+A. N. Sengupta, P. Mitra, Distributions of singular values for some random matrices, Physical Review,
+E 80, 3389 (1999).
+r Specialized papers: clustering
+P. A. Bar`es, R. Gibson, S. Gyger, Style consistency and survival probability in the Hedge Funds
+industry, submitted to Financial Analysts Journal, (2000).
+G. Bonanno, N. Vandewalle, R. N. Mantegna, Taxonomy of stock market indices, Physical Review,
+E 62, R7615 (2000).
+
+9.6 Appendix B: density of eigenvalues for random correlation matrices
+167
+E. Domany, Super-paramagnetic clustering of data, Physica A, 263, 158 (1999).
+P. Gopikrishnan, B. Rosenow, V. Plerou, H. E. Stanley, Identifying business sectors from stock price
+ﬂuctuations, Physical Review, E 64, 035106(R) (2001).
+R. Mantegna, Hierarchical structure in ﬁnancial markets, Eur. J. Phys., B 11, 193 (1999).
+M. Marsili, Dissecting ﬁnancial markets: sectors and states, Quantitative Finance, 2, 297 (2002).
+J. Noh, A model for correlations in stock markets, Physical Review, E 61, 5981 (2000).

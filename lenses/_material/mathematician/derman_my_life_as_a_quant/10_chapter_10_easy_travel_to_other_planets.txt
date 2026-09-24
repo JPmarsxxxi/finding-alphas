@@ -1,0 +1,1495 @@
+Chapter 10
+Easy Travel to Other Planets
+The history of options theory
+Meeting and working with Fischer Black
+The Black-Derman-Toy model
+Wall Street had never been a place for academics. Yet, from the day I got to
+Goldman in late 1985, I kept hearing people talk with awe about Fischer
+Black, codiscoverer of the Black-Scholes equation for options pricing and
+the head of Goldman’s Quantitative Strategies group. I saw him once at a
+meeting in the first few months after I arrived, but never spoke to him until
+the traders on the bond options desk arranged for us to meet.
+Some traders are scornful of models; others will rely on them blindly. Our
+bond options traders knew that you need to layer visceral trading smarts
+over and above a consistent options pricing model. They understood they
+needed something beyond Ravi’s original model, and so they approached
+Fischer about taking the next step. Since I had earned some credit for
+having diagnosed and then eliminated one small but glaring inconsistency
+in Ravi’s model soon after I arrived, they therefore suggested that I join
+Fischer in an effort to build a better model.
+Before I went up to his office on the twenty-ninth floor to meet him, to
+show him what I had done so far, and, implicitly, to see if he would have me
+work with him, I read a little more on the history of options theory.
+Until the early 1970s, no one knew how to estimate the value of options in a
+convincing way. A call option that paid off when the stock price rose
+seemed much like a bet on a horse: The more optimistic you were about the
+stock’s future prospects, the more you should be willing to pay for it. Each
+person set his own fair price.
+Then, 
+in 
+1973, 
+Fischer 
+Black 
+and 
+Myron 
+Scholes 
+published 
+their
+eponymous Black-Scholes equation for the value of an option. That same
+year, Robert Merton 
+provided 
+a more rigorous and 
+insightful 
+way 
+of
+understanding 
+the 
+argument 
+behind 
+their 
+equation. 
+Eventually, 
+his
+formalism came to supplant theirs, and became the standard. Merton and
+Scholes won the 1997 Nobel Prize in Economics for their work, but Fischer,
+who was certainly their equal, died in 1995. Had he been fortunate enough
+to have lived a couple of years longer, he would surely have been a
+corecipient of the Prize.
+I 
+used 
+to 
+find 
+it 
+almost 
+impossible 
+to 
+understand 
+why 
+the 
+Nobel
+committee didn’t award the Prize for options theory before Fischer died.
+Everyone in the finance community knew that it was only a matter of time
+before Black, Scholes, and Merton would receive the award, and it had also
+been common knowledge for several years that Black was mortally ill with
+throat 
+cancer. 
+I’ve 
+heard 
+speculations 
+that 
+the 
+Nobel 
+committee 
+was
+reluctant to give the award to someone who worked in the business world,
+especially 
+in 
+the 
+profitable 
+and 
+untheoretical 
+business 
+of 
+investment
+banking.
+Fischer, who had a PhD in Applied Mathematics from Harvard, had been
+a management consultant at Arthur D. Little and Co. when he developed the
+Black-Scholes model. One did not think of management consulting as the
+locus of groundbreaking theorists, but Fischer was always proud of his
+practical 
+and 
+unorthodox 
+background. 
+Once 
+his 
+contributions 
+were
+recognized, he became a professor of finance at Chicago and then at MIT,
+finally leaving academia for Goldman Sachs in 1984. Though Merton and
+Scholes had each kept at least one foot in the academic world, both of them
+had worked as consultants or employees of Salomon Brothers at various
+times, and in 1994, became partners and attractors of capital at Long Term
+Capital Management, the leveraged hedge fund run by John Meriwether and
+his ex-Salomon “arb group.” I noticed that the 1997 Nobel Prize citation
+referred only to the university affiliations of Merton and Scholes, and not to
+their corporate connection—perhaps the Nobel committee really did have
+an aversion to the business world. Though the Nobel Prize sounds as though
+it is awarded by the gods, committees are merely groups of people with
+their own preferences.
+Throughout his life, Fischer was genuinely in love with the idea of
+equilibrium, and he invented the Black-Scholes equation in the late 1960s
+by 
+applying 
+the 
+condition 
+of 
+equilibrium 
+to 
+markets 
+themselves.
+Equilibrium 
+is 
+a 
+common 
+and 
+very 
+powerful 
+concept 
+in 
+physics; 
+in
+equilibrium, the numerical values we observe for quantities of interest in a
+stable system are the values that cause two opposing forces to cancel
+exactly. 
+For 
+example, 
+the 
+temperature 
+of 
+a 
+body 
+stops 
+rising 
+at 
+that
+equilibrium temperature at which the heat flowing into the body is canceled
+by 
+the 
+heat 
+flowing 
+out. 
+Fischer 
+believed 
+that 
+market 
+prices 
+were
+determined by similar cancelations.
+Fischer first obtained the Black-Scholes equation by demanding that an
+option on stock and the stock itself be in equilibrium with each other, in the
+sense that their respective prices should each provide investors with the
+same expected return per unit of risk they carried. An investor would then
+be 
+impartial 
+between 
+buying 
+the 
+stock 
+and 
+buying 
+the 
+option. 
+This
+condition, written down mathematically, was the Black-Scholes equation; it
+determined the value of the option. It took several years more before Black
+and Scholes provided the eventual solution to the equation.
+Merton, working in parallel, went deeper. He showed that there was a
+recipe for synthesizing a stock option out of a mixture of shares of stock
+and cash, a mixture whose proportions must be readjusted continuously by
+exchanging some shares of stock for cash, or vice versa. An investor who
+bought the initial mixture and then carried out the readjustment recipe
+would end up with precisely the same payout as the stock option, and so the
+option’s value should be exactly the cost of purchasing the initial mixture.
+The recipe for synthesizing an option was called dynamic replication—
+replication because you were reproducing the option, dynamic because you
+had to keep changing the mixture in order to do it. Replicating an option
+was like riding a toboggan with your eyes closed down its serpentine track
+—you needed a recipe for which way to bank at each point in time. Black-
+Scholes gave you that recipe. Merton justified it.
+That 
+you 
+could 
+dynamically 
+replicate 
+an 
+option 
+was 
+an 
+almost
+confounding result. Until Black, Scholes, and Merton, came along, no one
+imagined that you could create an option out of simpler securities. Now an
+option was seen to be merely a subtle mixture of simpler securities, stock
+and cash, in constantly changing but known proportions.
+Merton relied on a mathematical formalism called stochastic calculus, the
+study of the rate of change of randomly varying quantities such as the price
+of a stock or the position of a dust particle in a room. At graduate school in
+the 1960s, 1970s, and throughout my subsequent life as a postdoc, I had
+never 
+heard 
+of 
+stochastic 
+calculus. 
+Nowadays, 
+its 
+methods 
+are
+commonplace to all quants and graduate students in finance; every ex-
+physicist looking for a job on Wall Street begins by studying the subject.
+Black and Scholes’s 1973 paper, in which they presented both their own
+and Merton’s derivation of the equation, was sufficiently arcane that it took
+several years to get it published. Indeed, it was repeatedly rejected until
+Merton Miller at the University of Chicago interceded on their behalf.
+The two simultaneous but complementary derivations of the theory of
+options pricing in the early 1970s, Black and Scholes’s and Merton’s,
+reminded me of the complementary derivations of renormalizable quantum
+electrodynamics by Feynman and Schwinger in the late 1940s. Feynman
+and Schwinger each used drastically different approaches to reach similar
+results, their respective formalisms so dissimilar that no one understood
+their equivalence until it was demonstrated by Freeman Dyson. Thereafter,
+Feynman’s more intuitive approach became the standard. Black and Scholes
+and Merton also utilized different approaches; over the long run Merton’s
+more 
+formal 
+and 
+powerful 
+methods 
+became 
+the 
+standard, 
+and 
+were
+eventually used by Fischer himself.
+From the moment it appeared in print, the Black-Scholes-Merton theory
+was embraced, not only by academics but by options dealers. Before the
+advent of the model, a dealer who sold a call option to a client had to take
+the other side of the trade; the dealer then bore the risk, if the stock price
+went up, of having to pay the client out of pocket. After the model’s dawn,
+a dealer could use its recipe to roll his or her own option out of stock and
+cash, and estimate the cost of doing so. The dealer could then sell the
+homemade option to the client, ideally being left with no risk at all.
+Options 
+dealers 
+soon 
+began 
+to 
+use 
+the 
+Black-Scholes 
+model 
+to
+manufacture options out of raw stock and then sell them. Dealers charged a
+fee for this manufacture, just like any other value-added reseller.
+On Wall Street, quants, traders, and salespeople make daily use of the
+stock 
+options 
+model 
+and 
+its 
+extensions. 
+During 
+the 
+past 
+thirty 
+years,
+academics in business schools, mathematicians in math departments, and
+quants in investment banks and hedge funds have applied similar methods
+to produce models for options on bonds, options on interest rates, options
+on credit ratings, options on energy, and even options on volatility itself.
+Though the simple and profound idea of Black, Scholes, and Merton has
+remained 
+unchanged, 
+the 
+mathematics 
+has 
+become 
+more 
+elaborate,
+complex, and daunting.
+Black and Scholes’s original model assumed almost platonically simple
+markets. They allowed for the uncertainty of future stock price movements,
+but ignored other more detailed complexities. However, their model proved
+to be extensible and robust—one could augment it to take account of the
+imperfections of actual trading. The model accommodated these and other
+refinements 
+while 
+leaving 
+the 
+basic 
+strategy 
+substantially 
+unchanged.
+Options theory is one of the great triumphs of economics, conceptually
+simple and pragmatically useful despite its complex mathematics. If only
+the rest of economics had similar efficacy!
+I knocked on the door of Fischer’s office and entered. Inside, it was quiet
+and low-lit, a location for work rather than meetings. At Goldman an office
+was a token of seniority, a very expensive pocket of personal real estate.
+Many of the fancily furnished offices on the equity floor were largely
+uninhabited, filled with tombstones of past deals executed by the traders
+and salespeople who had no time for office work. Fischer’s office was much
+less glamorous; it was dominated by a large Nike poster of a long road
+disappearing into the distance and, below it, the caption: “The race is not
+always to the swift, but to those who keep on running.”
+Brought to Goldman Sachs from MIT by Bob Rubin in 1984, Fischer was
+one of the first finance academics to head for Wall Street; he became a
+Goldman partner in 1986. Unlike other professors in the industry who
+maintained their umbilical links to the safe haven of academia, Fischer
+embraced the business world wholeheartedly. Now I was about to meet him.
+After a brief introduction, I began to show him Bosco, the bond options
+model and its graphical user interface I had built for the options desk.
+Fischer, like everyone else in the less numerate Equities Division, used a
+PC running DOS, but I had developed my software on the more advanced
+VAX we all used in Fixed Income. I logged on to the VAX through a VT-
+100 terminal emulator on Fischer’s PC. Almost as soon as my program
+started running the VAX itself crashed, and we were left looking at the
+frozen screen image of my calculator. I couldn’t run the program, I couldn’t
+toggle or change the values of any of the fields—we could only observe
+them carefully on the monitor. I offered to come back later when the VAX
+was up again, but Fischer was quite unperturbed. He spent the next hour
+carefully examining the screen I had built, commenting on its layout.
+Those were the days of limited computer-screen real estate: I had 24 lines
+of 80 characters to work with, and all of the approximately twenty-five
+input and output fields used in Bosco had to fit in that space. Fischer
+meticulously inspected each field, making reasonable but almost picayune
+comments about some of their labels. Because of the lack of space, I had
+had to abbreviate most labels, and had half-jokingly contracted the variable
+named bond duration to the inelegant durn, which he particularly disliked.
+Later in the conversation—because I was unschooled in finance and had
+been in the field only a few months—I periodically referred to “an option
+on a future contract” and each time Fischer quickly corrected me by
+brusquely interjecting “futures contract.”
+I was surprised at his willingness to spend so much time on the mere
+interface to Ravi’s model, when he hadn’t yet seen the calculator work or
+listened to my explanation of how I had modified it. When I returned to my
+fixed-income colleagues later that day, my feelings a little bruised by his
+criticisms, I scoffed at his attitude. But I soon discovered that Fischer was
+always a stickler for precision, and clear expression was an invariant
+devotion of his. Over the years, I became a convert and tried as hard as I
+could, in anything I subsequently wrote, to be as clear and didactic as
+possible.
+During the weeks after he first examined my frozen Bosco computer
+screen, I learned much more about Fischer’s computer prejudices. Some of
+them were quite reactionary. He disapproved of “mice” and other computer
+pointing devices. He thought keyboards were the ideal means of data entry;
+he insisted that anything one could do with a mouse could be done better
+with macro redefinitions of particular keys on the keyboard. Finally, he
+disliked graphics, and claimed that unadorned tables of numbers were more
+evocative and revealing. There was no persuading him on these issues; they
+were a part of his near-magnificent obsession about presentation style.
+There were other quirks, harmless but irritating. He demanded strict
+standards on the display of numbers, intensely objecting to any printout that
+included more digits after the decimal point than was warranted by the
+accuracy of the calculation. Now everyone agrees that it is objectionable to
+report a measurement of room temperature as 73.1457° F—the implied
+precision is false—but Fischer logically extended his disapproval to the
+display of any excess zeros at the end of a decimal number, a feature he
+dubbed “trailing zeros.” If a bond had a yield of 12 percent, he wanted it
+printed as a confident “12%” rather than as a tentative “12.00%” which
+would have suggested that it was only accurate to two decimal places. If
+Fischer did not find the display satisfactory, you could spend too much time
+talking to him about style and never progress to the content.
+Eventually, therefore, everyone who worked with Fischer for even a little
+while wrote their own version of a subroutine that stripped all the trailing
+zeros off a number before displaying it. Bill Toy and I used to joke that you
+could identify Fischer’s collaborators by searching their hard disks for a
+subroutine called removeTrailingZeros( ).
+Sometimes Fischer took this a little too far. One day a few months later I
+made use of an options calculator built by someone in his group. It required
+that you enter the stock’s dividend yield, and so I entered the number “0” in
+the field. For a brief subliminal instant I saw the numeral zero I had entered
+fluoresce onto the screen, and then vanish, leaving an empty field. Thinking
+I had made a typing mistake, I entered the zero again. Again, miragelike,
+the ghostly zero flickered and deliquesced. Then I realized what was
+happening. The programmer had blindly followed Fischer’s dictum to
+remove all trailing zeros, and since the number “0” was all zeros, it
+removed the entire number, leaving the impression that nothing had been
+entered. The program had no respect for the philosophical distinction
+between nothing and zero.
+Just as on the first day I visited him, Fischer was always quiet and calm,
+always in visible equilibrium. He never seemed to allow his work life to
+become an exercise in the exhausting multitasking (and the macho pride in
+coping with it) that quickly became a way of life for people at investment
+banks. Most often, when you went to visit him, you would find him reading,
+or on the telephone, or sitting with his back to the door, his PC keyboard on
+his lap and his chair swiveled 180 degrees to face the PC on the bureau by
+the window behind his chair, entering notes into Thinktank, a late-1980s
+organizer program he used constantly.
+Fischer filed all his memos and notes in Thinktank; Beverly Bell, his
+editor at Goldman, said that he accumulated over 20 million bytes of text in
+it, from addresses and phone numbers to thoughts and ideas. People I knew
+in 
+his 
+group 
+claimed 
+that 
+he 
+conducted 
+a 
+continuing 
+and 
+eager
+correspondence with the Thinktank designers in order to suggest additions
+or modifications he wanted to see.
+Fischer 
+was 
+precise 
+and 
+organized, 
+quite 
+punctilious. 
+Every 
+day 
+he
+ordered the same ascetically healthy meal delivered to his desk. He liked to
+wear a Casio information-storing watch, which prompted some of his
+employee-admirers to do likewise. In his office giving audience, if you said
+something 
+he 
+found 
+useful, 
+he 
+wrote 
+it 
+down 
+with 
+his 
+fine-pointed
+mechanical pencil on a fresh sheet of his ruled white pad, and then tore it
+off and inserted it into a new manila folder which he labeled and then
+placed in one of his file drawers. In an article published after his death,
+Beverly described the 6,000 files he left behind, now archived at MIT.
+Fischer was unashamed of his nerdish enthusiasm for technology, in
+contrast to most of Wall Street in the 1980s, where important managers
+prided themselves on their ignorance of computers. Some managers I knew
+eschewed not only computers, but even desks in their offices, preferring a
+large conference table to signify their major role as decision makers.
+When I began to work with Fischer, I thought he had some strange tastes.
+You couldn’t easily guess his attitude to one question by knowing his
+opinion about another, though what he said was always thoughtful and
+sensible. But over subsequent years I learned that he was a rarity, one of
+those people you only occasionally meet, someone whose character is a
+coherent whole even though its parts seem uncorrelated. At bottom, he
+simply liked to think through everything for himself. This didn’t make him
+a great rebel, but rather an outsider whose work had vast impact on the
+world of insiders. It was impressive to watch.
+Back in FSG after meeting Fischer, I continued studying the classic Black-
+Scholes model for stock options and the way in which Ravi had modified it
+for use on the bond options desk.
+Options have value because future stock prices are uncertain, and the
+further out into the future you go, the more uncertain they become. A great
+deal of options theory is concerned with the modeling of future uncertainty.
+Figure 10.1 illustrates in a simplified way how Black and Scholes pictured
+the uncertainty of a stock’s future price. As time passes, the region in which
+the future stock price is likely to lie progressively widens. A stock worth
+$100 today could be worth anything between zero and a very large number
+thirty years from now. (If you bought internet stocks in the late 1990s, you
+understand this all too well.)
+Figure 10.1 The distribution of possible future prices over 30 years for a
+stock whose price is $100 today. The more time passes, the greater the
+uncertainty in the future price. The darker the shading, the more likely the
+price will be in that region.
+Bonds are different. While no one knows the future price of a stock, a
+$100 initial investment in a thirty-year Treasury bond is guaranteed to pay
+you back exactly $100 when the bond matures. The shaded region in Figure
+10.2 illustrates the approximate range of a bond’s future price: It widens as
+we move away from the known bond price of $100 today, and then
+converges towards the certain value of $100 thirty years from now.
+Figure 10.2 The distribution of possible future prices for a bond whose
+price is $100 today. After thirty years, the bond must again be worth exactly
+$100. The darker the shading, the more likely the price will be in that
+region.
+The straightforward but simplistic way to value bond options in 1985 was
+to use the Black-Scholes model as is, thereby implicitly assuming that bond
+prices followed the distribution of Figure 10.1 rather than Figure 10.2. For
+short-term options expiring within a year or two, it didn’t matter much. You
+can see that, for the first year, the distribution of bond prices closely
+resembles the distribution of stock prices. Consequently, the Black-Scholes
+model is not a bad approximation for short-term (one-year) bond options.
+But for longer-term options, the bond and stock distributions are vastly
+different. For long-term bond options, a different model is needed.
+Various academics had attempted to alter some of the assumptions about
+the future evolution of stock prices in the Black-Scholes model so as to
+make it better mimic the bond price distribution of Figure 10.2. In a similar
+spirit, but with greater practicality since he was part of a business, Ravi had
+invented 
+the 
+then-current 
+Goldman 
+bond 
+options 
+model 
+by 
+cleverly
+modeling the future behavior of bond yields rather than bond prices. A
+bond’s yield is the average annual percentage return you will earn if you
+buy it at its current price and then hold it to maturity while collecting all the
+coupons and the final repayment of principal. Ravi simply assumed that a
+bond’s yield rather than its price obeyed the ever-widening Black-Scholes
+distribution of Figure 10.1. In that case, as time passes and the bond gets
+very close to its maturity, the future value of its yield, no matter how high
+or low it ranges, becomes irrelevant to the bond price; too little time is left
+until maturity for the yield to have an effect. Therefore, although the
+distribution of bond yields in Ravi’s option model grew limitlessly high or
+low as time passed and resembled Figure 10.1, the bond prices computed
+from these yields looked much like those of Figure 10.2.
+Ravi’s model did a reasonable job of capturing the future behavior of a
+bond’s price. It also matched the intuition of the traders, who were already
+used to thinking about bonds in terms of their yields, and so took naturally
+to thinking about the range or volatility of yields. The same good idea often
+occurs to several people simultaneously, and versions of the model soon
+popped up independently at other Wall Street firms. When I came to work
+at Salomon Brothers a few years later, I found they had a similar scheme.
+But there were deeper, subtler problems with the model that arose from its
+origin in the Black-Scholes framework. Just as the Black-Scholes model
+treats each stock as an independent variable, so Ravi’s model treated each
+bond as independent. Doing so led to a host of conceptual inconsistencies.
+For, while there is nothing obviously wrong in imagining that the future
+prices of a share of IBM and a share of AT&T can vary independently, it is
+inconsistent to model the future prices of, say, a five-year bond and a three-
+year bond as varying independently. If you do, things fall apart.
+Bonds are connected to each other. The future behaviors of a five-year
+bond and a three-year bond are not independent, but overlapping: Two years
+from now, the five-year bond will be a three-year bond, so you cannot
+model one bond’s future without implicitly modeling another. In fact, it is
+impossible to model one bond without modeling all of them.
+A five-year bond and a three-year bond have other commonalities, too.
+You can think of a five-year Treasury bond that pays interest every six
+months as a collection of ten zero-coupon bonds with maturities spread six
+months apart over the next five years. Similarly, a three-year Treasury bond
+is 
+a 
+collection 
+of 
+six 
+zero-coupon 
+bonds 
+respectively 
+maturing 
+every
+successive six months over the next three years. Decomposed in this way,
+the bonds’ ingredients are shared: Both contain the first six zero-coupon
+bonds. Therefore, in modeling the three-year bond, you are also implicitly
+modeling parts of the five-year bond.
+In essence, Ravi’s model allowed impermissible violations of the law of
+one 
+price 
+that 
+lies 
+beneath 
+all 
+rational 
+financial 
+modeling. 
+This 
+law
+demands that any two securities with the same final payouts must have the
+same current value. Now, there is a combination of short-term options on
+long-term bonds that has exactly the same payout as a short-term bond, and
+therefore, the combination of options should have the same theoretical
+value as the short-term bond, despite their formally different names. But
+Ravi modeled long-term bonds independently of short-term ones, and so the
+model had no way of enforcing this equivalence.
+Every hard look at Ravi’s model led to the same insight: It is impossible
+to model bonds piecemeal, one bond at a time. You must build a model of
+the future evolution of all bonds, that is, of the yield curve itself. This was
+our aim.
+I had left Fischer’s office a little chastened by his sharp remarks about the
+names of the fields on my calculator, but in a few days he let me know that
+I could join him and Bill Toy in their effort to create a new bond options
+model. It was a singular opportunity that had a large and beneficial effect on
+my life.
+That spring of 1986 I attended my first options conference, an annual
+event organized by Howard Baker, Menachem Brenner, and Dan Galai at
+the Amex. I was one of about a hundred participating quants, traders and
+academics, all of us actively involved in the field at a time when options
+meetings were still a rarity, before the conference-for-profit organizations
+like Risk magazine began to dominate the market and eventually put the
+Amex options conference out of business. I recall several presentations on
+new models for valuing bond options, one in particular by Rick Bookstaber,
+then at Morgan Stanley. You could sense a rising urgency, almost a race, to
+solve the problem. Fischer told Bill and me that Bob Merton was working
+on the same problem as a consultant for another investment bank.
+The Goldman contingent at the conference had more than an academic
+interest—our traders were making daily markets in long-expiration options
+on long-dated bonds, precisely the domain where the contradictions in
+Ravi’s model were most severe. The traders were aware of their need for a
+better model, and as such were at the forefront of the impetus to replace it.
+We knew that we had to model the future behavior of all Treasury bonds,
+that is, the evolution of the entire yield curve. How to set about it was
+neither obvious nor easy. A stock price is a single number, and when you
+model its evolution, you project only one number into an uncertain future.
+In contrast, the yield curve is a continuum, a string or rubber band whose
+every 
+point, 
+at 
+any 
+instant, 
+represents 
+the 
+yield 
+of 
+a 
+bond 
+with
+corresponding maturity. As time passes and bond prices change, the yield
+curve moves, as illustrated in Figure 10.3. To evolve the entire yield curve
+forward in time is a much more difficult task: Just as you cannot move the
+different points on a string completely independently of each other, because
+the string must stay connected, so bonds close to each other must stay
+connected, too.
+Figure 10.3 Yield curves can vary during the day.
+How, then, to project bond prices into the future? Fischer, Bill, and I were
+pragmatists. We were building a model for traders, and we wanted it to be
+simple, consistent, and reasonably realistic. Simple meant that only one
+random factor drove all changes. Consistent meant that it had to value all
+bonds in agreement with their current market prices; if it produced the
+wrong bond prices, it was pointless to use it to value options on those
+bonds. Finally, realistic meant that the model’s future yield curves should
+move through ranges similar to those experienced by actual yield curves.
+When 
+physicists 
+build 
+models, 
+they 
+often 
+first 
+resort 
+to 
+a 
+toy
+representation of the world in which space and time are discrete and exist
+only at points on a lattice—it makes picturing the mathematics much easier.
+We built our model in the same vein. We imagined a world in which the
+shortest investment you could make lasted exactly one year, and was
+represented by the one-year Treasury bill interest rate. Longer-term rates
+would then be a reflection of the market’s perception of the probable range
+of future short-term (that is, one-year) rates.
+In this spirit, we built a simple model of future one-year rates that
+resembled a discrete version of the stock price distributions of Figure 10.1.
+The initial one-year rate, as shown in Figure 10.4, was known from the
+current yield curve. As you looked further out into the future, rates could
+range over progressively wider values.
+Figure 10.4 The Black-Derman-Toy model focuses on the distribution of
+future short-term rates. Here, each dot corresponds to a particular value of
+the future one-year rate. The more time passes, the greater the uncertainty
+of future rates.
+In order to complete our model, we now had to determine the range of
+future one-year rates at every year in the future. In our model, the key
+principle 
+was 
+to 
+think 
+of 
+longer-term 
+bonds 
+as 
+being 
+generated 
+by
+successive investments in short-term bonds. From this point of view, two
+years of interest is obtained by two successive one-year investments, the
+first at a known rate, the second at an uncertain one. The market’s price for
+a two-year bond today depends on its view of the distribution of future one-
+year rates. You can calculate the logical value of the current two-year bond
+yield, from the current one-year yield and the distribution of one-year rates
+one year hence. Similarly, you can calculate the volatility or uncertainty of
+the current two-year yield from the volatility of the distribution of one-year
+rates one year hence. Alternatively, working backwards, since the current
+two-year yield and its volatility is known from the market, you can deduce
+the distribution of one-year rates one-year hence, as shown in Figure 10.5.
+Figure 10.5 How the distribution of future one-year rates is deduced from
+the current yield curve in the Black-Derman-Toy model. The two-year yield
+to maturity fixes the distribution of one-year rates after one year, the three-
+year yield to maturity fixes the distribution of one-year rates after two
+years, and so on.
+In the same way, the value of the current three-year yield can be found
+from the current one-year rate, the known distribution of one-year rates one
+year hence (already deduced from the current two-year yield) and the
+distribution of one-year rates two years hence. But, since the value of the
+current three-year yield is known, you can use it to deduce the distribution
+of one-year rates two years hence. Continuing in this way, you can use the
+current yield curve at any instant to pin down the range of all future one-
+year rates, as illustrated in Figure 10.5.
+This was the essence of our model. When Bill and I programmed it, it
+seemed 
+to 
+work—we 
+could 
+extract 
+the 
+market’s 
+expectation 
+of 
+the
+distributions of future one-year rates from the current yield curve and its
+volatility. There was nothing holy about the one-year time steps we started
+with. Once the model worked, we used monthly, weekly, or sometimes even
+daily steps on a lattice, determining the market’s view of the distribution of
+future short-term rates at any instant from the current yield curve. A typical
+lattice (or tree, as we called it, because of the way an initial interest rate
+forked out into progressively wider branches) had hundreds or thousands of
+equally spaced short periods, as illustrated in Figure 10.6.
+Figure 10.6 A schematic illustration of a multiperiod short-rate tree in the
+Black-Derman-Toy model with equal periods extending for many years.
+We had aimed to make our model simple and consistent, and it was—we
+could match all current bond prices with one tree. We could then use the
+same calibrated tree to value any security whose payouts in the future had a
+known dependence on interest rates by averaging those payouts over the
+distribution. In particular, we could value the payout of an option of any
+expiration on a bond of any maturity.
+It was particularly attractive that our new model satisfied the law of one
+price. Our tree functioned as a computational engine that produced the
+current value of a security by averaging its future payouts; you put future
+payouts onto the end of the tree, cranked the handle that averaged and then
+discounted them over the interest rate distribution, and ended up with the
+current price. The engine didn’t care what name you gave to the security
+that produced the payout—bond, option, call it what you like. As long as
+the future payouts were identical, the engine produced the same price.
+By late 1986, less than a year after I came to Goldman, we had most of the
+model implemented and running at reasonable speed. Now we began trying
+it out on actual options traded by the desk, cataloging the ways in which its
+prices differed from those of Ravi’s model. Our traders’ intuition had been
+honed 
+on 
+the 
+old 
+model, 
+and 
+they 
+were 
+sensibly 
+conservative 
+about
+switching—it 
+is 
+never 
+wise 
+to 
+start 
+using 
+something 
+new 
+until 
+you
+understand how well it glues on to what you used before. You need a feel
+for a model before you can begin to rely on it. Therefore, some of the sales
+assistants in Financial Strategies began to test it, and slowly convinced
+themselves that it satisfied the law of one price, something that was
+theoretically obvious to us but not yet practically clear to them.
+I was tremendously excited by 
+what we had done. 
+Still 
+at heart a
+physicist, and still philosophically naive about financial modeling, I half-
+thought of what we had built as a grand unified theory of interest rates, and
+imagined we could use it to value every interest rate-sensitive security in
+the universe.
+Fischer, however, disliked this view of our model. More practical and
+much more experienced, he knew that there were financial forces that lay
+outside our model; it seemed perfectly possible to him that the model might
+be good (if it was good at all) for one sector—simple options on Treasury
+bonds, for example—but not for callable bonds, caps, or a host of other
+optionlike fixed-income instruments. He called what we had created an “as
+if” model, by which he meant that we were assuming that the world of bond
+market investors behaved as if only short rates mattered.
+Despite 
+my 
+desire 
+to 
+have 
+done 
+something 
+grand, 
+I, 
+too, 
+began 
+to
+recognize our model for what it was: a simple phenomenological model in
+the sense that physicists use the adjective, a useful but limited toy that we
+should take tentatively but seriously, trying to see how far we could push it.
+We had assumed that markets care only about a single factor, the short-term
+interest rate, and that all longer-term rates simply reflect the market’s
+opinion of future short-term rates and their volatilities. Was that strictly
+true? Of course not! The world is indescribably more complex. But what we
+had was a good starting point from which to capture some of the rational
+linkages between long- and short-term rates. Our model may not have been
+the real world, but it was a possible real world, one of many, and that made
+its prices interesting.
+Fischer wanted the paper we were writing to be clear, accurate and yet not
+overly mathematical. Over the next year I wrote multiple drafts which he
+read and then returned with comments, and with the help of his editor
+Beverly, the paper grew progressively shorter. In my previous life as a
+physicist I had been a somewhat careless writer with little patience for
+revision. That year of draft writing taught me the importance and pleasure
+of formulating concepts qualitatively but precisely, and from then on I was
+willing to struggle over small things to communicate them clearly.
+Our paper, A One-Factor Model of Interest Rates and Its Application to
+Treasury Bond Options, eventually appeared in the Financial Analysts
+Journal in 1990, almost four years after we had developed it. To my
+pleasure and surprise, it was widely adopted and rapidly became known by
+the acronym for our names, BDT. It was a pity we hadn’t published earlier,
+but Fischer was a perfectionist, reluctant to release it until he was truly
+satisfied.
+We weren’t the only builders of consistent models of the yield curve. At
+Salomon 
+Brothers, 
+my 
+friend 
+Mark 
+Koenigsberg 
+and 
+his 
+boss, 
+Bob
+Kopprasch, who later came to head up Financial Strategies at Goldman, had
+also built a fairly simple model of interest rates, though it wasn’t quite as
+general as ours. Oldrich Vasiçek, always a pioneer, had published the first
+Black-Scholes-style model of interest rates a good ten years earlier, in 1977;
+Cox, Ingersoll, and Ross had published a more complex but related model
+in 
+1985. 
+There 
+were 
+others, 
+too. 
+So 
+why 
+was 
+our 
+model 
+so 
+widely
+embraced?
+I can think of three reasons. First, we were practitioners and therefore
+knew what a trading desk needed. While Vasiçek and the Cox-Ingersoll-
+Ross team had been focused on the general problem of modeling yield
+curves, we aimed squarely at bond options just when that market was
+expanding.
+Second, our model was easily accessible to practitioners. It was written in
+a down-to-earth style using the language of binomial trees, a poor man’s
+description of volatility that everyone on Wall Street could grasp. What we
+described was so close to an algorithm that anyone who took the effort
+could 
+implement 
+our 
+model 
+as 
+a 
+computer 
+program. 
+Most 
+other
+contemporary models demanded a stronger grasp of stochastic calculus to
+understand them and a separate effort at numerical analysis to turn them
+into 
+a 
+useful 
+computer 
+program; 
+in 
+our 
+model, 
+the 
+medium 
+was 
+the
+message: The description and the implementation were almost one.
+Finally, unlike most prior models that produced analytical formulas that
+didn’t match the shape of actual yield curves, ours could be calibrated to
+almost any curve, and therefore was ready for the trading world. Indeed, the
+description of the calibration was a critical part of our paper.
+In subsequent years, hosts of new yield-curve models appeared, each
+known by their authors’ acronym, and ingenious academics and quants keep
+finding new and perhaps more realistic ones. You can now pick from BK
+(Black and Karasinski), HW (Hull and White), and HJM (Heath, Jarrow,
+and Morton) or its extension BGM (Brace, Gatarek, and Musiela). The
+process continues, though which model to employ is still a matter of taste
+and compromise. Selecting a model becomes a question of finding one that
+is rich enough to represent most of the risks your product faces, efficient
+enough to run on a computer in a tolerable amount of time, and simple
+enough so that programming it is not too complex and burdensome a task.
+BDT was simple and consistent, but, like any model, it was not entirely
+realistic, and its limitations became increasingly apparent over the years. At
+bottom, it had only a single factor of uncertainty, the future distribution of
+short-term rates, and so all rates, both short and long, tended to move
+together, preserving the curve’s initial shape a little too well. Therefore,
+though the model was good for valuing options on bonds, it was not well
+suited to valuing options on more arcane properties of the yield curve, such
+as its slope or curvature.
+Still, the model’s simplicity made it an easy entry point into the art of
+yield-curve modeling for both practitioners and academics, and it left its
+mark. It continues to be used even after superior but more complex models
+have arrived on the scene.
+Building the model had been tremendously absorbing, just like the old days
+in physics. For most of each day I had banged my head single-mindedly
+against the same problem, thinking about the trees, writing the computer
+program that embodied it, searching for ways to speed it up, speaking with
+Fischer 
+and 
+Bill, 
+examining 
+the 
+computer’s 
+results, 
+making 
+further
+modifications. 
+Sometimes 
+I 
+had 
+difficulty 
+sleeping, 
+waking 
+up
+spontaneously in the middle of the night, unable to return to bed until I had
+tried out a new scheme.
+Unlike me, Fischer was patient. He took an efficient-market attitude
+towards building models: Each day you looked at what you knew and
+decided what was the best way to proceed next. On at least two occasions
+he thought we could do better if we stopped everything and started again
+from scratch. It was a trait I admired, but I didn’t have the stomach for it.
+Bill and I were new to the field and eager to have our first contribution
+complete and disseminated.
+The first time Fischer wanted to begin all over again was when we
+learned how to introduce the mean reversion of interest rates into our
+model, 
+an 
+insight 
+that, 
+not 
+untypically, 
+came 
+from 
+an 
+accidental
+observation. Until then we had always run the model with equal time
+periods in the tree. In order to speed up the program, I experimented with
+varying the period length in the tree, letting it start out small in the present
+and then grow large in the future. In this way I aimed to make our valuation
+engine take a detailed look at distributions in the present but only a coarse
+look at their behavior in the far distant and uncertain future.
+When I tried to calibrate these unequally spaced trees to the current yield
+curve, I ran into trouble. It often became mysteriously impossible to find
+any distribution of future short-term rates that were consistent with the yield
+curve. The mystery disappeared when we drew the trees and examined their
+topology. Figure 10.7a shows a tree with equal-length periods. We could
+now see that the increasing period lengths of Figure 10.7b caused the tree to
+grow visibly wider over time, reflecting a tendency for interest rates to
+move away from their mean, a runaway behavior that doesn’t mesh too well
+with 
+reality. 
+This 
+was 
+what 
+caused 
+the 
+difficulties 
+with 
+calibration.
+Similarly, 
+if 
+we 
+decreased 
+the 
+future 
+period 
+lengths 
+as 
+shown 
+in
+Figure10.7c, we observed that short-term rates reverted to the mean and the
+tree 
+tended 
+to 
+grow 
+ever 
+narrower 
+with 
+time. 
+This 
+narrowing 
+tree
+incorporated a restoring force that stabilized interest rates, akin to what
+happens in real markets when governments and central banks intervene to
+stabilize economies.
+Figure 10.7 BDT short-rate trees with constant volatility but varying
+periods.
+When Fischer realized that a tree with decreasing periods could describe
+mean reversion, he wanted us to drop our equal-period version and begin all
+over again. Bill Toy and I were more anxious to complete what we had
+started, 
+and 
+eventually 
+we 
+prevailed. 
+The 
+trees 
+with 
+variable 
+periods
+eventually became part of the Black-Karasinski model.
+Fischer was the first to notice the link between period length and mean
+reversion by examining the topology of the trees, and it made me aware of
+his intuitive powers. Looking at the tree, he could see the dynamics that its
+shape implied. It was only much later, after completing our paper, that we
+worked 
+out 
+the 
+description 
+of 
+our 
+model 
+in 
+the 
+elegant 
+language 
+of
+stochastic calculus, the way it is now described in textbooks.
+On a second occasion, sometime during early 1987, Fischer became
+entranced by the idea of adding a second stochastic factor to our model. The
+idea was sensible; our original model had simplistically assumed the entire
+yield curve was driven by short-term rates, and we were tempted to make
+the model truer to life by allowing longer-term rates to vary independently
+of the short-term rate. Adding a second factor in our framework meant
+working with two-dimensional trees. We played around with calibrating
+such trees to the yield curve. But trees with two or more dimensions are not
+only harder to visualize or draw, as you can see from Figure 10.8, but also
+appreciably more difficult to handle in a computer program, and I was again
+relieved when we postponed this elaboration in favor of completing the
+delivery of our simpler model to the trading desk.
+Figure 10.8 A two-dimensional tree of future interest rates.
+Several years later, Fischer, Iraj Kani, and I began investigating a two-
+dimensional version of the BDT model, but we never completed the work.
+It takes only a good idea and a few people to develop a model, but it takes
+many more people to turn the model into a usable tool. For that you need a
+graphical user interface, a database that contains the details of traded
+products you own, and current market data for calibration.
+But 
+even 
+collecting 
+data 
+isn’t 
+as 
+simple 
+as 
+it 
+seems—models 
+are
+everywhere. What one thinks of as “market data” are often prices filtered
+through another model or calculation. Yields are extracted from collections
+of bond prices. Volatility is calculated from historical returns. Each year, as
+markets mature, products become more liquid and traders calibrate their
+quotes to greater numbers of related securities, sometimes so many that
+their prices must be obtained via electronic price feeds. All of this involves
+software. Sooner or later everyone who creates a useful model gets exposed
+to the truth that building a trading and risk management system around the
+model is a huge and often overwhelming software project that requires
+many more programmers than quants. Models, critical though they are, are
+only a small part of the story.
+Back in 1986 when we developed our yield curve model, traders were
+quite willing to enter a yield curve into the system manually, and I was
+perfectly capable of building most of the system and user interface around
+the model myself. I delivered it to the traders on the bond options desk and
+they began testing it immediately.
+As they began to use our model I ran into my first taste of battle with
+“middlemen,” the people appointed to intermediate between the producers
+and users of models. Middlemen—usually one per desk—sat with the
+traders and got to know their business well.
+Middlemen serve a useful task. It’s not easy for a quant to understand the
+finance, build the model, do the math, write the program, and still have the
+time to work closely with the trading desk. Traders, always rushed, need a
+middleman to coordinate their requirements, to make them agree on their
+most 
+urgent 
+needs. 
+Since 
+traders 
+and 
+quants 
+speak 
+slightly 
+different
+languages, it’s good to have someone who can understand both sides’
+dialects and serve as the designated mediator.
+Unfortunately, the middlemen on the corporate and Treasury desks at that
+time preferred that the model creators remain invisible; one of them who
+used our model to generate prices for traders wouldn’t even admit to doing
+so. Since you are paid in proportion to the perception of your benefit to the
+business, this was not good.
+There wasn’t much I could do about being front-run, but I decided to at
+least confirm my suspicions. A few days later I went back to the source
+code of my program and temporarily added a few lines that ensured that,
+when you tried to use it, you got a pop-up window saying “Model Under
+Repair.” Within a few hours I started to get calls from the middlemen
+asking what had happened to the model they had not admitted that they
+were using.
+Ever since, I have been wary of people who stand between model creators
+and end users. Quants everywhere have firsthand experience of being
+bypassed by more technically challenged people who extract information
+from you and then pass it on to other people at meetings you’re not invited
+to. For a long time afterwards, whenever I wrote programs for traders, I
+used to include a swatch of code that kept a log of who used my program,
+and when. I encouraged people in my group to do the same. That way I had
+documented proof of our utility, even though I couldn’t put a dollar value
+on it. In 1994, when the investment banking industry was forced to lay off
+people and Goldman went through difficult times, I sent a copy of the log to
+my bosses, showing how many tens of thousands of times some of our
+Quantitative Strategies group’s programs had been used. No one in our
+group was laid off that year, and that bit of information may have helped a
+little.
+I met with Fischer regularly over the next eight years, though we never
+again worked as closely as we did when we developed BDT. He was the
+most remarkable person I met at Goldman.
+His most noticeable quality was his stubborn and meticulous devotion to
+clarity and simplicity. In writing and speaking, he put weight on both
+content and style. When we wrote the first draft of our paper on a one-factor
+model of interest rates, Fischer wanted no equations in it, and I had to
+struggle long and hard to satisfy his standards: He wanted accuracy and
+honesty 
+without 
+the 
+technical 
+details, 
+which 
+meant 
+that 
+you 
+had 
+to
+understand the model viscerally, and then explain that understanding. I
+think it was the clarity of the mechanics of our model that made it so
+popular and widely used.
+Because he liked clarity, and perhaps because his training was not in
+economics, Fischer avoided excessive formalization. His papers were the
+antithesis of the unnecessarily rigorous lemma-filled research papers of
+financial economics journals. He tried to write as he spoke, in a terse but
+good-natured 
+conversational 
+style, 
+using 
+clear 
+but 
+casual, 
+unadorned
+English. There was a touch of jerkiness to his prose because it lacked the
+technically superfluous conjunctions—and, but, thus, and therefore—that
+people commonly use to link the flow of sentences in scientific articles.
+Fischer expected clarity and directness from others, too. Though he was
+generous with his time and didn’t care about rank, you had to prepare for an
+audience with him. If it was evident that you hadn’t thought carefully about
+your question, you quickly discovered that he wasn’t going to do the
+thinking for you. And, if you didn’t grasp his answer and repeated your
+question, he would simply repeat his answer.
+A very direct man, he was uncomfortable with small talk. When he had
+nothing 
+to 
+say, 
+he 
+said 
+nothing; 
+this 
+could 
+be 
+disconcerting 
+on 
+the
+telephone, where he often simply kept silent for a minute or two without
+terminating the conversation. Sometimes, this led you to babble in an
+attempt to fill the silence, until Fischer simply said an abrupt goodbye and
+hung up.
+He once told me that one of the things that limited his influence was the
+fact that he always told people the truth, even if they didn’t want to hear it,
+a characteristic I can vouch for myself. When he grew skeptical of some of
+the information technology managers in his division at Goldman in the
+early 1990s, he purposefully met with them all and then made a frank list of
+who was good and who was bad, and handed it over to his bosses. He
+laughed sheepishly but half-proudly when he conceded that he had been
+naive to think that he would gain anything from this.
+Among Goldman partners he struck me as always a bit of an outsider. In
+the era before the firm went public, a “class” of partners was appointed
+once every two years, and each of them then advanced by being allowed to
+buy progressively larger shares of the company. Fischer once said to me
+that he was proud of possessing fewer shares than anyone else in his class
+of 1986.
+This 
+directness 
+and 
+informality 
+characterized 
+his 
+research, 
+too. 
+His
+approach seemed to me to consist of unafraid hard thinking, intuition, and
+no great reliance on advanced mathematics. This was inspiring to lesser
+mortals. He attacked problems directly, with whatever skills he had at his
+command, 
+and 
+often 
+they 
+worked. 
+He 
+gave 
+you 
+the 
+sense 
+(perhaps
+misguided) that you could discover deep truths with whatever skills you
+had, too, if you were willing to think hard. He was guided by his great
+economic intuition; though his mathematical skills were unexceptional, his
+instinct was strong, and he was tenacious in trying to attain insight before
+resorting to mathematics.
+In modeling he had a taste for the concrete: He liked to describe the
+financial 
+world 
+with 
+variables 
+that 
+represented 
+observable 
+phenomena
+rather than hidden statistical or econometric factors. He thought practical
+usefulness and accuracy were more important than elegance, despite the
+unquestionable elegance that lends so much appeal to the Black-Scholes-
+Merton framework he founded. He had a strong pragmatic streak; he was at
+least as much a practitioner as an academic, willing to devote time and
+attention to software, trading systems, and user interfaces. He thought that
+these were just as important as the models themselves.
+Fischer preferred reality to elegance in modeling. In one of his last
+published papers, Equilibrium Exchanges, he succinctly stated his attitude
+in the last part of his introduction. “In the end,” he wrote, “this entire article
+amounts to a series of conjectures about the nature of equilibrium, if one
+exists. I have been unable to provide an exhaustive and precise analysis of
+the implications of my assumptions, but I would rather guess about what
+follows from more-relevant assumptions than derive precise conclusions
+from less-relevant assumptions.”
+Clearly, though style was important to him, content was paramount.
+Between 1990 and 1995, when he worked first in Goldman Sachs Asset
+Management and then in Fixed Income Research, I invited him to come and
+listen to the occasional seminar speaker we had visit the Quantitative
+Strategies group I ran. I noticed that he didn’t attend if the seminars were on
+new or improved numerical solutions to problems that were already soluble;
+it’s not that he was uninterested in numerical solutions, but rather that he
+was more interested in financial economics. Similarly, he didn’t get carried
+away by the need to find analytical solutions to equations; he was just as
+happy to use numerical methods when fast computers were available.
+Fischer 
+also 
+had 
+a 
+good 
+grasp 
+of 
+the 
+overwhelming 
+importance 
+of
+computing in making effective use of models. People have often asked why
+we publicized our research on the BDT model in 1990, given that we
+worked at a profit-making investment bank. In fact, when we published it,
+traders at Goldman had already been using it for several years. But more
+importantly, Fischer distinguished between releasing models (which he
+thought legitimate) and releasing a computer implementation or trading
+system that incorporates the model, which he thought should be sold.
+The truth is that models are rarely an unambiguous source of profits.
+What counts as much or more is the trading system and the discipline it
+imposes, the operational errors it disallows and the intuition that traders
+gain from being able to experiment with a model.
+Fischer had his own way of thinking about markets. He was deeply inspired
+by the so-called “general equilibrium” approach of the capital asset pricing
+model, the idea that prices and markets equilibrate when the expected return
+per unit of risk is the same for all securities. This belief was the source of
+much of his intuition, and was the method he first used to derive the Black-
+Scholes differential equation. In late July of 1995, shortly before his death,
+in response to a question I sent him about these matters, he emailed me: “I
+view all our work on fixed-income models as resulting from the application
+of the capital asset pricing model to fixed-income markets.”
+I had a touching glimpse of his love for this approach a few years before
+he died when, together with a few of my colleagues, I tried to assess the
+effect of transactions costs and hedging frequency on our trading desk’s
+options 
+prices. 
+We 
+built 
+a 
+Monte 
+Carlo 
+simulation 
+program 
+that
+dynamically replicated each option as the stock price changed, adding the
+assumed transactions costs as each rebalancing of the hedging portfolio
+took place. In the long run we intended to use the program to see how much
+this caused options prices to deviate from the Platonic Black-Scholes value;
+in this way we could estimate the actual cost of our hedging strategy rather
+than accept the value of the idealized value embodied in the Black-Scholes
+model.
+Whenever you write a program to do something new, you should first
+make sure that it does the old things correctly. In testing the program
+written by one of my colleagues, we first ran it assuming that there were no
+transactions costs and that you could hedge continuously, in order to ensure
+that we obtained the exact Black-Scholes replication price. Of course, you
+cannot really hedge continuously in a computer simulation, so we rehedged
+very often, several times a day. To our amazement, we discovered that even
+for 10,000 rehedgings on a one-year option—that is, for more than thirty
+rebalancings in a day—we still couldn’t obtain the exact Black-Scholes
+value. There was always a residual discrepancy. This seemed wrong, so I
+wrote my own version of the program and found the same small but
+significant discrepancy. This was very puzzling; it suggested that the Black-
+Scholes formula was less applicable to the conditions of actual markets than
+we had expected.
+I was perturbed enough to want to speak to Fischer about this, and went
+over to his office in another building on Goldman’s growing campus. When
+I explain what I had found, he briefly became quite excited at the apparent
+inability of Merton’s replication method to produce the exact Black-Scholes
+value, and said something like, “You know, I always thought there was
+something wrong with the replication method.”
+Sad to say, I discovered a little later that both my simulation program and
+my colleague’s contained small but different errors, which, once corrected,
+confirmed that the replication method rapidly converged to the exact Black-
+Scholes 
+value! 
+In 
+his 
+heart, 
+though, 
+Fischer 
+mistrusted 
+the 
+Merton
+derivation and preferred his original proof.
+Fischer’s independent thinking led him to unorthodox but well-thought-out
+ideas, many of which sounded obvious once he articulated them. He voiced
+some of them in speeches, and others in a collection of brief, pointed notes
+that he circulated informally at Goldman in the early 1990s.
+In one short essay he struck at the foundation of financial economics,
+writing that “certain economic quantities are so hard to estimate that I call
+them ‘unobservables.’ ” One unobservable, he pointed out, is expected
+return, the amount by which people expect to profit when buying a security.
+So 
+much 
+of 
+finance, 
+from 
+Markowitz 
+on, 
+deals 
+with 
+this 
+quantity
+unquestioningly. Yet, wrote Fischer, “Our estimates of expected return are
+so poor they are almost laughable.”
+In another essay entitled Managing Traders, he argued that a trader
+should be judged on the rationale behind his or her methods and rewarded
+only if it is sound, irrespective of whether or not he or she profited in the
+most recent period. “It’s crucial to judge the stories they trade on,” he wrote
+about traders. “Stories can be wrong, but I’m uncomfortable trading without
+one . . . Looking only or primarily at their profit and loss statements is a
+recipe 
+for 
+disaster.” 
+He 
+wanted 
+to 
+reward 
+intelligence 
+and 
+long-term
+thinking rather than the short-term vagaries of markets.
+In his speech on being named the Financial Engineer of the Year by the
+International Association of Financial Engineers (IAFE) in 1994, Fischer
+said that he had always preferred applied research to academic. University
+professors, he claimed, should be paid and hired for their teaching, not their
+research; he believed that their desire to teach well would then lead them to
+do good research.
+When he became terminally ill, he neither hid it nor announced it, but
+informed the necessary people, and spoke about it in a detached, objective
+way that I found admirable. I never heard him complain.
+He had a massive operation, and was full of genuine praise for the
+surgeon, who he said was “a genius”; it made me briefly envious of people
+who help others rather than work on theories. After the operation, he had a
+temporary 
+recovery, 
+and 
+worked 
+again, 
+assiduously. 
+For 
+a 
+while 
+we
+sometimes 
+spoke 
+on 
+the 
+telephone 
+about 
+building 
+models 
+of 
+options
+valuation that included jumps in the underlying index.
+He was always frank if you asked about his health, but never volunteered
+any information if you didn’t. Later, when one could sense from occasional
+remarks and rumors that his condition had worsened, I summoned the
+courage to ask how he was doing. He said simply that things looked “pretty
+iffy right now.”
+When he finally stopped coming to work, he communicated with anyone
+who wrote to him via email. I liked to keep in contact, and would send him
+comments or short bits of news from work. If my emails were insubstantial,
+consisting of small talk or complaints, then, true to his style, he seldom
+replied. But if you wrote to him about some genuine issue in finance, you
+received a prompt answer. I asked him once if these email questions were
+bothering him, and he immediately replied to say no, and then stressed in a
+postscript that he liked to receive these questions.
+At his memorial service in Cambridge, I heard a moving speech by Jack
+Treynor, former editor of the Financial Analysts Journal and, in many
+respects, Fischer’s mentor, who concluded by saying that as regards death,
+“Fischer wasn’t afraid at all.” This is the way I saw it, too. He rarely
+seemed to delude himself about the way the world really worked.
+Whenever 
+I 
+think 
+of 
+Fischer 
+I 
+think 
+of 
+him 
+as 
+a 
+consummately
+unsentimental realist. Once, when I was about to travel to Vienna to speak
+at a conference at which Robert Merton would be present, I called Fischer
+(already ill but more than a year before his death) and left him a voicemail
+asking the appropriate way to refer to “the model”—should I call it “Black-
+Scholes” 
+or 
+“Black-Scholes-Merton?” 
+Fischer 
+replied 
+with 
+a 
+message
+saying it was OK to call it the Black-Scholes-Merton model, because it was
+Merton who had come up with the replication argument for valuing an
+option. Then he added, quite imperturbably, that “that’s the part that many
+people think is the most important.”
+On a professional and personal level, Fischer always seemed more free of
+artifice than anyone I knew, though this sometimes made him difficult to
+deal with. He didn’t soft-pedal in giving you his opinion of work you had
+done or actions you had taken, but just told you what he thought. He had a
+strong sense of what was important, and he always took the long view, in
+corporate politics as well as in research. For that reason, he was the perfect
+person to call when you needed a clear view about an issue. In the midst of
+corporate politics, he told you to concentrate on quality even if people
+around you sometimes didn’t appreciate it. He kept your eye on the goal,
+which was to help the business in the best way you could, to try to keep
+breaking new ground. He didn’t sympathize with holding on to turf; instead,
+he always encouraged the search for new opportunities.
+Fischer’s last paper, written but not fully completed while he was dying,
+was submitted to the Financial Analysts Journal. He called the paper
+Interest Rates as Options, and cleverly pointed out that short-term interest
+rates themselves resemble call options, a consequence on which he then
+elaborated.
+In a footnote to the article, the managing editor of the journal explained
+the circumstances behind the paper’s publication:
+Fischer Black submitted this paper on May 1, 1995. His submission
+letter stated: “I would like to publish this, though I may not be around
+to make any changes the referee may suggest. If I’m not, and if it seems
+roughly acceptable, could you publish it as is with a note explaining the
+circumstances?” Fischer received a revise and resubmit letter on May
+22 with a detailed referee’s report. He worked on the paper during the
+summer and started to think about how to address the comments of the
+referee. He died on August 31 without completing the revision.
+...

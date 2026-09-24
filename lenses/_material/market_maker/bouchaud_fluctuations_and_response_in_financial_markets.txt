@@ -1,0 +1,1413 @@
+arXiv:cond-mat/0307332v2  [cond-mat.stat-mech]  25 Aug 2003
+Fluctuations and response in ﬁnancial
+markets: the subtle nature of ‘random’
+price changes
+Jean-Philippe Bouchaud†,∗, Yuval Gefen×,
+Marc Potters∗, Matthieu Wyart†
+November 26, 2024
+† Commissariat `a l’Energie Atomique, Orme des Merisiers
+91191 Gif-sur-Yvette cedex, France
+∗Science & Finance, Capital Fund Management, 109-111 rue Victor Hugo
+92 532 Levallois cedex, France
+× Condensed Matter Physics Department, Weizmann Institute of Science,
+76 100 Rehovot, Israel
+November 26, 2024
+Abstract
+Using Trades and Quotes data from the Paris stock market, we show
+that the random walk nature of traded prices results from a very delicate
+interplay between two opposite tendencies: long-range correlated market
+orders that lead to super-diﬀusion (or persistence), and mean reverting
+limit orders that lead to sub-diﬀusion (or anti-persistence).
+We deﬁne
+and study a model where the price, at any instant, is the result of the
+impact of all past trades, mediated by a non constant ‘propagator’ in time
+that describes the response of the market to a single trade. Within this
+model, the market is shown to be, in a precise sense, at a critical point,
+where the price is purely diﬀusive and the average response function almost
+constant.
+We ﬁnd empirically, and discuss theoretically, a ﬂuctuation-
+response relation. We also discuss the fraction of truly informed market
+orders, that correctly anticipate short term moves, and ﬁnd that it is quite
+small.
+1
+
+1
+Introduction
+The Eﬃcient Market Hypothesis (EMH) posits that all available information is
+included in prices, which emerge at all times from the consensus between fully
+rational agents, that would otherwise immediately arbitrage away any deviation
+from the fair price [1, 2].
+Price changes can then only be the result of un-
+anticipated news and are by deﬁnition totally unpredictable. The price is at any
+instant of time the best predictor of future prices. One of the central predictions
+of EMH is thus that prices should be random walks in time which (to a good
+approximation) they indeed are. This was interpreted early on as a success of
+EMH. However, as pointed out by Schiller, the observed volatility of markets
+is far too high to be compatible with the idea of fully rational pricing [3]. The
+frantic activity observed in ﬁnancial markets is another problem: on liquid stocks,
+there is typically one trade every 5 seconds, whereas the time lag between of
+relevant news is certainly much larger. More fundamentally, the assumption of
+rational, perfectly informed agents seems intuitively much too strong, and has
+been criticized by many [4, 5, 6]. Even the very concept of the fair price of a
+company appears to be somewhat dubious.
+There is a model at the other extreme of the spectrum where prices also follow
+a pure random walk, but for a totally diﬀerent reason.
+Assume that agents,
+instead of being fully rational, have zero intelligence and take random decisions
+to buy or to sell, but that their action is interpreted by all the others agents
+as potentially containing some information. Then, the mere fact of buying (or
+selling) typically leads to a change of the ask a(t) (or bid b(t)) price and hence
+of a change of the midpoint m(t) = [a(t) + b(t)]/2. In the absence of reliable
+information about the ‘true’ price, the new midpoint is immediately adopted
+by all other market participants as the new reference price around which new
+orders are launched. In this case, the midpoint will also follow a random walk (at
+least for suﬃciently large times), even if trades are not motivated by any rational
+decision and devoid of meaningful information.1 This alternative, random trading
+model has been recently the object of intense scrutiny, in particular as a simpliﬁed
+approach to the statistics of order books [8, 9, 10, 11, 12, 13, 14, 15]. Since the
+order ﬂow is a Poisson process, this assumption is quite convenient and leads to
+tractable analytical models [14, 16]. Perhaps surprisingly, many qualitative (and
+sometimes quantitative) properties of order books can be predicted using such
+an extreme postulate [12, 13, 14, 17].
+Of course, reality should lie somewhere in the middle: clearly, the price cannot
+wander arbitrarily far from a reasonable value, and trades cannot all be random.
+The interesting question is to know which of the two pictures is closest to reality
+and can be taken as a faithful starting point around which improvements can be
+1That this simplistic model also leads to a random walk behaviour for prices has also very
+recently been pointed out in [7].
+2
+
+perturbatively added.
+In this paper, we want to argue, based on a series of detailed empirical results
+obtained on trade by trade data, that the random walk nature of prices is in
+fact highly non trivial and results from a ﬁne-tuned competition between two
+populations of traders, liquidity providers (‘market-makers’) on the one hand,
+and liquidity takers (sometimes called ‘informed traders’, but see the discussion in
+Section 4). For reasons that we explain in more details below, liquidity providers
+act such as to create anti-persistence (or mean reversion) in price changes that
+would lead to a sub-diﬀusive behaviour of the price, whereas liquidity takers’
+action leads to long range persistence and super-diﬀusive behaviour. Both eﬀects
+very precisely compensate and lead to an overall diﬀusive behaviour, at least to
+a ﬁrst approximation, such that (statistical) arbitrage opportunities are absent,
+as expected. However, one can spot out the vestiges of this subtle compensation
+from the temporal structure of the market impact function (which measures how
+a given trade aﬀects on average future prices).
+The organization of this paper is as follows.
+We ﬁrst present (Section 2)
+our empirical results on the statistics of trades, market impact and ﬂuctuations.
+We show in particular that the order ﬂow exhibits long range autocorrelations
+in time, but that this does not lead to any predictability in price changes, as
+also recently noticed in [7].
+Then, we introduce in Section 3 a simple model
+that expresses the price as a linear superposition of the impact of each trade.
+We show that this model allows to rationalize our empirical ﬁndings, provided a
+speciﬁc relation between the temporal autocorrelation of the sign of the trades
+(i.e. buyer initiated or seller initiated) and the temporal response to a single
+trade is satisﬁed. Finally, in Section 4, we give intuitive arguments that allow
+one to understand the market forces at the origin of this subtle balance between
+two opposite eﬀects, which dynamically leads to absence of statistical arbitrage
+opportunities. We argue that in a very precise sense, the market is sitting on a
+critical point; the dynamical compensation of two conﬂicting tendencies is similar
+to other complex systems such as the heart [18], driven by two antagonist systems
+(sympathetic and para-sympathetic), or certain human tasks, such as balancing of
+a long stick [19]. The latter example illustrates very clearly the idea of dynamical
+equilibrium, and shows how any small deviation from perfect balance may lead to
+strong instabilities. This near instability may well be at the origin of the fat tails
+and volatility clustering observed in ﬁnancial data (see e.g. [20, 21, 22, 23, 24, 25]).
+Note that these two features are indeed present in the ‘balancing stick’ time series
+studied in [19].
+2
+Market impact and ﬂuctuations
+3
+
+2.1
+Presentation of the data and deﬁnitions
+In this study, we have analyzed trades and quotes data from liquid French stocks
+in the years 2001 and 2002, although qualitatively similar results were also ob-
+tained on British stocks as well. The advantage of the French market, however, is
+that it is fully electronic whereas only part of the volume is traded electronically
+in the London stock exchange. We will illustrate our results mainly using the
+France-Telecom stock, which is one of the most actively traded stocks, for which
+statistics are particularly good.
+There are two data ﬁles for each stock: one gives the list of all successive
+quotes, i.e.
+the best buy (bid, b) and sell (ask, a) prices, together with the
+available volume, and the time stamp accurate to the second. A quote can change
+either as a result of a trade, or because new limit orders appear, or else because
+some limit orders are canceled. The other data ﬁle is the list of all successive
+trades, with the traded price, traded volume and time stamp, again accurate to
+the second. Sometimes, several trades are recorded at the very same instant but
+at diﬀerent prices: this corresponds to a market order of a size which exceeds
+the available volume at the bid (or at the ask), and hits limit orders deeper in
+the order book. In the following, we have grouped all these trades together as
+a single trade. This allows one to create chronological sequences of trades and
+quotes, such that between any two trades there is at least one quote.
+The last quote before a given trade allows one to deﬁne the sign of each trade:
+if the traded price is above the last midpoint m = (a + b)/2, this means that the
+trade was triggered by a market order (or marketable limit order) to buy, and we
+will assign to that trade a variable ε = +1. If, one the other hand the traded price
+is below the last midpoint m = (a + b)/2, then ε = −1. With each trade is also
+associated a volume V , corresponding to the total number of shares exchanged.
+Trades appear at random times, the statistics of which being itself non trivial
+(there are intra-day seasonalities and also clustering of the trades in time). We
+will not be interested in this aspect of the problem and always reason in terms of
+trade time, i.e. time advances by one unit every time a new trade (or a series of
+simultaneous trades) is recorded. We have also systematically discarded the ﬁrst
+ten and the last ten minutes of trading in a given day, to remove any artifacts
+due to the opening and closing of the market. Many quantities of interest in the
+following are two-time observables, that is, compare two observables at (trade)
+time n and n + ℓ. In order to avoid overnight eﬀects, we have restricted our
+analysis to intra-day data, i.e. both n and n + ℓbelong to the same trading day.
+We have also assumed that our observables only depend on the time lag ℓ.
+On the example of France-Telecom, on which we will focus mostly, there are
+on the order of 10 000 trades per day. For example, the total number of trades
+on France-Telecom during 2002 was close to 2. 106; this allows quite accurate
+statistical estimates of various quantities. The volume of each trade was found to
+be roughly log-normally distributed, with ⟨ln V ⟩≃5.5 and a root mean square
+4
+
+of ∆ln V ≃1.8. The range of observed values of ln V is between 1 and 11.
+2.2
+Price ﬂuctuation and diﬀusion
+The simplest quantity to study is the average mean square ﬂuctuation of the price
+between (trade) time n and n + ℓ. Here, the price pn is deﬁned as the mid-point
+before the nth trade: pn ≡mn−. In this paper, we always consider detrended
+prices, such that the empirical drift is zero. We thus deﬁne D(ℓ) as:
+D(ℓ) =
+D
+(pn+ℓ−pn)2E
+.
+(1)
+As is well known, in the absence of any linear correlations between successive
+price changes, D(ℓ) has a strictly diﬀusive behaviour, i.e.
+D(ℓ) = Dℓ,
+(2)
+where D is a constant. In the presence of short-ranged correlations, one expects
+deviations from this behaviour at short times. However, on liquid stocks with
+relatively small tick sizes such as France-Telecom (FT), one ﬁnds a remarkably
+linear behaviour for D(ℓ), even for small ℓ. The absence of linear correlations in
+price changes is equivalent to saying that (statistical) arbitrage opportunies are
+absent, even for high frequency trading. In fact, in order to emphasize the diﬀer-
+ences from a strictly diﬀusive behaviour, we have studied the quantity
+q
+D(ℓ)/ℓ
+(which has the dimension of Euros). We show this quantity in Fig. 1 for FT,
+averaged over three diﬀerent periods: ﬁrst semester of 2001 (where the tick size
+was 0.05 Euros), second semester of 2001, and the whole of 2002 (where the tick
+size was 0.01 Euros). One sees that D(ℓ)/ℓis indeed nearly constant, with a
+small ‘oscillation’ on which we will comment later. Similar plots can be observed
+for other stocks (see Fig. 2). We have noted that for stocks with larger ticks, a
+slow decrease of D(ℓ)/ℓis observed, corresponding to a slight anti-persistence (or
+sub-diﬀusion) eﬀect.
+The conclusion is that the random walk (diﬀusive) behaviour of stock prices
+appears even at the trade by trade level, with a diﬀusion constant D which is
+of the order of the typical bid-ask squared. From Fig. 1, one indeed sees that
+q
+D(1) ∼0.01 Euros, which is precisely the tick size, and FT has a typical bid-
+ask spread equal to one or two ticks. This coincidence is interesting. It might
+suggests that price changes are to a large extent induced by the trading activity
+itself, independently of real news (unless of course if the news ﬂow is itself on
+the scale of seconds and that each news item has an impact on the price that is
+commensurate to the bid-ask spread). Much stronger arguments in favor of this
+point, based on estimates of the fraction of informed trades, will be given below.
+This conclusion seems to imply that the price may, on the long run, wander
+arbitrarily far from the fundamental price, which would be absurd. However,
+5
+
+1
+10
+100
+1000
+10000
+ Time (Trades)
+0
+0.01
+0.02
+0.03
+0.04
+ [D(l)/l]
+1/2 (Euros)
+ FT (2001 − 1st semester)
+ FT (2001 − 2nd semester)
+ FT (2002)
+Figure 1: Plot of
+q
+D(ℓ)/ℓas a function of ℓfor France-Telecom, during three
+diﬀerent periods. The variation of D(ℓ)/ℓwith ℓis very small, in particular in
+the small tick (0.01 Euros) period (July 2001 – December 2002). For the large
+tick size period (0.05 Euros; January 2001 – June 2001), there is a systematic
+downward trend: see also Fig. 2.
+1
+10
+100
+1000
+10000
+ Time (Trades)
+0.00
+0.10
+0.20
+ [D(l)/l]
+1/2 (Arbitrary units)
+ Total
+ Pechiney
+ Vivendi
+ Barclays
+ TF1
+Figure 2: Plot of
+q
+D(ℓ)/ℓas a function of ℓfor other stocks during the year
+2002, except Barclays (May-June 2002). The y-axis has been rescaled arbitrarily
+for clarity. We note that stocks with larger tick size tend to reveal a stronger
+mean-reverting eﬀect.
+6
+
+even if one assumes that the fundamental price is independent of time, a typical
+3% noise induced daily volatility would lead to a signiﬁcant (say a factor 2)
+diﬀerence between the traded price and the fundamental price only after a few
+years [26].
+Since the fundamental price of a company is probably diﬃcult to
+determine better than within a factor two, say (see e.g. [5, 27]), one only expects
+fundamental eﬀects to be relevant on very long time scales (as indeed suggested
+by the empirical results of de Bondt and Thaler [28]), but that these are totally
+negligible on short (intra-day) time scales of interest here. We will in fact see
+below (cf. Eq. (27) that the reference price that market participants seem to
+have in mind is in fact a short time average of the past price itself, rather than
+any fundamental price.
+2.3
+Response function and market impact
+In order to better understand the impact of trading on price changes, one can
+study the following response function R(ℓ), deﬁned as:
+R(ℓ) = ⟨(pn+ℓ−pn) · εn⟩,
+(3)
+where εn is the sign of the n-th trade, introduced in Section 2.1. The quantity
+R(ℓ) measures how much, on average, the price moves up conditioned to a buy
+order at time 0 (or a sell order moves the price down) a time ℓlater. As will be
+clear below,this quantity is however not the market response to a single trade, a
+quantity that will later be denoted by G0. A more detailed object can in fact be
+deﬁned by conditioning the average to a certain volume V of the n-th trade:
+R(ℓ, V ) = ⟨(pn+ℓ−pn) · εn⟩|Vn=V .
+(4)
+Previous empirical studies have mostly focused on the volume dependence of
+R(ℓ, V ), and established that this function is strongly concave as a function of
+the volume [29, 30, 31, 32, 7]. In [33], a thorough analysis of U.S. stocks was
+analyzed in terms of a piecewise power-law dependence for R(ℓ= 1, V ) ∝V α,
+with an exponent α ≃0.4 for small volumes, and a smaller value (α ≃0.2)
+for larger volumes.
+In a previous publication [34], some of us have proposed
+that this dependence might in fact be logarithmic (see also a footnote in [32]):
+R(ℓ= 1, V ) = R1 ln V (where R1 is a stock dependent constant), a law that
+seems to satisfactorily account for all the data that we have analyzed.
+The
+empirical determination of the temporal structure of R(ℓ, V ) has been much less
+investigated (although one can ﬁnd in [32] somewhat related results on a coarse-
+grained version of R(ℓ, V )).
+Preliminary empirical results, published in [34],
+reported that R(ℓ, V ) could be written in a factorized form (ﬁrst suggested on
+theoretical grounds in [12]):
+R(ℓ, V ) ≈R(ℓ)f(V );
+f(V ) ∝ln V,
+(5)
+7
+
+1
+10
+100
+1000
+10000
+ Time (Trades)
+0
+0.002
+0.004
+0.006
+0.008
+0.01
+0.012
+0.014
+ R(l),  [D(l)/l]
+1/2 (Euros)
+ FT (2002) 
+ FT (2001 − 1st semester)
+ FT (2001 − 2nd semester)
+Figure 3: Average response function R(ℓ) for FT, during three diﬀerent periods
+(black symbols). We have given error bars for the 2002 data. For the 2001 data,
+the y−axis has been rescaled to best collapse onto the 2002 data. Using the same
+rescaling factor, we have also shown the data of Fig. 1. The fact that the same
+rescaling works approximately for D(ℓ) as well will be dwelled further in Section
+2.4 below.
+where R(ℓ) is a slowly varying function that initially increases up to ℓ∼100−1000
+and then is seen to decrease back, with a rather small overall range of variation.
+The initial increase of R(ℓ) was reported in [29] and has also recently been noticed
+by Lillo and Farmer [17]. Here, we provide much better data that supports both
+the above assertions. We show for example in Fig. 3 the temporal structure of
+R(ℓ) for France Telecom, for diﬀerent periods. Note that R(ℓ) increases by a
+factor ∼2 between ℓ= 1 and ℓ= ℓ∗≈1000, before decreasing back. Similar
+results have been obtained for many diﬀerent stocks as well: Fig. 4 shows a small
+selection of other stocks, where the non monotonous behaviour of R(ℓ) is shown.
+However, in some cases (such as Pechiney), the maximum is not observed. One
+possible reason is that the number of daily trades is in this case much smaller
+(∼1000), and that ℓ∗is beyond the maximum intra-day time lag.
+The existence of a time scale ℓ∗beyond which R(ℓ) decreases is thus both sta-
+tistically signiﬁcant, and to a large degree independent of the considered stock.
+On the other hand, the amplitude of the change of R(ℓ) seems to be stock de-
+pendent. As will be clear later, the slowly varying nature of R(ℓ) and the fact
+that this quantity reaches a maximum are non trivial results that will require a
+speciﬁc interpretation.
+Turning now to the factorization property of R(ℓ, V ), Eq. (5), we illustrate
+its validity in Fig. 5, where R(ℓ, V )/f(V ) is plotted as a function of ℓfor diﬀerent
+8
+
+1
+10
+100
+1000
+ Time (Trades)
+0
+0.05
+0.1
+ R(l) (Arbitrary units)
+ Total
+ TF1
+ Barclays
+ Pechiney
+Figure 4: Average response function R(ℓ) for a restricted selection of stocks,
+during the year 2002.
+values of V . The function f(V ) was chosen for best visual rescaling, and is found
+to be close to f(V ) = ln V , as expected.
+Note that for the smallest volume
+(open circles), the long time behaviour of R(ℓ, V ) seems to be diﬀerent, which is
+probably due to the fact that small volumes are in fact more likely to be large
+volumes chopped up into small pieces.
+One has to keep in mind that the response function R(ℓ) captures a small
+systematic eﬀect that relates the average price change to the sign of a trade.
+However, the ﬂuctuations around this small signal are large, and increase with ℓ.
+A way to see this is to introduce the random variable uℓ= (pn+ℓ−pn).εn. By
+deﬁnition, R(ℓ) is the average of uℓ, and D(ℓ) is the average of u2
+ℓ. Since R(ℓ) is
+roughly constant whereas D(ℓ) grows linearly with ℓ, one sees that the impact of
+a given trade (as measured by R(ℓ)) rapidly becomes lost in the ﬂuctuations.
+In Fig. 6, we show the whole empirical distribution P(uℓ) of uℓfor ℓ= 128
+(but other values of ℓlead to similar results). This distribution is found to be
+only slightly skewed in the direction of positive uℓ. In fact, if one considers the
+shifted variable uℓ−ν, where ν = 0.01 Euros, the distribution becomes nearly
+symmetric. Note that 0.01 Euros is equal to half the typical bid-ask spread and
+can therefore be seen as the cost of a market order. The Eﬃcient Market picture
+suggests that the non zero value of ⟨uℓ⟩should mostly be due to a small fraction
+of informed trades, that correctly anticipate large price changes as a result of
+some private information, while most noise induced trades should only change
+the price on short time scales, before arbitrageurs set it back to its ‘true’ value.
+In this case, the positive tail of the distribution P(uℓ) (corresponding to informed
+trades) should be much fatter than the negative tail. This asymmetry can in fact
+9
+
+1
+10
+100
+1000
+10000
+ Time (Trades)
+0
+0.02
+0.04
+ R(l,V)
+ log V=[2,3]
+ log V=[3,4]
+ log V=[4,5]
+ log V=[5,6]
+ log V=[6,7]
+ log V=[7,8]
+ log V=[8,9]
+ log V=[9,10]
+ Average
+Figure 5: Average response function R(ℓ, V ), conditioned to a certain volume V ,
+as a function of ℓ. Data for diﬀerent V ’s have been divided by f(V ) ∝ln V such
+as to obtain good data collapse. The thick line corresponds to R(ℓ) (unscaled).
+0
+0.2
+0.4
+0.6
+ul
+100
+1000
+10000
+100000
+P(ul)
+l=128
+ unshifted
+ ul shifted by 0.01 Euros
+ul < 0 
+Figure 6: Probability distribution P(uℓ) of the quantity uℓ= (pn+ℓ−pn).εn (in
+Euros), for ℓ= 128. The data is again FT during 2002. The negative part of the
+distribution has been folded back to positive uℓin order to highlight the small
+positive skew of the distribution (which is seen to increase slightly with |uℓ|).
+The average value R(ℓ) = ⟨uℓ⟩is shown as the vertical dashed line. The dashed-
+dotted line corresponds to the distribution of uℓ−ν with ν = 0.01 Euros. This
+curve has been shifted upwards for clarity.
+10
+
+be taken as an objective measure of the fraction of informed trades. However, the
+nearly symmetric shape of P(uℓ−ν) shown in Fig. 6 means that one can hardly
+detect the statistical presence of informed trades that correctly anticipate the sign
+of the price change on a short term basis, such as to at least cover their trading
+costs.2 This result is consistent with the conclusion of other studies, where it
+is established that investors ‘trade too much’[35], and that the uninformed price
+pressure is large [7]. Note that P(uℓ) as deﬁned above gives an equal weight to
+all trades, independently of their volume. We have also considered the volume
+weighted P(uℓ), which leads to the same qualitative conclusion.
+The main conclusions of this section are thus that (a) large volumes impact
+prices on average much less (in relative terms) than smaller volumes, (b) the
+average impact of a given trade (as measured by R(ℓ)) increases with time up to
+a certain time scale ℓ∗beyond which it decreases and (c) the fraction of trades
+that correctly anticipates short term moves is small.
+2.4
+A Fluctuation-Response relation
+In the study of Brownian particles, a very important result that dates back to
+Einstein relates the diﬀusion coeﬃcient D to the response of the particle to an ex-
+ternal force. That a similar relation might also hold in ﬁnancial markets was ﬁrst
+suggested by Rosenow [36], and substantiated there by some empirical results.
+We have performed an analysis related to, but diﬀerent from that of Rosenow.
+For any given trading day, one can compute the average local diﬀusion constant
+D(ℓ) over a given time scale, say ℓ= 128, and the average local price response
+R(ℓ) over the same time scale. Rosenow, on the other hand, computes a ‘suscep-
+tibility’ as the slope of the average price change over a given time interval versus
+the volume imbalance during the same time interval (see [32]), and relates this
+susceptibility to the diﬀusion constant. The analogue of Rosenow’s result [36]
+(which was motivated by a Langevin equation for price variations – see [37]), is
+a linear relation between R2(ℓ) and D(ℓ), which we illustrate in Fig. 7 for FT,
+for two diﬀerent periods (ﬁrst semester of 2001, and 2002). A similar result can
+also be read from Fig. 3. As will be clear in the following, such a relation will
+appear naturally within the simple model that we introduce in Section 3.
+2.5
+Long term correlation of trade signs
+All the above results are compatible with a ‘zero intelligence’ picture of ﬁnancial
+markets, where each trade is random in sign and shifts the price permanently,
+because all other participants update their evaluation of the stock price as a
+2Some of these trades might of course be proﬁtable on the long run. But since the price
+process is nearly diﬀusive and that the number of buy and sell market orders are nearly equal,
+it is clear that diﬀerence between the fraction of proﬁtable trades on any given time scale and
+50% is small.
+11
+
+0
+2.5e−05
+5e−05
+ R
+2
+0
+0.005
+0.01
+0.015
+0.02
+ D
+l=128
+ FT 2002
+ FT 2001
+Figure 7: Average diﬀusion constant D = D(ℓ)/ℓ, computed for ℓ= 128, and
+conditioned to a certain value of R2(ℓ), also computed for ℓ= 128 (FT). The
+open symbols correspond to 2002, whereas the black symbols are computed using
+the ﬁrst semester of 2001, where the tick size was 5 times larger. Correspondingly,
+the x-axis was rescaled down by a factor 25 and the y-axis by a factor ﬁve for
+this data set.
+function of the last trade. As shown in [9, 10, 12, 13, 14, 15], a model of the
+order book based on a purely random order ﬂow indeed allows one to go quite
+far in the quantitative understanding of ﬁnancial markets. In this context, the
+concave shape of the impact as a function of the volume can be understood as
+an order book eﬀect, where the average size of the queue increases with depth.3
+This model of a totally random stock market is however qualitatively incorrect
+for the following reason. Although, as mentioned above, the statistics of price
+changes reveals very little temporal correlations, the correlation function of the
+sign εn of the trades, on the other hand, reveals very slowly decaying correlations.
+This correlation has been mentioned in some papers before, see e.g. [7]. Here,
+we propose that these correlations decay as a power-law of the time lag.
+More precisely, one can consider the following correlation function:
+C0(ℓ) = ⟨εn+ℓεn⟩−⟨εn⟩2
+(6)
+If trades were random, one should observe that C0(ℓ) decays to zero beyond a few
+trades. Surprisingly, this is not what happens: on the contrary, C0(ℓ) is strong
+3However, other eﬀects are probably important to understand this concavity, such as the
+conditioning of large market orders to the size of the order book – see [34, 7].
+12
+
+and decays very slowly toward zero, as an inverse power-law of ℓ(see Fig. 8):
+C0(ℓ) ≃C0
+ℓγ ,
+(ℓ≥1).
+(7)
+The value of γ seems to be somewhat stock dependent. For example, for FT, one
+ﬁnds γ ≈1/5, whereas for Total γ ≈2/3. In their study, Lillo and Farmer found
+a somewhat larger value of γ ≈1/2 for Vodafone [17]. In any case, the value of γ
+is found to be smaller than one, which is very important because the integral of
+C0(ℓ) is then divergent. Now, as will be shown more precisely in the next section,
+the integral of C0(ℓ) can intuitively be thought of as the eﬀective number Ne of
+correlated successive trades. Hence, out of – say – 1000 trades, one should group
+together
+Ne ≃1 +
+1000
+X
+ℓ=1
+C0(ℓ) ≈1 +
+C0
+1 −γ 10001−γ
+(8)
+‘coherent’ trades. For FT, γ ≈1/5 and C0 ≈0.2, which means that the eﬀect
+of one trade should be ampliﬁed, through the correlations, by a factor Ne ≈50 !
+In other words, both the response function R and the diﬀusion constant should
+increase by a factor 50 between ℓ= 1 and ℓ= 1000, in stark contrast with the
+observed empirical data. This is the main puzzle that one should try to elucidate:
+how can one reconcile the strong, slowly decaying correlations in the sign of the
+trades with the nearly diﬀusive nature of the price ﬂuctuations, and the nearly
+structureless response function?
+Before presenting a mathematical transcription of the above question and
+proposing a possible resolution, let us comment on two related correlation func-
+tions that will naturally appear in the following, namely:
+C1(ℓ) = ⟨εn+ℓεn ln Vn⟩,
+(9)
+and
+C2(ℓ) = ⟨εn+ℓln Vn+ℓεn ln Vn⟩.
+(10)
+We have found empirically that these two ‘mixed’ correlation functions are pro-
+portional to C0(ℓ) (see Fig 8):
+C1(ℓ) ≈⟨ln V ⟩C0(ℓ);
+C2(ℓ) ≈⟨ln V ⟩2C0(ℓ).
+(11)
+There are however small systematic deviations, which indicate that (i) small
+volumes contribute more to the long range correlations that larger volumes and
+(ii) ln V −⟨ln V ⟩is a quantity exhibiting long range correlations as well.
+3
+A micro-model of price ﬂuctuations
+13
+
+10
+0
+10
+1
+10
+2
+10
+3
+10
+4
+ Time (trades)
+10
+−2
+10
+−1
+10
+0
+10
+1
+ C(l)
+ C2(l)
+ C1(l)
+ C0(l)
+Figure 8: Volume weighted sign autocorrelation functions as a function of time
+lag: C0, C1, C2 (see text for deﬁnitions). The straight line corresponds to ℓ−γ with
+γ = 1/5. The dotted lines correspond to the simple approximation given by Eqs.
+(11).
+3.1
+Set up of the model
+In order to understand the above results, we will postulate the following trade
+superposition model, where the price at time n is written as a sum over all past
+trades, of the impact of one given trade propagated up to time n:
+pn =
+X
+n′<n
+G0(n −n′)εn′ ln Vn′ +
+X
+n′<n
+ηn′,
+(12)
+where G0(.) is the ‘bare’ impact function (or propagator) of a single trade, that we
+assume to be a ﬁxed, non random function that only depends on time diﬀerences.
+The ηn are also random variables, assumed to be independent from the εn and
+model all sources of price changes not described by the direct impact of the
+trades: the bid-ask can change as the result of some news, or of some order
+ﬂow, in the absence of any trades. We will in the following assume that the ηn
+are also uncorrelated in time, although this assumption can easily be relaxed.
+In the above model, we assume that the ‘bare’ impact function G0 is not itself
+ﬂuctuating, which can only be an approximation.
+The bare impact function G0(ℓ) represents by deﬁnition the average impact
+of a single trade after ℓtrades. It could be in principle measured empirically by
+launching on the market a sequence of real trades of totally random signs, and av-
+eraging the impact over this sample of trades (a potentially costly experiment!).4
+4However, following this procedure might induce ‘copy-cat’ trades and still lead to a diﬀer-
+ence between the measured response function and G0
+14
+
+As will be clear below, the diﬀerence between the quantity R(ℓ) introduced in
+the previous Section and G0(ℓ) in fact comes from the strong autocorrelation of
+the sign of the trades. In order to understand the temporal structure of G0(ℓ),
+note that a single trade ﬁrst impacts the midpoint by changing the bid (or the
+ask). But then the subsequent limit order ﬂow due to that particular trade might
+either center on average around the new midpoint (in which case G0(ℓ) would be
+constant), or, as we will argue below, tend to mean revert toward the previous
+midpoint (in which case G0(ℓ) decays with ℓ). As discussed below (see Eq. (26)),
+the asymptotic behaviour of the bare impact function in fact reveals the average
+cost of a single market order: if G0(ℓ≫1)/G0(1) is small, the cost is large since
+the initial impact of the trade is only temporary, and is not followed by a true
+long term change of the price.
+Using this representation, the price increment between an arbitrarily chosen
+initial time 0 and time ℓis:
+pℓ−p0 =
+X
+0≤n<ℓ
+G0(ℓ−n)εn ln Vn +
+X
+n<0
+[G0(ℓ−n) −G0(−n)] εn ln Vn +
+X
+0≤n<ℓ
+ηn.
+(13)
+If the signs εn were independent random variables, both the response function
+and the diﬀusion would be very easy to compute. For example, one would have:5
+Rt(ℓ) = ⟨ln V ⟩G0(ℓ),
+(14)
+i.e. the observed impact function and the bare response function would be pro-
+portional. Similarly, one would have:
+Dt(ℓ) = ⟨ln2 V ⟩
+
+X
+0<n≤ℓ
+G2
+0(n) +
+X
+n>0
+[G0(ℓ+ n) −G0(n)]2
+
++ Dηℓ,
+(15)
+where Dη is the variance of the η’s. In the simplest case of a constant bare impact
+function, G0(ℓ) = Γ0 for all ℓ> 0, one then ﬁnds a pure diﬀusive behaviour, as
+expected:
+Dt(ℓ) = ℓ
+h
+⟨ln2 V ⟩Γ2
+0 + Dη
+i
+.
+(16)
+This result (no correlations between the ε’s and a constant bare impact function)
+corresponds to the simplest possible zero intelligence market. However, we have
+seen that in fact the ε’s have long range correlations. In this case, the average
+response function reads:
+Rt(ℓ) = ⟨ln V ⟩G0(ℓ)+
+X
+0<n<ℓ
+G0(ℓ−n)C1(n)+
+X
+n>0
+[G0(ℓ+ n) −G0(n)] C1(n). (17)
+5In the following, we will use the subscript ‘t’ to denote the theoretical expressions for the
+response function or diﬀusion.
+15
+
+Note in passing that our trade superposition model, Eq. (12), together with Eq.
+(11) leads to the factorization property mentioned above (see Fig. 5):
+Rt(ℓ, V ) = ln V
+⟨ln V ⟩Rt(ℓ).
+(18)
+Now, one sees more formally the paradox discussed in the previous Section: as-
+suming that the impact of each trade is permanent, i.e. G0(ℓ) = Γ0, leads to:
+Rt(ℓ) = Γ0
+
+⟨ln V ⟩+
+X
+0<n<ℓ
+C1(n)
+
+.
+(19)
+If C1(n) decays as a power-law with an exponent γ < 1, then the average impact
+R(ℓ) should grow like ℓ1−γ, and therefore be ampliﬁed by a very large factor as ℓ
+increases, at variance with empirical data. The only way out of this conundrum
+is (within the proposed model) that the bare impact function G0(ℓ) itself should
+decay with time, in such a way to oﬀset the ampliﬁcation eﬀect due to the trade
+correlations.
+3.2
+A relation between the bare propagator and the sign
+correlation function
+In order to get some guidance, let us now look at the general formula for the
+diﬀusion. After a few lines of calculations, one ﬁnds:
+Dt(ℓ)
+=
+⟨ln2 V ⟩
+
+X
+0≤n<ℓ
+G2
+0(ℓ−n) +
+X
+n>0
+[G0(ℓ+ n) −G0(n)]2
+
+
++
+2∆(ℓ) + Dηℓ,
+(20)
+where ∆(ℓ) is the correlation induced contribution:
+∆(ℓ)
+=
+X
+0≤n<n′<ℓ
+G0(ℓ−n)G0(ℓ−n′)C2(n′ −n)
++
+X
+0<n<n′
+[G0(ℓ+ n) −G0(n)] [G0(ℓ+ n′) −G0(n′)] C2(n′ −n)
++
+X
+0≤n<ℓ
+X
+n′>0
+G0(ℓ−n) [G0(ℓ+ n′) −G0(n′)] C2(n′ + n).
+(21)
+The constraint from empirical data is that this expression must be approx-
+imately linear in ℓ. As shown in the Appendix, the requirement that Dt(ℓ) is
+strictly linear in ℓfor all ℓin fact allows one to express G0(ℓ) as a function of
+C2(ℓ). Here, we present a simple asymptotic argument. If we make the ansatz
+that the bare impact function G0(ℓ) also decays as a power-law:
+G0(ℓ) =
+Γ0ℓβ
+0
+(ℓ0 + ℓ)β
+(ℓ≥1)
+(22)
+16
+
+then one can estimate Dt(ℓ) in the large ℓlimit. When γ < 1, one again ﬁnds
+that the correlation induced term ∆(ℓ) is dominant, and all three terms scale a
+ℓ2−2β−γ, provided β < 1. In other words, the Hurst exponent of price changes
+is given by 2H = 2 −2β −γ. Therefore, the condition that the ﬂuctuations are
+diﬀusive at long times (H = 1/2) imposes a relation between the decay of the
+sign autocorrelation γ and the decay of the bare impact function β that reads:
+2β + γ = 1 −→βc = 1 −γ
+2
+(23)
+For β > βc, the price is sub-diﬀusive (H < 1/2), which means that price changes
+show anti-persistence; while for β < βc, the price is super-diﬀusive (H > 1/2),
+i.e. price changes are persistent. For FT, γ ≈1/5 and therefore βc ≈2/5.
+As shown in the Appendix, one can in fact obtain an exact relation between
+G0(ℓ) and C2(ℓ) if one assumes that price changes are strictly uncorrelated (i.e.
+that D(ℓ) is linear in ℓfor all ℓ). The asymptotic analysis of this relation leads,
+not surprisingly, to the same exponent relation βc = (1 −γ)/2 as above.
+At this stage, there seems still to be a contradiction with empirical data,
+for if one goes back to the response function given by Eq. (17), one ﬁnds that
+whenever β + γ < 1 (which is indeed the case for β = βc and γ < 1), the
+dominant contribution to Rt(ℓ) should behave as ℓ1−β−γ and thus grow with ℓ.
+For example, for γ ≈1/5 and β ≈2/5, one should ﬁnd that Rt(ℓ) ∝ℓ2/5, which
+is incompatible with the empirical data of Figs. 3 and 4. But the surprise comes
+from the numerical prefactor of this power law. One ﬁnds, for large ℓ:
+Rt(ℓ) ≃⟨ln V ⟩Γ0C0
+Γ(1 −γ)
+Γ(β)Γ(2 −β −γ)
+"
+π
+sin πβ −
+π
+sin π(1 −β −γ)
+#
+ℓ1−β−γ. (24)
+Therefore, only when β = βc, is the prefactor exactly zero, and leads to the possi-
+bility of a nearly constant impact function! For faster decaying impact functions
+(larger β’s), this prefactor is negative, whereas for more slowly decaying impact
+functions this prefactor is positive.6 Interestingly, even if the bare response func-
+tion G0(ℓ) is positive for all ℓ, the average response Rt(ℓ) can become negative
+for large enough β’s, as a consequence of the correlations between trades.
+3.3
+Fitting the average response function
+Since the dominant term is zero for the ‘critical’ case β = βc, and since we are
+interested in the whole function Rt(ℓ) (including the small ℓregime), we have
+computed Rt(ℓ) numerically, by performing the discrete sum Eq. (17) exactly,
+and ﬁtted it to the empirical response R. The results are shown in Fig. 9. We
+6Note that although this prefactor increases (in absolute value) with β for β > βc, the
+power of ℓdecreases, which means that for large ℓthe amplitude of Rt(ℓ) decreases with β, as
+intuitively expected.
+17
+
+1
+10
+100
+1000
+ Time (Trades)
+0.000
+0.002
+0.004
+0.006
+0.008
+0.010
+0.012
+0.014
+R(l)
+ FT 2002
+G0=G0
+*
+β=0.38
+β=0.40
+β=0.42
+β=0.44
+Figure 9: Theoretical impact function Rt(ℓ), from Eq. (17), and for diﬀerent
+values of β close to βc = 0.38. The shape of the empirical response function
+can be quite accurately reproduced using β = 0.42. The only remaining free
+parameter is ℓ0 = 20. The thick plain line is Rt(ℓ) computed using the ‘pure
+diﬀusion’ propagator G∗
+0 determined in Appendix, Eq. (34).
+have ﬁxed the parameters γ and C0 to the values extracted from the behaviour of
+C1(ℓ) (see Fig. 8): γ = 0.24 and C0 = 0.20. The overall scaling parameter Γ0 is
+adjusted to Γ0 = 2.8 10−3 Euros to match the value of R(ℓ= 1). The values of β
+and ℓ0 are ﬁtting parameters: we show in Fig. 9 the response function computed
+for diﬀerent values of β in the vicinity of βc = 0.38, and used ℓ0 = 20.
+The results are compared with the empirical data for FT, showing that one
+can indeed satisfactorily reproduce, when β ≈βc, a weakly increasing impact
+function that reaches a maximum and then decays. One also sees, from Fig. 9,
+that the relation between β and γ must be quite accurately satisﬁed, otherwise
+the response function shows a distinct upward trend (for β < βc) or a downward
+trend (β > βc).7 In fact, we have tried other simple forms for G0(ℓ), such as a
+simple exponential decay toward a possibly non zero asymptotic value, but this
+leads to unacceptable shapes for R(ℓ).
+It is also interesting to use the propagator G∗
+0 determined in the Appendix
+from the assumption of a purely diﬀusive price process for all ℓ’s. This propagator
+is plotted in Fig. 10, and compared to the G0 determined above from the ﬁt of
+R(ℓ). As shown in Fig. 9, the use of G∗
+0 does not lead to a very good ﬁt of
+R(ℓ). Since the latter quantity is in fact very sensitive to the chosen shape for
+G0, it does reveal small, but systematic deviations from a purely diﬀusive price
+7This might actually explain the diﬀerent behaviour of Pechiney seen in Fig. 4.
+18
+
+1
+10
+100
+1000
+10000
+ l 
+0.1
+1.0
+ G0(l)
+ G0
+* Pure diffusion
+ G0  fit (β=0.42)
+Figure 10: Shape of the bare propagator G0, determined either by the ﬁt of R,
+with β = 0.42 and ℓ0 = 20, or using the exact relation, Eq. (34), derived in the
+Appendix from the assumption of a purely diﬀusive process.
+process. [Note that if one had C2(ℓ) = C1(ℓ), the resulting R(ℓ) should be strictly
+constant.]
+3.4
+Back to the diﬀusion constant
+As we showed above, the reason for the ﬁne tuning of β is the requirement that
+price changes are almost diﬀusive. We can therefore also compute Dt(ℓ) for all
+values of ℓusing the very same values of γ, β, C0, ℓ0 and Γ0. Now, in order
+to ﬁt the data one has two extra free parameters: one is Dη, and the other
+comes about because the mid-point can change without any trade. One should
+thus add to Dt(ℓ) an ℓ-independent ‘error’ term D0 that survives in the ℓ= 0
+limit, and is associated to bid-ask ﬂuctuations. With these two extra parameters,
+one can reproduce the empirical determination of D(ℓ)/ℓ(see Fig. 11). The
+small deviations of this quantity from a horizontal line at ﬁnite ℓare due to the
+diﬀerence between G0 and G∗
+0 and/or to the possible autocorrelations between
+the ηn variables, which we have neglected here. Note that the contribution of the
+term Dη turns out to be a factor two larger than that of the impact contribution,
+Eq. (20), which means that the small increase of the ‘impact contribution’ with
+ℓ(lower graph of Fig. 11) is hardly detectable in D(ℓ)/ℓ.
+Coming back to the Fluctuation-Response relation discussed in Section 2.4,
+we see that our model predicts, for ℓ≫1 where the eﬀect of D0 can be neglected:
+Dt(ℓ)
+ℓ
+= Z⟨ln V ⟩2C0Γ2
+0 + Dη,
+Rt(ℓ) = Z′⟨ln V ⟩Γ0C0,
+(25)
+19
+
+1
+10
+100
+1000
+10000
+ Time (Trades)
+0.000
+0.005
+0.010
+0.015
+ [D(l)/l]
+1/2
+ Model
+ Impact contribution, Eq. (20)
+ FT 2002
+Figure 11: Diﬀusion constant D(ℓ)/ℓ, using Eq. (20), with the values of γ, β, C0,
+ℓ0 and Γ0 determined from R(ℓ). Two extra parameters were used: Dη = 10−4
+and D0 = 6.6 10−5 (both in Euro squared).
+The lower graph is the ‘impact
+contribution’ to Dt(ℓ), given by Eq. (20) with Dη = 0. The ‘oscillations’ at long
+times is a numerical artefact.
+where Z, Z′ are numerical constants. Assuming that from one day to the next
+both the average (log-)traded volume and the impact Γ0 of each individual trade
+might change, while C0 is ﬁxed, immediately leads to the aﬃne relation between
+D and R2 reported in Section 2.4.
+3.5
+Discussion
+The conclusion of this Section is that our ‘micro-model’ of prices, Eq.
+(12),
+can be used as a theoretical canvas to rationalize and interpret the empirical
+results found in the previous Section. Most surprising is the constraint that the
+empirical results impose on the shape of the ‘bare’ response function G0, which is
+found to be a slowly decaying power law which must precisely cancel the slowly
+decaying autocorrelation of the trades, but reveals systematic deviations from
+a pure diﬀusion process, hardly noticeable on the diﬀusion constant itself. The
+fact that the bare impact function decays with time (at least on intra-day time
+scales), in a ﬁnely tuned way to compensate the long memory in the trades, is
+the central result of this paper. This eﬀect is lost in the zero intelligence models
+of Poisonnian order ﬂows, where, after decreasing during a short transient, the
+impact of each trade becomes permanent: G0(ℓ) →G∞> 0. (On this point, see
+the model studied in [14], where it is shown that prices are sub-diﬀusive on time
+scales shorter than the life-time of limit orders, essentially as a consequence of
+20
+
+the shape of the order book). In fact, both the long time memory of the trades
+and the slowly relaxing impact function reported here must be the consequence
+of the strategic behaviour of market participants, that we discuss below in order
+to get an intuitive understanding of the mechanisms at play.
+Although our detailed analysis concerns FT, it is clear that our conclusions
+are more general, since both the strong autocorrelations in the trade signs, the
+near constancy of the average response function and the diﬀusive nature of price
+changes have been observed on all stocks, with only quantitative changes (see
+Figs 2 and 4). It would be interesting to document these quantitative diﬀerence,
+and relate these to liquidity, or to the size of the bid-ask spread.
+Finally, it would be very interesting to know whether the bare response func-
+tion levels oﬀto a ﬁnite value for large time lags; this will require to go beyond
+the analysis of the present paper and to deal with overnight eﬀects to enlarge the
+available range of ℓvalues. However, it seems reasonable to expect that G0(ℓ)
+should indeed reach a ﬁnite asymptotic value for values of ℓcorresponding to a
+few days of trading.8
+4
+Critical balance of opposite forces:
+Market
+orders vs. limit orders
+Although trading occurs for a large variety of reasons, it is useful to recognize
+that traders organize in two broad categories:
+• One is that of ‘liquidity takers’, that trigger trades by putting in market
+orders. The motivation for this category of traders might be to take advan-
+tage of some ‘information’, and make a proﬁt from correctly anticipating
+future price changes. Information can in fact be of very diﬀerent nature:
+fundamental (ﬁrm based), macro-economical, political, statistical (based
+on regularities of price patterns), etc. Unfortunately, information is often
+hard to interpret correctly, and it is probable that many of these ‘informa-
+tion’ driven trades are misguided (on this point, see the remarkable work of
+Odean [35]; see also [7] and refs. therein). For example, systematic hedge
+funds which take decisions based on statistical pattern recognition have a
+typical success rate of only 52%. There is no compelling reason to believe
+that the intuition of traders in markets room fares much better than that.
+Since market orders allows one to be immediately executed, many impa-
+tient investors, who want to liquidate their position, or hedge, etc. might be
+tempted to place market orders, even at the expense of the bid-ask spread
+s(t) = a(t) −b(t).
+8Hopman quotes three days as the time beyond which the autocorrelation of the trades sign
+falls to zero [7].
+21
+
+• The other category is that of ‘liquidity providers’ (or ‘market makers’, al-
+though on electronic markets all participants can act as liquidity providers
+by putting in limit orders), who oﬀer to buy or to sell but avoid taking any
+bare position on the market. Their proﬁt comes from the bid-ask spread
+s: the sell price is always slightly larger than the buy price, so that each
+round turn operation leads to a proﬁt equal to the spread s, at least if the
+midpoint has not changed in the mean time (see below).
+This is where the game becomes interesting. Assume that a liquidity taker
+wants to buy, so that an increased number of buy orders arrive on the market.
+The liquidity providers is tempted to increase the oﬀer (or ask) price a because
+the buyer might be informed and really know that the current price is too low
+and that it will most probably increase in the near future. Should this happen,
+the liquidity provider, who has to close his position later, might have to buy back
+at a much higher price and experience a loss. In order not to trigger a sudden
+increase of a that would make their trade costly, liquidity takers obviously need
+to put on not too large orders. This is the rationale for dividing one’s order
+in small chunks and disperse these as much as possible over time so as not to
+appear on the ‘radar screens’. Doing so liquidity takers necessarily create some
+temporal correlations in the sign of the trades. Since these traders probably have
+a somewhat broad spectrum of volumes to trade [38], and therefore of trading
+horizons (from a few minutes to several weeks), this can easily explain the slow,
+power-law decay of the sign correlation function C0(ℓ) reported above.
+Now, if the market orders in fact do not contain useful information but are
+the result of hedging, noise trading, misguided interpretations, errors, etc., then
+the price should not move up on the long run, and should eventually mean revert
+to its previous value. Liquidity providers are obviously the active force behind
+this mean reversion, again because closing their position will be costly if the price
+has moved up too far from the initial price. More precisely, a computation of the
+liquidity provider average gain per share G can be performed [16], and is found
+to be, for trades of volume V :
+G = s + R(0, V ) −R(∞, V ) ≈s + ln V [R(0) −R(∞)] ,
+(26)
+where R(0, V ) is the immediate average impact of a trade, before new limit orders
+set in. We have in fact checked empirically that R(0, V ) ≈R(1, V ). From the
+above formula, one sees that it is in the interest of liquidity providers to mean
+revert the price, such as to make R(∞) as small as possible. However, this mean
+reversion cannot take place too quickly, again because a really informed trader
+would then be able to buy a large volume at a modest price. Hence, this mean
+reversion must be slow. From the quantitative analysis of Section 3, we have
+found that there is hardly any mean reversion at all on short time scales ℓ< ℓ0,
+and that this eﬀect can be described as a slow power-law for larger ℓ’s. Actually,
+the action of liquidity providers and liquidity takers must be such that no (or
+22
+
+very little) linear correlation is created in the price changes, otherwise statistical
+arbitrage opportunities would be created at the detriment of one or the other
+population.
+To summarize: liquidity takers must dilute their orders and create long range
+correlations in the trade signs, whereas liquidity providers must correctly handle
+the fact that liquidity takers might either possess useful information (a rare sit-
+uation, but that can be very costly since the price can jump as a result of some
+signiﬁcant news), or might not be informed at all and trade randomly. By slowly
+mean reverting the price, market makers minimize the probability that they ei-
+ther sell too low, or have to buy back too high. The delicate balance between
+these conﬂicting tendencies conspire to put the market at the border between
+persistence (if mean reversion is too weak, i.e. β < βc) or anti-persistence (if
+mean reversion is too strong, i.e.
+β > βc), and therefore eliminate arbitrage
+opportunities.
+It is actually enlightening to propose a simple model that could explain how
+market makers enforce this mean reversion.9
+Assume that upon placing limit
+orders, there is a systematic bias toward some moving average of past prices.
+If this average is for simplicity taken to be an exponential moving average, the
+continuous time description of this will read:
+dpt
+dt
+=
+−Ω(pt −pt) + ηt
+dpt
+dt
+=
+κ(pt −pt),
+(27)
+where ηt is the random driving force due to trading, Ωthe inverse time scale for
+the strength of the mean reversion, and 1/κ the ‘memory’ time over which the
+average price pt is computed. The ﬁrst equation means that liquidity providers
+tend to mean revert the price toward pt, while the second describes the update
+of the exponential moving average pt with time. This set of linear equations can
+be solved, and leads to a solution of the form pt =
+R t dt′G0(t −t′)η′
+t, with a bare
+propagator given by:
+G0(t) = (1 −G∞) exp[−(Ω+ κ)t] + G∞,
+(28)
+i.e. an exponential decay toward a ﬁnite asymptotic value G∞= κ/(Ω+ κ).
+Note that, interestingly, it is the self-referential eﬀect that leads to a non zero
+asymptotic impact. If the fundamental price was known to all, κ = 0 and G∞= 0.
+In the opposite limit where κ ≫Ω, the last price is taken as the reference price,
+and G∞→1.
+A way to obtain G0(t) to resemble a power-law is to assume
+that diﬀerent market makers use diﬀerent time horizons to compute a reasonable
+9We have in fact directly checked on the data that the evolution of the midpoint between
+trades (resulting from the order ﬂow) is indeed anticorrelated with the impact of the trades.
+On this point, see also [7] where the limit order ﬂow subsequent to a trade is studied.
+23
+
+reference price. This leads to a G0(t) which writes as the sum of time exponentials
+with diﬀerent rates which can easily mimic a pure power-law.
+The message of the above model is actually quite interesting from the point of
+view of Eﬃcient Markets: it suggests that nobody really knows what the correct
+reference price should be, and that its best proxy is in fact its own past average
+over some time window (the length of which being itself distributed over several
+time scales).
+5
+Summary and Conclusion
+The aim of this paper was to study in details the statistics of price changes at the
+trade by trade level, and to analyze the interplay between the impact of each trade
+on the price and the volatility. Empirical data shows that (a) the price (midpoint)
+process is close to being purely diﬀusive, even at the trade by trade scale (b) the
+temporal structure of the impact function ﬁrst increases and reaches a maximum
+after 100 −1000 trades, before decreasing back, with a rather limited overall
+variation (typically a factor 2) and (c) the sign of the trades shows surprisingly
+long range (power-law) correlations. The paradox is that if the impact of each
+trade was permanent, the price process should be strongly super-diﬀusive and
+the average response function should increase by a large factor as a function of
+the time-lag.
+As a possible resolution of this paradox, we have proposed a micro-model
+of prices, Eq.
+(12) where the price at any instant is the causal result of all
+past trades, mediated by what we called a bare impact function, or propagator
+G0. All the empirical results can be reconciled if one assumes that this bare
+propagator also decays as a power-law in time, with an exponent which is precisely
+tuned to a critical value, ensuring simultaneously that prices are diﬀusive on long
+time scales and that the response function is nearly constant. Therefore, the
+seemingly trivial random walk behaviour of price changes in fact results from
+a ﬁned-tuned competition between two opposite eﬀects, one leading to super-
+diﬀusion (the autocorrelation of trades) and the other leading to sub-diﬀusion
+(the decay of the bare impact function). The cancellation is however not exact:
+the non trivial behaviour of the average response function allows one to detect
+small, but systematic deviations from a purely diﬀusive behaviour, deviations
+that are hardly detectable on the price ﬂuctuations themselves.
+In ﬁnancial terms, the competition is between liquidity takers, that create
+long range correlations by dividing their trading volume in small quantities, and
+liquidity providers that tend to mean revert the price such as to optimize their
+gains (see Eq. (26)). The resulting absence of correlations in price changes, and
+therefore of arbitrage opportunities is often postulated a priori in the economics
+literature, but the details of the mechanism that removes these arbitrage oppor-
+tunities are rather obscure. The main message of this paper is that the random
+24
+
+walk nature of price changes is not due to the unpredictable nature of incoming
+news, but appears as a dynamical consequence of the competition between an-
+tagonist market forces. In fact, the role of real (and correctly interpreted) news
+appears to be rather thin: we have deﬁned a model independent indicator of the
+fraction of ‘informed’ trades, as the asymmetry of the probability distribution
+of the signed price variation, where the sign is that of the trade at the initial
+time. Information triggered trades should reveal in a detectable positive skew of
+this distribution, in particular in the tails. Consistently with other studies [35],
+our empirical results only show very weak asymmetry, barely suﬃcient to cover
+trading costs, which means that only a small fraction of trades can a posteri-
+ori described as truly informed, whereas most trades can be classiﬁed as noise.
+This result is most probably one of the mechanism needed to explain the excess
+volatility puzzle ﬁrst raised by Schiller [3].
+From a more general standpoint, our ﬁnding that the absence of arbitrage
+opportunities results from a critical balance between antagonist eﬀects is quite
+interesting. It might justify several claims made in the (econo-)physics litera-
+ture that the anomalies in price statistics (fat tails in returns described by power
+laws [20, 21], long range self similar volatility correlations [24, 25], and the long
+ranged correlations in signs reported here and in [17]) are due to the presence
+of a critical point in the vicinity of which the market operates (see e.g. [39],
+and in the context of ﬁnancial markets [40, 41]). If a ﬁne-tuned balance between
+two competing eﬀects is needed to ensure absence of arbitrage opportunities, one
+should expect that ﬂuctuations are crucial, since a local unbalance between the
+competing forces can lead to an instability. In this respect, the analogy with the
+balancing of a long stick is quite enticing [19]. In more ﬁnancial terms, the break-
+down of the conditions for this dynamical equilibrium is, for example, a liquidity
+crisis: a sudden cooperativity of market orders, that lead to an increase of the
+trade sign correlation function, can out-weight the liquidity providers stabilizing
+(mean-reverting) role, and lead to crashes. This suggests that one should be able
+to write a mathematical model, inspired by our results, to describe this ‘on-oﬀ
+intermittency’ scenario, advocated (although in a diﬀerent context) in [19, 42, 43].
+Acknowledgments: Yuval Gefen thanks Science & Finance/Capital Fund Management
+for hospitality during the period this work was completed. We thank Jelle Boersma,
+Lisa Borland and Bernd Rosenow for inspiring remarks, and J. Doyne Farmer for com-
+municating his results on the autocorrelation of trades before publication [17] and for
+insightful discussions and comments. We also thanks S. Picozzi for an interesting dis-
+cussion and for pointing out the possible relevance of ref. [19] to ﬁnancial markets.
+Xavier Gabaix has made some crucial remarks on the ﬁrst version of the manuscript,
+that in particular lead to the material contained in the Appendix, and draw our at-
+tention to ref. [7]. Finally, we take the opportunity of this paper to acknowledge the
+countless eﬀorts of Gene Stanley to investigate the dynamics of complex systems and
+to bring together diﬀerent ﬁelds and ideas – as testiﬁed by the papers cited in reference,
+25
+
+which inspired the present work.
+Appendix: The case of a strictly diﬀusive process
+This appendix was inspired by a remark of Xavier Gabaix. There is one particular
+case of our micro-model of prices, Eq. (12), where prices are purely diﬀusive at
+all times (rather than only asymptotically). This is the case provided a speciﬁc
+relation between the bare propagator G0 and the sign correlation function C2(ℓ)
+holds. In order to show this, let us assume that the random variable qn ≡εn ln Vn
+can be written as:
+qn =
+X
+m≤n
+K(n −m)ξm,
+(29)
+where ξn are uncorrelated random variables (⟨ξnξm⟩= ⟨ln2 V ⟩δn,m), and K(.) a
+certain kernel. In order for the qn to have the required correlations, the kernel
+K(.) should obey the following equation:
+C2(n) = ⟨ln2 V ⟩
+X
+m≥0
+K(m + n)K(m).
+(30)
+In the case where C2 decays as ℓ−γ with 0 < γ < 1, it is easy to show that the
+asymptotic decay of K(n) should also be a power-law n−δ with 2δ −1 = γ. Note
+that 1/2 < δ < 1.
+Inverting Eq. (29) allows one to obtain a set of uncorrelated random variables
+ξn from a set of correlated variables qn:
+ξn =
+X
+m≤n
+Q(n −m)qm,
+(31)
+where Q is the matrix inverse of K, such that Pn
+m=0 K(n−m)Q(m) = δm,n. Eqs.
+(29,31) in fact form the basis of linear ﬁlter theories, and ξn can be seen as the
+prediction error on the next variable qn.
+Introducing discrete Laplace transforms:
+c
+K(E) =
+X
+n≥0
+K(n)e−nE
+bQ(E) =
+X
+n≥0
+Q(n)e−nE,
+(32)
+one ﬁnds c
+K(E) bQ(E) = 1. For a power-law kernel K(.), one obtains:
+bQ(E) ∝
+E1−δ for E →0, and therefore Q(n) ∝nδ−2 for large n. It is useful to note that
+in this case bQ(E = 0) = P
+n≥0 Q(n) = 0.
+Now, it is clear that if one deﬁnes the price process pn as:
+pn =
+X
+m<n
+ξm,
+(33)
+then pn is a diﬀusion process with a strictly linear D(ℓ), since the ξ’s are by
+construction uncorrelated. The price deﬁned in this way can also be written,
+26
+
+using Eq. (31), as a linear combination of past qm’s, as assumed in our micro-
+model Eq. (12), with:
+G∗
+0(ℓ) ≡
+ℓ−1
+X
+m=0
+Q(m).
+(34)
+This is an exact relation between C2 (that allows one to compute in turn K and
+Q) and the response function G∗
+0 for all ℓ’s, where the star indicates that strict
+diﬀusion is imposed.
+In the case of power-law kernels, one ﬁnds from the above relation and from
+Q(n) ∝nδ−2 for large n:
+G∗
+0(ℓ) ∝ℓδ−1 −→β = 1 −δ = 1 −γ
+2
+,
+(35)
+which is, not surprisingly, the relation obtained in the main text from the as-
+sumption that prices are diﬀusive on long time scales.
+Eq. (34) can be used to construct G∗
+0 from the empirical determination of C2,
+shown in Fig. 10. In order to obtain this curve, we have ﬁtted C2(n) as:
+C2(0) = 33.5;
+C2(n) =
+7.16
+(1.95 + n)0.285,
+(36)
+and used the Levinson-Durbin recursion algorithm for solving a Toeplitz system
+(see, e.g., [44]).
+References
+[1] E. F. Fama, Eﬃcient capital markets: A review of theory and empirical work,
+Journal of Finance, 25, 383 (1970).
+[2] P. A. Samuelson, Proof that properly anticipated prices ﬂuctuate randomly,
+Industrial Management Review, 6, 41 (1965).
+[3] R. J. Schiller, Do Stock Prices move too much to be justiﬁed by subsequent
+changes in dividends ?, American Economic Review, 71, 421 (1981). R. J.
+Schiller, Irrational Exuberance, Princeton University Press (2000).
+[4] W. B. Arthur, Complexity in Economic and Financial Markets, Complexity,
+1, 1 (1995).
+[5] A. Shleifer, Ineﬃcient Markets, An Introduction to Behavioral Finance, Ox-
+ford University Press (2000).
+[6] A. Orl´ean, Le pouvoir de la ﬁnance, Odile Jacob, Paris (1999); A quoi servent
+les march´es ﬁnanciers ?, in Qu’est-ce que la Culture ?, Odile Jacob, Paris
+(2001).
+27
+
+[7] C. Hopman, Are supply and demand driving stock prices?, MIT working
+paper, Dec. 2002.
+[8] P. Bak, M. Paczuski, and M. Shubik, Price variations in a stock market with
+many agents, Physica A 246, 430 (1997)
+[9] S. Maslov, Simple model of a limit order-driven market, Physica A 278,
+571 (2000); S. Maslov, M. Millis, Price ﬂuctuations from the order book
+perspective – empirical facts and a simple model, Physica A 299, 234 (2001)
+[10] D. Challet, R. Stinchcombe, Analyzing and modelling 1+1d markets, Physica
+A 300, 285 (2001)
+[11] F. Slanina, Mean-ﬁeld approximation for a limit order driven market model,
+Phys. Rev. E 64, 056136 (2001).
+[12] M. Daniels, J.D. Farmer, G. Iori, E. Smith, Demand storage, market liquid-
+ity, and price volatilty, SFI working paper 02-01-001. This paper appeared in
+ﬁnal, but truncated form as: M. G. Daniels, J. D. Farmer, G. Iori, E. Smith,
+Quantitative model of price diﬀusion and market friction based on trading
+as a mechanistic random process, Phys. Rev. Lett. 90, 108102 (2003).
+[13] J.P. Bouchaud, M. M´ezard, M. Potters, Statistical properties of stock order
+books: empirical results and models, Quantitative Finance 2, 251 (2002).
+[14] E. Smith, J. D. Farmer, L. Gillemot, S. Krishnamurthy, Statistical theory
+of the continuous double auction, e-print cond-mat/0210475, to appear in
+Quantitative Finance.
+[15] D. Challet, R. Stinchcombe, Non-constant rates and over-diﬀusive prices in
+a simple model of limit order markets, Quantitative Finance 3, 155 (2003).
+[16] M. Wyart, J.P. Bouchaud, in preparation.
+[17] J. D. Farmer, talk presented at the ICBI Global Derivatives Trading Summit,
+Barcelona, May 2003; F. Lillo, J. D. Farmer, in preparation.
+[18] C. K. Peng, J. Mietus, J. Hausdorﬀ, S. Havlin, H. E. Stanley, and A. L.
+Goldberger, Long-Range Anticorrelations and Non-Gaussian Behavior of the
+Heartbeat, Phys. Rev. Lett. 70, 1343-1346 (1993); P. Bernaola-Galvan, P.
+Ch. Ivanov, L. A. N. Amaral, and H. E. Stanley, Scale Invariance in the
+Nonstationarity of Human Heart Rate Phys. Rev. Lett. 87, 168105 (2001).
+The qualitative analogy with ﬁnancial markets was recently discussed in: Z.
+Struzik, Taking the pulse of the economy, Quantitative Finance 3, 78 (2003).
+[19] J. L. Cabrera and J. G. Milton, On-OﬀIntermittency in a Human Balancing
+Task, Phys. Rev. Lett. 89, 158702 (2002)
+28
+
+[20] T. Lux, The stable Paretian hypothesis and the frequency of large returns:
+an examination of major German stocks, Applied Financial Economics, 6,
+463, (1996).
+[21] V. Plerou, P. Gopikrishnan, L.A. Amaral, M. Meyer, H.E. Stanley, Scaling
+of the distribution of price ﬂuctuations of individual companies, Phys. Rev.
+E60 6519 (1999); P. Gopikrishnan, V. Plerou, L. A. Amaral, M. Meyer,
+H. E. Stanley, Scaling of the distribution of ﬂuctuations of ﬁnancial market
+indices, Phys. Rev. E 60 5305 (1999).
+[22] V. Plerou, P. Gopikrishnan, L. A. N. Amaral, X. Gabaix, and H. E. Stanley,
+Diﬀusion and Economic Fluctuations, Phys. Rev. E 62, 3023 (2000).
+[23] R. Mantegna, H. E. Stanley, An Introduction to Econophysics, Cambridge
+University Press, Cambridge, 1999; J.-P. Bouchaud and M. Potters, The-
+ory of Financial Risks and Derivative Pricing, Cambridge University Press,
+Second Edition, 2003.
+[24] for a recent review, see: R. Cont, Quantitative Finance, Empirical properties
+of asset returns: stylized facts and statistical issues, 1, 223 (2001), and refs.
+therein.
+[25] J.-F. Muzy, J. Delour, E. Bacry, Modelling ﬂuctuations of ﬁnancial time
+series: from cascade process to stochastic volatility model, Eur. Phys. J. B
+17, 537-548 (2000); for a recent review, see: J.P. Bouchaud, J.F. Muzy, Fi-
+nancial time series: from Bachelier’s random walk to multifractal ‘cascades’,
+to appear in ‘Kolmogorov’s Legacy’, Editions Belin/Springer, Paris/Berlin
+2003.
+[26] M. Wyart, J.P. Bouchaud, Self-referential behaviour, overreaction and con-
+ventions in ﬁnancial markets, e-print cond-mat/0303584, submitted to J.
+Economic Behaviour & Organisation.
+[27] F. Black, Noise, J. of Finance, 41 529 (1986).
+[28] W. de Bondt, R. Thaler, Does the market overreact ?, Journal of Finance,
+XL, 793 (1985).
+[29] J. Hasbrouck, Measuring the information content of stock trades, Journal of
+Finance, XLVI, 179 (1991).
+[30] Barra, Market Impact, unpublished report, 1997.
+[31] A. Kempf, O. Korn, Market Depth and Order Size, Journal of Financial
+Markets, 2, 29 (1999).
+29
+
+[32] V. Plerou, P. Gopikrishnan, X. Gabaix, H. E. Stanley, Quantifying Stock
+Price Response to Demand Fluctuations, Phys. Rev. E 66, 027104 (2002).
+[33] F. Lillo, R. Mantegna, J. D. Farmer, Single Curve Collapse of the Price Im-
+pact Function for the New York Stock Exchange, e-print cond-mat/0207428;
+Master curve for price-impact function, Nature, 421, 129 (2003).
+[34] M. Potters, J.P. Bouchaud, More statistical properties of order books and
+price impact, Physica A, 324, 133 (2003).
+[35] T. Odean, Do Investors Trade Too Much?, American Economic Review, 89,
+1279 (1999).
+[36] B. Rosenow, Fluctuations and Market Friction in Financial Trading, Int.
+J. Mod. Phys. C, 13, 419 (2002). Somewhat related results, although not
+discussed in these terms, can also be found in [22].
+[37] J.-P. Bouchaud, R. Cont, A Langevin approach to stock market ﬂuctuations
+and crashes, European Journal of Physics, B 6, 543 (1998).
+[38] on this point, see: X. Gabaix, P. Gopikrishnan, V. Plerou, H. E. Stanley, A
+theory of power-law distributions in ﬁnancial markets ﬂuctuations, Nature,
+423, 267 (2003). We associate the power-law distribution of investors’ size
+to the long range correlations reported here rather than to the power-law
+tail of return, as advocated in the above cited paper.
+[39] P. Bak, How Nature Works:
+The Science of Self-Organized Criticality,
+Copernicus, Springer, New York, 1996.
+[40] D. Challet, A. Chessa, M. Marsili, Y.C. Zhang, From Minority Games to real
+markets, Quantitative Finance, 1, 168 (2001) and refs. therein; D. Challet,
+M. Marsili, Y.C. Zhang, The Minority Game, book in preparation.
+[41] I. Giardina, J. P. Bouchaud, Bubbles, crashes and intermittency in agent
+based market models, Eur. Phys. Jour. B 31, 421 (2003); see also the discus-
+sion in: J.P. Bouchaud, Power-laws in economics and ﬁnance: some ideas
+from physics, Quantitative Finance, 1, 105 (2001).
+[42] T. Lux, M. Marchesi, Volatility Clustering in Financial Markets: A Mi-
+crosimulation of Interacting Agents, Int. J. Theo. Appl. Fin. 3, 675 (2000).
+[43] A. Krawiecki, J. A. Hoyst, and D. Helbing, Volatility Clustering and Scaling
+for Financial Time Series due to Attractor Bubbling, Phys. Rev. Lett. 89,
+158701 (2002).
+[44] D. B. Percival, Simulating Gaussian Random Processes with Speciﬁed Spec-
+tra, Computing Science & Statistics, 24, 534 (1992).
+30

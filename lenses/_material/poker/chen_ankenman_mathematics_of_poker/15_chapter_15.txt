@@ -1,0 +1,1551 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         155 
+ 
+Chapter 15 
+Player X Strikes Back: Full-Street Games 
+ 
+In the first part of Part III, we discussed half-street games. In these games, Player X acted first, 
+but was compelled to check dark. After this Player Y could either check and take a showdown, 
+or value bet and bluff appropriately. In Chapter 15, we begin our investigation of full-street 
+games. In these games, Player X again acts first, but now can either bet or check. If he bets, 
+Player Y will sometimes have the option to raise or fold, and can always call. If he checks, then 
+Player Y can check or bet. 
+ 
+It is important to recognize that some concepts will carry over from half-street games, while 
+others will not. For example, betting and bluffing ratios are just as valid for Player X as they 
+were for Y. But in addition to this, the option that X has to bet changes the distribution of hands 
+he has when he checks, so Y's play behind his checks will frequently change. This is a feature of 
+virtually all expanded toy games - the play on earlier decisions significantly impacts the play on 
+the later ones. 
+ 
+A second important idea is that Player X cannot lose value moving from a half-street game to a 
+full-street one, assuming that the rest of the game is the same. If Player X's strategies are such 
+that he has less expectation in the full-street game than the half-street one. he should simply 
+adopt the strategy previously forced upon him of checking in the dark. This is a natural extension 
+of the idea that strategic options have non-negative value - X's ability to bet right off the bat can 
+at worst be worth zero, since he can always decline the option and take his half-street equity. 
+ 
+The third and most important idea that applies to full-street games, and to any game of more 
+complexity than a half-street game, is the concept and the way in which a strategy is expressed. 
+In half-street games, particularly the [0,1] game, each player had only one action. Player Y could 
+bet or check, and if Player Y bet. Player X could call or fold. Since each of their strategies was 
+fundamentally just a single action in the game, there was a direct relationship between the 
+strategy "fold" and the strategic option "fold." 
+ 
+In the half street games, each player's strategy was made up of regions - sometimes these regions 
+were a range of hands with which the player would use a particular strategic option. This 
+occurred in games like the [0,1] game. In other cases, the regions were mixing frequencies for 
+the discrete hands - such as in the AKQ game. But in either case, the player selected a 
+distribution of hands with which to take each strategic option, and the total of those distributions 
+comprised the strategy. 
+ 
+In full-street games, though, the situation is slightly different, hi half-street games. Player X's 
+initial check was required by the rules of the game. But now he has what might be called two 
+different decisions - to check or bet initially, and to call or fold to a bet if he is faced with that 
+scenario. In our view, these are not really two separate decisions. Instead, when X chooses a 
+strategy, we create a new set of more complex options that reflect his choices for the game. 
+Instead of two options on the first decision and two on the second, X simply has three decisions - 
+to bet, to check-call, or to check-fold. When we specify decisions for full-street games, we will 
+create payoff matrices that reflect the expanded strategic options and not simply the immediately 
+available ones. 
+ 
+With these ideas in mind, we introduce our first full-street game. 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         156 
+ 
+Example 15.1 - AKQ Game #4 
+One full street. 
+Pot size of P units. (P > 1 for the same reason as in AKQ Game #1 - Example 13.1.)  
+Limit betting of 1 unit.  
+Raising is not allowed. 
+ 
+The complete ex-showdown payoff matrix for this game as follows: 
+ 
+ 
+Y 
+Ace 
+King 
+Queen 
+ 
+ 
+X bets 
+X checks 
+X bets 
+X checks 
+X bets 
+X checks 
+X 
+ 
+Call 
+Fold 
+Bet 
+Chk 
+Call 
+Fold 
+Bet 
+Chk 
+Call 
+Fold 
+Bet 
+Chk 
+Ace 
+Bet 
+ 
+ 
+ 
+ 
+-1 
+0 
+ 
+ 
+-1 
+0 
+ 
+ 
+Chk/Call 
+ 
+ 
+ 
+ 
+ 
+ 
+-1 
+0 
+ 
+ 
+-1 
+0 
+Chk/Fold 
+ 
+ 
+ 
+ 
+ 
+ 
++P 
+0 
+ 
+ 
++P 
+0 
+King 
+Bet 
++1 
+-P 
+ 
+ 
+ 
+ 
+ 
+ 
+-1 
+0 
+ 
+ 
+Chk/Call 
+ 
+ 
++1 
+0 
+ 
+ 
+ 
+ 
+ 
+ 
+-1 
+0 
+Chk/Fold 
+ 
+ 
+0 
+0 
+ 
+ 
+ 
+ 
+ 
+ 
++P 
+0 
+Queen 
+Bet 
++1 
+-P 
+ 
+ 
++1 
+-P 
+ 
+ 
+ 
+ 
+ 
+ 
+Chk/Call 
+ 
+ 
++1 
+0 
+ 
+ 
++1 
+0 
+ 
+ 
+ 
+ 
+Chk/Fold 
+ 
+ 
+0 
+0 
+ 
+ 
+0 
+0 
+ 
+ 
+ 
+ 
+ 
+We can again immediately remove dominated options from this game to create a simpler game. 
+For Player X, we can see that checking and folding an ace is dominated by checking and calling 
+with it, and checking and calling with a queen is dominated by checking and folding it. For 
+Player Y, calling a bet with a queen or folding to a bet with an ace are dominated. Additionally, 
+checking an ace behind a check is dominated by betting it. Removing these leaves the following 
+game: 
+ 
+ 
+Y 
+Ace 
+King 
+Queen 
+X 
+ 
+Call 
+Bet 
+Call 
+Fold 
+Bet 
+Chk 
+Fold 
+Bet 
+Chk 
+Ace 
+Bet 
+ 
+ 
+-1 
+0 
+ 
+ 
+0 
+ 
+ 
+Chk/Call 
+ 
+ 
+ 
+ 
+-1 
+0 
+ 
+-1 
+0 
+King 
+Bet 
++1 
+ 
+ 
+ 
+ 
+ 
+0 
+ 
+ 
+Chk/Call 
+ 
++1 
+ 
+ 
+ 
+ 
+ 
+-1 
+0 
+Chk/Fold 
+ 
+0 
+ 
+ 
+ 
+ 
+ 
++P 
+0 
+Queen 
+Bet 
++1 
+ 
++1 
+-P 
+ 
+ 
+ 
+ 
+ 
+Chk/Fold 
+ 
+0 
+ 
+ 
+0 
+0 
+ 
+ 
+ 
+ 
+In this simpler game, we can see that betting kings is dominated for both players, and so we 
+have: 
+ 
+ 
+Y 
+Ace 
+King 
+Queen 
+X 
+ 
+Call/Bet 
+Call/Chk 
+Fold/Chk 
+Fold/Bet 
+Fold/Chk 
+Ace 
+Bet 
+ 
+-1 
+0 
+0 
+0 
+Chk/Call 
+ 
+0 
+0 
+-1 
+0 
+King 
+Chk/Call 
++1 
+ 
+ 
+-1 
+0 
+Chk/Fold 
+0 
+ 
+ 
+-P 
+0 
+Queen 
+Bet 
++1 
++1 
+-P 
+ 
+ 
+Chk/Fold 
+0 
+0 
+0 
+ 
+ 
+ 
+Let us consider the strategy choices for X. X will check all his kings, and call and fold with them 
+to make Y indifferent to bluffing a queen. In addition to this, he must choose a strategy for his 
+aces and for his queens. When he has an ace, he gains by check-calling when his opponent has a 
+queen by  including a bluff. However, he gains by betting when his opponent has a king and his 
+opponent will check-call. With queens, he gains by bluffing out his opponent's kings and loses 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         157 
+ 
+when his opponent holds an ace or a king that will call. 
+ 
+For Y, the picture is a little simpler. He has only to choose strategies for his kings and for his 
+queens. With a king, he will call often enough to make X indifferent to bluffing with a queen. 
+With queens, he will bluff often enough to make X indifferent to calling with a king. 
+ 
+The strategy for X, then, will consist of three values:  
+A betting frequency with aces, which we will call x.  
+A calling frequency with kings, which we will call c. 
+(Note that X checks with all his kings, so this is his check-calling frequency)  
+A bluffing frequency with queens, which we will call b.  
+The strategy for Y will consist of just two values:  
+A calling frequency with kings, which we will call cy.  
+A bluffing frequency with queens, which we will call by. 
+ 
+Consider the situation when X bets. We know that X will only bet when he holds aces or queens. 
+Y must make him indifferent to bluffing by calling with a particular frequency of kings, and this 
+is true whether the first player bets all his aces or not. Just as in the half-street games, when a 
+player bets a bifurcated set of aces and queens, his opponent must fold precisely a of his hands 
+that beat bluffs. Using the same logic from AXQ Game #2 (Example 13.2), we can end that 
+when X bets, Y must call with (P- 1)/(P+ 1) of his kings so that X is indifferent to bluffing 
+queens. This ensures that Y will be folding α of his hands that can beat a bluff. 
+ 
+X, however, must make his ratio of bluffing queens to value betting aces such that Y is 
+indifferent to calling with kings. What we do here is consider the difference in ex-showdown 
+value between Y's two options. When Y calls X's bet with a king, X can hold two different 
+hands. When X holds an ace, X gains one bet when Y calls compared to gaining zero bets if Y 
+folded. When X holds a queen, Y gains not only the bet he called, but the entire pot - since the 
+alternative for Y was to fold and allow X to steal the pot. Since Y wins (P + 1) bets by calling a 
+queen and loses one bet by calling an ace. X must bet one queen for every P+ 1 aces. 
+ 
+This can be written as the following equation: 
+ 
+b/x = 1/(P+ 1) = α 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ (15.1) 
+ 
+Again, we see that the fundamental a bluffing-to-betting relationship holds. This allows us to 
+ignore the value b in the rest of our analysis, since we can easily find b by simply using the 
+above equation. 
+ 
+Next, let us consider the situation where X checks. Here we have a similar situation to the one in 
+Game #2, except that instead of X having all his aces, he might have bet x of them. Y will bet all 
+his aces and α of his queens, using the same reasoning as we have used throughout. X has some 
+remaining distribution of hands. To make Y indifferent to bluffing, X must fold α of the hands 
+that beat a bluff that remain in his distribution. 
+ 
+If X checked all his aces (suppose x = 0), then he would hold equal parts kings and aces. He 
+would then fold α of his remaining hands, selecting kings to fold first. We showed in AXQ  
+Game #2 (Example 13.2) that the fraction of his kings he would fold is (P-1)/(P+ 1). Here, 
+however, his total number of hands has been reduced by x of his aces, so he will need to call with 
+more kings. 
+ 
+The total number of hands that X holds at this point is: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         158 
+ 
+Total hands = (all his aces) (fraction of aces he checked) + (all kings)  
+Total hands = ( 1 2
+  ) (1 - x) + ( 1 2
+ )  
+Total hands =  1 2
+  -  1 2
+  x +  1 2
+  
+ 
+Fraction to fold = (α) (Total Hands) 
+ 
+ 1 2
+  (1 - c) = α ( 1 2
+ − 1 2
+   +  1 2
+ ) 
+ 
+ 
+1 – c = α (2 - x) 
+ 
+c = 1 - 2α  + αx 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(15.2) 
+ 
+We can check this formula by looking at two specific values of x. First consider x = 0%, in which 
+c is: 
+ 
+c = 1 - 2α  + αx 
+c = 1 - 2α   
+c = 1 - 2α [1/(P+1)]  
+1 - 2α  = (P+ 1 - 2)/(P + 1) 
+α = (P - 1)/(P+ 1) 
+ 
+as we expected. Alternatively, suppose x = 100%. If X bets all his aces, he needs to fold α of his 
+kings to make Y indifferent to bluffing a queen. Our formula shows that c = 1 – α. again 
+matching our expectation. 
+ 
+With this equation, then, we know how both sides will play in all situations. However, we still 
+don’t know what the value of x is. 
+ 
+To recap the solution so far: 
+ 
+X bets x of his aces and αx of his queens. 
+X checks and folds the remaining queens and checks and calls with the remaining aces.  
+X checks and calls with (1 - 2α + αx) of his kings and check-folds the rest. 
+Y calls with 1 - 2α of his kings and all of his aces if X bets. 
+Y folds the remaining kings and all queens if X bets. 
+ 
+If X checks, Y bets all his aces and α of his queens, and checks all other hands. 
+ 
+This is a common occurrence when we solve games; often we will obtain optimal solutions 
+except for some particular variable. Then the side that controls that variable will simply select it 
+such that that side's expectation is maximized. 
+ 
+To find x, we must find the expectation of the game. We have six cases. 
+ 
+Case 1: 
+X: A, Y: K. 
+ 
+In this case, X will bet x of the time, and Y will call 1 - 2α of the time, for a total value of –x(1 - 
+2α). When X checks, the value is zero. 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         159 
+ 
+Case 2: 
+ 
+X: A, Y: Q. 
+ 
+ 
+In this case, when X bets, the value of the game is zero. X will check and induce a bluff 1 - x of 
+the time, and Y will bluff α of the time. The value is thus -α( l - x). 
+ 
+Case 3: 
+ 
+X: K, Y: A. 
+ 
+Here X checks all the time. When Y bets, X calls 1 - 2α + ax of the time. So the value of this 
+case is 1 - 2α + αx to Y. 
+ 
+Case 4: 
+ 
+X:K,Y:Q 
+ 
+Here X checks all the time. Y will bluff a of the time, and when X calls, Y will lose a bet. When 
+X folds, however, Y wins the entire pot. We know that Y's total value from all his bluff must be 
+zero, since X's optimal strategy makes him indifferent between bluffing and checking and the 
+value of checking is zero. So the value of Case 4 plus the value of Case 2 must equal zero. That 
+makes Case 4's value α(l - x). 
+ 
+Case 5: 
+ 
+X:Q, Y: A 
+ 
+X bluffs αx of the time. Y also calls for a value of αx. 
+ 
+Case 6: 
+ 
+X: Q, Y: K 
+ 
+Again, we know that the total value to the bluffer must be zero from bluffing, since the optimal 
+strategy makes him indifferent to bluffing and checking and the value of checking is zero. So the 
+value of Case 6 must be the negative of Case 5, or -αx. 
+ 
+We can view these values as a value matrix: 
+ 
+Hand Matchup Value to second player 
+(A, K) 
+-x (l – 2α) 
+(A, Q) 
+-α (1 – x) 
+(K, A) 
+ 1 – 2α + αx 
+(K, Q) 
+α (1 – x) 
+(Q, A) 
+αx 
+(Q, K) 
+- αx 
+Total 
+(x(-l + 3α) + l - 2α) /6 
+ 
+This last expression gives us the value of the game in terms of x. The following graph shows the 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         160 
+ 
+game value for values of P and x: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 15.1. Equity of AKQ Game #4 for values of x. 
+ 
+The value expression for this game is minimized at x = 1 for values of P larger than 2 and at 
+x = 0 for values of P between 1 and 2. 
+ 
+So we have the following optimal strategies: 
+ 
+Solution:  
+ 
+If P < 2: 
+ 
+Player X: 
+ 
+Checks all hands. 
+Calls with aces and (P- 1)/(P+ 1) of his kings.  
+ 
+Player Y: 
+ 
+Bets all aces and 1/(P+ 1) of his queens.  
+ 
+If P > 2: 
+ 
+Player X: 
+ 
+Bets all aces and 1/(P+ 1) of his queens.  
+Calls with P/(P+ 1) of his kings. 
+ 
+Player Y: 
+ 
+If the first player checks, bets all aces and 1/(P+ 1) of his queens.  
+If the first player bets, calls with aces and (P- 1)/(P+1) of hw kings. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         161 
+ 
+In stating this game, we excluded raising as an option. However, we can verify based on the 
+above solution that if raising is allowed, neither player can improve by raising any of his 
+opponents' bets (except in the cases where he holds an ace and his opponent will fold a queen). 
+Hence this is the solution to the more complete game where raising is allowed as well. 
+ 
+This simple game introduces full-street games. Essentially the differences between these and 
+then half-street counterparts lie in the number of different strategic options available to the 
+players. We saw the recurrence of the same betting to bluffing ratios (α) and the same folding 
+ratio (α again) as we saw in the half-street game. The additional complexity came from X's new 
+decision about whether to induce bluffs or to bet out with his aces. 
+ 
+We turn now back to the no-limit case. Recall that AKQ Game #3 (Example 14.1) was solved in 
+a relatively similar way; we solved the game for strategies in terms of Y's bet size s and then 
+maximized Y's equity through his selection of s. Having solved the half-street game, it would 
+seem that the jump from the half-street no-limit game to the full-street game should involve only 
+incremental complexity. At the end of this chapter, we proceed to doing just that. 
+ 
+However, before we go on and attempt to solve the AKQ for a full no-limit street, consider the 
+following game. 
+ 
+Example 15.2 - AKQ Game #5 
+One full street.  
+Pot size of 4 units. 
+A special form of spread-limit betting. Either side may check (if no action yet), or bet or raise 
+either 1 or 2 units at their turn. 
+ 
+AKQ Game #5 is the same as AKQ Game #4 (Example 15.1) with pot = 2, except that we've 
+added one additional option for both sides; to bet 1 4
+  of the pot instead half the pot. When we 
+solved Game #4, we found that at P = 2, X was indifferent to checking or betting aces; hence we 
+know that the value of the game is equal to the value of the half-street game, where X was forced 
+to check dark, since X can check dark in this game without losing value. 
+ 
+In Example 15.1, we found that the value of the game to Y was: 
+ 
+f ( l, P) = (x(-l + 3α)+ 1 - 2α) /6 
+ 
+Here x is zero (as X can check dark) and α = 1/(2 + 1) = 1 3
+ . 
+ 
+f (1, 2) = ((0)(-1 + 3α)+1 - 2( 1 3
+ ))/6  
+f (l, 2) = (l - 2 3
+ )/6  
+f (1, 2) = 1 18
+
+ 
+ 
+This result, however, is normalized to a bet size of 1. To correspond it to a bet size of two, we 
+double it: 
+ 
+f  (s = 2, P = 4) = 1 9
+  
+ 
+This is the equity of the game if both players simply follow the strategy of playing as though the 
+only allowed bet size is two units. We can now check to see if either player can benefit from 
+betting 1 unit instead. Suppose that X bets 1 unit with his aces and bluffs appropriately with 
+queens. Then Y will respond by making him indifferent to bluffing, which means calling with 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         162 
+ 
+4 5
+  of his hands overall, or 3 5
+  of kings in addition to all his aces. By doing this, X will win 1 
+unit 3 10 
+
+of the time, for a total win of 3 10 
+
+of a unit. Contrast this to his equity when checking. If 
+he checks, Y will bluff 1 3
+  of his queens (which he holds 1 2
+  of the time) for a win for the ace of 
+two units, for a total win of 1 3 
+ of a unit. Since 1 3
+  is larger than 3 10 
+
+, X unilaterally loses equity 
+by betting 1 unit instead of two: hence this is not optimal. 
+ 
+If X checks dark, then Y's equity from changing his bet amount to one unit instead of two: 
+ 
+f ( l, P) = (x(-l + 3α)+ 1 - 2α) /6 
+ 
+So for P = 4: 
+ 
+f ( l, 4) = (l - 2 5
+  ) /6 
+f  (s = 1, P = 4) = 1 10
+
+ 
+ 
+Hence Y cannot gain from betting one unit with aces and bluffing appropriately with queens. We  
+also know that Y may raise in this game. However, since X would only bet with aces and queens, 
+neither of which are hands that Y can profitably raise against, Y will just raise with his aces 
+(because calling with them is dominated) and fold queens. The same reasoning applies to X. It 
+seems, then, that this type of game is just a mild extension of the principles we have already 
+studied. 
+ 
+Or is it? 
+ 
+Based on the previous analysis, we have the following strategies:  
+ 
+X: 
+ 
+Check all hands. (This is co-optimal with other strategies.) 
+Call a 2-unit bet with all aces and 1 3
+  of kings. Call a 1 unit bet with 3 5
+  of kings. 
+ 
+Y: 
+ 
+If X bets, call a 2-unit bet with aces and 1 3
+  of kings and a 1 unit bet with aces and 3 5
+  of kings. 
+If X checks, bet two units with all aces and 1 3
+  of queens. 
+ 
+Recall now the important principle of optimal strategies that neither player can improve their 
+expectation unilaterally by changing strategies. This means that if we can improve either 
+player's expectation with any hand by playing it differently, the strategies aren't optimal. 
+ 
+Currently, X loses 2 3
+  of a unit each time he has a king. Half the time, his opponent has a queen 
+and bluffs 1 3
+  of the time. X calls 1 3
+  of the time, so 1 3
+  of the time he gains two units. The other 
+2 3
+  of the time, he loses the entire pot of four units, for a total loss when the opponent has a 
+queen of 2 3
+  of a unit. The other half of the time, the opponent has an ace. In these cases, he 
+loses the bet of two units 1 3
+  of the time (because he calls). So his total loss when the opponent 
+has an ace is 2 3
+  of a unit. The average of these, of course, is 2 3
+ . 
+ 
+If we changed his strategy to call more often with kings - for example, to call 1 2
+  of the time - he 
+would gain value against queens by not losing the pot when the queens bluffed, but lose some 
+value by paying off aces. Since the bluffing to betting ratio for the second player is 3 to 1, the 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         163 
+ 
+total amount he loses with a king remains unchanged. 
+ 
+But what if we bet a king? 
+ 
+In the games we have considered so far, betting a Icing was dominated once we removed the first 
+set of dominated strategies. We would never bet a king because to do so guarantees that we will 
+lose a bet against the opponent's aces while gaining nothing against the opponent's queens. But 
+consider now betting one unit with kings. Our strategy for Y indicates that Y should respond by 
+calling with aces and  3 5
+   of kings. 
+ 
+If Y does this, then X's total loss with a king is reduced to losing one unit half the time (when he 
+gets called by an ace), for a total loss of 1 2
+ . This loss is smaller than the 2 3
+  of a unit that X was 
+incurring by checking all his kings. Therefore the strategies presented before cannot be optimal - 
+X can unilaterally improve his equity by betting one unit with kings instead of checking them. 
+ 
+How can Y respond to this bet? We previously excluded raise-bluffing from the strategies, 
+because there were no instances where a player would bet with a king. However, now we have 
+such an occurrence, and so Y must consider raise-bluffing as a non-dominated option. When X 
+bets and Y holds an ace, clearly raising dominates folding. But if he only raises with aces, he 
+cannot gain value because X can simply fold his kings to a raise. So he must also protect his 
+value raises with a corresponding ratio of bluffs. 
+ 
+However, the familiar ratio of s to (1 + s) no longer applies, because the pot is now bigger (X 
+made it bigger by betting, and the second player must match his bet before raising). There are 
+also two bluff amounts that the second player can choose; a raise of two units (putting in a total 
+of three units) or a raise of one unit (putting in two units total). At first glance, we might 
+think that the ratio of bets to bluffs must make the first player indifferent to calling with a king 
+after betting one unit. However, as we shall see shortly, bluffing that often is more costly for Y. 
+Instead, Y will bluff often enough that X is indifferent to betting one unit with a king and folding 
+to a raise or checking it. 
+ 
+X gained 2 3
+ −1 2
+ = 1 6
+ of a unit by betting one unit with his lungs instead of checking them. So 
+Y must bluff often enough to make up this difference. Let q be the bluff-raising frequency for the 
+second player (for raising one unit more). Then the second player gains five units each time he 
+bluffs a king successfully. Let q be Y's bluffing frequency. 
+ 
+(pot)p(Y has a queen) (bluffing frequency) = 1 6
+  
+(5)( 1 2
+ ) q = 1 6
+  
+q = 1 15
+
+ 
+ 
+If the raise amount is two units, Y bluff-raises 1 15
+
+ of the time with queens. This makes the first 
+player indifferent to betting one unit or checking kings. The first player should still fold all his 
+kings when the second player raises, because 15 16
+
+of the time, the second player will hold an 
+ace. Notice that it doesn't matter for Y whether he raises one unit or two units when the first 
+player holds a king because the king will fold anyway. However, if X holds an ace, Y would 
+clearly prefer to have raised the smaller amount with a queen. 
+ 
+Now a new strategic option becomes profitable for X. He is indifferent to checking kings or 
+betting them, but his expectation has changed for taking various actions with aces. He had been 
+gaining 1 3
+  of a unit with aces by checking and picking off Y's bluffs. (Y bluffs 1 3
+  of his 
+queens, two units, and has a queen 1 2
+  the time). Now he has a new option, which is to bet one 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         164 
+ 
+unit with aces and an appropriate ratio of queens. This gains him some value from the second 
+player calling with kings. He also gets to pick off some raise-bluffs from the second player. 
+ 
+His expectation from betting one unit with aces is: 
+ 
+<X, bet l > = p(Y calls)(bet) + p(Y bluff-raises)(raise amount)  
+<X, bet l > = (3 5
+ )( 1 2
+  )(l) + (1 15
+
+ )( 1 2 
+ )(2) 
+<X, bet l > = 11 30
+
+ 
+ 
+ 
+His expectation from checking aces is: 
+ 
+<X, check > = p(Y bluffs) (bet size) 
+<X, check > = (1 2
+ )( 1 3
+ )(2) 
+<X, check > = 1 3
+  
+ 
+So he now gains 1 30
+
+ of a unit by betting one unit with aces. 
+ 
+Let's review what's happened so far. 
+ 
+We set out to find the optimal strategies for this game with two different bet sizes. Initially, we 
+planned to solve it in the same manner as the previous games, where kings were never bet and 
+the rest was simply maximizing including betting to bluffing ratios. We found that both players 
+ignored the smaller bet and bet aces and queens in ratios as though this were simply Game #4 
+with a pot of 2. But then a problem arose when we reviewed the strategy. We were able to 
+increase X's equity by having him bet the smaller amount with kings, an option that was 
+previously dominated (when only one bet size was allowed). 
+ 
+We then had to find a value-raising response that would enable Y to avoid being exploited in this 
+way. We found a proper value-raise and corresponding bluffs that made X indifferent to playing 
+this way with kings. But then a new strategic option became profitable for X. He can now bet the 
+smaller amount with his aces and some queens, pick up most of the equity he would have made 
+from checking by getting called by Y's kings, and additionally gain some equity from picking off 
+raise-bluffs. 
+ 
+In all of these strategies, X will only bet queens enough to protect his aces (such that they get 
+called by kings), and so that he will break even on his bluffs with queens. 
+ 
+We know that X has equal equity checking or betting kings (since the second player raise-bluffs 
+enough to ensure this). We gain 1 30
+
+ of a unit each time by betting aces, so X will want to bet all 
+his aces. We must then find a ratio of kings to aces which forces Y to continue to raise-bluff. Too 
+many kings, and Y profits by raise-bluffing more often; too few, and Y profits by raise-bluffing 
+less often. 
+ 
+The raise bluff gains 5 units when it works (when X has a king), and loses two units when it     
+fails (when X has an ace). So to make Y indifferent to raise-bluffing, X must bet aces and kings 
+in a ratio of 5 to 2. Since X is betting 100% of his aces, he must bet 40% of his kings. 
+ 
+This leads us, then, to a new strategy: 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         165 
+ 
+ 
+Solution: 
+ 
+ X: 
+ 
+Bet one unit with all aces. Bet one unit with 40% of kings. Bet one unit with 20% of queens. 
+If Y raises one unit, reraise with aces and fold kings. 
+If Y raises two units, reraise with aces and fold kings.  
+With the remaining kings and queens, check. 
+Call one unit bets 4 5
+  of the time with kings and two unit bets 2 3
+  of the time with kings. 
+ 
+Y: 
+ 
+If X bets two units, raise two units with aces and call with 1 3
+  of kings. Fold queens.  
+If X bets one unit, raise one unit with aces and 1 15
+
+ of queens. Call with 3 5
+  of kings.  
+If X checks, bet two units with aces and 1 3 
+ of queens. Check kings. 
+ 
+ 
+The total value of this game is as follows: 
+ 
+P1 Card 
+P2 Card 
+Action 
+Value Probability 
+EV Weight 
+A 
+K 
+b1 - call 
+1 
+3/30 
+3/30 
+A 
+K 
+bl - fold 
+0 
+2/30 
+0 
+A 
+Q 
+bl - r1 - r -f 
+2 
+1/90 
+1/45 
+A 
+Q 
+bl - fold                   
+0 
+14/90 
+0 
+K 
+A 
+bl – rl - f 
+-1 
+1/15 
+-1/15 
+K 
+A 
+chk - b2 - c 
+-2 
+1/15 
+-2/15 
+K 
+A 
+chk - b2 - f 
+0 
+1/30 
+0 
+K 
+Q 
+bl – rl - f 
+-5 
+1/225 
+-1/45 
+K 
+Q 
+bl - f  
+0 
+14/225 
+0 
+K 
+Q 
+chk - b2 - c 
+2 
+1/45 
+2/45 
+K 
+Q 
+chk - b2 - f 
+4 
+1/90 
+-2/45 
+K 
+Q 
+chk - chk 
+0 
+1/15 
+0 
+Q 
+A 
+bl - r2 - f 
+-1 
+1/30 
+-1/30 
+Q 
+A 
+chk - b2 - f 
+0 
+2/15 
+0 
+Q 
+K 
+bl - call 
+1 
+1/50 
+-1/50 
+Q 
+K 
+bl - fold 
+1 
+1/75 
++1/75 
+Q 
+K 
+chk - chk 
+0 
+2/15 
+0 
+Total 
+ 
+ 
+ 
+1 
+-1/10 
+ 
+The value of the naive strategy (not involving betting a king) was 1 6 
+ . The value of this strategy 
+is - 1 10,
+
+ a difference of  1 90 
+	
+. 
+ 
+It is interesting to note that this is a clear example of information hiding - if X knew his 
+opponent's strategy was fixed, he would prefer to bet two units with his aces instead of one unit. 
+However, with his kings, he prefers to bet he smaller amount. Since he has to choose a single bet 
+size or be exploited, he chooses the smaller amount because it is more valuable (in this case) to 
+make preemptive bets than to bet larger with aces. 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         166 
+ 
+Key Concepts 
+• It is important not to stop short of the solution when solving games. In this case, we went 
+through the usual process, utilizing results from past games and so on, in order to solve 
+this expanded game. At one point, it seemed we had found what looked like a reasonable 
+solution. Only by going deeper and checking the solutions by comparing the equities of 
+each option did we find an entirely new idea. 
+• Strategies are only optimal when both sides cannot improve! When we first discovered 
+the above problem (while attempting to solve the full no-limit case), we were quite 
+convinced that we had made a mistake; after all, betting a hand that has no chance of 
+being called by a worse hand and no chance of folding a better hand seems foolish. 
+• This play with a king is quite out of character with what we see in many other 
+circumstances; bets on the river are "supposed" to be value bets, intended to have positive 
+expectation when they are called, or bluffs, intended to sometimes fold better hands. But 
+this bet is neither. We call it a preemptive bet. Basically what X is doing is betting and 
+preempting Y's ability to bluff with queens as effectively as he'd like to. Y can respond 
+by raise-bluffing, but now walks into difficulty because X gets more value with his aces. 
+This type of play exists when there are different bet amounts possible and the first player 
+can bet a smaller amount than the second player wants to. 
+• Betting preemptively is a perfect example of a play that has negative expectation, but the 
+expectation of the play is less negative than the alternative of checking. The important 
+feature is that the value of the strategy is higher than the value of the alternative strategy. 
+It is likely that no-limit holdem on the river contains preemptive betting as part of 
+optimal strategy. 
+• One other important feature of this game is that after X makes a preemptive bet with a 
+king, he folds all the time to a raise, even though the opponent is bluffing sometimes. 
+This is because he has an excess of strong hands to pick off bluffs with and does not need 
+to call raise bluffs as often. In addition, the raise-bluffer does not attempt to make the 
+original bettor indifferent to calling with a king; instead the raise-bluffer only attempts to 
+make X indifferent to betting a king (vs. checking) in the first place. 
+ 
+With these concepts in mind, we turm our attention now to the full no-limit AKQ game. Because 
+of the complexity and difficulty of this game, we have created an Appendix to Chapter 15, which 
+contains the solution and justification. If you understood how the spread-limit solution was 
+derived, then you have understood the most important lesson of the no-limit game. At the 
+beginning of the appendix, there is a section that summarizes the steps to find the solution and 
+presents the solution without any justification, The remainder of the appendix contains the 
+mathematics behind the solution, which will likely be of interest primarily to those with a 
+mathematical background. 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         167 
+ 
+Appendix to Chapter 15 
+The No-Limit AKQ Game 
+ 
+Summary 
+The solution to the full no-limit AKO game is surprisingly close to the solution to the spread-
+limit game from Chapter 17. The steps in deriving the strategy are: 
+ 
+• We can first solve a full-street game where X may not bet kings (or is known not to 
+bet them). We find that X bets r (as was the case for Y in the half-street game) with 
+some aces and checks the remaining aces, while Y bets a different, larger amount s0 if 
+checked to. Both players balance their strategies with aces and queens appropriately. 
+• X can then improve on his strategy if we relax the constraint on betting kings by 
+betting a smaller amount t with some kings. 
+• Y responds to X betting t with kings by raising to another value s(t) and raise-bluffing 
+with queens with some frequency β. By doing this he makes X at most indifferent to 
+checking or betting an amount t with kings. β is related to s0, the amount that Y bets 
+when X checks. 
+• X responds by betting t with some aces in addition to kings and gaining value by 
+picking off raise-bluffs and getting called by Y's kings. Y cannot prevent X from 
+gaining value in one of these two ways. 
+• However, hi the no-limit case. X cannot simply bet all his aces (as he did in the 
+spread-limit case). If he does, and leaves himself with only kings in his checking 
+distribution, Y can exploit him by betting a large amount with aces and some queens. 
+Since he has only kings, he must call sometimes, which is more costly than the 
+amount he can gain by betting aces. 
+• We can construct a function A(t), which is the value of betting t with aces. This is the 
+sum of the values of being called by kings and picking off raise-bluffs when the 
+opponent holds queens. 
+• For any particular s0 value, we can find the optimal t value, by maximizing A(t), We 
+call this value τ. This is the amount that X should bet with some aces and some kings. 
+• Since he will be playing a mixed strategy of betting some aces and checking some 
+aces, he must have the same expectation from checking and betting τ; that is A(0) = 
+A(τ).  
+• We can then find a raise amount t2 that Y would like to raise to. Unfortunately, the 
+rules force Y to raise to at minimum 2t. 
+• We then balance the strategies as appropriate with bluffs, calls, and raise-bluffs such 
+that each player is indifferent to changing various parts of his strategy. 
+ 
+The final strategies are: (all decimal values are approximate, and all percentages are "of the 
+hands he has played this far in this way") 
+ 
+ 
+Solution:  
+ 
+X: 
+ 
+Checks 61.2% of his aces, and if Y bets behind, X raises all-in. 
+Bets τ = 0.2521 with the rest of his aces, and reraises all-in if Y raises. 
+ 
+Bets τ = 0.2521 with 15.62% of his kings and folds to any raise. 
+Checks the remainder of his kings and calls a bet of s with an appropriate 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         168 
+ 
+fraction of kings such that his total calling or raising frequency with hands he checked is 
+1/(1 + s). 
+ 
+Bets τ = 0.2521 with 7.81% of his queens and folds to any raise.  
+Checks and folds with the remaining 92.19% of his queens. 
+ 
+Y: 
+ 
+If X checks, Y bets s0 = 0.5422 with all his aces and 35.16% of his queens.  
+If X check-raises, Y reraises all-in with his aces and folds his queens.  
+If X bets an amount t, Y responds as follows: 
+ 
+Define the following: 
+s0 is Y's bet amount if X checks = 0.5422.  
+α0 = s0/(l+s0) 
+t2  = α0/(1 - β) (if this is greater than 2t), otherwise 2t 
+β = (α0 - t)/(l + t) if α0 > t, 0 otherwise. 
+ 
+Y raises to t2 with all aces and with β of his queens. If X raises again, Y raises all-in with aces 
+and folds queens. 
+ 
+Y calls with enough kings to make his total calling frequency with hands that can beat a queen 
+1/(1 + t). 
+ 
+ 
+Derivation 
+First we consider the game with the constraint that X may not bet kings. We can see immediately 
+that if he bets with all aces, he can be exploited by Y betting a very large amount with all aces 
+and an appropriate fraction of queens. Since he has bet all aces, he is left with only kings to 
+defend against the opponent's bluffs. He must call with an appropriate fraction of kings, but gives 
+up too much value to the opponents' aces to make this worthwhile. 
+ 
+To see this clearly, presume that X bets all his aces and checks all his kings. Then suppose Y 
+bets 100 units (where pot = 1) with all his aces and 100/101 of his queens. If he does this X must 
+call with 1 101
+
+ of his kings to prevent Y from bluffing. This means he is giving up 100 101
+
+of a 
+unit when he holds a king and X holds an ace. But he could improve by checking a few ace; and 
+calling the bets which will all be bluffs). So betting all aces initially must not be  optimal. 
+ 
+Since he must check all kings (by the rules of the game), and he must check some aces to 
+provide a credible threat against the opponent's bluffing large amounts, he may either check all 
+aces, or simply some fraction of aces. Call the fraction of aces he checks Ak. X will then bet 
+some amount t with the aces he does not check and an appropriate fraction of queens. If he bets 
+an amount t, then Y will respond by (at least) calling with a total fraction of his hands equal to 
+1/(1 + t). This will make X indifferent to bluffing queens. If X checks, then Y will bet an amount 
+s. Thus we have three unknown elements of the strategy, in addition to the various easy-to-
+calculate betting and bluffing ratios. 
+ 
+For Y, the fraction of all calling hands that are kings is 1/(1 + t) - 1 2
+  unless X bets an amount 
+greater than 1, in which case he will call with all aces and no kings. X, then, has the following 
+equity from betting t when he holds an ace and Y holds a king: 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         169 
+ 
+<A vs. K, bet t > = (t)(2/(1 + t) - 1) = (t - t)2/(t + 1) 
+ 
+Maximizing this with respect to t: 
+ 
+(t + 1)(1 – 2t ) – (t – t2)(1) / (t + l)2 = 0  
+1 - t2 -2t = 0  
+t = √2 - 1 
+ 
+Recalling Equation 14.1: 
+ 
+t = r 
+ 
+Y will then call with (t - 1)/(t + 1) of his kings as described above. 
+ 
+When X checks, we have a similar situation, Y will bet some amount s with his aces and 
+appropriate queens. X will call with the aces that remain (remember, he bet some aces), and then 
+enough kings to make Y indifferent to bluffing with queens. We know that X must be indifferent 
+to betting r or checking with his aces because he will play a mixed strategy of these two options. 
+The expectations of the two possible plays with an ace are: 
+ 
+<A, check > = (s (1 + s))(s)( 1 2
+  ) = s2 / 2 (1+s) 
+<A, bet r > = (r - r2)/2(1 + r) = 3 2
+  - √2 
+ 
+Setting these equal: 
+ 
+3 2
+  - √2 = s2 / 2 (1+s) 
+3 - 2√2 +  3& −2√2& = s2 
+s ≈ 0.50879 
+ 
+The third remaining unknown of the final strategy is the frequency Ak with which X checks. As 
+we saw earlier, if Ak is not chosen properly, then Y can exploit X by bluffing larger or smaller 
+amounts. Hence X will select Ak such that Y's equity is maximized by betting s. 
+ 
+When X holds a king and Y an ace, Y gains one bet (call this bet q) when X calls. X's calling 
+frequency, in turn, depends on Ak. Recall that this value is the fraction of aces that remain. The 
+total hands that X has remaining is Ak(1 2
+ ) + 1 2
+ , or 1 2
+  (l + Ak). If Y bets s, then X will call with 
+a total fraction of hands (aces and kings) equal to: 
+ 
+(1 2
+  )(1 + Ak)(1/(1 + q)) = (1 + Ak)/2(1 + q) 
+ 
+Of these, X will call with aces 1 2
+  Ak of the time, and then with remaining kings as necessary. 
+The number of kings that X will call with is: 
+ 
+(1 + Ak)/2(1 + q) - 1 2
+  Ak 
+= (l+Ak – (Ak+qAk))/2(l + q) 
+= (1 – qAk)/2(l + q) 
+ 
+and Y's equity from being called by kings is this value times q, or 
+ 
+<K/A, bet q > =(q – q2Ak)/2(1 + q). 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         170 
+ 
+We can maximize this expression for Y: 
+ 
+(1 + q) (1 - 2qAk) – (q – q2Ak))/(l + q)2 = 0  
+L = 2qAk + q2Ak 
+ 
+Completing the square, we have: 
+ 
+(q + l)2 = 1/Ak + l  
+q + l = ±)( + 1)/ 
+q = )( + 1)/  −1 
+ 
+Thus, in response to a choice of Ak by X, Y maximizes his equity by betting an amount q equal 
+to this value. By setting q = s, we can find the optimal choice of Ak for X. 
+ 
+0.50879 = )( + 1)/  −1 
+Ak ≈ 0.78342 
+ 
+So the final strategy for this simplified game (where X must check kings) is: 
+ 
+X checks aces about 78.3% of the time, bets r (about 41.2% of the pot) with the remainder, bets r 
+times the pot with r/(l + r) times as many queens, or about 6.3% of his queens overall, and is 
+forced to check all kings. 
+ 
+Y responds to a bet of t (t > 0) by calling with (at minimum) all aces, and if the bet size is small 
+enough, with enough kings to make his total calling frequency (if the opponent is bluffing) equal 
+to 1/(1 + s) 
+ 
+If X checks, Y bets s (about 50.8% of the pot) with all aces and about 33.7% of his queens. X 
+then calls with enough kings to make his total calling frequency (with the aces he checked and 
+kings) equal to 1/(1 + s). For the optimal bet sizes, these calling frequencies are: Y calls an r 
+sized bet with r of his kings, and X calls an s size bet with about 39.8% of his kings. 
+ 
+The value of this simplified game to Y is approximately 0.02761 units. 
+ 
+If we relax the "must check kings'' restriction on the game, however, X can now improve. When 
+X checks a king, we can use a shortcut to find his equity. Since we know that Y will make him 
+indifferent to calling with a king by bluffing and betting in the proper ratio, we can assume he 
+folds all the time. He loses one unit whenever a queen bluffs. Y will bluff an amount s0/(1 + s0) 
+of the time and have a queen half the tune. We define α0 = s0(l + s0). Thus his equity is: 
+ 
+<P1, check K> = (1 2
+ ) [- s/(l + s)] = - α0/2 
+ 
+Obviously if Y continues to respond to a bet of t by calling with aces and kings, X can bet a tiny 
+amount and prevent Y from bluffing. So let us take as our candidate strategy that Y will respond 
+to a bet of t with a raise to either 2t (the minimum allowed) or some other value t2, whichever is 
+greater, with all aces and with some fraction of queens β(t). 
+ 
+Then X's equity of betting t with a king is: 
+ 
+<P1, bet t/K > = (1 2
+ )(-t) + (1 2
+ )(β) [-(1 + t)] 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         171 
+ 
+β must be large enough that this expression is smaller than the first expression; that is, that X's 
+equity from betting t is less than or equal to his equity from checking. The cases where his equity 
+from betting t is less than his equity occur when he bets too much with a king. For now we will 
+concern ourselves only with reasonable preemptive bet sizes. (Later we will see that p can be 
+zero if the bet size is large enough.) So we have: 
+ 
+(1 2
+ )(-t) + (1 2
+ )(β) [-(1 + t)] = - α0/2 
+t + βt + β = α0 
+β = (α0 - t)(1+t)  
+ 
+ 
+(α0 > t) 
+ 
+Recall that when X bets, Y calls with (1 - t)/(l + t) of his kings. If t2 is the amount that Y raises 
+to, then the equity of betting t with an ace is: 
+ 
+A(t) = (1 2
+ )(t(1 - t)/(l + t)) + (1 2
+ )(β)(t2) 
+  
+If we substitute a minimum raise amount 2t for t2 and the expression for β, we obtain: 
+ 
+A(t) ≥ (1 2
+ )(t(1 - t)/(l + t)) + (1 2
+ )((α0 - t)(1+t))(2t)  
+(α0 > t) 
+ 
+Note that we changed the equality to an inequality because in some cases the raise t2 might be 
+larger than 2t, which would make A(t) larger. Simplifying this expression: 
+ 
+( ≥( −( + 2(*
+ −2(
+2(1 + ()
+→
+(
+1 + ( 1 −3( + 2*
+2
+ 
+ 
+Maximizing this expression, we have: 
+ 
+A'(t) = (1/(1 + t)2)(1 – 3t + 2α0)/2 + (t/(l + t))(- 3 2
+ ) 
+( = 1 −3( + 2*
+ −3(( + ()
+2(1 + ()
+ 
+0 = 1 −3( + 2*
+ −3( −( 
+3t2+6t + 2*
+ – l = 0 
+t2+2t + 2 3
+ *0 – 1 3
+  = 0 
+(t + l)2 = 2 3
+ *0 + 4 3
+	  
+( = )4/3 + 2/3*
+ −1 
+ 
+This / value is therefore a special value; if Y will respond to a check with abet of s0, then the 
+optimal amount for X to bet with his kings is this value of t (related to s0, of course, because α0 is 
+a function of s0). We call this value τ. 
+ 
+We know from previous discussion that X will be indifferent to checking or betting τ for a 
+particular s-value because he will play a mixed strategy with aces. (If he does not, Y can exploit 
+him by betting large amounts as we pointed out earlier). We can use this fact to find the proper s0 
+value. 
+ 
+A(0) = A(τ) 
+(1 2
+ )(α0)(s0) = (1 2
+ )(τ(1 – τ)/(1+τ)) + (1 2
+ )((α0 – τ)/(1+τ))(2τ) 
+ 
+τ is a function of a0 and in turn of s0, so we can solve for s0. Solving numerically, we obtain s0 ≈ 
+0.54224, α0 ≈ 0.35159, and τ ≈ 0.25209. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         172 
+ 
+Recall the previous formula for β(t). 
+ 
+β = (α0 - t)(1+t)  
+ 
+ 
+(α0 > t) 
+ 
+It's clear that we cannot raise-bluff a negative percentage of the time. Hence β is zero for values 
+of t greater than α0. Using this formula for β, we can also find the proper raise-bluffing amount; 
+Y should raise an amount such that X is indifferent to calling with kings (if this is possible - 
+otherwise he should raise-bluff the minimum). If the bet is t, and the raise-bluff is to t2, then we 
+have the following indifference for X betting t with a king: 
+ 
+Second player's hand: 
+P1 calls with a king 
+P1 folds 
+Ace 
+- (t2 – t) 
+0 
+Queen 
+t2 
+- (1 + t) 
+ 
+t2 – t  = β(t2 + 1 + t)  
+(l - β)t2 = β(l + t) + t 
+(l - β) t2 = α0 – t + t 
+t2 = α0/ (l – β) 
+ 
+This value t2 is what we might call the theoretical value t2 - the value to which Y would raise if 
+there were no rule limitations on the game requiring that the raise be at minimum twice the 
+original bet. We can immediately see that at bet amounts above α0 , t2 is lower than the bet 
+amount; this means that Y need not raise and raise-bluff at all in order to ensure his equity in the 
+game if X bets this value or higher. Also, at t values that are very small, Y cannot simply raise to 
+2t; by doing so, he loses value against the opposing kings. Instead he raises to a value close to s0. 
+There is a point close to 0.2001 where the theoretical value is equal to the minimum raise value. 
+ 
+s(t) = α0/ (l – β) 
+(t < 0.2001) 
+s(t) = 2t 
+ 
+(t > 0.2001) 
+ 
+We now have the outline of the optimal strategies. The only major variables left to find are the 
+checking and betting frequencies of X with aces and kings. What happens here is that X checks 
+aces and kings in a ratio to make Y bet s0 when X checks, and bets aces and kings in a ratio to 
+make Y indifferent to raise-bluffing the optimal amount. We can then combine these two ratios 
+to find the precise frequencies of each action. 
+ 
+When X checks, he will call 1/(1 + s0) of the time with all his hands to make the opponent 
+indifferent to bluffing with queens. Call k the fraction of checking hands that are kings. If Y bets 
+q with an ace when X checks, then X will call with 1/(1 + q) of his hands total. 
+ 
+1 - k of those hands will be aces, leaving 1/(1 + q) - 1 + k kings out of a total of k kings to start. 
+ 
+This amount is (k - q + kq)/k (l + q). 
+ 
+Y's equity from betting q with an ace when X checks is then: 
+ 
+(kq - q2 + kq2)/k (1 + q). 
+ 
+Maximizing this expression: 
+ 
+k(l + q)(k - 2q + 2kq) – k (kq - q2 + kq2) / k2(l + q)2 = 0  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         173 
+ 
+k - 2q + 2kq + kq - 2q2 + 2kq2 - kq + q2 - kq2 = 0 
+k - 2q + 2kq - q2 + kq2 = 0  
+k(l + 2q + q2) = 2q + q2 
+ 
+Substituting the known value of s0, we get: 
+ 
+k ≈ 0.57957 
+ 
+In a like manner, X has a ratio of aces and kings with which he bets t; this ratio is designed to 
+make Y's equity maximum by raise-bluffing the optimal amount. Y gains 1 + τ from successfully 
+bluffing, but loses his raise amount q when called. X, however, will not call with his kings! He 
+can simply fold all his kings to the raise; Y can no longer exploit him by raising a smaller 
+amount because the raise amount must be at least 2t. He will call enough to make Y indifferent 
+to raise-bluffing, or (1 + τ)/(1 + τ + q) of the time. 
+ 
+So his ratio of kings to aces for betting is q/(l + τ + q) ≈ 0.28707. 
+ 
+Utilizing these two ratios, we can then find the full strategy for aces and kings. Letting c be the 
+total amount of hands checked and b the total amount of hands bet, we have: 
+ 
+0.28707b + 0.57957c = 1  
+0.71293b + 0.42043c = 1  
+b ≈ 1.45595  
+c ≈ 0.55405  
+Ak = 61.213%  
+Ab = 38.787% 
+Kk = 84.382%  
+Kb = 15.618% 
+ 
+And with that, we have the optimal strategy to the game. 
+ 
+The value of this game to Y is approximately 0.02682 units per play. 
+ 
+ 

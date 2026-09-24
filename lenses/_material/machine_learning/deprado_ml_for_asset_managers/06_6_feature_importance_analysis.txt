@@ -1,0 +1,890 @@
+6 Feature Importance Analysis
+6.1 Motivation
+Imagine that you are given ten puzzles, each of a thousand pieces, where all of the
+pieces have been shufﬂed into the same box. You are asked to solve one particular
+puzzle out of the ten. A reasonable way to proceed is to divide your task into two
+steps. In the ﬁrst step, you try to isolate the one thousand pieces that are important to
+your problem, and discard the nine thousands pieces that are irrelevant. For
+example, you may notice that about one tenth of the pieces are made of plastic,
+and the rest are made of paper. Regardless of the pattern shown on the pieces, you
+know that discarding all paper pieces will isolate a single puzzle. In the second step,
+you try to ﬁt a structure on the one thousand pieces that you have isolated. Now you
+may make a guess of what the pattern is, and organize the pieces around it.
+Now consider a researcher interested in modeling a dynamic system as a
+function of many different candidate explanatory variables. Only a small subset
+of those candidate variables are expected to be relevant, however the researcher
+does not know in advance which. The approach generally followed in the
+ﬁnancial literature is to try to ﬁt a guessed algebraic function on a guessed subset
+of variables, and see which variables appear to be statistically signiﬁcant (subject
+to that guessed algebraic function being correct, including all interaction effects
+among variables). Such an approach is counterintuitive and likely to miss impor-
+tant variables that would have been revealed by unexplored speciﬁcations.
+Instead, researchers could follow the same steps that they would apply to the
+problem of solving a puzzle: ﬁrst, isolate the important variables, irrespective of
+any functional form, and only then try to ﬁt those variables to a particular
+speciﬁcation that is consistent with those isolated variables. ML techniques
+allow us to disentangle the speciﬁcation search from the variable search.
+In this section, we demonstrate that ML provides intuitive and effective tools for
+researchers who work on the development of theories. Our exposition runs counter
+to the popular myth that supervised ML models are black-boxes. According to that
+view, supervised ML algorithms ﬁnd predictive patterns, however researchers have
+no understanding of those ﬁndings. In other words, the algorithm has learned
+something, not the researcher. This criticism is unwarranted.
+Even if a supervised ML algorithm does not yield a closed-form algebraic
+solution (like, for example, a regression method would do), an analysis of its
+forecasts can tell us what variables are critically involved in a particular
+phenomenon, what variables are redundant, what variables are useless, and
+how the relevant variables interact with each other. This kind of analysis is
+known as “feature importance,” and harnessing its power will require us to use
+everything we have learned in the previous sections.
+74
+Machine Learning for Asset Managers
+
+6.2 p-Values
+The classical regression framework makes a number of assumptions regarding
+the ﬁtted model, such as correct model speciﬁcation, mutually uncorrelated
+regressors, or white noise residuals. Conditional on those assumptions being
+true, researchers aim to determine the importance of an explanatory variable
+through a hypothesis test.15 A popular way of expressing a variable’s signiﬁ-
+cance is through its p-value, a concept that dates back to the 1700s (Brian and
+Jaisson 2007). The p-value quantiﬁes the probability that, if the true coefﬁcient
+associated with that variable is zero, we could have obtained a result equal or
+more extreme than the one we have estimated. It indicates how incompatible the
+data are with a speciﬁed statistical model. However, a p-value does not measure
+the probability that neither the null nor the alternative hypothesis is true, or that
+the data are random. And a p-value does not measure the size of an effect, or the
+signiﬁcance of a result.16 The misuse of p-values is so widespread that the
+American Statistical Association has discouraged their application going for-
+ward as a measure of statistical signiﬁcance (Wasserstein et al. 2019). This casts
+a doubt over decades of empirical research in Finance. In order to search for
+alternatives to the p-value, ﬁrst we must understand its pitfalls.
+6.2.1 A Few Caveats of p-Values
+A ﬁrst caveat of p-values is that they rely on the strong assumptions outlined earlier.
+When those assumptions are inaccurate, ap-value could be low even though the true
+value of the coefﬁcient is zero (a false positive), and the p-value could be high even
+though the true value of the coefﬁcient is not zero (a false negative).
+Asecondcaveatofp-valuesisthat,forhighlymulticollinear(mutuallycorrelated)
+explanatory variables, p-values cannot be robustly estimated. In multicollinear
+systems, traditional regression methods cannot discriminate among redundant
+explanatory variables, leading to substitution effects between related p-values.
+A third caveat of p-values is that they evaluate a probability that is not
+entirely relevant. Given a null hypothesis H0 and an estimated coefﬁcient ^β,
+the p-value estimates the probability of obtaining a result equal or more extreme
+than ^β, subject to H0 being true. However, researchers are often more interested
+in a different probability, namely, the probability of H0 being true, subject to
+having observed ^β. This probability can be computed using Bayes theorem, alas
+at the expense of making additional assumptions (Bayesian priors).17
+15 Some signiﬁcance tests also demand that the residuals follow a Gaussian distribution.
+16 For additional details, read the “Statement on Statistical Signiﬁcance and P-Values” by the
+American Statistical Association (2016) and Wasserstein and Lazar (2016).
+17 We revisit this argument in Section 8.2.
+75
+Elements in Quantitative Finance
+
+A fourth caveat of p-values is that it assesses signiﬁcance in-sample. The
+entire sample is used to solve two tasks: estimating the coefﬁcients and deter-
+mining their signiﬁcance. Accordingly, p-values may be low (i.e., signiﬁcant)
+for variables that have no out-of-sample explanatory (i.e., forecasting) value.
+Running multiple in-sample tests on the same data set is likely to produce a false
+discovery, a practice known as p-hacking.
+In summary, p-values require that we make many assumptions (caveat #1) in
+order to produce a noisy estimate (caveat #2) of a probability that we do not
+really need (caveat #3), and that may not be generalizable out-of-sample (caveat
+#4). These are not superﬂuous concerns. In theory, a key advantage of classical
+methods is that they provide a transparent attribution of signiﬁcance among
+explanatory variables. But since that classical attribution has so many caveats in
+practice, perhaps classical methods could use some help from modern computa-
+tional techniques that overcome those caveats.
+6.2.2 A Numerical Example
+Consider a binary random classiﬁcation problem composed of forty features,
+where ﬁve are informative, thirty are redundant, and ﬁve are noise. Code
+Snippet 6.1 implements function getTestData, which generates informative,
+redundant, and noisy features. Informative features (marked with the “I_”
+preﬁx) are those used to generate labels. Redundant features (marked with the
+“R_” preﬁx) are those that are formed by adding Gaussian noise to a randomly
+chosen informative feature (the lower the value of sigmaStd, the greater the
+substitution effect). Noise features (marked with the “N_” preﬁx) are those that
+are not used to generate labels.
+Figure 6.1 plots the p-values that result from a logit regression on those
+features. The horizontal bars report the p-values, and the vertical dashed line
+marks the 5% signiﬁcance level. Only four out of the thirty-ﬁve nonnoise
+features are deemed statistically signiﬁcant: I_1, R_29, R_27, I_3. Noise
+features are ranked as relatively important (with positions 9, 11, 14, 18, and
+26). Fourteen of the features ranked as least important are not noise. In short,
+these p-values misrepresent the ground truth, for the reasons explained earlier.
+Unfortunately, ﬁnancial data sets tend to be highly multicollinear, as a result
+of common risk factors shared by large portions of the investment universe:
+market, sector, rating, value, momentum, quality, duration, etc. Under these
+circumstances, ﬁnancial researchers should cease to rely exclusively on p-
+values. It is important for ﬁnancial researchers to become familiar with addi-
+tional methods to determine what variables contain information in a particular
+phenomenon.
+76
+Machine Learning for Asset Managers
+
+6.3 Feature Importance
+In this section, we study how two of ML’s feature importance methods address
+the caveats of p-values, with minimal assumptions, using computational tech-
+niques. Other examples of ML interpretability methods are accumulated local
+effects (Apley 2016) and Shapley values (Štrumbelj 2014).
+6.3.1 Mean-Decrease Impurity
+Suppose that you have a learning sample of size N, composed of F features,
+fXf gf ¼1;...;F and one label per observation. A tree-based classiﬁcation (or
+regression) algorithm splits at each node t its labels into two samples: for a
+given feature Xf , labels in node t associated with a Xf below a threshold τ are
+placed in the left sample, and the rest are placed in the right sample. For each of
+these samples, we can evaluate their impurity as the entropy of the distribution
+of labels, as the Gini index, or following some other criterion. Intuitively, a
+sample is purest when it contains only labels of one kind, and it is most impure
+SNIPPET 6.1 GENERATING A SET OF INFORMED, REDUNDANT, AND NOISE EXPLANATORY
+VARIABLES
+def getTestData(n_features=100,n_informative=25,n_redundant=25,
+n_samples=10000,random_state=0,sigmaStd=.0):
+# generate a random dataset for a classiﬁcation problem
+from sklearn.datasets import make_classiﬁcation
+np.random.seed(random_state)
+X,y=make_classiﬁcation(n_samples=n_samples,
+n_features=n_features-n_redundant,
+n_informative=n_informative,n_redundant=0,shufﬂe=False,
+random_state=random_state)
+cols=[‘I_’+str(i) for i in xrange(n_informative)]
+cols+=[‘N_’+str(i) for i in xrange(n_features-n_informative- \
+n_redundant)]
+X,y=pd.DataFrame(X,columns=cols),pd.Series(y)
+i=np.random.choice(xrange(n_informative),size=n_redundant)
+for k,j in enumerate(i):
+X[‘R_’+str(k)]=X[‘I_’+str(j)]+np.random.normal(size= \
+X.shape[0])*sigmaStd
+return X,y
+#---------------------------------------------------
+import numpy as np,pandas as pd,seaborn as sns
+import statsmodels.discrete.discrete_model as sm
+X,y=getTestData(40,5,30,10000,sigmaStd=.1)
+ols=sm.Logit(y,X).ﬁt()
+77
+Elements in Quantitative Finance
+
+when its labels follow a uniform distribution. The information gain that results
+from a split is measured in terms of the resulting reduction in impurity,
+Δg½t; f  ¼ i½t  N 0
+ð Þ
+t
+Nt
+i½t 0
+ð Þ  N 1
+ð Þ
+t
+Nt
+i½t 1
+ð Þ;
+where i½t is the impurity of labels at node t (before the split), i½t 0
+ð Þ is the
+impurity of labels in the left sample, and i½t 1
+ð Þ is the impurity of labels in the
+right sample. At each node t, the classiﬁcation algorithm evaluates Δg½t; f  for
+various features in fXf gf ¼1;...;F, determines the optimal threshold τ that max-
+imizes Δg½t; f  for each of them, and selects the feature f associated with greatest
+Δg½t; f . The classiﬁcation algorithm continues splitting the samples further
+until no additional information gains can be produced, or some early-stopping
+condition is met, such as achieving an impurity below the maximum acceptable
+limit.
+The importance of a feature can be computed as the weighted information
+gain (Δg½t; f ) across all nodes where that feature was selected. This tree-based
+feature importance concept, introduced by Breiman (2001), is known as mean-
+decrease impurity (MDI). By construction, the MDI value associated with each
+feature is bounded between 0 and 1, and all combined add up to 1. In the
+0.0
+0.2
+0.4
+0.6
+0.8
+I_1
+R_29
+R_27
+I_3
+I_0
+R_17
+I_2
+R_23
+N_1
+R_9
+N_4
+R_13
+R_3
+N_2
+R_8
+R_11
+R_28
+N_0
+R_20
+I_4
+R_10
+R_14
+R_26
+R_18
+R_24
+N_3
+R_2
+R_6
+R_16
+R_22
+R_15
+R_25
+R_19
+R_4
+R_1
+R_21
+R_12
+R_0
+R_7
+R_5
+Figure 6.1 p-Values computed on a set of explanatory variables.
+78
+Machine Learning for Asset Managers
+
+presence of F features where all are uninformative (or equally informed), each
+MDI value is expected to be 1=F. For algorithms that combine ensembles of
+trees, like random forests, we can further estimate the mean and variance of
+MDI values for each feature across all trees. These mean and variance estimates,
+along with the central limit theorem, are useful in testing the signiﬁcance of a
+feature against a user-deﬁned null hypothesis. Code Snippet 6.2 implements an
+ensemble MDI procedure. See López de Prado (2018a) for practical advice on
+how to use MDI.
+Figure 6.2 plots the result of applying MDI to the same random classiﬁcation
+problem discussed in Figure 6.1. The horizontal bars indicate the mean of MDI
+values across 1,000 trees in a random forest, and the lines indicate the standard
+deviation around that mean. The more trees we add to the forest, the smaller
+becomes the standard deviation around the mean. MDI does a good job, in the
+sense that all of the nonnoisy features (either informed or redundant) are ranked
+higher than the noise features. Still, a small number of nonnoisy features appear
+to be much more important than their peers. This is the kind of substitution
+effects that we anticipated to ﬁnd in the presence of redundant features. Section
+6.5 proposes a solution to this particular concern.
+SNIPPET 6.2 IMPLEMENTATION OF AN ENSEMBLE MDI METHOD
+def featImpMDI(ﬁt,featNames):
+# feat importance based on IS mean impurity reduction
+df0={i:tree.feature_importances_ for i,tree in \
+enumerate(ﬁt.estimators_)}
+df0=pd.DataFrame.from_dict(df0,orient=‘index’)
+df0.columns=featNames
+df0=df0.replace(0,np.nan) # because max_features=1
+imp=pd.concat({‘mean’:df0.mean(),
+‘std’:df0.std()*df0.shape[0]**-.5},axis=1) # CLT
+imp/=imp[‘mean’].sum()
+return imp
+#---------------------------------------------------
+from sklearn.tree import DecisionTreeClassiﬁer
+from sklearn.ensemble import BaggingClassiﬁer
+X,y=getTestData(40,5,30,10000,sigmaStd=.1)
+clf=DecisionTreeClassiﬁer(criterion=‘entropy’,max_features=1,
+class_weight=‘balanced’,min_weight_fraction_leaf=0)
+clf=BaggingClassiﬁer(base_estimator=clf,n_estimators=1000,
+max_features=1.,max_samples=1.,oob_score=False)
+ﬁt=clf.ﬁt(X,y)
+imp=featImpMDI(ﬁt,featNames=X.columns)
+79
+Elements in Quantitative Finance
+
+Out of the four caveats of p-values, the MDI method deals with three: (1)
+MDI’s computational nature circumvents the need for strong distributional
+assumptions that could be false (caveat #1) – we are not imposing a particular
+tree structure or algebraic speciﬁcation, or relying on stochastic or distributional
+characteristics of residuals. (2) Whereas betas are estimated on a single sample,
+ensemble MDIs are derived from a bootstrap of trees. Accordingly, the variance
+of MDI estimates can be reduced by increasing the number of trees in ensemble
+methods in general, or in a random forest in particular (caveat 2). This reduces
+the probability of false positives caused by overﬁtting. Also, unlike p-values,
+MDI’s estimation does not require the inversion of a possibly ill-conditioned
+matrix. (3) The goal of the tree-based classiﬁers is not to estimate the coefﬁ-
+cients of a given algebraic equation, thus estimating the probability of a
+particular null hypothesis is irrelevant. In other words, MDI corrects for caveat
+3 by ﬁnding the important features in general, irrespective of any particular
+parametric speciﬁcation.
+An ensemble estimate of MDI will exhibit low variance given a sufﬁcient
+number of trees, hence reducing the concern of p-hacking. But still, the proce-
+dure itself does not involve cross-validation. Therefore, the one caveat of
+p-values that MDI does not fully solve is that MDI is also computed in-sample
+(caveat #4). To confront this ﬁnal caveat, we need to introduce the concept of
+mean-decrease accuracy.
+0.00
+0.010
+0.02
+0.03
+0.04
+0.05
+N_2
+N_3
+N_0
+N_1
+N_4
+R_25
+R_6
+R_29
+R_2
+R_3
+R_22
+I_3
+R_4
+R_20
+R_28
+R_14
+R_26
+R_10
+R_9
+R_17
+R_1
+R_21
+I_0
+R_23
+R_8
+R_11
+R_0
+I_4
+R_19
+R_24
+R_12
+I_2
+R_7
+R_15
+R_27
+R_16
+I_1
+R_13
+R_5
+R_18
+Figure 6.2 Example of MDI results.
+80
+Machine Learning for Asset Managers
+
+6.3.2 Mean-Decrease Accuracy
+A disadvantage of both p-values and MDI is that a variable that appears to be
+signiﬁcant for explanatory purposes (in-sample) may be irrelevant for forecasting
+purposes (out-of-sample). To solve this problem (caveat #4), Breiman (2001)
+introduced the mean-decrease accuracy (MDA) method.18 MDAworks as follows:
+ﬁrst, it ﬁts a model and computes its cross-validated performance; second, it
+computes the cross-validated performance of the same ﬁtted model, with the only
+difference that it shufﬂes the observations associated with one of the features. That
+gives us one modiﬁed cross-validated performance per feature. Third, it derives the
+MDA associated with a particular feature by comparing the cross-validated perfor-
+mance before and after shufﬂing. If the feature is important, there should be a
+signiﬁcant decay in performance caused by the shufﬂing, as long as the features
+areindependent.AnimportantattributeofMDAisthat,likeensembleMDIs,itisnot
+the result of a single estimate, but rather the average of multiple estimates (one for
+each testing set in a k-fold cross-validation).
+When features are not independent, MDA may underestimate the importance
+of interrelated features. At the extreme, given two highly important but identical
+features, MDA may conclude that both features are relatively unimportant,
+because the effect of shufﬂing one may be partially compensated by not shuf-
+ﬂing the other. We address this concern in Section 6.5.
+MDAvalues are not bounded, and shufﬂing a feature could potentially improve
+the cross-validated performance, when the feature is uninformative to the point of
+being detrimental. Because MDA involves a cross-validation step, this method
+can be computationally expensive. Code Snippet 6.3 implements MDA. See
+López de Prado (2018a) for practical advice on how to use MDA.
+Figure 6.3 plots the result of applying MDA to the same random classiﬁcation
+problem we discussed in Figure 6.2. We can draw similar conclusions as we did
+in the MDI example. First, MDA does a good job overall at separating noise
+features from the rest. Noise features are ranked last. Second, noise features are
+also deemed unimportant in magnitude, with MDA values of essentially zero.
+Third, although substitution effects contribute to higher variances in MDA
+importance, none is high enough to question the importance of the nonnoisy
+features.
+Despite its name, MDA does not necessarily rely on accuracy to evaluate the
+cross-validated performance. MDA can be computed on other performance scores.
+In fact, in the particular case of ﬁnance, accuracy is not a particularly good choice.
+The reason is, accuracy scores a classiﬁer in terms of its proportion of correct
+predictions. This has the disadvantage that probabilities are not taken into account.
+18 This is sometimes also known as permutation importance.
+81
+Elements in Quantitative Finance
+
+For example, a classiﬁer may achieve high accuracy even though it made good
+predictions with low conﬁdence and bad predictions with high conﬁdence. In the
+following section, we introduce a scoring function that addresses this concern.
+6.4 Probability-Weighted Accuracy
+In ﬁnancial applications, a good alternative to accuracy is log-loss (also known
+as cross-entropy loss). Log-loss scores a classiﬁer in terms of the average log-
+likelihood of the true labels (for a formal deﬁnition, see section 9.4 of López de
+Prado 2018a). One disadvantage, however, is that log-loss scores are not easy to
+interpret and compare. A possible solution is to compute the negative average
+likelihood of the true labels (NegAL),
+SNIPPET 6.3 IMPLEMENTATION OF MDA
+def featImpMDA(clf,X,y,n_splits=10):
+# feat importance based on OOS score reduction
+from sklearn.metrics import log_loss
+from sklearn.model_selection._split import KFold
+cvGen=KFold(n_splits=n_splits)
+scr0,scr1=pd.Series(),pd.DataFrame(columns=X.columns)
+for i,(train,test) in enumerate(cvGen.split(X=X)):
+X0,y0=X.iloc[train,:],y.iloc[train]
+X1,y1=X.iloc[test,:],y.iloc[test]
+ﬁt=clf.ﬁt(X=X0,y=y0) # the ﬁt occurs here
+prob=ﬁt.predict_proba(X1) # prediction before shufﬂing
+scr0.loc[i]=-log_loss(y1,prob,labels=clf.classes_)
+for j in X.columns:
+X1_=X1.copy(deep=True)
+np.random.shufﬂe(X1_[j].values) # shufﬂe one column
+prob=ﬁt.predict_proba(X1_) # prediction after shufﬂing
+scr1.loc[i,j]=-log_loss(y1,prob,labels=clf.classes_)
+imp=(-1*scr1).add(scr0,axis=0)
+imp=imp/(-1*scr1)
+imp=pd.concat({‘mean’:imp.mean(),
+‘std’:imp.std()*imp.shape[0]**-.5},axis=1) # CLT
+return imp
+#---------------------------------------------------
+X,y=getTestData(40,5,30,10000,sigmaStd=.1)
+clf=DecisionTreeClassiﬁer(criterion=‘entropy’,max_features=1,
+class_weight=‘balanced’,min_weight_fraction_leaf=0)
+clf=BaggingClassiﬁer(base_estimator=clf,n_estimators=1000,
+max_features=1.,max_samples=1.,oob_score=False)
+imp=featImpMDA(clf,X,y,10)
+82
+Machine Learning for Asset Managers
+
+NegAL ¼ N1 X
+N1
+n¼0
+X
+K1
+k¼0
+yn;kpn;k;
+where pn;k is the probability associated with prediction n of label k and yn;k is an
+indicator function, yn;k 2 0; 1g
+f
+, where yn;k ¼ 1 when observation n was
+assigned label k and yn;k ¼ 0 otherwise. This is very similar to log-loss, with
+the difference that it averages likelihoods rather than log-likelihoods, so that
+NegAL still ranges between 0 and 1.
+Alternatively, we can deﬁne the probability-weighted accuracy (PWA) as
+PWA ¼
+X
+N1
+n¼0
+yn pn  K1
+
+
+, X
+N1
+n¼0
+pn  K1
+
+
+;
+where pn ¼ maxk pn;kg
+	
+and yn is an indicator function, yn 2 0; 1g
+f
+, where
+yn ¼ 1 when the prediction was correct, and yn ¼ 0 otherwise.19 This is equiva-
+lent to standard accuracy when the classiﬁer has absolute conviction in every
+prediction (pn ¼ 1 for all n). PWA punishes bad predictions made with high
+conﬁdence more severely than accuracy, but less severely than log-loss.
+0.00
+N_2
+R_26
+R_10
+R_17
+R_14
+R_23
+R_21
+R_1
+R_9
+R_2
+R_20
+R_29
+I_0
+R_3
+R_28
+R_6
+R_4
+R_22
+R_25
+I_3
+R_19
+I_4
+R_11
+R_8
+R_0
+R_18
+R_15
+R_27
+R_5
+R_13
+R_16
+R_7
+R_24
+R_12
+I_2
+I_1
+N_3
+N_0
+N_1
+N_4
+0.01
+0.02
+0.03
+0.04
+0.05
+0.06
+0.07
+Figure 6.3 Example of MDA results.
+19 The idea of PWA is the fruit of joint work with my colleagues Lee Cohn, Michael Lock, and
+Yaxiong Zeng.
+83
+Elements in Quantitative Finance
+
+6.5 Substitution Eﬀects
+Substitution effects arise when two features share predictive information.
+Substitution effects can bias the results from feature importance methods. In
+the case of MDI, the importance of two identical features will be halved, as they
+are randomly chosen with equal probability. In the case of MDA, two identical
+features may be considered relatively unimportant, even if they are critical,
+because the effect of shufﬂing one may be compensated by the other.
+6.5.1 Orthogonalization
+When features are highly codependent, their importance cannot be adjudicated
+in a robust manner. Small changes in the observations may have a dramatic
+impact on their estimated importance. However, this impact is not random:
+given two highly codependent features, the drop in importance from one is
+compensated with the raise in importance of the other. In other words, code-
+pendence causes substitution effects when evaluating the importance of
+features.
+One solution to multicollinearity is to apply PCA on the features, derive their
+orthogonal principal components, and then run MDI or MDA on those principal
+components (for additional details, see chapter 8of Lópezde Prado 2018a). Features
+orthogonalized in this way may be more resilient to substitution effects, with three
+caveats: (1) redundant features that result from nonlinear combinations of informa-
+tive ones will still cause substitution effects; (2) the principal components may not
+have an intuitive explanation; (3) the principal components are deﬁned by eigen-
+vectors that do not necessarily maximize the model’s out-of-sample performance
+(Witten et al. 2013).
+6.5.2 Cluster Feature Importance
+A better approach, which does not require a change of basis, is to cluster similar
+features and apply the feature importance analysis at the cluster level. By
+construction, clusters are mutually dissimilar, hence taming the substitution
+effects. Because the analysis is done on a partition of the features, without a
+change of basis, results are usually intuitive.
+Let us introduce one algorithm that implements this idea. The clustered
+feature importance (CFI) algorithm involves two steps: (1) ﬁnding the
+number and constituents of the clusters of features; (2) applying the feature
+importance analysis on groups of similar features rather than on individual
+features.
+84
+Machine Learning for Asset Managers
+
+Step 1: Features Clustering
+First, we project the observed features into a metric space, resulting in a matrix
+fXf gf ¼1;...;F. To form this matrix, one possibility is to follow the correlation-
+based approach described in Section 4.4.1. Another possibility is to apply
+information-theoretic concepts (such as variation of information; see Section
+3) to represent those features in a metric space. Information-theoretic metrics
+have the advantage of recognizing redundant features that are the result of
+nonlinear combinations of informative features.20
+Second, we apply a procedure to determine the optimal number and compo-
+sition of clusters, such as the ONC algorithm (see Section 4). Remember that
+ONC ﬁnds the optimal number of clusters as well as the composition of those
+clusters, where each feature belongs to one and only one cluster. Features that
+belong to the same cluster share a large amount of information, and features that
+belong to different clusters share only a relatively small amount of information.
+Some silhouette scores may be low due one feature being a combination of
+multiple features across clusters. This is a problem, because ONC cannot assign
+one feature to multiple clusters. In this case, the following transformation may
+help reduce the multicollinearity of the system. For each cluster k ¼ 1; . . . ; K,
+replace the features included in that cluster with residual features, where those
+residual features do not contain information from features outside cluster k. To
+be precise, let Dk be the subset of index features D ¼ 1; . . . ; Fg
+f
+included in
+cluster k, where Dk⊂D, ∥Dk ∥> 0; 8 k; Dk ∩Dl ¼ ∅; 8k 6¼ l; UK
+k¼1Dk ¼ D.
+Then, for a given feature Xi where i 2 Dk, we compute the residual feature ^εi by
+ﬁtting
+Xn;i ¼ αi þ
+X
+j2 ∪l<k Dl
+	
+
+βi;jXn;j þ εn;i
+where n ¼ 1; . . . ; N is the index of observations per feature. If the degrees of
+freedom in the above regression is too low, one option is to use as regressors linear
+combinations of the features within each cluster (e.g., following a minimum var-
+iance weighting scheme), so that only K  1 betas need to be estimated. One of
+the properties of OLS residuals is that they are orthogonal to the regressors.
+Thus, by replacing each feature Xi with its residual equivalent ^εi, we remove
+from cluster k information that is already included in other clusters, while
+preserving the information that exclusively belongs to cluster k. Again, this
+transformation is not necessary if the silhouette scores clearly indicate that
+features belong to their respective clusters.
+20 For an example of features clustering with an information-theoretic distance metric, see https://
+ssrn.com/abstract=3517595
+85
+Elements in Quantitative Finance
+
+Step 2: Clustered Importance
+Step 1 has identiﬁed the number and composition of the clusters of features. We
+can use this information to apply MDI and MDA on groups of similar features,
+rather than on individual features. In the following, we assume that a partitional
+algorithm has clustered the features, however this notion of clustered feature
+importance can be applied to hierarchical clusters as well.
+Clustered MDI
+As we saw in Section 6.3.1, the MDI of a feature is the weighted impurity
+reduction across all nodes where that feature was selected. We compute the
+clustered MDI as the sum of the MDI values of the features that constitute that
+cluster. If there is one feature per cluster, then MDI and clustered MDI are the
+same. In the case of an ensemble of trees, there is one clustered MDI for each tree,
+which allows us to compute the mean clustered MDI, and standard deviation
+around the mean clustered MDI, similarly to how we did for the feature MDI.
+Code Snippet 6.4 implements the procedure that estimates the clustered MDI.
+Clustered MDA
+The MDA of a feature is computed by comparing the performance of an algorithm
+before and after shufﬂing that feature. When computing clustered MDA, instead of
+shufﬂing one feature at a time, we shufﬂe all of the features that constitute a given
+cluster. If there is one cluster per feature, then MDA and clustered MDA are the
+SNIPPET 6.4 CLUSTERED MDI
+def groupMeanStd(df0,clstrs):
+out=pd.DataFrame(columns=[‘mean’,‘std’])
+for i,j in clstrs.iteritems():
+df1=df0[j].sum(axis=1)
+out.loc[‘C_’+str(i),‘mean’]=df1.mean()
+out.loc[‘C_’+str(i),‘std’]=df1.std()*df1.shape[0]**-.5
+return out
+#---------------------------------------------------
+def featImpMDI_Clustered(ﬁt,featNames,clstrs):
+df0={i:tree.feature_importances_ for i,tree in \
+enumerate(ﬁt.estimators_)}
+df0=pd.DataFrame.from_dict(df0,orient=‘index’)
+df0.columns=featNames
+df0=df0.replace(0,np.nan) # because max_features=1
+imp=groupMeanStd(df0,clstrs)
+imp/=imp[‘mean’].sum()
+return imp
+86
+Machine Learning for Asset Managers
+
+same. Code Snippet 6.5 implements the procedure that estimates the clustered
+MDA.
+6.6 Experimental Results
+In this experiment we are going to test the clustered MDI and MDA procedures
+on the same data set we used on the nonclustered versions of MDI and MDA
+(see Sections 6.3.1 and 6.3.2). That data set consisted of forty features, of which
+ﬁve were informative, thirty were redundant, and ﬁve were noise. First, we
+apply the ONC algorithm to the correlation matrix of those features.21 In a
+nonexperimental setting, the researcher should denoise and detone the correla-
+tion matrix before clustering, as explained in Section 2. We do not do so in this
+experiment as a matter of testing the robustness of the method (results are
+expected to be better on a denoised and detoned correlation matrix).
+SNIPPET 6.5 CLUSTERED MDA
+def featImpMDA_Clustered(clf,X,y,clstrs,n_splits=10):
+from sklearn.metrics import log_loss
+from sklearn.model_selection._split import KFold
+cvGen=KFold(n_splits=n_splits)
+scr0,scr1=pd.Series(),pd.DataFrame(columns=clstrs.keys())
+for i,(train,test) in enumerate(cvGen.split(X=X)):
+X0,y0=X.iloc[train,:],y.iloc[train]
+X1,y1=X.iloc[test,:],y.iloc[test]
+ﬁt=clf.ﬁt(X=X0,y=y0)
+prob=ﬁt.predict_proba(X1)
+scr0.loc[i]=-log_loss(y1,prob,labels=clf.classes_)
+for j in scr1.columns:
+X1_=X1.copy(deep=True)
+for k in clstrs[j]:
+np.random.shufﬂe(X1_[k].values) # shufﬂe cluster
+prob=ﬁt.predict_proba(X1_)
+scr1.loc[i,j]=-log_loss(y1,prob,labels=clf.classes_)
+imp=(-1*scr1).add(scr0,axis=0)
+imp=imp/(-1*scr1)
+imp=pd.concat({‘mean’:imp.mean(),
+‘std’:imp.std()*imp.shape[0]**-.5},axis=1)
+imp.index=[‘C_’+str(i) for i in imp.index]
+return imp
+21 As an exercise, we ask the reader to apply ONC on a metric projection of the features computed
+using the normalized variation of information.
+87
+Elements in Quantitative Finance
+
+Figure 6.4 shows that ONC correctly recognizes that there are six relevant
+clusters (one cluster for each informative feature, plus one cluster of noise features),
+and it assigns the redundant features to the cluster that contains the informative
+feature from which the redundant features were derived. Given the low correlation
+across clusters, there is no need to replace the features with their residuals (as
+proposed in Section 6.5.2.1). Code Snippet 6.6 implements this example.
+Next, we apply our clustered MDI method on that data set. Figure 6.5 shows
+the clustered MDI output, which we can compare with the unclustered output
+reported in Figure 6.2. The “C_” preﬁx indicates the cluster, and “C_5” is the
+cluster associated with the noise features. Clustered features “C_1” is the
+second least important, however its importance is more than double the impor-
+tance of “C_5.” This is in contrast with what we saw in Figure 6.2, where there
+was a small difference in importance between the noise features and some of the
+nonnoisy features. Thus, the clustered MDI method appears to work better than
+the standard MDI method. Code Snippet 6.7 shows how these results were
+computed.
+SNIPPET 6.6 FEATURES CLUSTERING STEP
+X,y=getTestData(40,5,30,10000,sigmaStd=.1)
+corr0,clstrs,silh=clusterKMeansBase(X.corr(),maxNumClusters=10,
+n_init=10)
+sns.heatmap(corr0,cmap=‘viridis’)
+N_3
+–0.25
+0.00
+0.25
+0.50
+0.75
+1.00
+N_1
+R_0
+R_8
+I_4
+N_18
+N_16
+R_13
+R_1
+I_0
+R_26
+R_17
+R_21
+R_12
+R_24
+I_3
+R_20
+R_2
+R_14
+R_29
+R_29
+R_4
+R_2
+R_20
+I_3
+R_24
+R_12
+R_21
+R_17
+R_26
+I_0
+R_1
+R_13
+R_16
+R_18
+I_4
+R_8
+R_0
+N_1
+N_3
+Figure 6.4 ONC clusters together with informative and redundant features.
+88
+Machine Learning for Asset Managers
+
+Finally, we apply our clustered MDA method on that data set. Figure 6.6 shows
+the clustered MDA output, which we can compare with the unclustered output
+reported in Figure 6.3. Again, “C_5” is the cluster associated with the noise
+features, and all other clusters are associated with informative and redundant
+features. This analysis has reached two correct conclusions: (1) “C_5” has
+essentially zero importance, and should be discarded as irrelevant; and (2) all
+other clusters have very similar importance. This is in contrast with what we saw
+in Figure 6.3, where some nonnoise features appeared to be much more important
+than others, even after taking into consideration the standard derivation around
+the mean values. Code Snippet 6.8 shows how these results were computed.
+6.7 Conclusions
+Most researchers use p-values to evaluate the signiﬁcance of explanatory vari-
+ables. However, as we saw in this section, p-values suffer from four major ﬂaws.
+ML offers feature importance methods that overcome most or all of those ﬂaws.
+SNIPPET 6.7 CALLING THE FUNCTIONS FOR CLUSTERED MDI
+clf=DecisionTreeClassiﬁer(criterion=‘entropy’,max_features=1,
+class_weight=‘balanced’,min_weight_fraction_leaf=0)
+clf=BaggingClassiﬁer(base_estimator=clf,n_estimators=1000,
+max_features=1.,max_samples=1.,oob_score=False)
+ﬁt=clf.ﬁt(X,y)
+imp=featImpMDI_Clustered(ﬁt,X.columns,clstrs)
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+0.30
+C_5
+C_1
+C_0
+C_4
+C_2
+C_3
+Figure 6.5 Clustered MDI.
+89
+Elements in Quantitative Finance
+
+The MDI and MDA methods assess the importance of features robustly and
+without making strong assumptions about the distribution and structure of the
+data. Unlike p-values, MDA evaluates feature importance in cross-validated
+experiments. Furthermore, unlike p-values, clustered MDI and clustered MDA
+estimates effectively control for substitution effects. But perhaps the most
+salient advantage of MDI and MDA is that, unlike classical signiﬁcance ana-
+lyses, these ML techniques evaluate the importance of a feature irrespective of
+any particular speciﬁcation. In doing so, they provide information that is
+extremely useful for the development of a theory. Once the researcher knows
+the variables involved in a phenomenon, she can focus her attention on ﬁnding
+the mechanism or speciﬁcation that binds them together.
+The implication is that classical statistical approaches, such as regression
+analysis, are not necessarily more transparent or insightful than their ML
+counterparts. The perception that ML tools are black-boxes and classical tools
+are white-boxes is false. Not only can ML feature importance methods be as
+helpful as p-values, but in some cases they can be more insightful and accurate.
+SNIPPET 6.8 CALLING THE FUNCTIONS FOR CLUSTERED MDA
+clf=DecisionTreeClassiﬁer(criterion=‘entropy’,max_features=1,
+class_weight=‘balanced’,min_weight_fraction_leaf=0)
+clf=BaggingClassiﬁer(base_estimator=clf,n_estimators=1000,
+max_features=1.,max_samples=1.,oob_score=False)
+imp=featImpMDA_Clustered(clf,X,y,clstrs,10)
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+0.30
+C_5
+C_4
+C_2
+C_1
+C_0
+C_3
+Figure 6.6 Clustered MDA.
+90
+Machine Learning for Asset Managers
+
+A ﬁnal piece of advice is to consider carefully what are we interested in
+explaining or predicting. In Section 5, we reviewed various labeling methods.
+The same features can yield various degrees of importance in explaining or
+predicting different types of labels. Whenever possible, it makes sense to apply
+these feature importance methods to all of the labeling methods discussed
+earlier, and see what combination of features and labels leads to the strongest
+theory. For instance, you may be indifferent between predicting the sign of the
+next trend or predicting the sign of the next 5% return, because you can build
+proﬁtable strategies on either kind of prediction (as long as the feature impor-
+tance analysis suggests the existence of a strong theoretical connection).
+6.8 Exercises
+1 Consider a medical test with a false positive rate α ¼ P½x > τjH0, where H0
+is the null hypothesis (the patient is healthy), x is the observed measurement,
+and τ is the signiﬁcance threshold. A test is run on a random patient and
+comes back positive (the null hypothesis is rejected). What is the probability
+that the patient truly has the condition?
+a Is it 1  α ¼ P½x ≤τjH0 (the conﬁdence of the test)?
+b Is it 1  β ¼ P½x > τjH1 (the power, or recall, of the test)?
+c Or is it P½H1jx > τ (the precision of the test)?
+d Of the above, what do p-values measure?
+e In ﬁnance, the analogous situation is to test whether a variable is involved
+in a phenomenon. Do p-values tell us anything about the probability that
+the variable is relevant, given the observed evidence?
+2 Consider a medical test where α ¼ :01, β ¼ 0, and the probability of the
+condition is P½H1 ¼ :001. The test has full recall and a very high conﬁdence.
+What is the probability that a positive-tested patient is actually sick? Why is it
+much lower than 1  α and 1  β? What is the probability that a patient is
+actually sick after testing positive twice on independent tests?
+3 Rerun the examples in Sections 6.3.1 and 6.3.2, where this time you pass an
+argument sigmaStd=0 to the getTestData function. How do Figures 6.2 and
+6.3 look now? What causes the difference, if there is one?
+4 Rerun the MDA analysis in Section 6.3.2, where this time you use probability-
+weighted accuracy (Section 6.4) as the scoring function. Are results materially
+different? Are they more intuitive or easier to explain? Can you think of other
+ways to represent MDA outputs using probability-weighted accuracy?
+5 Rerun the experiment in Section 6.6, where this time the distance metric used
+to cluster the features is variation of information (Section 3).
+91
+Elements in Quantitative Finance

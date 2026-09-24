@@ -1,0 +1,462 @@
+Chapter 9
+A COMPUTER THAT PREDICTS
+ROULETTE
+The modern form of roulette seems to have ﬁrst appeared in Paris in 1796. It
+became the favored high-stakes game of the rich and the royal, enshrined in
+Monte Carlo in the nineteenth century, and celebrated in story and song.
+With its high stakes, splendid settings, and runs of extreme luck, which were
+sometimes good but more often bad, it was a target for those with systems
+attempting to overcome the casino’s advantage. These systems were too
+complex for gamblers to analyze precisely, but they had plausible features that
+inspired hope.
+A favorite was the Labouchère, or cancellation, system. This was used in
+roulette for bets that paid even money, where you win or lose an amount
+equal to your bet. Among the even-money bets in roulette are wagers on red
+or on black, each of which has eighteen chances in thirty-eight of winning. To
+start the Labouchère, write down a string of numbers, such as 3, 5, and 7.
+The total of these, 15, is what you try to win. Your ﬁrst bet is the total of the
+ﬁrst and last numbers in the string, 3 + 7, or 10. If you win, cross oﬀ the ﬁrst
+and last numbers, leaving only 5. Your next bet is 5, and if you win you have
+reached your goal. If you lose, add 10 to the string so it becomes, 3, 5, 7, 10
+and then bet 3 + 10 or 13. In any case, each time you lose you add one
+number to the string, and each time you win you cross oﬀ two numbers.
+Therefore, you need to win only a little over a third of the time to reach your
+goal. What can go wrong? Gamblers, trying systems like the Labouchère,
+were baﬄed when they never seemed to prevail.
+
+However, using the mathematical theory of probability, it was proven that
+if all roulette numbers were equally likely to come up, and they appeared in
+random order, it was impossible for any betting system to succeed. Despite
+this, hope ﬂared brieﬂy at the end of the nineteenth century when the great
+statistician Karl Pearson (1857–1936) discovered that the roulette numbers
+being reported daily in a French newspaper showed exploitable patterns. The
+mystery was resolved when it was discovered that rather than spend hours
+watching the wheels, the people recording the numbers simply made them up
+at the end of each day. The statistical patterns Pearson detected simply
+reﬂected the failure of the reporters to invent perfectly random numbers.
+If betting systems don’t work, what about defective wheels where, in the
+long run, some numbers will come up more than others? In 1947, two
+graduate students at the University of Chicago, Albert Hibbs (1924–2003)
+and Roy Walford (1924–2004), found a roulette wheel in Reno that seemed
+to favor the number 9. They increased an initial stake of $200 to $12,000.
+The next year they found a wheel at the Palace Club in Las Vegas on which
+they made $30,000. They took a year oﬀ and sailed the Caribbean, then went
+on to distinguished careers in science. Among many accomplishments, Hibbs
+became director of space science for Caltech’s Jet Propulsion Laboratory, and
+Walford became a UCLA medical researcher who showed that caloric
+restriction in mice could more than double their maximum life span. Hibbs
+later wrote, “I wanted to conquer space, and my roommate, Roy Walford,
+decided that he would conquer death.”
+Feynman must have known about biased wheels when he told me there was
+no way to beat the game, because Hibbs got his PhD in physics under
+Feynman at Caltech the previous year. In any case, biased wheels at big
+casinos were likely a thing of the past, as gambling houses took better care of
+their equipment.
+So this was the setting when Claude Shannon and I, in September 1960, set
+to work to build a computer to beat roulette. So far as we knew, everyone else
+thought physical prediction was impossible.
+As it was the last year of my two-year appointment at MIT, we had to
+complete the task in nine months. We spent twenty hours a week at the
+Shannons’ three-story wooden house. Dating from 1858, it was sited on one
+of the Mystic Lakes, a few miles from Cambridge. The basement was a
+
+gadgeteer’s paradise, with perhaps $100,000 worth of electronic, electrical,
+and mechanical items. There were thousands of mechanical and electrical
+components—motors, transistors, switches, pulleys, gears, condensers,
+transformers, and on and on. As someone who had spent much of his
+boyhood building and experimenting in electronics, physics, and chemistry, I
+was now happily working with the ultimate gadgeteer.
+We purchased a reconditioned regulation roulette wheel from a company in
+Reno for $1,500. From the labs at MIT we borrowed a strobe light, and a
+large clock with a second hand that made one revolution per second, the latter
+recapitulating the role the stopwatch had in my earlier movie experiments.
+The dial was divided into hundredths of a second and we could interpolate
+still-ﬁner time divisions. We set up shop in the billiard room, where a massive
+old slate table made a solid base on which to mount the wheel.
+Our wheel was typical, carefully machined with an elegant design and
+beauty that added to the appeal of the game. It consisted of a large stationary
+piece, or stator, with a circular track around the top, where the croupier starts
+each play of the game by launching a small white ball. As the ball orbits, it
+gradually slows until ﬁnally it falls down the sloped conelike inside of the
+stator and crosses onto a circular centerpiece, or rotor, with numbered
+pockets that the croupier previously set spinning in a direction opposite to
+that in which he spun the ball.
+The motion of the ball is complicated by having several diﬀerent phases,
+making it so daunting as to discourage analysis. We followed my original
+plan, which was to divide the motion of ball and rotor into stages and analyze
+each separately.
+We began by predicting when and where the orbiting ball would leave the
+outer track. We did this by measuring the time it took for the ball to make
+one revolution. If the time was short, the ball was moving fast and would go
+relatively far. If the time was longer, the ball was traveling slower and would
+soon fall from the track.
+To measure the speed of the ball, we hit a microswitch as the ball passed a
+reference mark on the stator. This started the clock. When the ball passed the
+same spot the second time we hit the switch again, stopping the clock, which
+then showed how long it took for the ball to go around once.
+
+Simultaneous with starting and stopping the clock, the switch triggered the
+ﬂash of a strobe whose very short pulses of light were like those in a disco.
+We dimmed the lights in the room so the strobe ﬂashes “stopped” the ball
+each time the switch was hit, allowing us to see how much the ball was ahead
+or behind the reference mark. This showed us how much we were oﬀ in
+hitting the timing switch. From this we corrected the times recorded by the
+clock for one revolution of the ball, making the data more accurate. We also
+got from this a numerical measure of our errors in hitting the switch as well
+as direct visual feedback. As a result we learned to become much better at
+timing. With practice, our errors fell from values of about 0.03 second to
+about 0.01 second. We were able to retain this level of accuracy later when
+we concealed everything for casino play, having trained our big toes to
+operate switches hidden in our shoes.
+We found that we could predict, with a high degree of accuracy, when and
+where the ball would slow enough to fall from the circular track. So far so
+good. Our next step was to determine the time the ball would take and the
+distance it would travel as it spiraled down the conical inside of the stator to
+reach the spinning rotor. Most wheels had vanes or deﬂectors in this region—
+typically eight—that the ball would frequently hit. The eﬀect was to
+randomize the ball’s behavior. Its path could be shortened or lengthened,
+depending on whether and how it hit one of these deﬂectors. We found that
+the uncertainty this introduced into our prediction was too small to ruin our
+advantage. The deﬂectors also gave us a handy choice of reference points for
+timing the ball and rotor.
+Finally, after the ball crossed onto the moving rotor, it would bounce
+around among the individual numbered pockets, introducing yet another
+uncertainty into our forecast.
+The total prediction error was the sum of many eﬀects, including our
+imperfect timing, the spattering of the ball on the rotor pocket dividers
+(frets), the deﬂection of the ball by metal obstacles as it spiraled down the
+stator, and the possible tilt of the wheel. Assuming the total error was
+approximately normally distributed (the Gaussian or bell-shaped curve), we
+needed the standard deviation (a measure of uncertainty) for the error of
+prediction around the actual outcome to be sixteen pockets (0.42 revolution)
+or less to get an edge. We achieved the tighter estimate of ten pockets, or
+
+0.26 revolution. This gave us the enormous average proﬁt of 44 percent of the
+amount we bet on the forecast number. If we spread our bet over the two
+closest numbers on each side, for a total of ﬁve numbers in all, we cut risk
+and still had a 43 percent advantage.
+Using physics to win at roulette brings to mind the bizarre game of Russian
+roulette. You cannot win, but physics may help you survive. The name
+appears to have originated in a 1937 story by Georges Surdez:
+“Did you ever hear of Russian Roulette?” […] With the Russian
+army in Romania, around 1917, some oﬃcer would suddenly pull
+out his revolver, put a single cartridge in the cylinder, spin the
+cylinder, snap it back in place, put it to his head and pull the
+trigger…
+The spinning of the revolver’s cylinder is reminiscent of the roulette
+wheel’s whirling rotor. With six chambers, only one of which is loaded, the
+chance of ﬁring the cartridge would seem to be one in six. But for a properly
+lubricated and maintained weapon held upright with the cylinder parallel to
+the ground, gravity and the weight of the cartridge will cause the full chamber
+to tend to end up near the bottom, provided the cylinder is allowed to stop on
+its own. If the cylinder is then relatched, the player has shifted the odds in his
+(women are too smart to play) favor. The eﬀect of gravity on the ﬁnal resting
+position of an unevenly weighted cylinder varies, depending on the orientation
+of the gun. My younger daughter, an assistant deputy district attorney for
+more than two decades, tells me that modern forensic scientists are aware of
+this.
+—
+Shannon, with his treasury of intriguing information and ingenious ideas, was
+a joy to work with. Discussing our need for secrecy, he mentioned that social
+network theorists studying the spread of rumors and secrets claimed that if
+you pick two people at random in, say, the United States, then they are
+usually connected by a chain of three or fewer acquaintances or “three
+degrees of separation.” An obvious way to test this when you meet strangers
+
+is to ask what famous people they know. It is likely that a famous person they
+know shares an acquaintance with a famous person you know. Then the steps
+are (1) you to your famous person, (2) your famous person to their famous
+person, and (3) their famous person to them. The two famous people
+connecting you give “two degrees of separation.”
+As is my lifelong habit, I tested this claim, often with remarkable results.
+Once on a train from Manhattan to Princeton, New Jersey, I noticed that the
+pleasant, well-dressed, motherly-looking lady sitting beside me seemed
+agitated. She didn’t understand English, French, or Spanish but she responded
+to my elementary German, telling me her problem was knowing when to get
+oﬀ in Philadelphia. After I had helped her, I learned she was a Hungarian
+economic oﬃcial from Budapest on her way to a meeting. I decided to play
+my “degrees of separation” game.
+“Do you know anyone in Budapest named Sinetar?” I asked.
+“Of course. They are a famous family,” she replied. “There’s Miklos, the
+ﬁlm producer, as well as an engineer, and a psychologist.”
+“Well,” I said, “they are relatives of my wife.”
+Me, to Vivian, to a Budapest Sinetar, to my economist seatmate. Two
+degrees of separation. So far, I’ve never needed more than three to connect
+with a stranger.
+The concept entered popular culture as “six degrees of separation” after
+John Guare’s 1990 play of that name. The notion of degrees of separation
+was well known as early as 1969 among mathematicians as the Erdös (ERR-
+dosh) number, linking them via other mathematicians to the proliﬁc and
+peripatetic Hungarian mathematician Paul Erdös, using the relation
+“coauthored a paper with.” If you coauthored a paper with Erdös your Erdös
+number is one. If your number isn’t one but you coauthored with someone
+who had Erdös number one, then your number is two, and so forth.
+The few steps that connect strangers explain how rumors spread rapidly
+and widely. If you have a good investment idea, you might want to keep it
+secret. In 1998 a New York Times Science Times article said that
+mathematicians had discovered how networks might “make a big world small”
+using the equivalent of the famous person idea, and attributed the concept of
+
+six degrees of separation to a sociologist in 1967. Yet all this was known to
+Claude Shannon in 1960.
+He loved to build ingenious gadgets. One of these would ﬂip a coin end
+over end a speciﬁed number of revolutions and have it land—at his choice—
+either heads or tails. He also ran a cable from his workshop (the “toy room”)
+to his kitchen. When Claude pulled on the cable, a ﬁnger, attached to it and
+set up in the kitchen, would silently and jokingly summon his wife, Betty.
+During our work breaks, Claude taught me to juggle three balls, which he
+did while riding a unicycle. He also had a steel cable tied between two tree
+stumps and walked along it, encouraging me to learn with the aid of a balance
+bar. He could do any two of the three tricks together: juggle three balls, ride
+the unicycle, and balance on the tightrope, and his goal was to be able to do
+all three at once. One day I noticed two huge pieces of Styrofoam that looked
+as if they could be worn like snowshoes. Claude said they were water shoes
+that enabled him to “walketh upon the water,” in this case the Mystic Lake in
+front of his house. The neighbors had been astounded to see Claude moving
+upright above the surface of the lake. I tried the water shoes but found it
+diﬃcult to keep from toppling over.
+We got along so well because, from an early age, science was play for both
+of us. Tinkering and building things was part of the fun, as was letting our
+curiosity range freely.
+In American roulette, the wheel has thirty-eight pockets for the ball to fall
+into. Thirty-six of these, numbered from 1 to 36, are either red or black, with
+eighteen of each. The green pockets, 0 and 00 (zero and double-zero), are
+opposite each other on the rotor and thus split the other thirty-six into two
+groups of eighteen. A winning bet on a single number pays 35:1, meaning you
+get back your stake plus a proﬁt of thirty-ﬁve times the amount you bet. If
+there were no 0 or 00, this payoﬀ would make the game even, because on
+average, for each $1 bet, the player wins $35 one time in thirty-six spins and
+loses $1 thirty-ﬁve times in thirty-six, for no net gain or loss. However, with
+the addition of 0 and 00, on average the bettor who has no ability to predict
+will win $35 one time in thirty-eight and lose $1 thirty-seven times in thirty-
+eight, for a net loss of $2 per thirty-eight bets. The casino edge for him on
+single-number bets then is $2 ÷ $38 or 5.26 percent. European roulette is
+typically more generous, having just the single zero.
+
+For bet sizing in favorable games, Shannon suggested I look at a 1956
+paper by John Kelly. I adapted it as the guide for bets in blackjack and
+roulette, and later in other favorable games, sports betting, and the stock
+market. For roulette, the Kelly strategy showed that it was worth trading a
+little expected gain for a large reduction in risk by betting on several
+(neighboring) numbers, rather than a single number.
+The croupier begins play by spinning the rotor. With our roulette
+computer, we then time one revolution of the rotor, after which our device
+knows where it is in the future, until the time comes when the croupier once
+again gives it a push. Our computer then sends out a repeating sequence of
+eight increasing pitched numerical tones, do, re, mi…Think of it as a piano
+scale: (middle) C, D, E…C (next octave) and repeat. We chose to time the
+ball when it had between three and four revolutions remaining. The closer to
+the end we made our measurements, the more accurate our predictions, and
+three revolutions to go still gave us enough time to place our bets. The
+computer’s timing switch was hit when the orbiting ball ﬁrst passed a
+reference mark on the wheel. When this happened, the tone sequence shifted
+and played faster. When the timing switch clocked the ball as it passed the
+reference mark again, after having made one revolution, the tones stopped.
+The last tone heard named the group of numbers on which to bet. If the
+person doing the timing misjudged the number of ball revolutions that were
+left, the tones did not stop and we placed no bets, except for camouﬂage.
+When the prediction was sent, it was simultaneous with the last input. The
+compute time was zero!
+Claude and I were doing this work while I went to Nevada with Manny and
+Eddie to test my blackjack system, which gave me the opportunity to check
+roulette wheels and conﬁrm that they behaved like our lab wheel. I saw that
+many were tilted, which we had already discovered could further improve
+prediction because it tended to limit the zones of the track from which the
+ball could fall. I reported to Claude that half-chip and even one-chip tilts
+were common. In our lab we had experimented by putting a coin half the
+thickness of a casino chip (a “half-chip tilt”) under one of the three feet of
+the wheel and found that this amount of tilt gave us a nice boost in advantage.
+Months of experiments with a wide range of designs led us to a ﬁnal
+version of the system. We split our equipment into parts, requiring a team of
+
+two. One of us wore the computer, which had twelve transistors and was the
+size of a pack of cigarettes. Data was input with switches hidden in the
+wearer’s shoes and operated by his big toes. The computer’s forecast was
+transmitted by radio, using a modiﬁcation of the inexpensive, widely available
+equipment ordinarily used to remotely control model airplanes. The other
+person, the bettor, would wear a radio receiver, which played the musical
+tones telling him on which group of numbers to bet. We two confederates
+would act like strangers.
+The person placing the bets heard musical output through a tiny
+loudspeaker pushed into one ear canal and connected by very thin wires to the
+radio receiver, which was concealed under his clothing. So the wires wouldn’t
+be noticed, we stuck them on with transparent spirit gum and painted them to
+match the wearer’s skin and hair. The fragile copper wires, only the diameter
+of a hair, broke constantly. Claude suggested that we ﬁnd ultrathin steel wires
+to replace the copper. After an hour of telephoning we located a supplier in
+Worcester, Massachusetts, that had what we needed.
+We worked feverishly through April and May 1961 to complete the
+computer because I would be leaving MIT the following month for Los
+Angeles with Vivian and our not-quite-two-year-old daughter, Raun, and then
+on to New Mexico State University in the fall. As we hadn’t quite ﬁnished
+when Vivian, Raun, and I left, a couple of weeks later I took a red-eye back
+from Los Angeles to Boston, showing up on the Shannons’ country doorstep
+about 7 A.M. on a sunny summer morning. I lived there for three weeks while
+Claude and I worked furiously to ﬁnish the project. Finally, after more tuning
+and testing, we were ready. The wearable version of the computer was
+operational at the end of June 1961.
+Returning to Los Angeles, I told Vivian that the roulette computer was
+ready, and Claude and I wanted to test it. Vivian and I met Betty and Claude
+in Las Vegas in August. After we settled in adjoining hotel rooms with our
+equipment, we headed out to locate suitable wheels. Our machine could beat
+all the wheels we saw, so we chose one for the next day where we liked the
+casino ambience. Then it was on to dinner and plans for the morrow.
+The next morning we wired ourselves up. Claude wore the computer and
+the radio transmitter and would use his big toes to operate switches hidden in
+his shoes. I wore the radio receiver with the new steel wires going up my neck
+
+to the speaker in my right ear canal. As I stood ready to leave for the casino,
+Claude cocked his head and with an elﬁsh smile asked, “What makes you
+tick?”
+Claude was jokingly referring to the strange sounds (actually these were
+musical tones) he would be sending from the computer he was wearing to my
+ear canal, once we went into action at the roulette table. As I look back now
+from the future, seeing myself wired up with our equipment, I stop that
+moment in time and I think about a deeper meaning to the question of what
+makes me tick.
+I was at a point then in life when I could choose between two very diﬀerent
+futures. I could roam the world as a professional gambler winning millions
+per year. Switching between blackjack and roulette, I could spend some of
+the winnings as perfect camouﬂage by also betting on other games oﬀering a
+small casino edge, like craps or baccarat.
+My other choice was to continue my academic life. The path I would take
+was determined by my character, namely, What makes me tick? As the Greek
+philosopher Heraclitus said, “Character is destiny.” I unfreeze time and watch
+us head for the roulette tables.
+The four of us arrive in the casino, with Vivian and Betty Shannon strolling
+and chatting, while Claude and I are strangers to them and each other.
+Lacking my casino experience, the others are nervous but fortunately don’t
+show it. Claude stands by the wheel and times the ball and rotor; as
+misdirection for what he is really doing, he writes down the winning number
+after each roll of the ball, looking like just another doomed-to-fail system
+player. Meanwhile, I take my seat at the far end of the layout, some distance
+from both Claude and the wheel.
+Claude waits for the croupier to give the rotor a push to keep it spinning.
+As the green zero on the rotor goes by a reference point on the stator, which
+Claude has chosen to be one of the ball-deﬂecting vanes, his big toe hits one
+of the silent mercury switches hidden in his shoe. Contact. The soundless
+equivalent of a click! When the green 0 comes around again, click. The
+elapsed time is the duration of one rotation. After the second click, an eight-
+tone musical scale—do, re, mi, and so on—begins to play in my ear,
+repeating each time the rotor turns once. Now the computer knows not only
+how fast the rotor is turning but also where it is in relation to the stator. The
+
+rotor will gradually slow down even though it is suspended on a very low-
+friction jeweled bearing. The computer also corrects for that. Claude will
+have to retime the rotor every few minutes when the croupier gives it another
+push to oﬀset its gradual loss of speed.
+I get ready to bet. The croupier launches the ball. As it speeds around the
+track inside the top of the stator, Claude watches each time it passes the
+reference point. When he thinks it has more than three but less than four
+revolutions left, he clicks with the other big toe. The pace of the repeating
+musical scale speeds up. Finally, as the ball completes the next revolution,
+Claude’s toe hits the switch again. Click! The musical tones stop. The last tone
+I hear tells me the group of numbers on which to bet. As it is only a test, I bet
+10-cent chips. Within a few spins, the computer works its magic, turning a
+few dimes into a heap as yet another bet scores. I bet each time on a group of
+ﬁve numbers that are adjacent on the rotor. This is common in Europe, where
+the French call a group like this a voisinage, or “neighborhood.”
+We have divided the numbers on the wheel into eight such groups of ﬁve,
+with 0 and 00 appearing twice, as our groups included forty numbers and the
+wheel has only thirty-eight. We’ve called these groups of ﬁve “octants.” The
+average player who bets $1 on each of ﬁve numbers will win about ﬁve times
+in thirty-eight or just over one-eighth of the time and lose all ﬁve bets
+otherwise, with an overall rate of loss that turns out to be $2 for each $38
+worth of bets, a 5.3 percent disadvantage. However, using our computer, our
+bet on ﬁve numbers won a ﬁfth of the time, giving us a 44 percent edge.
+But we had issues. Well into one winning session, a lady next to me looked
+over in horror. Knowing I should leave, but not why, I raced to the restroom
+and there in the mirror saw the speaker peeking out from my ear canal like an
+alien insect. More seriously, though we frequently turned small piles of dime
+chips into large ones, we had a problem that prevented us on this trip from
+moving to large-scale betting. This had to do with the wires to the ear
+speaker. Even though they were steel, they were so ﬁne that they broke
+frequently, leading to long interruptions while we returned to our rooms and
+went through the tedious process of doing the repairs and then rewiring me.
+But when it was up and running, the computer was a success. We knew we
+could solve the wire problem by using larger wires and growing hair to cover
+both our ears and the wire running up our neck. We also considered
+
+persuading our reluctant wives to “wire up,” concealing everything under
+their fashionable longer hair.
+While I was betting, no one watching had any idea that what Claude and I
+were doing was in any way unusual, nor did they realize the connections
+among the four of us. Even so, I realized that if the casinos ﬁgured out what
+we were doing, they had an easy way to stop us. All they had to do was say
+“No more bets” before the ball was spun, instead of waiting as they
+customarily did until the ball had almost completed its rotations around its
+track. To prevent them from catching on and doing this, we would need to put
+on an act to divert attention from our winning. I already knew how much
+eﬀort this would take, based on my experience with blackjack. Neither I nor
+Vivian, Claude, and Betty would want to go through the rehearsed theatrics,
+disguises, and misdirection needed, and with all the blackjack publicity I was
+becoming too conspicuous to go unrecognized for long. It also wasn’t the way
+any of the four of us wanted to spend what would inevitably involve a very
+large amount of our time. So, with some ambivalence, we put the project
+aside. I have always thought it was a good decision.
+The MIT Media Lab lists our device as the ﬁrst of what would later be
+called wearable computers, namely, computers that are worn on the body as
+part of their function. In late 1961 I built the second wearable computer, a
+knockoﬀ to predict the wheel of fortune or money wheel. As in the roulette
+computer, my device used the toe-operated switch for input, the speaker for
+output, and just a single unijunction transistor; it required only one person.
+Matchbox-sized, it worked well in the casinos, but the game had too little
+action to conceal the spectacular consequences of my late bets. Several times
+when I placed bets on 40:1 as the wheel was spinning, the croupier would
+give the wheel an extra push.
+Finally in 1966, I publicly announced our roulette system because it was
+clear by then that we weren’t going to exploit it. I published the details later.
+When a mathematician from UC–Santa Cruz phoned me, I explained the
+method to him. UCSC was where the Eudaemonic Pie group of physicists
+would use the more advanced technology of the next decade to build their
+own roulette computer. Like us they found a 44 percent advantage and, like
+us, were frustrated by hardware problems. Later, groups using roulette
+computers reportedly won large amounts.
+
+Shannon and I had also discussed building a wearable blackjack computer.
+Using the program I had used to analyze blackjack, such a computer could
+count the cards and play a perfect game, winning at up to double the rate of
+the best human card counters. This was an early instance, perhaps the ﬁrst, of
+a computer that could outplay any human at a game. Later, computers went
+on to play perfect checkers and to beat the world’s best at chess, Go, and
+Jeopardy. Subsequently, others built and marketed wearable blackjack
+computers. At the time, Nevada law, in particular the statutes on cheating, did
+not forbid their use. However, as hidden computers in blackjack and roulette
+increasingly cut into casino proﬁts, the Nevada devices law was passed as an
+emergency measure on May 30, 1985. It banned use or possession of any
+device to predict outcomes, analyze probabilities of occurrence, analyze
+strategy for playing or betting, or keep track of cards played. The penalty:
+ﬁnes and imprisonment. This broadly drawn legislation even seems to outlaw
+the palm-sized strategy cards that are part of every copy of Beat the Dealer.
+When, in 2009, an entrepreneur wrote a popular iPhone application to count
+cards and recommend plays for blackjack, casinos reminded users that it was
+a crime to do so at the tables.
+Claude and I corresponded at intervals for a few years, initially about
+roulette, until it became more and more clear that we didn’t want to take it
+further. The last letter I remember writing was in late 1965 or early 1966,
+where I recalled our discussions about the stock market triggered by my
+seeing on his blackboard the ﬁgure 211, which equals 2048, representing the
+amount $1 becomes if it is doubled eleven successive times, an investing goal
+he was contemplating. I told him in my letter that I had found an
+extraordinary method for investing in a small niche in the stock market,
+which I thought could make 30 percent per year. Given time, I could surpass
+the 211 ﬁgure. He never said what he thought of this hubris. And hubris it
+was, as the actual rate of proﬁt would turn out to be closer to 20 percent.
+We met for the last time in 1968, at a math meeting in San Francisco. His
+poignant last words to me were, “Let’s get together again before we’re both
+six feet under.”
+After Claude’s death in 2001, Betty donated many of his papers and
+devices to the MIT museum, including the roulette computer. It was lent by
+the museum to the Heinz Nixdorf Computer Museum in Paderborn,
+
+Germany, for an exhibit in the spring of 2008 where thirty-ﬁve thousand
+people viewed it in the ﬁrst eight weeks.
+When Claude walked up to the Las Vegas roulette wheel in August 1961,
+he was using something no one but the four of us had ever seen before. This
+was the world’s ﬁrst wearable computer. To me, a wearable computer is just
+what the name indicates: a computer that is worn by a person in order to
+fulﬁll its intended function. Though our device had little impact on later
+developments, wearable computers, such as my Apple Watch, are everywhere
+today.
+After blackjack and roulette, I wondered: Could other casino games be
+beaten?

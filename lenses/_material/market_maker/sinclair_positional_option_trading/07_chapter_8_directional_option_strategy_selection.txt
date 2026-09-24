@@ -1,0 +1,710 @@
+CHAPTER 8
+Directional Option Strategy Selection
+In addition to choosing a strike and expiration, the trader needs to decide
+what strategy to employ. There are many option structures that could be
+used to speculate directionally, but here we will confine ourselves to those
+that could be considered the fundamental building blocks of the others: the
+long call, the long call spread, the short put, the short put spread, and the
+risk reversal.
+It is possible to construct a matrix that constructs optimal positions using
+various risk measures such as the Sharpe ratio, the generalized Sharpe ratio
+(GSR), or the Kelly ratio. Doing this isn't stupid but here are several
+problems with the approach:
+Different criteria will recommend different structures, and none will
+express the investor's real utility. All the criteria are useful guides, but
+none are definitive.
+Often the difference between strategies will be minimal using this
+method.
+The various risk ratios assume that our forecasts are correct. It is more
+important to understand what happens if we are wrong. Although it is
+possible to calculate derivatives of the ratios (e.g., the derivative of
+GSR with respect to return), it is more instructive to again run
+simulations.
+Long Stock
+This is our baseline. We buy 100 shares of a $100 stock. We expect a 20%
+return and realized volatility is 30%. If our return estimate is correct, the
+(lognormal) PL distribution after 1-year is shown in Figure 8.1 and
+summary statistics are shown in Table 8.1.
+FIGURE 8.1 The PL distribution for 100 shares of a $100 stock with a 20%
+return; volatility is 30%.
+TABLE 8.1 Summary Statistics for 100 Shares of a $100 Stock with a
+20% Return (Volatility is 30%.)
+Average
+$2,640
+Standard deviation
+$3,736
+Skewness
+1.12
+Excess kurtosis
+2.73
+Median
+$2,214
+90th percentile
+$7,940
+Maximum (in a 10,000-path
+simulation)
+$27,22
+0
+10th percentile
+−
+$1,660
+Minimum (in a 10,000-path simulation)
+−
+$6,260
+Percent profitable
+75%
+Long Call
+Consider a long ATM 1-year call on a $100 stock when rates are zero. We
+expect a 20% return and both implied and realized volatility are 30%. If our
+return estimate is correct, the PL distribution from a simulation of 10,000
+paths is shown in Figure 8.2 and summary statistics are shown in Table 8.2.
+The initial value of the call is $11.92.
+FIGURE 8.2 The PL distribution for a 1-year ATM call option on a $100
+stock with a 20% return. Both implied and realized volatilities are 30% and
+rates are zero.
+TABLE 8.2 Summary Statistics of the PL Distribution for a 1-Year
+ATM Call Option on a $100 Stock with a 20% Return (Both implied
+and realized volatilities are 30% and rates are zero.)
+Average
+$1,516
+Standard
+deviation
+$3,198
+Skewness
+1.66
+Excess kurtosis
+4.12
+Median
+$538
+90th percentile
+$5,843
+Maximum
+$23,06
+8
+10th percentile
+−
+$1,192
+Minimum
+−
+$1,192
+Percent profitable
+58%
+If we had bought 100 shares of stock, our average median profit would have
+been $2,200. The option premium pays for the leverage relative to the
+shares and the limited downside. A call option is similar (but not identical)
+to a long stock position and a stop-loss order at the strike. However, stops
+will kill some trades that would eventually have recovered. Options won't
+do this, and this is the benefit of paying the premium.
+Long Call Spread
+We buy the 1-year ATM call and sell the 20-delta call (the 135 strike). The
+PL distribution from a simulation of 10,000 paths is shown in Figure 8.3
+and summary statistics are shown in Table 8.3. The initial value of the
+spread is $9.04.
+This P/L distribution is similar to a long position with a stop and a profit
+target. Although returns are far from normal, the extreme values have been
+eliminated along with the skewness.
+In indices, it is quite possible that the implied skew means you will be
+selling the short strike at a discount to the ATM volatility. In many other
+products, you will receive a premium for the short strike. This changes the
+initial premium and hence the profits but won't change the shape of the
+terminal distribution.
+One benefit that the call spread offers over the call is related to psychology.
+When holding a call, particularly an OTM call, you are paying for the
+extreme upside. This means you need to continue to hold the option. A lot
+of traders have trouble with this (in my experience, amateurs can't take
+losses and professionals are too inclined to take profits). Instead of fighting
+this tendency, it may be better to buy a call spread instead of a call. The
+short strike will be the profit target and the position won't have cost as
+much to initiate.
+FIGURE 8.3 The PL distribution for a 1-year ATM/20-delta call spread on
+a $100 stock with a 20% return. Both implied and realized volatilities are
+30% and rates are zero.
+TABLE 8.3 Summary Statistics of the PL Distribution for a 1-Year
+ATM/20-Delta Call Spread on a $100 Stock with a 20% Return (Both
+implied and realized volatilities are 30% and rates are zero.)
+Average
+$819
+Standard
+deviation
+$1,50
+2
+Skewness
+0.01
+Excess kurtosis
+−1.76
+Median
+$759
+90th percentile
+$2,59
+6
+Maximum
+$2,59
+6
+10th percentile
+−$904
+Minimum
+−$904
+Percent profitable
+58%
+Short Put
+We sell the 1-year ATM put. The PL distribution from a simulation of
+10,000 paths is shown in Figure 8.4 and summary statistics are shown in
+Table 8.4. The initial value of the put is $11.92.
+Choosing a short put instead of a long call is really about preferring a high
+probability of a smaller profit to a larger average profit and positive
+skewness.
+Covered Calls
+A covered call consists of a long position in a stock and short position in a
+call on that stock. In exchange for receiving the option premium, the
+investor has her upside capped. Figure 8.5 shows the covered call payoff at
+expiration when a 100-strike call option is sold for $5.
+FIGURE 8.4 The PL distribution for a short 1-year ATM put option on a
+$100 stock with a 20% return. Both implied and realized volatilities are
+30% and rates are zero.
+TABLE 8.4 Summary Statistics of the PL Distribution for a Short 1-
+Year ATM Put Option on a $100 Stock with a 20% Return (Both
+implied and realized volatilities are 30% and rates are zero.)
+Average
+$706
+Standard
+deviation
+$986
+Skewness
+−2.22
+Excess kurtosis
+4.53
+Median
+$1,192
+90th percentile
+$1,192
+Maximum
+$1,192
+10th percentile
+−$8,43
+Minimum
+−
+$5,172
+Percent profitable
+78%
+FIGURE 8.5 The payoff of the covered call as a function of stock price at
+expiration.
+Synthetically a covered call is the same as a short put. Instead of selling a
+call against an established long stock position, investors sometimes sell a
+put and hold enough cash to be able to purchase the stock if they are
+assigned. Synthetically, this position is the same as a covered call with the
+same strike. However, there are some differences in how and why these
+strategies are used:
+Some investors are prohibited from put selling, but they can write
+covered calls.
+The chosen strikes tend to be different, with both strategies generally
+implemented with out-of-the-money options.
+Selling out-of-the-money put options means the trader usually benefits
+from selling at an implied volatility premium.
+The psychological effects on the trader are also somewhat different. The
+holder of a covered call tends to be happy with rallies, whereas the seller of
+the put often feels she has missed out in the case of a large rally. This is
+because we frame the situations differently. Covered calls are framed as a
+situation in which we are long and are prepared to sell, whereas short puts
+are seen as a situation in which we are waiting to get long at a certain price.
+Part of this is due to the different strike choices but the reasoning is still
+specious. This shouldn't be a relevant consideration in strategy selection,
+but in practice it is.
+Covered calls have been popular with retail traders due to the argument that
+“I would sell the stock if it went to the strike price, so why not get paid to
+do that?” This reasoning is poor, but covered calls are also the rare example
+of a popular retail strategy that works well and makes good sense. Over
+time they have delivered equity-like returns with lower risk. For example,
+consider the CBOE BuyWrite Index. This consists of holding the SPX
+portfolio and selling slightly out-of-the-money 1-month calls that are held
+until expiration. The performance is shown in Figure 8.6 and summarized in
+Table 8.5, together with the S&P 500 (including dividends).
+We can see that the outperformance of the covered call strategy is robust
+with respect to the exact implementation by looking at the results of BXY
+(which sells 2% out of the money calls) and BXMD (which sells 30-delta
+calls). These results are summarized in Table 8.6.
+FIGURE 8.6 The performance of the CBOE BuyWrite Index compared to
+that of the S&P 500 index from June 1988 to September 2019.
+TABLE 8.5 Summary Statistics for BXM and the S&P 500
+Statistic
+BXM S&P 500
+Annual return
+
+8.5%
+
+7.7%
+Volatility
+12.6% 17.3%
+Max
+drawdown
+40.1% 56.8%
+Skew
+−0.67
+−0.29
+TABLE 8.6 Summary Statistics for BXY, BXMD, and the S&P 500
+from June 1988 to July 2019
+Statistic
+BXY
+BXMD S&P 500
+Annual return
+
+8.6%
+
+10.3%
+
+7.7%
+Volatility
+12.6%
+
+14.7%
+17.3%
+Max
+40.1%
+
+56.8%
+Statistic
+BXY
+BXMD S&P 500
+drawdown
+46.9%
+Skew
+−0.67
+−0.46
+−0.29
+Components of Covered Call Profits
+The discussion of strike choice up until now has only focused on the risk
+characteristics of the options. We also need to consider the factors that drive
+option returns when making the choice. As an example, we consider a
+covered call. This is the simplest possible option position, but this analysis
+is quite general.
+The reason that covered calls can provide equity-like returns with lower
+volatility is that they are exposed to two profitable factors: the equity
+market risk factor and the volatility premium. Selling a call against an
+existing position reduces the portfolio's exposure to the stock while adding
+a short volatility exposure. The lower volatility of a covered call position is
+due to the diversification that two factor exposures provide.
+Consider a stock with a current price of $100. We assume that the stock
+increases by 10% a year and has a volatility of 15%. We also assume that
+dividends and rates are zero. We sell a 1-year call option with an implied
+volatility of 20% against this position.
+This at-the-money covered call has a delta of 0.47 when evaluated at the
+realized volatility, so it will earn 4.7% from its exposure to the stock's
+appreciation (to a first approximation). Also, this option has a premium of
+$7.97 ($2.00 more than it would have been worth at the true realized
+volatility). So, about 25% of the option premium that the seller collected is
+harvesting the volatility premium. That is, we expect to gain 2.0% a year
+from harvesting the short volatility premium. Here the total expected return
+of the covered call is 6.7%. Although this example has a lower expected
+return than the stock, it also has lower volatility.
+Obviously, this theoretical decomposition varies with respect to the
+volatility premium, and the ex-post return is affected by both realized
+volatility and return. Also, the strike choice and expiration of the short call
+determines how much of the profit comes from directional exposure and
+how much comes from volatility harvesting.
+First, we look at the decomposition as a function of a strike assuming all
+strikes have the same variance premium. This is shown in Figure 8.7.
+We can see that although the equity premium is an increasing function of
+strike, the volatility premium is peaked at strikes just above the current
+stock price. This is where the option's sensitivity to volatility (vega) is
+greatest, so it is also where exposure to the volatility premium is
+maximized.
+Note that if there is no volatility premium, the covered call earns just the
+stock return multiplied by its delta (the exposure to its underlying equity).
+This is the most important concept. Selling options only makes sense if a
+volatility premium exists. Further, if an investor is more confident in the
+existence of the volatility premium, he should sell options just above the
+ATM. Conversely, if he is more confident in the equity return, he should
+sell options that are further out of the money. The fact that different
+investors have different forecasting abilities means that they will also
+choose different option structures.
+FIGURE 8.7 The total profit of the covered call and how much comes from
+equity return and volatility premium.
+Covered Calls and Fundamentals
+It is well-known that value stocks, momentum stocks, low-beta stocks, and
+small-cap stocks tend to be the best performers. So, investors should
+preferentially own these. Sadly, with the exception of momentum stocks,
+these classes of equities tend to have the lowest variance premia. This
+means that the investor has to choose between better delta performance or
+better variance performance and make the strike choice accordingly. Again,
+this choice will depend on the ability of the individual trader.
+It is also important to note that the variance premium and subsequent stock
+returns (the two sources of edge) are not completely independent. High-
+variance premium predicts high future stock returns. This effect has been
+extensively studied (see, for example, Bollerslev and Zhou, 2007;
+Bollerslev and Todorov, 2011; Kelly and Jiang, 2014; Bollerslev et al.,
+2014) and exists for both single stocks and at the index level. This effect is
+strong enough that it can be used as a timing signal: when the variance
+premium is high is a good time to enter covered call positions.
+Some explanations for the effect are very complex but, very simply, stock
+markets have tended to go up and volatility rises during drops, so, a high-
+variance premium is correlated with temporary dips.
+Short Put Spread
+We sell the 1-year ATM put and buy the 20-delta put (the 81 strike). The PL
+distribution from a simulation of 10,000 paths is shown in Figure 8.8 and
+summary statistics are shown in Table 8.7. The initial value of the spread is
+$8.11.
+Unfortunately, in most products the long put will have a significantly higher
+implied volatility than the short ATM option. For example, the S&P 500 20-
+delta put currently has an implied volatility of about 1.36 times that of the
+ATM. So, if the ATM volatility is 30%, we would be paying 40.8% for the
+long 20-delta put. This doesn't greatly change the shape of the distribution
+but will be a significant drag on profits. This is shown in Table 8.8.
+For many definitions of conservative, the short spread is the most
+conservative directional strategy. It has a high winning percentage, a high
+median, and a capped downside.
+FIGURE 8.8 The PL distribution for a short 1-year ATM/20-delta put
+spread on a $100 stock with a 20% return. Both implied and realized
+volatilities are 30% and rates are zero.
+TABLE 8.7 Summary Statistics of the PL Distribution for a Short 1-
+Year ATM/20-Delta Put Spread on a $100 Stock with a 20% Return
+(Both implied and realized volatilities are 30% and rates are zero.)
+Average
+$422
+Standard
+deviation
+$680
+Skewness
+−1.42
+Excess kurtosis
+0.43
+Median
+$811
+90th percentile
+$811
+Maximum
+$811
+10th percentile
+−
+$1,072
+Minimum
+−
+$1,089
+Percent profitable
+78%
+TABLE 8.8 Summary Statistics of the PL Distribution for a Short 1-
+Year ATM/20-Delta Put Spread on a $100 Stock with a 20% Return
+(The ATM-implied volatility is 30% and the implied volatility of the 20-
+delta put is 40.8%. Realized volatilities are 30% and rates are zero.)
+Average
+$216
+Standard
+deviation
+$720
+Skewness
+−1.52
+Excess kurtosis
+0.62
+Median
+$634
+90th percentile
+$634
+Maximum
+$634
+10th percentile
+−
+$1,404
+Minimum
+−
+$1,666
+Percent profitable
+76%
+Risk Reversal
+We sell the 1-year 20-delta put and buy the 20-delta call. The PL
+distribution from a simulation of 10,000 paths is shown in Figure 8.9 and
+summary statistics are shown in Table 8.9. The initial value of the position
+is a credit of $93.
+FIGURE 8.9 The PL distribution for a 1-year 20-delta risk reversal on a
+$100 stock with a 20% return. Both implied and realized volatilities are
+30% and rates are zero.
+TABLE 8.9 Summary Statistics of the PL Distribution for a 1-Year 20-
+Delta Risk Reversal on a $100 Stock with a 20% Return (Both implied
+and realized volatilities are 30% and rates are zero.)
+Average
+$948
+Standard
+deviation
+$2,140
+Skewness
+2.69
+Excess kurtosis
+9.00
+Median
+$79
+90th percentile
+$3,666
+Maximum
+$22,68
+0
+10th percentile
+−$251
+Minimum
+−
+$3,802
+Percent profitable
+85%
+Although this position has an initial delta of 40, as the stock moves the delta
+changes. This is reflected in the fact that the maximum profit and losses are
+practically the same as for a long stock position. In exceptionally large
+moves the 20-delta options become 100 delta and the risk reversal mimics a
+stock position. However, the risk reversal has lower average and median
+than the stock position. There will be times when the long calls expire
+worthless even when the stock rallies. The reason the median value is
+positive is that the position was entered into at a credit.
+In most markets, we will be benefiting from selling the 20-delta put at an
+inflated volatility and, at least for indices, we will be buying the 20-delta
+call at a volatility under that of the ATM. For the S&P 500, the 20-delta call
+currently has a volatility of about 0.77 of the ATM volatility. Assuming this,
+the effect on summary statistics is shown in Table 8.10. The fact the
+position performs better when there is a skew is entirely due to the extra
+premium we collect. The initial value of this position is a credit of $330.
+Because we can collect a reasonable premium from this position, we can
+still buy a teeny put to hedge the downside risk. For example, the implied
+volatility of a 5-delta index put is usually about 1.7 times the ATM
+volatility. In this case that gives an implied volatility of 51% and a premium
+of $1.28 for this teeny put. That reduces the initial credit to $202 and lowers
+the average and percentile numbers by the same amount.
+This downside hedged risk reversal is my personal favorite bullish
+directional position.
+It has limited downside risk.
+TABLE 8.10 Summary Statistics of the PL Distribution for a 1-
+Year 20-Delta Risk Reversal on a $100 Stock with a 20% Return
+(The call implied volatility is 23.1% and the implied volatility of
+the 20-delta put is 40.8%. Realized volatility is 30% and rates are
+zero.)
+Average
+$1,430
+Standard
+deviation
+$2,320
+Skewness
+2.69
+(8.1)
+Excess kurtosis
+10.2
+Median
+$366
+90th percentile
+$4,448
+Maximum
+$27,26
+2
+10th percentile
+$85
+Minimum
+−
+$3,205
+Percent profitable
+91%
+It has the potential for large wins.
+It takes advantage of the skewness premium.
+Aside: The Risk Reversal as a Skew Trade
+As demonstrated, the risk reversal is an effective way to profit from the
+implied skewness premium. However, despite many views to the contrary, it
+isn't particularly useful for speculating on the movement of the implied
+skew itself. Although the implied skew does fluctuate, the size of its moves
+is dwarfed by the effects of the stock movement and the level of implied
+volatility.
+Consider the risk-reversal just discussed. Imagine we are selling the put and
+buying the call because we think the slope of the skew will flatten. If we
+think the put volatility ratio to the ATM volatility will drop and the call ratio
+will increase, we will make a profit of
+Consider a 1-month risk reversal on a $100 stock. The 20-delta put (91
+strike) has an implied volatility of 40.8% and the 20-delta call has an
+implied volatility of 23.1%. We sell the put and buy the call because we
+expect the skew to flatten. Table 8.11 shows the profits we make on the
+position for various degrees of flattening.
+However, the expected daily move of a $100 stock with a volatility of 30%
+is $1.50. If the stock drops to $98.5, the risk reversal loses $94, and if the
+stock rallies to $101.5, the risk reversal will make $16. So, an average daily
+P/L due to the stock's random fluctuations is $55. Even if the implied curve
+flattens by three volatility points on both the calls and the puts on one day,
+the skew-related profit will still only be of the order of the delta/gamma
+P/L. It is exceptionally unlikely that a move will occur on the day after the
+trade is initiated. This analysis also ignores changes in the level of the
+volatility curve and the effect of correlations between stock returns and
+implied skewness. Long-dated options will have less gamma to cause
+problems and more vega to make money off implied volatility changes.
+However, the long-dated implied volatility curves are much more stable
+than short-dated ones.
+TABLE 8.11 Results for a Short Put–Long Call 20-Delta Risk Reversal
+for Various Amounts of Implied Volatility Curve Flattening
+Put volatility
+0.408 0.398 0.388
+
+0.378
+Call volatility
+0.231 0.241 0.251
+
+0.261
+Risk reversal
+value
+0.43 
+0.25 
+0.08 
+−0.09 
+Profit ($)
+0 
+
+18 
+
+35 
+
+52 
+It is possible to make money with this trade. The idea of taking advantage
+of reversion of the implied skew is a sensible one. But the edge from this
+prediction is likely to be overwhelmed by noise.
+Ratio Spreads
+Although all directional option positions are dependent on volatility, some
+have a higher dependence than others. Ratio spreads are an extreme
+example. Although they are often used to speculate on direction, their
+primary exposure is to volatility. They have the payoff of a broken wing
+butterfly, something we always think of as primarily a volatility position.
+We buy the 1-year ATM call and sell two of the 20-delta calls. The PL
+distribution from a simulation of 10,000 paths is shown in Figure 8.10 and
+summary statistics are shown in Table 8.12. The initial value of the position
+is a debit of $749.
+FIGURE 8.10 The PL distribution for a 1-year ATM/20-delta risk one-by-
+two call spread on a $100 stock with a 20% return. Both implied and
+realized volatilities are 30% and rates are zero.
+TABLE 8.12 Summary Statistics of the PL Distribution for a 1-Year 20-
+Delta Risk Reversal on a $100 Stock with a 20% Return (Both implied
+and realized volatilities are 30% and rates are zero.)
+Average
+$381
+Standard
+deviation
+$1780
+Skewness
+−1.10
+Excess kurtosis
+5.20
+Median
+$190
+90th percentile
+$2,670
+Maximum
+$3,140
+10th percentile
+−$749
+Minimum
+−
+$15,230
+Percent profitable
+52%
+As I have emphasized, there are few hard-and-fast rules in option trading,
+but the version of the ratio spread that is long the one option and short the
+second is generally best avoided. In terms of finding edge, the trader needs
+a good prediction of both volatility and direction. It is difficult to predict
+either, let alone both. There are better alternatives for both directional and
+volatility speculation. It is tempting to use the sale of the two options to
+“finance” the purchase of the one, but this is only done by taking on
+unlimited risk. If a trader has enough edge (either in volatility or direction)
+to do a trade at all, she shouldn't be afraid to pay the option premium. There
+are no free lunches and there are no free option positions.
+Another reason that is often given for trading a ratio is to short a high
+implied skew. This is usually done with puts because puts usually have a
+more pronounced implied skew. By selling the two farther-out-of-the-
+money options, the trader can short volatility at the higher implied volatility
+and mitigate the risk with the single long option. This trade has all of the
+same problems mentioned in the section on trading risk reversals to capture
+skew, but ratio spreads are an even worse vehicle for trading an idea that
+isn't very good to start with.
+If a trader wants to collect the skew premium, the safest way is to sell a put
+spread rather than possibly offset this by purchasing a call spread. The long
+put will almost certainly be the option with the highest implied volatility in
+the structure, but because the short put will still be trading at a volatility
+premium to the ATM this position is still short implied skew.
+An effective way to use a ratio spread is to buy the two options and sell the
+one as a relatively cheap catastrophe hedge. If the options are struck far
+enough out of the money, the hope is they will only come into play in a
+huge crash and we will then end up being long vega and net options (the
+most robust risk control number). This trade is still not a free lunch. If
+instead of a crash we have a slow move downwards, we can end up short
+gamma and paying theta, but the bad scenarios are ones that occur slowly
+so at least we can rebalance. This incurs transaction costs but at least we
+have a chance to trade.
+As an example, with SPY 299 on October 23, 2019, we can sell the
+November 15 266 put for 0.16 and buy two of the 258 puts for 0.10 each.
+For the same outlay of 0.04 we could have bought the 241 put. Obviously,
+in almost all situations we will lose the 0.04 premium. The important thing
+in evaluating these positions isn't the overall probability distribution; it is
+how we look in the event of a crash. The risk slides for these two positions
+are shown in Tables 8.13 and 8.14. On October 23 the ATM volatility was
+11.4%. To estimate the relevant implied volatilities for each underlying
+price level I could use a regression model to find the historical relationship
+between price and volatility moves. Such a model is useful for normal
+trading purposes but for estimating tail event parameters it is at best useless
+and possibly dangerous if it gives a false sense of certainty. Instead I'm
+going to assign what I think are possible and I hope overly pessimistic
+volatility numbers.
+TABLE 8.13 The Risk Slide for the Single 241 Put
+SPY price
+change
+−30% −20%
+−10
+%
+Postulated IV
+120% 80% 30%
+Delta
+−0.61 −0.47
+−0.0
+7
+Vega
+$212
+0
+$251
+5
+$965
+P/L
+$465
+0
+$207
+0
+$65
+TABLE 8.14 The Risk Slide for the 258/266 One-By-Two Put Spread
+SPY price
+change
+−30
+%
+−20
+%
+−10%
+Postulated IV
+120% 80% 30%
+Delta
+−0.68 −0.53 0.14
+Vega
+$205
+0
+$255
+6
+−
+$410
+P/L
+$530
+0
+$256
+0
+$42
+One could argue than in a “small” crash the single teeny put behaves better
+because it leaves us short delta and long vega, although the P/L superiority
+is small. However, in severe crashes the ratio spread gives significantly
+better protection.
+Conclusion
+As with volatility position selection, there is no one “best” strategy when
+using options to speculate directionally. The most important consideration is
+probably whether the variance premium is low or high. This, more than risk
+preferences, is paramount in deciding to be long or short options. Then the
+trader can decide on the structure based on preference for winning
+percentage, maximum profit, and maximum loss, and so on. Finally, strikes
+can be chosen by considering the risk characteristics discussed in Chapter
+Seven.
+Summary
+Variance and skew premia are the most important factors even when
+trading options directionally.
+Single options have the best correlation between a profit and a
+successful prediction.
+Spreads are useful for mitigating the dependency of the trade on the
+variance premium. The fact they also create a stop (or profit target) is
+useful as a risk management tool but predicting an underlying's range
+is probably too hard to do consistently.
+...

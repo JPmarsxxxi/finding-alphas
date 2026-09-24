@@ -1,0 +1,116 @@
+(A2.1)
+APPENDIX 2
+Statistical Rules of Thumb
+Just as a lot of popular trading rules have no basis in fact, the generally
+accepted origin of the phrase “rule of thumb” is no more than a myth. The
+story is that there was a 17th-century English law that specified that the
+maximum width of a stick for wife beating was the width of a man's thumb.
+No such law ever existed.
+Nonetheless, these simple heuristics can be useful for quick estimates or
+establishing a baseline.
+Converting Range Estimates to Option
+Pricing Inputs
+In order to either subjectively price options or simulate outcomes, you will
+need estimates of mean return and the variance of the returns.
+Unfortunately, it is quite common for fundamental analysts to give only a
+most-likely case and a range of possible outcomes. It is probably best to use
+the common time series methods to estimate volatility (refer to Sinclair,
+2013), but the analysts' return information could be useful.
+The approximations for doing this conversion are part of a class called
+three-point-estimators. There are many such methods that differ due to the
+assumed shape of the approximating distribution.
+First, convert the analyst's numbers to annualized percentages. So, if she
+has a low stock price estimate of $90 on a $100 stock in the next three
+months, that would convert to a negative 40% return. If we assume the data
+is drawn from a triangular distribution, and our low estimate is l, the median
+estimate is m and the high estimate is h, the mean estimate is
+(A2.2)
+This is just an average of our data. This makes sense if we have no idea of
+the historical accuracy of the analyst. But sometimes we want to more
+heavily weight the median. This would be the case if we have higher
+confidence in the analyst. If we don't have much of an idea how good the
+analyst is, we will have no reason to more heavily weight the median (we
+should also lower our resulting trade sizes in this situation).
+A weighted three-point estimate of the mean is
+(This assumes a beta distribution for the true process.)
+If we had confidence in the analyst, we would just use her median value as
+the mean.
+This method is far from ideal, but it could also be the only way to use the
+information from an otherwise valuable source.
+Rule of Five
+This is an exceptionally simple heuristic that I read about in How to
+Measure Anything: Finding the Value of Intangibles in Business by Douglas
+Hubbard (2007). He gives no references and I've never seen it mentioned
+anywhere else.
+If we are randomly sampling from a population, we can be 93% certain that
+the population median lies within the range of five measurements. For
+example, if I have a GBM with unchanging parameters and I measure the
+volatility over five different periods and get 30%, 20%, 26%, 18%, and
+23%, I can be 93% certain that the true median volatility is between 18%
+and 30%. The usual caveats about what a random sample is apply. And
+often the range, and hence confidence interval, will be wide but it is still
+valuable to use even a very small sample to establish a base rate.
+The only way the median could be outside the range is if all measurements
+were either above the median or below it. Because the chance of any
+observation being above the median is 50%, the probability of five
+(A2.3)
+(A2.4)
+measurements all being above the median is 5
+5
+= 0.03125. Because there is
+the same chance of five measurements being below the median, the total
+probability of being outside the range is 0.065. We have a 93.5% chance of
+the median being within the range. This idea is generalizable to different
+confidence levels and by considering only certain subranges.
+As with all heuristics, the Rule of Five is only approximate, but if it
+increases your knowledge by any amount, it is worth using.
+Rule of Three
+This is a method to quickly estimate the probability of something that has
+never happened before. Obviously, in some situations you will have prior
+knowledge and won't need to rely completely on a purely mathematical
+bound, but this is a useful method to at least establish a base rate. For more
+discussion refer to Hanley and Lippman-Hand (1983) and Louis (1981).
+A 95% upper bound of the occurrence rate is given by
+where n is the number of observations.
+So if we haven't seen an event in 30 observations, a 95% bound on the
+chance of the event happening in the next period is 3/30, or 10%. This
+might seem high but remember this is an upper bound and we are using no
+specific information about the particular situation.
+To derive the result, take the chance of the event to be p, which is what we
+want to estimate. In each separate time period the chance of the event not
+happening is 1−p. So, after n periods the chance of there being no events is
+We want to find p such that this probability is less than 5%. This gives the
+bound on the event not happening.
+So we solve the equation
+(A2.5)
+(A2.6)
+(A2.7)
+for p.
+Taking logs
+The logarithm of 0.5 is about −3. If p is small, which it has to be if the event
+hasn't been observed, ln(1−p) is roughly -p (the first term of a Taylor
+series). So we get
+which gives the critical value of p.
+Clearly, this idea can also be used with other confidence intervals and, less
+clearly, can be generalized to the case when one observation of the event
+has occurred.
+We have made two very important assumptions in our derivation: p needs to
+be constant and the successive observations need to be independent. So this
+heuristic works well for a question such as, “Given that I've run through the
+fireworks factory with a lighted candle 20 times with no explosion, what is
+the chance I can do it again?” But it couldn't be applied to the question,
+“Given that I've been alive for 70 years, what is the chance of me surviving
+another year?” Here the normal process of aging means the probability of
+death increases with age, so p isn't constant, and any health issues mean the
+observations aren't independent.
+In questions a trader might be interested in, things probably won't be this
+clear. For example, think about the case of a company going bankrupt next
+year. Is the probability of bankruptcy independent of what has happened in
+the past? In some cases, this is a decent guess. It could be valid in the case
+of a company that is very dependent on one product and is most vulnerable
+to a disruptive technology. But in the case of a company like Uber, where
+the current business model clearly needs to be changed if it is going to
+survive, the assumption probably isn't valid. Similarly, a company with an
+established business model might have a relatively constant probability of
+bankruptcy, whereas a startup won't.
+...

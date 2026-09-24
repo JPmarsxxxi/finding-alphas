@@ -1,0 +1,363 @@
+CHAPTER4
+The Heston-Nandi Model
+I
+n Chapter 3, we derived approximate formulas for local and implied
+volatilities in the Heston model. In this chapter, we compute local and
+implied volatilities for a particular choice of Heston parameters for which
+equation (3.15) gives a very good approximation to the true local volatil-
+ity. This provides us with a speciﬁc set of Heston parameters and local
+volatilities that we use in subsequent chapters to study the impact of mod-
+eling assumptions on the valuation of various kinds of options, conﬁdent
+that both local volatility and Heston models generate the same European
+option prices.
+LOCAL VARIANCE IN THE HESTON-NANDI MODEL
+Following the derivation in Chapter 3, we see that if ρ = −1, the formula
+presented for local variance should be pretty good (modulo some ansatz-
+related error). In this case, because ρ = −1, the Heston process is only
+one-factor and the SDE can be written as
+dx = −v
+2dt + √v dZ
+dv = −λ (v −v) dt −η √vdZ
+The choice ρ = −1 was originally studied by Heston and Nandi (1998)
+as the preference-free continuous time limit of a discrete GARCH option
+pricing model previously introduced by them. Their model was preference-
+free because there is only one source of randomness. So all volatility risk
+can be eliminated by appropriately delta hedging with stock; there is no
+volatility risk premium in this case.
+Although the Heston model is only one factor in this special case, it is
+certainly not Markov in the stock price. That’s because the instantaneous
+volatility is a deterministic function of the entire history of the stock price
+43
+
+44
+THE VOLATILITY SURFACE
+and in general, computing an expectation under the risk-neutral measure
+requires knowledge of the volatility. To see this clearly, we can rewrite the
+SDE for v as
+dv = −λ′ (v −v′) dt −η dx
+with λ′ = λ + η/2, v′ = v λ/λ′. Note also that although zero instanta-
+neous variance may be attainable depending on the value of the para-
+meters, it can never be negative. In particular, local variance can never be
+negative.
+From equation (3.11), local variance in this special case is given by
+vloc(xT, T) = ˆv′
+T −η xT
+wT
+ T
+0
+ˆvs e−λ′(T−s)ds
+= (v −v′)e−λ′T + v′ −η xT
+
+1 −e−λ′T
+λ′T
+
+(4.1)
+The whole expression must be bounded below by zero—all stock prices
+above the critical stock price at which the local variance reaches zero are
+unattainable.
+A NUMERICAL EXAMPLE
+In order to assess the accuracy of the approximate local volatility formula
+(3.15), while also exploring some properties of the Heston-Nandi model,
+we ﬁx Heston parameters as follows:
+v = 0.04
+v = 0.04
+λ = 10
+η = 1
+ρ = −1
+(4.2)
+We will use these parameters repeatedly in Heston computations throughout
+the rest of the book.
+
+The Heston-Nandi Model
+45
+The Heston-Nandi Density
+To get the Heston-Nandi probability density p(k, T) for a given expiration
+T, we invert the Heston characteristic function φT(u),
+p(k, T) =
+1
+2 π
+ +∞
+−∞
+du φT(u) e−i u k
+with
+φT(u) = exp{C(u, τ) v + D(u, τ) v}
+from equation (2.15).
+Computing p(k, T) numerically with T = 0.1 years and the above
+parameters generates the plot shown in Figure 4.1. It’s easy to see from this
+plot that stock prices above some critical stock price are unattainable in
+the Heston-Nandi model; there is a critical strike price above which call
+options have zero value. This observation alone makes the Heston-Nandi
+model look rather unrealistic.
+Computation of Local Volatilities
+From Chapter 3, local variance (the square of local volatility) is obtained
+from the Dupire equation (1.4) as the ratio of a calendar spread (time
+derivative) to a butterﬂy (probability density). We have already computed
+the density p(k, T) so it only remains for us to compute the calendar spread.
+This we may do by differentiating the Heston call value with respect to the
+time to expiration τ. From equation (2.5),
+∂τC(x, v, τ) = K
+
+ex ∂τP1(x, v, τ) −∂τP0(x, v, τ)
+
+with the Pj(·) are from equation (2.13).
+0.3
+0.25
+0.2
+0.15
+0.1
+0.05
+0.05
+2
+4
+6
+8
+10
+12
+FIGURE 4.1
+The probability density for the Heston-Nandi model with our
+parameters and expiration T = 0.1.
+
+46
+THE VOLATILITY SURFACE
+Inverting equation (1.4) then leads to
+vloc(xt, τ) = 2 ∂τc(xt, τ)
+p(k, τ)
+(4.3)
+with
+c(x, τ) := C(x, v, τ)
+K
+Figure 4.2 shows the results of computing local volatility in the
+Heston-Nandi model using the exact (but possibly numerically inaccurate)
+formula (4.1) and the approximate (but numerically accurate) formula (4.3).
+Computation of Implied Volatilities
+The reader may or may not be convinced by the close agreement between
+the approximate and exact local volatilities plotted in Figure 4.2. For one
+thing, it’s unclear whether errors at low strikes are due to the inaccuracy of
+the approximation or numerical inaccuracy in the computation of the exact
+local volatilities.
+The proof of the pudding is in the eating: All we need is for the prices
+of European options to agree. We therefore compute European option
+prices using the Heston formula (2.13) and again by solving the local
+volatility valuation equation numerically∗with local volatilities given by
+equation (4.1). Explicitly, the numerical PDE to be solved for an option
+with strike K and expiration T is
+∂V
+∂t + 1
+2 v(S, t) S2 ∂2V
+∂S2 = 0
+subject to the boundary condition V(ST, T) = (ST −K)+ where, from
+equation (4.1),
+v(S, t) = (v −v′)e−λ′T + v′ −η log(S/S0)
+
+1 −e−λ′T
+λ′T
+
+In Figure 4.3, we see again that agreement is very close.
+∗The solution of option pricing problems using numerical PDE techniques is covered
+extensively in Tavella and Randall (2000).
+
+The Heston-Nandi Model
+47
+0.80.60.40.2
+0.2
+0.02
+0.04
+0.06
+0.08
+0.1
+0.12
+0.14
+T  0.9
+10.80.60.40.2
+0.2
+0.4
+0.02
+0.04
+0.06
+0.08
+0.1
+0.12
+T  1.0
+0.8 0.6 0.4 0.2
+0.2
+0.02
+0.04
+0.06
+0.08
+0.1
+0.12
+0.14
+T  0.7
+0.80.60.40.2
+0.2
+0.02
+0.04
+0.06
+0.08
+0.1
+0.12
+0.14
+T  0.8
+0.6 0.4 0.2
+0.2
+0.025
+0.05
+0.075
+0.1
+0.125
+0.15
+0.175
+T  0.5
+0.8 0.6 0.4 0.2
+0.2
+0.025
+0.05
+0.075
+0.1
+0.125
+0.15
+T  0.6
+0.4
+0.2
+0.05
+0.1
+0.15
+0.2
+T  0.3
+0.6
+0.4
+0.2
+0.2
+0.05
+0.1
+0.15
+T  0.4
+0.2
+0.05
+0.1
+0.15
+0.2
+0.25
+T  0.1
+0.4
+0.2
+0.05
+0.1
+0.15
+0.2
+T  0.2
+FIGURE 4.2
+Comparison of approximate formulas with direct numerical
+computation of Heston local variance. For each expiration T, the solid line is the
+numerical computation and the dashed line is the approximate formula.
+
+48
+THE VOLATILITY SURFACE
+0.05
+0.1
+0.15
+0.2
+0.25
+0.3
+0.35
+0.05
+0.1
+0.15
+0.2
+0.25
+0.3
+0.35
+0.1
+0.2
+0.3
+0.4
+0.1
+0.2
+0.3
+0.1
+0.2
+0.3
+0.4
+0.1
+0.2
+0.3
+0.4
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.1
+0.2
+0.3
+0.4
+0.1
+0.2
+0.3
+0.4
+0.5
+0.1
+0.2
+0.3
+0.4
+0.5
+0.80.60.40.2
+0.2
+T  0.9
+10.80.60.40.2
+0.2
+T  1.0
+0.8 0.6 0.4 0.2
+0.2
+T  0.7
+0.80.60.40.2
+0.2
+T  0.8
+0.6 0.4 0.2
+0.2
+T  0.5
+0.6 0.4 0.2
+0.2
+T  0.6
+0.4
+0.2
+T  0.3
+0.6
+0.4
+0.2
+T  0.4
+0.2
+T  0.1
+0.4
+0.2
+T  0.2
+FIGURE 4.3
+Comparison of European implied volatilities from application of the
+Heston formula (2.13) and from a numerical PDE computation using the local
+volatilities given by the approximate formula (4.1). For each expiration T, the solid
+line is the numerical computation and the dashed line is the approximate formula.
+
+The Heston-Nandi Model
+49
+DISCUSSION OF RESULTS
+From the results of our computation, we can see that the local volatility
+model and the stochastic volatility model price European options almost
+identically. Thus we have created a toy set of market parameters that will
+allow us to compare the effects of stochastic volatility and local volatility
+assumptions on the valuation of various claims, conﬁdent that European
+options are almost identically priced under both sets of assumptions. An
+additional implicit (but reasonable) assumption will be that when we make
+such a comparison, any difference in valuation can be primarily ascribed to
+the difference in dynamical assumptions rather than to this special choice of
+parameters than makes computations particularly easy.
+We note too that both the Heston model and its local volatility equiv-
+alent are single-factor, depending only on stock prices. However, the two
+models are clearly not equivalent: in the local volatility model, volatilities
+are known in advance and in the stochastic volatility case, volatilities are
+uncertain. The consequences of this fundamental difference between the two
+models will become clear as we proceed to value various exotic options in
+succeeding chapters.
+In other words, to value an option, it’s not enough just to ﬁt all the
+European option prices, we also need to assume some speciﬁc dynamics for
+the underlying.

@@ -1,0 +1,1114 @@
+3.2 Initial value problems: numerical solution
+73
+3.2.2
+Truncation errors and consistency
+We say that the FDE is consistent with the PDE if, in the limit x →0, t →0
+the FDE coincides with the PDE. Obviously, this is a ﬁrst requirement that the FDE
+should fulﬁll if its solutions are going to be good approximations of the solutions
+of the PDE. The difference between the PDE and the FDE is the discretization
+error or local (in space and time) truncation error. Consistency is rather simple to
+verify: Substitute U by u in the FDE, and evaluate all terms using a Taylor series
+expansion centered on the point ( j, n), and then subtract the PDE from the FDE. If
+the difference (or local truncation error τ) goes to zero as x →0, t →0, then
+the FDE is consistent with the PDE.
+Example 3.2.1: We verify the consistency of (3.2.3) with (3.2.1) by a Taylor series
+expansion:
+un+1
+j
+=
+
+u + utt + utt t2
+2 + · · ·
+n
+j
+un
+j−1 =
+
+u −uxx + uxx x2
+2 + · · ·
+n
+j
+
+
+
+(3.2.4)
+Substitute the series (3.2.4) in the FDE (3.2.3)
+
+ut + utt
+t
+2 + · · · + cux −cuxx
+x
+2 + · · ·
+n
+j
+= 0
+(3.2.5)
+and when we subtract the PDE (3.2.1) we get the (local) truncation error
+τ = utt
+t
+2 −cuxx
+x
+2 + higher order terms = 0(t) + 0(x)
+(3.2.6)
+so that limt→0,x→0 τ →0. Therefore the FDE is consistent. Note that both the
+time and the space truncation errors are of ﬁrst order, because the ﬁnite differences
+are uncentered in both space and time. Truncation errors for centered differences are
+second order, and therefore centered differences are more accurate than uncentered
+differences (see Fig. 3.2.1(a) and the leapfrog scheme, based on centered differences
+in space and in time, later in this section).
+3.2.3
+Convergence and stability criteria
+The second question posed in Section 3.2.1 was whether the solution of the
+FDE converges to the PDE solution, i.e., whether U( jx, nt) →u(x, t) when
+jx →x, nt →t, x →0, t →0. This is of evident practical importance, but
+can only be answered after considering another problem, that of computational sta-
+bility. Consider again the PDE (3.2.1), which has the solution u(x, t) = u(x −ct, 0),
+shown schematically in Fig. 3.2.1(b) (the initial shape of u translates with velocity c).
+
+74
+3 Numerical discretization of the equations of motion
+exact
+centered
+u(t)
+t
+n
+n-1
+n+1
+backward
+forward
+(a)
+x
+t
+∆x=c∆t
+∆t
+(b)
+Figure 3.2.1: (a) Schematic
+of centered (∂u/∂t)n ≈
+(un+1 −un−1)/(2t),
+forward (∂u/∂t)n ≈
+(un+1 −un)/t, and
+backward (∂u/∂t)n ≈
+(un −un−1)/t ﬁnite
+differences estimating the
+time derivative ∂u/∂t at
+time tn = nt. The three
+estimates are consistent
+with ∂u/∂t since they all
+converge to ∂u/∂t as
+t →0. However, the
+slope calculated from
+centered differences is
+much closer to the exact
+derivative because its
+truncation errors are second
+order. (b) Schematic of the
+solution of the wave
+equation.
+The FDE (3.2.3) can be written as
+U n+1
+j
+= (1 −µ)U n
+j + µU n
+j−1
+(3.2.7)
+where µ = ct/x is the Courant number. Assume that 0 ≤µ = ct/x ≤1, as
+in Fig. 3.2.2(a). Then the FDE solution at the new time level U n+1
+j
+is interpolated
+between the values U n
+j and U n
+j−1. In this case the advection scheme works the way
+it should, because we know the true solution is in between those values. However,
+if this condition is not satisﬁed, and µ = ct/x > 1 (as in Fig. 3.2.2(b)) or µ =
+ct/x < 0 (as in Fig. 3.2.2(c)), then the value of Un+1
+j
+is extrapolated from the
+values U n
+j and U n
+j−1. The problem with extrapolation is that the maximum absolute
+value of the solution U n
+j increases with each time step. Taking absolute values of
+(3.2.7) and letting U n = max j |U n
+j |, we get
+U n+1
+j
+ ≤
+U n
+j
+ |1 −µ| +
+U n
+j−1
+ |µ|
+
+3.2 Initial value problems: numerical solution
+75
+t
+tn+1
+tn
+xj-1
+xj
+t
+tn+1
+tn
+xj-1
+xj
+t
+tn+1
+tn
+xj-1
+xj
+(a) 0 ≤c ≤ ∆t
+ ∆x
+(b) 0 ≤ ∆t
+ ∆x
+(c) c ≤ 0 ≤ ∆t
+ ∆x
+≤c
+Figure 3.2.2: Schematic of
+the relationship between
+x, t, and c leading to
+interpolation of the solution
+at time level n + 1 (case (a)),
+or to extrapolation (cases
+(b) and (c)) depending on
+the value of the Courant
+number µ = ct/x.
+so that
+U n+1 ≤{|1 −µ| + |µ|}U n
+Then U n+1 ≤U n if and only if 0 ≤µ ≤1.
+If the condition 0 ≤µ ≤1 is not satisﬁed, then the solution is not bounded and
+it grows with n. If we let t, x →0 with µ = const., it only makes things worse,
+because then n →∞. In practice, if the condition 0 ≤µ ≤1 is not satisﬁed, the
+FDE “blows up” in a few time steps, faster for nonlinear problems. We deﬁne now
+computational stability: we say that an FDE is computationally stable if the solution
+of the FDE at a ﬁxed time t = nt remains bounded as t →0. The condition on
+the Courant number of being less than 1 in absolute value is usually known as the
+Courant–Friedrichs–Lewy or CFL condition.
+We can now state the fundamental Lax–Richtmyer theorem: Given a properly
+posed linear initial value problem, and a ﬁnite difference scheme that satisﬁes the
+consistency condition, then the stability of the FDE is the necessary and sufﬁcient
+condition for convergence.
+
+76
+3 Numerical discretization of the equations of motion
+The theorem is useful because it allows us to establish convergence by examining
+separately the easier questions of consistency and stability. We are interested in
+convergence not because we want to let t, x →0, but because we want to make
+sure that if t, x are small, then the errors u( jx, nt) −U n
+j (accumulated or
+global truncation errors at a ﬁnite time) are acceptably small.
+To determine the necessary condition for stability of the FDE (3.2.3) we used
+the “criterion of the maximum” method. We can also use it to study the stability
+condition of the following FDE, which approximates the parabolic diffusion equation
+∂u/∂t = σ∂2u/∂x2:
+U n+1
+j
+−U n
+j
+t
+= σ
+U n
+j+1 −2U n
+j + U n
+j−1
+x2
+(3.2.8)
+The veriﬁcation of consistency is immediate. Note that, because the differences are
+centered in space but forward in time, the truncation error is ﬁrst order in space and
+second order in time O(t) + O(x)2.
+We can write (3.2.8) as
+U n+1
+j
+= µU n
+j+1 + (1 −2µ)U n
+j + µU n
+j−1
+where µ = σt/x2. If we take absolute values, and let U n = max j |U n
+j |, we get
+U n+1 ≤{|µ| + |1 −2µ| + |µ|}U n
+(3.2.9)
+So we obtain a condition 0 ≤µ ≤1/2 to insure that the solution remains bounded
+as n →∞, i.e., as the necessary condition for stability of the FDE.
+Exercise 3.2.1: The condition on the wave equation 0 ≤µ ≤1 for the upstream
+FDE is interpreted as “the time step should be chosen so that a signal cannot travel
+more than one grid size in one time step.” Give a physical interpretation of the
+stability condition and the equivalent “Courant number” µ = σ (t/x2) ≤1/2 for
+the diffusion equation.
+Unfortunately, the criterion of the maximum, which is intuitively very clear, can
+only be applied in very few cases. In most FDEs some coefﬁcients of the equations
+analogous to (3.2.9) are negative, and the criterion cannot be applied.
+Another stability criterion that has much wider application is the von Neu-
+mann stability criterion: Assume that the boundary conditions allow expansion
+of the solution of the FDE in an appropriate set of eigenfunctions. For sim-
+plicity we will assume an expansion into Fourier series (e.g., periodic boundary
+conditions):
+U(x, t) =
+
+k
+Zkeik · x
+(3.2.10)
+
+3.2 Initial value problems: numerical solution
+77
+The space variable, x, and the wavenumber k can be multidimensional, e.g., x =
+(x1, x2, x3), k = (k1, k2, k3). The dependent variable U can also be a vector for a
+system of equations.
+Let x j = jx (or x j = ( j1x1, j2x2, j3x3)). We deﬁne p as the wavenumber
+for the ﬁnite Fourier series: p = kx or p = (k1x1, k2x2, k3x3). Let tn = nt.
+Then the Fourier expansion is
+U n
+j =
+
+p
+Zn
+peipj
+(3.2.11)
+(where for multiple dimensions p · j = p1 j1 + p2 j2 + p3 j3).
+When we substitute this Fourier expansion into a linear FDE, we obtain a system
+of equations
+Zn+1
+p
+= G pZn
+p
+G is an “ampliﬁcation” matrix that, when applied to the pth Fourier component of
+the solution at time nt “advances” it to the time (n + 1)t; G depends on p, t
+and x. If we know the initial conditions
+U 0
+j =
+
+p
+Z0
+peipj
+(3.2.12)
+then the solution of the FDE in (3.2.11) is
+Zn
+p = Gn
+pZ0
+p
+(3.2.13)
+Therefore, stability, i.e., boundedness of the solution for any permissible initial con-
+dition at any ﬁxed time, is guaranteed if the matrix Gn is bounded for all p when
+t →0 and n →∞. So, we must have ||Gn|| < M for all p, as n →∞. Here ||A||
+is a norm or measure of the “size” of a matrix A. If σ(G) is the spectral radius of G,
+i.e., σ(G) = maxi |λi|, where λi are the eigenvalues of G, then it can be shown that
+for any norm,
+[σ(G)]n ≤||Gn|| ≤||G||n
+(3.2.14)
+The equal sign is valid if G is normal, i.e., if GG⋆= G⋆G, where G⋆is the transpose-
+conjugate of G, but in general the ampliﬁcation matrices arising from FDEs are not
+normal.
+Thus a necessary condition for stability of an FDE, and therefore a necessary
+condition for convergence, is that
+lim
+t→0,nt→t[σ(G)]n = ﬁnite = econst.
+(3.2.15)
+Then
+σ(G) ≤
+
+σ(G)n1/n ≤econst./n = econst.t/t ≈1 + const.t
+t
+
+78
+3 Numerical discretization of the equations of motion
+or
+σ(G) ≤1 + O(t)
+(3.2.16)
+the von Neumann necessary condition for computational stability.
+The term O(t) allows bounded growth with time if this growth is “legitimate”,
+i.e., if it arises from a physical instability present in the PDE. If the exact solution
+grows with time, then the FDE cannot both satisfy σ(G) ≤1 and be consistent with
+the PDE.
+Sufﬁcient conditions are very complicated, and are known only for special cases.
+In practice it is generally observed that eliminating the equal sign in (3.2.16) is enough
+to ensure computational stability.
+In principle this method can also be used to study the stability of the boundary
+conditions, if they are appropriately included in the ampliﬁcation matrix. In practice
+this is complicated, and computational stability of the boundary conditions is usually
+obtained by ensuring well-posedness, and testing the stability experimentally. For
+simple equations, and without considering the effect of boundary conditions, the von
+Neumann criterion can be simpliﬁed by assuming solutions with an ampliﬁcation
+factor ρ rather than a matrix. The solution for the ampliﬁcation factor ρ then coincides
+with the eigenvalues of the ampliﬁcation matrix, and the von Neumann stability
+criterion is ρ ≤1 + O(t).
+Example 3.2.2:
+PDE: ∂u
+∂t + c∂u
+∂x = 0
+FDE:
+U n+1
+j
+−U n
+j
+t
++ c
+U n
+j −U n
+j−1
+x
+= 0
+(upstream scheme)
+(3.2.17)
+We have already studied consistency, and used the criterion of the maximum to get
+a sufﬁcient condition for stability. Let us now apply the von Neumann criterion:
+Assume
+U n
+j =
+
+p
+Zn
+peipj =
+
+p
+Aρn
+peipj
+We substitute in (3.2.17) and eliminate Aeipj and obtain
+ρn+1
+p
+−ρn
+p
+t
++ c
+ρn
+p(1 −e−ip)
+x
+= 0
+for all p
+(3.2.18)
+The ampliﬁcation factor ρ is the same as the 1 × 1 ampliﬁcation matrix G, and
+therefore the same as its spectral radius σ(G), and the stability condition is |ρ| ≤1
+for all wavenumbers p. We need to estimate the maximum value of the spectral radius
+(or ampliﬁcation factor in this case):
+ρ = 1 −µ(1 −e−ip) = 1 −µ(1 −cos p + i sin p)
+(3.2.19)
+|ρ|2 = (1 −µ(1 −cos p))2 + µ2 sin2 p
+(3.2.20)
+
+3.2 Initial value problems: numerical solution
+79
+We make use of the trigonometrical relationships
+cos p = cos2 p
+2 −sin2 p
+2
+sin p = 2 sin p
+2 cos p
+2
+and obtain
+|ρ|2 = 1 −4µ(1 −µ) sin2 p
+2
+(3.2.21)
+Now consider the sin2 p/2 term: The shortest wave that can be present in the ﬁ-
+nite difference solution is L = 2x, therefore the maximum value that p = kx =
+2πx/L can take is p = π, and the maximum value of sin2p/2 is therefore 1. The
+other factor, µ(1 −µ), is a parabola whose maximum value is 0.25 when µ = 0.5.
+So the ampliﬁcation factor squared will remain less than or equal to 1 as long as
+0 ≤µ ≤1. This coincides with the condition we obtain from the criterion of the
+maximum (and also with the notion that we should not extrapolate but interpolate
+the new values at time level t = (n + 1)t, cf. Fig. 3.2.2).
+It is important to note that the ampliﬁcation factor ρ indicates how much the
+amplitude of each wavenumber will decrease or increase with each time step.
+The upstream scheme decreases the amplitude of all Fourier wave components of
+the solution, since, if 0 < µ < 1, ρ < 1. This is therefore a very dissipative FDE: it
+has strong “numerical diffusion.” Fig. 3.2.3 shows the decrease in amplitude when
+using the upstream scheme after one time step and after 100 time steps for each
+1
+0
+0
+p = k*delta x
+L = 4*delta x
+Upstream
+Euler-backward
+100 steps
+1 step
+L = 8*delta x
+L = 2*delta x
+L = infinity
+Amplitude
+0.39
+0.79
+1.18
+1.57
+1.96
+2.36
+2.75
+3.14
+0.2
+0.4
+0.6
+0.8
+Figure 3.2.3: Ampliﬁcation factor of wave components of the wave equation using
+either the “upstream” FDE, and the Matsuno or Euler-backward schemes with
+µ = 0.1; L is the wavelength in units of xρE B = [1 −µ2 sin2 p + µ4 sin4 p]1/2 and
+ρUpxy = [1 −4µ(1 −µ) sin2 p]1/2.
+
+80
+3 Numerical discretization of the equations of motion
+wavenumber p using a Courant number µ = 0.1, a typical value for advection given
+the presence of fast gravity waves. Since its truncation errors are large (of ﬁrst order),
+theupstreamschemeisingeneralnotrecommendedexceptforspecialsituations(e.g.,
+for outﬂow boundary conditions, or when modiﬁed in such a way that the dissipation
+rate becomes lower). An alternative, less damping scheme known as the Matsuno or
+Euler-backward scheme, frequently used in combination with the leapfrog scheme
+is also shown. Note that a “downstream” scheme (Fig. 3.2.2(c)) is unstable.
+Example 3.2.3: Leapfrog scheme for the wave equation
+PDE : ∂u
+∂t + c∂u
+∂x = 0
+FDE :
+U n+1
+j
+−U n−1
+j
+2t
++ c
+U n
+j+1 −U n
+j−1
+2x
+= 0
+(3.2.22)
+This is the most popular of all schemes used for hyperbolic equations.
+Exercise 3.2.2: Find that the leapfrog scheme is consistent, and the local truncation
+error is of second order in space and time.
+Stability: Assume U n
+j = 
+p
+Z n
+peipj = 
+p
+Aρn
+peipj
+Substitute in the FDE
+ρn+1 −ρn−1
+2t
++ cρn(eip −e−ip)
+2x
+= 0
+(3.2.23)
+Therefore
+ρ2 + 2iµ sin pρ −1 = 0
+(3.2.24)
+Because we have three, not two, time levels ρn+1, ρn, and ρn−1, we have a quadratic
+equation and two solutions for the ampliﬁcation factor ρ:
+ρ = (−iµ sin p) ±
+
+(−µ2 sin2 p + 1)
+(3.2.25)
+Since the last term in the quadratic equation (3.2.24) is –1, and this is the product
+of the roots, the term inside the root (−µ2sin2 p + 1) must be real, since otherwise
+the roots would be purely imaginary, and one of them would be larger than 1, which
+violates the stability criterion. In order for
+
+(−µ2sin2 p + 1) to be real for all p, we
+must have µ2 ≤1. The stability condition for the leapfrog scheme therefore becomes
+−1 ≤ct/x ≤1
+(3.2.26)
+Exercise 3.2.3: Draw a schematic like Fig. 3.2.2, and explain why the sign of the
+Courant number does not matter for its stability criterion, unlike the sign of the
+upstream scheme. Why did the term O(t) not appear in the stability condition?
+
+3.2 Initial value problems: numerical solution
+81
+We can actually ﬁnd the exact solution of the leapfrog FDE (3.2.22), as well as of the
+PDE. Recall that the PDE ∂u/∂t + c∂u/∂x = 0 has plane wave solutions of the form
+Aeik(x−ct) = Aei(kx−ωt), since the exact solution is of the form u(x, t) = u(x −ct, 0).
+The FDR ω = kc gives the exact frequency of the PDE.
+By analogy we try to ﬁnd solutions of the FDE of the form Apei(pj−θn), where θ =
+νt represents the computational frequency ν multiplied by t (the computational
+frequency ν is in general different than the exact frequency ω). Substituting in the
+FDE and dividing by ei(pj−θn), we get
+(e−iθ −eiθ) + µ(eip −e−ip) = 0
+or
+sin θ = µ sin p
+(3.2.27)
+the FDR for the leapfrog scheme. Because sin θ = sin(π −θ), the two solutions for
+the ﬁnite difference FDR are
+θ1 = arcsin(µ sin p)
+θ2 = π −arcsin(µ sin p)
+
+(3.2.28)
+Substituting into the FDR, and assuming that the initial amplitude for the wave-
+number p is 1, we obtain that the solution of the FDE is a sum of two terms corre-
+sponding to θ1 and θ2 respectively:
+U n
+j = Apei(pj−θn) + (1 −Ap)ei(pj+θn)(−1)n
+(3.2.29)
+where θ = arcsin(µ sin p), and eiπ = −1. (This can also be obtained by noting that
+when we assume solutions of the form ei(pj−θn), they imply an ampliﬁcation fac-
+tor ρ = e−iθ = cos θ −i sin θ = −iµ sin p ±
+
+1 −µ2 sin2 p, i.e., sin θ = µ sin p,
+with two solutions as indicated above.)
+Of the two terms in the solution, the ﬁrst one is the “legitimate” solution, which
+approximates the PDE solution. Note that the second term changes sign every time
+step, and it moves in the wrong direction: for this reason this unphysical term is
+called “computational mode”. It arises because the leapfrog scheme has three time
+levels, rather than two, giving rise to an additional spurious solution. Although the
+leapfrog scheme is simple and accurate, its three-time level character gives rise to
+two problems that need to be dealt with.
+The ﬁrst problem is that the leapfrog scheme needs a special initial step to get
+to the ﬁrst time level U 1 from the initial conditions U 0, before it can be started
+(Fig. 3.2.4). This can be done in several simple ways:
+(a) Simply set U 1 = U 0. Since u1 = u0 + utt + · · ·, this introduces errors of
+order O(t), and is not recommended.
+(b) Use for the ﬁrst time step a forward time scheme. The forward scheme has
+truncation errors of order O(t), but since the time step is only used once, its
+
+82
+3 Numerical discretization of the equations of motion
+∆t
+Figure 3.2.4: Schematic of the leapfrog scheme with a half time step starting step.
+contribution to the global error is multiplied by t, so that the total error is
+still of O(t)2. For the same reason, the computational instability is not a
+signiﬁcant problem. Alternatively, use an Euler-backwards (Matsuno) scheme
+for the ﬁrst time step (see Table 3.2.1).
+(c) Use half (or a quarter, eighth, etc.) of the initial time step for the forward time
+step (Fig. 3.2.4), followed by leapfrog time steps. This will halve (or reduce
+by a quarter, eighth, etc.) the error introduced in the unstable ﬁrst step.
+The second problem is that for nonlinear examples, the leapfrog scheme has a ten-
+dency to increase the amplitude of the computational mode with time, separating the
+space dependence in a checkerboard fashion between the even and odd time steps.
+This can be solved by restarting every 50 steps or so, or by applying a Robert–Asselin
+time ﬁlter.
+Exercise 3.2.4: Show that a forward time scheme is unstable for hyperbolic equa-
+tions.
+Robert–Asselin time ﬁlter (Robert, 1969, Asselin, 1972)
+After the leapfrog scheme is used to obtain the solution at t = (n + 1)t, a slight
+time smoothing is applied to the solution at time nt:
+U n = U n + α(U n+1 −2U n + U n−1)
+(3.2.30)
+replacing the solution at time n. Note that the added term is like smoothing in time,
+an approximation of an ideally time-centered smoother:
+U n = U n + α(U n+1 −2U n + U n−1)
+(3.2.31)
+which cannot be carried out without knowing the complete unsmoothed series.
+The smoother (3.2.31) is centered in time, and reduces the amplitude of different
+frequencies ν by a factor (1 −4α sin2(νt/2)). The computational mode, whose
+period is 2t, is reduced by (1 −4α) every time step. Because the ﬁeld at t =
+(n −1)t is replaced by the already ﬁltered value, the ﬁlter (3.2.30) introduces a
+slight distortion of the centered ﬁlter (Asselin, 1972). This ﬁlter is widely used with
+the leapfrog scheme, with α of the order of 1%.
+Exercise 3.2.5: Integrate the linear wave equation using values typical of large scale
+models. You can write your own FORTRAN or MATLAB program.
+∂u
+∂t = −c∂u
+∂x
+
+3.2 Initial value problems: numerical solution
+83
+Table 3.2.1. Time schemes for initial value problems dU/dt = F(U) (schemes
+(a)–(i)); dU/dt = F1(U) +F2(U) (schemes (j)–(k))
+(a) U n+1 −U n−1
+2t
+= F(U n)
+Leapfrog (good for hyperbolic
+equations, unstable for
+parabolic equations)
+(a′) U n+1 −U n−1
+2t
+= F(U n);
+U n = U n + α(U n+1 −2U n + U n−1)
+Leapfrog smoothed with the
+Robert–Asselin time ﬁlter;
+α ∼1%
+(b) U n+1 −U n
+t
+= F(U n)
+Euler (forward, good for
+diffusive terms, unstable for
+hyperbolic equations)
+(c) U n+1 −U n
+t
+= F
+U n + U n+1
+2
+
+Crank–Nicholson or centered
+implicit
+(c′) U n+1 −U n
+t
+= F
+βU n + (1 −β)U n+1
+2
+
+; β < 0.5
+Implicit, slightly damping
+(d) U n+1 −U n
+t
+= F(U n+1)
+Fully implicit or backward
+(e) U ∗−U n
+t
+= F(U n); U n+1 −U n
+t
+= F(U ∗)
+Euler-backward or Matsuno:
+good for damping high
+frequency waves
+(f) U ∗−U n
+t
+= F(U n);
+U n+1 −U n
+t
+= F
+U n + U ∗
+2
+
+Another predictor–corrector
+scheme (Heun)
+(g) U n+1 −U n
+t
+= F
+3
+2U n −1
+2U n−1
+
+Adams–Bashford (second
+order in time).
+(h) U n+1/2∗−U n
+t/2
+= F(U n);
+U n+1/2∗∗−U n
+t/2
+= F(U n+1/2∗);
+U n+1∗−U n
+t
+= F(U n+1/2∗∗) U n+1 −U n
+t
+= 1
+6[F(U n) + 2F(U n+1/2∗)
++2F(U n+1/2∗∗) + F(U n+1∗)]
+Runge–Kutta (fourth order)
+
+84
+3 Numerical discretization of the equations of motion
+Table 3.2.1. (cont.)
+(i) a = 0; b = 1/t
+U ∗←(aU ∗+ F(U n))/b
+U n ←U n + U ∗
+a ←a −1/(Nt); b ←b −1/(Nt)
+N-times
+Lorenz’s N-cycle,
+N = multiple of 4; Nth order
+(j) U n+1 −U n−1
+2t
+= F1(U n) + F2
+U n+1 + U n−1
+2
+
+Semi-implicit
+(k) U ∗−U n
+t
+= F1(U n); U n+1 −U ∗
+t
+= F2(U ∗)
+Fractional steps
+Boundary conditions: periodic
+Initial conditions: u(x, 0) = c + A sin(kx)
+c = 20 m/s, A = 10 m/s, x = 200 km, k = 2π/L with L = 10x
+(a) Choose two time steps, one of which satisﬁes the CFL condition and one
+which violates it. How long does it take to “blow up”?
+(b) Compare with the exact solution, compute the rms error R and the
+relative error RE.
+Repeat with A = 25 m/s.
+Repeat with L = 4x.
+(c) Prepare a table that summarizes R and RE.
+Exercise 3.2.6: Modify the equation and the program used before to integrate a
+nonlinear wave equation using values typical of large scale models:
+∂u
+∂t = −(u + c)∂u
+∂x
+Boundary conditions: periodic
+Initial conditions: u(x, 0) = A sin(kx)
+c = 20 m/s, A = 10 m/s, x = 200 km, k = 2π/L with L = 10x
+Choose two time steps, one of which satisﬁes the CFL condition and one which
+violates it. How long does it take to “blow up”? Compare with the linear equation
+results.
+Repeat with A = 25 m/s.
+Repeat with L = 4x.
+Compute a nonlinear solution with high resolution, taking it as “truth,” and then
+prepare a table summarizing R and RE.
+
+3.2 Initial value problems: numerical solution
+85
+Example 3.2.4:
+∂u
+∂t = σ ∂2u
+∂x2 + bu
+(3.2.32)
+This is the heat or diffusion equation with a “source of growth” bu.
+FDE :
+U n+1
+j
+−U n
+j
+t
+= σ
+U n
+j+1 −2U n
+j + U n
+j−1
+x2
++ bU n
+j
+(3.2.33)
+Exercise 3.2.7: Show that the ampliﬁcation factor is
+ρ = 1 −4σt
+(x)2 sin2 p
+2 + bt ≤1 + O(t)
+(3.2.34)
+Therefore the stability criterion is still σt/x2 ≤1/2, as we obtained with the
+criterion of the maximum.
+Exercise 3.2.8: Explain physically why the term bt does not inﬂuence the stability
+criterion.
+3.2.4
+Implicit time schemes
+In these schemes the advection or diffusion terms are written in terms of the new
+time level variables.
+Example 3.2.5:
+PDE: ∂u
+∂t + c∂u
+∂x = 0
+FDE:
+U n+1
+j
+−U n
+j + U n+1
+j+1 −U n
+j+1
+2t
++ c
+α
+	
+U n
+j+1 −U n
+j
+
++
+	
+1 −α
+
+	
+U n+1
+j+1 −U n+1
+j
+
+x
+= 0
+(3.2.35)
+The factor α determines the weight of the “old” time values compared with the “new”
+time values in the right-hand side of the FDE. Using the von Neumann method, we
+substitute U n
+j = Aρneipj = Aei(pj−θn) into (3.2.35).
+Note that the scheme is centered in time (if α = 1/2) at the point U n+1/2
+j−1/2 . For this
+reason, we multiply by e−ip/2, and obtain the ampliﬁcation factor:
+ρ =
+cos p
+2 −i2µα sin p
+2
+cos p
+2 + i2µ(1 −α) sin p
+2
+(3.2.36)
+
+86
+3 Numerical discretization of the equations of motion
+t
+tn+1
+tn
+xj-1
+x
+x
+j 
+Figure 3.2.5: Schematic of
+an implicit scheme. The dot
+represents the value being
+updated and the stars the
+values that inﬂuence it.
+Note that with the implicit
+scheme there is no
+extrapolation, and allows no
+limit to the size of t.
+or
+|ρ|2 =
+1 + 4µ2α2 tan2 p
+2
+1 + 4µ2(1 −α)2 tan2 p
+2
+(3.2.37)
+This implies that ρ ≤1 if α ≤0.5, i.e., if the new values are given at least as much
+weight as the old values in computing the RHS. In this case there is no restriction on
+the size that t can take! This result (absolute stability, independent of the Courant
+number) is typical of implicit time schemes. In Fig. 3.2.5 we show that in an implicit
+scheme, a point at the new time level is inﬂuenced by all the values at the new
+level, which avoids extrapolation, and therefore is absolutely stable. Note also that
+if α < 0.5 the implicit time scheme reduces the amplitude of the solution: it is an
+example of a damping scheme. This property is useful for solving some problems
+such as spuriously growing mountain waves in semi-Lagrangian schemes.
+In summary, if we consider a marching equation
+dU
+dt = F(U)
+(3.2.38)
+explicit methods such as the forward scheme
+U n+1 −U n
+t
+= F(U n)
+(3.2.39)
+or the leapfrog scheme
+U n+1 −U n−1
+2t
+= F(U n)
+(3.2.40)
+are either conditionally stable (when there is a condition on the Courant number or
+the equivalent stability number for parabolic equations) or absolutely unstable.
+A fully implicit scheme
+U n+1 −U n
+t
+= F(U n+1)
+(3.2.41)
+and a centered implicit scheme (Crank–Nicholson)
+U n+1 −U n
+t
+= F
+U n + U n+1
+2
+
+(3.2.42)
+
+3.2 Initial value problems: numerical solution
+87
+are absolutely stable. The latter scheme is attractive because it is centered in time
+(around tn+1/2), and it can be written with centered space differences, which makes it
+second order in space and in time. Also, it only has two time levels so it does not have
+a computational mode. But, like all implicit schemes, it also has a great disadvantage.
+Since U n+1 appears on the left- and on the right-hand sides, the solution for U n+1,
+unlike explicit schemes, in general requires the solution of a system of equations.
+If it involves only tridiagonal systems, this is not an obstacle, because there are fast
+methods to solve them. There are also methods, such as fractional steps (with each
+spatial direction solved successively), where one space dimension is considered at
+a time, that allow taking advantage of the large time steps permitted by implicit
+schemes without paying a large additional computational cost.
+Moreover, we will see in the next section that the possibility of using a time step
+with a Courant number much larger than 1 in an implicit scheme does not imply
+that we will obtain accurate results economically. The implicit scheme maintains
+stability by slowing down the solutions, so that the slower waves do satisfy the CFL
+condition. For this reason implicit schemes are only useful for those modes (such as
+the Lamb wave or vertical sound waves) that are very fast but of little meteorological
+importance (semi-implicit schemes, see next section).
+Notes
+(1) It is easy to check the properties of the time schemes in Table 3.2.1 when
+applied to hyperbolic equations by testing them with a simple harmonic
+equation:
+∂U
+∂t = −iνU
+(3.2.43)
+with solution U(t) = U(0)e−iνt. After one time step, the exact solution is
+U((n + 1)t) = U(nt)e−iνt
+(3.2.44)
+which indicates that the exact magniﬁcation factor is e−iνt.
+In (3.2.43), v is the computational frequency for a wave equation for a
+given space discretization. For example, if we were using second order
+centered differences in space, ν = (sin kx/x) c, for a spectral scheme,
+ν = kc. For the fully implicit time scheme (d), the ampliﬁcation factor is
+1
+1 + iνt = 1 −iνt
+1 + (νt)2
+Since the exact ampliﬁcation factor has an amplitude equal to 1, this shows
+that the implicit scheme is dissipative; similarly, comparing the imaginary
+components of the exact and approximate ampliﬁcation factors, it is clear that
+the implicit solution is slowed down by a factor of about 1/[1 + (νt)2].
+
+88
+3 Numerical discretization of the equations of motion
+Exercise 3.2.9: Show that the Crank–Nicholson scheme signiﬁcantly slows down
+the angular speed of the solution by deriving the magniﬁcation factor for this
+scheme, and comparing it with the exact magniﬁcation factor e−iνt. Determine
+the limit of the Crank–Nicholson ampliﬁcation factor for the Courant number
+νt →∞.
+U n+1 = U nρC N
+(3.2.45)
+(2) Equations with damping terms (such as the parabolic equation) can also be
+simply represented by the equation:
+∂U
+∂t = −µU
+(3.2.46)
+In (2.46), µ can be considered as the computational rate of damping. For
+example, for the diffusion equation, using centered differences in space,
+µ =
+4σ
+(x)2 sin2 kx
+2
+Exercise 3.2.10: Show that the leapfrog scheme is unstable for a damping term.
+Exercise 3.2.11: Write a numerically stable scheme for the equation with both wave-
+like and damping terms ∂U/∂t = −(iν + µ)U using a three-time level scheme.
+Exercise 3.2.12: Show that for a wave equation the forward time scheme with cen-
+tered differences in space is absolutely unstable. Note that this scheme shows that
+the “no extrapolation” rule is a necessary but not a sufﬁcient condition for stability
+of wave equations.
+3.2.5
+Semi-implicit schemes
+Consider the SWEs that we discussed in Section 2.4.1:
+∂u
+∂t + u ∂u
+∂x + v ∂u
+∂y = −∂φ
+∂x + f v
+∂v
+∂t + u ∂v
+∂x + v ∂v
+∂y = −∂φ
+∂y −f u
+∂φ
+∂t + u ∂φ
+∂x + v ∂φ
+∂y = −
+∂u
+∂x + ∂v
+∂y
+
+−(φ −)
+∂u
+∂x + ∂v
+∂y
+
+
+
+
+(3.2.47)
+As indicated in that section, the phase speed of the inertia-gravity wave is given by
+cIGW = νIGW
+k
+= U ±
+
+f 2
+k2 +  ≈U ± 300 m/s
+
+3.2 Initial value problems: numerical solution
+89
+and the terms that give rise to the fast gravity waves are underlined. This means
+that the Courant number µ = cIGWt/x is dominated by the speed of external
+inertia-gravity waves (equivalent to the Lamb waves, horizontal sound waves), and
+an explicit scheme would therefore require a time step an order of magnitude smaller
+than that required for advection. For this reason, Robert (1969) introduced the use
+of semi-implicit schemes to slow down the gravity waves. We write such a scheme
+using the compact ﬁnite difference notation for differences and averages:
+δx f = f j+1/2 −f j−1/2
+x
+f x = ( f j+1/2 + f j−1/2)/2
+
+
+
+(3.2.48)
+andsimilarlyfordifferencesin y ort.Withthisnotation,assuminguniformresolution,
+δ2x f = δx f x = fi+1 −fi−1
+2x
+f 2x = ( fi+1 + fi−1)/2
+
+
+
+(3.2.49)
+Using this compact ﬁnite difference notation we can write the leapfrog semi-implicit
+SWE as
+δ2tu + uδ2xu + vδ2yu = −δ2xφ2t + f v
+δ2tv + uδ2xv + vδ2yv = −δ2yφ2t −f u
+δ2tφ + uδ2xφ + vδ2yφ = −(δ2xu + δ2yv)
+2t −(φ −) (δ2xu + δ2yv)
+
+
+
+(3.2.50)
+Everything that does not have a time average involves only terms evaluated explicitly
+at the nth time step. We can rewrite the FDEs (3.2.50) as
+un+1 −un−1
+2t
+= −δ2x(φn+1 + φn−1)/2 + Ru
+vn+1 −vn−1
+2t
+= −δ2y(φn+1 + φn−1)/2 + Rv
+φn+1 −φn−1
+2t
+= −[δ2x(un+1 + un−1)/2 + δ2y(vn+1 + vn−1)/2] + Rφ
+
+
+
+(3.2.51)
+where the “R” terms are the “rest” of the terms evaluated at the center time nt. For
+example, Ru = f v −uδ2xu −vδ2yu, and similarly for Rv and Rφ.
+From these three equations we can eliminate un+1, vn+1 and obtain an elliptic
+equation for φn+1:
+
+δ2
+2x + δ2
+2y −
+1
+t2
+
+φn+1 = −
+
+δ2
+2x + δ2
+2y +
+1
+t2
+
+φn−1
++ 2(δ2x Ru + δ2y Rv) +
+2
+t (δ2xun−1 + δ2yvn−1) −
+2
+t Rφ = Fn
+i, j (3.2.52)
+
+90
+3 Numerical discretization of the equations of motion
+Note that the right-hand side of this elliptic equation is evaluated at t = nt or
+(n −1)t, so that it is known. Solving this elliptic equation provides φn+1, and once
+this is known, it can be plugged back into the ﬁrst two equations of (3.2.51), and thus
+(un+1, vn+1) can be obtained.
+The elliptic operator in brackets in the left-hand side of (3.2.52), is a ﬁnite differ-
+ence equivalent to (∇2 −λ2),
+
+δ2
+2x + δ2
+2y −
+1
+t2
+
+φ =
+φi+2, j + φi−2, j + φi, j+2 + φi, j−2 −
+
+4+ 1
+µ2
+
+φi, j
+42
+(3.2.53)
+where we have assumed for simplicity that x = y = , and µ2 = t2/2 is
+the square of the Courant number for gravity waves. Since µ2 = t2/2 >> 1,
+the semi-implicit scheme distorts the gravity wave solution, slowing the gravity wave
+down until they satisfy the von Neumann criterion. This is an acceptable distortion
+since we are interested in the slower “weather-like” processes, and since the slower
+modes satisfy the CFL (von Neumann) stability criterion, and they are written ex-
+plicitly, they are not slowed down or distorted in a signiﬁcant way.
+In the same way that the terms giving rise to gravity waves can be written semi-
+implicitly, the terms giving rise to sound waves can also be written semi-implicitly
+(Robert, 1982). They are the three-dimensional divergence in the continuity equation
+(Sections 2.3.2, 2.3.3). This has allowed the use of nonhydrostatic models without the
+use of the anelastic approximation or the hydrostatic approximation. Andr´e Robert
+(1982) created a model that can be considered the “ultimate” atmospheric model. It
+treats the terms generating sound waves (anelastic terms, i.e., three-dimensional di-
+vergence), and the terms generating gravity waves (pressure gradient and horizontal
+divergence) semi-implicitly, and it uses a three-dimensional semi-Lagrangian scheme
+for all advection terms. This model, denoted the “Mesoscale Compressible Commu-
+nity” (MCC) model, is a “universal” model designed so that it can tackle accurately
+atmospheric problems from the planetary scale through mesoscale, convective and
+smaller (Laprise et al., 1997).
+There is another approach followed by several major nonhydrostatic models (e.g.,
+MM5 and ARPS): the use of fractional steps (see Table 3.2.1, scheme (k)), with the
+sound-wave terms integrated with small time steps. In addition, the ARPS model uses
+a semi-implicit scheme for vertically propagating sound waves (Xue et al., 1995).
+Exercise 3.2.13: Consider the diffusion equation ∂u/∂t = σ∂2u/∂x2 with initial
+conditions u = x for x ≤0.5 and u = 1 −x for x ≥0.5. Compute the ﬁrst two
+time steps using an explicit scheme (forward in time, centered in space) with ﬁve
+points between x = 0 and x = 1, and a time step such that r = σt/(x)2 is equal
+to r = 0.1, 0.5, 1.0. Repeat using Crank–Nicholson’s scheme.

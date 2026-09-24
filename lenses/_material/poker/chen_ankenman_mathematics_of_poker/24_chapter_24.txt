@@ -1,0 +1,349 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         297 
+ 
+Chapter 24 
+Growing Bankrolls: The Kelly Criterion and Rational Game Selection 
+ 
+Even though this is a book on the mathematics of poker, we will take a short break from direct 
+poker examples to consider a topic that is of critical importance in many fields. This is the so-
+called "Kelly criterion," which is of importance in stock portfolio theory, blackjack, sports 
+betting, and any other field where the goal is to take a starting bankroll and some positive-EV 
+wager, the player decides what size wager to make, and hopes to grow the bankroll as fast as 
+possible. 
+ 
+We made reference in Part I to the concept of utility, which is a relatively broad concept that has 
+many facets beyond the scope of this book. For our purposes, utility reflects a person's 
+preference for money in an adjusted manner. We ignore in this book concepts like "feeling 
+charitable," even though these are important to a full understanding of utility. 
+ 
+As an example of this concept, suppose we are offered a choice of two outcomes. We may 
+receive $20 immediately, or receive $10 immediately. Clearly, we prefer the $20. This is because 
+we assign a higher utility to having $20 than having $10. Now consider the case where we can 
+flip a fair coin for $1,000,000, or receive $500,000 immediately. In this case, we generally prefer 
+the cash immediately. This is because the utility of a million dollars is not twice that of a half-
+million. 50% of the time we get the utility of a million, and 50% of the time we get the utility of 
+zero. 
+ 
+We can construct a utility function which is a mapping of every bankroll x to its corresponding 
+utility value U(x). This function is unique to each individual and has the following properties: 
+ 
+• It is increasing for all values x > 0; that is, we never prefer a lower amount of money to 
+the higher amount. If we did, if we had the higher amount we could simply give away the 
+difference and increase our utility. 
+• It is usually concave downward. This simply means that the more money we have, the 
+less utility an additional dollar will have. For example, the utility gained by a millionaire 
+by finding a dollar in the street is much less than the utility gained by someone in poverty 
+finding the same dollar. 
+• We generally treat it as though it were continuous (although since money is not strictly 
+continuous, this is not precisely the case). 
+ 
+Suppose a bet B is proposed to us. There is some value of money X such that the utility U(X) is 
+equal to the utility of the bet, which is <U(b)>, where b represents the outcomes of B. For very 
+small amounts of money, X might be extremely close to <B>, because utility is often close to 
+linear for very small amounts. But on the other hand, if we consider the million dollar coin flip 
+again, there is some value of money X which is the fair value of that bet to us in utility terms. 
+This value X is called the certainty equivalent for B. 
+ 
+What the Kelly criterion attempts to achieve is to utilize a utility function such that the growth 
+rate of a bankroll or portfolio is maximized. The reason for this is that we can maximize overall 
+EV by simply betting the whole bankroll on any +EV bet. However, when we lose, we have less 
+bankroll to grow from the next trial. To accomplish this, we maximize the Kelly utility function 
+U(x) for each bet instead of maximizing dollar EV. For reasons that are beyond the scope of this 
+book, the utility function that maximizes the growth rate per trial is: 
+ 
+U(x) = ln x 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         298 
+ 
+Interested readers can find a discussion of the derivation and selection of this utility function in 
+any good finance textbook. Decisions that maximize this utility function are said to utilize the 
+Kelly criterion or are simply called Kelly betting. Kelly betting has a number of important 
+features that make it quite important in portfolio theory and in areas such as sports betting or 
+blackjack. It: 
+ 
+• Maximizes the median bankroll after a given number of trials among all betting 
+strategies. 
+• Minimizes the mean time required to reach a prespecified bankroll size among all betting 
+strategies. 
+• Results in a distribution of bankrolls that is log-normal; that is, plotting the logarithm of 
+the bankrolls results in a normal distribution. Because of the importance of this 
+distribution in options trading and finance, it is quite well understood. 
+ 
+Example 24.1 
+As an example of how Kelly betting works, we consider the situation of a sports bettor. This 
+bettor has some sort of model that allows him to pick games with a 3% edge; that is, his bets 
+(including the bookmaker's juice) have a 3% advantage (they win 51.5% of the time and lose 
+48.5%), and are paid at even money. Now suppose this bettor has an initial bankroll of $5000, 
+and can bet in any amounts. What are the correct amounts to bet that maximize the rate of 
+growth of his bankroll? 
+ 
+To calculate this, we seek to maximize the expected value of the Kelly utility function. So if our 
+bettor bets x dollars, then there are two possible outcomes. 51.5% of the time, the resultant 
+bankroll will be (5000 + x), while 48.5% of the time, the resultant bankroll will be (5000 - x). 
+ 
+<U(x)> = 0.515(ln (5000 + x)) + 0.485(ln(5000 - x)). 
+ 
+To maximize this expression, we take the first derivative: 
+ 
+0.515/(5000 + x) - 0.485/(5000 - x) = 0  
+x = 150 
+ 
+So the amount that the bettor should bet on his 3% advantage is actually 3% of his bankroll; this 
+is the case for all even-money bets. If he wins the lust bet, he then bets 3% of $5150, or $154.50, 
+while if he loses, then he bets 3% of $4850, and so on. As this is not intended to be a text on 
+gambling in general, we refer the reader to other sources for more information on this topic. The 
+key concept we are trying to get across, which we will use in this section, is the substitution of 
+the [ln x] utility function for the expected dollar value of a bankroll in making what we might 
+call metagame decisions: those decisions which are not associated with a particular hand or a 
+particular game, but rather, what games to play, what limits to play, or whether to play poker at 
+all. 
+ 
+This log utility function leads us to a few comments about Kelly betting hi general that we 
+should keep in mind: 
+ 
+• Kelly betting has a risk of rum of zero, assuming that we can subdivide our bankroll 
+infinitely. The point is that when we lose, we scale our bet down immediately and when 
+we win, we scale it up immediately. 
+• Kelly betting cannot apply directly to poker because there are not an infinite number of 
+games at every limit. Although we might prefer it if our local cardrooms (or even online 
+ones) would spread such limits as $1.02-$2.04 or $12.46-$24.92 in order to facilitate our 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         299 
+ 
+ability to maximize our bankroll growth, such a development seems unlikely. 
+• The logarithmic nature of Kelly betting implies some interesting properties. For example, 
+doubling our bankroll is worth as much to the positive as losing half of our bankroll is 
+worth to the negative. And as our bankroll becomes much smaller, it becomes a utility 
+disaster to lose fractions of it, while winning large absolute amounts from a large 
+bankroll is worth comparably less. 
+• Kelly betting lends itself to considerably more risk than many players are used to from 
+the risk of ruin model; this is because the rapidly-scaling nature of the strategy makes it 
+more resistant to risk of ruin. By contrast, most players do not like to move back down 
+after moving up in limits. If a player is willing to aggressively move up and down as his 
+bankroll fluctuates, he can effectively play at different limits on a significantly shorter 
+bankroll than it would take to play at the highest limit all the time. 
+ 
+With regard to this last, we also feel that typical players are often much more risk-averse than is 
+really warranted with regard to opening poker businesses. For example, many players want to 
+have just a 5% chance of losing their starting stake. Most entrepreneurs, however, would be 
+ecstatic to learn that they have just a 5% chance of failing. On the other hand, it is rather unlikely 
+that one will be able to build up a poker business and then sell it for a large amount (in the 
+manner of many entrepreneurs). But we should be rational in assessing the chance that we will 
+go broke versus the rewards available when we do not. Often cautious players spend far too 
+much time playing at lower limits than is justified by their particular situation and forego large 
+amounts of profit by doing so. 
+ 
+Kelly betting provides a risk-based framework for assessing the utility of growing a bankroll; we 
+can apply this framework to the problem of choosing between games at different limits. We have 
+a finite number of game options; our local cardrooms, whether brick and mortar establishments 
+or online poker rooms, carry only specific limits, and a limited number of games. Or there are 
+not players to fill up empty tables at the limits we would prefer to play. As a result, we are often 
+faced with a decision between two games. In some cases, the decision is totally clear. If we can 
+have higher expectation and less variance in one game, then choosing that game is clearly 
+indicated. But this is often not the case, and we must decide between playing in a game with 
+higher return and higher variance (in absolute dollar terms) and playing in a game with lower 
+return but lower variance. 
+ 
+We can use Kelly utility as a guide to making this decision; given that we are unsure what game 
+to play, and we are willing to move up and down between the two. As a result, we can 
+investigate the degree to which the two games affect our utility function and decide which game 
+to play for a particular bankroll size. 
+ 
+Before we go further with this model, however, let us consider a different angle on the Kelly 
+utility; here the question is the optimal bankroll. Previously we considered a fixed bankroll and 
+found the optimal bet size; however, we can reverse the process for a game with a fixed bet and 
+find the bankroll for which playing the game increases our Kelly utility maximally. 
+ 
+The Kelly utility for playing a game with a distribution of outcomes X is: 
+ 
+< In (B + x) > - ln B 
+ 
+where B is the bankroll and x is a random variable selected from the distribution X. 
+ 
+Hopefully, this is fairly intuitive. Essentially, the change in the Kelly utility from playing the 
+game is the expected value of the Kelly utility after playing the game minus the Kelly utility 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         300 
+ 
+before playing it. 
+ 
+As a quick example, we return to a game we studied under risk of ruin. This is the game where 
+we roll a die and win 1 unit when the die comes up 3-6, while losing 1 unit when the die comes 
+up 1-2. This game effectively has a bet size of 1, since losing means a loss of 1 unit. If we have a 
+bankroll B, then our Kelly utility from playing the game is: 
+ 
+U(B) = (1 3
+ )(ln (B - 1)) + 2 3
+  (ln (B + 1)) - ln B 
+ 
+To maximize this, we take the derivative with respect to B: 
+ 
+U’(B) = 1/(3(B – 1)) + 2/(3(B + 1)) – 1/B  
+0 = B(B + 1) + 2(B - 1)(B) - 3(B - 1)(B+ 1)  
+0 = B2 + B + 2B2 - 2B - 3B2 + 3  
+B = 3 
+ 
+So for this game, the growth of Kelly utility from playing the game is maximized when the 
+bankroll is equal to 3. 
+ 
+With this concept of optimal bankroll in mind, we can make the following assumptions for this 
+model: 
+ 
+• We have two games to be compared; we will call these games game 1 and game 2. Game 
+1 is the larger of the two games. 
+• We have known win rates µ1 and µ2 as well as standard deviations σ1 and σ2, for the two 
+games. Both games have positive win rates and finite variance.  
+• We have a bankroll B. 
+ 
+Obviously, if we were forced to play one of these two games and we had a very large bankroll, 
+we would play the higher of the two, while if our bankroll was quite small, we would play the 
+lower. Our model here is that there is a bankroll cutoff c such that above c playing the higher 
+game will increase our Kelly utility by more and below c the lower game will increase out-Kelly 
+utility by more. We seek to find this bankroll cutoff. 
+ 
+For each game, we have some distribution of outcomes X. Our change in Kelly utility for each 
+distribution is equal to: 
+ 
+U = < ln (B + x) > - ln B 
+U = < ln B(1 + x/B) > - ln B 
+U = <ln B> + <ln (1 + x/B) > - lnB 
+ 
+< ln B > is a constant, so we have: 
+ 
+U = < ln (1 + x/B) > 
+ 
+We can use the Taylor series expansion for ln (1 + t): 
+ 
+ln1 + ( = ( −(
+2! + (
+3! −(
+4! + [… ] 
+ 
+to find: 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         301 
+ 
+ln 51 + 
+7 = 
+ −
+2!  + 
+3!  −
+4!  + [… ] 
+ 
+If we use the assumption that B is substantially bigger than each outcome x, we can ignore the 
+third and higher terms of this expansion, since they contain xn in the numerator but (n!)(Bn) in the 
+denominator and thus approach zero extremely rapidly. 
+ 
+This leaves us with: 
+ 
+A ≈< 
+ −
+2 > 
+ 
+For any distribution, we have <x> = µ and also the following: 
+ 
+<(x – µ)2 > = σ2 
+<(x2 – 2xµ +µ2) > σ2 
+<x2> - 2 <x> µ +µ2 = σ2 
+<x2> - µ2 = σ2 
+<x2> = µ2 + σ2 
+ 
+Substituting into our formula for U, we have: 
+ 
+A ≈
+ − + 
+2
+ 
+ 
+The cutoff bankroll c that we are looking for is the bankroll at which the utility of Game 1 equals 
+the utility of Game 2. Above this value, we will play Game 1; below it, we will play Game 2. 
+ 
+
+8 −
+ + 
+
+28
+= 
+8 −
+ + 
+
+28
+ 
+ 
+2cµ1 - µ1
+2 – σ1
+2 = 2cµ2 - µ2
+2 – σ2
+2 
+2c(µ1 - µ2) = µ1
+2 - µ2
+2 + σ1
+2 – σ2
+2 
+2c = µ1 + µ2 + (σ1
+2 – σ2
+2)/( µ1 - µ2) 
+ 
+Because in poker, µ1 and µ2 are normally extremely small compared to the variances, we can 
+abbreviate this formula to: 
+ 
+8 ≈
+
+()   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(24.1) 
+ 
+Let's look at a more concrete example.  
+ 
+Example 24.2 
+Suppose there are two games we're considering playing in a cardroom; one is $20-40 holdem, 
+where we have a win rate of $35/hr with a standard deviation of $400/hr, and the other is $40-80 
+holdem, where we have a win rate of $60/hr, with a standard deviation of $800/hr. 
+ 
+Then the cutoff bankroll is: 
+ 
+2c = 60 + 35 + (8002 – 4002)/(60 - 35)  
+c = $19,295 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         302 
+ 
+This means that with a bankroll of more than this amount, we should play the $40-80 game, 
+while with less than this amount we should prefer to play $20-40 from a utility standpoint. 
+ 
+This framework provides a means for comparing the risk-adjusted utility of playing in two 
+different games so that we can make the best decision about which game to play ill a quantitative 
+manner. The primary limitation on using this formula is that it is invalid for distributions of 
+outcomes where some of the outcomes are of comparable size to the bankroll (in these cases, 
+dropping the later terms of the Taylor expansion is not reasonable). This occurs most frequently 
+in tournaments, especially those with large fields, where the top payouts may exceed 500 buyins. 
+Nevertheless, for all types of ring games we can quantify' the risk-adjusted value of playing in 
+any two different games using this method. 
+ 
+Key Concepts 
+• When making real-world decisions, we cannot simply use expectation as a guide; instead 
+we must consider utility. We can assign a utility function and evaluate outcomes in terms 
+of utility. 
+• One common utility function which is studied very heavily in financial markets because 
+of its special properties in portfolio theory is the Kelly criterion, or 
+• U(x) = ln x. 
+• By substituting the Kelly criterion into two possible sets of game conditions, we can find 
+the utility of playing in each game. When the games have appropriate conditions, we can 
+identify a bankroll level above which we should play the larger game, and below which 
+we should play the smaller. 
+ 
+ 

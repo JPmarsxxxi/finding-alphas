@@ -1,0 +1,833 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         74 
+ 
+Chapter 7 
+Playing Accurately, Part I: Cards Exposed Situations 
+ 
+Exploitive play is a two-step process. The first step is the processing of reading our opponents' 
+hands and strategies, which we discussed in Chapter 5. The second step is deciding on an action 
+in light of the information from the first step. The process here is simply to calculate the EV of 
+the various action options and select the one that has the highest expectation. 
+ 
+In calculating the EV against our opponent's distribution, we will consider each hand he can hold 
+in turn and weight the EV values against his distribution. Since in each case we know his cards, 
+and we are playing just a single hand against his known hand, we may be able to gain some 
+insight by having the players simply turn their cards face up and examine the play from there. 
+This may seem to be a frankly uninteresting game; in many cases it would be, with made hands 
+betting while draws chase or fold depending on pot odds, as we saw in Chapter 4. But some 
+interesting situations can arise where the correct play is neither obvious nor intuitive. 
+ 
+Example 7.1 
+Consider the following example: 
+ 
+The game is $30-$60 7-card stud.  
+Player X has: A♥ K♦ Q♥ J♠ T♣  
+Player Y has: A♠ T♠ 8♠  5♠ 2♣ 
+ 
+ 
+The pot contains $400. Player Y has only $120 in chips left; player X has him covered, How 
+should the play go? 
+ 
+In considering this, we can look at each player's situation separately. For player X, the initial 
+decision is between checking and betting. However, we prefer to characterize strategic options in 
+a more complex manner that reflects the thought processes behind the selection. So instead of 
+two options-checking and betting-X actually has five options: 
+ 
+Check with the intention of folding to a bet.   
+(check-fold)  
+Check with the intention of calling a bet.  
+ 
+(check-call)  
+Check with the intention of raising a bet.  
+ 
+(check-raise)  
+Bet with the Intention of calling a raise.  
+ 
+(bet-call)  
+Bet with the intention of folding to a raise.  
+(bet-fold) 
+ 
+X can select from among these options the one with the highest value. We present X's options in 
+this manner because the consideration of future actions on the same street is an important part of 
+playing well. Many errors can be prevented or mitigated by considering the action that will 
+follow when taking an initial action. 
+ 
+We can immediately calculate the expected value of the fourth and fifth options. The expected 
+value of betting if Y folds or calls is the same no matter what X's intentions were if Y raises, so 
+we can ignore those cases. If Y raises, there is no more betting on future streets, and the expected 
+value of the bet-call option is: 
+ 
+<X, bet-call> = (p(X wins)) (new pot size) - (cost of action on this street) 
+ 
+The pot is currently $400; if both players put their remaining $120 in on this street, the new pot 
+will be $640. Y will make a flush on sixth street 8 42
+
+ of the time, and when he misses, he will 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         75 
+ 
+make a flush on the river 8 41
+
+ of the rime. X cannot improve, so X’s chance of winning the pot 
+is: 
+ 
+p(X wins) = 1 - p(X loses) 
+p(X wins) = 1 – {p(Y wins 6th street) + [p(Y misses 6th street)][p(Y wins river)]} 
+p(X wins) = 1 - [( 8 42 
+
+) + ( 34 42 
+
+)(  8 41 
+
+)] 
+p(X wins) = 65.16% 
+ 
+So the expected value of X's bet-call option is: 
+ 
+<X, bet-call> = p(X wins) (new pot size) - (cost of action)  
+<X, bet-call> = (0.6516 )($640) - $120  
+<X, bet-call> ≈ $297 
+ 
+If X bets and folds to a raise, then his expected value is: 
+ 
+<X, bet-fold> = - $60 
+ 
+These are not the total EVs of adopting these strategies-however, the EVs of the cases where Y 
+doesn't raise are identical, hence we can compare these directly. It's clear from this that X's 
+strategy of bet-call has higher expectation than his strategy of bet-fold. We can therefore 
+eliminate bet-fold from consideration as a possible strategy for X. This should be intuitive-after 
+all, X has almost two-thirds of the pot! Folding in a fairly large pot when his opponent is merely 
+drawing to a flush would be disastrous. 
+ 
+In a like manner, we can examine the three options that begin with a check. If Y checks behind, 
+then these three options have identical EV. If Y bets, then we have the following: 
+ 
+<X, check-fold> = $0 
+ 
+If  X check-raises and Y calls, then X's EV is the same as in the bet-call case where Y raised. 
+And if X check-raises and Y folds, X's EV is even higher: 
+ 
+<X, check-raise | Y calls > ≈ S297  
+<X, check-raise | Y folds> = $460 
+ 
+From this, we can eliminate the check-fold option. X can make more money by substituting the 
+check-raise option for the check-fold option anywhere that he would play the latter. 
+ 
+With simple analysis, we have eliminated three of X's possible strategies, leaving us with: 
+ 
+check-call 
+check-raise 
+bet-call 
+ 
+To go further, however, we must consider what Y will do if X checks or bets. Suppose that we 
+take as our guess at Y's strategy that he will check behind if X checks, and call a bet if X bets. 
+On sixth street, what will happen? If Y has made a flush, then all betting will end-X will no 
+longer call any bets because he has no chance of winning the pot. If Y has not made a flush, the 
+hand has simplified to the case we looked at in Chapter 4. X will bet and Y will call or fold 
+based on pot odds-in this case, Y will call a bet. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         76 
+ 
+Using this information, we can calculate the expected values of the three options for X. 
+<X, check-call> = p(flush on 6th)($0) + p(flush on 7th)(-$60) + p(no flush)($460) 
+<X, check-call> = ( 8 42 
+
+)($0) + ( 8 41 
+
+)(  34 42 
+
+)(-$60) + {1 - [ 8 42 
+
+ + ( 8 41 
+
+)(  34 42 
+
+)]}($460) 
+<X, check-call> = ( 8 41 
+
+)(  34 42 
+
+)(-$60) + (1 –  8 42 
+
+− ( 8 41 
+
+)(  34 42 
+
+))($460)  
+<X, check-call> ≈ $290.24  
+<X, check-raise> ≈ $290.24 
+ 
+The equity of check-raising and check-calling are the same because if X does check, Y will 
+check behind, such that X doesn't get to Follow through with his call or raise intentions. 
+ 
+<X, bet-call> = p(flush on 6th) (-$60) + p(flush on 7th)(-$120) + p(no flush) ($520)  
+<X, bet-call> = ( 8 42 
+
+)($60) + ( 8 41 
+
+)(  34 42 
+
+)(-$120) + {1 - [ 8 42 
+
+ + ( 8 41 
+
+)(  34 42 
+
+)]}($520) 
+<X, bet-call> = ( 8 42 
+
+)($60) + ( 8 41 
+
+)(  34 42 
+
+)(-$120) + {1 - [ 8 42 
+
+ - ( 8 41 
+
+)(  34 42 
+
+)]}($520) 
+<X, bet-call> ≈ $308.43 
+ 
+Based on this, then, X should bet. 
+ 
+We have two final confirmations to make. Recall that we guessed at Y's strategy of checking 
+behind X's check and flat calling X's bet. If Y bets behind X's check, X can simply flat call Y's 
+bet and get $308.43. So Y does better by checking behind. We can calculate the EV of Y raising 
+X's bet as well. Recall that we previously found that X's EV from the bet-call option when Y 
+raised was $297. This is lower than $308.43; hence Y should instead raise. X can still do no 
+better than his bet-call. 
+ 
+So the play on fifth street goes (if both players maximize their EV"):  
+ 
+X bets, and Y raises, and X calls. 
+ 
+This may look a little odd, as the draw raises the made hand's bet. X (the made hand) bets and 
+charges Y to draw-however, it is in turn correct for Y to raise, while a 2-1 dog to make his hand! 
+This occurs because the stacks are limited -Y is all-in and can't be punished by more betting. 
+Since he has odds to call on 5th street for the 6th street card alone, he might as well make sure that 
+all the money goes in on 5th street, so that if he should make his flush on 6th street, he'll still get 
+the last bet hum the straight. This is because his draw is open - that is, X knows when he is 
+beaten. In cases where the draw is closed, X may still have to pay off on sixth if Y makes his 
+flush. 
+ 
+Example 7.2 
+Next we have a different example with limited stacks. In this case we allow the starting stack 
+sizes to vary and examine the effect of the initial stack sizes on the play. 
+ 
+The game is pot limit holdem, but with a special rule that only pot-sized bets (or allin bets if the 
+player has less than a pot remaining) may be made. We call this the rigid pot limit game; it is 
+substantially simpler than the full pot limit game (where players may bet any amount between a 
+minimum bet and the pot). 
+ 
+Player X has: A♥ A♦  
+Player Y has: 8♣ 7♣  
+The flop is:    9♣ 6♣ 2♦ 
+ 
+(We'll ignore runner-runner full houses for the AA and runner-runner two pair for the 87s for the 
+sake of discussion. Assume that on each street the 87 simply has 15 outs and either hits or docs 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         77 
+ 
+not.) 
+We can immediately calculate Y's equity if the cards are simple dealt out: 
+ 
+<Y> = 1 - p(miss twice) 
+<Y>= 1 - ( 30 45 
+
+)(  29 44 
+
+) 
+<Y> = 56.06% 
+ 
+The pot contains $100, Player X is first to act. How should the play go for different stack sizes?  
+ 
+Case 1: Small stacks. 
+Let's first assume the stacks are $50. In this situation, player Y is the favorite if we simply dealt 
+the cards out-he has 56.06% equity with his straight-flush draw. If Player X bets, then Yearly 
+Player Y will call, yielding an EV of: 
+ 
+<X, X bets-Y calls > = p(X wins) (new pot value) - (cost of bet)  
+<X, X bets-Y calls> = [1 - p(Y wins)](new pot value) - (cost of bet)  
+<X, X bets-Y calls> = [1 - 0.5606]($200) - $50  
+<X, X bets-Y calls> = (0.4394) ($200) - $50 
+<X, X bets-Y calls > = $37.88 
+ 
+This is the equity of all the money getting in on the flop, no matter who bets first. It should be 
+clear that if Player X checks, then Player Y can guarantee that X's equity is no greater than this -
+number by simply betting. X will have odds to call, and this same equity will be achieved. 
+ 
+If the play went check-check on the flop and Y failed to make a straight or flush ( 30 45 
+
+ of the 
+time) X could then bet the turn. In that case, X would have  29 44 
+
+chance of winning. Y still has a 
+clear call, getting more than 3 to 1 from the pot. X's equity, then is: 
+ 
+<X, bet turn> = [p(Y misses flop)][p(X wins)(new pot value) - (cost of bet)] 
+<X, bet turn> = ( 30 45 
+
+)[(  29 44 
+
+)(200) - (50)]  
+<X, bet turn> = $54.55 
+ 
+This expected value is higher for X than the expected value when both players were all-in on the 
+flop. And if it went check-check on the flop and Y did make his hand on the turn, X would 
+simply fold. So X would prefer to have the action go check-check on the flop. 
+ 
+However, Y knows this as well. Since Y can limit X's equity to $37.88 by betting, the action 
+should go check-bet-call on the flop. Notice that Player X's equity in the pot based on the 
+showdown value of his hand is actually ($100) (1 - 0.5606) = $43.94, so the post-flop betting 
+here reduces his equity by more than $6. 
+ 
+Case 2: Medium Stacks. 
+ 
+Now let's assume the stacks are $400. Again, player Y has a small edge if the money goes all-in 
+on the flop with 56.06% equity. 
+ 
+If X bets, then Y has three choices-folding, raising all-in to $400 or calling $100. If he folds, 
+then X's equity is $100. 
+ 
+<X, bet; Y, fold> = $100 
+ 
+If he raises all-in, then X's equity is: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         78 
+ 
+ 
+<X, bet; Y raise > = p(X wins) (new pot value) - (cost of bet)  
+<X, bet; Y raise > = [1 – p(Y wins)](new pot value) - (cost of bet)  
+<X, bet; Y raise > = (1- 0.5606)($900) - ($400)  
+<X, bet; Y raise > = (0.4394)($900) - $400 = - $4.55 
+<X, bet; Y raise > = -$4.55 
+ 
+If Y calls, then there are two things can happen: 
+ 
+ 15 45 
+
+of the time Y hits and X loses $100 net. 
+ <X, bet; Y call | Y hits> = $ -100 
+ 
+ 30 45  
+
+of the time Y misses and the game simplifies to a pot odds game: 
+<X, bet; Y call | Y misses > = p(X wins) (new pot value) - (cost of bet)  
+<X, bet; Y call | Y misses> = ( 29 44 
+
+)($900) - $400  
+<X, bet; Y call | Y misses> = $193.18 
+ 
+At this point, X will bet $300 and Y will be forced to call with  15 44 
+
+equity in the pot. X's EV in 
+this case will be 
+ 
+<X> = [p(X wins)](X's net when winning) - [p(Y wins)](X's net when losing)  
+<X> = ( 29 44 
+
+)($500) - ( 15 44 
+
+)($400)  
+<X> = $193.18 
+ 
+so X's overall equity will be: 
+ 
+<X, bet; Y call> = ( 15 45 
+
+)(-$100) +  30 45 
+
+ ($193.18)  
+<X, bet; Y call> = $95.45 
+ 
+We calculated these EVs in X's terms-since this is a two player game and no one else can claim 
+any part of the pot, Y can seek to either maximize his own expected value or minimize X's, and 
+these will have the same effect. So it's clear that if X does bet $100, Y should raise all-in as this 
+is the best of these three options. 
+ 
+Alternatively, X could check. If X checks, then Y can check or bet. 
+ 
+If Y checks, then again we have two outcomes.  15 45 
+
+of the time Y hits and X nets $0.  30 45 
+
+of 
+the time, Y misses, and X bets the pot and is called. 
+ 
+X's overall EV, then is: 
+ 
+<X check; Y check> = [p(Y wins) (pot value to X)] + [p(X wins) (pot value to X-cost of bet)] 
+<X, check; Y check> = ( 15 45 
+
+)($0) + ( 30 45 
+
+)[(  29 44 
+
+)($300 - $100)]  
+<X, check; Y check> = $65.15 
+ 
+Alternatively, Y can bet. If X raises all-in, he has -$4.55 again, while if he calls, he again makes 
+$95.45. 
+ 
+Summarizing these outcomes (EVs from X's perspective): 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         79 
+ 
+ 
+Y's action 
+ 
+ 
+ 
+X's action 
+Check 
+Bet 
+Call 
+Raise 
+Fold 
+Bet 
+ 
+$95.45 
+-$4.55 
+$100 
+Check 
+$65.15 
+ 
+ 
+ 
+ 
+Check-raise 
+$65.15 
+-$4.55 
+ 
+ 
+ 
+Check-call 
+$65.15 
+$95.45 
+ 
+ 
+ 
+ 
+From this table, we can see that if X checks, the worst he can do is +$65.15 (Y checks behind,) 
+So at this stack size ($400), the action should actually go check-check on the flop, Neither  
+player can bet; if X bets, Y simply raises all-in and takes his edge on all the money, while if Y 
+bets. X calls and gets the majority of the money in on the turn when he has a significant edge, 
+Also notice that as the stacks have grown, X has gained because of the betting. In the small snack 
+case, X actually lost money as a result of the betting (versus his showdown equity in the initial 
+pot.) But here, X gains $65.15 - $43.94, or $21.19 from the postflop betting. 
+ 
+Case 3: Deep Stacks 
+The last rigid pot-limit case we'll consider is stacks of $1300, or three pot-sized raises. This time, 
+let's subdivide the EV calculations into four subcases: 
+ 
+Subcase a). No money goes in on the flop. 
+Since neither player will raise on the turn, X's equity in this subcase is the same as the receding 
+case when no money went in on the flop, or $65.15 
+ 
+Subcase b). One pot-sized bet ($100) goes in on the flop. 
+This subcase, too, is similar to the preceding with X's equity at $95.45. 
+ 
+Subcase c). Two pot-sized bets ($400) go in on the flop. 
+In this subcase, X's equity is -$400 in the case where Y hits on the turn. When Y misses, X bets 
+$900 and Y calls.  29 44 
+
+ of the time, X wins the pot and the rest of the time Y does. 
+ 
+<X, 2betsonflop > = ( 15 45 
+
+)(-$400) + ( 30 45 
+
+) [($2700)( 29 44 
+
+) - $1300)]  
+<X, 2betsonflop > = $346.21 
+ 
+Subcase d). Three pot-sized bets ($1300) go in on the flop. 
+In this subcase, A simply gets his showdown equity from the pot: 
+ 
+<X. 3 bets on flop > = (1 - 0.5606) ($2700) - $1300  
+<X, 3 bets on flop > = (0.4394) ($2700) - $1300  
+<X, 3 bets on flop > = -$113.62 
+ 
+We can formulate some logical rules for the players' play based on these equities: 
+ 
+1) X will never put in the second bet on the flop. 
+If he does, Y will raise all-in. obtaining subcase d), the worst outcome for X. 
+ 
+2) Y will never put in the second bet on the flop. 
+If he does, X will flat call and we have subcase c), the worst outcome for Y. 
+ 
+3) X prefers subcase b) to subcase a) –  
+If he has a choice between zero or one bets, he will choose one. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         80 
+ 
+4) Y prefers subcase a) to subcase b) –  
+If he has a choice between one and zero bets, he will choose zero. 
+ 
+From these rules, we can obtain the strategies for X and Y. Neither player will put in the second 
+bet. Hence, both players have the option to put in the first bet if they wish. Since X prefers this 
+option, he will bet, and Y will call. This results in an EV for X of $95.45. It is worth noting that 
+X's expected value from betting if Y folded is just $100. In this case X gains a lot of value from 
+the postflop betting-in fact the value of his hand has nearly doubled from $43.94 to $95.45. 
+ 
+When a made hand competes with a good draw, the draw generally does best by getting all the 
+money into the pot as early in the hand as possible, while there are many cards to come. The 
+made hand, by contrast, only wants to put in enough action such that he still has bets with which 
+to punish the draw when the draw misses on the next street. In the case where where were only 
+two bets left, if the made hand bet, the draw could get all-in. Instead, it's preferable for the made 
+hand to delay betting so that he can extract value on the turn when the draw misses. But when 
+three bets are left, the made hand can afford to bet the flop, knowing that the draw cannot 
+prevent him from making a pot-sized bet on the turn. 
+ 
+Change the hands slightly by reducing player Y's outs by one, to 14, and now if there are three 
+pot-sized bets left, player Y has to fold despite being the favorite to win the hand. Not only is 
+there a pot-sized bet on the turn ( 14 44 
+
+ being less than  15 45 
+
+), but also a pot-sized bet on the 
+flop. 
+ 
+To this point, we've considered only the rigid pot-limit case, where the only bet size allowed is a 
+pot-sized one. But in real pot-limit, either player can bet any amount up to the pot-how does this 
+change the expected equities? 
+ 
+To examine this case, let's go back to the case where both players have two pot-sized bets 
+remaining. 
+ 
+Example 7.3 
+The game is pot-limit holdem.  
+Player X has:  A♥ A♦  
+Player Y has:  8♣ 7♣  
+The flop is:     9♣ 6♣ 2♠ 
+ 
+ 
+(Again, we'll ignore runner-runner full houses for the AA and runnier-runner two pair for the 87s 
+for the sake of. discussion-assume that on each, street the 87 simply has 15 outs.) 
+ 
+The pot contains $100, and both players have $400 in front of them. 
+ 
+We've seen previously that X's EV from betting $100 is -$4.55, while his EV from betting $0. 
+(checking) is $65.15. 
+ 
+What if we allow X to bet any amount between those values? For example, suppose X bets $5. 
+ 
+We know that the action on the turn is deterministic-if Y hits on the turn, there will be no more 
+betting, while if Y misses, X will bet either the pot or all-in. As a result, we should be able 
+to express X's overall EV as a function of how much money goes into the pot on the flop total). 
+Let x be the amount of money per player that goes in on the flop (up to $100 - we will address 
+the case where more than $100 goes in momentarily). The pot will be (2x+$100) on the turn. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         81 
+ 
+X’s expectation is as follows: 
+ 
+Outcome 
+p(Outcome) 
+<X> from outcome 
+Y wins on turn 
+15/45 
+-x 
+Y wins on river 
+(30/45)(15/44) 
+-x – (2x+100) 
+X wins 
+1 – (15/45) – (30/45)(15/44) 
+3x + 200 
+ 
+<X, x on flop> = ( 15 45 
+
+)(-x) + ( 30 45 
+
+)(  15 44 
+
+)(-3x - 100) + (1 – ( 15 45 
+
+) –  
+    ( 30 45 
+
+)(  15 44 
+
+))(3x + 200)  
+ 
+<X, x on flop> = ( 1 3 
+ )(-x) + (2 3 
+ )(  15 44 
+
+)(-3x - 100) + ( 2 3 
+  - ( 2 3 
+ )(  15 44 
+
+)) (3x + 200) 
+ 
+<X, x on flop> = ( 1 3 
+ )(-x) + ( 5 22 
+
+)(-3x - 100) + ( 2 3 
+  -  5 22 
+
+)(3x + 200)  
+ 
+<X, x on flop> = (-x/3) – 15x/22 - 500/22 + ( 29 66 
+
+)(3x + 200)  
+ 
+<X, x on flop> = -x/3 - 15x/22 - 500/22 + 29x/22 + 2900/33  
+<X, x on flop> = -x/3- 1500/66 + 7x/11 + 5800/66  
+<X, x on flop> = 10x/33 + $65.15 
+ 
+We can check this by comparing our values from the last analysis; <X. $0> = $65.15, and also 
+<X, $100> = $95.45. This expression for <X, $x> is only valid for values from $0 to $100. 
+Above $100, X can no longer bet the entire pot on the turn because the stacks are too small. 
+Therefore, for values of x from $100 to $400: 
+ 
+Outcome 
+p(Outcome) 
+<X> from outcome 
+Y wins on turn 
+15/45 
+-x 
+Y wins on river 
+(30/45)(15/44) 
+-400 
+X wins 
+1 – (15/45) – (30/45)(15/44) 
+500 
+ 
+<X, $x> = ( 15 45 
+
+)(-x) + ( 30 45 
+
+)(  15 44 
+
+)(-400) + (1 -  15 45 
+
+ - ( 30 45 
+
+) (15/44) (400) 
+<X, $x>= ( 1 3 
+ )(-x) + ( 5 22 
+
+) (- 400) + ( 2 3 
+  -  5 22 
+
+)(400)  
+<X, $x> = (-x/3) + ( 5 22 
+
+) (- 400) + ( 2 3 
+  -  5 22 
+
+) (500)  
+<X, $x> = -x/3 + $128.79 
+ 
+For x = $400, for example, we get -$4.55 from this expression. 
+ 
+So now we have a two-part function that is X's EV for x getting into the pot on the flop: 
+ 
+x on [$0, $100]: 
+ 
+<X, $x> = 10x/33 + $65.15 
+so 
+ 
+ 
+ 
+<X, $0> = $65.15 and <X, $100> = $95.45 
+x on [$100, $400]: 
+ 
+<X, $x> = -x/3 + $128.79 
+so 
+ 
+ 
+ 
+<X, $100> = $94.45 and <X, $400> = - $4.55 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         82 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 7.1. X's equity in Example 7.3 for various pot sizes 
+ 
+So let us again consider the case where X bets $5. Y has an infinite number of choices of raise 
+amounts, but now that we can see the behavior of X's EV function, it is easy to discard many of 
+the choices. Y can make it a total of $10 to $115, but if he chooses any value from $10 to $100, 
+he simply adds to X's EV. Likewise, he can choose any amount from $100 to $115, but since all 
+the additional money above $100 decreases X's EV, Y would choose to raise to $115 if he were 
+going to raise an amount about $100. 
+ 
+So all that is left is to compare X's EV on these two actions: 
+ 
+<X, $x > = 10x/33 + $65.15 
+<X, Y calls $5 > = ( 10 33 
+
+)($5) + $65.15 
+<X, Y calls $5 > = $66.67 
+<X, Y raises to $115 > = (- 1 3 
+ )($115) + $128.79 
+<X, Y raises to $115 > = $90.46 
+ 
+Thus, Y will choose to simply call $5. 
+ 
+By betting $5, X has increased his equity by $1.50. Up to some point, for each dollar X bets he 
+gains  10 33 
+
+of a dollar in equity, If he bets $10, Y will again choose to call, but his equity is 
+increased an additional $1.52 to $68.19. In fact, X can continue to bet larger and larger amounts 
+until the values from Y's two options are equal. This will be the point at which X‘s expectation is 
+maximum. When X bets the critical amount, Y has two options: to make the amount that goes 
+into the pot $x, or to make a pot-sized raise and make the amount that goes into the pot (3x + 
+100). 
+ 
+<X, Y calls x> = <X, Y raises to (3x + 100)> 
+ 10 33 
+
+ (x) + $65.15 = - 1/3(100+3x) + $128.79 
+ 10 33 
+
+ (x) = - x + $30.30  
+x = $23.26 
+ 
+This is the proper amount For X to bet; it maximizes his expectation. No matter what action 
+takes, X is guaranteed at least $72.20 in expectation: 
+ 
+<X, x = $23.26 on flop> =  10 33 
+
+x + $65.15 = $72.20 
+$100 I --------- 1 -------- 1 -------- ' --------- ' 
+$0    $50   $100  $150  $200  S250  $300  $350 $400 pot size 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         83 
+ 
+The upshot of all tills is that the stack sizes are of critical importance in determining how to play 
+even when the cards are faceup. Additionally, as we can see from the results we obtained, deeper 
+stacks favor the made hand because they allow the made hand to punish the draw on the turn 
+when he misses. This runs somewhat counter to the usual wisdom about draws and made hands, 
+which holds that draws benefit from deeper stacks and implied odds. 
+ 
+Another important concept from these examples is the following: 
+ 
+Good draws benefit a great deal from getting all the money in the pot early in the hand.  
+ 
+Example 7.4 
+Let's look at a common no-limit case.  
+No-limit holdem.  
+Player X has: A♥ K♦.  
+Player Y has: Q♥ Q♣. 
+ 
+It is preflop. Player Y posted a blind of $100. The stacks are $800. 
+ 
+Let's say that the hands are revealed sequentially, such that player X sees his AK first, acts, and 
+then player Y reveals his queens. Assume that player X raised to $300 (an arbitrary but 
+reasonable amount). What should player Y's strategy be? 
+ 
+AK benefits from seeing all five cards- it will only pair a third of the time on the flop, but will 
+win 43% over all against QQ. The deeper the stacks, then, the more that the AK should want to 
+get all the money in and the QQ should try to see the flop and push the AK out after the Hop if 
+no A or K flops, right? 
+ 
+Wrong. 
+ 
+First, let's look at the shallower stacks: 
+Y with QQ is more than a 57% favorite; if he raises to $800, player X will be forced to call, 
+getting 3 to 2 on his money. Raising to some lesser amount will not be better, as X can simply 
+reraise to $800 to guarantee his equity mere. Jamming costs Y $700. 
+ 
+<Y, jam> = (0.5717) ($800 + $800) - $700  
+<Y, jam> = $214.72 
+ 
+On the other hand, let's say that Y with QQ calls. Then there will be $600 in the pot. The flop 
+will contain an ace or a king but no queen about 30% of the time. In these cases, X with the AK 
+can simply jam the flop, and Y will fold. The remaining 70% of the time, Y with the QQ will 
+jam and X will fold with the AK. 
+ 
+<Y, call> = p(A or K flops) (Y loses his call) + p(A or K doesn't flop) (pot size)  
+<Y, call> = (0.3) (-$200) + (0.7) ($400)  
+<Y, call> = $220 
+ 
+So Y does slightly better here by calling and seeing if X hits the flop, then jamming if the AK 
+misses. 
+ 
+Increase the stacks to $1800, however, and now the tables are turned; 
+ 
+<Y, jam > = (p(Y wins)) (pot size) - cost of jam 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         84 
+ 
+<Y, jam > = (0.5717) ($3600) - $1700  
+<Y, jam > = $358.12 
+<Y, call > = still $220 
+ 
+So Y does much better by jamming immediately. 
+ 
+This runs counter to many players' intuitions about how the QQ/AK matchup might play out -
+with deep stacks, the QQ wants to get all the money in because of its significant equity 
+advantage, while with shallower stacks it prefers to push the AK out of the pot on favorable 
+flops. This conclusion is a little artificial-here the QQ can fearlessly push all his chips in the pot 
+because he knows he has the advantage. In real holdem, however, he must fear AA or KK, and 
+so he can't play in quite this way. However, many players overvalue seeing the flop, forgetting 
+that their hand is not a simple ''coin flip," but a substantial favorite over AK. 
+ 
+Going back to our original hypothesis that the action on each street should go "the made hand 
+bets, and the draw either calls or folds depending on whether it has pot odds," we've seen that 
+there are a number of situations where this is not at all the case. In pot-limit, for example, the 
+size of the remaining stacks has a profound impact on the proper strategy for each player, and 
+this is true in limit as well. In no-limit we saw a case where the stack sizes were integral to 
+deciding whether to jam or just call. 
+ 
+Despite the occasionally interesting situations that occur in games where cards are exposed, you 
+are unlikely to happen upon such a game. We present these situations, however, as primer 
+material for the cases to follow; all the hand-reading skills in the world are of no use if one 
+cannot play accurately when the cards are face-up, and while principles are often valuable as 
+rules of thumb, recognition of situations where play might deviate from what is intuitively 
+apparent can be worth equity. 
+ 
+Key Concepts 
+• Even when playing with the cards face-up, counterintuitive situations can occur. 
+• When considering the last raise all-in, draws should consider being more aggressive than 
+is indicated by simple pot odds analysis. Further betting cannot hurt them and the made 
+hand cannot get away if the draw hits when the money is all in. 
+• Stack size is of critical importance in big bet poker; even with the cards face-up changing 
+the stacks changes the nature of the play drastically. Situations can even occur where the 
+favorite has to fold to a bet from the underdog because of the potential for betting on later 
+streets. 
+• Good draws (those which have close to 50°/o equity in the pot) benefit greatly from 
+getting all the money in on the flop. However, if they cannot get all the money in (or 
+enough that they cannot be hurt by later betting), they prefer to get as little as possible. 
+• Made hands often want to carry through a full bet for a later street when playing against a 
+draw because of the heavy value extraction that can occur when the draw misses.

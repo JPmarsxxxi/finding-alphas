@@ -1,0 +1,1171 @@
+8 Testing Set Overﬁtting
+8.1 Motivation
+Throughout this Element, we have studied the properties of ML solutions
+through Monte Carlo experiments. Monte Carlo simulations play in mathe-
+matics the analogue to a controlled experiment in the physical sciences. They
+allow us to reach conclusions regarding the mathematical properties of various
+estimators and procedures under controlled conditions. Having the ability to
+control for the conditions of an experiment is essential to being able to make
+causal inference statements.
+A backtest is a historical simulation of how an investment strategy would
+have performed in the past. It is not a controlled experiment, because we cannot
+change the environmental variables to derive a new historical time series on
+which to perform an independent backtest. As a result, backtests cannot help us
+derive the precise cause–effect mechanisms that make a strategy successful.
+This general inability to conduct controlled experiments on investment
+strategies is more than a technical inconvenience. In the context of strategy
+development, all we have is a few (relatively short, serially correlated, multi-
+collinear and possibly nonstationary) historical time series. It is easy for a
+researcher to overﬁt a backtest, by conducting multiple historical simulations,
+and selecting the best performing strategy (Bailey et al. 2014). When a
+researcher presents an overﬁt backtest as the outcome of a single trial, the
+simulated performance is inﬂated. This form of statistical inﬂation is called
+selection bias under multiple testing (SBuMT). SBuMT leads to false discov-
+eries: strategies that are replicable in backtests, but fail when implemented.
+To make matters worse, SBuMT is compounded at many asset managers, as a
+consequence of sequential SBuMT at two levels: (1) each researcher runs
+millions of simulations, and presents the best (overﬁt) ones to her boss; (2)
+the company further selects a few backtests among the (already overﬁt) backt-
+ests submitted by the researchers. We may call this backtest hyperﬁtting, to
+differentiate it from backtest overﬁtting (which occurs at the researcher level).
+It may take many decades to collect the future (out-of-sample) information
+needed to debunk a false discovery that resulted from SBuMT. In this section, we
+study how researchers can estimate the effect that SBuMT has on their ﬁndings.
+8.2 Precision and Recall
+Consider s investment strategies. Some of these strategies are false discoveries,
+in the sense that their expected return is not positive. We can decompose these
+strategies between true (sT) and false (sF), where s ¼ sT þ sF. Let θ be the odds
+105
+Elements in Quantitative Finance
+
+ratio of true strategies against false strategies, θ ¼ sT=sF. In a ﬁeld like ﬁnancial
+economics, where the signal-to-noise ratio is low, false strategies abound, hence
+θ is expected to be low. The number of true investment strategies is
+sT ¼ s
+sT
+sT þ sF
+¼ s
+sT
+sF
+sTþsF
+sF
+¼ s
+θ
+1 þ θ :
+Likewise, the number of false investment strategies is
+sF ¼ s  sT ¼ s 1 
+θ
+1 þ θ
+
+
+¼ s
+1
+1 þ θ :
+Given a false positive rate α (type I error), we will obtain a number of false
+positives, FP ¼ αsF, and a number of true negatives, TN ¼ 1  α
+ð
+ÞsF. Let us
+denote as β the false negative rate (type II error) associated with that α. We will
+obtain a number of false negatives, FN ¼ βsT, and a number of true positives,
+TP ¼ 1  β
+ð
+ÞsT. Therefore, the precision and recall of our test are
+precision ¼
+TP
+TP þ FP ¼
+1  β
+ð
+ÞsT
+1  β
+ð
+ÞsT þ αsF
+¼
+1  β
+ð
+Þs
+θ
+1þθ
+1  β
+ð
+Þs
+θ
+1þθ þ αs
+1
+1þθ
+¼
+1  β
+ð
+Þθ
+1  β
+ð
+Þθ þ α
+recall ¼
+TP
+TP þ FN ¼
+1  β
+ð
+ÞsT
+1  β
+ð
+ÞsT þ βsT
+¼ 1  β:
+Before running backtests on a strategy, researchers should gather evidence
+that a strategy may indeed exist. The reason is, the precision of the test is a
+function of the odds ratio, θ. If the odds ratio is low, the precision will be low,
+even if we get a positive with high conﬁdence (low p-value).25 In particular, a
+strategy is more likely false than true if 1  β
+ð
+Þθ < α.
+For example, suppose that the probability of a backtested strategy being
+proﬁtable is 0.01, that is, that one out of one hundred strategies is true, hence
+θ ¼ 1=99. Then, at the standard thresholds of α ¼ 0:05 and β ¼ 0:2, researchers
+are expected to get approximately ﬁfty-eight positives out one thousand trials,
+where approximately eight are true positives, and approximately ﬁfty are false
+positives. Under these circumstances, a p-value of 0.05 implies a false discov-
+ery rate of 86.09% (roughly 50/58). For this reason alone, we should expect that
+most discoveries in ﬁnancial econometrics are likely false.
+25 This argument leads to the same conclusion we reached in Section 6: p-values report a rather
+uninformative probability. It is possible for a statistical test to have high conﬁdence (low p-value)
+and low precision.
+106
+Machine Learning for Asset Managers
+
+8.3 Precision and Recall under Multiple Testing
+After one trial, the probability of making a type I error is α. Suppose that we
+repeat for a second time a test with false positive probability α. At each trial, the
+probability of not making a type I error is
+1  α
+ð
+Þ. If the two trials are
+independent, the probability of not making a type I error on the ﬁrst and second
+tests is 1  α
+ð
+Þ2. The probability of making at least one type I error is the
+complement, 1  1  α
+ð
+Þ2. If we conduct K independent trials, the joint prob-
+ability of not making a single type I error is 1  α
+ð
+ÞK. Hence, the probability of
+making at least one type I error is the complement, αK ¼ 1  1  α
+ð
+ÞK. This is
+also known as the familywise error rate (FWER).
+After one trial, the probability of making a type II error is β. After K
+independent trials, the probability of making a type II error on all of them is
+βK ¼ βK. Note the difference with FWER. In the false positive case, we are
+interested in the probability of making at least one error. This is because a single
+false alarm is a failure. However, in the false negative case, we are interested in
+the probability that all positives are missed. As K increases, αK grows and βK
+shrinks.
+The precision and recall adjusted for multiple testing are
+precision ¼
+1  βK
+ð
+Þθ
+1  βK
+ð
+Þθ þ αK
+¼
+1  βK
+
+
+θ
+1  βK
+
+
+θ þ 1  1  α
+ð
+ÞK
+recall ¼ 1  βK ¼ 1  βK:
+8.4 The Sharpe Ratio
+Financial analysts do not typically assess the performance of a strategy in terms
+of precision and recall. The most common measure of strategy performance is
+the Sharpe ratio. In what follows, we will develop a framework for assessing the
+probability that a strategy is false. The inputs are the Sharpe ratio estimate, as
+well as metadata captured during the discovery process.26
+Consider an investment strategy with excess returns (or risk premia)
+rtg
+f
+,
+t ¼ 1; . . . ; T, which are independent and identically distributed (IID) Normal,
+rt e N½μ; σ2;
+26 Perhaps analysts should use precision and recall instead of the Sharpe ratio, but that’s beyond the
+point. Financial mathematicians rarely have the luxury of framing the problems they work on,
+unlike topologists, set theorists, algebraic geometers, etc.
+107
+Elements in Quantitative Finance
+
+where N½μ; σ2 represents a Normal distribution with mean μ and variance σ2.
+Following Sharpe (1966, 1975, 1994), the (nonannualized) Sharpe Ratio of such
+strategy is deﬁned as
+SR ¼ μ
+σ :
+Because parameters μ and σ are not known, SR is estimated as
+c
+SR ¼
+E½ rtg
+f
+
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+V½ rtg
+f
+
+p
+:
+Under the assumption that returns are IID Normal, Lo (2002) derived the
+asymptotic distribution of c
+SR as
+c
+SR  SR
+
+
+→
+a N 0; 1 þ 1
+2 SR2
+T
+"
+#
+:
+However, empirical evidence shows that hedge fund returns exhibit substan-
+tial negative skewness and positive excess kurtosis (among others, see Brooks
+and Kat 2002; Ingersoll et al. 2007). Wrongly assuming that returns are IID
+Normal can lead to a gross underestimation of the false positive probability.
+Under the assumption that returns are drawn from IID non-Normal distribu-
+tions, Mertens (2002) derived the asymptotic distribution of c
+SR as
+c
+SR  SR
+
+
+→
+a N 0; 1 þ 1
+2 SR2  γ3SR þ γ43
+4 SR2
+T
+"
+#
+;
+where γ3 is the skewness of
+rtg
+f
+, and γ4 is the kurtosis of
+rtg
+f
+(γ3 ¼ 0 and
+γ4 ¼ 3 when returns follow a Normal distribution). Shortly after, Christie
+(2005) and Opdyke (2007) discovered that, in fact, Mertens’s equation is also
+valid under the more general assumption that returns are stationary and ergodic
+(not necessarily IID). The key implication is that ^
+SR still follows a Normal
+distribution even if returns are non-Normal, however with a variance that partly
+depends on the skewness and kurtosis of the returns.
+8.5 The “False Strategy” Theorem
+A researcher may carry out a large number of historical simulations
+(trials), and report only the best outcome (maximum Sharpe ratio). The
+distribution of the maximum Sharpe ratio is not the same as the distribu-
+tion of a Sharpe ratio randomly chosen among the trials, hence giving rise
+to SBuMT. When more than one trial takes place, the expected value of the
+108
+Machine Learning for Asset Managers
+
+maximum Sharpe ratio is greater than the expected value of the Sharpe
+ratio from a random trial. In particular, given an investment strategy with
+expected Sharpe ratio zero and nonnull variance, the expected value of the
+maximum Sharpe ratio is strictly positive, and a function of the number of
+trials.
+Given the above, the magnitude of SBuMT can be expressed in terms of the
+difference between the expected maximum Sharpe ratio and the expected
+Sharpe ratio from a random trial (zero, in the case of a false strategy). As it
+turns out, SBuMT is a function of two variables: the number of trials, and the
+variance of the Sharpe ratios across trials. The following theorem formally
+states that relationship. A proof can be found in Appendix B.
+Theorem: Given a sample of estimated performance statistics fc
+SRkg,
+k ¼ 1; . . . ; K, drawn from independent and identically distributed Gaussians,
+c
+SRk e N½0; V½c
+SRk, then
+E
+max
+k
+fc
+SRkg
+
+i
+V
+h
+fc
+SRkg
+i1
+2 ≈1  γ
+ð
+ÞZ1 1  1
+K
+
+
+þ γZ1 1  1
+Ke
+
+
+;
+where Z1½: is the inverse of the standard Gaussian CDF, E½: is the expected
+value, V½: is the variance, e is Euler’s number, and γ is the Euler–Mascheroni
+constant.
+8.6 Experimental Results
+The False Strategy theorem provides us with an approximation of the
+expected maximum Sharpe ratio. An experimental analysis of this theorem
+can be useful at two levels. First, it can help us ﬁnd evidence that the
+theorem is not true, and in fact the proof is ﬂawed. Of course, the converse
+is not true: experimental evidence can never replace the role of a mathe-
+matical proof. Still, experimental evidence can point to problems with the
+proof, and give us a better understanding of what the proof should look
+like. Second, the theorem does not provide a boundary for the approxima-
+tion. An experimental analysis can help us estimate the distribution of the
+approximation error.
+The following Monte Carlo experiment evaluates the accuracy of the False
+Strategy theorem. First, given a pair of values ðK; V½fc
+SRkgÞ, we generate a
+random array of size SxK
+ð
+Þ, where S is the number of Monte Carlo experiments.
+The values contained by this random array are drawn from a Standard Normal
+distribution. Second, the rows in this array are centered and scaled to match zero
+mean and V½fc
+SRkg variance. Third, the maximum value across each row is
+109
+Elements in Quantitative Finance
+
+computed, maxkfc
+SRkg, resulting in a number S of such maxima. Fourth, we
+compute the average value across the S maxima, ^E½ maxkfc
+SRkg. Fifth, this
+empirical (Monte Carlo) estimate of the expected maximum SR can then be
+compared with the analytical solution provided by the False Strategy theorem,
+E½ maxkfc
+SRkg. Sixth, the estimation error is deﬁned in relative terms to the
+predicted value, as
+ε ¼
+^E½ maxkfc
+SRkg
+E½ maxkfc
+SRkg
+ 1:
+Seventh, we repeat the previous steps R times, resulting in fεrgr¼1;...;R estima-
+tion errors, allowing us to compute the mean and standard deviation of the
+estimation errors associated with K trials. Code Snippet 8.1 implements this
+Monte Carlo experiment in python.
+SNIPPET 8.1 EXPERIMENTAL VALIDATION OF THE FALSE STRATEGY THEOREM
+import numpy as np,pandas as pd
+from scipy.stats import norm,percentileofscore
+#---------------------------------------------------
+def getExpectedMaxSR(nTrials,meanSR,stdSR):
+# Expected max SR, controlling for SBuMT
+emc=0.577215664901532860606512090082402431042159336
+sr0=(1-emc)*norm.ppf(1-1./nTrials)+ /
+emc*norm.ppf(1-(nTrials*np.e)**-1)
+sr0=meanSR+stdSR*sr0
+return sr0
+#---------------------------------------------------
+def getDistMaxSR(nSims,nTrials,stdSR,meanSR):
+# Monte Carlo of max{SR} on nTrials, from nSims simulations
+rng=np.random.RandomState()
+out=pd.DataFrame()
+for nTrials_ in nTrials:
+#1) Simulated Sharpe ratios
+sr=pd.DataFrame(rng.randn(nSims,nTrials_))
+sr=sr.sub(sr.mean(axis=1),axis=0) # center
+sr=sr.div(sr.std(axis=1),axis=0) # scale
+sr=meanSR+sr*stdSR
+#2) Store output
+out_=sr.max(axis=1).to_frame(‘max{SR}’)
+out_[‘nTrials’]=nTrials_
+out=out.append(out_,ignore_index=True)
+return out
+#---------------------------------------------------
+110
+Machine Learning for Asset Managers
+
+Figure 8.1 helps us visualize the outcomes from this experiment, for a wide
+range of trials (in the plot, between 2 and 1 million). For V½fc
+SRkg ¼ 1 and any
+given number of trials K, we simulate the maximum Sharpe ratio 10,000 times,
+so that we can derive the distribution of maximum Sharpe ratios. The y-axis
+shows that distribution of the maximum Sharpe ratios ( maxkfc
+SRkg) for each
+number of trials K (x-axis), when the true Sharpe ratio is zero. Results with a
+higher probability receive a lighter color. For instance, if we conduct 1,000 trials,
+the expected maximum Sharpe ratio (E½ maxkfc
+SRkg) is 3.26, even though the
+true Sharpe ratio of the strategy is null. As expected, there is a raising hurdle that
+the researcher must beat as he conducts more backtests. We can compare these
+experimental results with the results predicted by the False Strategy theorem,
+which are represented with a dashed line. The comparison of these two results
+if __name__==‘__main__’:
+nTrials=list(set(np.logspace(1,6,1000).astype(int)));nTrials.sort()
+sr0=pd.Series({i:getExpectedMaxSR(i,meanSR=0,stdSR=1) \
+for i in nTrials})
+sr1=getDistMaxSR(nSims=1E3,nTrials=nTrials,meanSR=0,
+stdSR=1)
+1
+2
+3
+4
+5
+6
+7
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+101
+102
+103
+Number of trials
+max{SR} across uninformed strategies, for std(SR)=1
+104
+105
+106
+E[max{SR}] (prior)
+E[max{SR}], max{SR}
+max{SR} (observed)
+Figure 8.1 Comparison of experimental and theoretical results from the False
+Strategy theorem.
+111
+Elements in Quantitative Finance
+
+(experiments and theoretical) seems to indicate that the False Strategy theorem
+accurately estimates the expected maximum SR for the range of trials studied.
+We turn now our attention to evaluating the precision of the theorem’s
+approximation. We deﬁne the approximation error as the difference between
+the experimental prediction (based on 1,000 simulations) and the theorem’s
+prediction, divided by the theorem’s prediction. We can then reevaluate these
+estimation errors one hundred times for each number of trials K and derive the
+mean and standard deviation of the errors. Code Snippet 8.2 implements a
+second Monte Carlo experiment that evaluates the accuracy of the theorem.
+Figure 8.2 plots the results from this second experiment. The circles represent
+average errors relative to predicted values (y-axis), computed for alternative
+numbers of trials (x-axis). From this result, it appears that the False Strategy
+theorem produces asymptotically unbiased estimates. Only at K ≈50, the
+theorem’s estimate exceeds the experimental value by approx. 0.7%.
+SNIPPET 8.2 MEAN AND STANDARD DEVIATION OF THE PREDICTION ERRORS
+def getMeanStdError(nSims0,nSims1,nTrials,stdSR=1,meanSR=0):
+# Compute standard deviation of errors per nTrial
+# nTrials: [number of SR used to derive max{SR}]
+# nSims0: number of max{SR} used to estimate E[max{SR}]
+# nSims1: number of errors on which std is computed
+sr0=pd.Series({i:getExpectedMaxSR(i,meanSR,stdSR) \
+for i in nTrials})
+sr0=sr0.to_frame(‘E[max{SR}]’)
+sr0.index.name=‘nTrials’
+err=pd.DataFrame()
+for i in xrange(int(nSims1)):
+sr1=getDistDSR(nSims=1E3,nTrials=nTrials,meanSR=0,
+stdSR=1)
+sr1=sr1.groupby(‘nTrials’).mean()
+err_=sr0.join(sr1).reset_index()
+err_[‘err’]=err_[‘max{SR}’]/err_[‘E[max{SR}]’]-1.
+err=err.append(err_)
+out={‘meanErr’:err.groupby(‘nTrials’)[‘err’].mean()}
+out[‘stdErr’]=err.groupby(‘nTrials’)[‘err’].std()
+out=pd.DataFrame.from_dict(out,orient=‘columns’)
+return out
+#---------------------------------------------------
+if __name__==‘__main__’:
+nTrials=list(set(np.logspace(1,6,1000).astype(int)));nTrials.sort()
+stats=getMeanStdError(nSims0=1E3,nSims1=1E2,
+nTrials=nTrials,stdSR=1)
+112
+Machine Learning for Asset Managers
+
+The crosses represent the standard deviation of the errors (y-axis), derived
+for different numbers of trials (x-axis). From this experiment, we can deduce
+that the standard deviations are relatively small, below 0.5% of the values
+forecasted by the theorem, and they become smaller as the number of trials
+raises.
+8.7 The Deﬂated Sharpe Ratio
+The main conclusion from the False Strategy theorem is that, unless
+maxkfc
+SRkg≫E½maxkfc
+SRkg, the discovered strategy is likely to be a false
+positive. If we can compute E½ maxkfc
+SRkg, we can use that value to set the null
+hypothesis that must be rejected to conclude that the performance of the strategy
+is statistically signiﬁcant, H0 ¼ E½ maxkfc
+SRkg. Then, the deﬂated Sharpe ratio
+(Bailey and López de Prado 2014) can be derived as
+d
+DSR ¼ Z
+c
+SR  E maxkfc
+SRkg
+h
+i
+
+
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+T  1
+p
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1  ^γ3 c
+SR þ ^γ41
+4
+c
+SR2
+q
+2
+64
+3
+75:
+d
+DSR can be interpreted as the probability of observing a Sharpe ratio greater
+or equal to c
+SR subject to the null hypothesis that the true Sharpe ratio is zero,
+while adjusting for skewness, kurtosis, sample length, and multiple testing. The
+calculation of d
+DSR requires the estimation of E½ maxkfc
+SRkg, which in turn
+–0.015
+–0.010
+–0.005
+0.000
+Mean[err], std[err]
+0.005
+0.010
+0.015
+Mean[err]
+Std[err]
+101
+102
+103
+Number of trials
+104
+105
+106
+Figure 8.2 Statistics of the approximation errors as a function of the number of
+trials.
+113
+Elements in Quantitative Finance
+
+requires the estimation of K and V½fc
+SRkg. Here is where ML comes to our
+rescue, as explained next.
+8.7.1 Eﬀective Number of Trials
+The False Strategy theorem requires knowledge of the number of independent
+trials within a family of tests. However, it is uncommon for ﬁnancial researchers
+to run independent trials. A more typical situation is for researchers to try
+different strategies, where multiple trials are run for each strategy. Trials
+associated with one strategy presumably have higher correlations to one another
+than to other strategies. This relationship pattern can be visualized as a block
+correlation matrix. For example, Figure 8.3 plots a real example of a correlation
+matrix between 6,385 backtested returns series for the same investment uni-
+verse, before and after clustering (for a detailed description of this example, see
+López de Prado 2019a). The ONC algorithm (Section 4) discovers the existence
+of four differentiated strategies. Hence, in this example we would estimate that
+E½K ¼ 4. This is a conservative estimate, since the true number K of indepen-
+dent strategies must be smaller than the number of low-correlated strategies.
+8.7.2 Variance across Trials
+In this section, we follow closely López de Prado and Lewis (2018). Upon
+completion of the clustering above, ONC has successfully partitioned our N
+strategies into K groups, each of which is construed of highly correlated
+strategies. We can further utilize this clustering to reduce the N strategies to
+K≪N cluster-level strategies. Upon creation of these “cluster strategies,” we
+derive our estimate of V½fc
+SRkg, where k ¼ 1; . . . ; K.
+For a given cluster k, the goal is to form an aggregate cluster returns time
+series Sk;t. This necessitates choosing a weighting scheme for the aggregation. A
+good candidate is the minimum variance allocation, because it prevents that
+individual trials with high variance dominate the cluster’s returns. Let Ck denote
+the set of strategies in cluster k, Σk the covariance matrix restricted to strategies
+in Ck, ri;t the returns series for strategy i 2 Ck, and wk;i the weight associated
+with strategy i 2 Ck. Then, we compute
+fwk;igi2Ck ¼
+Σ1
+k 1k
+1k
+0Σ1
+k 1k
+Sk;t ¼
+X
+i2Ck
+wk;iri;t;
+114
+Machine Learning for Asset Managers
+
+1.00
+0.75
+0.50
+0.25
+0.00
+–0.25
+–0.50
+–0.75
+1.00
+0.75
+0.50
+0.25
+0.00
+–0.25
+–0.50
+–0.75
+(a)
+(b)
+Figure 8.3 Clustering of 6,385 trials, typical of multiple testing of a group of
+strategies, before and after clustering.
+Source: López de Prado (2019a)
+115
+Elements in Quantitative Finance
+
+where 1k is the characteristic vector of 1s, of size jjCkjj. A robust method of
+computing wk can be found in López de Prado and Lewis (2018). With the
+cluster returns time series Sk;t now computed, we estimate each SR (c
+SRk).
+However, these c
+SRk are not yet comparable, as their betting frequency may
+vary. To make them comparable, we must ﬁrst annualize each. Accordingly, we
+calculate the average number of bets per year as
+Yearsk ¼ Last Datek  First Datek
+365:25
+Frequencyk ¼
+Tk
+Yearsk
+;
+where Tk is the length of the Sk;t, and First Datek and Last Datek are the ﬁrst and
+last dates of trading for Sk;t, respectively. With this, we estimate the annualized
+Sharpe ratio (aSR) as
+d
+aSRk ¼
+E½fSk;tgFrequencyk
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+V½fSk;tgFrequencyk
+p
+¼ c
+SRk
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+Frequencyk:
+p
+With these now comparable d
+aSRk, we can estimate the variance of clustered
+trials as
+E½V½fc
+SRkg ¼ V½fd
+aSRkg
+Frequencyk ;
+where Frequencyk is the frequency of the selected cluster, k. The above
+equation expresses the estimated variance of clustered trials in terms of the
+frequency of the selected strategy, in order to match the (nonannualized)
+frequency of the ^
+SR estimate.
+8.8 Familywise Error Rate
+This section has so far explained how to derive the probability that an invest-
+ment strategy is false, using the False Strategy theorem. In this section we
+discuss an alternative method, which relies on the notion of familywise error
+rate.
+Under the standard Neyman–Pearson hypothesis testing framework,
+we reject a null hypothesis H0 with conﬁdence
+1  α
+ð
+Þ when we observe
+an event that, should the null hypothesis be true, could only occur with
+probability
+α.
+Then,
+the
+probability
+of
+falsely
+rejecting
+the
+null
+hypothesis (type I error) is α. This is also known as the probability of a false
+positive.
+116
+Machine Learning for Asset Managers
+
+When Neyman and Pearson (1933) proposed this framework, they did
+not consider the possibility of conducting multiple tests and select the best
+outcome. As we saw in Section 8.3, when a test is repeated multiple times,
+the combined false positive probability increases. After a “family” of K
+independent tests, we would reject H0 with conﬁdence 1  α
+ð
+ÞK, hence the
+“family” false positive probability (or familywise error rate, FWER) is
+αK ¼ 1  1  α
+ð
+ÞK. This is the probability that at least one of the positives is
+false, which is the complement to the probability that none of the positives is
+false, 1  α
+ð
+ÞK.
+8.8.1 Šidàk’s Correction
+Suppose that we set a FWER over K independent tests at αK. Then, the
+individual false positive probability can be derived from the above equation
+as α ¼ 1  1  αK
+ð
+Þ1=K. This is known as the Šidàk correction for multiple
+testing (Šidàk 1967), and it can be approximated as the ﬁrst term of a Taylor
+expansion, α ≈αK=K (known as Bonferroni’s approximation).
+As we did earlier, we can apply the ONC algorithm to estimate E½K. While it
+is true that the E½K trials are not perfectly uncorrelated, they provide a con-
+servative estimate of the minimum number of clusters the algorithm could not
+reduce further. With this estimate E½K, we can apply Šidàk’s correction, and
+compute the type I error probability under multiple testing, αK.
+8.8.2 Type I Errors under Multiple Testing
+Consider an investment strategy with returns time series of size T. We estimate
+the Sharpe ratio, c
+SR, and subject that estimate to a hypothesis test, where
+H0 : SR ¼ 0 and H1 : SR > 0. We wish to determine the probability of a false
+positive when this test is applied multiple times.
+Bailey and López de Prado (2012) derived the probability that the true Sharpe
+ratio exceeds a given threshold SR, under the general assumption that returns
+are stationary and ergodic (not necessarily IID Normal). If the true Sharpe ratio
+equals SR, the statistic ^z½SR is asymptotically distributed as a Standard
+Normal,
+^z½SR ¼
+c
+SR  SR
+
+
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+T  1
+p
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1  ^γ3 c
+SR þ ^γ41
+4
+c
+SR2
+q
+→
+a Z;
+where ^
+SR is the estimated Sharpe ratio (nonannualized), T is the number of
+observations, ^γ3 is the skewness of the returns, and ^γ4 is the kurtosis of the
+returns. Familywise type I errors occur with probability
+117
+Elements in Quantitative Finance
+
+P½ max
+k
+f^z½0kgk¼1;...;K > zαjH0 ¼ 1  1  α
+ð
+ÞK ¼ αK:
+For a FWER αK, Šidàk’s correction gives us a single-trial signiﬁcance level
+α ¼ 1  1  αK
+ð
+Þ1=K. Then, the null hypothesis is rejected with conﬁdence
+1  αK
+ð
+Þ if maxk f^z½0kgk¼1;...;K > zα, where zα is the critical value of the
+Standard Normal distribution that leaves a probability α to the right,
+zα ¼ Z1½1  α ¼ Z1½ 1  αK
+ð
+Þ1=K, and Z½: is the CDF of the standard
+Normal distribution.
+Conversely, we can derive the type I error under multiple testing (αK) as
+follows: ﬁrst, apply the clustering procedure on the trials correlation matrix, to
+estimate
+clusters’
+returns
+series
+and
+E½K;
+second,
+estimate
+^z½0 ¼ maxk f^z½0kgk¼1;...;K on the selected cluster’s returns; third, compute
+the type I error for a single test, α ¼ 1  Z½^z½0; fourth, correct for multiple
+testing, αK ¼ 1  1  α
+ð
+ÞK, resulting in
+αK ¼ 1  Z½^z½0E½K:
+Let us illustrate the above calculations with a numerical example.
+Suppose that after conducting 1,000 trials, we identify an investment
+strategy with a Sharpe ratio of 0.0791 (nonannualized), skewness of
+−3, kurtosis of 10, computed on 1,250 daily observations (ﬁve years, at
+250 annual observations). These levels of skewness and kurtosis are
+typical of hedge fund returns sampled with daily frequency. From these
+inputs we derive ^z½0 ≈2:4978 and α ≈0:0062. At this type I error probability,
+most researchers would reject the null hypothesis, and declare that a new
+investment strategy has been found. However, this α is not adjusted for the
+E½K trials it took to ﬁnd this strategy. We apply our ONC algorithm, and
+conclude that out of the 1,000 (correlated) trials, there are E½K ¼ 10 effectively
+independent trials (again, with “effectively” independent we do not assert that
+the ten clusters are strictly independent, but that the algorithm could not ﬁnd
+more uncorrelated groupings). Then, the corrected FWER is αK ≈0:0608. Even
+though the annualized Sharpe ratio is approx. 1.25, the probability that this
+strategy is a false discovery is relatively high, for two reasons: (1) the number of
+trials, since αK ¼ α ≈0:0062 if E½K ¼ 1; (2) the non-Normality of the returns,
+since αK ≈0:0261 should returns have been Normal. As expected, wrongly
+assuming Normal returns leads to a gross underestimation of the type I error
+probability. Code Snippet 8.3 provides the python code that replicates these
+results.
+118
+Machine Learning for Asset Managers
+
+8.8.3 Type II Errors under Multiple Testing
+Suppose that the alternative hypothesis (H1 : SR > 0) for the best strategy
+is true, and SR ¼ SR. Then, the power of the test associated with a
+FWER αK is
+P½ max
+k
+f^z½0kgk¼1;...;K > zαjSR ¼ SR
+¼ P
+c
+SR þ SR  SR
+
+
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+T  1
+p
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1  ^γ3 c
+SR þ ^γ41
+4
+c
+SR2
+q
+> zαjSR ¼ SR
+2
+64
+3
+75
+¼ P ^z½SR > zα 
+SR
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+T  1
+p
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1  ^γ3 c
+SR þ ^γ41
+4
+c
+SR2
+q
+jSR ¼ SR
+2
+64
+3
+75
+¼ 1  P ^z½SR < zα 
+SR
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+T  1
+p
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1  ^γ3 c
+SR þ ^γ41
+4
+c
+SR2
+q
+jSR ¼ SR
+2
+64
+3
+75
+SNIPPET 8.3 TYPE I ERROR, WITH NUMERICAL EXAMPLE
+import scipy.stats as ss
+#---------------------------------------------------
+def getZStat(sr,t,sr_=0,skew=0,kurt=3):
+z=(sr-sr_)*(t-1)**.5
+z/=(1-skew*sr+(kurt-1)/4.*sr**2)**.5
+return z
+#---------------------------------------------------
+def type1Err(z,k=1):
+# false positive rate
+alpha=ss.norm.cdf(-z)
+alpha_k=1-(1-alpha)**k # multi-testing correction
+return alpha_k
+#---------------------------------------------------
+def main0():
+# Numerical example
+t,skew,kurt,k,freq=1250,-3,10,10,250
+sr=1.25/freq**.5;sr_=1./freq**.5
+z=getZStat(sr,t,0,skew,kurt)
+alpha_k=type1Err(z,k=k)
+print alpha_k
+return
+#---------------------------------------------------
+if __name__==‘__main__’:main0()
+119
+Elements in Quantitative Finance
+
+¼ 1  Z zα 
+SR
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+T  1
+p
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1  ^γ3 c
+SR þ ^γ41
+4
+c
+SR2
+q
+2
+64
+3
+75 ¼ 1  β;
+where zα ¼ Z1½ 1  αK
+ð
+Þ1=K. Accordingly, the individual power of the test
+increases with SR, sample length, and skewness, however it decreases with
+kurtosis. This probability 1  β
+ð
+Þ is alternatively known as the true positive
+rate, power, or recall.
+In Section 8.3, we deﬁned the familywise false negative (miss) probability as
+the probability that all individual positives are missed, βK ¼ βK. For a given
+pair αK; βK
+ð
+Þ, we can derive the pair α; β
+ð
+Þ and imply the value SR such that
+P½ maxkf^z½0kgk¼1;...;K > zαjSR ¼ SR ¼ 1  β. The interpretation is that, at a
+FWER αK, achieving a familywise power above 1  βK
+ð
+Þ requires that the true
+Sharpe ratio exceeds SR. In other words, the test is not powerful enough to
+detect true strategies with a Sharpe ratio below that implied SR.
+We can derive the Type II error under multiple testing (βK) as follows: ﬁrst,
+given a FWER αK, which is either set exogenously or it is estimated as
+explained in the previous section, compute the single-test critical value, zα;
+second, the probability of missing a strategy with Sharpe ratio SR is
+β ¼ Z½zα  θ, where
+θ ¼
+SR
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+T  1
+p
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1  ^γ3 c
+SR þ ^γ41
+4
+c
+SR2
+q
+;
+third, from the individual false negative probability, we derive βK ¼ βK as the
+probability that all positives are missed.
+Let us apply the above equations to the numerical example in the previous
+section. There, we estimated that the FWER was αK ≈0:0608, which implies a
+critical value zα ≈2:4978. Then, the probability of missing a strategy with a true
+Sharpe ratio SR ≈0:0632 (nonannualized) is β ≈0:6913, where θ ≈1:9982.
+This high individual Type II error probability is understandable, because the
+test is not powerful enough to detect such a weak signal (an annualized Sharpe
+ratio of only 1.0) after a single trial. But because we have conducted ten trials,
+βK ≈0:0249. The test detects more than 97.5% of the strategies with a true
+Sharpe ratio SR ≥0:0632. Code Snippet 8.4 provides the python code that
+replicates these results (see Code Snippet 8.3 for functions getZStat and
+type1Err).
+120
+Machine Learning for Asset Managers
+
+8.8.4 The Interaction between Type I and Type II Errors
+Figure 8.4 illustrates the interrelation between α and β. The top distribution
+models the probability of ^
+SR estimates under the assumption that H0 is true. The
+bottom distribution (plotted upside down, to facilitate display) models the
+probability of
+^
+SR estimates under the assumption that H1 is true, and in
+particular under the scenario where SR ¼ 1. The sample length, skewness,
+and kurtosis inﬂuence the variance of these two distributions. Given an actual
+estimate c
+SR, those variables determine the probabilities α and β, where decreas-
+ing one implies increasing the other. In most journal articles, authors focus on
+the “top” distribution and ignore the “bottom” distribution.
+The analytic solution we derived for Type II errors makes it obvious that this
+trade-off also exists between αK and βK, although in a not so straightforward
+manner as in the K ¼ 1 case. Figure 8.5 shows that, for a ﬁxed αK, as K
+increases, α decreases, zα increases, hence β increases.
+SNIPPET 8.4 TYPE II ERROR, WITH NUMERICAL EXAMPLE
+def getTheta(sr,t,sr_=0,skew=0,kurt=3):
+theta=sr_*(t-1)**.5
+theta/=(1-skew*sr+(kurt-1)/4.*sr**2)**.5
+return theta
+#---------------------------------------------------
+def type2Err(alpha_k,k,theta):
+# false negative rate
+z=ss.norm.ppf((1-alpha_k)**(1./k)) # Sidak’s correction
+beta=ss.norm.cdf(z-theta)
+return beta
+#---------------------------------------------------
+def main0():
+# Numerical example
+t,skew,kurt,k,freq=1250,-3,10,10,250
+sr=1.25/freq**.5;sr_=1./freq**.5
+z=getZStat(sr,t,0,skew,kurt)
+alpha_k=type1Err(z,k=k)
+theta=getTheta(sr,t,sr_,skew,kurt)
+beta=type2Err(alpha_k,k,theta)
+beta_k=beta**k
+print beta_k
+return
+#---------------------------------------------------
+if __name__==‘__main__’:main0()
+121
+Elements in Quantitative Finance
+
+–0.4
+–3
+–2
+–1
+0
+1
+2
+3
+–0.3
+–0.2
+–0.1
+0.0
+0.1
+0.2
+0.3
+0.4
+z[0]
+^
+H0 : SR = 0
+H1 : SR > 0
+0
+zα
+α
+θ
+β = Z[zα – θ]
+–pdf[z[0]|H1], pdf [z[0]|H0]
+^
+Figure 8.4 Illustration of the interrelation between α and β.
+–0.4
+–3
+–2
+–1
+0
+1
+2
+3
+–0.3
+–0.2
+–0.1
+0.0
+0.1
+0.2
+0.3
+0.4
+z[0]
+^
+H0 : SR = 0
+H1 : SR > 0
+0
+zα
+αk
+θ
+β = Z[zα – θ]
+–pdf[z[0]|H1], pdf [z[0]|H0]
+^
+H0 : SR = 0
+H1 : SR > 0
+0
+zα
+αk
+θ
+β = Z[zα – θ]
+Figure 8.5 The interaction between αK and β.
+122
+Machine Learning for Asset Managers
+
+Figure 8.6 plots βK as K increases for various levels of αK. Although β
+increases with K, the overall effect is to decrease βK. For a ﬁxed αK, the equation
+that determines βK as a function of K and θ is
+βK ¼
+Z½Z1½ 1  αK
+ð
+Þ1=K
+
+i
+ θÞK:
+8.9 Conclusions
+The Sharpe ratio of an investment strategy under a single trial follows a
+Gaussian distribution, even if the strategy returns are non-Normal (still, returns
+must be stationary and ergodic). Researchers typically conduct a multiplicity of
+trials, and selecting out of them the best performing strategy increases the
+probability of selecting a false strategy. In this section, we have studied two
+alternative procedures to evaluate the extent to which testing set overﬁtting
+invalidates a discovered investment strategy.
+The ﬁrst approach relies on the False Strategy theorem. This theorem derives
+the expected value of the maximum Sharpe ratio, E½ maxkfc
+SRkg, as a function
+of the number of trials, K, and the variance of the Sharpe ratios across the trials,
+V½fc
+SRkg. ML methods allow us to estimate these two variables. With this
+estimate of E½ maxkfc
+SRkg, we can test whether maxkfc
+SRkg is statistically
+signiﬁcant, using the deﬂated Sharpe ratio (Bailey and López de Prado 2014).
+0.0
+5
+10
+15
+Number of trials (K)
+20
+25
+0.1
+0.2
+0.3
+Familywise false negative probability (βk)
+0.4
+0.5
+0.01
+0.025
+0.005
+0.6
+Figure 8.6 βK as K increases for θ ≈1:9982 and αK 2 0:01; 0:025; 0:05g
+f
+.
+123
+Elements in Quantitative Finance
+
+The second approach estimates the number of trials, K, and applies Šidàk’s
+correction to derive the familywise error rate (FWER). The FWER provides an
+adjusted rejection threshold on which we can test whether maxkfc
+SRkg is
+statistically signiﬁcant, using the distributions proposed by Lo (2002) and
+Mertens (2002). Researchers can use these analytical estimates of the family-
+wise false positives probability and familywise false negatives probability when
+they design their statistical tests.
+8.10 Exercises
+1 Following the approach described in Section 8.2, plot the precision and recall
+associated with a test as a function of θ 2 ½0; 1, where α ¼ β ¼ 0:05 and
+K ¼ 1. Is this consistent with your intuition?
+2 Repeat Exercise 1, plotting a surface as a function of K ¼ 1; . . . ; 25. What is
+the overall effect of multiple testing on precision and recall?
+3 Consider a strategy with ﬁve years of daily IID Normal returns. The best trial
+out of ten yields an annualized Sharpe ratio of 2, where the variance across
+the annualized Sharpe ratios is 1.
+a What is the expected maximum Sharpe ratio? Hint: Apply the False
+Strategy theorem.
+b After one trial, what is the probability of observing a maximum Sharpe
+ratio equal or higher than 2? Hint: This is the probabilistic Sharpe ratio.
+c After ten trials, what is the probability of observing a maximum Sharpe
+ratio equal or higher than 2? Hint: This is the deﬂated Sharpe ratio.
+4 Consider an investment strategy that buys S&P 500 futures when a price
+moving average with a short lookback exceeds a price moving average with a
+longer lookback.
+a Generate 1,000 times series of strategy returns by applying different
+combinations of
+i Short lookback
+ii Long lookback
+iii Stop-loss
+iv Proﬁt taking
+v Maximum holding period
+b Compute the maximum Sharpe ratio out of the 1,000 experiments.
+c Derive E½ maxkfc
+SRkg, as explained in Section 8.7.
+d Compute the probability of observing a Sharpe ratio equal to or higher than
+4(b).
+5 Repeat Exercise 4, where this time you compute the familywise Type I and
+Type II errors, where SR is the median across the 1,000 Sharpe ratios.
+124
+Machine Learning for Asset Managers

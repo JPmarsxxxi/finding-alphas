@@ -1,0 +1,58 @@
+small stocks represent a large fraction of the traded universe by count while constituting a tiny
+fraction of aggregate market capitalization.7
+Heavy tails are a well known attribute of ﬁnancial returns and stock-level predictor variables.
+Convexity of the least squares objective (4) places extreme emphasis on large errors, thus outliers
+can undermine the stability of OLS-based predictions. The statistics literature, long aware of this
+problem, has developed modiﬁed least squares objective functions that tend to produce more stable
+forecasts than OLS in the presence of extreme observations.8 In the machine learning literature,
+a common choice for counteracting the deleterious eﬀect of heavy-tailed observations is the Huber
+robust objective function, deﬁned as
+LH(θ) =
+1
+NT
+N
+X
+i=1
+T
+X
+t=1
+H (ri,t+1 −g(zi,t; θ), ξ) ,
+(6)
+where
+H(x; ξ) =
+(
+x2,
+if
+|x| ≤ξ;
+2ξ|x| −ξ2,
+if
+|x| > ξ.
+.
+The Huber loss, H(·), is a hybrid of squared loss for relatively small errors and absolute loss for
+relatively large errors, where the combination is controlled by a tuning parameter, ξ, that can be
+optimized adaptively from the data.9
+While this detour introduces robust objective functions in the context of the simple linear model,
+they are easily applicable in almost all of the methods that we study. In our empirical analysis we
+study the predictive beneﬁts of robust loss functions in multiple machine learning methods.
+2.3
+Penalized Linear
+The simple linear model is bound to fail in the presence of many predictors. When the number
+of predictors P approaches the number of observations T, the linear model becomes ineﬃcient or
+even inconsistent.10
+It begins to overﬁt noise rather than extracting signal. This is particularly
+troublesome for the problem of return prediction where the signal-to-noise ratio is notoriously low.
+Crucial for avoiding overﬁt is reducing the number of estimated parameters. The most common
+machine learning device for imposing parameter parsimony is to append a penalty to the objective
+function in order to favor more parsimonious speciﬁcations. This “regularization” of the estimation
+problem mechanically deteriorates a model’s in-sample performance in hopes that it improves its
+stability out-of-sample. This will be the case when penalization manages to reduce the model’s ﬁt
+7As of Fama and French (2008), the smallest 20% of stocks comprise only 3% of aggregate market capitalization.
+An example of a statistically motivated weighting scheme uses wi,t inversely proportional to an observation’s estimated
+error variance, a choice that potentially improves prediction eﬃciency in the spirit of generalized least squares.
+8Classical analyses include Box (1953), Tukey (1960), and Huber (1964).
+9OLS is a special case of the (6) with ξ = ∞. While most theoretical analysis in high-dimensional statistics assume
+that data have sub-Gaussian or sub-exponential tails, Fan et al. (2017) provide a theoretical justiﬁcation of using this
+loss function in the high-dimensional setting as well as a procedure to determine the hyperparameter.
+10We deliberately compare P with T, instead of with NT, because stock returns share strong cross-sectional depen-
+dence, limiting the incremental information contained in new cross-section observations.
+11

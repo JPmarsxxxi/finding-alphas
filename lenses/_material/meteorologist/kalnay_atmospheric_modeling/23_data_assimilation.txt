@@ -1,0 +1,172 @@
+5
+Data assimilation
+5.1
+Introduction
+In previous chapters we saw that NWP is an initial/boundary value problem: given
+an estimate of the present state of the atmosphere (initial conditions), and appropriate
+surface and lateral boundary conditions, the model simulates (forecasts) the atmo-
+spheric evolution. Obviously, the more accurate the estimate of the initial conditions,
+the better the quality of the forecasts. Currently, operational NWP centers produce
+initial conditions through a statistical combination of observations and short-range
+forecasts. This approach has become known as “data assimilation”, whose purpose
+is deﬁned by Talagrand (1997) as “using all the available information, to determine
+as accurately as possible the state of the atmospheric (or oceanic) ﬂow.”
+There are several excellent reviews of this subject, which has become an im-
+portant science in itself. The book Atmospheric data analysis by Daley (1991) is
+a comprehensive description of methods for atmospheric data analysis and assim-
+ilation. Ghil and Malanotte-Rizzoli (1991) have written a rigorous discussion of
+present data assimilation methods with special emphasis on sequential methods. Ta-
+lagrand (1997) gives an elegant introductory overview of current methods of data
+assimilation, and Zupanski and Kalnay (1999) also provide a short introduction to
+the subject. The book Data assimilation in meteorology and oceanography: Theory
+and practice (Ghil et al., editors, 1997) contains a wealth of important papers on
+current methods for data assimilation. An earlier but still useful book is Dynamic
+meteorology: Data assimilation methods (Bengtsson et al., editors, 1981). Thiebaux
+and Pedder (1987) provided a description of spatial interpolation methods applied to
+136
+
+5.1 Introduction
+137
+meteorology. Several workshops on data assimilation have taken place at ECMWF,
+and their proceedings are extremely useful.
+In the early NWP experiments, Richardson (1922) and Charney et al. (1950)
+performed hand interpolations of the available observations to a regular grid, and
+these ﬁelds of initial conditions were then manually digitized, which was a very time
+consumingprocedure.Theneedforanautomatic“objectiveanalysis”becamequickly
+apparent (Charney, 1951), and interpolation methods ﬁtting observations to a regular
+grid were soon developed. Panofsky (1949) developed the ﬁrst objective analysis
+algorithm based on two-dimensional polynomial interpolation, a procedure that can
+be considered “global” since the same function is used to ﬁt all the observations.
+Gilchrist and Cressman (1954) developed a “local polynomial” interpolation
+scheme for the geopotential height (Fig. 5.1.1). A quadratic polynomial in x and
+y was deﬁned at each grid point:
+z(x, y) = a00 + a10x + a01y + a20x2 + a11xy + a02y2
+(5.1.1)
+The six coefﬁcients were determined by minimizing the mean square difference
+between the polynomial and observations close to the grid point (within a radius of
+inﬂuence of the grid point):
+min
+ai j E = min
+ai j
+Kz
+
+k = 1
+pk
+	
+zo
+k −z(xk, yk)
+
+2 +
+Kv
+
+k = 1
+qk
+"
+uo
+k −ug(xk, yk)
+2
++
+
+vo
+k −vg(xk, yk)
+2#
+(5.1.2)
+i
+k
+rik
+Figure 5.1.1: Schematic
+of grid points (circles),
+irregularly distributed
+observations (squares), and
+a radius of inﬂuence around
+a grid point i marked with
+a black circle. In 4DDA,
+the grid-point analysis is a
+combination of the forecast
+at the grid point (ﬁrst
+guess) and the observational
+increments (observation
+minus ﬁrst guess) computed
+at the observational points k.
+In certain analysis schemes,
+like SCM, only observations
+within the radius
+of inﬂuence, indicated by
+a circle, affect the analysis
+at the black grid point.
+
+138
+5 Data assimilation
+Here pk, qk are empirical weighting coefﬁcients, and ug, vg are the geostrophic wind
+components computed from the gradient of the geopotential height z(x, y) at the
+observation point k, and K is the total number of observations within the radius of
+inﬂuence. Note that although the ﬁeld being analyzed is just the geopotential height,
+the wind observations are useful as well because they provide additional information
+about its gradient.
+However, for operational primitive equation models, it is not enough to perform
+spatial interpolation of observations into regular grids, because not enough data are
+available to initialize current models. As pointed out in the introduction, the num-
+ber of degrees of freedom in a modern NWP model is of the order of 107, whereas
+the total number of conventional observations of the variables used in the mod-
+els (e.g., from rawinsondes) is of the order of 104. There are many new types of
+data currently available, including remotely sensed data such as satellite and radar
+observations, but they do not measure directly the variables used in the models
+(wind, temperature, moisture, and surface pressure). Moreover, their distribution in
+space and time is very nonuniform (Fig. 1.4.1), with regions like North America
+and Eurasia that are relatively data-rich, and others that are much more poorly
+observed.
+For this reason, it became clear rather early in the history of NWP that, in addition
+to the observations, it was necessary to have a complete ﬁrst guess estimate of the
+state of the atmosphere at all the grid points in order to generate the initial conditions
+for the forecasts (Bergthorsson and D¨o¨os, 1955). The ﬁrst guess (also known as
+background ﬁeld or prior information) should be our best estimate of the state of the
+atmospherepriortotheuseoftheobservations.Initiallyclimatology,oracombination
+of climatology and a short forecast were used as a ﬁrst guess (e.g., Gandin, 1963,
+Bergthorsson and D¨o¨os, 1955). As forecasts became better, the use of short-range
+forecasts as a ﬁrst guess was universally adopted in operational systems in what is
+called an “analysis cycle” (Fig. 5.1.2).
+The analysis cycle is an intermittent data assimilation system that continues to
+be used in most global operational systems, which typically use a 6-h cycle per-
+formed four times a day. The model forecast plays a very important role. Over
+data-rich regions, the analysis is dominated by the information contained in the
+observations. In data-poor regions, the forecast beneﬁts from the information up-
+stream. For example, 6-h forecasts over the North Atlantic Ocean are very good,
+even in the absence of satellite data, because of the information coming from
+North America. The forecast is thus able to transport information from data-rich
+to data-poor areas, and for this reason, data assimilation using a short-range fore-
+cast as a ﬁrst guess has become known as four-dimensional data assimilation
+(4DDA).
+In Section 5.2 we describe empirical analysis schemes (SCM and nudging), and
+Sections 5.3 et seq. are devoted to statistical interpolation schemes.
+
+(a)
+Global analysis (statistical
+interpolation) and balancing
+Global forecast model
+Initial conditions
+Observations (+/−3 h)
+Background or
+first guess
+6-h forecast
+(Operational forecasts)
+(b)
+Regional analysis (statistical
+interpolation) and balancing
+Initial conditions
+Observations (+/−30 min)
+Background
+or first guess
+1-h forecast
+Boundary conditions
+from global model
+Regional forecast model
+(Operational forecasts)
+Figure 5.1.2: (a) Typical global 6-h analysis cycle performed at 00, 06, 12, and
+18 UTC. The observations should be valid for the same time as the ﬁrst guess. In the
+global analysis this has usually meant the rawinsondes are launched mostly at the
+main observing times (00 and 12 UTC), and satellite data are lumped into windows
+centered at the main observing times. The observations can be direct observations of
+variables used by the model, or indirect observations of geophysical parameters, such
+as radiances, that depend on the variables used in the model. (b) Typical regional
+analysis cycle. The main difference with the global cycle is that boundary conditions
+coming from global forecasts are an additional requirement for the regional forecasts.

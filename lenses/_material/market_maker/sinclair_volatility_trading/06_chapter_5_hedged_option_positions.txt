@@ -1,0 +1,660 @@
+C H A P T E R 5
+Hedged Option
+Positions
+I
+n Chapter 1 we stated the central result that
+P/L = vega(σimplied −σrealized)
+(5.1)
+Actually this is only true on average. There are wide ﬂuctuations
+around this amount. In this chapter we look at the causes and magnitude
+of these ﬂuctuations so we know exactly what we can expect as the results
+of our trades.
+DISCRETE HEDGING AND PATH
+DEPENDENCY
+Imagine we buy one-year call options with a total vega of $1,000, at an
+implied volatility of 30 percent, where realized volatility over their lifetime
+is in fact 30 percent. We hedge delta each day on the close. The proﬁt/loss
+(P/L) amounts for 10 realizations of this process are given as follows:
+$(516)
+$154
+$(108)
+$(537)
+$331
+$(1,741)
+$(230)
+87
+
+88
+VOLATILITY TRADING
+–200,000
+–150,000
+–100,000
+–50,000
+0
+50,000
+0
+50
+100
+150
+200
+Terminal Stock Price
+Hedging Portfolio Value
+FIGURE 5.1
+One Hundred Realizations of the Hedging Strategy for the One-Year
+Option
+$138
+$423
+$1,984
+The average P/L is a loss of $10.2. This is reasonably close to the ex-
+pected value of zero, but there is a wide dispersion of values. No doubt in
+one universe there is a trader who is justifying his loss of $1,741 to his man-
+ager and another who is concocting a story about how his trading prowess
+made $1,984. What is really going on here? What will the actual distribu-
+tion of results look like? The central insight in the BSM argument is that
+an option can be replicated by trading the underlying. Figure 5.1 shows the
+results of 100 simulations, where we actually try to replicate this option.
+As we are long a call, the replicating portfolio should look like a short call
+position.
+So things are approximately what we expect. This indeed looks like
+the payoff from a short call position struck at 100, with the initial value
+corresponding to a vega of $1,000. But the replication isn’t perfect. There is
+signiﬁcant dispersion around the true value. The dispersion is dependent
+on the ﬁnal underlying price, with the most variability occurring when it
+expires near the strike.
+The ﬁrst thing to note is that we are not hedging continuously. Dis-
+crete hedging makes our nondirectional strategy very path dependent (this
+has nothing to do with the weak path dependence of American options as
+opposed to European options). Two sample paths with exactly the same
+realized volatility can lead to different P/Ls. Consider an extreme exam-
+ple where the all the movement of the underlying is due to one jump. In
+the ﬁrst path the jump happens on the ﬁrst day, as shown in Figure 5.2. In
+the second path the jump happens right before expiration (Figure 5.3).
+
+Hedged Option Positions
+89
+Time
+Price
+FIGURE 5.2
+Path 1: The Jump on the First Day
+In each case the position P/L is the change in the call price minus the
+change in the value of the hedge position.
+P/L = C(T) −C(0) −
+
+(t) × [S(t) −S(t −1)]
+(5.2)
+But in this special case we only need to evaluate the delta immediately
+before the jump. For the case of an at-the-money call
+Case 1:  > 0.5
+Case 2:  = 0.5
+The difference in P/L in these two instances is
+(P/L) = (1 −2) × [S(T) −S(0)]
+(5.3)
+So if we are short this call we do better in the ﬁrst instance because we
+are long more stock as a hedge. This is admittedly an extreme example but
+the general principle holds. The timing of a move is very important to the
+proﬁtability of an option.
+Time
+Price
+FIGURE 5.3
+Path 2: The Jump Right Before Expiration
+
+90
+VOLATILITY TRADING
+Frequency
+0
+2
+4
+6
+8
+10
+12
+14
+16
+18
+–18,000
+–16,000
+–14,000
+–12,000
+–10,000
+–8,000
+–6,000
+–4,000
+–2,000
+0
+2,000
+4,000
+6,000
+8,000
+10,000
+12,000
+14,000
+16,000
+18,000
+More
+P/L
+Percentage of Observations
+FIGURE 5.4
+The P/L Distribution for $1,000 Vega of Initially At-the-Money Op-
+tions When Hedged Once a Week
+Let’s now look in more detail at the size and nature of this effect when
+we have more realistic sample paths. Take a stock initially trading at $100.
+Assume rates, dividends, and the drift are zero. Again we buy one-year call
+options with a total vega of $1,000, at an implied volatility of 30 percent,
+and simulate 100 paths where the realized volatility over their lifetime is in
+fact 30 percent. Speciﬁcally we use geometric Brownian motion (GBM), so
+the stock path is given by
+S(t + t) = S(t) exp
+
+−σ 2
+2 t + σ
+√
+tε
+
+(5.4)
+where ε is drawn from a standard normal distribution with mean of zero
+and standard deviation of 1.
+In Figure 5.4 we hedge weekly, and in Figure 5.5 we hedge daily. The
+results are summarized in Table 5.1.
+TABLE 5.1
+Summary Statistics for the Hedging Frequency Experiment
+Hedge Frequency
+P/L
+σ P/L
+Kurtosis
+Skew
+Daily
+−107.19
+2,615.2
+4.05
+0.25
+Weekly
+−140.36
+5,714.6
+3.66
+0.16
+
+Hedged Option Positions
+91
+Frequency
+0
+5
+10
+15
+20
+25
+30
+35
+Percentage of Observations
+–18,000
+–16,000
+–14,000
+–12,000
+–10,000
+–8,000
+–6,000
+–4,000
+–2,000
+2,000
+0
+4,000
+6,000
+8,000
+10,000
+12,000
+14,000
+16,000
+18,000
+More
+P/L
+FIGURE 5.5
+The P/L Distribution for $1,000 Vega of Initially At-the-Money Op-
+tions When Hedged Once a Day
+From this crude experiment we can draw some tentative conclusions:
+r The average P/L is roughly zero.
+r The distribution is roughly normal looking.
+r The dispersion is inversely proportional to the hedging frequency;
+more speciﬁcally, it is closely approximated by N–1/2 when N is the
+number of hedges (see Figure 5.6).
+We said earlier that “realized volatility over their lifetime is in fact
+30 percent.” This wasn’t exactly true. The process that generated the
+0
+2,000
+4,000
+6,000
+8,000
+10,000
+12,000
+0
+50
+100
+150
+200
+250
+300
+Number of Hedges
+Standard Deviation of P/L
+FIGURE 5.6
+The Distribution of the Hedging Error as a Function of the Number
+of Rebalances
+
+92
+VOLATILITY TRADING
+underlying price did have a volatility of 30 percent. But we were only ob-
+serving the process at discrete intervals. This introduces sampling error.
+From Chapter 2, equation (2.10), we can see that that the sampling error is
+given by
+σmeasured ≈σ ±
+σ
+√
+2N
+(5.5)
+So the volatility of the P/L as a function of the initial option value will be
+approximated by
+σP/L ≈vega
+σ
+√
+2N
+(5.6)
+This argument isn’t rigorous and isn’t actually correct either. The actual
+relationship is given by
+σP/L ≈
+π
+4 vega σ
+√
+N
+(5.7)
+(Kamal and Derman 1999).
+This result can be used to derive a useful rule of thumb for the standard
+deviation of a straddle position. An approximation for the value of an at-
+the-money option (put or call) is given by
+C ≈
+1
+√
+2π
+Sσ
+√
+T
+(5.8)
+(Brenner and Subrahmanyam, 1994). So the vega of a straddle (a put and a
+call) is approximately
+vega ≈
+2
+√
+2π
+S
+√
+T
+(5.9)
+If we think of the straddle as a single volatility bet and hedge only once,
+equation 5.7 gives us
+σP/L ≈
+1
+√
+2
+S
+√
+Tσ
+(5.10)
+Also note that in this case only the actual realized volatility is relevant. It
+only matters where we are at expiry, not what the option market is implying
+after we have done our trade.
+The important point is that a trader can be correct about his assess-
+ment of realized volatility and still not make money. This is just the risk
+we take for not hedging inﬁnitely often and running up an inﬁnite amount
+of trading cost. This variability is unfortunate but we can always reduce it
+
+Hedged Option Positions
+93
+by hedging more frequently. Note that this is when the underlying follows a
+diffusive process. If there are jumps, we can’t alleviate the issue by hedging
+more often. In the real world there are simply some risks we can’t hedge
+away. An equity trader is trading drift but he is also exposed to volatility
+risk and path dependency. Being long a stock that moves smoothly from
+100 to 110 in one-dollar increments is very different to being long a stock
+that moves from 100 to 110 but dropped to 50 before shooting up. In each
+case the ﬁnal price does not tell the full story of the risks involved in the
+trade. We seek to trade volatility, but we also have volatility sampling risk
+(intimately related to the volatility of volatility) and path dependency.
+VOLATILITY DEPENDENCY
+This analysis has assumed that we were hedging our options at the true
+volatility. In practice this is unknown and we need to choose a hedging
+volatility. There are two obvious candidates, σ forecast and σ implied. Which is
+better and what consequences are attached to choosing a volatility that will
+almost certainly not be the same as the realized volatility?
+A simple set of examples shows that the results of this choice are again
+very path dependent. Consider the two underlying price paths shown in
+Figure 5.7. These have exactly the same annualized volatility (23.44 per-
+cent) but in one case the price drifts higher and in the other case it does not.
+Assume we buy $1,000 vega of the one-month calls with a strike price
+of 100, at an implied volatility of 18.44 percent, and hedge at the end of
+each day. Also assume that we are able to perfectly forecast the realized
+92
+94
+96
+98
+100
+102
+104
+106
+108
+110
+112
+1
+2
+3
+4
+5
+6
+7
+8
+9 10 11 12 13 14 15 16 17 18 19 20 21
+Time
+Price
+FIGURE 5.7
+Two Price Paths with Identical Volatility
+
+94
+VOLATILITY TRADING
+TABLE 5.2
+Results for Hedging the Same Option Portfolio under Diﬀerent
+Volatilities and Diﬀerent Paths
+Path
+Hedge at Implied
+Hedge at Realized
+Drifting
+$9,821
+$10,516
+Nondrifting
+$6,765
+$3,078
+volatility. (Note that here there will be no sampling-induced errors in the
+P/L because the price path has been exactly constructed rather than gener-
+ated by a speciﬁed random process.) Table 5.2 shows the P/L possibilities
+when we hedge along each path with either the implied volatility or the
+forecast volatility.
+So obviously the choice matters a great deal, and equally obviously the
+situation is very path dependent. When the underlying is drifting and we
+are long gamma, our hedges are going to be losers. We will be selling into a
+rising market. So we want to hedge less often. If we use a higher volatility,
+we see a lower gamma so we hedge less. Conversely, in a choppy, trend-
+less market our hedges will tend to be winners, so we want to hedge more
+often. If we use a lower volatility we can gain more gamma. The situation
+is obviously opposite if we are short options. Traders refer to this hedging
+trick as “letting their deltas run” if they are long in a trending market, or
+“hedging defensively” if they are short gamma in a trending market. This is
+summarized in Table 5.3.
+Next we more generally examine the problem of choosing a hedging
+volatility. We assume we sell an option at an implied volatility, σ i, and we
+then hedge at the realized volatility, σ r. Let’s examine how the P/L of this
+position evolves through time as we hedge it. This is really just the same ar-
+gument we used in Chapter 1, but now we need to be very careful whether
+we are evaluating quantities at the implied or realized volatilities. Again
+our derivation will be informal. Readers interested in mathematical details
+should consult Carr (1999), Henrard (2003), or Ahmad and Wilmott (2005).
+TABLE 5.3
+The Direction One Should Bias Volatility for Diﬀerent Option
+Positions as a Function of Market Direction
+Position
+Market
+Hedging Volatility Bias
+Short gamma
+Trending
+Low
+Short gamma
+Range bound
+High
+Long gamma
+Trending
+High
+Long gamma
+Range bound
+Low
+
+Hedged Option Positions
+95
+Expression 1.2 gives the value of the hedged portfolio after the ﬁrst
+time step. Note that we need to evaluate the option at σ i because we are
+interested in the portfolio value as it is marked to market, but  needs to
+be evaluated at the realized volatility because that is how we have chosen
+to hedge. This is the P/L that hits our accounts at the end of each day.
+C(St+1, σi) −C(St, σi) −(σr)(St+1 −St) + r(C(σi) −(σr)St)
+(5.11)
+However, we also know that we can evaluate the portfolio at the real-
+ized volatility, σ r, and here the option will be valued “correctly” (by deﬁni-
+tion) so that
+C(St+1, σr) −C(St, σr) −(σr)(St+1 −St) + r[C(σr) −(σr)S] = 0
+(5.12)
+So over one time step our marked-to-market proﬁt is
+dC(σi) −dC(σr) + r[C(σr) −(σr)S]dt −r[C(σi) −(σr)S]dt
+(5.13)
+Now using the BSM expression (1.5), we could also write this one-step
+proﬁt as
+1
+2
+
+σ 2
+i −σ 2
+r
+
+S 2(σi)dt + [(σi) −(σr)][(µ −r)Sdt + σ SdX]
+(5.14)
+r Expression (5.13) tells us that we will make money if σ I > σ r (leaving
+aside the issues associated with discrete rebalancing).
+r Equation (5.14) tells us that this proﬁt does not arrive smoothly. Equa-
+tion (5.14) contains a random variable.
+r The way the proﬁt is realized depends on the drift term, µ.
+Figure 5.8 shows ﬁve possible paths for the P/L evolution as a function
+of time for an option hedged at realized volatility. This was for the case
+of a short position consisting of 1,000 vega of one-year, at-the-money calls,
+sold at a volatility of 40 percent and hedged at the realized volatility of
+30 percent until expiry. Drift, rates, and dividend yields were zero.
+Traders should be familiar with this situation. These P/L swings essen-
+tially are due to other people (the market) marking options against our
+position. This isn’t meant to be taken as a conspiracy theory. We traded
+the options because they were mispriced. They still are. We end up car-
+rying the wrong amount of stock against our position. We are hedged in
+our mind but not according to the market. Anyone who has ever tried to
+explain this situation to their managers will know that it can be a difﬁcult
+conversation.
+
+96
+VOLATILITY TRADING
+–2,000.00
+0.00
+2,000.00
+4,000.00
+6,000.00
+8,000.00
+10,000.00
+12,000.00
+0
+50
+100
+150
+200
+250
+300
+Time (Days)
+P/L
+FIGURE 5.8
+Proﬁt as a Function of Time for a Short Position, Hedged at the Re-
+alized Volatility
+Next we look at what happens when we hedge at the implied volatil-
+ity. We go through the same analysis as before, but now all the relevant
+variables are evaluated at the implied volatility. The one time step mark-to-
+market proﬁt is given by
+dC(σi) −(σi)dS −r(C(σi) −(σi)S)dt = 1
+2
+
+σ 2
+i −σ 2
+r
+
+S 2(σi)dt
+(5.15)
+r Equation 5.15 contains no stochastic terms. The proﬁt arrives deter-
+ministically.
+r There are no issues with the options supposedly being marked against
+us. Whatever they are marked at, we hedge accordingly.
+r This is a viable hedging method even if we don’t know how to forecast
+volatility very well! If we sell options because our only opinion is that
+implied volatility is too high, we can still make money.
+If we take the present value of the one-step proﬁt and then sum over
+all time steps, we arrive at the total P/L for the position:
+1
+2
+
+σ 2
+i −σ 2
+r
+ 
+exp(−rt)S 2(σi)dt
+(5.16)
+We can now see the path-dependence effect that we observed in the
+earlier example. Even if our option is initially struck at the money, the drift
+in the underlying will take it away from there until the option’s gamma is
+small, and hence the potential proﬁt in equation (5.16) is small. This makes
+
+Hedged Option Positions
+97
+sense: We are putting on a volatility bet. We only get paid if we assume
+some volatility risk and if an option is sufﬁciently far from the at-the-money
+point such that we have no volatility exposure left. This is why traders
+want to end up near the strike at expiration. The gamma is largest at that
+point in time and space. If you are correct in your volatility assessment you
+make the most money there. This is also an argument for trading strangles
+or strips instead of straddles. We want to have a volatility position over a
+wide enough range of the underlying.
+Path dependency is also a reason why different strikes should indeed
+trade at different implied volatilities. The path the underlying takes has
+different effects on options of different strikes because their gamma pro-
+ﬁle will be very different. Expression (5.16) tells us that the fair implied
+volatility (the volatility that makes the P/L zero) is gamma dependent. This
+concept is explored by Dupire (2006) in his work on “breakeven volatility
+skews.”
+Note that this applies to both long and short gamma positions. This
+may come as a surprise. Most traders know that it is good for a short po-
+sition to gently settle near a strike at expiry. However, it is also good for a
+long position to ﬁnish at the strike. The difference is that practically hedg-
+ing the long position becomes next to impossible at very short timescales
+and the only time we can hedge easily is when realized volatility is low (i.e.,
+we gently settle near our long strike), which means our volatility forecast
+is incorrect. We need to also note that expiring at a strike greatly increases
+the feedback effects of the dynamic hedging of the market makers. If they
+are long gamma, they will all be buying the underlying below the strike and
+selling it above the strike, thus compressing the realized volatility. This
+will be bad for the option holders, but it is the low volatility that is bad,
+not being near the strike. Being near the strike can be the cause of the low
+volatility.
+Figure 5.9 shows ﬁve possible paths for the P/L evolution as a function
+of time for an option hedged at implied volatility. This was for the case of a
+short position consisting of 1,000 vega of one-year, at-the-money calls, sold
+at a volatility of 40 percent and hedged at the implied volatility until expiry.
+Drift, rates, and dividend yields were zero.
+Figure 5.9 shows that hedging at the implied volatility gives a smoother
+P/L, but the end result is far more variable than when we hedge at realized
+volatility. Most traders ﬁnd this a far easier situation to deal with.
+Ahmad and Wilmott (2005) found expressions for the expected proﬁt
+(as an integral) and the standard deviation (as a double integral) of an op-
+tion hedged at the implied volatility. The interested reader can refer to
+these, but it is probably more useful to gain a feel for this situation by
+running simulations (these can also be extended to cover different stochas-
+tic processes, an implied volatility smile, and a position consisting of more
+
+98
+VOLATILITY TRADING
+–5,000
+0
+5,000
+10,000
+15,000
+20,000
+25,000
+0
+50
+100
+150
+200
+250
+300
+Time (Days)
+P/L
+FIGURE 5.9
+Proﬁt as a Function of Time for a Short Position Hedged at Implied
+Volatility
+than one option type). Figures 5.10 and 5.11 shows the results of several
+such simulations. We can clearly see some features:
+r Out-of-the-money option positions have far more variance than at-the-
+money options.
+r We have less variance if we err on the high side when choosing a hedg-
+ing volatility.
+0
+2,000
+4,000
+6,000
+8,000
+10,000
+12,000
+14,000
+16,000
+18,000
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+Hedging Volatility
+Standard Deviation
+FIGURE 5.10
+Standard Deviation for a Short At-the-Money Position Hedged at
+Various Volatilities
+
+Hedged Option Positions
+99
+0
+10,000
+20,000
+30,000
+40,000
+50,000
+60,000
+70,000
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+Hedging Volatility
+Standard Deviation
+FIGURE 5.11
+Standard Deviation for a Short 20 Delta Call Position Hedged at
+Various Volatilities
+Of course we can hedge at any volatility we like. We are not restricted
+to implied volatility or the forecast volatility. The general case was exam-
+ined by Carr (1999) and Henrard (2003), but again, running simulations is
+probably the easiest way to get a good picture of the situation.
+SUMMARY
+One of the frustrating things about using options to trade the spread be-
+tween implied volatility and realized volatility is that we can be correct in
+this prediction and still lose money. Traders need to be aware of why and
+how this can happen. Some of the reasons for this disconnect between our
+prediction and our results can be addressed, but we also need to under-
+stand in order to learn. We need to learn from real errors, not try to draw
+lessons from what is essentially just bad luck.
+r Hedged option positions are very path dependent.
+r Correctly predicting realized volatility is no guarantee of being
+proﬁtable.
+r Some variance in P/L can be eliminated by hedging more frequently.
+r Hedging at realized volatility makes our ﬁnal P/L more certain but very
+noisy.
+r Hedging at implied volatility smoothes the P/L but makes the ﬁnal
+amount more uncertain.
+

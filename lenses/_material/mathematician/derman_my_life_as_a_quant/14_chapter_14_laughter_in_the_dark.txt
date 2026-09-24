@@ -1,0 +1,1009 @@
+Chapter 14
+Laughter in the Dark
+The puzzle of the volatility smile
+Beyond Black-Scholes: the race to develop local-volatility models of
+options
+The right model is hard to find
+I first heard about the smile in December 1990 from Dave Rogers, our head
+options trader in Tokyo. I had begun traveling to Japan regularly to bring
+our traders the latest releases of our risk management tools and to learn
+what new models and software they needed. Unlike the New York Stock
+Exchange, the Tokyo market closed at midday; traders grew less frenetic
+and went out for lunch, salespeople departed to meet clients, and there was
+time for leisurely conversations. While we chatted, Dave showed me the
+computer screen he used to watch the prices of options on the Nikkei 225
+index. He pointed out a peculiar asymmetry in the Nikkei options prices:
+The prices of out-of-the-money puts were unexpectedly larger than those of
+other options.
+Everyone referred to this asymmetry as “the smile,” or “the skew.” At
+first it looked only mildly interesting, a peculiar anomaly we could tolerate.
+Then, when I thought about it a little more, I realized that the existence of
+the smile was completely at odds with Black and Scholes’s twenty-year-old
+foundation of options theory. And, if the Black-Scholes formula was wrong,
+then so was the predicted sensitivity of an option’s price to movements in
+its underlying index, its so-called “delta.” In this case, all traders using the
+Black-Scholes model’s delta were hedging their option books incorrectly.
+But the very essence of Black-Scholes was its prescription for replicating
+and hedging. The smile, therefore, poked a small hole deep into the dike of
+theory that sheltered options trading. If Black-Scholes were wrong, what
+was the right delta to use for hedging an option?
+During the 1990s, the smile, initially a peculiarity of equity options,
+infected 
+other 
+markets, 
+taking 
+a 
+slightly 
+different 
+form 
+in 
+each 
+one.
+Understanding it became a dominating obsession for me and many of my
+quant contemporaries. It was an anomaly that sat right at the intersection of
+options trading and options theory, and I spent much of my intellectual
+energy trying to model it.
+Our work started in the typical heady rush of energy and ambition that
+made me feel as though I were in physics again, racing to be the first to find
+the “right” model for something important and interesting. I fantasized
+about building a model that, embraced by everyone, would replace Black-
+Scholes. It wasn’t as simple as I thought. During the next ten years I learned
+that “rightness” in financial modeling is a much fuzzier concept than I had
+imagined.
+One of the things you learn repeatedly in a career in financial modeling is
+the importance of units. You always want the prices of securities to be
+quoted in a way that make it easy to compare their relative values.
+When you need to compare the values of bonds, for example, their prices
+are insufficient, because each bond can have a different maturity and
+coupon. Instead, you quote their yields. A bond yield provides an estimate
+of the return the bond will generate for you irrespective of its coupon and
+maturity. You may not know whether a discount bond at 98 is better than a
+premium one at 105, but you do know that, all other things being equal, a
+yield of 5.3 percent is less attractive than 5.6 percent. This conversion of
+prices to yields is itself a model, albeit a simple one. It is a convenient way
+to communicate prices, as well as a good first step towards estimating
+value.
+In the options world as well, price alone is an insufficient measure of
+value; it’s impossible to tell whether ¥300 for an at-the-money put is more
+attractive than ¥40 for a deep out-of-the-money put. A better measure of
+value is the option’s implied volatility. The Black-Scholes model views a
+stock option as a kind of bet on the future volatility of a stock’s returns. The
+more volatile the stock, the more likely the bet will pay off, and therefore
+the more you should pay for it. You can use the model to convert an option
+price into the future volatility the stock must have in order for the option
+price to be fair. This measure is called the option’s implied volatility. It is,
+so to speak, an option’s view of the stock’s future volatility.
+The Black-Scholes model was the market standard. When I sat next to
+Dave in Tokyo that day, his computer screen showed the prices quoted in
+Black-Scholes implied volatilities. Even today, when no one believes that
+the Black-Scholes model is absolutely the best way to estimate option
+value, and even though more sophisticated traders sometimes use more
+complex models, the Black-Scholes model’s implied volatilities are still the
+market convention for quoting prices.
+Options 
+are 
+generally 
+less 
+liquid 
+than 
+stocks, 
+and 
+implied 
+volatility
+market data is consequently coarse and approximate. Nevertheless, Dave
+pointed out to me what I was already dimly aware of: There was a severe
+skew in the implied volatilities, so that three-month options of low strike
+had much greater implied volatilities than three-month options of higher
+strikes. You can see a sketch of this asymmetry in Figure 14.1. This
+lopsided shape, though it’s commonly called “the smile,” is more of a
+smirk.
+Figure 14.1 A typical implied volatility smile for three-month options on
+the Nikkei index in late 1994. The dashed line shows the lack of skew that
+was common prior to the 1987 crash.
+With implied volatility as your measure of value, low-strike puts are the
+most expensive Nikkei options. Anyone who was around on October 19,
+1987 could easily guess why. Ever since that day when equity markets
+around the world plunged, investors remained constantly aware of the
+possibility of an instantaneous large jump down in the market, and were
+willing to pay up for protection. Out-of-the-money puts were the best and
+cheapest insurance. Like stableboys who shut the barn door after the horse
+has bolted, investors who lived through the 1987 crash were now willing to
+pay up for future insurance against the risks they had previously suffered.
+By 1990 there were similar smiles or skews in all equity markets. Before
+1987, in contrast, more light-heartedly naive options markets were happy to
+charge about the same implied volatility for all strikes, as illustrated by the
+dashed line in Figure 14.1.
+It was not only three-month implied volatilities that were skewed. A
+similar effect was visible for options of any expiration, so that implied
+volatility varied not only with strike but also with expiration. We began to
+plot this double variation of implied volatility in both the time and strike
+dimension as a two-dimensional implied volatility surface. A picture of the
+surface for options on the Standard & Poor’s (S&P) 500 index is illustrated
+in Figure 14.2. Like the yield curve, it changes continually from minute to
+minute and day to day.
+Figure 14.2 A typical implied volatility surface for the S&P 500 in mid-
+1995.
+This tentlike surface was a challenge to theorists everywhere. The Black-
+Scholes model couldn’t account for it. Black-Scholes attributed a single
+volatility at all future times to an index or a stock, and therefore always
+produced the dull, flat, featureless surface of Figure 14.3a. The best you
+could do, if you modified the Black-Scholes model to allow future index
+volatility to be different from today’s, was to obtain a surface that slanted in
+the time direction, as depicted in Figure 14.3b. But the variation in two
+perpendicular directions, time and strike, was a puzzle. What was wrong
+with the classic Black-Scholes model? And what new kind of model could
+possibly explain that surface?
+Figure 14.3 Implied volatility surfaces. (a) In the standard Black-Scholes
+model. (b) In an enhanced Black-Scholes model where volatility varies with
+time to expiration.
+We knew that the Black-Scholes model oversimplifies the behavior of
+stock prices. It assumes that a stock price diffuses away into the future from
+its current value in a slow, random, continuous fashion, much like a cloud
+of smoke from the smoldering tip of a cigarette spreads through a room.
+Dense near the tip of the cigarette and sparse farther out, the intensity of the
+smoke cloud at a point represents the probability that a particle of smoke
+will diffuse to that location. In the Black-Scholes model, a similar cloud
+depicts the probability that the stock price will reach some particular future
+value at some future time. Figure 14.4 illustrates that cloud of probabilities
+for a stock in the Black-Scholes model. The more dispersed the cloud, the
+more uncertain the future stock price. A single parameter, the stock’s
+volatility traditionally denoted by the Greek letter sigma, s, determines the
+rate of diffusion and the width of the cloud. The greater the stock’s
+volatility, the wider the cloud.
+Figure 14.4 Simple diffusion in the Black-Scholes model. The shaded
+regions illustrate the range of possible future prices for a stock whose price
+is $100 today. The more time passes, the greater the uncertainty in the
+future price. The darker the shading, the more likely the price will be in that
+region.
+Though simplification is the essence of modeling, the Black-Scholes
+picture of smoke-cloud diffusion is too restrictive. First, stock prices don’t
+necessarily diffuse with a constant volatility; at some times a stock diffuses
+more rapidly than at others. Second, and more gravely, sometimes stocks
+don’t diffuse at all. Diffusion, as shown in Figure 14.4, is a slow, continuous
+process; in diffusion, a stock price that moves from $100 to $99 passes
+through every possible price between them. This is not what happened
+during the 1987 crash, however; on that day the Dow-Jones index jumped
+its way downward through 500 points like an excited kid on a pogo stick.
+Returning 
+to 
+New 
+York 
+from 
+Tokyo, 
+I 
+began 
+working 
+with 
+my 
+QS
+colleagues Iraj Kani and Alex Bergier. I wanted to extend the Black-Scholes
+model just enough so that it could incorporate the smile. “Just enough” was
+always the aim. A model is only a model; you want to capture the essence
+of the phenomenon, not the thing itself. It is far too easy, in the name of
+realism, to add complexity to the simple evolution of stock prices assumed
+by Black and Scholes, but complexity without calibration is pointless.
+The overwhelming fear of equity investors was another 1987-style crash,
+so we added this possibility to Black-Scholes. This was not something new;
+Merton had done it in his so-called jump-diffusion model in the mid-1970s,
+and to begin with, we did it even more crudely than he had. To the constant
+diffusion 
+of 
+stock 
+prices 
+we 
+added 
+just 
+one 
+new 
+feature, 
+the 
+small
+probability p that the stock price might take one sizeable jump J downward.
+The probability cloud for this process is depicted in Figure 14.5. It shows
+the 
+two 
+scenarios 
+the 
+stock 
+can 
+now 
+take: 
+a 
+jump 
+J 
+downward 
+and
+subsequent diffusion with a volatility σ
+H
+, which is likely to be high because
+of the after-excitement of the crash; or, more likely, continued diffusion
+with the normal, lower volatility σ
+L
+.
+Figure 14.5 The range of possible future prices for a stock that can jump
+once and then diffuse. The darker the shading, the more likely the price will
+be in that region.
+Typically, we assumed the probability p to be of order one percent,
+implying that the market assigned about a one-in-a-hundred chance of a
+crash during the option’s lifetime. We chose the σ
+H
+to be about 40 percent
+greater than σ
+L
+, based on a combination of intuition and experience about
+the after-effects of stock crashes. Our model now had only two unknown
+parameters, the jump size J of the crash scenario and the volatility s
+L
+associated with normal behavior. This was just one parameter richer than
+Black-Scholes, which contained only a single volatility. We calibrated these
+parameters by matching the model’s option prices to the two implied
+volatilities that defined the shape of the three-month smile, those of an at-
+the-money option and a put option struck 5 percent out of the money. With
+a normal volatility s
+L
+in the vicinity of ten percent and a downward jump J
+of about 25 percent of the current stock price, we found we could produce
+smiles like those in Figure 14.1.
+Our model looked at the world like this: During the option’s lifetime the
+Nikkei 
+had 
+a 
+roughly 
+one-in-a-hundred 
+chance 
+of 
+dropping 
+about 
+25
+percent. This is why you paid so much more for an out-of-the-money put.
+We then used the model to estimate the option’s delta, the hedge ratio
+necessary to cancel its index risk. We also used it to value the more illiquid
+or exotic options that were becoming increasingly fashionable—barrier
+options, for example—whose prices were highly sensitive to the probability
+and size of the jump. We wanted our traders to search the market for
+options whose prices differed significantly from those produced by our
+model. They could then buy the apparently cheap ones and sell the rich
+ones in the hope that these outliers would eventually revert to our model’s
+prices and generate a profit.
+Though the jump model captured one essential sentiment responsible for
+the smile, it was ultimately too crude. Its view of a future in which the
+Nikkei 
+awoke 
+each 
+morning 
+and 
+decided 
+either 
+to 
+make 
+one 
+large
+instantaneous excited jump downward or else diffuse calmly was still too
+simplistic. Looking back, perhaps we should have added a distribution of
+possible jump sizes and jump times. But jumps occur rarely, and since there
+was little data on their distribution, we would have had to make many
+unverified assumptions, something that felt unaesthetic. Rightly or wrongly,
+we preferred a more constrained model whose parameters were totally fixed
+by calibration to observed options prices. Ten years later, though, more
+detailed jump-diffusion models of the smile became popular again.
+Our initial model of the smile did find users in Goldman’s risk arbitrage
+group, where savvy traders combined worldly knowledge with quantitative
+methods to take educated bets. Some arbitrageurs focused on acquisitions in
+which the acquiring company tenders for the stock of a target company at a
+public offer price that substantially exceeds its current level. If and when
+regulators approve the acquisition, the target’s price will jump to the offer
+price. 
+Until 
+then, 
+its 
+price 
+reflects 
+an 
+estimate 
+of 
+the 
+probability 
+of
+completion 
+of 
+the 
+deal. 
+For 
+these 
+situations, 
+our 
+jump 
+model 
+was 
+a
+theoretically accurate picture, and the risk arbitrageurs made occasional use
+of it to see whether their estimate of the likelihood of the acquisition’s
+approval matched the jump probability implied by the current price of the
+target.
+Meanwhile, from mid-1991 through early 1993, Iraj and I and the rest of
+QS turned temporarily to the more pressing problem of enhancing our risk
+systems to handle the increasing number of exotic options we traded.
+Unfortunately, the more we worked on exotics, the more we ran into the
+problems of the smile: Whenever we used the Black-Scholes framework to
+value the exotic options in the desk’s book, we were using a model that
+produced the wrong value for much simpler standard options, a model
+inconsistent with the smile. This wasn’t good—you can’t trust a model for
+complex phenomena if it gets the simple stuff wrong. You wouldn’t trust a
+NASA computer program that predicted the trajectory of an interplanetary
+probe from Earth to Mars if it couldn’t first correctly predict the orbits of
+Earth and Mars around the sun.
+The right place to start was with a model that could match the market
+prices of all standard options, the entire implied volatility surface. Only
+then, when it was correctly calibrated, could you sensibly use it to calculate
+the value of an exotic. How could we find a model that matched any
+surface?
+I thought back to our development of BDT. In the mid-1980s, the fixed-
+income options world had undergone a similar crisis: Practitioners used a
+yield diffusion model like Ravi’s to value an option on any single bond, but
+felt uncomfortable because it couldn’t simultaneously match the prices of
+all Treasury bonds on the yield curve. BDT was one of the possible
+solutions to this dilemma.
+We had a tremendous advantage in having come to the equity derivatives
+world with a background in fixed income. Iraj and I perceived the following
+analogy between bonds and their yields and options and their volatilities:
+Bond prices are quoted using current long-term yields, which reflect
+the market’s expectation of future short-term rates.
+Options prices are quoted using current long-term implied volatilities,
+which reflect the market’s expectation of future short-term volatilities.
+Our ambition was to build a post-Black-Scholes model that allowed us to
+back out the market’s expectation of future short-term volatilities from the
+current volatility surface. We weren’t sure how to do it, but we knew that
+the 
+world 
+needed 
+a 
+better 
+model 
+and 
+would 
+reward 
+its 
+discoverers.
+Throughout 1993 we felt as though we were in a race with unnamed
+competitors to find it.
+Iraj and I were great admirers of the binomial options model, a simple,
+picturesque, 
+and 
+yet 
+accurate 
+way 
+of 
+performing 
+options-theoretic
+calculations on a gridlike tree of future stock prices. On a binomial tree,
+prices move like knights on a chessboard, one discrete step forward in time
+and up or down a notch in price. Binomial trees are easy to draw and, in a
+jerky way, mimic the behavior of real prices or indexes. As the grid of the
+chess board becomes progressively finer, prices move more and more
+continuously—they 
+start 
+to 
+diffuse, 
+in 
+fact—and 
+the 
+binomial 
+model
+becomes equivalent to the Black-Scholes model. Binomial trees were the
+Feynman diagrams of options theory, easy to picture and use, wonderful for
+simulating simple trading strategies or developing valuation models. Even
+the innumerate traders with whom we often dealt could understand them.
+Initially invented by William Sharpe soon after Black and Scholes wrote
+their paper, bimonial trees were then cleverly elaborated upon by John Cox,
+Mark Rubinstein and Steve Ross. As options theorists grew increasingly
+professional and better educated, binomial models fell into a low-tech
+disrepute, but we still found them immensely useful.
+Therefore, we tried to use a binomial tree of index options prices like the
+one shown in Figure 14.6 as a guide to extracting the market’s view of
+future short-term volatilities. The left edge of the tree denotes the current
+index level. Each step up or down from there illustrates a potential future
+index move. Traditional binomial trees make the key assumption that all
+moves on the tree are of equal percentage magnitude; at any future time, at
+any future level, the index, whether it moves up or down, grows or shrinks
+by an identical percentage. In technical terms, the index has a constant
+volatility of returns, globally the same across the entire tree, identical at
+each future instant of time and index level. This constancy of the index’s
+volatility in the Black-Scholes model leads to the associated flat implied
+volatility surface that is inconsistent with actual options markets.
+Figure 14.6 At left, a binomial tree of future index moves. Each future
+percentage move is identical and represents a constant index volatility. At
+right, the shape of the corresponding implied volatility surface.
+Iraj and I developed an alternate view of the future tree of index levels.
+We pictured the usual constant-volatility binomial tree redrawn on a flexible
+sheet of rubber, which we could then stretch and distort so as to resemble
+the tree of Figure 14.7. On this deformed tree, the size of the moves in the
+index at each node of the tree could differ, representing a varying volatility
+whose value differed from node to node. In theorists’ jargon, the index
+would have a varying local volatility;by “local volatility” we meant the
+short-term volatility of the index at a particular future level and time. The
+constant or global volatility of Figure 14.6 was 
+inconsistent 
+with 
+the
+market’s tentlike implied volatility surface of Figure 14.2. There must be,
+we figured, an implied binomial tree whose local volatility could be chosen
+to match the market’s implied volatility surface. We expected it to look like
+the tree in Figure 14.7, in which the local volatility of the index rises as the
+index falls and vice versa, in order to reflect the surface’s variation with
+strike.
+Figure 14.7 At left, an implied binomial tree of future index moves. Each
+future percentage move has a local volatility that rises as the index level
+drops. Can one deduce the shape of the implied binomial tree from the
+implied volatility surface at right?
+It was easy to imagine such a tree. It was even easy to build such a tree by
+literally making up a rule for how local volatility varied within the tree and
+then constructing it. Given such a tree, you could use it to calculate the
+prices of many different options and then plot their implied volatility
+surface. We could see that it was possible to pick a local volatility whose
+variation produced a realistic-looking volatility surface. But the ultimate
+problem we faced was the inverse of what we were doing. We needed to
+start with the implied volatility surface the market presented and deduce
+from it the unique local volatilities that reflected it. The implied volatility
+surface was the primary object, and the whole procedure we envisaged
+would only constitute a true theory if you could extract from it a unique
+implied binomial tree.
+Throughout 1993, as the QS group continued to build the more elaborate
+risk-management systems that occupied most of our time, we continued to
+ruminate over the smile. In spare moments we tinkered with implied trees,
+still uncertain as to whether there was a truly unique relationship between
+the volatility surface in Figure 14.7 and the tree we hoped it implied. We
+knew 
+we 
+could 
+go 
+from 
+the 
+tree 
+to 
+the 
+surface, 
+but 
+what 
+was 
+the
+incontrovertible way to go from the surface to the tree? We discussed it
+with Dave Rogers and his traders, who, because of our sheet-of-rubber
+analogy, always called it the flexible tree. We built versions of it and used
+them to price and hedge varieties of options, but, too busy with supporting
+the software needs of the desk, we avoided an all-out attempt on the
+question of uniqueness.
+The relationship between surface and tree reminded me of the lecture by
+Mark Kaç I had heard as a graduate student at Columbia thirty years earlier,
+when he solved the question of hearing the shape of a drum. Physicists call
+this an inverse-scattering problem because, whereas most models in physics
+proceed 
+from 
+the 
+physical 
+law 
+to 
+the 
+results, 
+inverse 
+problems 
+work
+backwards. Newton’s theory of gravitation, for example, commences with
+the law of gravitational attraction between the sun and the planets, and
+deduces the planetary orbits. Inverse scattering problems go in reverse—
+given the observations, they ask, what law would produce them? Imagine,
+for example, that astronomers observed some strange perturbation in the
+orbit of the earth. What change in the law of gravitational attraction would
+account for it?
+Our search for a method to extract a unique implied tree from the
+volatility surface was an inverse scattering problem. This approach is more
+typical of financial modeling than it is of physics. In physics, the beauty and
+elegance of a theory’s laws, and the intuition that led to them, is often
+compelling, and provides a natural starting point from which to proceed to
+phenomena. In finance, more of a social than a natural science, there are
+few beautiful theories and virtually no compelling ones, and so we have no
+choice but to take the phenomenological approach. There, much more often,
+one begins with the market’s data and calibrates the model’s laws to fit it.
+This calibration is a kind of inverse-scattering approach, too, and it was
+what we were trying to do in our attempt to construct implied trees.
+Sometime in late 1993 I went to visit our trading desk in London, where I
+also gave a talk at a Risk magazine conference on exotic options. Between
+conference sessions, I met Graham Cooper, the new editor of Risk, and also
+ran into John Hull. During our conversations I told them what Iraj and I had
+been exploring. Graham and John told me that they had heard that Bruno
+Dupire at Paribas Capital Markets in London and Mark Rubinstein, the
+Berkeley finance professor who was one of the codevelopers of the original
+constant-volatility 
+binomial 
+tree 
+model, 
+had 
+been 
+tackling 
+the 
+same
+problem. 
+Worried 
+about 
+giving 
+away 
+proprietary 
+information 
+to 
+our
+competition, I called Dave Rogers in New York and quickly got his
+approval to allude in public to what Iraj and I had done. I hurried back to
+my 
+hotel 
+room 
+and 
+quickly 
+appended 
+a 
+few 
+transparencies 
+to 
+my
+presentation to describe our implied tree approach. After my talk, Graham
+invited me to submit an article on our work to Risk, while John, hearing me
+describe our trees sometimes as “flexible” and sometimes as “implied,”
+nudged me towards the use of “implied.”
+With competition at our heels, Iraj and I anxiously rededicated ourselves
+to proving the uniqueness of our tree. Most of our day was typically spent
+enhancing the desk’s trading models, responding to requests for pricing new
+structures, and building trading software. Whenever we had spare time
+away from desk support, we tried again to define a scheme for uniquely
+extracting the local volatility at each future node of the implied binomial
+tree.
+We began with the market’s implied volatility surface on a given day, as
+illustrated in Figure 14.2. We then constructed a binomial tree like the one
+in Figure 14.8. Each shaded triangle in this tree, at each index level and
+future time, evolves with a different local volatility whose magnitude is
+represented by the degree of shading. Higher index levels correspond to
+lower (paler) volatilities; lower index levels correspond to higher (darker)
+volatilities. How pale or how dark must you choose them to match the
+initial implied volatility surface of Figure 14.2? That was the question.
+Figure 14.8 An implied binomial tree with varying local volatilities
+represented by the shaded triangles in the tree.
+The local volatility in Figure 14.8 is a local quality of the tree, the
+microscopically viewed volatility within each single small internal triangle.
+In contrast, the implied volatility in Figure 14.2 is a global quality, a wide-
+angle overview of all the internal triangles seen from 30,000 feet. We
+viewed the implied volatility of an option as the average
+1
+of all the local
+volatilities that the index will experience during the life of that option.
+Consider the option whose expiration and strike correspond to the time
+and index level at the location of the small flashlight in the next-to-last row
+of the tree in Figure 14.9. The value of its implied volatility depends upon
+the values of the local volatilities in the shaded right-striped triangles; those
+are the local volatility regions that the index can traverse in moving towards
+the strike during the life of the option. It’s useful to think of the option
+expiring at the flashlight as an X-ray source that illuminates all the local
+volatilities in the internal right-striped triangles in the tree.
+Figure 14.9 The implied volatility of the option whose expiration and strike
+lie at the circle illuminates the local volatilities in the right-striped region of
+the tree.
+Similarly, the option whose strike lies at the location of the lantern in the
+tree of Figure 14.10 illuminates the local volatilities in the shaded left-
+striped triangles.
+Figure 14.10 The implied volatility of the option whose expiration and
+strike lie at the location of the lantern illuminates the local volatilities in the
+left-striped region of the tree.
+The option with a strike at the flashlight illuminates one part of the tree,
+while the option whose strike lies at the lantern illuminates another part.
+But no single option, neither the one struck at the lantern nor the one struck
+at the flashlight, sheds light on just one triangle in the tree, the single node
+whose volatility was the obscure object of our desire.
+We kept struggling. We wanted a set of options that illuminated the
+volatilities at just one internal node. But each scheme we tried failed—there
+seemed to be no recipe for the local volatility at a single node.
+Then, one day, as we played around with a five-row toy version of our
+tree on a spreadsheet, we found something miraculous happened, something
+so strange that for a few minutes we thought it was due to a programming
+error in the spreadsheet. We noticed, almost by accident, that if we used
+three distinct option strikes to illuminate the interior of the tree, two of them
+with adjacent earlier strikes and one with a strike one period later—if, so to
+speak, we directed X-rays into the tree from three different angles—the
+illumination canceled everywhere except at the single node where they
+intersected. This is illustrated in Figure 14.11. It was astonishing: We had
+found an algorithm that determined the local volatility at a single node in
+terms of the market implied volatilities of the options with strikes at the
+three surrounding nodes.
+Figure 14.11 How three options can illuminate one node. (a) Two options
+with adjacent strikes illuminate the triangles to their left. (b) A single option
+expiring one period later illuminates all the previous triangles plus one
+more. (c) Subtracting the earlier expirations from the later leaves just one
+internal triangle illuminated.
+Now we knew how to find every local volatility, step by step. We could
+select any node on the implied tree, read off the implied volatilities of the
+three options adjacent to it from the market’s implied volatility surface, and
+then extract the local volatility at that node via our algorithm. In this way,
+one node at a time, we could find all the local volatilities. With those local
+volatilities and the implied binomial tree on which they sat, we could value
+and hedge any option on the index in a manner consistent with the smile.
+We 
+were 
+immensely 
+elated, 
+believing 
+we 
+had 
+made 
+the 
+next 
+big
+breakthrough in options pricing, an extension of the Black-Scholes model to
+make it consistent with reality.
+We weren’t the only excited ones. Mark Rubinstein and Bruno Dupire had
+also spent the past year developing similar extensions of Black-Scholes. A
+few weeks later Mark delivered his presidential address at the January 1994
+meeting of the American Finance Association on Implied Binomial Trees.
+Speaking to him over subsequent years, I learned that he too imagined he
+had achieved a great breakthrough.
+At about the same time, John Hull mailed me a copy of a talk Bruno had
+given on his version of implied trees at a meeting of the International
+Association of Financial Engineers (IAFE) in New York a few weeks
+earlier. In it, Bruno also claimed to have found a unique way to extract local
+volatilities from implied ones.
+Each of us—Iraj and I together, Mark and Bruno separately—had tackled
+the inverse scattering problem in characteristically different styles. Iraj and
+I were used to dealing with the denizens of the investment banking world,
+the less numerate traders, salespeople and clients, and so we wrote our
+paper as simply and clearly as possible. We wanted anyone reading it to
+know exactly how to build their own implied tree. We explained, step by
+step, exactly how to build the tree and calibrate it to a given volatility
+surface, and we illustrated it with a fully worked-out numerical example
+involving a five-period tree that anyone could check.
+Mark’s 
+presidential 
+address 
+was 
+more 
+discursive 
+and 
+academic, 
+and
+covered the history of the problem. His initial solution to the inverse
+scattering problem focused on matching the market’s implied volatilities at
+a single expiration, thereby ignoring some of the additional information
+embedded in the implied volatility surface.
+Bruno’s IAFE talk was the most tantalizing. As a Frenchman, he had a
+taste for formal mathematics, and his very brief report proposed an elegant
+formula for the local volatilities in terms of the slope and curvature of the
+implied volatility surface at the same strike and expiration. His paper wasn’t
+easy to understand and people I spoke to were not sure it was correct.
+Sometimes I thought he was being intentionally obscure, staking out his
+claim without revealing exactly how he had derived it.
+We studied Bruno’s report and soon realized that his concise formula was
+exactly equivalent to what Iraj and I had developed on a discrete tree.
+Where he had used calculus, we had used algebra. Though it wasn’t
+anywhere near as important or grand, we were playing Feynman to his
+Schwinger or Black and Scholes to his Merton. In an appendix to our paper
+we rederived Bruno’s results and included a more transparent proof and a
+reference to his work.
+In late December 1993 both Bruno and Iraj and I submitted our respective
+papers to Graham Cooper at Risk. Bruno’s appeared in the January 1994
+issue of Risk, together with an editorial explaining that ours would follow in
+February. The January issue also contained a page-long news report by
+Graham Cooper about the work that Mark, Bruno, and Iraj and I had done,
+referring to it as the new “supermodel,” and rather accurately describing the
+relative merits of our individual approaches. We were all suitably flattered.
+For the next several years we toured the seminar and conference circuit. I
+spoke at dozens of university finance departments and business schools, at
+the 
+Vienna 
+options 
+exchange, 
+and 
+at 
+countless 
+industry 
+conferences.
+Salespeople in Japan, France, Switzerland, Spain and Italy, countries where
+the more sophisticated traders loved learning about quantitative theories,
+took me to see client after client. We gave day-long seminars to large
+groups in Zurich and London, Bilbao and Paris, Milan and Munich. It was
+exhilarating.
+Iraj and I, together with Mike Kamal and Joe Zou, two more ex-physicists
+who joined our group in 1994, continued to enhance the model and to use it
+to value exotic options. We also worked with two software engineers in QS,
+Deniz Ergener and Alan Buckwalter, to embed the model in the desk’s
+trading 
+software. 
+Most 
+of 
+all, 
+we 
+struggled 
+to 
+abstract 
+the 
+model’s
+mathematical features into a visceral understanding that would make it
+accessible to traders. Since all their intuition was based on the Black-
+Scholes model, we developed a series of simple approximate corrections,
+rules of thumb that traders could use to nudge the Black-Scholes model in
+the direction of implied trees.
+It turned out to be much harder to explain the model to our traders than to
+our clients. The traders were busy, their lives dominated by watching
+screens, servicing salespeople, and entering the terms of their transactions
+into computer systems. Each day they had to book hundreds or thousands of
+new trades, often staying late into the night to make sure all the details were
+correctly reconciled between the front-office risk management system on
+their desks and the back-office mainframe that held the firm’s books and
+records. They were more interested in automating the bookkeeping aspects
+of their life than in improving their pricing.
+The traders were in charge, and used whatever model they 
+wanted
+without reason or justification. If you wanted them to hedge differently, the
+burden of proof was on you. They weren’t stupid, just sensibly philistine,
+averse to using new models they didn’t understand. Unfortunately, they
+were also averse to spending time on gaining understanding. When traders
+have no model at all, it’s easy to get them to use the very first model
+available. Once they have something they rely on, it’s much harder to get
+them to accept an improvement.
+So, 
+they 
+simply 
+stuck 
+to 
+using 
+the 
+Black-Scholes 
+single-volatility
+framework for valuing exotics, even though it produced a flat volatility
+surface. To compensate, they put all their inventive energy and intuition
+into picking the “right” single volatility to use in the wrong model. One
+senior trader insisted that even if the implied tree model were correct and
+the Black-Scholes model were wrong, he would always be able to think his
+way through to the correspondingly appropriate single volatility that, when
+inserted into the wrong model, would nevertheless produce the correct
+value for an option. I was therefore very pleased one day to discover that
+there were certain exotic options whose correct value in the implied tree
+model lay completely outside the range of values we could obtain from the
+Black-Scholes model, no matter what single volatility we entered into it.
+For these options there was simply no appropriate single volatility that gave
+the correct answer from the wrong model. I showed these examples to the
+traders with great glee and some vindictiveness. It was merely a minor
+victory, as it failed to alter anyone’s behavior.
+By 2000, when I worked on approving the use of all models at Goldman,
+the tide had begun to turn. Increasingly, at Goldman and its competitors,
+trading desks were obligated to provide some justification that the models
+they used were appropriate for their market. Nevertheless, in the tug of war
+between traders and risk managers, traders usually have greater pull.
+One day in late 1994 the tension between traders and quants led me to do
+something particularly stupid. I had spent all day dealing with impatient
+demands for systems support that I couldn’t provide. That evening I took a
+limo out to Kennedy airport to catch a flight to Vienna, where I was
+scheduled to give a talk on implied trees at a conference at the OTÖB, the
+Austrian options exchange. Boarding my plane, I sat down in my business-
+class aisle seat and finally relaxed. I was frustrated by the constant battles at
+work, and swore that I would be pushed around no longer.
+As I unwound before takeoff, a family of three boarded the plane at the
+last minute and began taking their seats, none of which were contiguous.
+The father, a gentleman of about fifty, took the window seat on my right, his
+son sat across the aisle from me, and his wife sat farther towards the front
+of the plane. As I flipped through the pages of the OTÖB conference
+program, the father asked the flight attendant if there were a set of three
+contiguous 
+seats 
+for 
+his 
+family. 
+Finally, 
+after 
+about 
+ten 
+minutes 
+of
+unsuccessful agitation, he turned to me and asked if I would switch aisle
+seats with his son. Still smarting from being pushed around all day, I
+remembered my “no more Mr. Nice Guy” promise to myself. I was seated
+in the aisle seat I had requested and I wasn’t about to give it up for anyone.
+Turning to him with misplaced firmness, I said, “I’m sorry, but I’d rather
+stay where I am.”
+As we took off for Vienna, I was appalled at my pointless recalcitrance.
+Both my seat and his son’s seat were on the aisle. I was gaining nothing by
+being stubborn. And worse, I had now condemned myself to sit for ten
+hours next to someone to whom I had been unnecessarily objectionable.
+Guilt began to overwhelm me as I debated with myself how to undo what I
+had done.
+While I writhed, I continued looking through the conference schedule.
+Then, I noticed, the man on my right extracted a similar schedule from his
+briefcase and began to look at it, too. I glanced at his face again, and
+suddenly realized I was sitting next to Bob Merton himself, the developer of
+continuous-time financial modeling, a Harvard professor and also a partner
+at Long-Term Capital Management. I had seen his picture just that morning
+on the inside flap of the cover of his famous book Continuous Time Finance
+when I had been reading about jump-diffusion models.
+I turned to him shamefacedly and apologized for my rudeness. By now
+his son had fallen asleep, and there was no point in exchanging seats, so we
+talked for a couple of hours about the history of options pricing models.
+Though Bob was very gracious, I felt mortified at having displayed this
+unpleasant part of my character, and for the duration of the conference I
+found 
+myself instinctively avoiding 
+him and his family. Next time, I
+promised myself, I would be tough on the people who deserved it.
+Though Mark, Bruno, and Iraj and I were among the first theorists to use
+local volatility to tackle the smile, various other people had similar ideas. In
+particular, I came across a closely connected paper by Avi Bick, an Israeli
+finance professor at Simon Fraser University in Canada. In November
+1994, speaking at an NYU conference Derivatives: The State of the Art, I
+was buoyed to hear Gary Gastineau, himself the author of an options text,
+comment that our model would make markets more liquid by making
+options pricing more accurate. Although we did live to see local volatility
+become a household word and a textbook topic, I discovered that it was
+much more difficult than I had imagined to create a truly successful
+financial model.
+Local volatility was an improvement on Black-Scholes in that it could
+account for the smile, but it had three genuine failings. First, our new model
+excluded the possibility that an index or stock could jump, and most market
+participants nowadays regard that possibility as the main factor determining
+the shape of the very short-term volatility smile. Our very first attempt to
+model the smile had indeed involved such jumps. We were never fond of
+jump models—since jumps are too violent and discontinuous to be hedged,
+when you include them you lose much of the coherence of the Black-
+Scholes model. But jumps are real, and omitting them made our model less
+realistic.
+Second, implied trees were difficult to calibrate. Often, as you tried to
+build progressively finer-meshed trees for better computational accuracy,
+the local volatility surface grew wild, displaying unrealistic peaks and
+troughs as it varied from point to point. Over time we developed methods
+for smoothing these fluctuations, but the need to smooth them made it
+difficult to automate the production of implied trees for the desk. These
+waves 
+and 
+troughs 
+were 
+themselves 
+a 
+partial 
+consequence 
+of 
+having
+excluded jumps; we were trying to model a violent phenomenon with a
+tranquil diffusion, something that was bound to make calibration unstable.
+Finally, our model ignored the random nature of volatility itself. Iraj and I
+tried to enhance our implied tree model a few years later by adding a
+random component to the local volatilities, but it made calibration and
+calculation even more complex and unwieldy.
+Over time we discovered that it is possible to obtain a smile with local
+volatility, jumps, random volatility, or some mixture of all three. So, local
+volatility and implied trees didn’t become “the” single model of the smile.
+Years later, at a dinner in Manhattan discussing the past, Mark Rubinstein
+and I both laughed ruefully at the mismatch between what we had expected
+and the way things turned out.
+Nevertheless, I was ultimately satisfied. Iraj and I had been among the
+first to propose a consistent model of a new and strange phenomenon; we
+had created a new framework and vocabulary, and we had done it from the
+front 
+lines, 
+on 
+Wall 
+Street, 
+not 
+from 
+a 
+leisurely 
+research 
+position 
+in
+academia. The model was somewhat simplistic, as all models are, and it did
+not tell the whole story, but it was a plausible, self-consistent little world
+that captured one true and essential feature of equity volatility markets:
+Volatility tends to increase when markets fall. Local volatility models have
+become 
+part 
+of 
+the 
+standard 
+arsenal 
+of 
+tools 
+used 
+by 
+academics 
+and
+practitioners.
+During the 1990s, volatility smiles spread to almost all other options
+markets. Wherever there was fear of large market moves that could hurt
+investors—downward for equities, upwards for gold, in either direction for
+many currencies and interest rates—there smiles and skews appeared, and
+our model became a key tool in explaining at least some of these features.
+By the new millenium, smile models were ubiquitous, with Risk magazine
+conferences devoting entire sessions, year after year, to these issues. In the
+Firmwide Risk area at Goldman Sachs, I ran a team of about twelve PhDs
+in the Derivatives Analysis group that had to approve the prices set and the
+models used throughout the firm’s derivatives businesses, and we soon
+found that every desk had its own smile model (all of them different), and
+that most of our work involved the verification of these models. The models
+differed from desk to desk because their markets differed; each market had
+its 
+own 
+characteristic 
+smile 
+for 
+its 
+own 
+idiosyncratic 
+reasons. 
+Equity
+markets feared a crash; gold markets, after years of low prices, feared a
+sudden upward move; in interest-rate markets, bond investors feared high
+rates that would devalue their assets, while insurance companies, who often
+guaranteed their clients a minimum rate of interest, feared low rates that
+would diminish their incoming cash flow; in currency markets, investors
+feared 
+a 
+move 
+outside 
+some 
+stable 
+band. 
+Each 
+fear, 
+based 
+on 
+bitter
+experience, corresponded to a different pattern and required a different
+model. There was no single model for the smile.
+Years ago, when I first became aware of the smile and hoped to find the
+“right” model, I used to ask colleagues at other firms which model they
+thought was correct. But now there is such a profusion of models that I ask
+more practical questions—not “What do you believe?” but rather “When
+you hedge a standard S&P 500 option, do you use the Black-Scholes hedge
+ratio, something larger, or something smaller?” Local volatility models
+produce smaller hedge ratios, while stochastic volatility models tend to
+produce larger ones. The differences between the models are even more
+dramatic for exotic options.
+In 2003, at a derivatives meeting in Barcelona, I led a small roundtable
+discussion group on the smile. There were fifteen of us, traders and quants
+from derivatives desks all over the world. I asked everyone my simple
+question: When you hedge an S&P 500 option, would you use the Black-
+Scholes 
+hedge 
+ratio, 
+something 
+larger, 
+or 
+something 
+smaller? 
+I 
+was
+surprised that ten years after the first smile models appeared, with the smile
+a 
+fact 
+of 
+life 
+in 
+almost 
+every 
+derivatives 
+market, 
+after 
+thousands 
+of
+published papers, there was still no consensus on how to respond to it.
+There still isn’t. Though we know much more about the theories of the
+smile, we are still on a darkling plain regarding what’s correct. A decade of
+speaking with traders and theorists has made me wonder what “correct”
+means. If you are a theorist you must never forget that you are traveling
+through 
+lawless 
+roads 
+where 
+the 
+local 
+inhabitants 
+don’t 
+respect 
+your
+principles. The more I look at the conflict between markets and theories, the
+more that limitations of models in the financial and human world become
+apparent to me.
+Notes
+1
+A mathematically complex average, to be honest, but an average
+nonetheless.
+...

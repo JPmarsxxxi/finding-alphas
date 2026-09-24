@@ -1,0 +1,49 @@
+because it achieves regularization at a much lower computational cost.24 Early stopping can be used
+alone, or together with l1-regularization as we do in this paper.
+“Batch normalization” (Ioﬀe and Szegedy, 2015) is a simple technique for controlling the variabil-
+ity of predictors across diﬀerent regions of the network and across diﬀerent datasets. It is motivated
+by the phenomenon of internal covariate shift in which inputs of hidden layers follow diﬀerent distri-
+butions than their counterparts in the validation sample. This issue is constantly encountered when
+ﬁtting deep neural networks that involve many parameters and rather complex structures. For each
+hidden unit in each training step (a “batch”), the algorithm cross-sectionally de-means and variance
+standardizes the batch inputs to restore the representation power of the unit.
+Finally, we adopt an ensemble approach in training our neural networks (see also Hansen and
+Salamon, 1990; Dietterich, 2000). In particular, we use multiple random seeds to initialize neural
+network estimation and construct predictions by averaging forecasts from all networks. This reduces
+prediction variance because the stochastic nature of the optimization can cause diﬀerent seeds to
+produce diﬀerent forecasts.25
+2.8
+Performance Evaluation
+To assess predictive performance for individual excess stock return forecasts, we calculate the out-
+of-sample R2 as
+R2
+oos = 1 −
+P
+(i,t)∈T3(ri,t+1 −bri,t+1)2
+P
+(i,t)∈T3 r2
+i,t+1
+,
+(19)
+where T3 indicates that ﬁts are only assessed on the testing subsample, whose data never enter into
+model estimation or tuning. R2
+oos pools prediction errors across ﬁrms and over time into a grand
+panel-level assessment of each model.
+A subtle but important aspect of our R2 metric is that the denominator is the sum of squared
+excess returns without demeaning. In many out-of-sample forecasting applications, predictions are
+compared against historical mean returns. While this approach is sensible for the aggregate index or
+long-short portfolios, for example, it is ﬂawed when it comes to analyzing individual stock returns.
+Predicting future excess stock returns with historical averages typically underperforms a naive fore-
+cast of zero by a large margin. That is, the historical mean stock return is so noisy that it artiﬁcially
+lowers the bar for “good” forecasting performance. We avoid this pitfall by benchmarking our R2
+against a forecast value of zero. To give an indication of the importance of this choice, when we
+benchmark model predictions against historical mean stock returns, the out-of-sample monthly R2
+of all methods rises by roughly three percentage points.
+24Early stopping bears a comparatively low computation cost because it only partially optimizes, while the l2-
+regularization, or more generally elastic net, search across tuning parameters and fully optimizes the model subject to
+each tuning parameter guess. As usual, elastic net’s l1-penalty component encourages neurons to connect to limited
+number of other neurons, while its l2-penalty component shrinks the weight parameters toward zero (a feature known
+in the neural net literature as “weight-decay”). In certain circumstances, early stopping and weight-decay are shown
+to be equivalent. See, e.g., Bishop (1995) and Goodfellow et al. (2016).
+25Estimation with diﬀerent seeds can run independently in parallel which limits incremental computing time.
+22

@@ -1,0 +1,3533 @@
+ 
+1
+Part I
+Risk Measurement Framework
+
+ 
+2
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+3
+Part I:  Risk Measurement Framework
+Chapter 1.
+Introduction
+ 
+1.1  An introduction to Value-at-Risk and RiskMetrics
+6
+1.2  A more advanced approach to Value-at-Risk using RiskMetrics
+7
+1.2.1  
+Using RiskMetrics to compute VaR on a portfolio of cash ﬂows
+9
+1.2.2  
+Measuring the risk of nonlinear positions
+11
+1.3  What RiskMetrics provides
+16
+1.3.1  
+An overview
+16
+1.3.2  
+Detailed speciﬁcation
+18
+
+ 
+4
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+5
+Part I:  Risk Measurement Framework
+Chapter 1.
+Introduction
+ 
+Jacques Longerstaey
+Morgan Guaranty Trust Company
+Risk Management Advisory
+(1-212) 648-4936
+ 
+riskmetrics@jpmorgan.com
+ 
+This chapter serves as an introduction to the RiskMetrics product. RiskMetrics is a set of method-
+ologies and data for measuring market risk. By market risk, we mean the potential for changes in 
+value of a position resulting from changes in market prices.
+We deﬁne risk as the degree of uncertainty of future net returns. This uncertainty takes many 
+forms, which is why most participants in the ﬁnancial markets are subject to a variety of risks. A 
+common classiﬁcation of risks is based on the source of the underlying uncertainty:
+• Credit risk estimates the potential loss because of the inability of a counterparty to meet its 
+obligations.
+• Operational risk results from errors that can be made in instructing payments or settling trans-
+actions.
+• Liquidity risk is reﬂected in the inability of a ﬁrm to fund its illiquid assets.
+• Market risk, the subject of the methodology described in this document, involves the uncer-
+tainty of future earnings resulting from changes in market conditions, (e.g., prices of assets, 
+interest rates). Over the last few years measures of market risk have become synonymous 
+with the term Value-at-Risk.
+RiskMetrics has three basic components:
+• The ﬁrst is a set of methodologies outlining how risk managers can compute Value-at-Risk on 
+a portfolio of ﬁnancial instruments. These methodologies are explained in this 
+ 
+Technical Document
+ 
+, which is an annual publication, and in the 
+ 
+RiskMetrics
+ 
+ 
+ 
+Monitor
+ 
+, the 
+quarterly update to the 
+ 
+Technical Documen
+ 
+t.
+• The second is data that we distribute to enable market participants to carry out the methodol-
+ogies set forth in this document.
+• The third is Value-at-Risk calculation and reporting software designed by J.P. Morgan, 
+Reuters, and third party developers. These systems apply the methodologies set forth in this 
+document and will not be discussed in this publication.
+This chapter is organized as follows:
+• Section 1.1 presents the deﬁnition of Value-at-Risk (VaR) and some simple examples of how 
+RiskMetrics offers the inputs necessary to compute VaR. The purpose of this section is to 
+offer a basic approach to VaR calculations.
+• Section 1.2 describes more detailed examples of VaR calculations for a more thorough under-
+standing of how RiskMetrics and VaR calculations ﬁt together. In Section 1.2.2 we provide an 
+example of how to compute VaR on a portfolio containing options (nonlinear risk) using two 
+different methodologies.
+• Section 1.3 presents the contents of RiskMetrics at both the general and detailed level. This 
+section provides a step-by-step analysis of the production of RiskMetrics volatility and corre-
+lation ﬁles as well as the methods that are necessary to compute VaR. For easy reference we 
+provide section numbers within each step so that interested readers can learn more about that 
+particular subject.
+
+ 
+6
+Chapter 1.  Introduction
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Reading this chapter requires a basic understanding of statistics. For assistance, readers can refer 
+to the glossary at the end of this document.
+ 
+1.1  An introduction to Value-at-Risk and RiskMetrics
+ 
+Value-at-Risk is a measure of the maximum potential change in value of a portfolio of ﬁnancial 
+instruments with a given probability over a pre-set horizon. VaR answers the question:  how much 
+can I lose with 
+ 
+x
+ 
+% probability over a given time horizon. For example, if you think that there is a 
+95% chance that the DEM/USD exchange rate will not fall by more than 1% of its current value 
+over the next day, you can calculate the maximum potential loss on, say, a USD 100 million 
+DEM/USD position by using the methodology and data provided by RiskMetrics. The following 
+examples describe how to compute VaR using standard deviations and correlations of ﬁnancial 
+returns (provided by RiskMetrics) under the assumption that these returns are normally distrib-
+uted. (RiskMetrics provides alternative methodological choices to address the inacurracies result-
+ing from this simplifying assumption).
+• 
+ 
+Example 1:
+ 
+  You are a USD-based corporation and hold a DEM 140 million FX position. What 
+is your VaR over a 1-day horizon given that there is a 5% chance that the realized loss will be 
+greater than what VaR projected? The choice of the 5% probability is discretionary and differs 
+across institutions using the VaR framework.
+What is your exposure?
+The ﬁrst step in the calculation is to compute your exposure 
+to market risk (i.e., mark-to-market your position). As a USD- 
+based investor, your exposure is equal to the market value of 
+the position in your base currency. If the foreign exchange 
+rate is 1.40 DEM/USD, the market value of the position is 
+USD 100 million.
+What is your risk?
+Moving from exposure to risk requires an estimate of how 
+much the exchange rate can potentially move. The standard 
+deviation of the return on the DEM/USD exchange rate, mea-
+sured historically can provide an indication of the size of rate 
+movements. In this example, we calculated the DEM/USD 
+daily standard deviation to be 0.565%. Now, under the stan-
+dard RiskMetrics assumption that standardized returns 
+(
+ on DEM/USD are normally distributed given the 
+value of this standard deviation, VaR is given by 1.65 times 
+the standard deviation (that is, 1.65
+ 
+σ
+ 
+) or 0.932% (see 
+Chart 1.1). This means that the DEM/USD exchange rate is 
+not expected to drop more than 0.932%, 95% of the time. 
+ 
+RiskMetrics provides users with the VaR statistics 1.65
+ 
+σ
+ 
+.
+ 
+ 
+In USD, the VaR of the position
+ 
+1
+ 
+ is equal to the market value 
+of the position times the estimated volatility or:
+FX Risk:  $100 million 
+ 
+×
+ 
+ 0.932%  = $932,000
+What this number means is that 95% of the time, you will not 
+lose more than $932,000 over the next 24 hours.
+ 
+1
+ 
+This is a simple approximation.
+ 
+Chart 1.1
+ 
+VaR statistics 
+5%
+No. of observations
+rt/σt
+rt σt
+⁄
+(
+)
+
+ 
+Sec. 1.2  A more advanced approach to Value-at-Risk using RiskMetrics
+7
+Part I:  Risk Measurement Framework
+ 
+• 
+ 
+Example 2:
+ 
+  Let’s complicate matters somewhat. You are a USD-based corporation and hold a 
+DEM 140 million position in the 10-year German government bond. What is your VaR over a 
+1-day horizon period, again, given that there is a 5% chance of understating the realized loss? 
+What is your exposure?
+The only difference versus the previous example is that you 
+now have both interest rate risk on the bond and FX risk result-
+ing from the DEM exposure. The exposure is still USD 100 
+million but it is now at risk to two market risk factors.
+What is your risk?
+If you use an estimate of 10-year German bond standard devia-
+tion of 0.605%, you can calculate:
+Interest rate risk: $100 million 
+ 
+×
+ 
+ 1.65 
+ 
+× 
+ 
+0.605% = $999,000
+FX Risk: $100 million 
+ 
+×
+ 
+ 1.65 
+ 
+× 
+ 
+0.565%  = $932,000
+Now, the total risk of the bond is not simply the sum of the 
+interest rate and FX risk because the correlation
+ 
+2
+ 
+ between the 
+return on the DEM/USD exchange rate the return on the 10-
+year German bond is relevant. In this case, we estimated the 
+correlation between the returns on the DEM/USD exchange 
+rate and the 10-year German government bond to be 
+ 
+−
+ 
+0.27. 
+Using a formula common in standard portfolio theory, the total 
+risk of the position is given by:
+[1.1]
+ 
+To compute VaR in this example, RiskMetrics provides 
+users with the VaR of interest rate component 
+(i.e., 1.65 
+ 
+× 
+ 
+0.605), the VaR of the foreign exchange position 
+(i.e., 1.65 
+ 
+× 
+ 
+0.565) and the correlation between the two 
+return series, 
+ 
+−
+ 
+0.27.
+1.2  A more advanced approach to Value-at-Risk using RiskMetrics
+ 
+Value-at-Risk is a number that represents the potential change in a portfolio’s future value. How 
+this change is deﬁned depends on (1) the horizon over which the portfolio’s change in value is 
+measured and (2) the “degree of conﬁdence” chosen by the risk manager. 
+VaR calculations can be performed without using standard deviation or correlation forecasts. 
+These are simply 
+ 
+one
+ 
+ set of inputs that can be used to calculate VaR, and that RiskMetrics pro-
+vides for that purpose. The principal reason for preferring to work with standard deviations (vola-
+tility) is the strong evidence that the volatility of ﬁnancial returns is predictable. Therefore, if 
+volatility is predictable, it makes sense to make forecasts of it to predict future values of the return 
+distribution.
+ 
+2
+ 
+Correlation is a measure of how two series move together. For example, a correlation of 1 implies that two series 
+move perfectly together in the same direction.
+VaR
+σ
+2
+Interest rate
+σFX
+2
+2
+ρInterest rate, FX
+σInterest rate
+σFX
+×
+×
+×
+(
+)
++
++
+=
+VaR
+0.999
+(
+) 2
+0.932
+(
+) 2
+2
+0.27
+–
+0.999
+0.932
+×
+×
+×
+(
+)
++
++
+=
+$ 1.168 million
+=
+
+ 
+8
+Chapter 1.  Introduction
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Suppose we want to compute the Value-at-Risk of a portfolio over a 1-day horizon with a 5% 
+chance that the actual loss in the portfolio’s value is greater than the VaR estimate. The Value-at-
+Risk calculation consists of the following steps.
+1.
+Mark-to-market the current portfolio. Denote this value by 
+.
+2.
+Deﬁne the future value of the portfolio, 
+, as 
+ where
+ 
+3
+ 
+ 
+ 
+r
+ 
+ represents the return 
+on the portfolio over the horizon. For a 1-day horizon, this step is unnecessary as 
+RiskMetrics assumes a 0 return.
+3.
+Make a forecast of the 1-day return on the portfolio and denote this value by , such that 
+there is a 5% chance that the actual return will be less than . Alternatively expressed, 
+Probability 
+ = 5%.
+4.
+Deﬁne the portfolio’s future “worst case” value 
+, as 
+. The Value-at-Risk esti-
+mate is simply 
+.
+Notice that the VaR estimate can be written as 
+. In the case that 
+ is sufﬁciently 
+small, 
+ so that 
+. is approximately equal to 
+. 
+The purpose of a risk measurement system such as RiskMetrics is to offer a means to com-
+pute . 
+Within this more general framework we use a simple example to demonstrate how the RiskMetrics 
+methodologies and data enable users to compute VaR. Assume the forecast horizon over which 
+VaR is measured is one day and the level of “conﬁdence” in the forecast to 5%. Following the 
+steps outlined above, the calculation would proceed as follows:
+1.
+Consider a portfolio whose current marked-to-market value, 
+, is USD 500 million.
+2.
+To carry out the VaR calculation we require 1-day forecasts of the mean 
+. Within the 
+RiskMetrics framework, we assume that the mean return over a 1-day horizon period is 
+equal to 0.
+3.
+We also need the standard deviation,
+, of the returns in this portfolio. Assuming that the 
+return on this portfolio is distributed conditionally normal, 
+. The 
+RiskMetrics data set provides the term 1.65
+. Hence, setting 
+ and 
+, we get 
+.
+ 
+4
+ 
+ 
+4.
+This yields a Value-at-Risk of USD 25.8 million (given by 
+). 
+The histogram in Chart 1.2 presents future changes in value of the portfolio. VaR reduces risk to 
+just one number, i.e., a loss associated with a given probability. It is often useful for risk managers 
+to focus on the total distribution of potential gains and losses and we will discuss why this is so 
+later in this document. (See Section 6.3).
+ 
+3
+ 
+Where e is approximately 2.27183
+ 
+4
+ 
+This number is computed from 
+V0
+V1
+V1
+V0e
+r
+=
+rˆ
+rˆ
+r
+rˆ
+<
+(
+)
+Vˆ 1
+Vˆ 1
+V0e
+rˆ
+=
+V0
+Vˆ 1
+–
+V0 1
+e
+–
+rˆ
+
+
+
+
+rˆ
+e
+rˆ
+1
+rˆ
++
+≈
+VaR is approximately equal toV0rˆ
+V0rˆ
+rˆ
+V0
+µ1 0
+σ1 0
+rˆ
+1.65σ1 0
+–
+µ1 0
++
+=
+σ1 0
+µ1 0
+0
+=
+σ1 0
+0.0321
+=
+V1
+USD 474.2 million
+=
+e
+1.65σ
+–
+
+
+
+V0
+V0
+Vˆ 1
+–
+
+ 
+Sec. 1.2  A more advanced approach to Value-at-Risk using RiskMetrics
+9
+Part I:  Risk Measurement Framework
+ 
+Chart 1.2
+ 
+Simulated portfolio changes
+ 
+1.2.1  Using RiskMetrics to compute VaR on a portfolio of cash ﬂows
+ 
+Calculating VaR usually involves more steps than the basic ones outlined in the examples above. 
+Even before calculating VaR, you need to estimate to which risk factors a particular portfolio is 
+exposed. The preferred methodology for doing this is to decompose ﬁnancial instruments into their 
+basic cash ﬂow components. The RiskMetrics methodology and data allow users to compute the 
+VaR on portfolios consisting of a variety of cash ﬂows. We use a simple example (a portfolio con-
+sisting of three cash ﬂows) to demonstrate how to compute VaR.
+ 
+Step 1.
+ 
+Each ﬁnancial position in a portfolio is expressed as one or more cash ﬂows that are 
+marked-to-market at current market rates. For example, consider an instrument that gives 
+rise to three USD 100 cash ﬂows each occurring in 1, 4, and 7 months’ time as shown in 
+Chart 1.3.
+ 
+Chart 1.3
+ 
+Actual cash ﬂows
+ 
+Step 2.
+ 
+When necessary, the actual cash ﬂows are converted to RiskMetrics cash ﬂows by map-
+ping (redistributing) them onto a standard grid of maturity vertices, known as RiskMetrics 
+vertices, which are ﬁxed at the following intervals: 
+1m
+3m
+6m
+12m 2yr
+3yr
+4yr
+5yr
+7yr
+9yr
+10yr 15yr 20yr 30yr
+The purpose of the mapping is to standardize the cash ﬂow intervals of the instrument such 
+that we can use the volatilities and correlations that are routinely computed for the given 
+vertices in the RiskMetrics data sets. (It would be impossible to provide volatility and cor-
+relation estimates on every possible maturity so RiskMetrics provides a mapping method-
+-48 -40 -32 -24 -16
+-8
+0
+8
+16
+24
+32
+40
+48
+0.00
+0.01
+0.02
+0.03
+0.04
+0.05
+0.06
+0.07
+0.08
+0.09
+0.10
+P/L ($million)
+95% confidence:
+$25.8 million
+Probability
+100
+100
+100
+1m
+4m
+7m
+Principal flows
+
+ 
+10
+Chapter 1.  Introduction
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+ology which distributes cash ﬂows to a workable set of standard maturities). The 
+methodology for mapping cash ﬂows is detailed in Chapter 6. 
+To map the cash ﬂows, we use the RiskMetrics vertices closest to the actual vertices and 
+redistribute the actual cash ﬂows as shown in Chart 1.4.
+ 
+Chart 1.4
+ 
+Mapping actual cash ﬂows onto RiskMetrics vertices
+ 
+The RiskMetrics cash ﬂow map is used to work backwards to calculate the return for each 
+of the actual cash ﬂows from the cash ﬂow at the associated RiskMetrics vertex, or vertices.
+For each actual cash ﬂow, an analytical expression is used to express the relative change in 
+value of the actual cash ﬂow in terms of an underlying return on a particular instrument. 
+Continuing with Chart 1.4, we can write the return on the actual 4-month cash ﬂow in 
+terms of the combined returns on the 3-month (60%) and 6-month (40%) RiskMetrics cash 
+ﬂows:
+[1.2]
+where
+Similarly, the return on the 7-month cash ﬂow can be written as
+[1.3]
+Note that the return on the actual 1-month cash ﬂow is equal to the return on the 1-month 
+instrument.
+ 
+Step 3.
+ 
+VaR is calculated at the 5th percentile of the distribution of portfolio return, and for a spec-
+iﬁed time horizon. In the example above, the distribution of the portfolio return, 
+, is 
+written as:
+[1.4]
+RiskMetrics cashflows
+100
+Actual cashflows
+100
+60
+30
+40
+70
+100
+110
+30
+60
+Cashflow mapping
+100
+100
+1m
+4m
+7m
+1m
+3m
+6m
+12m
+1m
+3m
+6m
+12m
+r4m
+0.60r3m
+0.40r6m
++
+=
+ r4m
+return on the actual 4-month cash flow
+=
+r3m
+return on the 3-month RiskMetrics cash flow
+=
+r6m
+return on the 6-month RiskMetrics cash flow
+=
+r7m
+0.70r6m
+0.30r12m
++
+=
+rp
+rp
+0.33r1m
+0.20r3m
+0.37r6m
+0.10r12m
++
++
++
+=
+
+Sec. 1.2  A more advanced approach to Value-at-Risk using RiskMetrics
+11
+Part I:  Risk Measurement Framework
+where, for example the portfolio weight 0.33 is the result of 100 divided by the total port-
+folio value 300. 
+Now, to compute VaR at the 95th percent conﬁdence level we need the ﬁfth percentile of 
+the portfolio return distribution. Under the assumption that 
+ is distributed conditionally 
+normal, the ﬁfth percentile is −1.65
+ where 
+ is the standard deviation of the portfolio 
+return distribution. Applying Eq. [1.1] to a portfolio containing more than two instruments 
+requires using simple matrix algebra. We can thus express this VaR calculation as follows:
+[1.5]
+ 
+where 
+ is a vector of VaR estimates per instrument,
+,
+ and R is the correlation matrix
+[1.6]
+where, for example, 
+ is the correlation estimate between 1-month and 3-month 
+returns.
+Note that RiskMetrics provides the vector of information 
+as well as the correlation matrix R. What the user has to provide are the actual port-
+folio weights. 
+1.2.2  Measuring the risk of nonlinear positions
+When the relationship between position value and market rates is nonlinear, then we cannot esti-
+mate changes in value by multiplying “estimated changes in rates” by “sensitivity of the position 
+to changing rates;” the latter is not constant (i.e., the deﬁnition of a nonlinear position). In our pre-
+vious examples, we could easily estimate the risk of a ﬁxed income or foreign exchange product 
+by assuming a linear relationship between the value of an instrument and the value of its underly-
+ing. This is not a reasonable assumption when dealing with nonlinear products such as options.
+RiskMetrics offers two methodologies, an analytical approximation and a structured Monte 
+Carlo simulation to compute the VaR of nonlinear positions:
+1.
+The ﬁrst method approximates the nonlinear relationship via a mathematical expression 
+that relates the return on the position to the return on the underlying rates. This is done by 
+using what is known as a Taylor series expansion.
+This approach no longer necessarily assumes that the change in value of the instrument is 
+approximated by its delta alone (the ﬁrst derivative of the option’s value with respect to the 
+underlying variable) but that a second order term using the option’s gamma (the second 
+derivative of the option’s value with respect to the underlying price) must be introduced to 
+rp
+σp
+σp
+VaR
+VRV
+T
+=
+V
+V
+0.33 1.65σ
+⋅
+1m
+(
+)
+0.20 1.65σ3m
+⋅
+(
+)
+0.37 1.65σ6m
+⋅
+(
+)
+0.10 1.65σ12m
+⋅
+(
+)
+,
+,
+,
+[
+]
+=
+R
+1
+ρ3m 1m
+,
+ρ6m 1m
+,
+ρ12m 1m
+,
+ρ1m 3m
+,
+1
+ρ6m 3m
+,
+ρ12m 3m
+,
+ρ1m 6m
+,
+ρ3m 6m
+,
+1
+ρ12m 6m
+,
+ρ1m 12m
+,
+ρ3m 12m
+,
+ρ6m 12m
+,
+1
+=
+ρ1m 3m
+,
+V
+1.65σ1m
+(
+)
+1.65σ3m
+(
+)
+1.65σ6m
+(
+)
+1.65σ12m
+(
+)
+,
+,
+,
+[
+]
+=
+
+12
+Chapter 1.  Introduction
+RiskMetrics —Technical Document
+Fourth Edition
+measure the curvature of changes in value around the current value. In practice, other 
+“greeks” such as vega (volatility), rho (interest rate) and theta (time to maturity) can also be 
+used to improve the accuracy of the approximation. In Section 1.2.2.1, we present two 
+types of analytical methods for computing VaR—the delta and delta-gamma approxima-
+tion.
+2.
+The second alternative, structured Monte Carlo simulation, involves creating a large num-
+ber of possible rate scenarios and revaluing the instrument under each of these scenarios. 
+VaR is then deﬁned as the 5th percentile of the distribution of value changes. Due to the 
+required revaluations, this approach is computationally more intensive than the ﬁrst 
+approach.
+The two methods differ not in terms of how market movements are forecast (since both use the 
+RiskMetrics volatility and correlation estimates) but in how the value of portfolios changes as a 
+result of market movements. The analytical approach approximates changes in value, while the 
+structured Monte Carlo fully revalues portfolios under various scenarios.
+Let us illustrate these two methods using a practical example. We will consider throughout this 
+section a portfolio comprised of two assets:
+Asset 1:  a future cash ﬂow stream of DEM 1 million to be received in one year’s time. The cur-
+rent 1-year DEM rate is 10% so the current market value of the instrument is DEM 909,091. 
+Asset 2:  an at-the-money (ATM) DEM put/USD call option with contract size of 
+DEM 1 million and expiration date one month in the future. The premium of the option is 0.0105 
+and the spot exchange rate at which the contract was concluded is 1.538 DEM/USD. We assume 
+the implied volatility at which the option is priced is 14%.
+The value of this portfolio depends on the USD/DEM exchange rate and the one-year DEM bond 
+price. Technically, the value of the option also changes with USD interest rates and the implied 
+volatility, but we will not consider these effects. Our risk horizon for the example will be ﬁve days. 
+We take as the daily volatilities of these two assets 
+ and 
+ and as the 
+correlation between the two 
+.
+Both alternatives will focus on price risk exclusively and therefore ignore the risk associated with 
+volatility (vega), interest rate (rho) and time decay (theta risk). 
+1.2.2.1  Analytical method
+There are various ways to analytically approximate nonlinear VaR. This section reviews the two 
+alternatives which we discussed previously.
+Delta approximation
+The standard VaR approach can be used to come up with ﬁrst order approximations of portfolios 
+that contain options. (This is essentially the same simpliﬁcation that ﬁxed income traders use when 
+they focus exclusively on the duration of their portfolio). The simplest such approximation is to 
+estimate changes in the option value via a linear model, which is commonly known as the ”delta 
+approximation.” Delta is the ﬁrst derivative of the option price with respect to the spot exchange 
+rate. The value of δ for the option in this example is −0.4919.
+In the analytical method, we must ﬁrst write down the return on the portfolio whose VaR we are 
+trying to calculate. The return on this portfolio consisting of a cash ﬂow in one year and a put on 
+the DEM/call on the USD is written as follows:
+[1.7]
+ 
+σFX
+0.42%
+=
+σB
+0.08%
+=
+ρ
+0.17
+–
+=
+rp =r1y
+rDEM
+USD
+-------------
+δrDEM
+USD
+-------------
++
++
+
+Sec. 1.2  A more advanced approach to Value-at-Risk using RiskMetrics
+13
+Part I:  Risk Measurement Framework
+where 
+Under the assumption that the portfolio return is normally distributed, VaR at the 95% conﬁdence 
+level is given by 
+[1.8]
+Using our volatilities and correlations forecasts for DEM/USD and the 1-year DEM rate (scaled up 
+to the weekly horizon using the square root of time rule), the weekly VaR for the portfolio using 
+the delta equivalent approach can be approximated by:
+Market value in USD
+VaR(1w)
+1-yr DEM cash ﬂow
+$591,086
+$1,745
+FX position - FX hedge
+$300,331
+$4,654
+Diversiﬁed VaR
+$4,684
+Delta-gamma approximation
+The delta approximation is reasonably accurate when the exchange rate does not change signiﬁ-
+cantly, but less so in the more extreme cases. This is because the delta is a linear approximation of 
+a non linear relationship between the value of the exchange rate and the price of the option as 
+shown in Chart 1.5. We may be able to improve this approximation by including the gamma term, 
+which accounts for nonlinear (i.e. squared returns) effects of changes in the spot rate (this attempts 
+to replicate the convex option price to FX rate relationship as shown in Chart 1.5). The expression 
+for the portfolio return is now
+[1.9]
+where 
+In this example, 
+ = DEM/USD 15.14.
+Now, the gamma term (the fourth term in Eq. [1.9]) introduces skewness into the distribution of 
+ (i.e., the distribution is no longer symmetrical around its mean). Therefore, since this violates 
+one of the assumptions of normality (symmetry) we can no longer calculate the 95th percentile 
+VaR as 1.65 times the standard deviation of 
+. Instead we must ﬁnd the appropriate multiple (the 
+counterpart to −1.65) that incorporates the skewness effect. We compute the 5th percentile of 
+’s 
+distribution (Eq. [1.9]) by computing its ﬁrst four moments, i.e., 
+’s mean, variance, skewness 
+and kurtosis. We then ﬁnd distribution whose ﬁrst four moments match those of 
+’s. (See 
+Section 6.3 for details.) 
+r1 p
+the price return on the 1-year German interest rates
+=
+rDEM
+USD
+-------------
+the return on the DEM/USD exchange rate
+=
+δ
+the delta of the option
+=
+VaR = 1.65 σ1y
+2
+1
+δ
++
+(
+)
+2σDEM
+USD
+-------------
+2
+2 1
+δ
++
+(
+) ρ
+1y DEM
+USD
+-------------
+,
+σ1yσDEM
+USD
+-------------
++
++
+rp =r1y
+rDEM
+USD
+-------------
+δrDEM
+USD
+-------------
+0.5 ΓPDEM
+USD
+------------- rDEM
+USD
+-------------
+
+
+
+
+2
+⋅
++
++
++
+PDEM
+USD
+-------------
+the value of the DEM/USD exchange rate when the VaR forecast is made
+=
+Γ
+the gamma of the option.
+=
+Γ
+rP
+rp
+rp
+rp
+rp
+
+14
+Chapter 1.  Introduction
+RiskMetrics —Technical Document
+Fourth Edition
+Applying this methodology to this approach we ﬁnd the VaR for this portfolio to be USD 3,708. 
+Note that in this example, incorporating gamma reduces VaR relative to the delta only approxima-
+tion (from USD 5006 to USD 3708).
+Chart 1.5
+Value of put option on USD/DEM
+strike = 0.65 USD/DEM. Value in USD/DEM.
+1.2.2.2  Structured Monte-Carlo Simulation
+Given the limitations of analytical VaR for portfolios whose P/L distributions may not be symmet-
+rical let alone normally distributed, another possible route is to use a model which instead of esti-
+mating changes in value by the product of a rate change (σ) and a sensitivity (δ, Γ), focuses on 
+revaluing positions at changed rate levels. This approach is based on a full valuation precept where 
+all instruments are marked to market under a large number of scenarios driven by the volatility and 
+correlation estimates.
+The Monte Carlo methodology consists of three major steps:
+1.
+Scenario generation —Using the volatility and correlation estimates for the underlying 
+assets in our portfolio, we produce a large number of future price scenarios in accordance 
+with the lognormal models described previously. The methodology for generating scenarios 
+from volatility and correlation estimates is described in Appendix E.
+2.
+Portfolio valuation — For each scenario, we compute a portfolio value.
+3.
+Summary — We report the results of the simulation, either as a portfolio distribution or as 
+a particular risk measure.
+Using our volatility and correlation estimates, we can apply our simulation technique to our exam-
+ple portfolio. We can generate a large number of scenarios (1000 in this example case) of DEM 
+1-year and DEM/USD exchange rates at the 1-week horizon. Chart 1.6 shows the actual distribu-
+tions for both instruments as well as the scattergram indicating the degree of correlation (−0.17) 
+between the two rate series. 
+0.60
+0.61
+0.62
+0.63
+0.64
+0.65
+0.66
+0.67
+0.68
+0.69
+0.70
+-0.02
+-0.01
+0
+0.01
+0.02
+0.03
+0.04
+0.05
+0.06
+USD/DEM exchange rate
+Full valuation
+Delta
+Delta + gamma
+Option value
+
+Sec. 1.2  A more advanced approach to Value-at-Risk using RiskMetrics
+15
+Part I:  Risk Measurement Framework
+Chart 1.6
+Histogram and scattergram of rate distributions
+2-yr DEM rate and DEM/USD rate
+With the set of interest and foreign exchange rates obtained under simulation, we can revalue both 
+of the instruments in our portfolio. Their respective payouts are shown in Chart 1.7.
+Chart 1.7
+Valuation of instruments in sample portfolio
+Value of the cash ﬂow stream     
+Value of the FX option 
+The ﬁnal task is to analyze the distribution of values and select the VaR using the appropriate per-
+centile. Chart 1.8 shows the value of the components of the portfolio at the end of the horizon 
+period.
+9.3% 9.5% 9.7% 10.0%10.2%10.4%10.6%
+0
+20
+40
+60
+80
+100
+120
+1.49
+1.50
+1.52
+1.53
+1.55
+1.56
+1.58
+0
+20
+40
+60
+80
+100
+120
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+JJ
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+JJ
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J JJ
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+JJ
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+JJ
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+JJ
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+J
+Frequency
+Frequency
+Yields
+P/L
+9.30
+9.55
+9.80
+10.05
+10.30
+10.55
+585.0
+587.5
+590.0
+592.5
+595.0
+Option value - USD thousands
+Yield
+0
+5
+10
+15
+20
+25
+1.48
+1.5
+1.52
+1.54
+1.56
+1.58
+1.6
+DEM/USD
+Cash flow value - USD thousands
+
+16
+Chapter 1.  Introduction
+RiskMetrics —Technical Document
+Fourth Edition
+Chart 1.8
+Representation of VaR
+Histogram of portfolio values
+The charts above provide a visual indication as to why the delta approximation is usually not suit-
+able for portfolios that contain options. The distribution of returns in portfolios that include 
+options is typically skewed. The standard delta equivalent VaR approach expects symmetry around 
+the mean and applies a basic normal distribution approach (i.e., the 95% percentile equates to a 
+1.65 standard deviation move). In this case, the lack of symmetry in the distribution does not allow 
+us to apply the normal approximation. Furthermore, the distribution’s skewness results in a VaR 
+number that is basically position dependent (i.e., the risk is different whether you are long or short 
+the option).
+1.3  What RiskMetrics provides
+As discussed previously, RiskMetrics has three basic components which are detailed below.
+1.3.1  An overview
+With RiskMetrics J.P. Morgan and Reuters provide
+1.
+A set of methodologies for statistical market risk measures that are based on, but differ sig-
+niﬁcantly from, the methodology developed and used within J.P. Morgan. This approach 
+was developed so as to enable other ﬁnancial institutions, corporate treasuries, and inves-
+tors to estimate their market risks in a consistent and reasonable fashion. Methodology 
+deﬁnes how positions are to be mapped and how potential market movements are estimated 
+and is detailed in the following chapters. 
+2.
+Daily recomputed data sets which are comprehensive sets of consistently estimated instru-
+ment level VaRs (i.e., 1.65 standard deviations) and correlations across a large number of 
+asset classes and instruments. We currently distribute three different data sets over the 
+Internet: one for short term trading risks, the second for intermediate term investment risks 
+and the third for regulatory reporting. These are made available to the market free of 
+charge. 
+In the near future, a more customizable version of RiskMetrics where users will be able to 
+create covariance matrices from a large underlying database according to various numerical 
+methods will be made available over the Reuters Web. This product will not replace the 
+595
+598
+601
+604
+607
+610
+614
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+595
+598
+601
+604
+607
+610
+614
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+Frequency
+Percent
+Current value = USD 601,388
+95% percentile = USD 596,829
+VaR = USD 4,599
+Portfolio value
+Portfolio value
+
+Sec. 1.3  What RiskMetrics provides
+17
+Part I:  Risk Measurement Framework
+data sets available over the Internet but will provide subscribers to the Reuters services 
+with a more ﬂexible tool.
+The four basic classes of instruments that RiskMetrics methodology and data sets cover are 
+represented as follows:
+• Fixed income instruments are represented by combinations of amounts of cash ﬂows in 
+a given currency at speciﬁed dates in the future. RiskMetrics applies a ﬁxed number of 
+dates (14 vertices) and two types of credit standings:  government and non-govern-
+ment. The data sets associated with ﬁxed income are zero coupon instrument VaR sta-
+tistics, i.e., 1.65σ, and correlations for both government and swap yield curves.
+• Foreign exchange transactions are represented by an amount and two currencies. 
+RiskMetrics allows for 30 different currency pairs (as measured against the USD).
+• Equity instruments are represented by an amount and currency of an equity basket 
+index in any of 30 different countries. Currently, RiskMetrics does not consider the 
+individual characteristics of a company stock but only the weighted basket of compa-
+nies as represented by the local index.
+• Commodities positions are represented by amounts of selected standardized commod-
+ity futures contracts traded on commodity exchanges
+3.
+Software provided by J.P. Morgan, Reuters and third party ﬁrms that use the RiskMetrics 
+methodology and data documented herein.
+Chart 1.9
+Components of RiskMetrics
+Since the RiskMetrics methodology and the data sets are in the public domain and freely available, 
+anyone is free to implement systems utilizing these components of RiskMetrics. Third parties have 
+developed risk management systems for a wide range of clients using different methodologies. 
+The following paragraphs provide a taxonomy comparing the different approaches.
+Blotter 
+(Inventory)
+Posting
+Transaction
+Mapping
+Position
+Evaluation
+Risk 
+/Return 
+Measures
+RiskMetrics™ 
+methodology
+System 
+implementations 
+RiskMetrics™ 
+Volatility & correlation 
+estimates
+Valuation
+Profits & 
+Losses
+Risk 
+Projection
+Estimated 
+Risks
+
+18
+Chapter 1.  Introduction
+RiskMetrics —Technical Document
+Fourth Edition
+1.3.2  Detailed speciﬁcation
+The section below provides a brief overview of how the RiskMetrics datasets are produced and 
+how the parameters we provide can be used in a VaR calculation.
+1.3.2.1  Production of volatility and correlation data sets
+RiskMetrics provides the following sets of volatility and corresponding correlation data ﬁles. One 
+set is for use in estimating VaR with a forecast horizon of one day. The other set is optimized for a 
+VaR forecast horizon of one month. The third set is based on the quantitative criteria set by the 
+Bank for International Settlements on the use of VaR models to estimate the capital required to 
+cover market risks. The process by which these data ﬁles are constructed are as follows:
+1.
+Financial prices are recorded from global data sources. (In 1997, RiskMetrics will switch to 
+using Reuters data exclusively). For certain ﬁxed income instruments we construct zero 
+rates. See Chapter 9 for data sources and RiskMetrics building blocks.
+2.
+Fill in missing prices by using the Expectation Maximization algorithm (detailed in 
+Section 8.2). Prices can be missing for a variety of reasons, from technical failures to holi-
+day schedules.
+3.
+Compute daily price returns on all 480 time series (Section 4.1).
+4.
+Compute standard deviations and correlations of ﬁnancial price returns for a 1-day VaR 
+forecast horizon. This is done by constructing exponentially weighted forecasts. (See 
+Section 5.2). Production of the daily statistics also involves setting the sample daily mean 
+to zero. (See Section 5.3). If data is recorded at different times (Step 1), users may require 
+an adjustment algorithm applied to the correlation estimates. Such an algorithm is 
+explained in Section 8.5. Also, users who need to rebase the datasets to account for a base 
+currency other than the USD should see Section 8.4.
+5.
+Compute standard deviations and correlations of ﬁnancial price returns for 1-month VaR 
+forecast horizon. This is done by constructing exponentially weighted forecasts 
+(Section 5.3). Production of the monthly statistics also involves setting the sample daily 
+mean to zero.
+1.3.2.2  RiskMetrics VaR calculation
+1.
+The ﬁrst step in the VaR calculation is for the user to deﬁne three parameters: 
+(1) VaR forecast horizon—the time over which VaR is calculated, (2) conﬁdence level—the 
+probability that the realized change in portfolio will be less than the VaR prediction, and (3) 
+the base currency.
+2.
+For a given portfolio, once the cash ﬂows have been identiﬁed and marked-to-market 
+(Section 6.1) they need to be mapped to the RiskMetrics vertices (Section 6.2).
+3.
+Having mapped all the positions, a decision must be made as to how to compute VaR. If the 
+user is willing to assume that the portfolio return is approximately conditionally normal, 
+then download the appropriate data ﬁles (instrument level VaRs and correlations) and com-
+pute VaR using the standard RiskMetrics approach (Section 6.3).
+4.
+If the user’s portfolio is subject to nonlinear risk to the extent that the assumption of condi-
+tional normality is no longer valid, then the user can choose between two methodologies—
+delta-gamma and structured Monte Carlo. The former is an approximation of the latter. See 
+Section 6.3 for a description of delta-gamma and Chapter 7for an explanation of structured 
+Monte Carlo. 
+
+ 
+19
+Part I:  Risk Measurement Framework
+Chapter 2.
+Historical perspective of VaR
+ 
+2.1  From ALM to VaR
+22
+2.2  VaR in the framework of modern ﬁnancial management
+24
+2.2.1  
+Valuation
+25
+2.2.2  
+Risk estimation
+25
+2.3  Alternative approaches to risk estimation
+26
+2.3.1  
+ Estimating changes in value
+26
+2.3.2  
+Estimating market movements
+27
+
+ 
+20
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+21
+Part I:  Risk Measurement Framework
+Chapter 2.
+Historical perspective of VaR
+ 
+Jacques Longerstaey
+Morgan Guaranty Trust Company
+Risk Management Advisory
+(1-212) 648-4936
+ 
+riskmetrics@jpmorgan.com
+ 
+Measuring the risks associated with being a participant in the ﬁnancial markets has become the 
+focus of intense study by banks, corporations, investment managers and regulators. Certain risks 
+such as counterparty default have always ﬁgured at the top of most banks’ concerns. Others such 
+as market risk (the potential loss associated with market behavior) have only gotten into the lime-
+light over the past few years. Why has the interest in market risk measurement and monitoring 
+arisen? The answer lies in the signiﬁcant changes that the ﬁnancial markets have undergone over 
+the last two decades.
+1.
+Securitization:  Across markets, traded securities have replaced many illiquid instruments, 
+e.g., loans and mortgages have been securitized to permit disintermediation and trading. 
+Global securities markets have expanded and both exchange traded and over-the-counter 
+derivatives have become major components of the markets. 
+These developments, along with technological breakthroughs in data processing, have gone 
+hand in hand with changes in management practices—a movement away from management 
+based on accrual accounting toward risk management based on marking-to-market of posi-
+tions. Increased liquidity and pricing availability along with a new focus on trading led to 
+the implementation of frequent revaluation of positions, the mark-to-market concept. 
+As investments became more liquid, the potential for frequent and accurate reporting of 
+investment gains and losses has led an increasing number of ﬁrms to manage daily earnings 
+from a mark-to-market perspective. The switch from accrual accounting to mark-to-market 
+often results in higher swings in reported returns, therefore increasing the need for manag-
+ers to focus on the volatility of the underlying markets. The markets have not suddenly 
+become more volatile, but the focus on risks through mark-to-market has highlighted the 
+potential volatility of earnings. 
+Given the move to frequently revalue positions, managers have become more concerned 
+with estimating the potential effect of changes in market conditions on the value of their 
+positions.
+2.
+Performance:  Signiﬁcant efforts have been made to develop methods and systems to mea-
+sure ﬁnancial performance. Indices for foreign exchange, ﬁxed income securities, commod-
+ities, and equities have become commonplace and are used extensively to monitor returns 
+within and/or across asset classes as well as to allocate funds. 
+The somewhat exclusive focus on returns, however, has led to incomplete performance 
+analysis. Return measurement gives no indication of the cost in terms of risk (volatility of 
+returns). Higher returns can only be obtained at the expense of higher risks. While this 
+trade-off is well known, the risk measurement component of the analysis has not received 
+broad attention.
+Investors and trading managers are searching for common standards to measure market 
+risks and to estimate better the risk/return proﬁle of individual assets or asset classes. Not-
+withstanding the external constraints from the regulatory agencies, the management of 
+ﬁnancial ﬁrms have also been searching for ways to measure market risks, given the poten-
+tially damaging effect of miscalculated risks on company earnings. As a result, banks, 
+investment ﬁrms, and corporations are now in the process of integrating measures of mar-
+ket risk into their management philosophy. They are designing and implementing market 
+risk monitoring systems that can provide management with timely information on positions 
+and the estimated loss potential of each position.
+Over the last few years, there have been signiﬁcant developments in conceptualizing a common 
+framework for measuring market risk. The industry has produced a wide variety of indices to mea-
+sure return, but little has been done to standardize the measure of risk. Over the last 15 years many 
+market participants, academics, and regulatory bodies have developed concepts for measuring 
+
+ 
+22
+Chapter 2.  Historical perspective of VaR
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+market risks. Over the last ﬁve years, two approaches have evolved as a means to measure market 
+risk. The ﬁrst approach, which we refer to as the statistical approach, involves forecasting a portfo-
+lio’s return distribution using probability and statistical models. The second approach is referred to 
+as scenario analysis. This methodology simply revalues a portfolio under different values of mar-
+ket rates and prices. Note that in stress scenario analysis does not necessarily require the use of a 
+probability or statistical model.   Instead, the future rates and prices that are used in the revaluation 
+can be arbitrarily chosen. Risk managers should use both approaches—the statistical approach to 
+monitor risks continuously in all risk-taking units and the scenario approach on a case-by-case 
+basis to estimate risks in unique circumstances. 
+ 
+This document explains, in detail, the statistical 
+approach—RiskMetrics—to measure market risk.
+ 
+This chapter is organized as follows:
+• Section 2.1 reviews how VaR was developed to support the risk management needs of trading 
+activities as opposed to investment books. Though the distinction to date has been an account-
+ing one not an economic one, VaR concepts are now being used across the board.
+• Section 2.2 looks at the basic steps of the risk monitoring process.
+• Section 2.3 reviews the alternative VaR models currently being used and how RiskMetrics 
+provides end-users with the basic building blocks to test different approaches.
+ 
+2.1  From ALM to VaR
+ 
+A well established method of looking at market risks in the banking industry is to forecast earn-
+ings under predetermined price/rate market conditions (or scenarios). Earnings here are deﬁned as 
+earnings reported in a ﬁrm’s Financial Statements using generally accepted accounting principles. 
+For many institutions the bulk of activities are reported on an accrual basis, i.e., transactions are 
+booked at historical costs +/- accruals. Only a limited number of trading items are marked to mar-
+ket. Because changes in market rates manifest themselves only slowly when earnings are reported 
+on an accrual basis, the simulation of income has to be done over extended periods, i.e., until most 
+of the transactions on the books mature. Chart 2.1 illustrates this conventional Asset/Liability 
+Management approach.
+ 
+Chart 2.1
+ 
+Asset liability management
+ 
+There are two major drawbacks to this methodology:
+• It requires projecting market rate developments over extended periods into the future.
+Projected  
+income 
+statement
+Intermediate term
+rate forecasts 
+Income 
+simulation
+Accrual 
+items
+Trading 
+items
+ Inventory of  
+financial 
+transactions 
+
+ 
+Sec. 2.1  From ALM to VaR
+23
+Part I:  Risk Measurement Framework
+ 
+• It supports the illusion that gains and losses occur at the time they show up in the accrual 
+accounts (i.e., when they are realized following accounting principles). What this means is 
+that return is only deﬁned as net interest earnings, a framework which ignores the change in 
+price component of the return function.
+Every investor would agree that the total return on a bond position is the sum of the interest 
+earned and the change in the value of the bond over a given time horizon. Traditional ALM, as 
+a result of accounting conventions, ignores the change in value of the instrument since posi-
+tions are not marked to market. This has often lead crafty ALM managers to create positions 
+which look attractive on paper because of high net interest earnings, but which would not per-
+form as well if their change in market value were considered.
+The market risk in trading positions is usually measured differently and managed separately. Trad-
+ing positions are marked-to-market and the market value is then subjected to projections of 
+changes in short term in rates and prices. This is much less hazardous as rate forecasts are usually 
+limited to short horizons, i.e., the time it should take to close out or hedge the trading position.
+ 
+Chart 2.2
+ 
+Value-at-Risk management in trading
+ 
+The distinction between accrual items and trading items and their separate treatment for market 
+risk management has led to signiﬁcant complications—particularly when transactions classiﬁed as 
+“trading items” under generally accepted accounting principles are used to hedge transactions 
+classiﬁed as “accrual items”. In an effort to overcome this difﬁculty, many ﬁrms – particularly 
+those with relatively large trading books have expanded the market risk approach to also include 
+accrual items, at least for internal risk management reporting. This is done by estimating the fair 
+market value of the accrual items and the changes in their fair value under different short term sce-
+narios. Thus we are witnessing the evolution of an alternative to the conventional approach of 
+Asset/Liability Management, the Value-at-Risk approach. It started in pure trading operations, but 
+is now gaining increased following in the ﬁnancial industry.
+ Inventory of  
+financial 
+transactions 
+ Current market  
+rates & prices 
+“mark to 
+market”
+ Market 
+values
+Value 
+simulation
+Projected  
+market 
+value 
+changes
+Short term 
+price forecasts
+Accrual 
+items
+Trading 
+items
+
+ 
+24
+Chapter 2.  Historical perspective of VaR
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Chart 2.3
+ 
+Comparing ALM to VaR management
+ 
+The advantages of VaR Management are that it
+• Incorporates the mark-to-market approach uniformly.
+• Relies on a much shorter horizon forecast of market variables. This improves the risk estimate 
+as short horizon forecasts tend to be more accurate than long horizon forecasts.
+Of course, drawbacks exist. One of them is that it may not be trivial to mark certain transactions to 
+market or even understand their behavior under certain rate environments. This is particularly true 
+for instruments such as demand deposits in a retail banking environment for example. Whatever 
+the difﬁculties, the aim of getting an integrated picture of a ﬁrm’s exposure to market risks is 
+worth a number of assumptions, some of which may be reasonable representations of reality. In the 
+case of demand deposits, a recent article by Professor Robert Jarrow outlines how power swaps 
+could be modelled to represent a retail bank’s core deposit base risks (RISK, February 1996). 
+Some critics also argue that marking-to-market all transactions over short time periods creates too 
+much “earnings” or volatility. Looking at risks in this fashion may be misleading. This is the direc-
+tion of the industry and its accounting regulators however and it will be up to ﬁnancial analysts to 
+adapt to the new environment. The volatility of earnings will not just appear out of the blue. The 
+changes in accounting practices will ultimately show economic reality as it really is.
+Market risk can be absolute or relative. In its absolute form, what is measured is the loss in the 
+value of a position or a portfolio resulting from changes in market conditions. Absolute market 
+risk is what managers of trading operations measure. Corporates who wish to estimate real poten-
+tial losses from their treasury operations also focus on absolute market risk. Regulators are inter-
+ested in absolute market risks in relation to a ﬁrm’s capital. When investment performance is 
+measured against an index, the inherent market risk is relative in the sense that it measures the 
+potential underperformance against a benchmark. 
+ 
+2.2  VaR in the framework of modern ﬁnancial management
+ 
+As discussed before there are two steps to VaR measurement. First, all positions need to be marked 
+to market (valuation). Second we need to estimate the future variability of the market value. 
+Chart 2.4 illustrates this point.
+“mark to 
+market”
+Proxy 
+values
+ Market 
+values
+Income 
+simulation
+Projected  
+income 
+statement
+Risk factors
+Projected  
+market 
+value 
+changes
+Intermediate term
+rate forecasts 
+Short term 
+price forecasts
+  Conventional 
+Asset/Liability 
+Management 
+New 
+“Value at Risk” 
+Management
+ Current market  
+rates & prices 
+Accrual 
+items
+Trading 
+items
+ Inventory of  
+financial 
+transactions 
+
+ 
+Sec. 2.2  VaR in the framework of modern financial management
+25
+Part I:  Risk Measurement Framework
+ 
+Chart 2.4
+ 
+Two steps beyond accounting
+ 
+2.2.1  Valuation
+ 
+Trading items are valued at their current prices/rates as quoted in liquid secondary markets. To 
+value transactions for which, in the absence of a liquid secondary market, no market value exists, 
+we ﬁrst map them into equivalent positions, or decompose them into parts for which secondary 
+market prices exist. The most basic such “part” is a single cash ﬂow with a given maturity and cur-
+rency of the payor. Most transactions can be described as a combination of such cash ﬂows and 
+thus can be valued approximately as the sum of market values of their component cash ﬂows.
+Only non-marketable items that contain options cannot be valued in this simple manner. For their 
+valuation we also need expected volatilities and correlations of the prices and rates that affect their 
+value, and we need an options pricing model. Volatilities describe potential movements in rates 
+with a given probability; correlations describe the interdependencies between different rates and 
+prices. Thus, for some valuations, we require volatilities and correlations. 
+ 
+2.2.2  Risk estimation
+ 
+Here we estimate value changes as a consequence of expected changes in prices and rates. The 
+potential changes in prices are deﬁned by either speciﬁc scenarios or a set of volatility and correla-
+tion estimates. If the value of a position depends on a single rate, then the potential change in value 
+is a function of the rates in the scenarios or volatility of that rate. If the value of a position depends 
+on multiple rates, then the potential change in its value is a function of the combination 
+of rates in each scenario or of each volatility and of each correlation between all pairs of rates.
+Generating equivalent positions on an aggregate basis facilitates the simulation. As will be shown 
+later, the simulation can be done algebraically (using statistics and matrix algebra), or exhaustively 
+by computing estimated value changes for many combinations of rate changes.
+In the RiskMetrics framework, forecasts of volatilities and correlations play a central role. They 
+are required for valuations in the case of derivatives, the critical inputs for risk estimation. 
+Market 
+Risks
+Total 
+Position
+Risk 
+Projection
+Mapping
+Economic 
+values
+Mapping
+Accrual 
+items
+Trading 
+items
+Accounting
+Equivalent 
+Position
+Trading 
+items
+Valuation
+ Current market  
+rates & prices 
+Projected scenarios or 
+estimated volatilities & 
+correlations
+Balance 
+Sheet
+
+ 
+26
+Chapter 2.  Historical perspective of VaR
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+2.3  Alternative approaches to risk estimation
+ 
+More than one VaR model is currently being used and most practitioners have selected an 
+approach based on their speciﬁc needs, the types of positions they hold, their willingness to trade 
+off accuracy for speed (or vice versa), and other considerations.
+The different models used today differ on basically two fronts:
+• How the changes in the values of ﬁnancial instruments are estimated as a result of market 
+movements.
+• How the potential market movements are estimated.
+What makes the variety of models currently employed is the fact that the choices made on the two 
+fronts mentioned above can be mixed and matched in different ways.
+ 
+2.3.1   Estimating changes in value
+ 
+There are basically two approaches to estimating how the value of a portfolio changes as a result 
+of market movements:  analytical methods and simulation methods. 
+ 
+2.3.1.1  Analytical methods
+ 
+One such method is the analytical sensitivity approach based on the following equation:
+estimated value change = 
+ 
+f 
+ 
+(position sensitivity, estimated rate/price change)
+where the position sensitivity factor establishes the relationship between the value of the instru-
+ment and of the underlying rate or price, and determines the accuracy of the risk approximation. 
+In its simplest form, the analytical sensitivity approach looks like this:
+estimated value change = position sensitivity 
+ 
+×
+ 
+ estimated rate change
+For example, the value change of a ﬁxed income instrument can be estimated by using the instru-
+ment’s duration. Although this linear approximation simpliﬁes the convex price/yield relationship 
+of a bond, it is extensively used in practice because duration often accounts for the most signiﬁ-
+cant percentage of the risk proﬁle of a ﬁxed income instrument. Similar simpliﬁcations can be 
+made for options where the estimated change in value is approximated by the option’s delta.
+The initial versions of RiskMetrics basically used an analytical VaR approach that assumed that 
+market risk could be estimated by using a simple ﬁrst-order approximation such as the one out-
+lined above. We have since extended the analytical approach to account for nonlinear relationships 
+between market value and rate changes (e.g., options), which requires accounting for gamma risk 
+in addition to delta risk. The more reﬁned version of the analytical approach looks like this:
+estimated value change  = (position sensitivity 1 
+ 
+×
+ 
+ estimated rate change) 
++ 1/2 (position sensitivity 2) 
+ 
+×
+ 
+ (estimated rate change)
+ 
+2
+ 
+ +...
+In the case of an option, the ﬁrst-order position sensitivity is the delta, while the second-order term 
+is the gamma. Higher order effects can also be estimated using an analytical approach, but the 
+math typically gets more complex.
+The analytical approach requires that positions be summarized in some fashion so that the esti-
+mated rate changes can be applied. This process of aggregating positions is called mapping and is 
+described in Chapter 6.
+
+ 
+Sec. 2.3  Alternative approaches to risk estimation
+27
+Part I:  Risk Measurement Framework
+ 
+The advantages of analytical models is that they are computationally efﬁcient and enable users to 
+estimate risk in a timely fashion.
+ 
+2.3.1.2  Simulation methods
+ 
+The second set of approaches, typically referred to as Full Valuation models rely on revaluing a 
+portfolio of instruments under different scenarios. How these scenarios are generated varies across 
+models, from basic historical simulation to distributions of returns generated from a set of volatil-
+ity and correlation estimates such as RiskMetrics. Some models include user-deﬁned scenarios 
+that are based off of major market events and which are aimed at estimating risk in crisis condi-
+tions. This process is often referred to a stress testing.
+Full Valuation models typically provide a richer set of risk measures since users are able to focus 
+on the entire distribution of returns instead of a single VaR number. Their main drawback is the 
+fact that the full valuation of large portfolios under a signiﬁcant number of scenarios is computa-
+tionally intensive and takes time. It may not be the preferred approach when the goal is to provide 
+senior management with a timely snapshot of risks across a large organization.
+ 
+2.3.2  Estimating market movements
+ 
+The second discriminant between VaR approaches is how market movements are estimated. There 
+is much more variety here and the following list is not an exhaustive list of current practice.
+ 
+RiskMetrics
+ 
+RiskMetrics uses historical time series analysis to derive estimates of volatilities and correlations 
+on a large set of ﬁnancial instruments. It assumes that the distribution of past returns can be mod-
+elled to provide us with a reasonable forecast of future returns over different horizons.
+While RiskMetrics assumes conditional normality of returns, we have reﬁned the estimation pro-
+cess to incorporate the fact that most markets show kurtosis and leptokurtosis. We will be publish-
+ing factors to adjust for this effect once the RiskMetrics customizable data engine becomes 
+available on the Reuters Web.
+These volatility and correlation estimates can be used as inputs to:
+• Analytical VaR models
+• Full valuation models. In Appendix E we outline how the RiskMetrics volatility and correla-
+tion data sets can be used to drive simulations of future returns. 
+ 
+Historical Simulation
+ 
+The historical simulation approach, which is usually applied under a full valuation model, makes 
+no explicit assumptions about the distribution of asset returns. Under historical simulation, portfo-
+lios are valued under a number of different historical time windows which are user deﬁned. These 
+lookback periods typically range from 6 months to 2 years.
+Once the RiskMetrics customizable data engine becomes available on the ReutersWeb, users will 
+be able to access the underlying historical data needed to perform this type of simulation.
+ 
+Monte Carlo Simulation
+ 
+While historical simulation quantiﬁes risk by replicating one speciﬁc historical path of market 
+evolution, stochastic simulation approaches attempt to generate many more paths of market 
+returns. These returns are generated using a deﬁned stochastic process (for example, assume that 
+interest rates follow a random walk) and statistical parameters that drive the process (for example, 
+the mean and variance of the random variable).The RiskMetrics data sets can be used as inputs to 
+this process.
+
+ 
+28
+Chapter 2.  Historical perspective of VaR
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+In addition, the following VaR models add reﬁnements to the results generated by the approaches 
+listed above.
+ 
+Implied volatilities
+ 
+Some practitioners will also look to the market to provide them with an indication of future poten-
+tial return distributions. Implied volatility as extracted from a particular option pricing model is 
+the market’s forecast of future volatility. Implied volatilities are often used in comparison to his-
+tory to reﬁne the risk analysis.
+Implied volatilities are not currently used to drive global VaR models as this would require observ-
+able options prices on all instruments that compose a portfolio. Unfortunately, the universe of con-
+sistently observable options prices is not yet large enough; generally only exchange traded options 
+are reliable sources of prices. In particular, the number of implied correlations that can be derived 
+from traded options prices is insigniﬁcant compared to the number of correlations required to esti-
+mate risks in portfolios containing many asset types.
+ 
+User-deﬁned scenarios
+ 
+Most risk management models add user-deﬁned rate and price movements to the standard VaR 
+number, if only to test the effect of what could happen if historical patterns do not repeat them-
+selves. Some scenarios are subjectively chosen while others recreate past crises events. The latter 
+is referred to as stress testing and is an integral part of a well designed risk management process.
+Selecting the appropriate measurement method is not, however, straightforward. Judgment in the 
+choice of methodologies will always be important. Cost beneﬁt trade-offs are different for each 
+user, depending on his position in the markets, the number and types of instruments traded, and the 
+technology available. Different choices can be made even at different levels of an organization, 
+depending on the objectives. While trading desks of a bank may require precise risk estimation 
+involving simulation on relatively small portfolios, senior management may opt for an analytical 
+approach that is cost efﬁcient and timely. It is important for senior management to know whether 
+the risk of the institution is $10 million or $50 million. It is irrelevant for them to make the distinc-
+tion between $10 million and $11 million. Achieving this level of accuracy at the senior manage-
+ment level is not only irrelevant, but can also be unachievable operationally, or at a cost which is 
+not consistent with shareholder value.
+Since its introduction, RiskMetrics has become the umbrella name for a series of VaR methodolo-
+gies, from the simple analytical estimation based on the precept that all instruments are linear (the 
+so-called delta approximation) to the structured Monte Carlo simulation.
+Not all participants with exposure to the ﬁnancial and commodities markets will have the 
+resources to perform extensive simulations. That is why we have strived in this update of the 
+ 
+RiskMetrics— Technical Document
+ 
+ to reﬁne analytical approximations of risk for non-linear 
+instruments (the delta-gamma approximations). During 1997, the availability of historical rates 
+and prices under the RiskMetrics customizable data engine will make historical simulation an 
+option for users of our products. 
+
+ 
+Sec. 2.3  Alternative approaches to risk estimation
+29
+Part I:  Risk Measurement Framework
+ 
+Table 2.1
+ 
+Two discriminating factors to review VaR models
+How to estimate the change in the value of instruments
+Analytical
+Full Valuation
+How to estimate 
+rate and price 
+changes
+Full VaR 
+model
+ 
+RiskMetrics
+Covariance matrices 
+applied to standard 
+instrument maps.
+Covariance matrices used to deﬁne scenarios for 
+structured Monte Carlo.
+Historical 
+simulation
+Not applicable.
+Portfolios revalued under historical return distri-
+butions (lookback period varies.
+Monte Carlo
+Not applicable.
+Statistical parameters determine stochastic pro-
+cesses. Sources of data vary (can include 
+RiskMetrics covariance matrices).
+ 
+Partial VaR 
+model
+ 
+Implied 
+volatilities
+Covariance matrices 
+applied to standard 
+instrument maps.
+Covariance matrices used to deﬁne scenarios for 
+structured Monte Carlo.
+User deﬁned
+Sensitivity analysis 
+on single instruments.
+Limited number of scenarios.
+
+ 
+30
+Chapter 2.  Historical perspective of VaR
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+31
+Part I:  Risk Measurement Framework
+Chapter 3.
+Applying the risk measures
+ 
+3.1  Market risk limits
+33
+3.2  Calibrating valuation and risk models
+34
+3.3  Performance evaluation
+34
+3.4  Regulatory reporting, capital requirement
+36
+3.4.1  
+Capital Adequacy Directive
+36
+3.4.2  
+Basel Committee Proposal
+37
+
+ 
+32
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+33
+Part I:  Risk Measurement Framework
+Chapter 3.
+Applying the risk measures
+ 
+Jacques Longerstaey
+Morgan Guaranty Trust Company
+Risk Management Advisory
+(1-212) 648-4936
+ 
+riskmetrics@jpmorgan.com
+ 
+The measures of market risk outlined in the preceding sections can have a variety of applications. 
+We will highlight just a few: 
+• To measure and compare market risks.
+• To check the valuation/risk models.
+• To evaluate the performance of risk takers on a return/risk basis.
+• To estimate capital levels required to support risk taking.
+ 
+3.1  Market risk limits
+ 
+Position limits have traditionally been expressed in nominal terms, futures equivalents or other 
+denominators unrelated to the amount of risk effectively incurred. The manager of a USD bond 
+portfolio will be told for example that he cannot hold more than 100 million USD worth of U.S. 
+Treasury bonds. In most cases, the measure contains some risk constraint expressed in a particular 
+maturity or duration equivalent (if the 100 million limit is in 2-year equivalents, the manager will 
+not be able to invest 100 million in 30-year bonds). Setting limits in terms of Value-at-Risk has 
+signiﬁcant advantages: position benchmarks become a function of risk and positions in different 
+markets while products can be compared through this common measure. A common denominator 
+rids the standard limits manuals of a multitude of measures which are different for every asset 
+class. Limits become meaningful for management as they represent a reasonable estimate of how 
+much could be lost. 
+A further advantage of Value-at-Risk limits comes from the fact that VaR measures incorporate 
+portfolio or risk diversiﬁcation effects. This leads to hierarchical limit structures in which the risk 
+limit at higher levels can be lower than the sum of risk limits of units reporting to it. 
+ 
+Chart 3.1
+ 
+Hierarchical VaR limit structure
+ 
+Setting limits in terms of risk helps business managers to allocate risk to those areas which they 
+feel offer the most potential, or in which their ﬁrms’ expertise is greatest. This motivates managers 
+of multiple risk activities to favor risk reducing diversiﬁcation strategies.
+Business Area
+VaR-Limit: 
+$20MM
+Business Group A
+VaR-Limit: 
+$10MM
+Business Group B
+VaR-Limit: 
+$12MM
+Business Group C
+VaR-Limit: 
+$8MM
+Unit A1
+VaR-Limit: 
+$8MM
+Unit A2
+VaR-Limit: 
+$7MM
+Unit C1
+VaR-Limit: 
+$6MM
+Unit C2
+VaR-Limit: 
+$5MM
+Unit C3
+VaR-Limit: 
+$3MM
+
+ 
+34
+Chapter 3.  Applying the risk measures
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+3.2  Calibrating valuation and risk models
+ 
+An effective method to check the validity of the underlying valuation and risk models is to com-
+pare DEaR estimates with realized daily proﬁts and losses over time. Chart 3.2 illustrates the con-
+cept. The stars show the daily P&L of a global trading business during the ﬁrst 7 months of 1993, 
+the two lines show the Daily Earnings at Risk, plus and minus.
+ 
+Chart 3.2
+ 
+Ex post validation of risk models:  DEaR vs. actual daily P&L
+ 
+By deﬁnition, the cone delimited by the 
+ 
++/−
+ 
+DEaR lines should contain 90% of all the stars, 
+because DEaR is deﬁned as the maximum amount of expected proﬁt or losses 90% of the time. If 
+there are substantially more than 10% of the stars outside the DEaR-cone, then the underlying 
+models underestimate the risks. If there are no stars outside the DEaR cone and not even close to 
+the lines, then the underlying models overestimate the risks.
+This type of chart is only a reasonable reﬂection of the risk statistics if the daily proﬁt and losses 
+are derived solely from overnight risk taking and not intraday trading and other activities. Often 
+this is not the case. Then instead of the daily P&L you should plot what is often referred to as the 
+“no-action-P&L”; it describes the hypothetical P&L on the position that would have been incurred 
+if the previous day’s closing position had been kept for the next 24 hours and then revalued. This 
+data is often difﬁcult to collect.
+ 
+3.3  Performance evaluation
+ 
+To date, trading and position taking talent have been rewarded to a signiﬁcant extent on the basis 
+of total returns. Given the high rewards bestowed on outstanding trading talent this may bias the 
+trading professionals towards taking excessive risks.It is often referred to as giving traders a free 
+option on the capital of your ﬁrm. The interest of the ﬁrm or capital provider may be getting out of 
+line with the interest of the risk taking individual unless the risks are properly measured and 
+returns are adjusted for the amount of risk effectively taken. 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!!
+!
+!
+!
+!
+!
+!
+!!
+!
+!
+!
+!
+!
+!!
+!!
+!
+!
+!!
+!
+!
+!!!
+!
+!!!!!
+!!
+!!!!!!
+!
+!
+!!
+!
+!!!!!!
+!!
+!
+!
+!
+!!!
+!
+!
+!!!
+!
+!
+!
+!!!
+!
+!
+!
+!!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!!!
+!
+!
+!
+!
+!
+!!
+!
+!
+!!
+!
+!
+!
+!!
+!
+!
+!
+!
+!
+!
+!
+!!
+!
+!
+!!
+!
+!!
+!
+!
+!
+-7.5
+-5.0
+-2.5
+0
+2.5
+5.0
+7.5
+Jan
+Feb
+Mar
+Apr
+May
+Jun
+Jul
++ DEaR
+- DEaR
+
+ 
+Sec. 3.3  Performance evaluation
+35
+Part I:  Risk Measurement Framework
+ 
+To do this correctly one needs a standard measure of risks. Ideally risk taking should be evaluated 
+on the basis of three interlinked measures:  revenues, volatility of revenues, and risks. This is illus-
+trated by Chart 3.3:
+ 
+Chart 3.3
+ 
+Performance evaluation triangle
+ 
+Including estimated (ex ante) and realized (ex post) volatility of proﬁts adds an extra dimension to 
+performance evaluation. The ratio of P&L over risk (risk ratio) and of P&L over volatility (Sharpe 
+ratio) can be combined into what we deﬁne as a trader’s efﬁciency ratio (estimated risk/realized 
+volatility) that measures an individual’s capacity to translate estimated risk into low realized vola-
+tility of revenues.
+Consider an example to illustrate the issue. Assume you have to evaluate Trader #1 relative to 
+Trader #2 and the only information on hand is the history of their respective cumulative trading 
+revenues (i.e., trading proﬁts). This information allows you to compare their proﬁts and volatility 
+of their proﬁts, but says nothing about their risks.
+ 
+Chart 3.4
+ 
+Example:  comparison of cumulative trading revenues
+ 
+cumulative revenues
+Revenues
+Volatility 
+of 
+revenues
+Risks
+Risk 
+Ratio
+Efficiency 
+Ratio
+Sharpe 
+Ratio
+-1
+0
+1
+2
+3
+4
+5
+6
+1992
+1993
+Trader #1
+-1
+0
+1
+2
+3
+4
+5
+6
+1992
+1993
+Trader #2
+
+ 
+36
+Chapter 3.  Applying the risk measures
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+With risk information you can compare the traders more effectively. Chart 3.5 shows, for the two 
+traders the risk ratio, sharpe ratio, and efﬁciency ratio over time.
+ 
+Chart 3.5
+ 
+Example:  applying the evaluation triangle
+ 
+Note, you have no information on the type of market these traders operate in or the size of posi-
+tions they have taken. Nevertheless Chart 3.5 provides interesting comparative information which 
+lead to a richer evaluation.
+ 
+3.4  Regulatory reporting, capital requirement
+ 
+Financial institutions such as banks and investment ﬁrms will soon have to meet capital require-
+ments to cover the market risks that they incur as a result of their normal operations. Currently the 
+driving forces developing international standards for market risk based capital requirements are 
+the European Community which issued a binding Capital Adequacy Directive (EC-CAD) and the 
+Basel Committee on Banking Supervision at the Bank for International Settlements (Basel Com-
+mittee) which has recently come out with revised proposals on the use of banks internal models. 
+(See Appendix F for more information.)
+ 
+3.4.1  Capital Adequacy Directive
+ 
+The European Union’s EEC 93/6 directive mandates banks and investment ﬁrms to set capital 
+aside to cover market risks. In a nutshell the EC-CAD computes the capital requirement as a sum 
+of capital requirements on positions of different types in different markets. It does not take into 
+account the risk reducing effect of diversiﬁcation. As a result, the strict application of the current 
+recommendations will lead to ﬁnancial institutions, particularly the ones which are active interna-
+tionally in many different markets, to overestimate their market risks and consequently be required 
+to maintain very high capital levels. While there may be some prudential advantages to this, it is 
+-0.6
+0
+0.6
+-0.2
+0
+0.2
+0.4
+0
+1
+2
+1992
+1993
+Trader #2
+-0.6
+0
+0.6
+Sharpe
+Ratio
+Risk
+Ratio
+-0.2
+0
+0.2
+0.4
+0
+1
+2
+1992
+1993
+Efficiency
+Ratio
+Trader #1
+P&L
+vol(P&L)
+P&L
+DEaR
+DEaR
+vol(P&L)
+
+ 
+Sec. 3.4  Regulatory reporting, capital requirement
+37
+Part I:  Risk Measurement Framework
+ 
+not an efﬁcient allocation of ﬁnancial resources and could lead certain activities to be moved out-
+side the jurisdiction of the ﬁnancial regulatory authorities.
+ 
+3.4.2  Basel Committee Proposal
+ 
+In January 1996, the Basel Committee on Banking Supervision of the BIS issued a revised consul-
+tative proposal on an “Internal Model-Based Approach to Market Risk Capital Requirements” that 
+represents a big step forward in recognizing the new quantitative risk estimation techniques used 
+by the banking industry. These proposals recognize that current practice among many ﬁnancial 
+institutions has superseded the original guidelines in terms of sophistication, and that banks should 
+be given the ﬂexibility to use more advanced methodologies. This so-called “internal models” 
+approach addresses a number of issues that were raised when banks commented on the original 
+proposal dated April 1993.
+Table 3.1 compares the methodologies for estimating market risks as recently proposed by the 
+Basel Committee with the RiskMetrics methodology covered in this document. This comparison 
+focuses exclusively on the so-called quantitative factors that the BIS guidelines will require banks 
+to use. It does not address the qualitative ones related to the risk management process and which 
+are beyond the scope of this document. 
+While the methodologies outlined in the BIS proposals have come a long way in overcoming 
+important objections to the ﬁrst set of proposals, there are still a number of issues that will be 
+debated further. In order to facilitate the discussion between regulators and regulated, we have 
+published since mid-1995 in parallel with the existing volatility and correlation data sets, a 
+RiskMetrics Regulatory Data Set. The distribution of this regulatory data set is not an endorsement 
+of the Basel committee proposals and the following paragraphs which explain how the data set can 
+be used do not constitute J.P. Morgan’s ofﬁcial position on the content and scope of the Basel com-
+mittee proposal.
+Consistent with the other RiskMetrics data sets, the Regulatory Data Set contains volatility esti-
+mates for a 1-day holding period. Given that the BIS rules require market risk estimates to be cal-
+culated over a 10-day holding period and a 99% conﬁdence interval (i.e., 2.33 standard 
+deviations), users will need to rescale the 1-day volatility (see Eq. [3.1]). The Basel proposals 
+allow for this adjustment of data (they actually refer to scaling up VaR estimates but exclude this 
+practice in the case of options since it only works for instruments’ whose pricing formulae are lin-
+ear). Scaling up volatility estimates is perfectly legitimate, assuming no autocorrelation in the 
+data. Scaling up Value-at-Risk does not work for options, though using scaled up volatilities to 
+estimate the market risks of options with adequate pricing algorithms poses no problem. 
+As in the other data sets, volatilities and correlations are measured as daily log changes in rates 
+and prices. However, contrary to the exponential weighting schemes used for the other data sets, 
+estimates in the Regulatory Data Set are based on simple moving averages of 1 year of historical 
+data, sampled daily. 
+To make it comparable to the standard data sets, the RiskMetrics Regulatory Data Set is based on 
+95% conﬁdence. Including the adjustment for the holding period, users downloading the data sets 
+will need to rescale the volatility estimates according to the following equation, in order to meet 
+the requirements set forth in the Basel proposals (this adjustment assumes a normal distribution. 
+More reﬁned methods incorporating the characteristics of fat tailed distributions are outlined in the 
+statistics section of this document):
+[3.1]
+ 
+VBasel
+2.33
+1.65
+---------
+V
+⋅
+RiskMetrics RD
+10
+⋅
+=
+4.45 VRiskMetrics RD
+⋅
+=
+
+ 
+38
+Chapter 3.  Applying the risk measures
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+where
+Correlations across asset classes (i.e., foreign exchange to government bonds for example) are 
+supplied in the RiskMetrics Regulatory Data Set, despite the fact that actual use of empirical cor-
+relations in the VaR estimates is subject to regulatory approval. The BIS has stated that the use of 
+correlations across asset classes would be based on whether the supervisory authority was satisﬁed 
+with the integrity of the estimation methodology.
+VRiskMetrics RD
+volatilities provided in RiskMetrics Regulatory Dataset
+=
+VBasel
+volatilities suggested by Basel Committee for use in internal models
+=
+
+ 
+Sec. 3.4  Regulatory reporting, capital requirement
+39
+Part I:  Risk Measurement Framework
+ 
+Table 3.1
+ 
+Comparing the Basel Committee proposal with RiskMetrics
+ 
+Issue
+Basel Committee proposal
+RiskMetrics
+Mapping: 
+ 
+how positions are described 
+in summary form
+• Fixed Income:  at least 6 time buckets, differentiate 
+government yield curves and spread curves.
+• Equities: country indices, individual stocks on basis
+of beta equivalent.
+• Commodities:  to be included, not speciﬁed how.
+• Fixed Income:  data for 7–10 buckets of government yield curves 
+in 16 markets, 4 buckets money market rates in 27 markets, 4–6 
+buckets in swap rates in 18 markets.
+• Equities: country indices in 27 markets, individual stocks on beta 
+(correction for non-systematic risk).
+• Commodities: 80 volatility series in 11 commodities (spot and 
+term).
+ 
+Volatility
+ 
+: 
+how statistics of future price 
+movement are estimated
+• Volatility expressed in standard deviation of normal 
+distribution proxy for daily historical observations 
+year or more back. Equal weights or alternative 
+weighting scheme provided effective observation 
+period is at least one year.
+• Estimate updated at least quarterly.
+• Volatility expressed in standard deviation of normal distribution 
+proxy for exponentially weighted daily historical observations 
+with decay factors of .94 (for trading, 74 day cutoff 1%) and .97 
+(for investing, 151 day cutoff at 1%).
+• Special Regulatory Data Set, incorporating Basel Committee 
+1-year moving average assumption.
+• Estimates updated daily.
+ 
+Adversity: 
+ 
+size of adverse move in terms 
+of normal distribution
+• Minimum adverse move expected to happen with 
+probability of 1% (2.32 standard deviations) over 10 
+business days. Permission to use daily statistics 
+scaled up with square root of 10 (3.1). Equivalent to 
+7.3 daily standard deviations.
+• For trading: minimum adverse move expected to happen with 
+probability of 5% (1.65 standard deviation) over 1 business day.
+• For investment: minimum adverse move expected to happen with 
+probability of 5% (1.65 standard deviation) over 25 business 
+days. 
+ 
+Options: 
+ 
+treatment of time value and 
+non-linearity
+• Risk estimate must consider effect of non-linear price 
+movement (gamma-effect).
+• Risk estimate must include effect of changes in 
+implied volatilities (vega-effect).
+• Non-linear price movement can be estimated analytically (delta-
+gamma) or under simulation approach. Simulation scenarios to 
+be generated from estimated volatilities and correlations.
+• Estimates of volatilities of implied volatilities currently not pro-
+vided, thus limited coverage of options risk.
+ 
+Correlation: 
+ 
+how risks are aggregated 
+• Portfolio effect can be considered within asset classes 
+(Fixed Income, Equity, Commodity, FX). Use of cor-
+relations across asset classes subject to regulatory 
+approval. 
+• Correlations estimated with equally weighted daily 
+data for more than one year.
+• Full portfolio effect considered across all possible parameter 
+combinations.
+• Correlations estimated using exponentially weighted daily histor-
+ical observations with decay factors of 0.94 (for trading, 74 day 
+cutoff 1%) and 0.97 (for investing, 151 day cutoff at 1%).
+ 
+Residuals: 
+ 
+treatment of instrument 
+speciﬁc risks 
+• Instrument speciﬁc risks not covered by standard 
+maps should be estimated.
+• Capital requirements at least equal to 50% of charge 
+calculated under standard methodology.
+• Does not deal with speciﬁc risks not covered in standard maps.
+
+ 
+40
+Chapter 3.  Applying the risk measures
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition

@@ -1,0 +1,198 @@
+The details of our boosting procedure, typically referred to as gradient boosted regression trees
+(GBRT), are described in Algorithm 4 of Appendix B.2. It starts by ﬁtting a shallow tree (e.g., with
+depth L = 1). This over-simpliﬁed tree is sure to be a weak predictor with large bias in the training
+sample. Next, a second simple tree (with the same shallow depth L) is used to ﬁt the prediction
+residuals from the ﬁrst tree. Forecasts from these two trees are added together to form an ensemble
+prediction of the outcome, but the forecast component from the second tree is shrunken by a factor
+ν ∈(0, 1) to help prevent the model from overﬁtting the residuals. At each new step b, a shallow tree
+is ﬁtted to the residuals from the model with b−1 trees, and its residual forecast is added to the total
+with a shrinkage weight of ν. This is iterated until there are a total of B trees in the ensemble. The
+ﬁnal output is therefore an additive model of shallow trees with three tuning parameters (L, ν, B)
+which we adaptively choose in the validation step.
+Random Forest. Like boosting, a random forest is an ensemble method that combines forecasts
+from many diﬀerent trees. It is a variation on a more general procedure known as bootstrap aggrega-
+tion, or “bagging” (Breiman, 2001). The baseline tree bagging procedure draws B diﬀerent bootstrap
+samples of the data, ﬁts a separate regression tree to each, then averages their forecasts. Trees for
+individual bootstrap samples tend to be deep and overﬁt, making their individual predictions in-
+eﬃciently variable. Averaging over multiple predictions reduces this variation, thus stabilizing the
+trees’ predictive performance.
+Random forests use a variation on bagging designed to reduce the correlation among trees in
+diﬀerent bootstrap samples. If, for example, ﬁrm size is the dominant return predictor in the data,
+then most of the bagged trees will have low-level splits on size resulting in substantial correlation
+among their ultimate predictions. The forest method de-correlates trees using a method known as
+“dropout,” which considers only a randomly drawn subset of predictors for splitting at each potential
+branch. Doing so ensures that, in the example, early branches for at least a few trees will split on
+characteristics other than ﬁrm size. This lowers the average correlation among predictions to further
+improve the variance reduction relative to standard bagging.
+Depth L of the trees and number
+of bootstrap samples B are the tuning parameters optimized via validation. Precise details of our
+random forest implementation are described in Algorithm 3 of the appendix.
+2.7
+Neural Networks
+The ﬁnal nonlinear method that we analyze is the artiﬁcial neural network. Arguably the most
+powerful modeling device in machine learning, neural networks have theoretical underpinnings as
+“universal approximators” for any smooth predictive association (Hornik et al., 1989; Cybenko,
+1989). They are the currently preferred approach for complex machine learning problems such as
+computer vision, natural language processing, and automated game-playing (such as chess and go).
+Their ﬂexibility draws from the ability to entwine many telescoping layers of nonlinear predictor
+interactions, earning the synonym “deep learning.” At the same time, their complexity ranks neural
+networks among the least transparent, least interpretable, and most highly parameterized machine
+learning tools.
+18
+
+Figure 2: Neural Networks
+Output Layer
+Input Layer
+Hidden Layer 
+Output Layer
+Input Layer
+f
+f
+f
+f
+f
+Note: This ﬁgure provides diagrams of two simple neural networks with (right) or without (left) a hidden layer.
+Pink circles denote the input layer and dark red circles denote the output layer. Each arrow is associated
+with a weight parameter. In the network with a hidden layer, a nonlinear activation function f transforms
+the inputs before passing them on to the output.
+Model. We focus our analysis on traditional “feed-forward” networks. These consist of an “input
+layer” of raw predictors, one or more “hidden layers” that interact and nonlinearly transform the
+predictors, and an “output layer” that aggregates hidden layers into an ultimate outcome prediction.
+Analogous to axons in a biological brain, layers of the networks represent groups of “neurons” with
+each layer connected by “synapses” that transmit signals among neurons of diﬀerent layers. Figure
+2 shows two illustrative examples.
+The number of units in the input layer is equal to the dimension of the predictors, which we
+set to four in this example (denoted z1, ..., z4). The left panel shows the simplest possible network
+that has no hidden layers. Each of the predictor signals is ampliﬁed or attenuated according to
+a ﬁve-dimensional parameter vector, θ, that includes an intercept and one weight parameter per
+predictor. The output layer aggregates the weighted signals into the forecast θ0 + P4
+k=1 zkθk; that
+is, the simplest neural network is a linear regression model.
+The model incorporates more ﬂexible predictive associations by adding hidden layers between
+the inputs and output. The right panel of Figure 2 shows an example with one hidden layer that
+contains ﬁve neurons. Each neuron draws information linearly from all of the input units, just as in
+the simple network on the left. Then, each neuron applies a nonlinear “activation function” f to its
+aggregated signal before sending its output to the next layer. For example, the second neuron in the
+hidden layer transforms inputs into an output as x(1)
+2
+= f
+
+θ(0)
+2,0 + P4
+j=1 zjθ(0)
+2,j
+
+. Lastly, the results
+from each neuron are linearly aggregated into an ultimate output forecast:
+g(z; θ) = θ(1)
+0
++
+5
+X
+j=1
+x(1)
+j θ(1)
+j .
+Thus, in this example, there are a total of 31= (4 + 1) × 5 + 6 parameters (ﬁve parameters to reach
+19
+
+each neuron and six weights to aggregate the neurons into a single output).
+There are many choices to make when structuring a neural network, including the number of
+hidden layers, the number of neurons in each layer, and which units are connected. Despite the
+aforementioned “universal approximation” result that suggests the suﬃciency of a single hidden
+layer, recent literature has shown that deeper networks can often achieve the same accuracy with
+substantially fewer parameters.20
+On the other hand, in small data sets simple networks with only a few layers and nodes often
+perform best. Training a very deep neural network is challenging because it typically involves a
+large number of parameters, because the objective function is highly non-convex, and because the
+recursive calculation of derivatives (known as “back-propagation”) is prone to exploding or vanishing
+gradients.
+Selecting a successful network architecture by cross-validation is in general a diﬃcult task. It
+is unrealistic and unnecessary to ﬁnd the optimal network by searching over uncountably many
+architectures. Instead, we ﬁx a variety of network architectures ex ante and estimate each of these.
+What we hope to achieve is reasonably lower bound on the performance of machine learning methods.
+We consider architectures with up to ﬁve hidden layers. Our shallowest neural network has a
+single hidden layer of 32 neurons, which we denoted NN1. Next, NN2 has two hidden layers with 32
+and 16 neurons, respectively; NN3 has three hidden layers with 32, 16, and 8 neurons, respectively;
+NN4 has four hidden layers with 32, 16, 8, 4 neurons, respectively; and NN5 has ﬁve hidden layers
+with 32, 16, 8, 4, and 2 neurons, respectively.
+We choose the number of neurons in each layer
+according to the geometric pyramid rule (see Masters, 1993). All architectures are fully connected
+so each unit receives an input from all units in the layer below. By comparing the performance of
+NN1 through NN5, we can infer the trade-oﬀs of network depth in the return forecasting problem.21
+There are many potential choices for the nonlinear activation function (such as sigmoid, hy-
+perbolic, softmax, etc.). We use the same activation function at all nodes, and choose a popular
+functional form in recent literature known as the rectiﬁed linear unit (ReLU), deﬁned as22
+ReLU(x) =
+
+
+
+0
+if x < 0
+x
+otherwise,
+which encourages sparsity in the number of active neurons, and allows for faster derivative evaluation.
+Our neural network model has the following general formula. Let K(l) denote the number of
+neurons in each layer l = 1, ..., L. Deﬁne the output of neuron k in layer l as x(l)
+k . Next, deﬁne the
+vector of outputs for this layer (augmented to include a constant, x(l)
+0 ) as x(l) = (1, x(l)
+1 , ..., x(l)
+K(l))′. To
+initialize the network, similarly deﬁne the input layer using the raw predictors, x(0) = (1, z1, ..., zN)′.
+20Eldan and Shamir (2016) formally demonstrate that depth—even if increased by one layer—can be exponentially
+more valuable than increasing width in standard feed-forward neural networks. Ever since the seminal work by Hinton
+et al. (2006), the machine learning community has experimented and adopted deeper (and wider) networks, with as
+many as 152 layers for image recognition, e.g., He et al. (2016a).
+21We conﬁne the choices of architectures to a small set of ﬁve based on our limited sample size (compared to typical
+neural network applications).
+22See, e.g., Jarrett et al. (2009), Nair and Hinton (2010), and Glorot et al. (2011).
+20
+
+The recursive output formula for the neural network at each neuron in layer l > 0 is then
+x(l)
+k = ReLU
+
+x(l−1)′θ(l−1)
+k
+
+,
+(17)
+with ﬁnal output
+g(z; θ) = x(L−1)′θ(L−1).
+(18)
+The number of weight parameters in each hidden layer l is K(l)(1 + K(l−1)), plus another 1 + K(L−1)
+weights for the output layer.
+Objective Function and Computational Algorithm.
+We estimate the neural network
+weight parameters by minimizing the penalized l2 objective function of prediction errors. Unlike
+tree-based algorithms that require “greedy” optimization, training a neural network, in principle,
+allows for joint updates of all model parameters at each step of the optimization—a substantial
+advantage of neural networks over trees. However, the high degree of nonlinearity and nonconvexity
+in neural networks, together with their rich parameterization, make brute force optimization highly
+computationally intensive (often to the point of infeasibility).
+A common solution uses stochas-
+tic gradient descent (SGD) to train a neural network. Unlike standard descent that uses the entire
+training sample to evaluate the gradient at each iteration of the optimization, SGD evaluates the gra-
+dient from a small random subset of the data. This approximation sacriﬁces accuracy for enormous
+acceleration of the optimization routine.
+For the same reasons described above (severe nonlinearity and heavy parameterization), regular-
+ization of neural networks requires more care than the methods discussed above. In addition to l1
+penalization of the weight parameters, we simultaneously employ four other regularization techniques
+in our estimation: learning rate shrinkage, early stopping, batch normalization, and ensembles.
+A critical tuning parameter in SGD is the learning rate, which controls the step size of the
+descent. It is necessary to shrink the learning rate toward zero as the gradient approaches zero,
+otherwise noise in the calculation of the gradient begins to dominate its directional signal. We adopt
+the “learning rate shrinkage” algorithm of Kingma and Ba (2014) to adaptively control the learning
+rate (described further in Algorithm 5 of the Appendix B.3).23
+Next, “early stopping” is a general machine learning regularization tool. It begins from an initial
+parameter guess that imposes parsimonious parameterization (for example, setting all θ values close
+to zero). In each step of the optimization algorithm, the parameter guesses are gradually updated to
+reduce prediction errors in the training sample. At each new guess, predictions are also constructed
+for the validation sample, and the optimization is terminated when the validation sample errors begin
+to increase. This typically occurs before the prediction errors are minimized in the training sample,
+hence the name early stopping (see Algorithm 6). By ending the parameter search early, parameters
+are shrunken toward the initial guess. It is a popular substitute to l2 penalization of θ parameters
+23Relatedly, random subsetting at each SGD iteration adds noise to the optimization procedure, which itself serves
+as a form of regularization. See, Wilson and Martinez (2003).
+21

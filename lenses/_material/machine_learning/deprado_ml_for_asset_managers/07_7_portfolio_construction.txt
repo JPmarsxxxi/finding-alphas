@@ -1,0 +1,658 @@
+7 Portfolio Construction
+7.1 Motivation
+The allocation of assets requires making decisions under uncertainty.
+Markowitz (1952) proposed one of the most inﬂuential ideas in modern ﬁnan-
+cial history, namely, the representation of the problem of investing as a convex
+optimization program. Markowitz’s Critical Line Algorithm (CLA) estimates
+an “efﬁcient frontier” of portfolios that maximize the expected return subject to
+a given level of risk, where portfolio risk is measured in terms of the standard
+deviation of returns. In practice, mean-variance optimal solutions tend to be
+concentrated and unstable (De Miguel et al. 2009).
+There are three popular approaches to reducing the instability in optimal
+portfolios. First, some authors attempted to regularize the solution, by injecting
+additional information regarding the mean or variance in the form of priors
+(Black and Litterman 1992). Second, other authors suggested reducing the
+solution’s feasibility region by incorporating additional constraints (Clarke et
+al. 2002). Third, other authors proposed improving the numerical stability of the
+covariance matrix’s inverse (Ledoit and Wolf 2004).
+In Section 2, we discussed how to deal with the instability caused by the noise
+contained in the covariance matrix. As it turns out, the signal contained in the
+covariance matrix can also be a source of instability, which requires a specia-
+lized treatment. In this section, we explain why certain data structures (or types
+of signal) make mean-variance solutions unstable, and what we can do to
+address this second source of instability.
+7.2 Convex Portfolio Optimization
+Consider a portfolio of N holdings, where its returns in excess of the risk-free
+rate have an expected value μ and an expected covariance V. Markowitz’s
+insight was to formulate the classical asset allocation problem as a quadratic
+program,
+min
+ω
+1
+2 ω0Vω
+s:t: : ω0a ¼ 1;
+where a characterizes the portfolio’s constraints. This problem can be expressed
+in Lagrangian form as
+L½ω; λ ¼ 1
+2 ω0Vω  λ ω0a  1
+ð
+Þ
+92
+Machine Learning for Asset Managers
+
+with ﬁrst-order conditions
+∂L½ω; λ
+∂ω
+¼ Vω  λa
+∂L½ω; λ
+∂λ
+¼ ω0a  1:
+Setting the ﬁrst-order (necessary) conditions to zero, we obtain that
+Vω  λa ¼ 0 ) ω ¼ λV 1a
+and
+ω0a ¼ a0ω ¼ 1 ) λa0V 1a ¼ 1 )
+λ ¼ 1= a0V 1a
+
+
+, thus
+ω ¼ V 1a
+a0V 1a :
+The second-order (sufﬁcient) condition conﬁrms that this solution is the mini-
+mum of the Lagrangian:
+∂L2½ω; λ
+∂ω2
+∂L2½ω; λ
+∂ω∂λ
+∂L2½ω; λ
+∂λ∂ω
+∂L2½ω; λ
+∂λ2
+
+
+¼ V 0
+a0
+a
+0
+ ¼ a0a ≥0:
+
+Let us now turn our attention to a few formulations of the characteristic
+vector, a:
+1 For a ¼ 1N and V ¼ σIN, where σ 2 ℝþ, 1N is a vector of ones of size N, and
+IN is an identity matrix of size N, then the solution is the equal weights
+portfolio (known as the “1/N” portfolio, or the “naïve” portfolio), because
+ω ¼ 1Nσ1= Nσ1
+
+
+¼ 1N=N.
+2 For a ¼ 1N and V is a diagonal matrix with unequal entries (Vi;j ¼ 0, for all
+i 6¼ j), then the solution is the inverse-variance portfolio, because
+ω ¼
+1
+PN
+n¼1
+1
+Vn;n
+f 1
+Vn;ng
+n¼1;...;N:
+3 For a ¼ 1N, the solution is the minimum variance portfolio.
+4 For a ¼ μ, the solution maximizes the portfolio’s Sharpe ratio, ω0μ=
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+ω0Vω
+p
+,
+and the market portfolio is V 1μ=ð1
+0
+NV 1μÞ (Grinold and Kahn 1999).
+7.3 The Condition Number
+Certain covariance structures can make the mean-variance optimization solu-
+tion unstable. To understand why, we need to introduce the concept of condition
+number of a covariance matrix. Consider a correlation matrix between two
+securities,
+93
+Elements in Quantitative Finance
+
+C ¼
+1
+ρ
+ρ
+1
+
+
+;
+where ρ is the correlation between their returns. Matrix C can be diagonalized as
+CW ¼ WΛ as follows. First, we set the eigenvalue equation jC  Iλj ¼ 0.
+Operating,
+1  λ
+ρ
+ρ
+1  λ ¼ 0 )
+1  λ
+ð
+Þ2  ρ2 ¼ 0:
+
+
+This equation has roots in λ ¼ 1  ρ, hence the diagonal elements of Λ are
+Λ1;1 ¼ 1 þ ρ
+Λ2;2 ¼ 1  ρ:
+Second, the eigenvector associated with each eigenvalue is given by the solu-
+tion to the system
+1  Λ1;1
+ρ
+ρ
+1  Λ2;2
+
+ W1;1
+W1;2
+W2;1
+W2;2
+
+
+¼
+0
+0
+0
+0
+
+
+:
+If C is not already a diagonal matrix, then ρ 6¼ 0, in which case the above system
+has solutions in
+W1;1
+W1;2
+W2;1
+W2;2
+
+
+¼
+1ﬃﬃ
+2
+p
+1ﬃﬃ
+2
+p
+1ﬃﬃ
+2
+p
+ 1ﬃﬃ
+2
+p
+2
+664
+3
+775;
+and it is easy to verify that
+WΛW0 ¼
+1ﬃﬃ
+2
+p
+1ﬃﬃ
+2
+p
+1ﬃﬃ
+2
+p
+ 1ﬃﬃ
+2
+p
+2
+664
+3
+775
+1 þ ρ
+0
+0
+1  ρ
+
+
+1ﬃﬃ
+2
+p
+1ﬃﬃ
+2
+p
+1ﬃﬃ
+2
+p
+ 1ﬃﬃ
+2
+p
+2
+664
+3
+775
+0
+¼
+1
+ρ
+ρ
+1
+
+
+¼ C:
+The trace of C is tr C
+ð Þ ¼ Λ1;1 þ Λ2;2 ¼ 2, so ρ sets how big one eigenvalue gets
+at
+the
+expense
+of
+the
+other.
+The
+determinant
+of
+C
+is
+given
+by
+jCj ¼ Λ1;1Λ2;2 ¼ 1 þ ρ
+ð
+Þ 1  ρ
+ð
+Þ ¼ 1  ρ2. The determinant reaches its max-
+imum at Λ1;1 ¼ Λ2;2 ¼ 1, which corresponds to the uncorrelated case, ρ ¼ 0.
+The determinant reaches its minimum at Λ1;1 ¼ 0 or Λ2;2 ¼ 0, which corre-
+sponds to the perfectly correlated case, jρj ¼ 1. The inverse of C is
+94
+Machine Learning for Asset Managers
+
+C1 ¼ WΛ1W 0 ¼ 1
+jCj
+1
+ρ
+ρ
+1
+
+
+:
+The implication is that the more ρ deviates from zero, the bigger one eigenvalue
+becomes relative to the other, causing jCj to approach zero, which makes the
+values of C1 explode.
+More generally, the instability caused by covariance structure can be mea-
+sured in terms of the magnitude between the two extreme eigenvalues.
+Accordingly, the condition number of a covariance or correlation (or normal,
+thus diagonalizable) matrix is deﬁned as the absolute value of the ratio between
+its maximal and minimal (by moduli) eigenvalues. In the above example,
+limρ→1 Λ1;1
+Λ2;2
+¼ þ∞
+limρ→1þ Λ2;2
+Λ1;1
+¼ þ∞:
+7.4 Markowitz’s Curse
+Matrix C is just a standardized version of V, and the conclusions we drew
+on C1 apply to the V 1 used to compute ω. When securities within a portfolio
+are highly correlated (1 < ρ ≪0 or 0 ≪ρ < 1), C has a high condition
+number, and the values of V 1 explode. This is problematic in the context of
+portfolio optimization, because ω depends on V 1, and unless ρ ≈0, we must
+expect an unstable solution to the convex optimization program. In other words,
+Markowitz’s solution is guaranteed to be numerically stable only if ρ ≈0, which
+is precisely the case when we don’t need it! The reason we needed Markowitz
+was to handle the ρ≉0 case, but the more we need Markowitz, the more
+numerically unstable is the estimation of ω. This is Markowitz’s curse.
+López de Prado (2016) introduced an ML-based asset allocation method
+called hierarchical risk parity (HRP). HRP outperforms Markowitz and the
+naïve allocation in out-of-sample Monte Carlo experiments. The purpose of
+HRP was not to deliver an optimal allocation, but merely to demonstrate the
+potential of ML approaches. In fact, HRP outperforms Markowitz out-of-
+sample even though HRP is by construction suboptimal in-sample. In the next
+section we analyze further why standard mean-variance optimization is rela-
+tively easy to beat.
+95
+Elements in Quantitative Finance
+
+7.5 Signal as a Source of Covariance Instability
+In Section 2, we saw that the covariance instability associated with noise is
+regulated by the N/T ratio, because the lower bound of the Marcenko–Pastur
+distribution, λ, gets smaller as N/T grows,22 while the upper bound, λþ,
+increases as N/T grows. In this section, we are dealing with a different source
+of covariance instability, caused by the structure of the data (signal). As we saw
+in the 2 × 2 matrix example, ρ regulates the matrix’s condition number, regard-
+less and independently from N/T. Signal-induced instability is structural, and
+cannot be reduced by sampling more observations.
+There is an intuitive explanation for how signal makes mean-variance opti-
+mization unstable. When the correlation matrix is an identity matrix, the
+eigenvalue function is a horizontal line, and the condition number is 1.
+Outside that ideal case, the condition number is impacted by irregular correla-
+tion structures. In the particular case of ﬁnance, when a subset of securities
+exhibits greater correlation among themselves than to the rest of the investment
+universe, that subset forms a cluster within the correlation matrix. Clusters
+appear naturally, as a consequence of hierarchical relationships. When K secu-
+rities form a cluster, they are more heavily exposed to a common eigenvector,
+which implies that the associated eigenvalue explains a greater amount of
+variance. But because the trace of the correlation matrix is exactly N, that
+means that an eigenvalue can only increase at the expense of the other K  1
+eigenvalues in that cluster, resulting in a condition number greater than 1.
+Consequently, the greater the intracluster correlation is, the higher the condition
+number becomes. This source of instability is distinct and unrelated to N=T→1.
+Let us illustrate this intuition with a numerical example. Code Snippet 7.1
+shows how to form a block-diagonal correlation matrix of different numbers of
+blocks, block sizes, and intrablock correlations. Figure 7.1 plots a block-diagonal
+SNIPPET 7.1 COMPOSITION OF BLOCK-DIAGONAL CORRELATION MATRICES
+import matplotlib.pyplot as mpl,seaborn as sns
+import numpy as np
+#---------------------------------------------------
+corr0=formBlockMatrix(2,2,.5)
+eVal,eVec=np.linalg.eigh(corr0)
+print max(eVal)/min(eVal)
+sns.heatmap(corr0,cmap=‘viridis’)
+22 As a reminder, in Section 2, variable N denoted the number of columns in the covariance matrix,
+and variable T denoted the number of independent observations used to compute the covariance
+matrix.
+96
+Machine Learning for Asset Managers
+
+matrix of size 4x4, composed of two equal-sized blocks, where the intrablock
+correlation is 0.5 and the outer-block correlation is zero. Because of this block
+structure, the condition number is not 1, but 3. The condition number rises if (1)
+we make one block greater or (2) we increase the intrablock correlation. The
+reason is, in both cases one eigenvector explains more variance than the rest. For
+instance, if we increase the size of one block to three and reduce the size of the
+other to 1, the condition number becomes 4. If instead we increase the intrablock
+correlation to 0.75, the condition number becomes 7. A block-diagonal correla-
+tion matrix of size 500x500 with two equal-sized blocks, where the intrablock
+correlation is 0.5 has a condition number of 251, again as a result of having 500
+eigenvectors where most of the variance is explained by only 2.
+Code Snippet 7.2 demonstrates that bringing down the intrablock correlation
+in only one of the two blocks does not reduce the condition number. The reason
+is, the extreme eigenvalues are caused by the dominant block. So even though
+the high condition number may be caused by only one cluster, it impacts the
+entire correlation matrix. This observation has an important implication: the
+instability of Markowitz’s solution can be traced back to a few dominant
+3
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+0
+1
+2
+3
+2
+1
+0
+Figure 7.1 Heatmap of a block-diagonal correlation matrix.
+SNIPPET 7.2 BLOCK-DIAGONAL CORRELATION MATRIX WITH A DOMINANT BLOCK
+corr0=block_diag(formBlockMatrix(1,2,.5))
+corr1=formBlockMatrix(1,2,.0)
+corr0=block_diag(corr0,corr1)
+eVal,eVec=np.linalg.eigh(corr0)
+print max(eVal)/min(eVal)
+97
+Elements in Quantitative Finance
+
+clusters within the correlation matrix. We can contain that instability by opti-
+mizing the dominant clusters separately, hence preventing that the instability
+spreads throughout the entire portfolio.
+7.6 The Nested Clustered Optimization Algorithm
+The remainder of this section is dedicated to introducing a new ML-based
+method, named nested clustered optimization (NCO), which tackles the
+source of Markowitz’s curse. NCO belongs to a class of algorithms known
+as “wrappers”: it is agnostic as to what member of the efﬁcient frontier is
+computed, or what set of constraints is imposed. NCO provides a strategy for
+addressing the effect of Markowitz’s curse on an existing mean-variance
+allocation method.
+7.6.1 Correlation Clustering
+The ﬁrst step of the NCO algorithm is to cluster the correlation matrix. This
+operation involves ﬁnding the optimal number of clusters. One possibility is to
+apply the ONC algorithm (Section 4), however NCO is agnostic as to what
+particular algorithm is used for determining the number of clusters. For large
+matrices, where T=N is relatively low, it is advisable to denoise the correlation
+matrix prior to clustering, following the method described in Section 2. Code
+Snippet 7.3 implements this procedure. We compute the denoised covariance
+matrix, cov1, using the deNoiseCov function introduced in Section 2. As a
+reminder, argument q informs the ratio between the number of rows and the
+number of columns in the observation matrix. When bWidth=0, the covariance
+matrix is not denoised. We standardize the resulting covariance matrix into
+a correlation matrix using the cov2corr function. Then we cluster the
+cleaned correlation matrix using the clusterKMeansBase function, which
+we introduced in Section 4. The argument maxNumClusters is set to half
+the number of columns in the correlation matrix. The reason is, single-item
+clusters do not cause an increase in the matrix’s condition number, so we
+SNIPPET 7.3 THE CORRELATION CLUSTERING STEP
+import pandas as pd
+cols=cov0.columns
+cov1=deNoiseCov(cov0,q,bWidth=.01) # de-noise cov
+cov1=pd.DataFrame(cov1,index=cols,columns=cols)
+corr1=cov2corr(cov1)
+corr1,clstrs,silh=clusterKMeansBase(corr1,
+maxNumClusters=corr0.shape[0]/2,n_init=10)
+98
+Machine Learning for Asset Managers
+
+only need to consider clusters with a minimum size of two. If we expect
+fewer clusters, a lower maxNumClusters may be used to accelerate
+calculations.
+A common question is whether we should cluster corr1 or corr1.abs(). When
+all correlations are nonnegative, clustering corr1 and corr1.abs() yields the same
+outcome. When some correlations are negative, the answer is more convoluted,
+and depends on the numerical properties of the observed inputs. I recommend
+that you try both, and see what clustering works better for your particular corr1
+in Monte Carlo experiments.23
+7.6.2 Intracluster Weights
+The second step of the NCO algorithm is to compute optimal intracluster
+allocations, using the denoised covariance matrix, cov1. Code Snippet 7.4
+implements this procedure. For simplicity purposes, we have defaulted to a
+minimum variance allocation, as implemented in the minVarPort function.
+However, nothing in the procedure prevents the use of alternative alloca-
+tion methods. Using the estimated intracluster weights, we can derive the
+reduced covariance matrix, cov2, which reports the correlations between
+clusters.
+7.6.3 Intercluster Weights
+The third step of the NCO algorithm is to compute optimal intercluster alloca-
+tions, using the reduced covariance matrix, cov2. By construction, this covar-
+iance matrix is close to a diagonal matrix, and the optimization problem is close
+to the ideal Markowitz case. In other words, the clustering and intracluster
+optimization steps have allowed us to transform a “Markowitz-cursed” problem
+(jρj≫0) into a well-behaved problem (ρ ≈0).
+SNIPPET 7.4 INTRACLUSTER OPTIMAL ALLOCATIONS
+wIntra=pd.DataFrame(0,index=cov1.index,columns=clstrs.keys())
+for i in clstrs:
+wIntra.loc[clstrs[i],i]=minVarPort(cov1.loc[clstrs[i],
+clstrs[i]]).ﬂatten()
+cov2=wIntra.T.dot(np.dot(cov1,wIntra)) # reduced covariance matrix
+23 As a rule of thumb, corr1.abs() tends to work better in long-short portfolio optimization problems
+where some correlations are negative. Intuitively, the ability to have negative weights is
+equivalent to ﬂipping the sign of the correlation, which can induce considerable instability.
+Because negatively correlated variables will interact through the weights, it makes sense to
+cluster those variables together, thus containing that source of instability within each cluster.
+99
+Elements in Quantitative Finance
+
+Code Snippet 7.5 implements this procedure. It applies the same allocation
+procedure that was used in the intracluster allocation step (that is, in the case of
+Code Snippet 7.4, the minVarPort function). The ﬁnal allocation per security is
+reported by the wAll0 data frame, which results from multiplying intracluster
+weights with the intercluster weights.
+7.7 Experimental Results
+In this section we subject the NCO algorithm to controlled experiments, and
+compare its performance to Markowitz’s approach. Like in Section 2, we
+discuss two characteristic portfolios of the efﬁcient frontier, namely, the mini-
+mum variance and maximum Sharpe ratio solutions, since any member of the
+unconstrained efﬁcient frontier can be derived as a convex combination of the
+two (a result sometimes known as the “separation theorem”).
+Code Snippet 7.6 implements the NCO algorithm introduced earlier in this
+section. When argument mu is None, function optPort_nco returns the mini-
+mum variance portfolio, whereas when mu is not None, function optPort_nco
+returns the maximum Sharpe ratio portfolio.
+SNIPPET 7.5 INTERCLUSTER OPTIMAL ALLOCATIONS
+wInter=pd.Series(minVarPort(cov2).ﬂatten(),index=cov2.index)
+wAll0=wIntra.mul(wInter,axis=1).sum(axis=1).sort_index()
+SNIPPET 7.6 FUNCTION IMPLEMENTING THE NCO ALGORITHM
+def optPort_nco(cov,mu=None,maxNumClusters=None):
+cov=pd.DataFrame(cov)
+if mu is not None:mu=pd.Series(mu[:,0])
+corr1=cov2corr(cov)
+corr1,clstrs,_=clusterKMeansBase(corr1,maxNumClusters,
+n_init=10)
+wIntra=pd.DataFrame(0,index=cov.index,columns=clstrs.keys())
+for i in clstrs:
+cov_=cov.loc[clstrs[i],clstrs[i]].values
+if mu is None:mu_=None
+else:mu_=mu.loc[clstrs[i]].values.reshape(-1,1)
+wIntra.loc[clstrs[i],i]=optPort(cov_,mu_).ﬂatten()
+cov_=wIntra.T.dot(np.dot(cov,wIntra)) # reduce covariance matrix
+mu_=(None if mu is None else wIntra.T.dot(mu))
+wInter=pd.Series(optPort(cov_,mu_).ﬂatten(),index=cov_.index)
+nco=wIntra.mul(wInter,axis=1).sum(axis=1).values.reshape(-1,1)
+return nco
+100
+Machine Learning for Asset Managers
+
+7.7.1 Minimum Variance Portfolio
+Code Snippet 7.7 creates a random vector of means and a random covariance
+matrix that represent a stylized version of a ﬁfty securities portfolio, grouped in
+ten blocks with intracluster correlations of 0.5. This vector and matrix char-
+acterize the “true” process that generates observations.24 We set a seed for the
+purpose of reproducing and comparing results across runs with different para-
+meters. Function formTrueMatrix was declared in Section 2.
+Code Snippet 7.8 uses function simCovMu to simulate a random empirical
+vector of means and a random empirical covariance matrix based on 1,000
+observations drawn from the true process (declared in Section 2). When
+shrink=True, the empirical covariance matrix is subjected to Ledoit–Wolf
+shrinkage. Using that empirical covariance matrix, function optPort (also
+declared in Section 2) estimates the minimum variance portfolio according to
+Markowitz, and function optPort_nco estimates the minimum variance portfo-
+lio applying the NCO algorithm. This procedure is repeated on 1,000 different
+random empirical covariance matrices. Note that, because minVarPortf=True,
+the random empirical vectors of means are discarded.
+SNIPPET 7.7 DATA-GENERATING PROCESS
+nBlocks,bSize,bCorr =10,50,.5
+np.random.seed(0)
+mu0,cov0=formTrueMatrix(nBlocks,bSize,bCorr)
+SNIPPET 7.8 DRAWING AN EMPIRICAL VECTOR OF MEANS AND COVARIANCE MATRIX
+nObs,nSims,shrink,minVarPortf=1000,1000,False,True
+np.random.seed(0)
+for i in range(nSims):
+mu1,cov1=simCovMu(mu0,cov0,nObs,shrink=shrink)
+if minVarPortf:mu1=None
+w1.loc[i]=optPort(cov1,mu1).ﬂatten()
+w1_d.loc[i]=optPort_nco(cov1,mu1,
+int(cov1.shape[0]/2)).ﬂatten()
+24 In practical applications, we do not need to simulate μ; Vg
+f
+, as these inputs are estimated from
+observed data. The reader can repeat this experiment on a pair of observed μ; Vg
+f
+and evaluate
+via Monte Carlo the estimation error of alternative optimization methods on those particular
+inputs, thus ﬁnding out what method yields most robust estimates for a particular input.
+101
+Elements in Quantitative Finance
+
+Code Snippet 7.9 computes the true minimum variance portfolio, derived
+from the true covariance matrix. Using those allocations as benchmark, it then
+computes the root-mean-square errors (RMSE) across all weights. We can run
+Code Snippet 7.9 with and without shrinkage, thus obtaining the four combina-
+tions displayed in Figure 7.2.
+NCO computes the minimum variance portfolio with 52.98% of Markowitz’s
+RMSE, i.e., a 47.02% reduction in the RMSE. While Ledoit–Wolf shrinkage
+helps reduce the RMSE, that reduction is relatively small, around 11.81%.
+Combining shrinkage and NCO yields a 15.30% reduction in RMSE, which is
+better than shrinkage but worse than NCO alone.
+The implication is that NCO delivers substantially lower RMSE than
+Markowitz’s solution, even for a small portfolio of only ﬁfty securities, and
+that shrinkage adds no value. It is easy to test that NCO’s advantage widens for
+larger portfolios (we leave it as an exercise).
+7.7.2 Maximum Sharpe Ratio Portfolio
+By setting minVarPortf=False, we can rerun Code Snippets 7.8 and 7.9 to derive
+the RMSE associated with the maximum Sharpe ratio portfolio. Figure 7.3
+reports the results from this experiment.
+NCO computes the maximum Sharpe ratio portfolio with 45.17% of
+Markowitz’s RMSE, i.e., a 54.83% reduction in the RMSE. The combination
+of shrinkage and NCO yields a 18.52% reduction in the RMSE of the maximum
+Sharpe ratio portfolio, which is better than shrinkage but worse than NCO. Once
+again, NCO delivers substantially lower RMSE than Markowitz’s solution, and
+shrinkage adds no value.
+SNIPPET 7.9 ESTIMATION OF ALLOCATION ERRORS
+w0=optPort(cov0,None if minVarPortf else mu0)
+w0=np.repeat(w0.T,w1.shape[0],axis=0) # true allocation
+rmsd=np.mean((w1-w0).values.ﬂatten()**2)**.5 # RMSE
+rmsd_d=np.mean((w1_d-w0).values.ﬂatten()**2)**.5 # RMSE
+Markowitz
+NCO
+Raw
+7.95E-03
+4.21E-03
+Shrunk
+8.89E-03
+6.74E-03
+Figure 7.2 RMSE for the minimum variance portfolio.
+102
+Machine Learning for Asset Managers
+
+7.8 Conclusions
+Markowitz’s portfolio optimization framework is mathematically correct, how-
+ever its practical application suffers from numerical problems. In particular,
+ﬁnancial covariance matrices exhibit high condition numbers due to noise and
+signal. The inverse of those covariance matrices magniﬁes estimation errors,
+which leads to unstable solutions: changing a few rows in the observations
+matrix may produce entirely different allocations. Even if the allocations
+estimator is unbiased, the variance associated with these unstable solutions
+inexorably leads to large transaction costs than can erase much of the proﬁt-
+ability of these strategies.
+In this section, we have traced back the source of Markowitz’s instability
+problems to the shape of the correlation matrix’s eigenvalue function.
+Horizontal eigenvalue functions are ideal for Markowitz’s framework. In
+ﬁnance, where clusters of securities exhibit greater correlation among them-
+selves than to the rest of the investment universe, eigenvalue functions are not
+horizontal, which in turn is the cause for high condition numbers. Signal is the
+cause of this type of covariance instability, not noise.
+We have introduced the NCO algorithm to address this source of instability,
+by splitting the optimization problem into several problems: computing one
+optimization per cluster, and computing one ﬁnal optimization across all clus-
+ters. Because each security belongs to one cluster and one cluster only, the ﬁnal
+allocation is the product of the intracluster and intercluster weights.
+Experimental results demonstrate that this dual clustering approach can sig-
+niﬁcantly reduce Markowitz’s estimation error. The NCO algorithm is ﬂexible
+and can be utilized in combination with any other framework, such as Black–
+Litterman, shrinkage, reversed optimization, or constrained optimization
+approaches. We can think of NCO as a strategy for splitting the general
+optimization problem into subproblems, which can then be solved using the
+researcher’s preferred method.
+Like many other ML algorithms, NCO is ﬂexible and modular. For example,
+when the correlation matrix exhibits a strongly hierarchical structure, with
+Markowitz
+NCO
+Raw
+7.02E-02
+3.17E-02
+Shrunk
+6.54E-02
+5.72E-02
+Figure 7.3 RMSE for the maximum Sharpe ratio portfolio.
+103
+Elements in Quantitative Finance
+
+clusters within clusters, we can apply the NCO algorithm within each cluster
+and subcluster, mimicking the matrix’s tree-like structure. The goal is to contain
+the numerical instability at each level of the tree, so that the instability within a
+subcluster does not extend to its parent cluster or the rest of the correlation
+matrix.
+We can follow the Monte Carlo approach outlined in this section to estimate
+the allocation error produced by various optimization methods on a particular
+set of input variables. The result is a precise determination of what method is
+most robust to a particular case. Thus, rather than relying always on one
+particular approach, we can apply opportunistically whatever optimization
+method is best suited in a particular setting.
+7.9 Exercises
+1 Add to Code Snippet 7.3 a detoning step, and repeat the experimental
+analysis conducted in Section 7.7. Do you see an additional improvement
+in NCO’s performance? Why?
+2 Repeat Section 7.7, where this time you generate covariance matrices with-
+out a cluster structure, using the function getRndCov listed in Section 2. Do
+you reach a qualitatively different conclusion? Why?
+3 Repeat Section 7.7, where this time you replace the minVarPort function with
+the CLA class listed in Bailey and López de Prado (2013).
+4 Repeat Section 7.7 for a covariance matrix of size ten and for a covariance
+matrix of size one hundred. How do NCO’s results compare to Markowitz’s
+as a function of the problem’s size?
+5 Repeat Section 7.7, where you purposely mislead the clusterKMeansBase
+algorithm by setting its argument maxNumClusters to a very small value, like
+2. By how much does NCO’s solution worsen? How is it possible that, even
+with only two clusters (instead of ten), NCO performs signiﬁcantly better
+than Markowitz’s solution?
+104
+Machine Learning for Asset Managers

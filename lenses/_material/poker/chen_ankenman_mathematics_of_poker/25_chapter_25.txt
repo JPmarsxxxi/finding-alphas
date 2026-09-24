@@ -1,0 +1,589 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         303 
+ 
+Chapter 25 
+Poker Finance: Portfolio Theory and Backing Agreements 
+ 
+In addition to the Kelly criterion, many concepts from finance apply to the management of a 
+poker bankroll and the selection of games, hi this chapter, we will examine two concepts of 
+particular importance. The first is examining the volatility and expectation of a portfolio of poker 
+activities. As a parallel to securities investing. certain types of diversification are helpful, while 
+others are not. Second, we provide a framework for evaluating the expectation of a backing 
+agreement between a player and a backer. 
+ 
+Portfolio Theory 
+In portfolio management, one critical statistic that is used to evaluate performance is the Sharpe 
+ratio. The Sharpe ratio of a portfolio is the ratio of its expectation to its standard deviation. When 
+investments are infinitely scalable (for most individual investors, stocks are), maximizing the 
+Sharpe ratio of a portfolio leads to the best risk-adjusted return. 
+ 
+! =
+
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(25.1) 
+ 
+One of the main ways in which portfolio managers can maximize their Sharpe ratio is through 
+the process of diversification; that is, by buying multiple securities that have a higher Sharpe 
+ratio when bought together then separately. The following is a very short and simplified 
+introduction. Those of you with experience in finance will recognize that we are leaving out 
+many important facets of stock portfolio analysis; the point here is to explain in a rough way the 
+principle without worrying about things that do not affect poker. 
+ 
+Consider two independent investments A and B. Both A and B have an expectation of $10 and a 
+standard deviation of $100 (for the amount we have to invest). If we invest it all in A, we'll get 
+$10 expectation with a $100 standard deviation. The same applies if we invest it in B. But if we 
+invest half of it in A and half of it in B, then we'll still have an expectation of $10, but our 
+standard deviation will be $100/√2, or about $70. By doing this, we have increased our Sharpe 
+ratio from 0.1 to about 0.14. 
+ 
+Now let's consider a portfolio made up of A and a third investment C, C has an expectation of $5 
+and a standard deviation of $100. We can see immediately that C is a worse investment than A, 
+since we can get $10 of expectation for $100 in risk by buying A. To maximize our Sharpe ratio, 
+then, should we simply buy 100% of A? Perhaps surprisingly, the answer is no. 
+ 
+Let's evaluate a portfolio made up of 80% A and 20% C. Such a portfolio would have 
+expectation of (0.8) ($10) + (0.2) ($5) or $9. It would have a standard deviation of 
+ 
+)(80 + (20)) = $82.46. So the Sharpe ratio for this portfolio would be 0.1091. This value is 
+higher than the Sharpe ratio for a portfolio made up of only A, so it turns out to be better to mix 
+the two investments, even though C is a worse investment in an absolute sense. 
+ 
+We can apply this reasoning to poker as well. Consider a situation outside of a pair of 
+tournaments. One player (A) has an expectation of 1 buyin per tournament and a standard 
+deviation of 9 buyins/tournament in his tournament. Another player has an expectation of 1buyin 
+per tournament and a standard deviation of 12 buyins/tournament in a different tournament. The 
+first player wants to maximize his Sharpe ratio. What is the optimal percentage to swap with the 
+second player? 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         304 
+ 
+Let 1- α be the fraction that these two players swap. Then A is investing in a portfolio P of a A 
+and (1 - α) B. The win rate of that portfolio will still be 1 buyin per tournament, since all the 
+components have that win rate. 
+ 
+We want to minimize the standard deviation of that portfolio, which we can also accomplish by 
+minimizing the variance: 
+ 
+σP2 = (9a)2 + ((1 - a)12)2) 
+ 
+Taking the derivative with respect to a and setting to 0: 
+ 
+0 = 162a - 288(1 - a)  
+0 = 450a - 288  
+a = 0.64 
+ 
+A should swap 36% of himself in order to maximize his Sharpe ratio. 
+ 
+We can derive this result more generally. Say we have two investments with expectation w1 and 
+w2, and standard deviations σ1, and σ2. We can normalize these bets to each other in terms of 
+expectation by simply multiplying σ1 by w2/ w1. We will call the scaled standard deviation s1. If 
+we do this, then both investments will have the same win rate w2. We will mix these two 
+investments in a proportion of al of the first and a2 of the second. 
+ 
+a1 = 1 – a2 
+ 
+The variance of the portfolio P will be: 
+ 
+σP2 = (a1
+2)(s1
+2) + (a2
+2)(σ2
+2) 
+ 
+We have omitted some steps here in deriving the variance. This equation is only valid for 
+independent events, where there is no correlation. When analyzing securities, correlation is very 
+important. Large-field tournament play, even in the same tournament, for players playing to 
+maximize their own expectation is only correlated a very tiny bit, so we omit that for the 
+purposes of this discussion. 
+ 
+Since  a2  = 1 – a1 we have: 
+ 
+σP
+2 = (a1
+2)(s1
+2) + (1 – a1)2(σ2
+2) 
+ 
+Taking the derivative with respect to al and setting to 0: 
+ 
+0 = 2a1s1
+2 - 2(1 – a1)2(σ2
+2) 
+2σ2
+2 = 2a1s1
+2 + 2a1 σ2
+2 
+B =
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(25.2) 
+ 
+We can also easily find a2: 
+ 
+B =
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(25.3) 
+ 
+ 
+In order to maximize the Sharpe ratio of a portfolio, these are the percentages of each investment 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         305 
+ 
+of which the portfolio should be composed. In finance, this type of analysis is extended to an 
+arbitrary number of different investments and optimal portfolios can be constructed. In the same 
+way, poker players can reduce their volatility while preserving their Sharpe ratio by swapping 
+action, either in tournaments or in ring games. This can even be true if one of the players has 
+higher expectation: that player can still benefit Sharpe-wise by swapping with the other player. 
+ 
+Those familiar with stock analysis might be tempted to think that other types of diversification 
+might help to improve portfolio performance: for example, playing different types of games (sit-
+and-go tournaments, multi-table tournaments, limit ring games, etc.). We believe that playing 
+many games is valuable for a number of reasons, including the flexibility to take advantage of 
+temporary situations (such as when a very weak and very rich player is playing his favorite game 
+for high stakes), and developing a more general view of poker. But portfolio management is not 
+one of the reasons. The reason that this type of diversification doesn't lower volatility is that it 
+isn't really diversification at all. 
+ 
+When we own a stock, we own it 100% of the time. When we own two stocks, we own both of 
+them 100% of the time, but only 50% as much. However, when we play two different types of 
+poker, it is analogous to a situation where we buy a stock, hold it for half the time, and then sell 
+it and buy another stock. As a result, playing different types of games doesn't reduce variance 
+directly. However, one related concept can lower variance while retaining the same win rate: that 
+is online multi-table play. If a player can concentrate adequately on multiple games, he can lower 
+his variance by, for example, playing two games of $10-$20 instead of one game of $20-40. Of 
+course, he might be able to play two games of $20-$40, so he might be sacrificing equity. But by 
+playing two games of smaller stakes, we can achieve similar expectation with lower variance, 
+thus improving our Sharpe ratio. 
+ 
+Backing Agreements 
+The last topic for Part IV, a discussion of the mathematics of backing agreements, is a topic that 
+is of some interest for those members of the poker community who are interested in backing 
+players. Player backing agreements have existed as long as there have been players who lack 
+sufficient bankroll to play the stakes they wish to. The usual form of these agreements is this: the 
+player receives some sum of money (or a smaller amount, usually with a promise to advance 
+more if needed up to a certain point) from the backer. The player plays some agreed-upon game 
+or games, and then at certain points, the agreement settles and some prespecified division of the 
+profits takes place. If there are losses, the backer usually absorbs them all, but the player must 
+make up any previous losses before cashing out any profit. There may also be a salary 
+component, in which case the player's share of profits is often reduced dramatically. 
+ 
+As our starting point, we take as a simple backing agreement the following: 
+ 
+• The player has a known win rate in a particular game of $40/hr and standard deviation of 
+$600/hr but no bankroll. 
+• The backer and player agree that the duration of the agreement will be 100 hours of play 
+and the backer will fund all play. At the end of this, the profits will be divided evenly, or 
+if there are losses, the backer will take them all, and the agreement will be terminated 
+(although both parties may agree to enter into another agreement). 
+• The player agrees to play to maximize play EV instead of his own personal EV 
+ 
+Over the past two chapters we borrowed heavily from the finance world. In evaluating the value 
+of backing agreements, we do so again. This backing agreement, then, takes this form. "We will 
+randomly select some value from a prespecified probability distribution. If the value selected is 
+below zero, then the value to the player is zero. If the value selected is above zero, then the value 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         306 
+ 
+to the player is 1 2
+  the value selected." This is equivalent to an option. In stock trading, an option 
+is a contract that gives its holder the right to either buy a stock at a particular price, or sell the 
+stock at a particular' price before a certain time. To the player, this backing agreement is 
+essentially a "call" option (where the player may buy half the result) at a strike price of zero. 
+ 
+We can use this to find the value of the backing agreement to the player. The distribution of 
+outcomes for 100 hours of play is normally distributed around a mean of $4,000, with a standard 
+error of $6,000. The value to the player of this agreement depends on the value of the player's 
+result if he wins. To find this value, we can integrate the product of the player's result (x) and the 
+normal distribution density function from zero to ∞ to get the value of the player's win when he 
+wins. 
+ 
+
+√! 6
+:
+()
+
+'
+
+
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(25.4) 
+ 
+ 
+We can make the substitution x = x + w - w to obtain: 
+ 
+1
+√2.
+% [ −<:
+"#
+
++ <:
+()
+
+']
+
+
+ 
+ 
+We can split this into two integrals. The second integral can be simplified by factoring out the w 
+and the remaining expression is just the cumulative normal distribution: 
+ 
+
+√! 6  −<:
+
+
+' + <Ф 5
+
+7
+
+
+  
+ 
+ 
+ 
+ 
+ 
+ 
+(25.5) 
+ 
+ 
+To find the antiderivative of the expression  −<:
+
+
+, we make the substitution ? =
+()
+
+, du = - (x - w). This leaves us with: 
+ 
+% −:
+$
+ '? = −:
+"#
+
++  
+ 
+We can now simplify Equation 25.5: 
+ 
+1
+√2.
+%  −<:
+"#
+
+' + <Ф 5<
+7
+
+
+ 
+ 
+=
+1
+√2.
+−:
+"#
+
+]
+ 
+ 
+< <C3& >=
+
+√! :
+
+ + <Ф(
+
+)  
+ 
+ 
+ 
+ 
+ 
+ 
+(25.6) 
+ 
+Equation 25.6 is the value of the entire option; that is, it is the value of the agreement if the 
+player gets 100% of the win and takes none of the loss. To convert this value to the value of the 
+backing agreement, we simply multiply by the player's share. 
+ 
+For our particular player, we can solve for the total value of the wins: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         307 
+ 
+w = 4000  
+σ = 6000 
+z = (4000 6000
+
+) = 2 3
+  
+ 
+(6000/√2π)(e-0.22222) + (4000) (Ф(2 3
+ )) = $4,906.72 
+ 
+Since we know that the total expectation for the player must be $4,000, we can find that the 
+value of the losses is -$906.72. 
+ 
+For our example backing agreement, the player's expectation, then, is half of the win and none of 
+the loss, or $2,453.36. while the backer's share is all of the loss plus half of the win, or 
+$1,547.64. Thus the player gets about approximately 61% of the expectation of the backing 
+agreement. 
+ 
+This methodology can be used to cover any backing agreement of this type. We can extend 
+equation 25.6 by creating a threshold value a such that the player's share of the profits begins 
+with wins above a by simply integrating from a to ∞ Instead of from zero. 
+ 
+Then we have: 
+ 
+< <C3& >=
+
+√! :
+()
+
++ <Ф(
+%
+ )  
+ 
+ 
+ 
+ 
+ 
+ 
+(25.7) 
+ 
+If we used the same backing agreement as before but the player's share only began at wins of 
+$1,000 or more, for example, then we would have: 
+ 
+(6000/√2π)(e-.125) + (4000) (Ф(1 2
+ )) = $4,878.24 
+ 
+Obviously this value is smaller, since wins from $0 to $1,000 are excluded from its value. 
+Looking at various values for the threshold, we can see a potential negotiating tactic for the 
+player. Consider a player who proposes as follows: 
+ 
+"Instead of getting half the profits when I make more than zero, I think that I should only be cut 
+in if I exceed the expectation that we've agreed upon. However, since I'm giving up some money 
+for those times that I win less than my expectation, I should get a larger piece of the profits 
+above expectation." 
+ 
+This line of reasoning is sound. But how much higher a percentage of the profits should this 
+player receive? We invite the reader to test his intuition here before continuing to see the answer. 
+ 
+The value of the option with a threshold of $4,000 is: 
+ 
+(6000/√2π)(e0) + (4000) (Ф(0)) = 4,393.65 
+ 
+If the player was to receive 50% of the value of the wins at threshold $0, he would receive 
+$2,453.36. To reach parity with that value, he "deserves" 55.8% of the win above $4,000. 
+ 
+Another technique that can be applied here is creating a tiered structure, where the player 
+receives different percentages of amounts won, usually increasing as the player's win grows. 
+Consider the following backing agreement: 
+ 
+• The player has a known win rate in a particular game of $20/hr and standard deviation of 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         308 
+ 
+$240/hr. 
+• The backer and player agree that the duration of the agreement will be 100 hours of play 
+and the backer will fund all play. At the end of this time, any losses will be absorbed by 
+the backer, If there are profits, they will be divided according to the following schedule: 
+ 
+Profit Tier 
+Backer Share 
+Player Share 
+0 - $1000 
+75% 
+25% 
+$1000 - $2000 
+60% 
+40% 
+$2000 - $3000 
+50% 
+50% 
+$3000 - $4000 
+40% 
+60% 
+$4000 - $6000 
+30% 
+70% 
+$6000+ 
+25% 
+75% 
+ 
+In the above table, the backer/player shares are what the player earns on that amount of profit. 
+For example, if the player's result is $1,500, he earns 25% on the first $1,000 and 40% on the 
+remainder, or $450. 
+ 
+We can calculate the value of such an agreement using Equation 25.7, 
+ 
+w = $2,000  
+σ = $2,400 
+ 
+The value of the total option for the first tier ($0-$1,000) is simply the value of the total option 
+with threshold 0 minus the value of the total option with threshold 1000: 
+ 
+(2400/√2π)(e-.34722) + (2000)(Z(5 6
+ ))  = $2,271.93  
+(2400/√2π)(e-.0868l) + (2000) (Z(5 12
+ )) = $2,200.93 
+ 
+The difference is $71. This is the value of the total option for the first tier. We can do the same 
+sorts of calculations to find the values of each tier: 
+ 
+Profit Tier 
+Backer Share 
+Player Share 
+Tier Value 
+Value to Player 
+$0 - $1000 
+75% 
+25% 
+$71.00 
+S17.75 
+$1000 - $2000 
+60% 
+40% 
+$243.47 
+$97.39 
+$2000 - $3000 
+50% 
+50% 
+$402.69 
+$201.34 
+$3000 - $4000 
+40% 
+60% 
+$473.53
+$284.12
+S4000 - $6000 
+30% 
+70% 
+$746.02
+$522.84
+$60000+ 
+25% 
+75% 
+$334.33
+$250.74
+Total 
+ 
+ 
+$2,271.93 
+$1,374.19 
+ 
+This is roughly equivalent to a 60.4% share in the profits above zero. 
+ 
+This last example shows an alternative method for structuring backing agreements that might be 
+slightly more effective at solving one of the two big issues facing backing agreements hi general. 
+These two issues arc at the core of deciding how to structure a backing agreement. The first issue 
+is the problem of aligning the interests of the player with the interests of the backer. 
+ 
+One common problem that occurs quite frequently in backing agreements of a fixed term is that 
+when the option expiry date (the end of the backing agreement) nears, if the player is at least 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         309 
+ 
+moderately far away from the backing agreement threshold, the player has a direct incentive to 
+take on a lot of variance. To take an extreme example, assume this is the last hand before the 
+backing agreement expires. The player is $2,000 away from the threshold value where he begins 
+to get shares of the profits. The player is offered an opportunity to put $3,000 in the pot with QQ 
+against AA preflop (assume the AA player accidentally exposed his hand or the like.) This 
+would be a terrible play for the backer and under normal circumstances, and the player as well. 
+However, the player's EV from gambling here is actually about 18% of his split of $1,000, while 
+his EV from folding is zero. Here the player's EV function is dramatically different and in this 
+extreme case effectively opposed to the backer's. 
+ 
+One way of addressing this problem that has been used in some circumstances involves paying 
+some sort of salary to the player that he receives win or lose, while reducing the player's share of 
+the outcomes. However, this has the added effect of making it less valuable for the player to play 
+well and try to win. This problem is familiar to managers in many sales industries: some 
+automobile dealerships have experimented with commissioned employees and salaried 
+salespeople and so on. 
+ 
+The second issue is that of fairly compensating both parties. Both sides want to make money, 
+and presumably the backing agreement should benefit both parties. But what elements should be 
+included hi this "fair" division of profit? Some principles that merit consideration are: 
+ 
+• A risk premium for the backer. 
+The backer is assuming all the risk in these agreements and therefore ought to receive a 
+premium for that risk-taking. 
+• The player may not always need backing. 
+Often players who are being backed could instead play at some lower limit for some 
+reduced rate. The player may feel that his gain from the backing agreement should reflect 
+this. Viewed another way, this is like payment for the player's time, which could be spent 
+in some other way. Since the backer is effectively making money passively on the deal, 
+the player may demand a larger share of the profits.  
+• Uncertainty about the player's win rate. 
+Often in creating backing agreements, some implicit or explicit win rate and standard 
+deviation will be used. However, if the player's win rate is actually less than the parties 
+believe, then the player's share of the overall value of the option increases. For example, 
+assume 100 hours of play with w = $20 and σ = $200, compared to 100 hours of player 
+with w = $15 and σ = $200. The total value of the player's play is now three-fourths as 
+much. However, the value of the 0-threshold option is 81.3% as much with w = $15 as 
+with w = $20. The player retains a higher percentage of his share of the win than the 
+backer if his actual win rate turns out to be lower than the parties believe a priori. 
+ 
+None of these considerations include other items such as the risk of credit default or fraud, where 
+the player absconds with the backer's money or fails to accurately report results. Of course, 
+backing is a high-risk activity; however, the returns from a strong, stable backing agreement can 
+far outstrip returns from other types of investments. Another problem with backing is that 
+players who win often don't need to be backed for long; by contrast, players who are break-even 
+or win slightly often require backing for longer periods of time in order to be profitable. 
+ 
+Key Concepts 
+• A poker bankroll shares many characteristics with a portfolio, and so elements of 
+portfolio theory can be brought to bear on it. 
+• Sharpe's ratio provides a metric for risk-adjusted return. The higher the ratio, the higher 
+the return relative to risk of the investment. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         310 
+ 
+• Players can benefit utility-wise from swapping with each other. This is even true if one 
+player is stronger than the other but the swap takes place at par. 
+• Backing agreements share many characteristics with options, and can be valued similarly 
+in deciding on a fair deal. 
+ 
+ 

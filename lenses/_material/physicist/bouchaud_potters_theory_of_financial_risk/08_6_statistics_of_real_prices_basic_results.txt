@@ -1,0 +1,1202 @@
+6
+Statistics of real prices: basic results
+Le march´e, `a son insu, ob´eit `a une loi qui le domine: la loi de la probabilit´e.†
+(Louis Bachelier, Th´eorie de la sp´eculation.)
+6.1 Aim of the chapter
+The easy access to enormous ﬁnancial databases, containing thousands of asset time series,
+sampled at a frequency of minutes or sometimes seconds, allows one to investigate in detail
+the statistical features of the time evolution of ﬁnancial assets. The description of any kind
+of data, be it of physical, biological or ﬁnancial origin requires, however, an interpretation
+framework, needed to order and give a meaning to the observations. To describe necessarily
+means to simplify, and even sometimes betray: the aim of any empirical science is to
+approach reality progressively, through successive improved approximations.
+The goal of the present and subsequent chapters is to present in this spirit the statistical
+propertiesofﬁnancialtimeseries.Weshallproposesomeplausiblemathematicalmodelling,
+as faithful as possible (though imperfect) to the observed properties of these time series. The
+models we discuss are however not the only possible models; the available data is often not
+sufﬁciently accurate to distinguish, say, between a truncated L´evy distribution and a Student
+distribution. The choice between the two is then guided by mathematical convenience.
+In this respect, it is interesting to note that the word ‘modelling’ has two rather different
+meanings within the scientiﬁc community. The ﬁrst one, often used in applied mathematics,
+engineering sciences and ﬁnancial mathematics, means that one represents reality using
+appropriate mathematical formulae. This is the scope of the present and next two chapters.
+The second meaning, more common in the physical sciences, is perhaps more ambitious:
+it aims at ﬁnding a set of plausible causes sufﬁcient to explain the observed phenomena, and
+therefore, ultimately, to justify the chosen mathematical description. We will defer to the last
+chapter of this book the discussion of several ‘microscopic’ mechanisms of price formation
+and evolution (e.g. adaptive traders’ strategies, herding behaviour between traders, feedback
+of price variations onto themselves, etc.) which are certainly at the origin of the interesting
+statistics that we shall report below. This line of research is still in its infancy and evolves
+very rapidly.
+† The market, without knowing it, obeys a law which overwhelms it: the law of probability.
+
+88
+Statistics of real prices: basic results
+We shall describe several types of market:
+r Very liquid, ‘mature’ markets of which we take three examples: a US stock index (S&P
+500), an exchange rate (British pound against U.S. dollar), and a long-term interest rate
+index (the German Bund);
+r Single liquid stocks, which we choose to be representative U.S. stocks;
+r Very volatile markets, such as emerging markets like the Mexican peso;
+r Volatility markets: through option markets, the volatility of an asset (which is empirically
+found to be time dependent) can be seen as a price which is quoted on markets (see
+Chapter 13);
+r Interest rate markets, which give ﬂuctuating prices to loans of different maturities, be-
+tween which special types of correlations must however exist. This will be discussed in
+Chapter 19.
+We choose to limit our study to ﬂuctuations taking place on rather short time scales
+(typically from minutes to months). For longer time scales, the available data-set is in
+general too small to be meaningful. From a fundamental point of view, the inﬂuence of the
+average return is negligible for short time scales, but becomes crucial on long time scales.
+Typically,astockvariesbyseveralpercentwithinaday,butitsaveragereturnis,say,10%per
+year, or 0.04% per day. Now, the ‘average return’ of a ﬁnancial asset appears to be unstable
+in time: the past return of a stock is seldom a good indicator of future returns. Financial
+time series are intrinsically non-stationary: new ﬁnancial products appear and inﬂuence the
+markets, trading techniques evolve with time, as does the number of participants and their
+access to the markets, etc. This means that taking very long historical data-set to describe
+the long-term statistics of markets is a priori not justiﬁed. We will thus avoid this difﬁcult
+(albeit important) subject of long time scales.
+The simpliﬁed model that we will present in this chapter, and that will be the starting
+point of the theory of portfolios and options discussed in later chapters, can be summarized
+as follows. The variation of price of the asset X between time t = 0 and t = T can be
+decomposed as:
+log
+x(T )
+x0
+
+=
+N−1
+
+k=0
+ηk
+N = T
+τ ,
+(6.1)
+where:
+r In a ﬁrst approximation, the relative price increments ηk are random variables which are
+(i) independent as soon as τ is larger than a few tens of minutes (on liquid markets) and
+(ii) identically distributed, according to a rather broad distribution, which can be chosen
+to be a truncated L´evy distribution, Eq. (1.26) or a Student distribution, Eq. (1.38): both
+ﬁts are found to be of comparable quality. The results of Chapter 1 concerning sums
+of random variables, and the convergence towards the Gaussian distribution, allows one
+
+6.1 Aim of the chapter
+89
+to understand qualitatively the observed ‘narrowing’ of the tails as the time interval T
+increases.
+r A more reﬁned analysis, presented in Chapter 7, however reveals important system-
+atic deviations from this simple model. In particular, the kurtosis of the distribution of
+log(x(T )/x0) decreases more slowly than 1/N, as would be found if the increments ηk
+were iid random variables. This suggests a certain form of temporal dependence. The
+volatility (or the variance) of the price returns η is actually itself time dependent: this
+is the so-called ‘heteroskedasticity’ phenomenon. As we shall see in Chapter 7, peri-
+ods of high volatility tend to persist over time, thereby creating long-range higher-order
+correlations in the price increments.
+r Finally, on short time scales, one observes a systematic skewness effect that suggests,
+as discussed in details in Chapter 8, that in this limit a better model is to consider price
+themselves, rather than log-prices, as additive random variables:
+x(T ) = x0 +
+N−1
+
+k=0
+δxk
+N = T
+τ ,
+(6.2)
+where the price increments δxk (rather than the returns ηk) have a ﬁxed variance. We
+will actually show in Chapter 8 that reality must be described by an intermediate model,
+which interpolates between a purely additive model, Eq. (6.2), and a purely multiplicative
+model, Eq. (6.1).
+Studied assets
+The chosen stock index is the Standard and Poor’s 500 (S&P 500) US stock index. During
+the time period chosen (from September 1991 to August 2001), the index rose from 392
+to 1134 points, with a high at 1527 in March 2000 (Fig. 6.1 (top)). Qualitatively, all the
+conclusions reached on this period of time are more generally valid, although the value
+of some parameters (such as the volatility) can change signiﬁcantly from one period to
+the next.
+The exchange rate is the US dollar ($) against the British pound (GBP). During the
+analysed period, the pound varied between 1.37 and 2.00 dollars (Fig. 6.1 (middle)).
+Since the interbank settlement prices are not available, we have deﬁned the price as the
+average between the bid and the ask prices, see Section 5.3.5.
+Finally, the chosen interest rate index is the futures contract on long-term German
+bonds (Bund), ﬁrst quoted on the London International Financial Futures and Options
+Exchange (LIFFE) and later on the EUREX German futures market. It is typically
+varying between 70 and 120 points (Fig. 6.1 (bottom)).
+For intra-day analysis of the S&P 500 and the GBP we have used data from the futures
+market traded on the Chicago Mercantile Exchange (CME). The ﬂuctuations of futures
+prices follow in general those of the underlying contract and it is reasonable to identify
+the statistical properties of these two objects. Futures contracts exist with several ﬁxed
+maturity dates. We have always chosen the most liquid maturity and suppressed the
+artiﬁcial difference of prices when one changes from one maturity to the next (roll).
+
+90
+Statistics of real prices: basic results
+1992
+1994
+1996
+1998
+2000
+2002
+500
+1000
+1500
+S&P 500
+1992
+1994
+1996
+1998
+2000
+2002
+1.5
+2.0
+GBP/USD
+1992
+1994
+1996
+1998
+2000
+2002
+t
+80
+100
+120
+Bund
+Fig. 6.1. Charts of the studied assets between September 1991 and August 2001. The top chart is the
+S&P 500, the middle one is the GBP/$ and the bottom one is the long-term German interest rate
+(Bund).
+We have also neglected the weak dependence of the futures contracts on the short time
+interest rate (see Section 13.2.1): this trend is completely masked by the ﬂuctuations of
+the underlying contract itself.
+6.2 Second-order statistics
+6.2.1 Price increments vs. returns
+In all that follows, the notation δx represents an absolute price increment between two
+instants separated by a certain time interval τ:
+δxk = xk+1 −xk = x(t + τ) −x(t)
+(t ≡kτ);
+(6.3)
+whereas η denotes the relative price increment (or return):
+ηk = δxk
+xk
+≈log xk+1 −log xk,
+(6.4)
+
+6.2 Second-order statistics
+91
+where the last equality holds for τ sufﬁciently small so that relative price increments over
+that time scale are small. For example, the typical change of prices for a stock over a day
+is a few percent, so that the difference between δxk/xk and log xk+1 −log xk is of the order
+of 10−3, and totally insigniﬁcant for the purpose of this book. Even when δxk/xk = 0.10,
+log xk+1 −log xk = 0.0953, which is still quite close.
+In the whole of modern ﬁnancial literature, it is postulated that the relevant variable to
+study is not the increment δx itself, but rather the return η. It is certainly correct that different
+stocks can have completely different prices, and therefore unrelated absolute daily price
+changes, but rather similar daily returns. Similarly, on long time scales, price changes tend
+to be proportional to prices themselves: when the S&P 500 is multiplied by a factor ten,
+absolute price changes are also multiplied roughly by the same factor (see Fig. 8.2).
+However, on shorter time scales, the choice of returns rather than price increments is
+much less justiﬁed, as will be argued at length in Chapter 8. The difference leads to small,
+but systematic skewness effects that must be discussed carefully. For the purpose of the
+present chapter, these small effects can nevertheless be neglected, and we will follow the
+tradition of studying price returns, or more precisely difference of log prices.
+6.2.2 Autocorrelation and power spectrum
+The simplest quantity, commonly used to measure the correlations between price incre-
+ments, is the temporal two-point correlation function Cτ(k, ℓ), deﬁned as:†
+Cτ(ℓ) = 1
+σ 2
+1
+⟨ηkηk+ℓ⟩e;
+σ 2
+1 ≡σ 2τ = ⟨η2
+k⟩e,
+(6.5)
+where the notation ⟨...⟩e refers to an empirical average over the whole time series. Figure 6.2
+shows this correlation function for the three chosen assets, and for τ = 5 min. For uncor-
+related increments, the correlation function Cτ(ℓ) should be equal to zero for k ̸= l, with
+an empirical RMS equal to σe = 1/
+√
+N, where N is the number of independent points
+used in the computation. Figure 6.2 also shows the 3σe error bars. We conclude that beyond
+30 min, the two-point correlation function cannot be distinguished from zero. On less liquid
+markets, however, this correlation time is longer. On the US stock market, for example, this
+correlation time has signiﬁcantly decreased between the 1960s (where it was equal to a few
+hours) and the 1990s.
+On very short time scales, however, weak but signiﬁcant correlations do exist. These
+correlations are however too small to allow proﬁt making: the potential return is smaller
+than the transaction costs involved for such a high-frequency trading strategy, even for
+the operators having direct access to the markets (cf. Section 13.1.3). Conversely, if the
+transaction costs are high, one may expect signiﬁcant correlations to exist on longer time
+scales.
+† In principle, one should subtract the average value ⟨η⟩= ˜mτ ≡˜m1 from η. However, if τ is small (for example
+equal to a day), ˜m1 (of the order of 10−4 −10−3 for stocks) is usually very small compared to σ1 (of the order
+of a few percents).
+
+92
+Statistics of real prices: basic results
+0
+15
+30
+45
+60
+75
+90
+-0.04
+-0.02
+0
+0.02
+0.04
+C(l)
+S&P 500
+0
+15
+30
+45
+60
+75
+90
+-0.04
+-0.02
+0
+0.02
+0.04
+C(l)
+GBP/USD
+0
+15
+30
+45
+60
+75
+90
+l τ 
+-0.04
+-0.02
+0
+0.02
+0.04
+C(l)
+Bund
+Fig. 6.2. Normalized correlation function Cτ(ℓ) for the three chosen assets, as a function of the time
+difference ℓτ, and for τ = 5 min. Up to 30 min, some weak but signiﬁcant negative correlations do
+exist (of amplitude ∼0.05). Beyond 30 min, however, the two-point correlations are not statistically
+signiﬁcant. (Note the horizontal dotted lines, corresponding to ±3σe.)
+Note actually that the high frequency correlations are negative before reverting back to
+zero. There are therefore signiﬁcant intra day anticorrelations in price ﬂuctuations. This
+is not related to the so-called ‘bid-ask’ bounce,† since this effect is found on the high
+frequency dynamics of the midpoint (deﬁned as the mean of the bid price and the ask price)
+for individual stocks. This effect can be simply understood from the persistence of the order
+book: orders that have accumulated above and below the current price have a conﬁning
+effect on short scales, since they oppose a kind of ‘barrier’ to the progression of the price.
+One can perform the same analysis for the daily increments of the three chosen assets (τ =
+1 day). The correlation function (not shown) is always within 3σe of zero, indicating that the
+daily increments are not signiﬁcantly correlated, or more precisely that such correlations,
+if they exist, can only be measured using much longer time series. Indeed, using data over
+several decades, one can detect signiﬁcant correlations on the scale of a few days: individual
+stockstendtobepositivelycorrelated,whereasstockindicestendtobenegativelycorrelated.
+† Suppose the true price (midpoint) is ﬁxed but one observes a sequence of trades alternating between the bid and
+the ask. The resulting time series shows strong anticorrelations.
+
+6.2 Second-order statistics
+93
+The order of magnitude of these correlations is however small: one ﬁnds that daily returns
+have a ∼0.05 correlation from one day to the next.
+Price variogram
+Another way to observe the near absence of linear correlations is to study the variogram of
+(log-)price changes, deﬁned as:
+V(ℓ) = ⟨(log xk −log xk+ℓ)2⟩e,
+(6.6)
+which measures how much, on average, the logarithm of price differs between two instant
+of times. If the returns ηk have zero mean and are uncorrelated, it is easy to show that
+the variogram V grows linearly with the lag, with a prefactor equal to the volatility (see
+Section 4.3).
+It is interesting to study this quantity for large time lags, using very long time series.
+However, since on long time scales the level of – say – the Dow Jones grows on average
+exponentially with time, one has to subtract this average trend from log xk. In fact, the
+average annual return of the U.S. market has itself increased with time. A reasonable ﬁt of
+log xk over the twentieth century is given by:
+log xk = a1k + a2k2 + log ˜xk,
+(6.7)
+where k is in years, a1 = 9.21 10−3 per year and a2 = 3.45 10−4 per squared year (we have
+rescaled the Dow-Jones index by an arbitrary factor such as to remove the constant term a0).
+The quantity log ˜xk is the ﬂuctuation away from this mean behaviour. The average return
+given by this ﬁt is a1 + 2a2k, found to be around 1% annual for k = 0 (corresponding to
+year 1900) and around 8% for year 1999. The variogram of log ˜xk computed between 1950
+and 1999 is shown in Fig. 6.3, for ℓranging from a day to four market years (1000 days).
+A linear behaviour of this quantity is equivalent to the absence of autocorrelations in the
+ﬂuctuating part of the returns. Fig. 6.3 shows, in a log-log plot, V versus ℓ, together with a
+linear ﬁt of slope one. The data corresponding to the beginning of the century (1900–1949)
+is also linear for small enough ℓbut shows stronger signs of saturation for ℓof the order of
+a year. (This saturation might also be present in Fig. 6.3.)
+Power spectrum
+Let us brieﬂy mention another equivalent way of presenting the same results, using the
+so-called power spectrum, deﬁned as:
+S(ω) = 1
+N
+
+k,ℓ
+⟨ηkηk+ℓ⟩eiωℓ.
+(6.8)
+This quantity is simple to calculate in the case where the correlation function decays as
+an exponential: C(ℓ) = ασ 2 exp −α|ℓ|. In this case, one ﬁnds:
+S(ω) =
+σ 2α2
+ω2 + α2 .
+(6.9)
+
+94
+Statistics of real prices: basic results
+0
+1
+log10(  )
+-5
+-4
+-3
+-2
+-1
+log10(V(  ))
+Data
+Random walk
+3
+2
+Fig. 6.3. Variogram of the detrended logarithm of the Dow Jones index, during the period
+1950–2000. ℓis in days. Except perhaps for the last few points, the variogram shows no sign
+of saturation.
+10
+-5
+10
+-4
+10
+-3
+10
+-2
+ω (s
+-1)
+10
+-2
+10
+-1
+S(ω) (arbitrary units)
+Fig. 6.4. Power spectrum S(ω) of the time series DEM/$, as a function of the frequency ω. The
+spectrum is ﬂat: for this reason one often speaks of white noise, where all the frequencies are
+represented with equal weights. This corresponds to uncorrelated increments.
+The case of uncorrelated increments corresponds to the limit α →∞, which leads to a
+ﬂat power spectrum, S(ω) = σ 2. Figure 6.4 shows the power spectrum of the DEM/$
+time series, where no signiﬁcant structure appears.
+6.3 Distribution of returns over different time scales
+The results of the previous section are compatible with the simplest scenario where the price
+returns ηk are, beyond a certain correlation time of a few tens of minutes on liquid markets,
+independent random variables. A much ﬁner test of this assumption consists in studying
+directly the probability distributions of the log-price differences log(xN/x0) = N−1
+k=0 ηk on
+
+6.3 Distribution of returns over different time scales
+95
+Table 6.1. Value of the average return for the 30 minutes
+price changes and the daily price changes for the three
+assets studied. The results are in % for the S&P 500 and
+GBP/$, and correspond to absolute price changes for the
+Bund. Note that unlike the daily returns, the 30 minute
+returns do not include the overnight price changes.
+Average return
+Asset
+30 minutes
+Daily
+S&P 500
+0.00115
+0.0432
+GBP/$
+0.00211
+−0.00242
+Bund
+0.000318
+0.0117
+different time scales N = T/τ. If the increments were independent identically distributed
+random variables, the distributions on different time scales would be deduced from the one
+pertaining to the elementary time scale τ (chosen to be larger than the correlation time)
+using a simple convolution. More precisely (see Section 2.2.1), one would have in that case
+P(log x/x0, N) = [P1]⋆N, where P1 is the distribution of elementary returns. This is what
+we test in Section 6.3.3 below.
+6.3.1 Presentation of the data
+For the futures contracts, we have considered 5 minute data sets starting September 1st,
+1991 until September 1st, 2001 (or slightly longer daily data sets (from 1990 to November
+2001) for the S&P 500). The 5 minute data sets does not include the overnight return (the
+return form the close to the next day’s open). One should remember that the overnight
+contribution to the total close to close variations is quite important. The variance of the
+overnight return is equal to 1/4 of the full day without overnight (i.e. it corresponds to
+about 8/4 = 2 hours of daily trading). For the GBP/$, the overnight corresponds to 80% of
+the daily variance, and for the Bund, it is 16%. In all the subsequent analysis, the returns are
+actually ‘detrended’ returns, for which the empirical average return has been subtracted. The
+value of this average return is given, both for 30 minute increments and for daily increments,
+in Table 6.1. (These two quantities are not simply related because the overnight is absent
+from the former but contributes to the latter.)
+As far as individual stocks are concerned, we used daily price changes of the 320 most
+liquid U.S. stocks. This leads to a data set containing 800 000 points. The most negative
+event is −58σ. It was Enron in November 2001. In order to be comparable, the average return
+of each stock was subtracted and RMS of the log-returns of each stock was normalized to
+one using the trick explained in Section 4.4. From this data set, we also considered monthly
+returns, using log returns over non overlapping 22 day periods. This generates 36 100 points,
+which are treated exactly as for daily data. The worst events were again Enron (−18σ) and
+Providian (−12σ). Those two events happened at the end of our data set (autumn 2001);
+
+96
+Statistics of real prices: basic results
+0
+2
+4
+6
+8
+η (%)
+10
+-3
+10
+-2
+10
+-1
+10
+0
+S&P positive
+S&P negative
+Truncated Levy
+Student
+Gaussian
+0.01
+0.1
+1
+10
+η (%)
+10
+-5
+10
+-4
+10
+-3
+10
+-2
+10
+-1
+10
+0
+P>(η)
+S&P positive
+S&P negative
+Truncated Levy
+Student
+Gaussian
+Fig. 6.5. Elementary cumulative distribution P1>(η) (for η > 0) and P1<(η) (for η < 0), for the S&P
+500 returns, with τ = 30 min (left, log-log scale) and 1 day (right, semi-log scale). The thick line
+corresponds to the best ﬁt using a symmetric TLD L(t)
+µ , of index µ = 3
+2. We have also shown the best
+Student distribution and the Gaussian of same RMS.
+this could be a selection bias effect, in the sense that the data set contains only stocks which
+survived until 2001, that had by deﬁnition no violent accident before.
+6.3.2 The distribution of returns
+High frequency distribution
+The ‘elementary’ high frequency (30 minutes) cumulative probability distribution P1>(δx)
+is represented in Figures 6.5, 6.6 and 6.7. One should notice that the tail of the distribution
+is broad, in any case much broader than a Gaussian. A ﬁt using a truncated L´evy distribution
+(TLD) with µ = 3
+2 as given by Eq. (1.26), or alternatively a Student distribution are both
+quite satisfying (see Fig. 1.5).† The corresponding ﬁtting parameters are reported in
+Tables 6.2 and 6.3. In both cases, one has a priori two free parameters (since we ﬁxed
+the value of µ for the TLD). We imposed that these two parameters are such that the
+variance of the theoretical distribution exactly reproduces the empirical variance, and de-
+termined the only remaining parameter using a maximum likelihood criterion. From the
+results reported in Tables 6.2 and 6.3, one sees that both ﬁts are of comparable quality, with
+a slight advantage for the Student ﬁt.
+For the TLD, some useful relations are, in the present case (µ = 3
+2):
+† A more reﬁned study of the tails actually reveals the existence of a small asymmetry, which we neglect here.
+Therefore, the skewness ς is taken to be zero – but see Chapter 8.
+
+6.3 Distribution of returns over different time scales
+97
+0
+1
+2
+3
+4
+5
+η (%)
+10
+-3
+10
+-2
+10
+-1
+10
+0
+GBP positive
+GBP negative
+Truncated Levy
+Student
+Gaussian
+0.01
+0.1
+1
+η (%)
+10
+-5
+10
+-4
+10
+-3
+10
+-2
+10
+-1
+10
+0
+P>(η)
+GBP positive
+GBP negative
+Truncated Levy
+Student
+Gaussian
+Fig. 6.6. Elementary cumulative distribution for the GBP/$ returns, for τ = 30 min (left, log-log
+scale) and 1 day (right, semi-log scale), and best ﬁt using a symmetric TLD L(t)
+µ , of index µ = 3
+2.
+We again show the best Student distribution and the Gaussian of same RMS.
+0
+0.5
+1
+1.5
+2
+δx (points)
+10
+-3
+10
+-2
+10
+-1
+10
+0
+Bund positive
+Bund negative
+Truncated Levy
+Student
+Gaussian
+0.01
+0.1
+1
+δx (points)
+10
+-5
+10
+-4
+10
+-3
+10
+-2
+10
+-1
+10
+0
+P>(δx)
+Bund positive
+Bund negative
+Truncated Levy
+Student
+Gaussian
+Fig. 6.7. Elementary cumulative distribution for the price increments (i.e. not the returns) of the
+Bund, for τ = 30 min (left) and 1 day (right), and best ﬁt using a symmetric TLD L(t)
+µ , of index
+µ = 3
+2, Student and Gaussian. In this case, the TLD and Student are not very good ﬁts. A better ﬁt is
+obtained using a TLD with a smaller µ.
+
+98
+Statistics of real prices: basic results
+Table 6.2. Value of the parameters obtained by ﬁtting the 30 minutes data with a
+symmetric TLD L(t)
+µ , of index µ = 3
+2. The kurtosis is either measured directly or
+computed using the parameters of the best TLD. The data is returns in percent for the
+S&P 500 and GBP/$, and absolute price changes for the Bund.
+Kurtosis κ1
+Variance σ 2
+1
+a2/3α
+Log likelihood
+Asset
+Measured
+Fitted
+Measured
+Computed
+(per point)
+S&P 500
+0.240
+0.096
+15.8
+23.8
+−1.2964
+GBP/$
+0.115
+0.091
+11.3
+25.8
+−1.2886
+Bund
+0.0666
+0.046
+11.9
+72.2
+−1.1197
+Table 6.3. Value of the tail parameter µ obtained by ﬁtting the 30 minute data with a
+Student distribution. The kurtosis is either measured directly or computed using the
+parameters of the best Student. For the three assets, the value of µ is found to be less
+than four, hence leading to an inﬁnite theoretical kurtosis. The data is returns in % for
+the S&P 500 and GBP/$, and absolute price changes for the Bund.
+Kurtosis κ1
+Variance σ 2
+1
+µ
+Log likelihood
+Asset
+Measured
+Fitted
+Measured
+Computed
+(per point)
+S&P 500
+0.240
+3.24
+15.8
+∞
+−1.2927
+GBP/$
+0.115
+3.20
+11.3
+∞
+−1.2860
+Bund
+0.0666
+2.74
+11.9
+∞
+−1.1176
+c2 = σ 2
+1 =
+3
+2
+√
+2
+a3/2α−1
+κT L D =
+√
+2
+2
+1
+a3/2α3/2 ,
+(6.10)
+where a3/2 is deﬁned by Eq. (1.20). The quantity we choose to report in the following Tables
+is (a3/2)2/3α. This quantity is essentially the ﬁtted kurtosis to the power minus two thirds,
+and represents the ratio of the typical scale of the core of the TLD – given by (a3/2)2/3 –
+to the scale α−1 at which the exponential cut-off takes place. When this parameter is small
+(i.e. when the kurtosis is large), the TLD is ‘very close’ to the corresponding pure L´evy
+distribution, whereas when this parameter is of order one, the power-law tail of the L´evy
+distribution cannot develop much before being truncated.
+For the Student distribution, the only free parameter is the tail exponent µ. The kurtosis,
+when it exists, is equal to:
+κS =
+6
+µ −4
+(µ > 4).
+(6.11)
+In the case of the TLD, we have chosen to ﬁx the value of µ to 3
+2. This reduces the number
+of adjustable parameters, and is guided by the following observations:
+r A large number of empirical studies that use pure L´evy distributions to ﬁt the ﬁnancial
+market ﬂuctuations report values of µ in the range 1.6–1.8, obtained by ﬁtting the whole
+
+6.3 Distribution of returns over different time scales
+99
+Table 6.4. Value of the parameters obtained by ﬁtting the daily data with a
+symmetric TLD L(t)
+µ , of index µ = 3
+2. The kurtosis is either measured directly or
+computed using the parameters of the best TLD. The data is returns in % for the
+S&P 500 and GBP/$, and absolute price changes for the Bund.
+Kurtosis κ1
+Variance σ 2
+1
+a2/3α
+Log likelihood
+Asset
+Measured
+Fitted
+Measured
+Computed
+(per point)
+S&P 500
+0.990
+0.159
+4.39
+11.15
+−1.3487
+GBP/$
+0.612
+0.185
+3.40
+8.9
+−1.3617
+Bund
+0.3353
+0.253
+2.55
+5.55
+−1.3782
+Table 6.5. Value of the tail parameter µ obtained by ﬁtting the daily data with a
+Student distribution. The kurtosis is either measured directly or computed using
+the parameters of the best Student. The data is returns in % for the S&P 500 and
+GBP/$, and absolute price changes for the Bund.
+Kurtosis κ1
+Variance σ 2
+1
+µ
+Log likelihood
+Asset
+Measured
+Fitted
+Measured
+Computed
+(per point)
+S&P 500
+0.990
+3.84
+4.39
+∞
+−1.3461
+GBP/$
+0.612
+4.06
+3.40
+100
+−1.3592
+Bund
+0.3353
+4.78
+2.55
+7.7
+−1.3770
+distribution using maximum likelihood estimates, which focuses primarily on the ‘core’
+of the distribution. However, in the absence of truncation (i.e. with α = 0), the ﬁt strongly
+overestimates the tails of the distribution. Choosing a higher value of µ partly corrects
+for this effect, since it leads to a thinner tail.
+r If the exponent µ is left as a free parameter of the TLD, it is in many cases found to be
+in the range 1.4–1.6, although sometimes smaller, as in the case of the Bund (µ ≈1.2).
+r The particular value µ = 3
+2 has a simple (although by no means compelling) theoretical
+interpretation, which we shall discuss in Chapter 20.
+Daily distribution of returns
+The shape of the daily distribution of returns is also shown in Figures 6.5, 6.6 and 6.7.
+Again, the distributions are much broader than Gaussian, and can be ﬁtted using a TLD or a
+Student distribution. The parameters of the ﬁts are given in Tables 6.4 and 6.5, respectively.
+As expected on general grounds, the non-Gaussian character of these daily distributions is
+already weaker than at high frequency, as can be seen, for example, from the value of the
+Student index µ. Note that the daily distribution has a noticeable asymmetry in the case
+of the S&P 500, not captured by the ﬁtted distributions. This asymmetry will be further
+discussed in Chapter 8.
+
+100
+Statistics of real prices: basic results
+Table 6.6. Value of the parameters corresponding to a TLD or Student (S) ﬁt
+to the daily and monthly returns of a pool of U.S. stocks. The variance of
+each stock is normalized to one using the method explained in Section 4.4.
+Kurtosis κ1
+Log likelihood per point
+Time lag
+a2/3α
+µ
+Measured
+TLD
+S
+TLD
+S
+Daily
+0.174
+4.16
+38.3
+9.7
+37.5
+−1.3383
+−1.3369
+Monthly
+0.332
+5.68
+5.38
+3.7
+3.6
+−1.3818
+−1.3818
+0
+2
+4
+6
+0
+1
+8
+η (σ)
+10
+-5
+10
+-4
+10
+-3
+10
+-2
+10
+-1
+10
+0
+Stocks positive
+Stocks negative
+Truncated Levy
+Student
+Gaussian
+0
+2
+4
+6
+8
+10
+η (σ)
+10
+-5
+10
+-4
+10
+-3
+10
+-2
+10
+-1
+10
+0
+P>(η)
+Stocks positive
+Stocks negative
+Truncated Levy
+Student
+Gaussian
+10
+100
+10
+-7
+10
+-6
+10
+-5
+10
+-4
+Fig. 6.8. Daily (left) and monthly (right) distribution returns of a pool of U.S. stocks. The RMS of
+the log-returns of each stock was normalized to one using the method explained in Section 4.4.
+Daily extreme events are shown in left inset. Note power law with µ = 3 for the negative tails (open
+squares).
+Individual stocks
+The analysis of individual stocks returns lead to comparable conclusions. We show in
+Figure 6.8 the distribution of daily and monthly returns of a pool of U.S. stocks, together
+with a ﬁt, again using TLD or Student distributions. We show in the left inset the extreme
+tail of the distribution of daily returns, in log-log coordinates. The power law nature of this
+tail, with an exponent µ ≈3, is rather convincing. Note that the distribution of monthly
+returns (22 days) is still strongly non-Gaussian. The parameters corresponding to the two
+ﬁts are reported in Table 6.6.
+
+6.3 Distribution of returns over different time scales
+101
+6.3.3 Convolutions
+The parameterization of P1(η) as a TLD or a Student distribution, and the assumption
+that the increments are iid random variables, allows one to reconstruct the distribution of
+(log-)price increments for all time intervals T = Nτ. As discussed in Chapter 2, one then
+has P(log x/x0, N) = [P1]⋆N. Figure 6.9 shows the cumulative distribution for the S&P
+500 for T = 1 hour, 1 day and 5 days, reconstructed from the one at 15 min, according
+to the simple iid hypothesis. The symbols show empirical data corresponding to the same
+time intervals. The agreement is acceptable; one notices in particular the slow progressive
+deformation of P(log x/x0, N) towards a Gaussian for large N. However, a closer look at
+Figure 6.9 reveals systematic deviations: for example the tails at 5 days are distinctively
+fatter than they should be. The evolution of the empirical kurtosis as a function of N conﬁrms
+this ﬁnding: κN decreases much more slowly than the 1/N behaviour predicted by an iid
+hypothesis. This effect will be discussed in much more details in Chapter 7, see in particular
+Fig. 7.3.
+10
+-2
+10
+0
+10
+2
+δx  
+10
+-5
+10
+-4
+10
+-3
+10
+-2
+10
+-1
+10
+0
+P>(δx)
+S&P 15 minutes
+S&P 1 hour
+S&P 1 day
+S&P 5 days
+Fig. 6.9. Evolution of the distribution of the price increments of the S&P 500, P(log x/x0, N)
+(symbols), compared with the result obtained by a simple convolution of the elementary distribution
+P1 (dark lines). The width and the general shape of the curves are rather well reproduced within this
+simple convolution rule. However, systematic deviations can be observed, in particular in the tails.
+This is also reﬂected by the fact that the empirical kurtosis κN decreases more slowly than κ1/N.
+
+102
+Statistics of real prices: basic results
+6.4 Tails, what tails?
+The asymptotic tails of TLD are exponential, and, as demonstrated by the above ﬁgures,
+satisfactorily ﬁt the tails of the empirical distributions P(η, N). However, as mentioned in
+Section 1.9 and in the above paragraph, the distribution of price changes can also be ﬁtted
+using Student distributions, which have asymptotically much thicker, power-law tails. In
+many cases, for example for the distribution of losses of the S&P 500 (Fig. 6.5), one sees an
+upward bend in the plot of P>(η) versus η in a linear-log plot. This indeed suggests that the
+decay could be slower than exponential. Recently, several authors have quite convincingly
+established that the tails of stock returns (and indices) are well described by a power-law
+with an exponent µ in the range 3–5. For example, the most likely value of µ using a
+Student distribution to ﬁt the whole distribution of daily variations of the S&P in the period
+1991–95 is µ ∼4 (see Table 6.5). The estimate of µ also somewhat depends on the time
+lag: tails tend to get thinner (i.e. µ increases) as one goes from intra-day time scales to week
+or months. Nevertheless, there is now good evidence that on short time scales, and using
+long time series, the tail exponent for stocks is around µ = 3 on several different markets
+(U.S., Japan, Germany). We show in Figure 6.10 the Hill estimator of both the positive and
+negative tails of U.S. stocks (using the same data as in Fig. 6.8), where one indeed sees
+that the positive tail exponent is around µ = 4 whereas the negative tail exponent is around
+µ = 3.
+Even if it is rather hard to distinguish empirically between an exponential and a high
+power-law, the precise characterisation of the tails is very important from a theoretical
+point of view. In particular, the existence of a ﬁnite kurtosis requires µ to be larger than 4.
+We have insisted on the kurtosis as an interesting measure of the deviation from Gaussianity.
+This idea will furthermore be quantitatively used in Section 13.3.4 in the context of option
+pricing. If µ < 4 however, as seems to be the case for high frequency data, this quantity is
+0
+5
+10
+15
+20
+η (σ)
+2
+3
+4
+5
+6
+ µ
+∗
+Positive tail
+Negative tail
+Fig. 6.10. Hill estimator of the tail exponent of the individual U.S. stock returns, normalized by their
+volatility using the trick explained in Eq. (4.37). The negative tail exponent is µ ≈3, whereas the
+positive tail exponent is µ ≈4.
+
+6.5 Extreme markets
+103
+at best ill-deﬁned and one should worry about its interpretation.† This important topic will
+be further discussed in Section 7.1.5.
+On the other hand, as far as applications to risk control are concerned, the difference
+between – say – a TLD with an exponential tail and a Student distribution with a high
+power-law tail is signiﬁcant but not crucial. For example, suppose that one generates
+N1 = 1000 positive random variables xk with a µ = 4 power-law distribution (repre-
+senting – say – 8 years of daily losses), but ﬁts the tail rank histogram as if the distribution
+tail was exponential. What would be the extrapolated value of the most probable ‘worst
+loss’ for a sample of N2 = 10 000 days (80 years) using this procedure?
+The rank ordering procedure leads to x[n] = x0(N1/n)1/4, whereas an exponential
+tail would predict x[n] = a0 + a1 log(N1/n). Fitting the values of a0 and a1 in the tail
+region n ∼10 by forcing a logarithmic dependence leads to:
+a1 = x0
+4
+ N1
+10
+1/4
+(6.12)
+a0 = x0
+4
+ N1
+10
+1/4 
+1 −1
+4 log N1
+10
+
+.
+(6.13)
+Usingthesevalues,theextrapolatedworstlossforaseriesofsize N2 usinganexponential
+tail is given by a0 + a1 log(N2), whereas the true value should be x0N 1/4
+2
+. The ratio ϕ
+of these two estimates, as a function of the ratio N2/N1, reads:
+ϕ =
+ N1
+10N2
+1/4 
+1 + 1
+4 log 10N2
+N1
+
+,
+(6.14)
+which is equal to 0.68 for N2 = 10N1. Therefore, the exponential approximation under-
+estimates the true risk by 30% for this case.† Note that as expected this ratio diverges
+when N2/N1 →∞: the local exponential approximation becomes worse and worse for
+deeper extrapolations. For a more general value of µ, the factor 1/4 is replaced by 1/µ
+and one can see that for large µ this ratio becomes exactly one. We again ﬁnd that a
+power-law with a large exponent is close to an exponential.
+6.5 Extreme markets
+We have considered, up to now, very liquid markets, where extreme price ﬂuctuations are
+rather rare. On less liquid/less mature markets, the probability of extreme moves is much
+larger. The case of short-term interest rates is also interesting, since the evolution of, say, the
+3-month rate is directly affected by the decision of central banks to increase or to decrease
+the day to day rate. As discussed in Section 3.1.3, these jumps lead to a rather high kurtosis,
+related to the fact that the short rate often does not change at all, but sometimes changes
+a lot. The distribution in this case is not well ﬁtted, neither by a TLD nor by a Student
+distribution (Fig. 6.11 left). The kurtosis extracted from a TLD ﬁt is 88.5, whereas the most
+probable Student exponent µ is found to be µ = 2.64, corresponding to inﬁnite kurtosis.
+† Note that for a ﬁnite size sample of length N, the empirical kurtosis is ﬁnite but grows as N 4/µ−1 for µ < 4.
+† This number would raise to 45% if µ = 3.
+
+104
+Statistics of real prices: basic results
+0.01
+0.1
+1
+10
+η (%)
+10
+-3
+10
+-2
+10
+-1
+10
+0
+Peso positive
+Peso negative
+Levy
+Gaussian
+0.01
+0.1
+1
+10
+δx (bp)
+10
+-3
+10
+-2
+10
+-1
+10
+0
+P>(δx)
+Libor positive
+Libor negative
+Truncated Levy
+Student
+Gaussian
+Fig. 6.11. Eurodollar front-month (ie. USD Libor futures, left panel) and Mexican Peso (vs. USD,
+right panel) daily returns cumulative distributions. Note that neither the TLD nor the Student ﬁt are
+very good for Libor. For the Mexican peso a pure L´evy distribution µ = 1.34 works remarkably well.
+Emerging markets (such as Latin America or Eastern Europe markets) are even wilder.
+The example of the Mexican peso (MXN) is interesting, because the cumulative distribution
+of the daily changes of the rate MXN/$ is extremely well ﬁtted by a pure L´evy distribution,
+with no obvious truncation, with an exponent µ = 1.34 (Fig. 6.11 right), and a daily MAD
+(mean absolute deviation) equal to 0.495%.
+6.6 Discussion
+The above statistical analysis already reveals very important differences between the simple
+model usually adopted to describe price ﬂuctuations, namely the geometric (continuous-
+time)Brownianmotionandtheratherinvolvedstatisticsofrealpricechanges.Thegeometric
+Brownianmotiondescriptionisattheheartofmosttheoreticalworkinmathematicalﬁnance,
+and can be summarized as follows:
+r One assumes that the relative returns are independent identically distributed random
+variables.
+r One assumes that the elementary time scale τ tends to zero; in other words that the
+price process is a continuous-time process. It is clear that in this limit, the number of
+independent price changes in an interval of time T is N = T/τ →∞. One is thus in the
+limit where the CLT applies whatever the time scale T .
+
+6.7 Summary
+105
+If the variance of the returns is ﬁnite on the shortest time increment τ, then according to
+the CLT, the only possibility is that prices obey a log-normal distribution. Therefore, the
+logarithm of the price performs a Brownian random walk. The process is scale invariant, that
+is that its statistical properties do not depend on the chosen time scale (up to a multiplicative
+factor – see Section 2.2.3).
+The main difference between this basic model and real data is not only that the tails of
+the distributions are very poorly described by a Gaussian law (they seem to be power laws),
+but also that several important time scales appear in the analysis of price changes (see the
+discussion in the following chapters):
+r A ‘microscopic’ time scale τ below which price changes are correlated. This time scale
+is of the order of several minutes even on very liquid markets.
+r Several time scales associated to the volatility ﬂuctuations, of the order of 10 days to a
+month or perhaps even longer (see Chapter 7).
+r A time scale corresponding to the negative return-volatility correlations, which is of the
+order of a week for stock indices (see Chapter 8).
+r Atimescalegoverningthecrossoverfromanadditivemodel,whereabsolutepricechanges
+are the relevant random variables for short time scales, to a multiplicative model, where
+relative returns become relevant. This time scale is on the order of months (see Chapter 8).
+It is clear that the existence of all these effects is extremely important to take into account
+in a faithful representation of price changes, and play a crucial role both for the pricing of
+derivative products, and for risk control. Different assets differ in the value of their higher
+cumulants (skewness, kurtosis), and in the value of the different time scales. For this reason,
+a description where the volatility is the only parameter (as is the case for Gaussian models)
+are bound to miss a great deal of the reality.
+6.7 Summary
+r Price returns are to a good approximation uncorrelated beyond a time scale of a few
+tens of minutes in liquid markets. On shorter time scales, strong correlation effects
+are observed. For time scales on the order of days, weak residual correlations can be
+detected in long time series of stocks and index returns.
+r Price returns have strongly non-Gaussian distributions, which can be ﬁtted by trun-
+cated L´evy or Student distributions. The tails are much fatter than those of a Gaussian
+distribution, and can be ﬁtted by a Pareto (power-law) tail with an exponent µ in the
+range 3 to 5 in liquid markets. This exponent can be much smaller in less mature mar-
+kets, such as emerging country markets, where pure L´evy distributions are observed.
+r The distribution of returns corresponding to a time difference equal to Nτ is given
+to a ﬁrst approximation, by the Nth convolution of the elementary distribution at
+scale τ. However, systematic deviations from this simple rule can be observed, and
+are related to correlated volatility ﬂuctuations, discussed in the following chapters.
+
+106
+Statistics of real prices: basic results
+r Further reading
+L. Bachelier, Th´eorie de la sp´eculation, Gabay, Paris, 1995.
+J. Y. Campbell, A. W. Lo, A. C. McKinley, The Econometrics of Financial Markets, Princeton
+University Press, Priceton, 1997.
+R. Cont, Empirical properties of asset returns: stylized facts and statistical issues, Quantitative
+Finance, 1, 223, (2001).
+P. H. Cootner, The Random Character of Stock Market Prices, MIT Press, Cambridge, 1964.
+M. M. Dacorogna, R. Gen¸cay, U. A. Muller, R. B. Olsen, O. V. Pictet, An Introduction to High-
+Frequency Finance, Academic Press, San Diego, 2001.
+J. L´evy-Vehel, Ch. Walter, Les march´es fractals, P.U.F., Paris, 2002.
+B. B. Mandelbrot, Fractals and Scaling in Finance, Springer, New York, 1997.
+R. Mantegna, H. E. Stanley, An Introduction to Econophysics, Cambridge University Press,
+Cambridge, 1999.
+S. Rachev, S. Mittnik, Stable Paretian Models in Finance, Wiley, 2000.
+r Specialized papers
+N.H.Bingham,R.Kiesel,Semi-parametricmodellinginﬁnance:theoreticalfoundations,Quantitative
+Finance, 2, 241 (2002).
+P. Carr, H. Geman, D. Madan, M. Yor, The ﬁne structure of asset returns: an empirical investigation,
+Journal of Business 75, 305 (2002).
+R. Cont, M. Potters, J.-P. Bouchaud, Scaling in stock market data: stable laws and beyond, in Scale
+invariance and beyond, B. Dubrulle, F. Graner, D. Sornette (Edts.), EDP Sciences, 1997.
+M. M. Dacorogna, U. A. Muller, O. V. Pictet, C. G. de Vries, The distribution of extremal exchange
+rate returns in extremely large data sets, Olsen and Associate working paper (1995), available
+at http://www.olsen.ch.
+P. Gopikrishnan, M. Meyer, L. A. Amaral, H. E. Stanley, Inverse cubic law for the distribution of
+stock price variations, European Journal of Physics, B 3, 139 (1998).
+P. Gopikrishnan, V. Plerou, L. A. Amaral, M. Meyer, H. E. Stanley, Scaling of the distribution of
+ﬂuctuations of ﬁnancial market indices, Phys. Rev., E 60, 5305 (1999).
+F. Longin, The asymptotic distribution of extreme stock market returns, Journal of Business, 69, 383
+(1996).
+T. Lux, The stable Paretian hypothesis and the frequency of large returns: an examination of major
+German stocks, Applied Financial Economics, 6, 463, (1996).
+B. B. Mandelbrot, The variation of certain speculative prices, Journal of Business, 36, 394 (1963).
+B. B. Mandelbrot, The variation of some other speculative prices, Journal of Business, 40, 394 (1967).
+V. Plerou, P. Gopikrishnan, L. A. Amaral, M. Meyer, H. E. Stanley, Scaling of the distribution of price
+ﬂuctuations of individual companies, Phys. Rev., E 60, 6519 (1999).
+Lei-Han Tang and Zhi-Feng Huang, Modelling High-frequency Economic Time Series, Physica A,
+28, 444 (2000).

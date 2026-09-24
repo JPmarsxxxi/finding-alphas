@@ -1,0 +1,5119 @@
+ 
+161
+Part IV
+RiskMetrics Data Sets
+
+ 
+162
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+163
+Part IV:  RiskMetrics Data Sets
+Chapter 8.
+Data and related statistical issues
+ 
+8.1  Constructing RiskMetrics rates and prices
+165
+8.1.1  
+Foreign exchange
+165
+8.1.2  
+Interest rates
+165
+8.1.3  
+Equities
+167
+8.1.4  
+Commodities
+167
+8.2  Filling in missing data
+170
+8.2.1  
+Nature of missing data
+171
+8.2.2  
+Maximum likelihood estimation
+171
+8.2.3  
+Estimating the sample mean and covariance matrix for missing data
+172
+8.2.4  
+An illustrative example
+174
+8.2.5  
+Practical considerations
+176
+8.3  The properties of correlation (covariance) matrices and VaR
+176
+8.3.1  
+Covariance and correlation calculations
+177
+8.3.2  
+Useful linear algebra results as applied to the VaR calculation
+180
+8.3.3  
+How to determine if a covariance matrix is positive semi-deﬁnite
+181
+8.4  Rebasing RiskMetrics volatilities and correlations
+183
+8.5  Nonsynchronous data collection
+184
+8.5.1  
+Estimating correlations when the data are nonsynchronous
+188
+8.5.2  
+Using the algorithm in a multivariate framework
+195
+
+ 
+164
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+165
+Part IV:  RiskMetrics Data Sets
+Chapter 8.
+Data and related statistical issues
+ 
+Peter Zangari
+Morgan Guaranty Trust Company
+Risk Management Research
+(1-212) 648-8641
+ 
+zangari_peter@jpmorgan.com
+ 
+This chapter covers the RiskMetrics underlying yields and prices that are used in the volatility and 
+correlation calculations. It also discusses the relationship between the number of time series and 
+the amount of historical data available on these series as it relates to the volatility and correlations.
+This chapter is organized as follows:
+• Section 8.1 explains the basis or construction of the underlying yields and prices for each 
+instrument type.
+• Section 8.2 describes the ﬁlling in of missing data points, i.e., expectation maximization.
+• Section 8.3 investigates the properties of a generic correlation matrix since these determine 
+whether a portfolio’s standard deviation is meaningful.
+• Section 8.4 provides an algorithm for recomputing the volatilities and correlations when a 
+portfolio is based in a currency other than USD.
+• Section 8.5 presents a methodology to calculate correlations when the yields or prices are 
+sampled at different times, i.e., data recording is nonsynchronous.
+ 
+8.1  Constructing RiskMetrics rates and prices
+ 
+In this section we explain the construction of the underlying rates and prices that are used in the 
+RiskMetrics calculations. Since the data represent only a subset of the most liquid instruments 
+available in the markets, proxies should be used for the others. Recommendations on how to apply 
+RiskMetrics to speciﬁc instruments are outlined in the paragraphs below.
+ 
+8.1.1  Foreign exchange
+ 
+RiskMetrics provides estimates of VaR statistics for returns on 31 currencies as measured against 
+the US dollar (e.g., USD/DEM, USD/FRF) as well as correlations between returns. The datasets 
+provided are therefore suited for estimating foreign exchange risk from a US dollar perspective. 
+The methodology for using the data to measure foreign exchange risk from a currency perspective 
+other than the US dollar is identical to the one described (Section 6.1.2) above but requires the 
+input of revised volatilities and correlations. These modiﬁed volatilities and correlations can easily 
+be derived from the original RiskMetrics datasets as described in Section 8.4. Also refer to the 
+examples diskette.
+Finally, measuring market exposure to currencies currently not included in the RiskMetrics data 
+set will involve accessing underlying foreign exchange data from other sources or using one of the 
+31 currencies as a proxy.
+ 
+8.1.2  Interest rates
+ 
+In RiskMetrics we describe the ﬁxed income markets in terms of the price dynamics of zero cou-
+pon constant maturity instruments. In the interest rate swap market there are quotes for constant 
+maturities (e.g., 10-year swap rate). In the bond markets, constant maturity rates do not exist there-
+fore we must construct them with the aid of a term structure model.
+
+ 
+166
+Chapter 8.  Data and related statistical issues
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+The current data set provides volatilities and correlations for returns on money market deposits, 
+swaps, and zero coupon government bonds in 33 markets. These parameters allow direct calcula-
+tion of the volatility of cash ﬂows. Correlations are provided between all RiskMetrics vertices and 
+markets. 
+ 
+8.1.2.1  Money market deposits 
+ 
+The volatilities of price returns on money market deposits are to be used to estimate the market 
+risk of all short-term cash ﬂows (from one month to one year). Though they only cover one instru-
+ment type at the short end of the yield curve, money market price return volatilities can be applied 
+to measure the market risk of instruments that are highly correlated with money market deposits, 
+such as Treasury bills or instruments that reprice off of rates such as the prime rate in the US or 
+commercial paper rates.
+ 
+1
+ 
+8.1.2.2  Swaps
+ 
+The volatilities of price returns on zero coupon swaps are to be used to estimate the market risk of   
+interest rate swaps. We construct zero coupon swap prices and rates because they are required for 
+the cashﬂow mapping methodology described in Section 6.2. We now explain how RiskMetrics 
+constructs zero coupon swap prices (rates) from observed swap prices and rates by the method 
+known as bootstrapping.
+Suppose one knows the zero-coupon term structure, i.e., the prices of zero-coupon swaps 
+, where each 
+ 
+ 
+i 
+ 
+= 1, …, n and 
+ is the zero-coupon rate for the swap 
+with maturity 
+ 
+i
+ 
+. Then it is straightforward to ﬁnd the price of a coupon swap as
+[8.1]
+where 
+ denotes the current swap rate on the n period swap. Now, in practice we observe the 
+coupon term structure, 
+ maturing at each coupon payment date. Using the coupon 
+swap prices we can apply Eq. [8.1] to solve for the implied zero coupon term structure, i.e., zero 
+coupon swap prices and rates. Starting with a 1-period zero coupon swap, 
+ so 
+that 
+ or 
+. Proceeding in an iterative manner, given the 
+discount prices
+, we can solve for 
+ and 
+using the formula
+[8.2]
+The current RiskMetrics datasets do not allow differentiation between interest rate risks of instru-
+ments of different credit quality; all market risk due to credit of equal maturity and currency is 
+treated the same.
+ 
+8.1.2.3  Zero coupon government bonds
+ 
+The volatilities of price returns on zero coupon government bonds are to be used to estimate the 
+market risk in government bond positions. Zero coupon prices (rates) are used because they are 
+consistent with the cash ﬂow mapping methodology described in Section 6.2. Zero coupon gov-
+ernment bond prices can also be used as proxies for estimating the volatility of other securities 
+when the appropriate volatility measure does not exist (corporate issues with maturities longer 
+than 10 years, for example).
+ 
+1
+ 
+See the fourth quarter, 1995 
+ 
+RiskMetrics Monitor
+ 
+ for details.
+P1 … Pn
+,
+,
+Pi
+1
+1
+zi
++
+(
+)
+⁄
+i
+=
+zi
+Pcn
+P1Sn
+P2Sn
+…
+Pn 1
+Sn
++
+(
+)
++
++
++
+=
+Sn
+Pc1 … Pcn
+,
+,
+Pc1
+P1 1
+S1
++
+(
+)
+=
+P1
+Pc1
+1
+S1
++
+(
+)
+⁄
+=
+z1
+1
+S1
++
+(
+)
+P
+⁄
+c1
+1
+–
+=
+P1 … Pn
+1
+–
+,
+,
+Pn
+zn
+Pn
+Pcn Pn
+1
+–
+–
+Sn …
+–
+P1
+–
+Sn
+1
+Sn
++
+-------------------------------------------------------
+=
+
+ 
+Sec. 8.1  Constructing RiskMetrics rates and prices
+167
+Part IV:  RiskMetrics Data Sets
+ 
+Zero coupon government bond yield curves cannot be directly observed, they can only be implied 
+from prices of a collection of liquid bonds in the respective market. Consequently, a term structure 
+model must be used to estimate a synthetic zero coupon yield curve which best ﬁts the collection 
+of observed prices. Such a model generates zero coupon yields for arbitrary points along the yield 
+curve. 
+ 
+8.1.2.4  EMBI+
+ 
+The J. P. Morgan Emerging Markets Bond Index Plus tracks total returns for traded external debt 
+instruments in the emerging markets. It is constructed as a “composite” of its four markets: Brady 
+bonds, Eurobonds, U.S. dollar local markets, and loans. The EMBI+ provides investors with a def-
+inition of the market for emerging markets external-currency debt, a list of the traded instruments, 
+and a compilation of their terms. U.S dollar issues currently make up more than 95% of the index 
+and sovereign issues make up 98%. A fuller description of the EMBI+ can be found in the 
+J. P. Morgan publication
+ 
+ Introducing the Emerging Markets Bond Index Plus (EMBI+) 
+ 
+dated 
+July 12, 1995.
+ 
+8.1.3  Equities
+ 
+According to the current RiskMetrics methodology, equities are mapped to their domestic market 
+indices (for example, S&P500 for the US, DAX for Germany, and CAC40 for Canada). That is to 
+say, individual stock betas, along with volatilities on price returns of local market indices are used 
+to construct VaR estimates (see Section 6.3.2.2) of individual stocks. The reason for applying the 
+beta coefﬁcient is that it measures the covariation between the return on the individual stock and 
+the return on the local market index whose volatility and correlation are provided by RiskMetrics. 
+ 
+8.1.4  Commodities
+ 
+A commodity futures contract is a standardized agreement to buy or sell a commodity. The price to 
+a buyer of a commodity futures contract depends on three factors:
+1.
+the current spot price of the commodity,
+2.
+the carrying costs of the commodity. Money tied up by purchasing and carrying a commod-
+ity could have been invested in some risk-free, interest bearing instrument. There may be 
+costs associated with purchasing a product in the spot market (transaction costs) and hold-
+ing it until or consuming it at some later date (storage costs), and
+3.
+the expected supply and demand for the commodity. 
+The future price of a commodity differs from its current spot price in a way that is analogous to the 
+difference between 1-year and overnight interest rates for a particular currency. From this perspec-
+tive we establish a term structure of commodity prices similar to that of interest rates. 
+The most efﬁcient and liquid markets for most commodities are the futures markets. These mar-
+kets have the advantage of bringing together not only producers and consumers, but also investors 
+who view commodities as they do any other asset class. Because of the superior liquidity and the 
+transparency of the futures markets, we have decided to use futures prices as the foundation for 
+modeling commodity risk. This applies to all commodities except bullion, as described below. 
+ 
+8.1.4.1  The need for commodity term structures
+ 
+Futures contracts represent standard terms and conditions for delivery of a product at future dates. 
+Recorded over time, their prices represent instruments with decreasing maturities. That is to say, if 
+the price series of a contract is a sequence of expected values of a single price at a speciﬁc date in 
+the future, then each consecutive price implies that the instrument is one day close to expiring.
+
+ 
+168
+Chapter 8.  Data and related statistical issues
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+RiskMetrics constructs constant maturity contracts in the same spirit that it constructs constant 
+maturity instruments for the ﬁxed income market. Compared to the ﬁxed income markets, how-
+ever, commodity markets are signiﬁcantly less liquid. This is particularly true for very short and 
+very long maturities. Frequently, volatility of the front month contract may decline when the con-
+tract is very close to expiration as it becomes uninteresting to trade for a small absolute gain, difﬁ-
+cult to trade (a thin market may exist due to this limited potential gain) and, dangerous to trade 
+because of physical delivery concerns. At the long end of the curve, trading liquidity is limited. 
+Whenever possible, we have selected the maturities of commodity contracts with the highest 
+liquidity as the vertices for volatility and correlation estimates. These maturities are indicated in 
+Table 9.6 in Section 9.6.
+In order to construct constant maturity contracts, we have deﬁned two algorithms to convert 
+observed prices into prices from constant maturity contracts:
+• Rolling nearby: we simply use the price of the futures contract that expires closest to a ﬁxed 
+maturity.
+• Linear interpolation: we linearly interpolate between the prices of the two futures contracts 
+that straddle the ﬁxed maturity.
+ 
+8.1.4.2  Rolling nearby futures contracts
+ 
+Rolling nearby contracts are constructed by concatenating contracts that expire, approximately 1, 
+6, and 12 months (for instance) in the future. An example of this method is shown in Table 8.1.
+Note that the price of the front month contract changes from the price of the March to the April 
+contract when the March contract expires. (To conserve space certain active contracts were omit-
+ted).
+The principal problem with the rolling nearby method is that it may create discontinuous price 
+series when the underlying contract changes: for instance, from February 23 (the March contract) 
+to February 24 (the April contract) in the example above. This discontinuity usually is the largest 
+for very short term contracts and when the term structure of prices is steep.
+ 
+Table 8.1
+ 
+Construction of rolling nearby futures prices for Light Sweet Crude (WTI)
+ 
+Rolling nearby
+Actual contracts
+ 
+1st
+6th
+12th
+Mar-94
+Apr-94
+Aug-94
+Sep-94
+Feb-95
+Mar-95
+17-Feb-94
+13.93
+15.08
+16.17
+13.93
+14.13
+15.08
+15.28
+16.17
+16.3
+18-Feb-94
+14.23
+15.11
+16.17
+14.23
+14.3
+15.11
+15.3
+16.17
+16.3
+19-Feb-94
+14.21
+15.06
+16.13
+14.21
+14.24
+15.06
+15.25
+16.13
+16.27
+23-Feb-94
+ 
+14.24
+ 
+15.23
+16.33
+ 
+14.24
+ 
+14.39
+15.23
+15.43
+16.33
+16.47
+24-Feb-94
+ 
+14.41
+ 
+15.44
+16.46
+ 
+14.41
+ 
+15.24
+15.44
+16.32
+16.46
+
+ 
+Sec. 8.1  Constructing RiskMetrics rates and prices
+169
+Part IV:  RiskMetrics Data Sets
+ 
+8.1.4.3  Interpolated futures prices
+ 
+To address the issue of discontinuous price series, we use the simple rule of linear interpolation to 
+deﬁne constant maturity futures prices, 
+, from quoted futures prices:
+[8.3]
+where
+The following example illustrates this method using the data for the heating oil futures contract. 
+On April 26, 1994 the 1-month constant maturity equivalent heating oil price is calculated as 
+follows:
+[8.4]
+Table 8.2 illustrates the calculation over successive days. Note that the actual results may vary 
+slightly from the data represented in the table because of numerical rounding.
+ 
+Table 8.2
+ 
+Price calculation for 1-month CMF NY Harbor #2 Heating Oil
+ 
+Contract expiration 
+Days to expiration 
+Weights (%)
+Contract prices
+cmf†
+ 
+Date
+1 nb*
+1m cmf†
+2 nb*
+1 nb*
+1m cmf
+2 nb*
+1 nb*
+2 nb*
+Apr
+May
+Jun
+22-Apr-94
+29-Apr
+23-May
+31-May
+7
+30
+39
+23.33
+76.67
+47.87
+47.86
+48.15
+47.862
+25-Apr-94
+29-Apr
+25-May
+31-May
+4
+30
+36
+13.33
+86.67
+48.23
+48.18
+48.48
+48.187
+26-Apr-94
+29-Apr
+26-May
+31-May
+3
+30
+35
+10.00
+90.00
+47.37
+47.38
+47.78
+47.379
+28-Apr-94
+29-Apr
+30-May
+31-May
+1
+30
+33
+3.33
+96.67
+46.52
+46.57
+47.02
+47.005
+29-Apr-94
+29-Apr
+31-May
+31-May
+0
+30
+32
+0.00
+100.00
+47.05
+47.09
+47.49
+47.490
+2-May-94
+31-May
+1-Jun
+30-Jun
+29
+30
+59
+96.67
+3.33
+—
+47.57
+47.95
+47.583
+3-May-94
+31-May
+2-Jun
+30-Jun
+28
+30
+58
+93.33
+6.67
+—
+46.89
+47.29
+46.917
+4-May-94
+31-May
+3-Jun
+30-Jun
+27
+30
+57
+90.00
+10.00
+—
+46.66
+47.03
+46.697
+* 1 nb and 2 nb indicate ﬁrst and second nearby contracts, respectively.
+† cmf means constant maturity future.
+Pcmf
+Pcmf
+ωNB1PNB1
+ωNB2PNB2
++
+=
+Pcmf
+constant maturity futures prices
+=
+ωNB1
+δ
+∆---
+ratio of Pcmf   made up by PNB1
+=
+=
+δ
+days to expiration of NB1
+=
+∆
+days to expiration of constant maturity contract
+=
+PNB1
+price of NB1
+=
+ωNB2
+1
+ωNB1
+–
+=
+ratio of Pcmf  made up by PNB2
+=
+PNB2
+price of NB2
+=
+NB1
+nearby contract with a maturity < constant maturity contract
+=
+NB2
+first contract with a maturity < constant maturity contract
+=
+P1m  April 26
+,
+1day
+30 days
+------------------
+
+
+
+
+PriceApril
+×
+29 days
+30 days
+------------------
+
+
+
+
+PriceMay
+×
++
+=
+1
+30
+-----
+
+
+
+
+47.37
+×
+29
+39
+-----
+
+
+
+
+47.38
+×
++
+=
+47.379
+=
+
+170
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+Chart 8.1 illustrates the linear interpolation rule graphically.
+Chart 8.1
+Constant maturity future: price calculation
+8.2  Filling in missing data
+The preceding section described the types of rates and prices that RiskMetrics uses in its calcula-
+tions. Throughout the presentation it was implicitly assumed that there were no missing prices. In 
+practice, however, this is often not the case. Because of market closings in a speciﬁc location, 
+daily prices are occasionally unavailable for individual instruments and countries. Reasons for the 
+missing data include the occurrence of signiﬁcant political or social events and technical problems 
+(e.g., machine down time). 
+Very often, missing data are simply replaced by the preceding day’s value. This is frequently the 
+case in the data obtained from specialized vendors. Another common practice has simply been to 
+exclude an entire date from which data were missing from the sample. This results in valuable data 
+being discarded. Simply because one market is closed on a given day should not imply that data 
+from the other countries are not useful. A large number of nonconcurrent missing data points 
+across markets may reduce the validity of a risk measurement process.
+Accurately replacing missing data is paramount in obtaining reasonable estimates of volatility and 
+correlation. In this section we describe how missing data points are “ﬁlled-in”—by a process 
+known as the EM algorithm—so that we can undertake the analysis set forth in this document. In 
+brief, RiskMetrics applies the following steps to ﬁll in missing rates and prices:
+• Assume at any point in time that a data set consisting of a cross-section of returns (that may 
+contain missing data) are multivariate normally distributed with mean µ and covariance 
+matrix Σ. 
+• Estimate the mean and covariance matrix of this data set using the available, observed data.
+• Replace the missing data points by their respective conditional expectations, i.e., use the 
+missing data’s expected values given current estimates of µ, Σ and the observed data. 
+29
+26
+31
+47.35
+47.36
+47.37
+47.38
+47.35
+47.36
+47.37
+47.38
+∆:30
+δ:3
+May
+contract
+expiry
+cmf
+contract
+expiry
+April
+contract
+expiry
+P - cmf: 47.379
+P - April: 47.37
+P - May: 47.38
+April
+April
+May
+May
+25
+
+Sec. 8.2  Filling in missing data
+171
+Part IV:  RiskMetrics Data Sets
+8.2.1  Nature of missing data
+We assume throughout the analysis that the presence of missing data occur randomly. Suppose that 
+at a particular point in time, we have K return series and for each of the series we have T historical 
+observations. Let Z denote the matrix of raw, observed returns. Z has T rows and K columns. Each 
+row of Z is a Kx1 vector of returns, observed at any point in time, spanning all K securities.   
+Denote the tth row of Z by zt for t = 1,2,...T. The matrix Z may have missing data points.
+Deﬁne a complete data matrix R that consists of all the data points Z plus the “ﬁlled-in” returns for 
+the missing observations. The tth row of R is denoted rt. Note that if there are no missing observa-
+tions then zt=rt for all t=1,...,T. In the case where we have two assets (K=2) and three historical 
+observations (T=3) on each asset, R takes the form:
+[8.5]
+where “T” denotes transpose.
+8.2.2  Maximum likelihood estimation
+For the purpose of ﬁlling in missing data it is assumed that at any period t, the return vector rt 
+(Kx1) follows a multivariate normal distribution with mean vector µ and covariance matrix 
+. 
+The probability density function of rt is
+[8.6]
+It is assumed that this density function holds for all time periods, t = 1,2,...,T. Next, under the 
+assumption of statistical independence between time periods, we can write the joint probability 
+density function of returns given the mean and covariance matrix as follows
+[8.7]
+The joint probability density function 
+describes the probability density for the 
+data given a set of parameter values (i.e., µ and Σ). Deﬁne the total parameter vector θ = (µ,Σ). 
+Our task is to estimate θ given the data matrix that contains missing data. To do so, we must derive 
+the likelihood function of θ given the data. The likelihood function |
+ is similar in 
+all respects to 
+ except that it considers the parameters as random variables and 
+takes the data as given. Mathematically, the likelihood function is equivalent to the probability 
+density function. Intuitively, the likelihood function embodies the entire set of parameter values 
+for an observed data set.
+Now, for a realized sample of, say, exchange rates, we would want to know what set of parameter 
+values most likely generated the observed data set. The solution to this question lies in maximum 
+R
+r11 r12
+r21 r22
+r31 r32
+=
+r1
+T
+r2
+T
+r3
+T
+=
+Σ
+p rt
+( )
+2π
+(
+)
+k
+2--
+–
+Σ
+k
+2--
+–
+1
+2-- rt
+µ
+–
+(
+)
+TΣ
+1
+–
+rt
+µ
+–
+(
+)
+–
+exp
+=
+p r1 …rT µ Σ
+,
+,
+(
+)
+p rt
+( )
+t
+1
+=
+T
+∏
+=
+2π
+(
+)
+Tk
+2-----
+–
+Σ
+T
+2---
+–
+1
+2--
+rt
+µ
+–
+(
+)
+TΣ
+1
+–
+rt
+µ
+–
+(
+)
+t
+1
+=
+T
+∑
+–
+exp
+=
+p r1 …rT µ Σ
+,
+,
+(
+)
+L µ Σ
+,
+|r1 …rT
+,
+(
+)
+p r1 …rT µ Σ
+,
+,
+(
+)
+
+172
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+likelihood estimation. In essence, the maximum likelihood estimates (MLE) θMLE are the 
+parameter values that most likely generated the observed data matrix. 
+θMLE is found by maximizing the likelihood function 
+. In practice it is often eas-
+ier to maximize natural logarithm of the likelihood function 
+which is given by
+[8.8]
+with respect to θ. This translates into ﬁnding solutions to the following ﬁrst order conditions:
+[8.9]
+The maximum likelihood estimators for the mean vector, 
+ and covariance matrix 
+ are
+[8.10]
+[8.11]
+where 
+ represents the sample mean taken over T time periods.
+8.2.3  Estimating the sample mean and covariance matrix for missing data
+When some observations of rt are missing, the maximum likelihood estimates θMLE are not avail-
+able. This is evident from the fact that the likelihood function is not deﬁned (i.e., it has no value) 
+when it is evaluated at the missing data points. To overcome this problem, we must implement 
+what is known as the EM algorithm.
+Since its formal exposition (Dempster, Laird and Rubin, 1977) the expectation maximization or 
+EM algorithm (hereafter referred to as EM) has been on of the most successful methods of estima-
+tion when the data under study are incomplete (e.g., when some of the observations are missing). 
+Among its extensive applications, the EM algorithm has been used to resolve missing data prob-
+lems involving ﬁnancial time series (Warga, 1992). For a detailed exposition of the EM algorithm 
+and its application in ﬁnance see Kempthorne and Vyas (1994). 
+Intuitively, EM is an iterative algorithm that operates as follows. 
+• For a given set of (initial) parameter values, instead of evaluating the log likelihood function, 
+(which is impossible, anyway) EM evaluates the conditional expectation of the latent (under-
+lying) log likelihood function. The mathematical conditional expectation of the log-likelihood 
+is taken over the observed data points.
+• The expected log likelihood is maximized to yield parameter estimates 
+. (The superscript 
+“0” stands for the initial parameter estimate). This value is then substituted into the log likeli-
+hood function and expectations are taken again, and new parameter estimates 
+ are found. 
+This iterative process is continued until the algorithm converges at which time ﬁnal parameter 
+estimates have been generated. For example, if the algorithm is iterated N+1 times then the 
+sequence of parameter estimates 
+ is generated. The algorithm stops 
+L µ Σ
+,
+|r1 …rT
+,
+(
+)
+l µ Σ
+,
+|r1 …rT
+,
+(
+)
+l µ Σ R
+,
+(
+)
+1
+2--TK
+2π
+(
+)
+T
+2---
+Σ
+1
+2--
+rt
+µ
+–
+(
+)
+TΣ
+1
+–
+rt
+µ
+–
+(
+)
+t
+1
+=
+T
+∑
+–
+ln
+–
+ln
+–
+=
+µ
+∂
+∂l µ Σ r1 …rT
+,
+,
+(
+)
+0,   Σ
+∂
+∂l µ Σ r1 …rT
+,
+,
+(
+)
+0
+=
+=
+µˆ
+Σˆ
+µˆ
+r1 r2 … rk
+,
+,
+,
+[
+]
+T
+=
+Σˆ
+1
+T---
+rt
+µˆ
+–
+(
+)
+rt
+µˆ
+–
+(
+)
+T
+t
+1
+=
+T
+∑
+=
+ri
+θEM
+0
+θEM
+1
+θEM
+0
+θEM
+1
+… θEM
+N
+,
+,
+,
+
+
+
+
+
+Sec. 8.2  Filling in missing data
+173
+Part IV:  RiskMetrics Data Sets
+when adjacent parameter estimates are sufﬁciently close to one another, i.e., when 
+ is 
+sufﬁciently close to 
+.
+The ﬁrst step in EM is referred to as the expectation or E-Step. The second step is the maximiza-
+tion or M-step. EM iterates between these two steps, updating the E-Step from the parameter esti-
+mates generated in the M-Step. For example, at the ith iteration of the algorithm, the following 
+equations are solved in the M-Step:
+[8.12a]
+ (the sample mean)
+[8.12b]
+ (the sample covariance matrix)
+To evaluate the expectations in these expressions (
+ and 
+), we make use 
+of standard properties for partitioning a multivariate normal random vector. 
+[8.13]
+Here, one can think of 
+ as the sample data with missing values removed and R as the vector of 
+the underlying complete set of observations. Assuming that returns are distributed multivariate 
+normal, the distribution of R conditional on 
+ is multivariate normal with mean
+[8.14]
+and covariance matrix
+[8.15]
+Using Eq. [8.14] and Eq. [8.15] we can evaluate the E- and M- steps. The E -Step is given by
+[8.16]
+where
+[8.17]
+Notice that the expressions in Eq. [8.17] are easily evaluated since they depend on parameters that 
+describe the observed and missing data. 
+Given the values computed in the E-Step, the M-Step yields updates of the mean vector and cova-
+riance matrix.
+θEM
+N
+1
+–
+θEM
+N
+µˆ i
+1
++
+1
+T---
+E
+t
+1
+=
+T
+∑
+rt zt,θ
+i
+=
+Σˆ i
+1
++
+1
+T---
+E
+t
+1
+=
+T
+∑
+rtrt
+T zt,θ
+i
+µˆ i
+1
++
+µˆ i
+1
++
+
+
+
+T
+–
+=
+E rt zt,θ
+i
+E rtrt
+T zt,θ
+i
+R
+ℜ
+NID
+µR
+µℜ
+ΣRR ΣℜR
+ΣRℜΣℜℜ
+,
+∼
+ℜ
+ℜ
+E R ℜ
+[
+] =µR
+ΣRℜΣℜℜ
+1
+–
+ℜ
+µℜ
+–
+(
+)
++
+Covariance R ℜ
+(
+) =ΣRR ΣRℜ
+–
+Σℜℜ
+1
+–
+ΣℜR
+E
+Step
+E rt zt θ
+,
+[
+]
+µr
+=
+ΣrzΣzz
+1
+–
+zt
+µz
+–
+(
+)
++
+E rtrt
+T zt θ
+,
+Covariance rt
+T zt θ
+,
+
+
+
+
+E rt zt θ
+,
+[
+] E rt zt θ
+,
+[
+]
+T
+
+
+
+
++
+=
+–
+Covariance rt
+T zt θ
+,
+
+
+
+
+Σrz Σrz
+–
+Σzz
+1
+– Σzr
+=
+
+174
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+[8.18]
+Notice that summing over t implies that we are adding “down” the columns of the data 
+matrix R. For a practical, detailed example of the EM algorithm see Johnson and Wichern (1992, 
+pp. 203–206).
+A powerful result of EM is that when a global optimum exists, the parameter estimates from the 
+EM algorithm converge to the ML estimates. That is, for a sufﬁciently large number of iterations, 
+EM converges to 
+. Thus, the EM algorithm provides a way to calculate the ML estimates of 
+the unknown parameter even if all of the observations are not available. 
+The assumption that the time series are generated from a multivariate normal distribution is innoc-
+uous. Even if the true underlying distribution is not normal, it follows from the theory of pseudo-
+maximum likelihood estimation that the parameter estimates are asymptotically consistent (White, 
+1982) although not necessarily asymptotically efﬁcient. That is, it has been shown that the pseudo-
+MLE obtained by maximizing the unspeciﬁed log likelihood as if it were correct produces a con-
+sistent estimator despite the misspeciﬁcation. 
+8.2.4  An illustrative example
+A typical application of the EM algorithm is ﬁlling in missing values resulting from a holiday in a 
+given market. We applied the algorithm outlined in the section above to the August 15 Assumption 
+holiday in the Belgian government bond market. While most European bond markets were open 
+on that date, including Germany and the Netherlands which show signiﬁcant correlation with Bel-
+gium, no data was available for Belgium. 
+A missing data point in an underlying time series generates two missing points in the log change 
+series as shown below (from t−1 to t as well as from t to t + 1). Even though it would be more 
+straightforward to calculate the underlying missing value through the EM algorithm and then gen-
+erate the two missing log changes, this would be statistically inconsistent with our basic assump-
+tions on the distribution of data.
+In order to maintain consistency between the underlying rate data and the return series, the adjust-
+ment for missing data is performed in three steps. 
+1.
+First the EM algorithm generates the ﬁrst missing percentage change, or −0.419% in the 
+example below. 
+2.
+From that number, we can back out the missing underlying yield from the previous day’s 
+level, which gives us the 8.445% in the example below. 
+3.
+Finally, the second missing log change can be calculated from the revised underlying yield 
+series. 
+M-Step
+µˆ i
+1
++
+1
+T---
+rt
+E rt zt,θ
+i
+Incompletet
+∑
++
+Completet
+∑
+
+
+
+
+=
+Σˆ i
+1
++
+1
+T---
+E
+t
+1
+=
+T
+∑
+rtrt
+T zt,θ
+i
+µˆ i
+1
++
+µˆ i
+1
++
+
+
+
+T
+–
+=
+1
+T---
+rtrt
+T
+Completet
+∑
+
+
+
+ +
+Covariance rt
+T zt θ
+,
+
+
+
+
+E rt zt θ
+,
+[
+] E rt zt θ
+,
+[
+]
+T
++
+Incompletet
+∑
+
+
+
+
+
+
+
+
+
+
+
+
+=
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+θMLE
+
+Sec. 8.2  Filling in missing data
+175
+Part IV:  RiskMetrics Data Sets
+Table 8.3 presents the underlying rates on the Belgian franc 10-year zero coupon bond, the corre-
+sponding EM forecast, and the adjusted “ﬁlled-in” rates and returns.
+Chart 8.2 presents a time series of the Belgian franc 10-year rate before and after the missing 
+observation was ﬁlled in by the EM algorithm.
+Chart 8.2
+Graphical representation
+10-year zero coupon rates; daily % change 
+Table 8.3
+Belgian franc 10-year zero coupon rate
+application of the EM algorithm to the 1994 Assumption holiday in Belgium
+Observed
+EM forecast
+Adjusted
+Collection date
+10-year rate
+Return (%)
+10-year rate
+Return (%)
+11-Aug-94
+8.400
+2.411
+8.410
+2.411
+12-Aug-94
+8.481
+0.844
+8.481
+0.844
+15-Aug-94
+missing
+missing
+−0.419
+8.445*
+−0.419†
+16-Aug-94
+8.424
+missing
+8.424
+−0.254‡
+17-Aug-94
+8.444
+0.237
+8.444
+0.237
+18-Aug-94
+8.541
+1.149
+8.541
+1.149
+* Filled-in rate based on EM forecast.
+† From EM.
+‡ Return now available because prior rate (*) has been ﬁlled in.
+•
+♦
+1-Aug
+3-Aug
+5-Aug
+9-aug
+11-Aug
+15-Aug
+17-Aug
+-2.0
+-1.0
+0.0
+1.0
+2.0
+3.0
+4.0
+5.0
+Germany
+Belgium
+•
+1-Aug
+3-Aug
+5-Aug
+9-aug
+11-Aug
+15-Aug
+17-Aug
+6.5
+7.0
+7.5
+8.0
+8.5
+9.0
+Belgium
+Germany
+Daily percent change
+Yield
+
+176
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+8.2.5  Practical considerations
+A major part of implementing the EM algorithm is to devise the appropriate input data matrices 
+for the EM. From both a statistical and practical perspective we do not run EM on our entire time 
+series data set simultaneously. Instead we must partition the original data series into non-overlap-
+ping sub-matrices. Our reasons for doing so are highlighted in the following example. 
+Consider a TxK data matrix where T is the number of observations and K is the number of price 
+vectors. Given this data matrix, the EM must estimate K+K(K+1)/2 parameters. Consequently, to 
+keep the estimation practical K cannot be too large. To get a better understanding of this issue con-
+sider Chart 8.3, which plots the number of parameters estimated by EM (K +K(K+1)/2) against the 
+number of variables. As shown, the number of estimated parameters grows rapidly with the num-
+ber of variables. 
+Chart 8.3
+Number of variables used in EM and parameters required
+number of parameters (Y-axis) versus number of variables (X-axis)
+The submatrices must be chosen so that vectors within a particular submatrix are highly correlated 
+while those vectors between submatrices are not signiﬁcantly correlated. If we are allowed to 
+choose the submatrices in this way then EM will perform as if it had the entire original data 
+matrix. This follows from the fact that the accuracy of parameter estimates are not improved by 
+adding uncorrelated vectors. 
+In order to achieve a logical choice of submatrices, we classify returns into the following catego-
+ries:  (1) foreign exchange, (2) money market, (3) swap, (4) government bond, (5) equity, and
+(6) commodity.
+We further decompose categories 2, 3, 4, and 6 as follows. Each input data matrix corresponds to a 
+particular country or commodity market. The rows of this matrix correspond to time while the col-
+umns identify the maturity of the asset. Foreign exchange, equity indices, and bullion are the 
+exceptions:  all exchange rates, equity indices, and bullion are grouped into three separate 
+matrices.
+8.3  The properties of correlation (covariance) matrices and VaR
+In Section 6.3.2 it was shown how RiskMetrics applies a correlation matrix to compute the VaR of 
+an arbitrary portfolio. In particular, the correlation matrix was used to compute the portfolio’s 
+standard deviation. VaR was then computed as a multiple of that standard deviation. In this section 
+we investigate the properties of a generic correlation matrix since it is these properties that will 
+10
+20
+30
+40
+50
+0
+200
+400
+600
+800
+1000
+1200
+1400
+Number of parameters
+Number of variables
+
+Sec. 8.3  The properties of correlation (covariance) matrices and VaR
+177
+Part IV:  RiskMetrics Data Sets
+determine whether the portfolio’s standard deviation forecast is meaningful.2 Speciﬁcally, we will 
+establish conditions3 that guarantee the non-negativity of the portfolio’s variance, i.e., 
+.
+At ﬁrst glance it may not seem obvious why it is necessary to understand the conditions under 
+which the variance is non-negative. However, the potential sign of the variance, and consequently 
+the VaR number, is directly related to the relationship between (1) the number of individual price 
+return series (i.e., cashﬂows) per portfolio and (2) the number of historical observations on each of 
+these return series. In practice there is often a trade-off between the two since, on the one hand, 
+large portfolios require the use of many time series, while on the other hand, large amounts of his-
+torical data are not available for many time series.
+Below, we establish conditions that ensure the non-negativity of a variance that is constructed 
+from correlation matrices based on equally and exponentially weighted schemes. We begin with 
+some basic deﬁnitions of covariance and correlation matrices.
+8.3.1  Covariance and correlation calculations
+In this section we brieﬂy review the covariance and correlation calculations based on equal and 
+exponential moving averages. We do so in order to establish a relationship between the underlying 
+return data matrix and the properties of the corresponding covariance (correlation) matrix.
+8.3.1.1  Equal weighting scheme
+Let X denote a T x K data matrix, i.e., matrix of returns. X has T rows and K columns. 
+[8.19]
+Each column of X is a return series corresponding to a particular price/rate (e.g., USD/DEM FX 
+return) while each row corresponds to the time (t = 1,...,T) at which the return was recorded. If we 
+compute standard deviations and covariances around a zero mean, and weigh each observation 
+with probability 1/T, we can deﬁne the covariance matrix simply by
+[8.20]
+where 
+ is the transpose of X.
+Consider an example when T = 4 and K = 2.
+2 By properties, we mean speciﬁcally whether the correlation matrix is positive deﬁnite, positive semideﬁnite or 
+otherwise (these terms will be deﬁned explicitly below)
+3 All linear algebra propositions stated below can be found in Johnston, J. (1984).
+σ
+2
+0
+≥
+X
+r11 … … … r1K
+… … … … …
+… … rJJ … …
+… … … … …
+rT1 … … … rTK
+=
+Σ
+X
+TX
+T
+----------
+=
+X
+T
+
+178
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+[8.21]
+An estimate of the covariance matrix is given by 
+[8.22]
+Next, we show how to compute the correlation matrix R. Suppose we divide each element of the 
+matrix X by the standard deviation of the series to which it belongs; i.e., we normalize each series 
+of X to have a standard deviation of 1. Call this new matrix with the standardized values Y. 
+The correlation matrix is
+[8.23]
+where
+[8.24]
+As in the previous example, if we set T = 4 and K = 2, the correlation matrix is
+[8.25]
+X
+r11 r12
+r21 r22
+r31 r32
+r41 r42
+  X
+T
+r11 r21 r31 r41
+r12 r22 r32 r42
+  
+=
+=
+Σ
+X
+TX
+T
+----------
+1
+4--
+ri1
+2
+i
+1
+=
+4
+∑
+1
+4--
+ri1ri2
+i
+1
+=
+4
+∑
+1
+4--
+ri1ri2
+i
+1
+=
+4
+∑
+1
+4--
+ri2
+2
+i
+1
+=
+4
+∑
+σ1
+2 σ12
+2
+σ21
+2
+σ2
+2
+=
+=
+=
+Y
+r11
+σ1
+------ … … …
+r1K
+σK
+-------
+… … … … …
+… …
+rJJ
+σJ
+------ … …
+… … … … …
+rT1
+σ1
+------- … … …
+rTK
+σK
+-------
+=
+ σ j
+1
+T---
+=
+r
+2
+ij
+i
+1
+=
+T
+∑
+j
+1 2 …k
+, ,
+=
+R
+Y
+TY
+T
+---------
+=
+R
+Y
+TY
+T
+---------
+1
+4--
+ri1
+2
+σ1
+-----
+i
+1
+=
+4
+∑
+1
+4--
+ri1ri2
+σ1σ2
+------------
+i
+1
+=
+4
+∑
+1
+4--
+ri1ri2
+σ1σ2
+------------
+i
+1
+=
+4
+∑
+1
+4--
+ri2
+2
+σ2
+-----
+i
+1
+=
+4
+∑
+1
+ρ12
+ρ21
+1
+=
+=
+=
+
+Sec. 8.3  The properties of correlation (covariance) matrices and VaR
+179
+Part IV:  RiskMetrics Data Sets
+8.3.1.2  Exponential weighting scheme
+We now show how similar results are obtained by using exponential weighting rather than equal 
+weighting. When computing the covariance and correlation matrices, use, instead of the data 
+matrix X, the augmented data matrix 
+ shown in Eq. [8.26].
+[8.26]
+Now, we can deﬁne the covariance matrix simply as
+[8.27]
+To see this, consider the example when T = 4 and K = 2.
+[8.28]
+The exponentially weighted correlation matrix is computed just like the simple correlation matrix. 
+The standardized data matrix and the correlation matrix are given by the following expressions.
+[8.29]
+X˜
+X˜
+r11
+…
+…
+…
+r1K
+λr21
+…
+…
+…
+λr21
+…
+…
+λ
+J
+1
+– rJJ …
+…
+…
+…
+…
+…
+…
+λ
+T
+1
+– rT1 …
+…
+…
+λ
+T
+1
+– rTK
+=
+Σ˜
+λ
+i
+1
+–
+i
+1
+=
+T
+∑
+
+
+
+
+
+1
+–
+X˜ TX˜
+⋅
+=
+X
+r11
+r12
+λr21
+λr22
+λ
+2r31
+λ
+2r32
+λ
+3r41
+λ
+3r42
+  X
+T
+x11
+λr21
+λ
+2r31
+λ
+3r41
+x12
+λr22
+λ
+2r32
+λ
+3r42
+  
+=
+=
+Σ˜
+λ
+i
+1
+–
+i
+1
+=
+T
+∑
+
+
+
+
+
+1
+–
+X˜ TX˜
+=
+λ
+i
+1
+–
+i
+1
+=
+T
+∑
+
+
+
+
+
+1
+–
+λ
+i
+1
+– ri1
+2
+i
+1
+=
+4
+∑
+λ
+i
+1
+– ri1ri2
+i
+1
+=
+4
+∑
+λ
+i
+1
+– ri1ri2
+i
+1
+=
+4
+∑
+λ
+i
+1
+– ri2
+2
+i
+1
+=
+4
+∑
+σ1
+2 σ12
+2
+σ21
+2
+σ2
+2
+=
+=
+Y˜
+r˜11
+σ1
+------ … … …
+r˜1K
+σK
+-------
+… … … … …
+… …
+r˜JJ
+σJ
+------ … …
+… … … … …
+r˜T1
+σ1
+------- … … …
+r˜TK
+σK
+-------
+=
+
+180
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+where 
+ 
+and the correlation matrix is
+[8.30]
+which is the exact analogue to Eq. [8.25]. Therefore, all results for the simple correlation matrix 
+carry over to the exponential weighted matrix. 
+Having shown how to compute the covariance and correlation matrices, the next step is to show 
+how the properties of these matrices relate to the VaR calculations.
+We begin with the deﬁnition of positive deﬁnite and positive semideﬁnite matrices. 
+[8.31]
+If 
+ 0 for all nonzero vectors , then C is said to be positive (negative) 
+deﬁnite. 
+[8.32]
+If 
+ 0 for all nonzero vectors , then C is said to be positive semideﬁnite 
+(nonpositive deﬁnite).
+Now, referring back to the VaR calculation presented in Section 6.3.2, if we replace the vector 
+ 
+by the weight vector 
+ and C by the correlation matrix, 
+, then it should be obvious 
+why we seek to determine whether the correlation matrix is positive deﬁnite or not. Speciﬁcally, 
+• If the correlation matrix R is positive deﬁnite, then VaR will always be positive. 
+• If R is positive semideﬁnite, then VaR could be zero or positive. 
+• If R is negative deﬁnite,4 then VaR will be negative.
+8.3.2  Useful linear algebra results as applied to the VaR calculation
+In order to deﬁne a relationship between the dimensions of the data matrix X (or
+) (i.e., the num-
+ber of rows and columns of the data matrix) and the potential values of the VaR estimates, we must 
+deﬁne the rank of X. 
+The rank of a matrix X, denoted r(X), is the maximum number of linearly independent rows (and 
+columns) of that matrix. The rank of a matrix can be no greater than the minimum number of rows 
+or columns. Therefore, if X is T x K with T > K (i.e., more rows than columns) then r(X)
+K. In 
+general, for an T x K matrix X, r(X)
+min(T,K). 
+4 We will show below that this is not possible.
+σ j
+λ
+i
+1
+–
+i
+1
+=
+T
+∑
+
+
+
+
+
+1
+–
+λ
+i
+1
+– r˜2
+ij
+i
+1
+=
+T
+∑
+=
+j
+1 2 …K
+, ,
+=
+R˜
+λ
+i
+1
+–
+i
+1
+=
+T
+∑
+
+
+
+
+
+1
+–
+Y˜ TY˜
+⋅
+=
+z
+TCz
+<
+( )
+>
+z
+z
+TCz  ≥ ≤
+( )
+z
+z
+σt t
+1
+–
+Rt t
+1
+–
+X˜
+≤
+≤
+
+Sec. 8.3  The properties of correlation (covariance) matrices and VaR
+181
+Part IV:  RiskMetrics Data Sets
+A useful result which equates the ranks of different matrices is:
+[8.33]
+ 
+As applied to the VaR calculation, the rank of the covariance matrix Σ = XTX is the same as the 
+rank of X.
+We now refer to two linear algebra results which establish a relationship between the rank of the 
+data matrix and the range of VaR values. 
+[8.34]
+If X is T x K with rank K < T, then XTX is positive deﬁnite and XXT is positive semidef-
+inite.
+[8.35]
+ If X is T x K with rank J < min(T,K) then XTX and XXT is positive semideﬁnite.
+Therefore, whether Σ is positive deﬁnite or not will depend on the rank of the data matrix X. 
+Based on the previous discussion, we can provide the following results for RiskMetrics VaR calcu-
+lations. 
+• Following from Eq. [8.33], we can deduce the rank of R simply by knowing the rank of Y, the 
+standardized data matrix. 
+• The rank of the correlation matrix R can be no greater than the number of historical data 
+points used to compute the correlation matrix, and
+• Following from Eq. [8.34], if the data matrix of returns has more rows than columns and the 
+columns are independent, then R is positive deﬁnite and VaR > 0. If not, then Eq. [8.35] 
+applies, and R is positive semideﬁnite and 
+.
+In summary, a covariance matrix, by deﬁnition, is at least positive semideﬁnite. Simply put, posi-
+tive semideﬁnite is the multi-dimensional analogue to the deﬁnition, 
+.
+8.3.3  How to determine if a covariance matrix is positive semi-deﬁnite5
+Finally, we explain a technique to determine whether a correlation matrix is positive (semi) deﬁ-
+nite. We would like to note at the beginning that due to a variety of technical issues that are beyond 
+the scope of this document, the suggested approach described below known as the singular value 
+decomposition (SVD) is to serve as a general guideline rather than a strict set of rules for deter-
+mining the “deﬁniteness” of a correlation matrix.
+The singular value decomposition (SVD)
+The T x K standardized data matrix Y ( 
+) may be decomposed as6 
+ where 
+ and D is diagonal with non-negative diagonal elements 
+, 
+called the singular values of Y. All of the singular values are 
+. 
+5 This section is based on Belsley (1981), Chapter 3.
+6 In this section we work with the mean centered and standardized matrix Y instead of X since Y is the data matrix 
+on which an SVD should be applied.
+r X
+(
+)
+r X
+TX
+
+
+
+
+r XX
+T
+
+
+
+
+=
+=
+VaR
+0
+≥
+σ
+2
+0
+≥
+T
+K
+≥
+Y
+UDV′
+=
+U′U
+V′V
+IK
+=
+=
+ι1 ι2 … ιK
+,
+,
+,
+(
+)
+≥0
+( )
+
+182
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+A useful result is that the number of non-zero singular values is a function by the rank of Y. Spe-
+ciﬁcally, if Y is full rank, then all K singular values will be non zero. If the rank of Y is J=K-2, 
+then there will be J positive singular values and two zero singular values.
+In practice, it is difﬁcult to determine the number of zero singular values. This is due to that fact 
+that computers deal with ﬁnite, not exact arithmetic. In other words, it is difﬁcult for a computer to 
+know when a singular value is really zero. To avoid having to determine the number of zero singu-
+lar values, it is recommended that practitioners should focus on the condition number of Y which 
+is the ratio of the largest to smallest singular values, i.e., 
+[8.36]
+ (condition number)
+Large condition numbers point toward ‘ill-condition’ matrices, i.e., matrices that are nearly not 
+full rank. In other words, a large 
+ implies that there is a strong degree of collinearity between the 
+columns of Y. More elaborate tests of collinearity can be found in Belsley (1981). 
+We now apply the SVD to two data matrices. The ﬁrst data matrix consists of time series of price 
+returns on 10 USD government bonds for the period January 4, 1993–October 14, 1996 (986 
+observations). The columns of the data matrix correspond to the price returns on the 2yr, 3yr, 4yr, 
+5yr, 7yr, 9yr, 10yr, 15yr, 20yr, and 30yr USD government bonds. The singular values for this data 
+matrix are given in Table 8.4. 
+The condition number, 
+, is 497.4. We conduct a similar experiment on a data matrix that consists 
+of 14 equity indices.7 The singular values are shown in Table 8.5. The data set consists of a total 
+number of 790 observations for the period October 5, 1996 through October 14, 1996. 
+For this data matrix, the condition number, 
+, is 4.28. Notice how much lower the condition num-
+ber is for equities than it is for the US yield curve. This result should not be surprising since we 
+expect the returns on different bonds along the yield curve to move in a similar fashion to one 
+another relative to equity returns. Alternatively expressed, the relatively large condition number 
+for the USD yield curve is indicative of the near collinearity that exists among returns on US gov-
+ernment bonds. 
+7 For the countries Austria, Australia, Belgium, Canada, Switzerland, Spain, France, Finland, Great Britain, Hong 
+Kong, Ireland, Italy, Japan and the Netherlands.
+Table 8.4
+Singular values for USD yield curve data matrix
+3.045
+0.051
+0.785
+0.043
+0.271
+0.020
+0.131
+0.017
+0.117
+0.006
+Table 8.5
+Singular values for equity indices returns
+2.329
+0.873
+0.696
+1.149
+0.855
+0.639
+0.948
+0.789
+0.553
+0.936
+0.743
+0.554
+0.894
+0.712
+υ
+ιmax
+ιmin
+---------
+=
+υ
+υ
+υ
+
+Sec. 8.4  Rebasing RiskMetrics volatilities and correlations
+183
+Part IV:  RiskMetrics Data Sets
+The purpose of the preceding exercise was to demonstrate how the interrelatedness of individual 
+time series affects the condition of the resulting correlation matrix. As we have shown with a sim-
+ple example, highly correlated data (USD yield curve data) leads to high condition numbers rela-
+tive to less correlated data (equity indices). 
+In concluding, due to numerical rounding errors it is not unlikely for the theoretical properties of a 
+matrix to differ from its estimated counterpart. For example, covariance matrices are real, sym-
+metric and non-positive deﬁnite. However, when estimating a covariance matrix we may ﬁnd that 
+the positive deﬁnite property is violated. More speciﬁcally, the matrix may not invert. Singularity 
+may arise because certain prices included in a covariance matrix form linear combinations of other 
+prices. Therefore, if covariance matrices fail to invert they should be checked to determine 
+whether certain prices are linear functions of others. Also, the scale of the matrix elements may be 
+such that it will not invert. While poor scaling may be a source of problems, it should rarely be the 
+case. 
+8.4  Rebasing RiskMetrics volatilities and correlations
+A user’s base currency will dictate how RiskMetrics standard deviations and correlations will be 
+used. For example, a DEM-based investor with US dollar exposure is interested in ﬂuctuations in 
+the currency USD/DEM whereas the same investor with an exposure in Belgium francs is inter-
+ested in ﬂuctuations in BEF/DEM. Currently, RiskMetrics volatility forecasts are expressed in US 
+dollars per foreign currency such as USD/DEM for all currencies. To compute volatilities on cross 
+rates such as BEF/DEM, users must make use of the RiskMetrics provided USD/DEM and USD/
+BEF volatilities as well as correlations between the two. We now show how to derive the variance 
+(standard deviation) of the BEF/DEM position. Let r1,t and r2,t represent the time t returns on 
+USD/DEM and USD/BEF, respectively, i.e., 
+[8.37]
+ and 
+The cross rate BEF/DEM is deﬁned as 
+[8.38]
+ The variance of the cross rate r3t is given by 
+[8.39]
+Equation [8.39] holds for any cross rate that can be deﬁned as the arithmetic difference in two 
+other rates.
+We can ﬁnd the correlation between two cross rates as follows. Suppose we want to ﬁnd the corre-
+lation between the currencies BEF/DEM and FRF/DEM. It follows from Eq. [8.38] that we ﬁrst 
+need to deﬁne these cross rates in terms of the returns used in RiskMetrics. 
+[8.40a]
+,                       
+, 
+[8.40b]
+,       
+r1t
+USD DEM
+⁄
+(
+) t
+USD DEM
+⁄
+(
+) t
+1
+–
+--------------------------------------------
+ln
+=
+r2t
+USD BEF
+⁄
+(
+) t
+USD BEF
+⁄
+(
+) t
+1
+–
+------------------------------------------
+ln
+=
+r3t
+BEF DEM
+⁄
+(
+) t
+BEF DEM
+⁄
+(
+) t
+1
+–
+--------------------------------------------
+r1t
+r2t
+–
+=
+ln
+=
+σ3 t,
+2
+σ1 t,
+2
+σ2 t,
+2
+2σ12 t,
+2
+–
++
+=
+r1 t,
+USD DEM
+⁄
+(
+) t
+USD DEM
+⁄
+(
+) t
+1
+–
+--------------------------------------------
+ln
+=
+r2 t,
+USD BEF
+⁄
+(
+) t
+USD BEF
+⁄
+(
+) t
+1
+–
+------------------------------------------
+ln
+=
+r3 t,
+BEF DEM
+⁄
+(
+) t
+BEF DEM
+⁄
+(
+) t
+1
+–
+--------------------------------------------
+r1 t,
+r2 t,
+–
+=
+ln
+=
+r4 t,
+USD FRF
+⁄
+(
+) t
+USD FRF
+⁄
+(
+) t
+1
+–
+------------------------------------------
+ln
+=
+
+184
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+and
+[8.40c]
+               
+The correlation between BEF/DEM and USD/FRF (r3,t and r4,t) is the covariance of r3,t and r4,t 
+divided by their respective standard deviations, mathematically,
+[8.41]
+Analogously, the correlation between USD/DEM and FRF/DEM is 
+[8.42]
+8.5  Nonsynchronous data collection
+Estimating how ﬁnancial instruments move in relation to each other requires data that are collated, 
+as much as possible, consistently across markets. The point in time when data are recorded is a 
+material issue, particularly when estimating correlations. When data are observed (recorded) at 
+different times they are known to be nonsynchronous.
+Table 8.7 (pages 186–187) outlines how the data underlying the time series used by RiskMetrics 
+are recorded during the day. It shows that most of the data are taken around 16:00 GMT. From the 
+asset class perspective, we see that potential problems will most likely lie in statistics relating to 
+the government bond and equity markets.
+To demonstrate the effect of nonsynchronous data on correlation forecasts, we estimated the 
+1-year correlation of daily movements between USD 10-year zero yields collected every day at the 
+close of business in N.Y. with two series of 3-month money market rates, one collected by the 
+British Bankers Association at 11:00 a.m. in London and the other collected by J.P. Morgan at the 
+close of business in London (4:00 p.m.). This data is presented in Table 8.6. 
+Table 8.6
+Correlations of daily percentage changes with USD 10-year
+August 1993 to June 1994 – 10-year USD rates collated at N.Y. close
+LIBOR
+Correlation at London time:
+11 a.m.
+4 p.m.
+1-month 
+−0.012
+0.153
+3-month 
+0.123
+0.396
+6-month
+0.119
+0.386
+12-month 
+0.118
+0.622
+r5 t,
+FRF DEM
+⁄
+(
+) t
+FRF DEM
+⁄
+(
+) t
+1
+–
+--------------------------------------------
+r1 t,
+r4 t,
+–
+=
+ln
+=
+ρ34 t,
+σ34 t,
+2
+σ4 t, σ3 t,
+------------------
+=
+σ1 t,
+2
+σ12 t,
+2
+–
+σ14 t,
+2
+–
+σ24 t,
+2
++
+σ1 t,
+2
+σ4 t,
+2
+2σ14 t,
+2
+–
++
+  σ1 t,
+2
+σ2 t,
+2
+2σ12 t,
+2
+–
++
+---------------------------------------------------------------------------------------------------------
+=
+ρ35 t,
+σ15 t,
+2
+σ5 t, σ1 t,
+------------------
+=
+σ1 t,
+2
+σ14 t,
+2
+–
+σ1 t,
+2
+σ4 t,
+2
+2σ14 t,
+2
+–
++
+  σ1 t,
+2
+-------------------------------------------------------------------
+=
+
+Sec. 8.5  Nonsynchronous data collection
+185
+Part IV:  RiskMetrics Data Sets
+None of the data series are synchronous, but the results show that the money market rates collected 
+at the London close have higher correlation to the USD 10-year rates than those collected in the 
+morning.
+Getting a consistent view of how a particular yield curve behaves depends on addressing the tim-
+ing issue correctly. While this is an important factor in measuring correlations, the effect of timing 
+diminishes as the time horizon becomes longer. Correlating monthly percentage changes may not 
+be dependent on the condition that rates be collected at the same time of day. Chart 8.4 shows how 
+the correlation estimates against USD 10-year zeros evolve for the two money market series men-
+tioned above when the horizon moves from daily changes to monthly changes. Once past the 10-
+day time interval, the effect of timing differences between the two series becomes negligible.
+Chart 8.4
+Correlation forecasts vs. return interval
+3-month USD LIBOR vs. 10-year USD government bond zero rates
+In a perfect world, all rates would be collected simultaneously as all markets would trade at the 
+same time. One may be able to adapt to nonsynchronously recorded data by adjusting either the 
+underlying return series or the forecasts that were computed from the nonsynchronous returns. In 
+this context, data adjustment involves extensive research. The remaining sections of this document 
+present an algorithm to adjust correlations when the data are nonsynchronous.
+1
+2
+3
+4
+5
+10
+20
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+3m LIBOR London p.m.
+3m LIBOR London a.m.
+Return interval (number of days)
+
+186
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+Table 8.7
+Schedule of data collection
+London time,
+a.m.
+Country
+Instrument 
+summary
+1:00
+2:00
+3:00
+4:00
+5:00
+6:00
+7:00
+8:00
+9:00
+10:00
+11:00
+12:00
+Australia
+FX/Eq/LI/Sw/Gv
+Eq
+Gv
+Hong Kong
+FX/Eq/LI/Sw
+LI
+Eq
+Sw
+Indonesia
+FX/Eq/LI/Sw
+Eq
+LI/Sw
+Japan
+FX/Eq/LI/Sw/Gv
+Gv
+Eq
+Korea
+FX/Eq
+Eq
+Malaysia
+FX/Eq/LI/Sw
+Eq
+LI/Sw
+New Zealand
+FX/Eq/LI/Sw/Gv
+Eq
+LI/Gv
+Sw
+Philippines
+FX/Eq
+Eq
+Singapore
+FX/Eq/LI/Sw/Gv
+LI/Eq
+Taiwan
+FX/Eq/
+Thailand
+FX/Eq/LI/Sw
+Eq
+LI/Sw
+Austria
+FX/Eq/LI
+Eq
+Belgium
+FX/Eq/LI/Sw/Gv
+Denmark
+FX/Eq/LI/Sw/Gv
+Finland
+FX/Eq/LI/Sw/Gv
+France
+FX/Eq/LI/Sw/Gv
+Germany
+FX/Eq/LI/Sw/Gv
+Ireland
+FX/Eq/LI/Sw/Gv
+Italy
+FX/Eq/LI/Sw/Gv
+Netherlands
+FX/Eq/LI/Sw/Gv
+Norway
+FX/Eq/LI/Sw/Gv
+Portugal
+FX/Eq/LI/Sw/Gv
+South Africa
+FX/Eq/LI//Gv
+Spain
+FX/Eq/LI/Sw/Gv
+Sweden
+FX/Eq/LI/Sw/Gv
+Switzerland
+FX/Eq/LI/Sw/Gv
+U.K.
+FX/Eq/LI/Sw/Gv
+ECU
+FX/ /LI/Sw/Gv
+Argentina
+FX/Eq
+Canada
+FX/Eq/LI/Sw/Gv
+Mexico
+FX/Eq/LI
+U.S.
+FX/Eq/LI/Sw/Gv
+FX = Foreign Exchange, Eq = Equity Index, LI = LIBOR, Sw = Swap, Gv = Government
+
+Sec. 8.5  Nonsynchronous data collection
+187
+Part IV:  RiskMetrics Data Sets
+Table 8.7 (continued)
+Schedule of data collection
+London time,
+p.m.
+1:00
+2:00
+3:00
+4:00
+5:00
+6:00
+7:00
+8:00
+9:00
+10:00
+11:00
+12:00
+Instrument 
+summary
+Country
+FX/LI/Sw
+FX/Eq/LI/Sw/Gv
+Australia
+FX
+FX/Eq/LI/Sw
+Hong Kong
+FX
+FX/Eq/LI/Sw
+Indonesia
+FX/LI/Sw
+FX/Eq/LI/Sw/Gv
+Japan
+FX
+FX/Eq
+Korea
+FX
+FX/Eq/LI/Sw
+Malaysia
+FX
+FX/Eq/LI/Sw/Gv
+New Zealand
+FX
+FX/Eq
+Philippines
+FX
+FX/Eq/LI/Sw/Gv
+Singapore
+FX
+FX/Eq
+Taiwan
+FX
+FX/Eq/LI/Sw
+Thailand
+FX/LI
+FX/Eq/LI
+Austria
+Eq
+FX/LI/Sw/Gv
+FX/Eq/LI/Sw/Gv
+Belgium
+Eq
+Gv
+FX/LI/Sw
+FX/Eq/LI/Sw/Gv
+Denmark
+Eq
+FX/LI
+FX/Eq/LI/Sw/Gv
+Finland
+Gv
+FX/LI/Sw/Eq
+FX/Eq/LI/Sw/Gv
+France
+FX/LI/Sw/Gv/Eq
+FX/Eq/LI/Sw/Gv
+Germany
+FX/LI/Sw/Gv
+Eq
+FX/Eq/LI/Sw/Gv
+Ireland
+FX/LI/Sw/Gv/Eq
+FX/Eq/LI/Sw/Gv
+Italy
+FX/LI/Sw/Gv/Eq
+FX/Eq/LI/Sw/Gv
+Netherlands
+Eq
+FX/LI
+FX/Eq/LI/Sw/Gv
+Norway
+FX/LI/Eq
+FX/Eq/LI/Sw/Gv
+Portugal
+Eq
+Gv
+FX/LI
+FX/Eq/LI//Gv
+South Africa
+FX/LI/Sw
+Gv/Eq
+FX/Eq/LI/Sw/Gv
+Spain
+Gv
+FX/LI/Sw/Eq
+FX/Eq/LI/Sw/Gv
+Sweden
+FX/LI/Sw/Eq
+FX/Eq/LI/Sw/Gv
+Switzerland
+FX/LI/Sw/Eq
+Gv
+FX/Eq/LI/Sw/Gv
+U.K.
+FX/LI/Sw
+Gv
+FX/ /LI/Sw/Gv
+ECU
+FX
+Eq
+FX/Eq
+Argentina
+FX/LI/Sw
+Gv
+Eq
+FX/Eq/LI/Sw/Gv
+Canada
+FX/LI
+Eq
+FX/Eq/LI
+Mexico
+FX/LI/Sw
+Gv
+Eq
+FX/Eq/LI/Sw/Gv
+U.S.
+FX = Foreign Exchange, Eq = Equity Index, LI = LIBOR, Sw = Swap, Gv = Government
+
+188
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+8.5.1  Estimating correlations when the data are nonsynchronous
+The expansion of the RiskMetrics data set has increased the amount of underlying prices and rates 
+collected in different time zones. The fundamental problem with nonsynchronous data collection 
+is that correlation estimates based on these prices will be underestimated. And estimating correla-
+tions accurately is an important part of the RiskMetrics VaR calculation because standard devia-
+tion forecasts used in the VaR calculation depends on correlation estimates. 
+Internationally diversiﬁed portfolios are often composed of assets that trade in different calendar 
+times in different markets. Consider a simple example of a two stock portfolio. Stock 1 trades only 
+on the New York Stock Exchange (NYSE 9:30 am to 4:00 pm EST) while stock 2 trades exclu-
+sively on the Tokyo stock exchange (TSE 7:00 pm to 1:00 am EST). Because these two markets 
+are never open at the same time, stocks 1 and 2 cannot trade concurrently. Consequently, their 
+respective daily closing prices are recorded at different times and the return series for assets 1 and 
+2, which are calculated from daily close-to-close prices, are also nonsynchronous.8
+Chart 8.5 illustrates the nonsynchronous trading hours of the NYSE and TSE. 
+Chart 8.5
+Time chart
+NY and Tokyo stock markets
+8 This terminology began in the nonsynchronous trading literature. See, Fisher, L. (1966) and Sholes, M. and Will-
+iams (1977). Nonsynchronous trading is often associated with the situation when some assets trade more fre-
+quently than others [see, Perry, P. (1985)]. Lo and MacKinlay (1990) note that “the nonsynchronicity problem 
+results from the assumption that multiple time series are sampled simultaneously when in fact the sampling is non-
+synchronous.” For a recent discussion of the nonsynchronous trading issue see Boudoukh, et. al (1994).
+6 hrs
+NY open
+9:30 am
+6.5 hrs
+TKO open
+7:00 pm
+TKO close
+1:00 am
+8.5 hrs
+NY close
+4:00 pm
+3 hrs
+8.5 hours
+6.5
+3
+6
+8.5
+6.5
+TSE
+close
+NYSE
+open
+NYSE
+close
+TSE
+open
+TSE
+close
+NYSE
+open
+NYSE
+close
+TSE close-to-close
+NYSE close-to-close
+Day t-1
+Day t
+Information overlap 30%
+
+Sec. 8.5  Nonsynchronous data collection
+189
+Part IV:  RiskMetrics Data Sets
+We see that the Tokyo exchange opens three hours after the New York close and the New York 
+exchange reopens 81/2 hours after the Tokyo close. Because a new calendar day arrives in Tokyo 
+before New York, the Tokyo time is said to precede New York time by 14 hours (EST). 
+RiskMetrics computes returns from New York and Tokyo stock markets using daily close-to-close 
+prices. The black orbs in Chart 8.5 mark times when these prices are recorded. Note that the orbs 
+would line up with each other if returns in both markets were recorded at the same time.
+The following sections will:
+1.
+Identify the problem and verify whether RiskMetrics really does underestimate certain cor-
+relations.
+2.
+Present an algorithm to adjust the correlation estimates.
+3.
+Test the results against actual data.
+8.5.1.1  Identifying the problem: correlation and nonsynchronous returns
+Whether different return series are recorded at the same time or not becomes an issue when these 
+data are used to estimate correlations because the absolute magnitude of correlation (covariance) 
+estimates may be underestimated when calculated from nonsynchronous rather than synchronous 
+data. Therefore, when computing correlations using nonsynchronous data, we would expect the 
+value of observed correlation to be below the true correlation estimate. In the following analysis 
+we ﬁrst establish the effect that nonsynchronous returns have on correlation estimates and then 
+offer a method for adjusting correlation estimates to account for the nonsynchronicity problem.
+The ﬁrst step in checking for downward bias is estimating what the “true” correlation should be. 
+This is not trivial since these assets do not trade in the same time zone and it is often not possible 
+to obtain synchronous data. For certain instruments, however, it is possible to ﬁnd limited datasets 
+which can provide a glimpse of the true level of correlation; this data would then become the 
+benchmark against which the methodology for adjusting nonsynchronous returns would be tested. 
+One of these instruments is the US Treasury which has the advantage of being traded 24 hours a 
+day. While we generally use nonsynchronous close-to-close prices to estimate RiskMetrics corre-
+lations, we obtained price data for both the US and Australian markets quoted in the Asian time 
+zone (August 1994 to June 1995). We compared the correlation based on synchronous data with 
+correlation estimates that are produced under the standard RiskMetrics data (using the nonsyn-
+chronous US and Australian market close). Plots of the two correlation series are shown in 
+Chart 8.6. 
+
+190
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+Chart 8.6
+10-year Australia/US government bond zero correlation
+based on daily RiskMetrics close/close data and 0:00 GMT data
+While the changes in correlation estimates follow similar patterns over time (already an interesting 
+result in itself), the correlation estimates obtained from price data taken at the opening of the mar-
+kets in Asia are substantially higher. One thing worth noting however, is that while the synchro-
+nous estimate appears to be a better representation of the “true” level of correlation, it is not 
+necessarily equal to the true correlation. While we have adjusted for the timing issue, we may have 
+introduced other problems in the process, such as the fact that while US Treasuries trade in the 
+Asian time zone, the market is not as liquid as during North American trading hours and the prices 
+may therefore be less representative of “normal trading” volumes. Market segmentation may also 
+affect the results. Most investors, even those based in Asia put on positions in the US market dur-
+ing North American trading hours. U.S. Treasury trading in Asia is often the result of hedging.
+Nevertheless, from a risk management perspective, this is an important result. Market participants 
+holding positions in various markets including Australia (and possibly other Asian markets) would 
+be distorting their risk estimates by using correlation estimates generated from close of business 
+prices.
+8.5.1.2  An algorithm for adjusting correlations 
+Correlation is simply the covariance divided by the product of two standard errors. Since the stan-
+dard deviations are unaffected by nonsynchronous data, correlation is adversely affected by non-
+synchronous data through its covariance. This fact simpliﬁes the analysis because under the 
+current RiskMetrics assumptions, long horizon covariance forecasts are simply the 1-day covari-
+ance forecasts multiplied by the forecast horizon.
+Let us now investigate the effect that nonsynchronous trading has on correlation estimates for his-
+torical rate series from the United States (USD), Australian (AUD) and Canadian (CAD) govern-
+ment bond markets. In particular, we focus on 10-year government bond zero rates. Table 8.8 
+presents the time that RiskMetrics records these rates (closing prices). 
+February
+March
+April
+May
+June
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1.0
+Synchronous
+RiskMetrics
+Correlation
+1995
+
+Sec. 8.5  Nonsynchronous data collection
+191
+Part IV:  RiskMetrics Data Sets
+Note that the USD and CAD rates are synchronous while the USD and AUD, and CAD and AUD 
+rates are nonsynchronous. We chose to analyze rates in these three markets to gain insight as to 
+how covariances (correlations) computed from synchronous and nonsynchronous return series 
+compare with each other. For example, at any time t, the observed return series, 
+ and 
+ are nonsynchronous, whereas 
+ and 
+ are synchronous. We are interested in 
+measuring the covariance and autocovariance of these return series.
+Table 8.9 provides summary statistics on 1-day covariance and autocovariance forecasts for the 
+period May 1993 to May 1995. The numbers in the table are interpreted as follows: over the sam-
+ple period, the average covariance between USD and AUD 10-year zero returns, 
+ is 0.16335 while the average covariance between current USD 10-year zero 
+returns and lagged CAD 10-year zero returns (autocovariance) is −0.0039. 
+The results show that when returns are recorded nonsynchronously, the covariation between 
+lagged 1-day USD returns and current AUD returns (0.5685) is larger, on average, than the covari-
+ance (0.1633) that would typically be reported. Conversely, for the USD and CAD returns, the 
+autocovariance estimates are negligible relative to the covariance estimates. This evidence points 
+to a typical ﬁnding: ﬁrst order autocovariances of returns for assets that trade at different times are 
+larger than autocovariances for returns on assets that trade synchronously.9
+9 One possible explanation for the large autocovariances has to do with information ﬂows between markets. The lit-
+erature on information ﬂows between markets include studies analyzing Japanese and US equity markets (Jaffe 
+and Westerﬁeld (1985), Becker, et.al, (1992), Lau and Diltz, (1994)). Papers that focus on many markets include 
+Eun and Shim, (1989).
+Table 8.8
+RiskMetrics closing prices
+10-year zero bonds
+Country
+EST
+London
+USD
+3:30 p.m.
+8:00 p.m.
+CAD
+3:30 p.m.
+8:00 p.m.
+AUD
+2:00 a.m.
+7:00 a.m.
+Table 8.9
+Sample statistics on RiskMetrics daily covariance forecasts
+10-year zero rates; May 1993 – May 1995
+Daily forecasts
+Mean
+Median
+Std. dev.
+Max
+Min
+0.1633*
+0.0995
+0.1973
+0.8194
+−0.3396
+0.5685
+0.4635
+0.3559
+1.7053
+0.1065
+0.0085
+−0.0014
+0.1806
+0.5667
+−0.6056
+0.6082
+0.4912
+0.3764
+1.9534
+0.1356
+0.0424
+0.0259
+0.1474
+0.9768
+−0.2374
+−0.0039
+−0.0003
+0.1814
+0.3333
+−0.7290
+* All numbers are multiplied by 10,000.
+rUSD t,
+obs
+rAUD t,
+obs
+rUSD t,
+obs
+rCAD t,
+obs
+cov rUSD t,
+obs
+rAUD t,
+obs
+,
+
+
+
+
+cov rUSD t,
+obs
+rAUD t,
+obs
+,
+
+
+
+
+cov rUSD t
+1
+–
+,
+obs
+rAUD t,
+obs
+
+
+
+
+cov rUSD t,
+obs
+rAUD t
+1
+–
+,
+obs
+,
+
+
+
+
+cov rUSD t,
+obs
+rCAD t,
+obs
+,
+
+
+
+
+cov rUSD t 1
+–
+,
+obs
+rCAD t,
+obs
+,
+
+
+
+
+cov rUSD t,
+obs
+rCAD t 1
+–
+,
+obs
+,
+
+
+
+
+
+192
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+As a check of the results above and to understand how RiskMetrics correlation forecasts are 
+affected by nonsynchronous returns, we now focus on covariance forecasts for a speciﬁc day. We 
+continue to use USD, CAD and AUD 10-year zero rates. Consider the 1-day forecast period 
+May 12 to May 13, 1995. In RiskMetrics, these 1-day forecasts are available at 10 a.m. EST on 
+May 12. The most recent USD (CAD) return is calculated over the period 3:30 pm EST on 5/10 to 
+3:30 pm EST on 5/11 whereas the most recent AUD return is calculated over the period 1:00 am 
+EST on 5/10 to 1:00 am EST on 5/11. Table 8.10 presents covariance forecasts for May 12 along 
+with their standard errors. 
+In agreement with previous results, we ﬁnd that while there is strong covariation between lagged 
+USD returns 
+ and current AUD returns 
+(as shown by large t-statistics), the 
+covariation between lagged USD and CAD returns is not nearly as strong. The results also show 
+evidence of covariation between lagged AUD returns and current USD returns. 
+The preceding analysis describes a situation where the standard covariances calculated from non-
+synchronous data do not capture all the covariation between returns. By estimating autocovari-
+ances, it is possible to measure the 1-day lead and lag effects across return series. With 
+nonsynchronous data, these lead and lag effects appear quite large. In other words, current and 
+past information in one return series is correlated with current and past information in another 
+series. If we represent information by returns, then following Cohen, Hawawini, Maier, Schwartz 
+and Whitcomb, (CHMSW 1983) we can write observed returns as a function of weighted unob-
+served current and lag true returns. The weights simply represent how much information in a spe-
+ciﬁc true return appears in the return that is observed. Given this, we can write observed 
+(nonsynchronous) returns for the USD and AUD 10-year zero returns as follows:
+[8.43]
+The 
+’s are random variables that represent the proportion of the true return of asset j gener-
+ated in period t-i that is actually incorporated in observed returns in period t. In other words, the 
+’s are weights that capture how the true return generated in one period impacts on the observed 
+returns in the same period and the next. It is also assumed that:
+Table 8.10
+RiskMetrics daily covariance forecasts
+10-year zero rates; May 12, 1995
+Return series
+Covariance
+T-statistic†
+0.305
+-
+0.629 (0.074)*
+8.5
+0.440 (0.074)
+5.9
+0.530
+-
+0.106 (0.058)
+1.8
+0.126 (0.059)
+2.13
+* Asymptotic standard errors are reported in parentheses.
+† For a discussion on the use of the t-statistic for the autocovariances see Shanken (1987).
+rUSD 5 12
+⁄
+,
+obs
+rAUD 5 12
+⁄
+,
+obs
+rUSD 5 11
+⁄
+,
+obs
+rAUD 5 12
+⁄
+,
+obs
+rUSD 5 12
+⁄
+,
+obs
+rAUD 5 11
+⁄
+,
+obs
+rUSD 5 11
+⁄
+,
+obs
+rCAD 5 12
+⁄
+,
+obs
+rUSD 5 12
+⁄
+,
+obs
+rCAD 5 12
+⁄
+,
+obs
+rUSD 5 12
+⁄
+,
+obs
+rCAD 5 11
+⁄
+,
+obs
+rUSD 5 11
+⁄
+,
+obs
+rUSD 5 12
+⁄
+,
+obs
+rUSD t,
+obs
+θUSD t, RUSD t,
+θUSD t
+1
+–
+,
+rUSD t
+1
+–
+,
++
+=
+rAUD t,
+obs
+θAUD t, RUSD t,
+θAUD t
+1
+–
+,
+rAUD t
+1
+–
+,
++
+=
+θ j t
+i
+–
+,
+θ j t,
+
+Sec. 8.5  Nonsynchronous data collection
+193
+Part IV:  RiskMetrics Data Sets
+[8.44]
+Table 8.11 shows, for the example given in the preceding section, the relationship between the 
+date when the true return is calculated and the weight assigned to the true return. 
+Earlier we computed the covariance based on observed returns, 
+ However, 
+we can use Eq. [8.43] to compute the covariance of the true returns 
+, i.e., 
+[8.45]
+We refer to this estimator as the “adjusted” covariance. Having established the form of the 
+adjusted covariance estimator, the adjusted correlation estimator for any two return series j 
+and k is:
+[8.46]
+Table 8.12 shows the original and adjusted correlation estimates for USD-AUD and USD-CAD 
+10-year zero rate returns.
+Note that the USD-AUD adjusted covariance increases the original covariance estimate by 84%. 
+Earlier (see Table 8.10) we found the lead-lag covariation for the USD-AUD series to be statisti-
+cally signiﬁcant. Applying the adjusted covariance estimator to the synchronous series USD-CAD, 
+we ﬁnd only an 8% increase over the original covariance estimate. However, the evidence from 
+Table 8.10 would suggest that this increase is negligible.
+Table 8.11
+Relationship between lagged returns and applied weights
+observed USD and AUD returns for May 12, 1995
+Date
+5/9–5/10
+5/9–5/10
+5/10–5/11
+5/10–5/11
+Weight
+Table 8.12
+Original and adjusted correlation forecasts
+USD-AUD 10-year zero rates; May 12, 1995
+Daily forecasts
+Original
+Adjusted
+% change
+0.305
+0.560
+ 84%
+0.530
+0.573
+ 8%
+θAUD t,  and θUSD τ
+,  are independent for all t and τ
+θAUD t,  and θUSD τ
+,  are independent of RAUD t,  and RUSD τ
+,
+E θAUD t,
+(
+)  = E θUSD t,
+(
+)  for all t and τ
+E θ j t,
+θ j t
+1
+–
+,
++
+(
+)
+1 for j = AUD, USD and for all t and τ
+=
+θAUD t
+1
+–
+,
+θUSD t
+1
+–
+,
+θAUD t,
+θUSD t,
+cov rUSD t,
+obs
+rAUD t,
+obs
+,
+
+
+
+
+cov rUSD t,
+rAUD t,
+,
+(
+)
+cov rUSD t,
+rAUD t,
+,
+(
+)
+cov rUSD t,
+obs
+rAUD t
+1
+–
+,
+obs
+,
+
+
+
+
+=
++cov rUSD t,
+obs
+rAUD t,
+obs
+,
+
+
+
+
+cov rUSD t
+1
+–
+,
+obs
+rAUD t,
+obs
+,
+
+
+
+
++
+ρ jk t,
+cov r j t,
+obs rk t
+1
+–
+,
+obs
+,
+
+
+
+
+cov r j t,
+obs rk t,
+obs
+,
+
+
+
+
+cov r j t
+1
+–
+,
+obs
+rk t,
+obs
+,
+
+
+
+
++
++
+std r j t,
+obs
+
+
+
+std rk t,
+obs
+
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------------
+=
+cov rUSD 5 12
+⁄
+,
+rAUD 5 12
+⁄
+,
+,
+(
+)
+cov rUSD 5 12
+⁄
+,
+rCAD 5 12
+⁄
+,
+,
+(
+)
+
+194
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+8.5.1.3  Checking the results 
+How does the adjustment algorithm perform in practice? Chart 8.7 compares three daily correla-
+tion estimates for 10-year zero coupon rates in Australia and the United States:  (1) Standard 
+RiskMetrics using nonsynchronous data, (2) estimate correlation using synchronous data collected 
+in Asian trading hours and, (3) RiskMetrics Adjusted using the estimator in Eq. [8.46].
+Chart 8.7
+Adjusting 10-year USD/AUD bond zero correlation
+using daily RiskMetrics close/close data and 0:00 GMT data
+The results show that the adjustment factor captures the effects of the timing differences that affect 
+the standard RiskMetrics estimates which use nonsynchronous data. A potential drawback of using 
+this estimator, however, is that the adjusted series displays more volatility than either the unad-
+justed or the synchronous series. This means that in practice, choices may have to be made as to 
+when to apply the methodology. In the Australian/US case, it is clear that the beneﬁts of the adjust-
+ment in terms of increasing the correlation to a level consistent with the one obtained when using 
+synchronous data outweighs the increased volatility. The choice, however, may not always be that 
+clear cut as shown by Chart 8.8 which compares adjusted and unadjusted correlations for the US 
+and Japanese 10-year zero rates. In periods when the underlying correlation between the two mar-
+kets is signiﬁcant (Jan-Feb 1995, the algorithm correctly adjusts the estimate). In periods of lower 
+correlation, the algorithm only increases the volatility of the estimate.
+-0.2
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Jan-95
+Mar-95
+Apr-95
+Jun-95
+Synchronous
+RiskMetrics™
+**RiskMetrics™ Adjusted**
+
+Sec. 8.5  Nonsynchronous data collection
+195
+Part IV:  RiskMetrics Data Sets
+Chart 8.8
+10-year Japan/US government bond zero correlation
+using daily RiskMetrics close/close data and 0:00 GMT data
+Also, in practice, estimation of the adjusted correlation is not necessarily straightforward because 
+we must take into account the chance of getting adjusted correlation estimates above 1. This 
+potential problem arises because the numerator in Eq. [8.46] is being adjusted without due consid-
+eration of the denominator. An algorithm that allows us to estimate the adjusted correlation with-
+out obtaining correlations greater than 1 in absolute value is given in Section 8.5.2. 
+Table 8.13 on page 196 reports sample statistics for 1-day correlation forecasts estimated over var-
+ious sample periods for both the original RiskMetrics and adjusted correlation estimators. Correla-
+tions between United States and Asia-Paciﬁc are based on non-synchronous data.
+8.5.2  Using the algorithm in a multivariate framework
+Finally, we explain how to compute the adjusted correlation matrix.
+1.
+Calculate the unadjusted (standard) RiskMetrics covariance matrix, Σ. (Σ is an N x N, posi-
+tive semi-deﬁnite matrix).
+2.
+Compute the nonsynchronous data adjustment matrix K where the elements of K are
+[8.47]
+3.
+The adjusted covariance matrix M, is given by 
+ where 
+. The param-
+eter f that is used in practice is the largest possible f such that M is positive semi-deﬁnite.
+February
+March
+April
+May
+June
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+RiskMetrics adjusted
+RiskMetrics
+Correlation
+1995
+kk j
+,
+cov rk t,
+r
+,
+j t
+1
+–
+,
+(
+)
+cov rk t
+1
+–
+,
+r
+,
+j t,
+(
+)
++
+for k
+j
+≠
+0
+for k
+j
+=
+
+
+
+=
+M
+Σ
+fK
++
+=
+0
+f
+1
+≤
+≤
+
+196
+Chapter 8.  Data and related statistical issues
+RiskMetrics —Technical Document
+Fourth Edition
+Table 8.13
+Correlations between US and foreign instruments
+Correlations between USD 10-year zero rates and JPY, AUD, and NZD 10-year zero rates.*
+Sample period:  May 1991–May 1995.
+Original
+Adjusted
+JPY
+AUD
+NZD
+JPY
+AUD
+NZD
+mean
+0.026
+0.166
+0.047
+0.193
+0.458
+0.319
+median
+0.040
+0.155
+0.036
+0.221
+0.469
+0.367
+std dev
+0.151
+0.151
+0.171
+0.308
+0.221
+0.241
+max
+0.517
+0.526
+0.613
+0.987
+0.937
+0.921
+min
+−0.491
+−0.172
+−0.389
+−0.762
+−0.164
+−0.405
+Correlations between USD 2-year swap rates and JPY, AUD, NZD, HKD 2-year swap rates.* 
+Sample period:  May 1993–May 1995.
+Original
+Adjusted
+JPY
+AUD
+NZD
+HKD
+JPY
+AUD
+NZD
+HKD
+mean
+0.018
+0.233
+0.042
+0.139
+0.054
+0.493
+0.249
+0.572
+median
+0.025
+0.200
+0.020
+0.103
+0.065
+0.502
+0.247
+0.598
+std dev
+0.147
+0.183
+0.179
+0.217
+0.196
+0.181
+0.203
+0.233
+max
+0.319
+0.647
+0.559
+0.696
+0.558
+0.920
+0.745
+0.945
+min
+−0.358
+−0.148
+−0.350
+−0.504
+−0.456
+−0.096
+−0.356
+−0.411
+Correlations between USD equity index and JPY, AUD, NZD, HKD, SGD equity indices.* 
+Sample period:  May 1993–May 1995.
+Original
+Adjusted
+JPY
+AUD
+NZD
+HKD
+SGD
+JPY
+AUD
+NZD
+HKD
+SGD
+mean
+0.051
+0.099
+-0.023
+0.006
+0.038
+0.124
+0.330
+−0.055
+−0.013
+0.014
+median
+0.067
+0.119
+-0.021
+-0.001
+0.028
+0.140
+0.348
+−0.053
+0.056
+−0.024
+std dev
+0.166
+0.176
+0.128
+0.119
+0.145
+0.199
+0.206
+0.187
+0.226
+0.237
+max
+0.444
+0.504
+0.283
+0.271
+0.484
+0.653
+0.810
+0.349
+0.645
+0.641
+min
+−0.335
+−0.345
+−0.455
+−0.298
+−0.384
+−0.395
+−0.213
+−0.524
+−0.527
+−0.589
+* JPY = Japanese yen, AUD = Australian dollar, NZD = New Zealand dollar, HKD = Hong Kong dollar, SGD = Singapore dollar 
+
+ 
+197
+Part IV:  RiskMetrics Data Sets
+Chapter 9.
+Time series sources
+ 
+9.1  Foreign exchange
+199
+9.2  Money market rates
+199
+9.3  Government bond zero rates
+200
+9.4  Swap rates
+202
+9.5  Equity indices
+203
+9.6  Commodities
+205
+
+ 
+198
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+199
+Part IV:  RiskMetrics Data Sets
+Chapter 9.
+Time series sources
+ 
+Scott Howard
+Morgan Guaranty Trust Company
+Risk Management Advisory
+(1-212) 648-4317
+ 
+howard_james_s@jpmorgan.com
+ 
+Data is one of the cornerstones of any risk management methodology. We examined a number of 
+data providers and decided that the sources detailed in this chapter were the most appropriate for 
+our purposes.
+ 
+9.1  Foreign exchange
+ 
+Foreign exchange prices are sourced from WM Company and Reuters. They are mid-spot 
+exchange prices recorded at 4:00 p.m. London time (11:00 a.m. EST). All foreign exchange data 
+used for RiskMetrics is identical to the data used by the J.P. Morgan family of government bond 
+indices. (See Table 9.1.)
+ 
+9.2  Money market rates 
+ 
+Most 1-, 2-, 3-, 6-, and 12-month money market rates (offered side) are recorded on a daily basis 
+by J.P. Morgan in London at 4:00 p.m. (11:00 a.m. EST). Those obtained from external sources are 
+also shown in Table 9.2.
+ 
+Table 9.1
+ 
+Foreign exchange
+ 
+Currency Codes
+ Americas
+Asia Paciﬁc
+Europe and Africa
+ 
+ARS
+Argentine peso
+AUD 
+Australian dollar
+ATS 
+Austrian shilling
+CAD
+Canadian dollar
+HKD
+Hong Kong dollar
+BEF
+Belgian franc
+MXN
+Mexican peso
+IDR
+Indonesian rupiah
+CHF
+Swiss franc
+USD
+U.S. dollar
+JPY
+Japanese yen
+DEM
+Deutsche mark
+EMB
+EMBI+
+ 
+*
+ 
+KRW
+Korean won
+DKK
+Danish kroner
+MYR
+Malaysian ringgit
+ESP
+Spanish peseta
+NZD
+New Zealand dollar
+FIM
+Finnish mark
+PHP
+Philippine peso
+FRF
+French franc
+SGD
+Singapore dollar
+GBP
+Sterling
+THB
+Thailand baht
+IEP
+Irish pound
+TWD
+Taiwan dollar
+ITL
+Italian lira
+NLG
+Dutch guilder
+NOK
+Norwegian kroner
+PTE
+Portuguese escudo
+SEK
+Swedish krona
+XEU
+ECU
+ZAR
+South African rand
+* EMBI+ stands for the J.P. Morgan Emerging Markets Bond Index Plus.
+
+ 
+200
+Chapter 9.  Time series sources
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+9.3  Government bond zero rates
+ 
+Zero coupon rates ranging in maturity from 2 to 30 years for the government bond markets 
+included in the J.P. Morgan Government Bond Index as well as the Irish, ECU, and New Zealand 
+markets. (See Table 9.3.)
+ 
+Table 9.2 
+ 
+Money market rates:  sources and term structures
+ 
+Source
+Time
+Term Structure
+Market
+ 
+J.P. Morgan
+Third Party
+ 
+*
+ 
+U.S. EST
+1m
+3m
+6m
+12m
+Australia
+•
+11:00 a.m.
+•
+•
+•
+•
+Hong Kong
+•
+10:00 p.m.
+•
+•
+•
+•
+Indonesia
+ 
+†
+ 
+•
+5:00 a.m.
+•
+•
+•
+•
+Japan
+•
+11:00 a.m.
+•
+•
+•
+•
+Malaysia
+ 
+†
+ 
+•
+ 5:00 a.m.
+•
+•
+•
+•
+New Zealand
+•
+12:00 a.m.
+•
+•
+•
+Singapore
+•
+4:30 a.m.
+•
+•
+•
+•
+Thailand
+ 
+†
+ 
+•
+5:00 a.m.
+•
+•
+•
+•
+Austria
+•
+11:00 a.m.
+•
+•
+•
+•
+Belgium
+•
+11:00 a.m.
+•
+•
+•
+•
+Denmark
+•
+11:00 a.m.
+•
+•
+•
+•
+Finland
+•
+11:00 a.m.
+•
+•
+•
+•
+France
+•
+11:00 a.m.
+•
+•
+•
+•
+Ireland
+•
+11:00 a.m.
+•
+•
+•
+•
+Italy
+•
+11:00 a.m.
+•
+•
+•
+•
+Netherlands
+•
+11:00 a.m.
+•
+•
+•
+•
+Norway
+•
+11:00 a.m.
+•
+•
+•
+•
+Portugal
+•
+11:00 a.m.
+•
+•
+•
+•
+South Africa
+11:00 a.m.
+•
+•
+•
+•
+Spain
+•
+11:00 a.m.
+•
+•
+•
+•
+Sweden
+•
+11:00 a.m.
+•
+•
+•
+•
+Switzerland
+•
+11:00 a.m.
+•
+•
+•
+•
+U.K.
+•
+11:00 a.m.
+•
+•
+•
+•
+ECU
+•
+11:00 a.m.
+•
+•
+•
+•
+Canada
+•
+11:00 a.m.
+•
+•
+•
+•
+Mexico
+ 
+‡
+ 
+•
+12:00 p.m.
+•
+•
+•
+•
+U.S.
+•
+11:00 a.m.
+•
+•
+•
+•
+* Third party source data from Reuters Generic except for Hong Kong (Reuters HIBO), Singapore (Reuters 
+MASX), and New Zealand (National Bank of New Zealand).
+† Money market rates for Indonesia, Malaysia, and Thailand are calculated using foreign exchange forward-
+points.
+‡ Mexican rates represent secondary trading in Cetes.
+
+ 
+9.3  Government bond zero rates
+201
+Part IV:  RiskMetrics Data Sets
+ 
+If the objective is to measure the volatility of individual cash ﬂows, then one could ask whether it 
+is appropriate to use a term structure model instead of the underlying zero rates which can be 
+directly observed from instruments such as Strips. The selection of a modeled term structure as the 
+basis for calculating market volatilities was motivated by the fact that there are few markets which 
+have observable zero rates in the form of government bond Strips from which to estimate volatili-
+ties. In fact, only the U.S. and French markets have reasonably liquid Strips which could form the 
+basis for a statistically solid volatility analysis. Most other markets in the OECD have either no 
+Strip market or a relatively illiquid one.
+The one possible problem of the term structure approach is that it would not be unreasonable to 
+assume the volatility of points along the term structure may be lower than the market’s real volatil-
+ity because of the smoothing impact of passing a curve through a universe of real data points. 
+To see whether there was support for this assumption, we compared the volatility estimates 
+obtained from term structure derived zero rates and actual Strip yields for the U.S. market across 
+four maturities (3, 5, 7, and 10 years). The results of the comparison are shown in Chart 9.1.
+ 
+Table 9.3 
+ 
+Government bond zero rates:  sources and term structures
+ 
+Source
+Time
+Term structure
+Market
+ 
+J.P. Morgan
+Third Party
+U.S. EST
+2y
+3y
+4y
+5y
+7y
+9y
+10y 15y 20y 30y
+Australia
+•
+1:30 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+Japan
+•
+1:00 a.m.
+•
+•
+•
+•
+•
+•
+•
+New Zealand
+•
+12:00 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+Belgium
+•
+11:00 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+•
+Denmark
+•
+10:30 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+France
+•
+10:30 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+Germany
+•
+11:30 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+Ireland
+•
+10:30 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+•
+Italy
+•
+10:45 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+Netherlands
+•
+11:00 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+South Africa
+•
+11:00 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+•
+Spain
+•
+11:00 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+Sweden
+•
+10:00 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+U.K.
+•
+11:45 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+ECU
+•
+11:45 a.m.
+•
+•
+•
+•
+•
+•
+•
+Canada
+•
+3:30 p.m.
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+U.S.
+•
+3:30 a.m.
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+Emerging Mkt.
+ 
+†
+ 
+•
+3:00 p.m.
+* Third party data sourced from Den Danske Bank (Denmark), NCB Stockbrokers (Ireland), National Bank of New Zealand (New 
+Zealand), and SE Banken (Sweden).
+† J. P. Morgan Emerging Markets Bond Index Plus (EMBI+).
+
+ 
+202
+Chapter 9.  Time series sources
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Chart 9.1
+ 
+Volatility estimates: daily horizon
+ 
+1.65 standard deviation—6-month moving average
+ 
+The results show that there is no clear bias from using the term structure versus underlying Strips 
+data. The differences between the two measures decline as maturity increases and are partially the 
+result of the lack of liquidity of the short end of the U.S. Strip market. Market movements speciﬁc 
+to Strips can also be caused by investor behavior in certain hedging strategies that cause prices to 
+sometimes behave erratically in comparison to the coupon curve from which the term structure is 
+derived.
+ 
+9.4  Swap rates
+ 
+Swap par rates from 2 to 10 years are recorded on a daily basis by J.P. Morgan, except for Ireland 
+(provided by NCB Stockbrokers), Hong Kong (Reuters TFHK) and Indonesia, Malaysia and Thai-
+land (Reuters EXOT). (See Table 9.4.) The par rates are then converted to zero coupon equivalents 
+rates for the purpose of inclusion within the RiskMetrics data set. (Refer to Section 8.1 for details).
+1992
+1993
+1.5
+1.7
+1.9
+2.1
+2.3
+2.5
+2.7
+2.9
+3-year Strip
+3-year Zero rate
+1994
+1992
+1993
+1.0
+1.5
+2.0
+2.5
+7-year Zero rate
+7-year Strip
+1994
+1992
+1993
+1.0
+1.5
+2.0
+10-year Zero rate
+10-year Strip
+1994
+Volatility
+Volatility
+Volatility
+Volatility
+1992
+1993
+1.0
+1.5
+2.0
+2.5
+5-year Strip
+5-year Zero rate
+1994
+
+ 
+9.5  Equity indices
+203
+Part IV:  RiskMetrics Data Sets
+ 
+9.5  Equity indices
+ 
+The following list of equity indices (Table 9.5) have been selected as benchmarks for measuring 
+the market risk inherent in holding equity positions in their respective markets. The factors that 
+determined the selection of these indices include the existence of index futures that can be used as 
+hedging instruments, sufﬁcient market capitalization in relation to the total market, and low track-
+ing error versus a representation of the total capitalization. All the indices listed below measure 
+principal return except for the DAX which is a total return index.
+ 
+Table 9.4
+ 
+Swap zero rates:  sources and term structures
+ 
+Source
+Time
+Term structure
+Market
+ 
+J.P. Morgan
+Third Party
+ 
+*
+ 
+US EST
+2y
+3y
+4y
+5y
+7y
+10y
+Australia
+•
+1:30 a.m.
+•
+•
+•
+•
+•
+•
+Hong Kong
+•
+4:30 a.m.
+•
+•
+•
+•
+•
+•
+Indonesia
+•
+4:00 a.m.
+•
+•
+•
+•
+Japan
+•
+1:00 a.m.
+•
+•
+•
+•
+•
+•
+Malaysia
+•
+4:00 a.m.
+•
+•
+•
+•
+New Zealand 
+•
+3:00 p.m.
+•
+•
+•
+•
+•
+Thailand
+•
+4:00 a.m.
+•
+•
+•
+•
+Belgium
+•
+10:00 a.m.
+•
+•
+•
+•
+•
+•
+Denmark
+•
+10:00 a.m.
+•
+•
+•
+•
+•
+•
+Finland
+•
+10:00 a.m
+•
+•
+•
+•
+France
+•
+10:00 a.m.
+•
+•
+•
+•
+•
+•
+Germany
+•
+10:00 p.m.
+•
+•
+•
+•
+•
+•
+Ireland
+•
+11:00 a.m.
+•
+•
+•
+•
+Italy
+•
+10:00 a.m.
+•
+•
+•
+•
+•
+•
+Netherlands
+•
+10:00 a.m.
+•
+•
+•
+•
+•
+•
+Spain
+•
+10:00 a.m.
+•
+•
+•
+•
+•
+•
+Sweden
+•
+10:00 a.m.
+•
+•
+•
+•
+•
+•
+Switzerland
+•
+10:00 a.m.
+•
+•
+•
+•
+•
+•
+U.K.
+•
+10:00 a.m.
+•
+•
+•
+•
+•
+•
+ECU
+•
+10:00 a.m.
+•
+•
+•
+•
+•
+•
+Canada
+•
+3:30 p.m.
+•
+•
+•
+•
+•
+•
+U.S.
+•
+3:30 a.m.
+•
+•
+•
+•
+•
+•
+* Third party source data from Reuters Generic except for Ireland (NCBI), Hong Kong (TFHK), and Indonesia, 
+Malaysia, Thailand (EXOT).
+
+ 
+204
+Chapter 9.  Time series sources
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Table 9.5 
+ 
+Equity indices:  sources*
+ 
+Market
+Exchange
+Index Name
+Weighting
+% Mkt. 
+cap.
+Time,
+U.S. EST
+ 
+Australia
+Australian Stock Exchange
+All Ordinaries
+MC
+96
+1:10 a.m.
+Hong Kong
+Hong Kong Stock Exchange
+Hang Seng
+MC
+77
+12:30 a.m.
+Indonesia
+Jakarta Stock Exchange
+JSE
+MC
+4:00 a.m.
+Korea
+Seoul Stock Exchange
+KOPSI
+MC
+3:30 a.m.
+Japan
+Tokyo Stock Exchange
+Nikei 225
+MC
+46
+1:00 a.m.
+Malaysia
+Kuala Lumpur Stock Exchange
+KLSE
+MC
+6:00 a.m.
+New Zealand 
+New Zealand Stock Exchange
+Capital 40
+MC
+—
+10:30 p.m.
+Philippines
+Manila Stock Exchange
+MSE Com’l &Inustil Price
+MC
+1:00 a.m.
+Singapore
+Stock Exchange of Singapore
+Sing. All Share
+MC
+—
+4:30 a.m.
+Taiwan
+Taipei Stock Exchange
+TSE
+MC
+1:00 a.m.
+Thailand
+Bangkok Stock Exchange
+SET
+MC
+5:00 a.m.
+Austria
+Vienna Stock Exchange
+Creditanstalt
+MC
+—
+7:30 a.m.
+Belgium
+Brussels Stock Exchange
+BEL 20
+MC
+78
+10:00 a.m.
+Denmark
+Copenhagen Stock Exchange
+KFX
+MC
+44
+9:30 a.m.
+Finland
+Helsinki Stock Exchange
+Hex General
+MC
+—
+10:00 a.m.
+France
+Paris Bourse
+CAC 40
+MC
+55
+11:00 a.m.
+Germany
+Frankfurt Stock Exchange
+DAX
+MC
+57
+10:00 a.m.
+Ireland
+Irish Stock Exchange
+Irish SE ISEQ
+—
+—
+12:30 p.m.
+Italy
+Milan Stock Exchange
+MIB 30
+MC
+65
+10:30 a.m.
+Japan
+Tokyo Stock Exchange
+Nikei 225
+MC
+46
+1:00 a.m.
+Netherlands
+Amsterdam Stock Exchange
+AEX
+MC
+80
+10:30 a.m.
+Norway
+Oslo Stock Exchange
+Oslo SE General
+—
+—
+9:00 a.m.
+Portugal
+Lisbon Stock Exchange
+Banco Totta SI
+—
+—
+11:00 a.m.
+South Africa
+Johannesburg Stock Exchange
+JSE
+MC
+10:00 a.m.
+Spain
+Madrid Stock Exchange
+IBEX 35
+MC
+80
+11:00 a.m.
+Sweden
+Stockholm Stock Exchange
+OMX
+MC
+61
+10:00 a.m.
+Switzerland
+Zurich Stock Exchange
+SMI
+MC
+56
+10:00 a.m.
+U.K.
+London Stock Exchange
+FTSE 100
+MC
+69
+10:00 a.m.
+Argentina
+Buenos Aires Stock Exchange
+Merval
+Vol.
+5:00 p.m.
+Canada
+Toronto Stock Exchange
+TSE 100
+MC
+63
+4:15 p.m.
+Mexico
+Mexico Stock Exchange
+IPC
+MC
+3:00 p.m.
+U.S.
+New York Stock Exchange
+Standard and Poor’s 100
+MC
+60
+4:15 a.m.
+*  Data sourced from DRI.
+
+ 
+9.6  Commodities
+205
+Part IV:  RiskMetrics Data Sets
+ 
+9.6  Commodities
+ 
+The commodity markets that have been included in RiskMetrics are the same markets as the 
+J.P. Morgan Commodity Index (JPMCI). The data for these markets are shown in Table 9.6.
+The choice between either the rolling nearby or interpolation (constant maturity) approach is inﬂu-
+enced by the characteristics of each contract. We use the interpolation methodology wherever pos-
+sible, but in certain cases this approach cannot or should not be implemented.
+We use interpolation (I) for all energy contracts. (See Table 9.7.)
+The term structures for base metals are based upon rolling nearby contracts with the exception of 
+the spot (S) and 3-month contracts. Data availability is the issue here. Price data for contracts 
+traded on the London Metals Exchange is available for constant maturity 3-month (A) contracts 
+(prices are quoted on a daily basis for 3 months forward) and rolling 15- and 27- month (N) con-
+tracts. Nickel extends out to only 15 months. (See Table 9.8.)
+ 
+Table 9.6
+ 
+Commodities:  sources and term structures
+ 
+Time,
+U.S. EST
+Term structure
+Commodity
+Source
+ 
+Spot
+1m
+3m
+6m
+12m 15m 27m
+WTI Light Sweet Crude
+NYMEX
+ 
+*
+ 
+3:10 p.m.
+•
+•
+•
+•
+Heating Oil
+NYMEX
+3:10 p.m.
+•
+•
+•
+•
+NY Harbor #2 unleaded gas
+NYMEX
+3:10 p.m.
+•
+•
+•
+Natural gas
+NYMEX
+3:10 p.m.
+•
+•
+•
+•
+Aluminum
+LME
+ 
+†
+ 
+11:20 a.m.
+•
+•
+•
+•
+Copper
+LME
+11:15 a.m.
+•
+•
+•
+•
+Nickel
+LME
+11:10 a.m.
+•
+•
+•
+Zinc
+LME
+11:30 a.m.
+•
+•
+•
+•
+Gold
+LME
+11:00 a.m.
+•
+Silver
+LFOE
+ 
+‡
+ 
+11:00 a.m.
+•
+Platinum
+LPPA
+ 
+§
+ 
+11:00 a.m.
+•
+* NYMEX (New York Mercantile Exchange)
+† LME (London Metals Exchange)
+‡ LFOE (London futures and Options Metal Exchange)
+§ LPPA (London Platinum & Palladium Association)
+ 
+Table 9.7
+ 
+Energy maturities
+ 
+Maturities
+Energy
+ 
+1m
+3m
+6m
+12m
+15m
+27m
+Light sweet crude
+I*
+I
+I
+I
+Heating Oil
+I
+I
+I
+I
+Unleaded Gas
+I
+I
+I
+Natural Gas
+I
+I
+I
+I
+* I = Interpolated methodology.
+
+ 
+206
+Chapter 9.  Time series sources
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+ 
+ 
+Spot prices are the driving factor in the precious metals markets. Volatility curves in the gold, sil-
+ver, and platinum markets are relatively ﬂat (compared to the energy curves) and spot prices are 
+the main determinant of the future value of instruments: storage costs are negligible and conve-
+nience yields such as those associated with the energy markets are not a consideration.
+ 
+Table 9.8
+ 
+Base metal maturities
+ 
+Maturities
+Commodity
+ 
+Spot
+3m
+6m
+12m
+15m
+27m
+Aluminum
+S*
+A
+ 
+†
+ 
+N
+ 
+‡
+ 
+N
+Copper
+S
+A
+N
+N
+Nickel
+S
+A
+N
+Zinc
+S
+A
+N
+N
+* S = Spot contract.
+† A = Constant maturity contract.
+‡ N = Rolling contract.

@@ -1,0 +1,759 @@
+20
+Simple mechanisms for anomalous price statistics
+In the future, all models will be right, but each one only for 15 minutes.
+(E. Derman, after Andy Warhol, Quantitative Finance (2001).)
+20.1 Introduction
+Physicists like using power-laws to ﬁt data. The reason for this is that complex, collective
+phenomenon often give rise to power-laws which are furthermore universal, that is to a
+large degree independent of the microscopic details of the phenomenon. These power-
+laws emerge from collective action and transcend individual speciﬁcities. As such, they
+are unforgeable signatures of a collective mechanism. Examples in the physics literature
+are numerous. A well-known example is that of phase transitions, where a system evolves
+from a disordered state to an ordered state: many observables behave as universal power
+laws in the vicinity of the transition point (see e.g. Goldenfeld (1992)). This is related to
+an important property of power-laws, namely ‘scale invariance’: the characteristic length
+scale of a physical system at its critical point is inﬁnite, leading to self-similar, scale-free
+ﬂuctuations. Similarly, power-law distributions are scale invariant in the sense that the
+relative probability to observe an event of a given size s0 and an event ten times larger
+is independent of the reference scale s0. Another interesting example is ﬂuid turbulence,
+where the statistics of the velocity ﬁeld has scale invariant properties, to a large extent
+independent of the geometry, the nature of the ﬂuid, of the power injected, etc. (see Frisch
+(1997)).
+As reviewed in Chapters 6, 7, power-laws are also often observed in economic and
+ﬁnancial data. For example, the tail of the distribution of high frequency stock returns is
+found to be well ﬁtted by a power-law with an exponent µ ≈3. The temporal decay of
+volatility correlations is also found to be described by a slow power law. Compared to
+physics, however, much less efforts have yet been devoted to understanding these power-
+laws in terms of ‘microscopic’ (i.e. agent based) models and to relating the value of the
+exponents to some generic mechanisms. The aim of this chapter is to discuss several simple
+models which naturally lead to power-laws and could serve as a starting point for further
+developments. It should be stressed that none of the models presented here are intended
+to be fully realistic and complete, but are of pedagogical interest: they nicely illustrate
+how and when power-laws can arise. The role of models is not necessarily to provide an
+
+356
+Simple mechanisms for anomalous price statistics
+exact description of reality. Their primary goal is to set a framework within which relevant
+questions, that are of wider scope than the model itself, can be formulated and answered.
+20.2 Simple models for herding and mimicry
+We ﬁrst describe some very simple models for thick tails in the distribution of price incre-
+ments in ﬁnancial markets. An intuitive explanation is herding: if a large number of agents
+acting on markets coordinate their action, the price change is likely to be huge due to a
+large unbalance between buy and sell orders. However, this coordination can result from
+two rather different mechanisms.
+r One is the feedback of past price changes onto themselves, which we will discuss in the
+following section. Since all agents are inﬂuenced by the very same price changes, this can
+induce non trivial collective behaviour: for example, an accidental price drop can trigger
+large sell orders, which lead to further downward moves.
+r The second is direct inﬂuence between the traders, through exchange of information that
+leads to ‘clusters’ of agents sharing the same decision to buy, sell, or be inactive at any
+given instant of time.
+20.2.1 Herding and percolation
+A simple model of how herding affects the price ﬂuctuations is based on the following
+ingredients. First, assume that the price increment δx depends linearly on the instantaneous
+offset between supply and demand. More precisely, if each operator in the market i wants
+to buy or sell a certain ﬁxed quantity of the ﬁnancial asset, one has:†
+δx = 1
+λ
+
+i
+ϕi ≡
+λ ,
+(20.1)
+where ϕi can take the values −1, 0 or + 1, depending on whether the operator i is selling,
+inactive, or buying, and λ is a measure of the market depth. Recent empirical analysis seems
+to conﬁrm that the relation between price changes δx and order imbalance 
+i ϕi, averaged
+over a time scale of several minutes, is indeed linear for small arguments, but bends down
+and perhaps even saturates for larger arguments.‡
+Suppose now that the operators interact with one another in an heterogeneous manner:
+with a small probability p/N (where N is the total number of operators on the market), two
+operators i and j are ‘connected’, and with probability 1 −p/N, they ignore each other.
+The factor 1/N means that on average, the number of operator connected to any particular
+† This can alternatively be written for the relative price increment η = δx/x, which is more adapted to describe
+long time scales. On short time scales, however, an additive model is preferable. See the discussion in Chapter 8.
+‡ On this point, and on the possible relation with the value µ ≈3, see the recent paper by Gabaix et al. (2002).
+
+20.2 Simple models for herding and mimicry
+357
+one is equal to p. Suppose ﬁnally that if two operators are connected, they will come to
+agree on the strategy they should follow, i.e. ϕi = ϕ j.
+It is easy to understand that the population of operators clusters into groups sharing the
+same opinion. These clusters are deﬁned such that there exists a connection between any
+two operators belonging to this cluster, although the connection can be indirect and follow
+a certain ‘path’ between operators. These clusters do not all have the same size, i.e. do not
+contain the same number of operators. If the size of cluster C is called S(C), one can write:
+δx = 1
+λ
+
+C
+S(C)ϕ(C),
+(20.2)
+where ϕ(C) is the common opinion of all operators belonging to C. The statistics of the price
+increments δx therefore reduces to the statistics of the size of clusters, a classical problem
+in percolation theory (Stauffer & Aharony (1994)). One ﬁnds that as long as p < 1 (less
+than one ‘neighbour’ on average with whom one can exchange information), then all S(C)’s
+are small compared to the total number of traders N. More precisely, the distribution of
+cluster sizes takes the following form in the limit where 1 −p = ϵ ≪1:
+P(S) ∝S≫1
+1
+S5/2 exp −ϵ2S
+S ≪N.
+(20.3)
+When p = 1 (percolation threshold), the distribution becomes a pure power-law with an
+exponent µ = 3/2, and the Central Limit Theorem tells us that in this case, the distribution of
+the price increments δx is precisely a pure symmetrical L´evy distribution of index µ = 3/2
+(assuming that ϕ = ± 1 play identical roles, that is if there is no global bias pushing the price
+up or down). If p < 1, on the other hand, one ﬁnds that the L´evy distribution is truncated
+exponentially, leading to a larger effective tail exponent µ. If p > 1, a ﬁnite fraction of the
+N traders have the same opinion: this leads to a crash. Very recently, a somewhat related
+model, where each agent probes the opinion of a pool of m randomly selected agents, was
+introduced by Eckmann et al. (2002). The agent then chooses either to conform to the
+majority opinion or to be contrarian if the majority is too strong. This interesting model
+leads to various types of market behaviour, from periodic to chaotic.
+20.2.2 Avalanches of opinion changes
+The above simple percolation model is interesting but has one major drawback: one has
+to assume that the parameter p is smaller than one, but relatively close to one such that
+Eq. (20.3) is valid, and non trivial statistics follows. One should thus explain why the value
+of p spontaneously stabilizes in the neighbourhood of the critical value p = 1. Furthermore,
+this model is purely static, and does not specify how the above clusters evolve with time.
+As such, it cannot address the problem of volatility clustering. Several extensions of this
+simple model have been proposed, in particular to increase the value of µ from µ = 3/2 to
+µ ∼3 and to account for volatility clustering.
+One particularly interesting model is inspired by the recent work of Dahmen & Sethna
+(1996), that describes the behaviour of random magnets in a time dependent magnetic ﬁeld.
+
+358
+Simple mechanisms for anomalous price statistics
+Transposed to market dynamics, this model describes the collective behaviour of a set of
+traders exchanging information, but having all different a priori opinions, say optimistic
+(buy) or pessimistic (sell). One trader can however change his mind and take the opinion
+of his neighbours if the herding tendency is strong, or if the strength of his a priori opinion
+is weak. More precisely, the opinion ϕi(t) of agent i at time t is determined as:
+ϕi(t) = sign
+
+hi(t) +
+N
+
+j=1
+Ji jϕ j(t)
+
+,
+(20.4)
+where Ji j is a connectivity matrix describing how strongly agent j inﬂuences agent i (in the
+above percolation model, Ji j was either 0 or J), and hi(t) describes the a priori opinion of
+agent i: hi > 0 means a propensity to buy, hi < 0 a propensity to sell. We assume that hi is a
+random variable with a time dependent mean h(t) and root mean square . The quantity h(t)
+is the average optimism, for example conﬁdence in long term economy growth (h(t) > 0),
+or fear of recession (h(t) < 0). Suppose that one starts at t = 0 from a ‘euphoric’ state,
+where h ≫, J, such that ϕi = 1 for all i’s. Here J denotes the order of magnitude of
+
+j Ji j. Now, conﬁdence is smoothly decreased. Will sell orders appear progressively, or
+will there be a sudden panic where a large fraction of agents want to sell?
+Interestingly, one ﬁnds that for small enough inﬂuence (or strong heterogeneities of
+agents’ anticipations), i.e. for J ≪, the average opinion O(t) = 
+i ϕi(t)/N evolves
+continuously from O(t = 0) = +1 to O(t →∞) = −1 (see Figure 20.1). The situation
+changes when imitation is stronger since a discontinuity then appears in O(t) around a
+-400
+-200
+0
+200
+400
+t
+-1.0
+-0.5
+0.0
+0.5
+1.0
+O(t)
+J  < J c
+J  > J c
+Fig. 20.1. Schematic evolution of the average opinion as a function of external news in the
+Dahmen-Sethna model. For small enough mutual inﬂuence, J < Jc, the shift from optimism to
+pessimism is progressive, whereas for J > Jc, it occurs suddenly.
+
+20.3 Models of feedback effects on price ﬂuctuations
+359
+‘crash’ time tc, when a ﬁnite fraction of the population simultaneously change opinion. The
+gap O(t−
+c ) −O(t+
+c ) opens continuously as J crosses a critical value Jc(). For J close to
+Jc, one ﬁnds that the sell orders again organize as avalanches of various sizes, distributed as
+a power-law with an exponential cut-off. In the fully connected case where Ji j ≡J/N for
+all i j, one ﬁnds an exponent µ = 5/4. Note that in this case, the value of the exponent µ is
+to a large extent universal, and does not depend, for example, on the detailed shape of the
+distribution of the hi’s, but only on some global properties of the connectivity matrix Ji j.
+A slowly oscillating h(t) can therefore lead to a succession of bull and bear markets, with
+a strongly non Gaussian, intermittent behaviour, since most of the activity is concentrated
+around the crash times tc.
+The above model is very interesting because it may describe several situations where there
+is a conﬂict between personal opinions and social pressure. For example, the way mobile
+phones invaded the French market is qualitatively similar to the plot shown in Fig. 20.1. In
+this case, O(t) would be the number of persons without mobile phones.
+20.3 Models of feedback effects on price ﬂuctuations
+20.3.1 Risk-aversion induced crashes
+Set up of the model
+The above average ‘stimulus’ h(t) may also strongly depend on the past behaviour of the
+price itself. For example, past positive trends are, for many investors, incentives to buy, and
+vice-versa. Since the ‘true’ price of a stock is difﬁcult to estimate, investors are tempted
+to extract from past price changes themselves some information that other agents might
+possess. This is a rational decision if indeed some other agents have this information, but
+is also the mechanism by which bubbles and excess volatilities are created.
+Actually, for a given past trend amplitude, price drops tend to feedback more strongly
+on the investors behaviour than price rises. We have discussed some indirect empirical
+evidence for this in Chapter 8, when the leverage effect was discussed. Risk-aversion indeed
+creates an asymmetry between positive and negative price changes. This is also reﬂected in
+option markets, where the price of out-of-the-money puts (i.e. insurance against crashes) is
+anomalously high.
+Similarly, past periods of high volatility increase the risk of investing in stocks, and sim-
+ple portfolio theories (such as discussed in Chapter 12) then suggest that sell orders should
+follow. A simple mathematical transcription of these effects is to supplement Eq. (20.1)
+with an dynamical equation for the excess demand t which encodes the above feedback
+effects:
+t+1 −t = m + a δxt −b δx2
+t −a′ δxt −K (xt −x0) + χξt,
+(20.5)
+where:
+r m is the average increase (or decrease) of the overall optimism h(t) between t and t + 1,
+that tends to increase (decrease) the excess demand. We will set to m zero in the following.
+
+360
+Simple mechanisms for anomalous price statistics
+r a > 0 describes trends following effects, that is how past price increments ampliﬁes the
+average propensity to buy or sell.
+r b > 0 describes risk aversion effects, and encodes the fact that price drops are given
+more weight than price increases: the term −b δx2
+t can be seen as giving to the parameter
+a a dependence on δxt, such that a increases when the price goes down. Alternatively,
+δx2
+t can be seen as a proxy for the short term volatility; an increase of volatility should
+decrease the demand for the stock. The most important point is that a term proportional
+to δx2
+t breaks the δxt →−δxt symmetry.
+r a′ > 0 is a stabilizing term (which has an effect opposite to that of a) that arises from
+market clearing mechanisms: the very fact that the price moves clears a certain number
+of orders, and reduces the order imbalance. In fact, because the size of the queue in the
+order book is on average an increasing function of the distance from the current price,
+one expects non linear corrections to this market clearing argument, that will add terms
+of higher order in δxt (see below).
+r K > 0 is a mean-reverting force that models the fact that if the price xt is too far above a
+reference fundamental price x0, sell orders will be generated, and vice-versa.
+r Finally, ξ is a random variable noise term representing random external news that induces
+more buy (or sell) orders. The coefﬁcient χ can be seen as the susceptibility to these
+news. A more reﬁned version of the theory should allow this coefﬁcient itself to depend
+on past values of δx: an increase of the volatility tends to make agents more nervous and
+feeds back onto itself, leading to volatility clustering. A simple model of this type will be
+explored in Section 20.3.2 below.
+Before analyzing the properties of the model deﬁned by Eqs. (20.1, 20.5), one should add
+the following remarks: (i) we consider here a model for absolute price changes, which is
+suitable for short time scales. On longer time scales, the model should rather be expressed in
+terms of log prices. This was discussed at length in Chapter 8; (ii) Eq. (20.5) can be thought
+of as an expansion in powers of the price increment δxt. One therefore expects further terms,
+in particular a term of the form −cδx3
+t that plays a stabilizing role in some circumstances.
+Eliminating t from the equations (20.1) and (20.5), and taking the continuous time
+limit, one derives a ‘Langevin’ equation for the price ‘velocity’ u ≡dx/dt:
+du
+dt = −αu −βu2 −γ u3 −κ(x −x0) + ˜ξ(t)
+(20.6)
+where α = (a′ −a)/λ, β = b/λ, γ = c/λ κ = K/λ and ˜ξ(t) = χξ(t)/λ.
+This simple equation encapsulates a number of interesting phenomena. In physical terms,
+equation (20.6) represents the Langevin dynamics of the position u of a ﬁctitious particle
+in a time dependent ‘potential’ (see Fig. 20.2):
+V (u) = κ(x −x0)u + α u2
+2 + β u3
+3 + γ u4
+4 + . . . ,
+(20.7)
+such that
+du
+dt = −∂V
+∂u + ˜ξ(t).
+(20.8)
+
+20.3 Models of feedback effects on price ﬂuctuations
+361
+u
+V(u)
+b = 0
+b > 0
+Fig. 20.2. Effective potential V (u) in which the ﬁctitious ‘particle’ (representing price increments)
+evolves. Here, we have set κ = γ = 0. For β > 0, corresponding to risk aversion effects, the
+potential develops a ‘barrier’ separating a stable region for u ∼0 from an unstable ‘crash’ region for
+u < u∗.
+The linear model
+Let us ﬁrst assume that non linear effects, captured by the coefﬁcients β and γ , are absent, or
+negligible. The equation giving the evolution of the price then reduces to a forced harmonic
+oscillator with friction:
+d2x
+dt2 = −α dx
+dt −κ(x −x0) + ˜ξ(t).
+(20.9)
+For the linear process to be stable, one has to assume that α > 0, i.e. that trend following
+effects are not too strong. On short time scales, mean reversion effects to the fundamental
+price are expected to be small. The above equation then describes the price changes as an
+Ornstein-Uhlenbeck process; the price increment correlation function is given by:
+⟨u(t)u(t + τ)⟩= D
+2α e−ατ,
+(20.10)
+where D is the variance of ˜ξ(t). The volatility ⟨u(t)2⟩is equal to D/2α ∝χ2/λ(a′ −a). This
+means that the volatility is higher when the market participants react strongly to external
+news (χ large) or when the market is not very deep (λ small), as expected. We also ﬁnd
+that the volatility diverges as the trend following effects (a) tend to outweight the market
+liquidity (a′).
+The above result, Eq. (20.10) also shows that for time lags much larger than 1/α (but
+sufﬁciently small such that κ can be neglected), price increments are uncorrelated and
+the price behaves diffusively. On shorter time scales, however, some positive correlations
+appear, that lead to a superdiffusive behaviour.
+On very long time scales, on the other hand, the price difference x −x0 becomes large
+and κ cannot be neglected. The process becomes an Ornstein-Uhlenbeck on the price itself,
+
+362
+Simple mechanisms for anomalous price statistics
+and the price variogram reads:
+⟨(x(t + τ) −x(t))2⟩= D
+κα
+
+1 −exp
+
+−κτ
+α
+
+ατ ≫1.
+(20.11)
+In this model, the price is therefore superdiffusive on short time scales, diffusive on
+intermediate time scales and subdiffusive on very long time scales. On very long time
+scales, however, the assumption that the reference price x0 is constant becomes unjustiﬁed,
+and one should then also take into account the (possibly random) evolution of the reference
+price itself.
+Bubbles and crashes
+Suppose now that feedback effects are strong compared to the stabilizing effects: a > a′ and
+b > 0, such that α < 0 and β > 0. Suppose that the initial price is x ≈x0 and that γ = 0
+for simplicity. The above potential develops a minimum for a non zero value of u given by
+u∗= −α/β > 0.Theﬁctitious‘particle’hoversaroundthisminimum.Thismeansthatprice
+returns ﬂuctuate around a positive mean u∗that has no economic justiﬁcation (recall that a
+‘true’ rise of future expectations, modeled by the parameter m, is chosen to be zero here).
+This growth is entirely sustained because of trend following effects: this is a speculative bub-
+ble. In a ﬁrst approximation, the price (or log price) grows linearly with time, as u∗t. Interest-
+ingly, when t reaches a time tc given, within this simple approximation, by tc = α2/4βκu∗=
+−α/4κ,theminimumofthepotentialceasestoexistandu ﬂowsto−∞:thebubblecollapses
+and the price plummets. The price decay is again stopped by the mean reverting ‘funda-
+mental’ term κ. Not surprisingly, the bubble lifetime tc is long if trend following effects are
+strong (|α| large) and/or if the mean reverting fundamental effect is weak (κ small).
+If trend following effects are not too strong, α is positive and V (u) has a local minimum
+for u = 0, and a local maximum for u∗= −α/β < 0, beyond which the potential decreases
+to −∞. A ‘potential barrier’ V ∗= αu∗2/6 separates the (meta-)stable region around u = 0
+from the unstable region u < u∗(see Fig. 20.2). The nature of the motion of u in such a
+potential is the following: starting at u = 0, x = x0, the ﬁctitious particle oscillates in the
+vicinity of u = 0, corresponding to a Brownian-like motion of the price itself. However,
+occasionally, an ‘activated’ event (i.e. driven by the news/noise term ˜ξ(t)) brings the particle
+near u∗. Once the potential barrier is crossed, the ﬁctitious particle reaches u = −∞in
+ﬁnite time. (The stabilizing term γ u3 would actually prevent this divergence and create
+a secondary minimum for a negative value of u, corresponding to the crash regime.) In
+ﬁnancial terms, the regime where u oscillates around u = 0 and where β can be neglected,
+is the ‘normal’ ﬂuctuation regime. This normal regime can however be interrupted by
+‘crashes’, where the time derivative of the price becomes very large and negative, due to
+the risk aversion term b which destabilizes the price by amplifying the sell orders. The
+interesting point is that these two regimes can be clearly separated since the average time t∗
+needed for such crashes to occur is exponentially large in V ∗/D (corresponding to the time
+needed to overcome the ‘barrier’ V ∗), and can thus appear only very rarely. A very long
+time scale is therefore naturally generated in this model. Note that in this line of thought,
+
+20.3 Models of feedback effects on price ﬂuctuations
+363
+a crash occurs because of an improbable succession of unfavorable events, and not due to
+a single large event in particular. However, volatility feedback effects mean that stronger
+and stronger ﬂuctuations might precede the crash, each large ﬂuctuation increasing D and
+making the crash more probable.
+20.3.2 A simple model with volatility correlations and tails
+In this section, we show that a very simple feedback model where past high values of the
+volatility inﬂuence the present market activity does lead to tails in the probability distribution
+and, by construction, to volatility correlations. The present model is close in spirit to the
+ARCH models which have been much discussed in this context. The idea is to write, as in
+Section 7.1.2:
+δxk = xk+1 −xk = σkξk,
+(20.12)
+where ξk is a random variable of unit variance, and to postulate that the present day volatility
+σk depends on how the market feels the past market volatility. If the past price variations
+happened to be high, the market interprets this as a reason to be more nervous and increases
+its activity, thereby increasing σk. One could therefore consider, as a toy-model of the
+feedback, the following dynamical equation:†
+σk+1 −σ0 = (1 −ϵ)(σk −σ0) + gϵ|σkξk|,
+0 < ϵ < 1
+(20.13)
+which means that the volatility would mean return towards an ‘equilibrium’ value σ = σ0,
+but is continuously ‘excited’ by the observation of the past day activity through the absolute
+value of the close to close price difference xk+1 −xk. The coefﬁcient g measures the strength
+of the feedback coupling. Now, writing
+|σkξk| = σk(⟨|ξ|⟩+ ˜ξ),
+(20.14)
+with ˜ξ a centered noise, and going to a continuous-time formulation, one ﬁnds that the
+volatility probability distribution P(σ, t) obeys (for g ≪1) the following Fokker–Planck
+equation:
+∂P(σ, t)
+∂t
+= ϵ ∂(σ −σ0)P(σ, t)
+∂σ
++ Dg2ϵ2 ∂2σ 2P(σ, t)
+∂σ 2
+,
+(20.15)
+where D is the variance of the noise ˜ξ. The equilibrium solution of this equation, Pe(σ), is
+obtained by setting the left-hand side to zero. One ﬁnds:
+Pe(σ) = exp(−σ0/σ)
+(µ)σ 1+µ ,
+(20.16)
+with µ = 1 + (Dg2ϵ)−1 > 1. This is an inverse Gamma distribution, which goes to zero
+very fast when σ →0, but has a long tail for large volatilities. Qualitatively, the empirical
+† In the simplest ARCH model, the following equation is rather written in terms of the variance, and second term
+of the right-hand side is taken to be equal to: ϵ(σkξk)2 – see Bollerslev et al. (1994).
+
+364
+Simple mechanisms for anomalous price statistics
+distribution of volatility can indeed, as shown in Section 7.2.2, be quite accurately ﬁtted by
+an inverse Gamma distribution.
+For a large class of distributions for the random noise ξk, for example Gaussian, one can
+show, using a saddle-point calculation, that the tails of the distribution of σ are bequeathed
+to those of δx. The distribution of price changes has thus power-law tails, with the same
+exponent µ. Interestingly, a short-memory market, corresponding to ϵ ≈1, has much wilder
+tails than a long-memory market: in the limit ϵ →0, one indeed has µ →∞. In other words,
+over-reactions is a potential cause for power-law tails. Similarly, strong feedback (larger g)
+decreases the value of µ.
+20.3.3 Mechanisms for long ranged volatility correlations
+The temporal correlation function of the volatility σ can be exactly calculated within the
+above model,† and is found to be exponentially decaying (as in the Heston model, see
+Section 8.4), at variance with the slow power-law or logarithmic decay observed empirically.
+At this point, the slow decay of the volatility can be ascribed to two rather different
+mechanisms. One is the existence of traders with many different time horizons. If traders
+are affected not only by yesterday’s price change amplitude |xk −xk−1|, but also by price
+changes on coarser time scales |xk −xk−p| (p > 1), then the correlation function is expected
+to be a sum of exponentials with decay rates given by p−1. Interestingly, if the different
+p’s are uniformly distributed on a log scale, the resulting sum of exponentials is to a good
+approximation decaying as a logarithm. More precisely, the following relation holds:
+1
+log(pmax/pmin)
+ pmax
+pmin
+d(log p) exp(−τ/p) ≈
+log(pmax/τ)
+log(pmax/pmin),
+(20.17)
+whenever pmin ≪τ ≪pmax. This logarithmic behaviour can be compared to the logarith-
+mic form of the (log-)volatility correlation function assumed in multifractal descriptions
+(see Section 7.3.1). Now, the human time scales are indeed in a natural quasi-geometric
+progression: hour, day, week, month, trimester, year. This could be a simple explanation –
+almost trivial – for the quasi-logarithmic (or slow power-law) behaviour of the volatility
+correlation.‡
+Yet, some recent numerical simulations of models where traders are allowed to switch be-
+tween different strategies (active/inactive, or chartist/fundamentalist) also suggest strongly
+intermittent behaviour, and a slow decay of the volatility correlation function without the
+explicit existence of logarithmically distributed time scales. Is there a simple, universal
+mechanism that could explain these ubiquitous long range volatility correlations?
+A possibility is that the volume of activity exhibits long range correlations because agents
+switch between different strategies depending on their relative performance. Imagine for
+example that each agent has two strategies, one active strategy (say trading every day), and
+one inactive, or less active strategy. The ‘score’ of the inactive strategy (i.e. its cumulative
+proﬁt) is constant in time, or more precisely equal to the long term average interest rate. The
+† On this point, see: Graham & Schenzle (1982) and Bouchaud & M´ezard (2000).
+‡ The ﬁngerprints, in real markets, of these human time scales have recently been unveiled in Zumbach & Lynch
+(2001).
+
+20.3 Models of feedback effects on price ﬂuctuations
+365
+Fig. 20.3. Bottom: Total daily volume of activity (number of players) in the Minority Game with
+inactive players. Top: Variogram of the activity as a function of the time lag, τ, in log-log
+coordinates. The dotted line is the square-root singularity predicted by Eq. (20.18).
+score of active strategy, on the other hand, ﬂuctuates up and down, due to the ﬂuctuations
+of the market prices themselves. Since to a good approximation the market prices are not
+predictable, this means that the score of any active strategy will behave like a random walk,
+with an average equal to that of the inactive strategy (assuming that transaction costs are
+small). Therefore, on some occasions the score of the active strategy will happen to be
+higher than that of the inactive strategy and the agent will be active, before the score of
+the active strategy crosses that of the inactive strategy. The time during which an agent is
+active is thus a random variable with the same statistics as the return time to the origin of
+a random walk (the difference of the scores of the two strategies). Interestingly, the return
+times tr of a random walk are well known to be very broadly distributed, asymptotically as
+t−1−µ
+r
+with µ = 3/2, such that the average return time is inﬁnite. Hence, if one computes
+the correlation of activity in such a model, one ﬁnds long range correlations due to long
+periods of times where many agents are active (or inactive).†
+This ‘random time strategy shift’ scenario can be studied more quantitatively in the
+framework of simple models, such as the Minority Game model, introduced below. In the
+version where agents can refrain from playing, ﬂuctuations of the volume of activity v(t),
+due to the above mechanism, are observed: see Figure 20.3. More precisely, the volume
+variogram is approximately given by:
+V (τ) = ⟨(v(t) −v(t + τ))2⟩= V∞(1 −exp(−α√τ)),
+(20.18)
+† For more details on this argument, see: Bouchaud et al. (2001).
+
+366
+Simple mechanisms for anomalous price statistics
+0
+50
+100
+Square root of time lag t
+1/2
+0.35
+0.40
+0.45
+0.50
+0.55
+Variogram
+Data (Lux-Marchesi)
+Random time shift mechanism
+Power-law fit, v = 0.09
+60000.080000.0100000.0120000.0
+Fig. 20.4. Variogram of the absolute returns of the Lux-Marchesi model as a function of the square
+root of the time lag, √τ, and ﬁt using Eq. 20.18. Inset: Price returns time series, exhibiting volatility
+clustering. Data: courtesy of Thomas Lux.
+where the small τ square root singularity is related to the power-law decay of the return
+time of a one dimensional random walk (here, the score of the active strategy). Perhaps
+surprisingly, this simple model also allows one to reproduce quantitatively the volume of
+activity correlations observed on the New-York stock exchange market (see Fig. 7.12). This
+mechanism is very generic and probably also explains why this effect arises in more realistic
+market models: the only ingredient is the coexistence of different strategies with different
+levels of activity (active/inactive, high frequency chartists/low frequency fundamentalists,
+etc.), which switch from one to another at times determined by the return times of a random
+walk (the relative scores of the strategies, the price itself, etc.). In that respect, it is interesting
+to note that the same quantitative behaviour is seen in a simple agent based market model
+introduced by Lux & Marchesi (1999, 2000), where agents can alternatively be chartist and
+fundamentalist, according to the best performing strategy – see Fig. 20.4. Needless to say,
+more work is needed to establish this simple scenario as the genuine origin of long range
+volatility correlations in ﬁnancial markets.
+20.4 The Minority Game
+Agent-based market models, where a collection of agents with simple behavioral rules
+interact and give rise to a ﬁctitious price history, were pioneered in the beginning of the
+nineties, and are now intensively studied. The Minority Game was introduced in Challet
+and Zhang (1997) as an extremely simpliﬁed model where the consequence of agents
+heterogeneity can be studied in details. Although rather remote from real ﬁnancial markets,
+
+20.4 The Minority Game
+367
+the structure of the model is extremely rich and allows one to investigate several relevant
+issues.
+The ‘Minority Game’ consists, for each agent, to choose at each time step between two
+possibilities, say ±1. An agent wins if he makes the minority choice, i.e if he chooses at
+time t the option that the minority of his fellow players also choose. The game is interesting
+because by deﬁnition, not everybody can win.
+Eachagenttakeshisnewdecisionbasedonthepasthistory–sayonthelast M outcomesof
+the game. A strategy maps a string of M results into a decision. The number of strings is 2M;
+to each of them can be associated +1 or −1. Therefore, the total number of strategies is 22M.
+Each agent is given from the start a certain number of strategies from which he can try to
+determine the best one. His ‘bag’ of strategies is ﬁxed in time – he cannot try new ones or
+slightly modify the ones he has in order to perform better. The only thing he can do is to try
+to rank the strategies according to their past performance. So he gives scores to his different
+strategies, say +1 every time a strategy gives the correct result, −1 otherwise. The crucial
+point here is that he assigns these scores to all his strategies depending on the outcome of
+the game, as if these strategies had been effectively played. Doing this neglects the fact that
+the outcome of the game is in fact affected by the strategy that the agent is actually playing
+at time t.
+The parameters of this model are: the number of agents N, the number of history strings
+2M, and the number of strategies per agent. The last parameter does not really affect the
+results of the model, provided it is larger than one. In the limit of large N and M, the only
+relevant parameter is α = 2M/N. For α > αc, where αc can be computed exactly (and is
+found to be equal to 0.33740 . . . when the number of strategies is equal to two, see Challet
+et al. (2000a)), the game is ‘predictable’ in the sense that conditionally to a given history h,
+the winning choice w is statistically biased towards +1 or −1. One can introduce a degree
+of predictability q, deﬁned as:†
+q = 1
+2M
+2M
+
+h=1
+⟨w|h⟩2
+(20.19)
+is non zero for α > αc, and goes continuously to zero for α →α+
+c , where the game becomes
+unpredictable by the agents (however, agents with, say, a longer memory M′ > M would
+still be able to extract information from the history). Correspondingly, for α > αc, the
+score of the strategies behave as biased random walks, with a positive or negative drift. In
+this predictable (or ‘inefﬁcient’) phase, some strategies perform systematically better than
+others. In the unpredictable (or ‘efﬁcient’) phase α < αc, on the other hand, the score of
+all strategies behave as unbiased random walks. In particular, the time during which an
+agent keep playing a given strategy is related to the ﬁrst passage time problem of a random
+walk, and is therefore a power-law variable with an exponent µ = 1/2, of inﬁnite mean.
+This remark is related to the mechanism for long range volatility ﬂuctuations discussed in
+† The deﬁnition of q is similar to the deﬁnition of the Edwards–Anderson order parameter in spin-glasses, see
+M´ezard et al. (1987). Not taking the square of ⟨w|h⟩would give zero trivially, because of the symmetry of the
+game between w = 1 and w = −1.
+
+368
+Simple mechanisms for anomalous price statistics
+the previous section. When the game is extended as to allow agents not too play if all their
+strategies have negative scores, one ﬁnds, as a function of α, an efﬁcient active phase where
+a ﬁnite fraction of agents play. In this phase, the duration of active periods of any given
+agent follows a power-law distribution with an exponent µ = 1/2, thereby producing non
+trivial temporal correlations in the total volume of activity (See Fig. 20.3).
+The point α = αc is a critical point corresponding to a second order phase transition,
+of the kind often encountered in statistical physics. The critical nature of the problem at
+and around this point leads to interesting properties, such as power-laws distribution and
+correlations, that may have some relations with the power-laws observed in ﬁnancial time
+series. Of course, the Minority Game as such is too simple to be compared to ﬁnancial
+markets: there is no price and no exchange, and it is not clear to what extent the minority
+rule directly applies to ﬁnancial markets. One can argue that the optimal strategy is to act
+like the majority for a while, but to pull out of the market as the minority. Notwithstanding,
+there are several simple extensions of the Minority Game that reproduce, in the vicinity of
+the efﬁcient/inefﬁcient transition point, some of the stylized facts of ﬁnancial time series.
+However, as already discussed above in the context of the simple percolation model of
+herding, why should reality spontaneously ‘self organize’ such as to lie in the immediate
+vicinity of a critical point?† In the context of the Minority Game or its extensions, there
+is a rather natural answer: large α corresponds to a relatively small number of agents, and
+the resulting time series is to some extent predictable – and thus exploitable. This is an
+incentive for new agents to join the game, therefore reducing α, until no more proﬁt can be
+extracted from the time series itself. This mechanism spontaneously tunes α down to αc.‡
+20.5 Summary
+r Large ﬂuctuations in ﬁnancial time series can probably be ascribed to herding effects
+and/or price feedback mechanisms. Herding (or imitation) effects are captured at the
+simplest level by a percolation like model, where agents are randomly connected as to
+create (possibly large) clusters of correlated behaviour. A more sophisticated model
+also takes into account personal opinions, and leads to avalanches of opinion changes
+mediated by imitation.
+r Price feedback mechanisms, on the other hand, illustrate how bubbles and crashes can
+emerge from trend following strategies, limited by fundamentalist mean-reverting
+effects. Volatility feedback effects generically leads to fat tails in the distribution of
+price changes.
+† This question is of a general nature, and has been discussed in relation with ‘Self-Organized Criticality’: see
+Bak (1996).
+‡ A similar mechanism was argued to operate in a more sophisticated, agent-based model of markets. Small levels
+of investments lead to a very smooth, predictable evolution of the price, whereas the impact of larger levels
+of investment destabilizes the price dynamics and leads to an unpredictable time series. See the discussion in:
+Giardina & Bouchaud (2002).
+
+20.5 Summary
+369
+r Simple agent-based models, where agents switch between different strategies, can
+also shed light on ﬁnancial price series. In particular, the Minority Game where
+agents are allowed not to play, leads to a generic mechanism for long range volatility
+correlations.
+r Further reading
+P. Bak, How Nature Works: The Science of Self-Organized Criticality, Copernicus, Springer, New
+York, 1996.
+T. Bollerslev, R. F. Engle, D. B. Nelson, ARCH models, Handbook of Econometrics, vol 4, ch. 49,
+R. F Engle and D. I. McFadden Edts, North-Holland, Amsterdam, 1994.
+S. Chandraseckar, Stochastic problems in physics and astronomy, Rev. Mod. Phys., 15, 1 (1943),
+reprinted in ‘Selected papers on noise and stochastic processes’, N. Wax Edt., Dover, 1954.
+J. D. Farmer, Physicists attempt to scale the ivory towers of ﬁnance, in Computing in Science and
+Engineering, November 1999, reprinted in Int. J. Theo. Appl. Fin., 3, 311 (2000).
+J. Feder, Fractals, Plenum, New York, 1988.
+U. Frisch, Turbulence: The Legacy of A. Kolmogorov, Cambridge University Press, 1997.
+N. Goldenfeld Lectures on phase transitions and critical phenomena, Frontiers in Physics, 1992.
+A. Kirman, Reﬂections on interactions and markets, Quantitative Finance, 2, 322 (2002).
+M. Levy, H. Levy, S. Solomon, Microscopic Simulation of Financial Markets, Academic Press, San
+Diego, 2000.
+B. B. Mandelbrot, The Fractal Geometry of Nature, Freeman, San Francisco, 1982.
+M. M´ezard, G. Parisi, M. A. Virasoro, Spin Glasses and Beyond, World Scientiﬁc, 1987.
+A. Orl´ean, Le Pouvoir de la Finance, Odile Jacob, Paris, 1999.
+E. Samanidou, E. Zschischang, D. Stauffer, T. Lux, in Microscopic Models for Economic Dynamics,
+F. Schweitzer, Lecture Notes in Physics, Springer, Berlin, 2002.
+R. Schiller, Irrational Exuberance, Princeton University Press, 2000.
+A. Schleifer, Inefﬁcient Markets: An Introduction to Behavioral Finance, Oxford University Press,
+Oxford, 2000.
+J. P. Sethna, K. Dahmen, C. Myers, Crackling noise, Nature, 410, 242 (2001).
+D. Stauffer, A. Aharony, Introduction to Percolation, Taylor-Francis, London, 1994.
+r Specialized papers: power-laws
+J. P. Bouchaud, M. M´ezard, Wealth condensation in a simple model of the economy, Physica A, 282,
+536 (2000).
+J. P. Bouchaud, Power-laws in economics and ﬁnance: some ideas from physics, Quantitative Finance,
+1, 105 (2001).
+X. Gabaix, Zipf’s law for cities: an explanation, Quarterly Journal of Economics, 114, 739 (1999).
+R. Graham, A. Schenzle, Carleman imbedding of multiplicative stochastic processes, Phys. Rev., A
+25, 1731 (1982).
+O. Malcai, O. Biham, S. Solomon, Power-law distributions and Levy-stable intermittent ﬂuctuations
+in stochastic systems of many autocatalytic elements, Phys. Rev. E, 60, 1299 (1999).
+S. Solomon, P. Richmond, Power laws of wealth, market order volumes and market returns, Physica
+A, 299, 188 (2001).
+D. Sornette, R. Cont, Convergent multiplicative processes repelled from zero: power laws and trun-
+cated power laws, J. Phys. I France, 7, 431 (1996).
+
+370
+Simple mechanisms for anomalous price statistics
+D. Sornette, D. Stauffer, H. Takayasu, Market ﬂuctuations, multiplicative and percolation models,
+size effects and predictions, in: The Science of Disaster, A. Bunde, H.-J. Schellnhuber, J. Kropp
+Edts, Springer-Verlag, 2002.
+G. Zumbach, P. Lynch, Heterogeneous volatility cascade in ﬁnancial markets, Physica A, 298, 521,
+(2001).
+r Specialized papers: market impact
+X. Gabaix, P. Gopikrishnan, V. Plerou, H. E. Stanley, A Theory of Power-Law Distributions in Finan-
+cial Markets Fluctuations, Nature, 423, 267 (2003).
+A. Kempf, O. Korn, Market depth and order size, Journal of Financial Markets, 2, 29 (1999).
+F. Lillo, R. Mantegna, J. D. Farmer, Single Curve Collapse of the Price Impact Function for the
+New York Stock Exchange, e-print cond-mat/0207428.
+V. Plerou, P. Gopikrishnan, X. Gabaix, H. E. Stanley, Quantifying Stock Price Response to Demand
+Fluctuations, e-print cond-mat/0106657.
+r Specialized papers: herding and feedback
+A. Beja, M. B. Goldman, The dynamic behavior of prices in disequilibrium, Journal of Finance, 35,
+235 (1980).
+J.-P. Bouchaud, R. Cont, A Langevin approach to stock market ﬂuctuations and crashes, European
+Journal of Physics, B 6, 543 (1998).
+R. Cont, J. P. Bouchaud, Herd behavior and aggregate ﬂuctuations in ﬁnancial markets, Macroeco-
+nomics Dynamics, 4, 170 (2000). See also the numerous references of this paper for other works
+on herding in economics and ﬁnance.
+A. Corcos, J.-P. Eckmann, A. Malaspinas, Y. Malevergne, D. Sornette, Imitation and contrarian
+behavior: hyperbolic bubbles, crashes and chaos, Quantitative Finance, 2, 264 (2002).
+K. Dahmen, J. P. Sethna, Hysteresis, avalanches, and disorder induced critical scaling, Physical
+Review B, 53, 14 872 (1996).
+J. D. Farmer, Market Force, Ecology and Evolution, e-print adap-org/9812005, Int. J. Theo. Appl.
+Fin., 3, 425 (2000).
+J. D. Farmer, S. Joshi, The price dynamics of common trading strategies, Journal of Economic
+Behaviour and Organisation, in press.
+A. Kirman, Ants, rationality and recruitment, Quarterly Journal of Economics, 108, 137 (1993).
+A. Orl´ean, Bayesian interactions and collective dynamics of opinion, Journal of Economic Behaviour
+and Organization, 28, 257 (1995).
+B. Rosenow, Fluctuations and Market Friction in Financial Trading, Int. J. Mod. Phys. C., 13, 419
+(2002).
+r Specialized papers: agent based models
+P. Bak, M. Paczuski, M. Shubik, Price variations in a stock market with many agents, Physica A, 246,
+430 (1997).
+S. Bornholdt, Expectation bubbles in a spin model of markets: Intermittency from frustration across
+scales, Int. J. Mod. Phys. C 12, 667, (2001).
+J. P. Bouchaud, I. Giardina, M. M´ezard, On a universal mechanism for long ranged volatility corre-
+lations, Quantitative Finance, 1, 212 (2001).
+C. Chiarella, X.-Z. He, Asset price and wealth dynamics under heterogeneous expectations, Quanti-
+tative Finance, 1, 509, (2001).
+
+20.5 Summary
+371
+I. Giardina, J. P. Bouchaud, Bubbles, crashes and intermittency in agent based market models, Euro-
+pean Journal of Physics, B31, 421 (2003); Physica A, 299, 28.
+C. Hommes, Financial markets as nonlinear adaptive evolutionary systems, Quantitative Finance, 1,
+149, (2001).
+G. Iori A microsimulation of traders activity in the stock market: the role of heterogeneity, agents’
+interactions and trade frictions, Int. J. Mod. Phys. C 10, 149 (1999).
+A. Kirman, J. B. Zimmermann, Economics with Interacting Agents, Springer-Verlag, Heidelberg,
+2001.
+A. Krawiecki, J. A. Holyst, D. Helbing, Volatility clustering and scaling for ﬁnancial time series due
+to attractor bubbling, Phys. Rev. Lett., 89, 158701 (2002).
+B. LeBaron, A builder’s guide to agent-based ﬁnancial market, Quantitative Finance, 1, 254 (2001).
+M. L´evy, H. L´evy, S. Solomon, Microscopic simulation of the stock market, Journal de Physique, I5,
+1087 (1995).
+T. Lux, M. Marchesi, Scaling and criticality in a stochastic multiagent model, Nature, 397, 498 (1999).
+T. Lux, M. Marchesi, Volatility Clustering in Financial Markets: A Microsimulation of Interacting
+Agents, Int. J. Theo. Appl. Fin., 3, 675 (2000).
+R. G. Palmer, W. B. Arthur, J. H. Holland, B. LeBaron, P. Taylor, Artiﬁcial economic life: a simple
+model of a stock market, Physica D, 75, 264 (1994).
+M. Raberto, S. Cincotti, S. M. Focardi, M. Marchesi, Agent-based simulation of a ﬁnancial market,
+Physica A, 299, 320 (2001).
+H. Takayasu, H. Miura, T. Hirabayashi, K. Hamada, Statistical properties of deterministic threshold
+elements: the case of market prices, Physica A, 184, 127–134 (1992).
+L.-H. Tang, G.-S. Tian, Reaction-diffusion-branching models of stock price ﬂuctuations Physica A,
+264 543 (1999).
+r Specialized papers: the Minority Game
+D. Challet: See the up to date collection of papers on the following web page: http://www.unifr.ch/
+econophysics/minority.
+D. Challet, Y. C. Zhang, Emergence of cooperation and organization in an evolutionary game, Physica
+A, 246, 407 (1997).
+D. Challet, M. Marsili, R. Zecchina, Statistical mechanics of systems with heterogeneous agents:
+Minority Games, Phys. Rev. Lett., 84 1824 (2000a).
+D. Challet, M. Marsili, Y.-C. Zhang, Stylized facts of ﬁnancial markets and market crashes in Minority
+Games, Physica A, 276, 284 (2000b).
+D. Challet, A. Chessa, M. Marsili, Y. C. Zhang, From Minority Games to real markets, Quantitative
+Finance, 1, 168 (2001), and references therein.
+P. Jefferies, M. Hart, P. M. Hui, N. F. Johnson, Traders dynamics in a model market, Int. J. Theo.
+Appl. Fin., 3, 443 (2000).
+P. Jefferies, N. F. Johnson, M. Hart, P. M. Hui, From market games to real-world markets, Eur. J.
+Phys., B20, 493 (2001).
+M. Marsili, R. Mulet, F. Ricci-Tersenghi and R. Zecchina, Learning to coordinate in a complex and
+non-stationary world, Phys. Rev. Lett., 87, 208701 (2001).
+Y. C. Zhang, Towards a theory of marginally efﬁcient markets, Physica A, 269 30 (1999).

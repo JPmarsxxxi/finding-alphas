@@ -1,0 +1,521 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         288 
+ 
+Chapter 23 
+Adding Uncertainty: Risk of Ruin with Uncertain Win Rates 
+ 
+One of the authors has a recurring vision of a worдd where tiny holographic projections appear 
+above each player's head at the table, showing that player's precise "true" expectation in the 
+current hand/game/session, including the players in the game, the player's state of mind, and so 
+on. Unfortunately, such holograms do not exist, and so we must estimate and infer. In Part I, we 
+discussed estimating parameters. In this section, we look at combining the risk of ruin formula 
+we calculated in the previous chapter, which rely on a solid, known win rate, with an uncertainty 
+distribution of win rates inferred from observed data. Throughout this section, we focus on limit 
+poker, although these principles apply equally to no-limit ring games. However, since this 
+analysis relies on the normal distribution risk of ruin formula, it cannot be used as is to solve 
+problems involving tournaments. 
+ 
+Consider a player who has played a number of hours N with a win rate of w and a standard 
+deviation of S. We can observe first of all that sample standard deviations converge on the 
+population standard deviation quite quickly. So throughout this analysis, we will use s as the 
+standard deviation σ of the game. However, we know from our experience that w does not 
+converge on µ the player's "true" win rate, very quickly at all because the magnitude of s is high 
+relative to w. 
+ 
+To see this, imagine that we knew µ=1 bet/hr and σ = 12 bets/hr and we sampled 100 hours and 
+called the result of that sampling w. The result w of this sample would be 68% likely to fall 
+between 0 and 200 bets; 32% of the time, the result would be more than 1 bet/hr away from the 
+mean. Let's say this player has a current bankroll of200 bets. The difference between the risk of 
+ruin at 0 bets/hr and that at 2 BB/hr is quite large! 
+ 
+0 bets: 
+ 
+R(200) = 1 
+ 
+2 bets: 
+ 
+R(200) = e-800/144 = 0.387% 
+ 
+So this is a nearly 100% range of RoR values, all within one standard deviation of the population 
+mean. There is even a fairly substantial difference between RoR at win rates of 0.8 BB/hr and 1 
+BB/hr: 
+ 
+0.8 bets: 
+ 
+R(200) = e-320/144 = 10.84% 
+ 
+1 bet: 
+ 
+R(200) = e-400/144 = 6.22% 
+ 
+However, the process of acquiring enough empirical data to tell the difference between the 
+former and the latter is an arduous task. So we have a dilemma. We can use our win rate and 
+standard deviation w and s and simply assume that they are accurate predictors; however, our 
+true population mean may differ significantly from the observed values. A more robust approach 
+is to account for the uncertainty of our win rate by using a distribution of win rates in lieu of 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         289 
+ 
+assigning a single win rate. We can do this by utilizing a normal distribution with a mean of our 
+observed win rate and a standard deviation equal to the standard error of the observed win rate. 
+Then we can utilize the normal distribution risk of ruin function as a value function and this 
+hypothesized distribution of win rates as the corresponding density function. Then the expected 
+value of the risk of ruin function will be the integral of the product of those two functions. 
+ 
+It seems valuable to take a moment to try to explain this process in somewhat less technical 
+language. We have some observed win rate w. So We are saying that we can make a normal 
+distribution curve around w. The closer we are to w, the higher the probability is that we are at 
+our true win rate. At each w, we can use the risk of ruin function we've calculated all along to 
+find the risk of rum for that particular win rate. Then if we multiply all the risk of ruin values by 
+the probability that the value is our true win rate and sum it all up, we get a "weighted" risk of 
+ruin value that is more accurate than simply guessing at a particular win rate. 
+ 
+What's important to note here is that we can do this with only a little data about the game. If we 
+only have a small number of hours, the dispersion of the distribution of win rates will be quite 
+large. As we will see, the dispersion of the distribution of win rates is quite a critical value for 
+finding this weighted risk of ruin. 
+ 
+The reader may also remember that we warned against using simply applying a normal 
+distribution to observed results when we spoke of confidence intervals in Part I. This warning is 
+still in effect; in fact, using this method doesn't incorporate information about the underlying 
+distribution. This is particularly true where the observed mean is very high, when Bayesian 
+analysis would dampen the observation relative to the population's win rate distribution. 
+However, as this bias is restricted to the right tail of the normal distribution, its magnitude is 
+fairly small compared to the gain in accuracy we get from applying the method. And attempting 
+to correct this bias requires that we make attempts to characterize the shape of the a priori 
+distribution from which this player is selected. 
+ 
+With that in mind, let us specify the terms of the model. 
+ 
+A player has played N hands with win rate w and standard deviation per hand s. The player has a 
+bankroll b. His risk of ruin for any particular win rate Is: 
+ 
+R(w,b) = exp (
+
+ ) 
+ 
+f(x) = exp (
+
+ ) 
+ 
+The standard error of his win rate observation is:  
+ 
+ = &/√ 
+ 
+His observations about win rate create a normal density function around mean w and standard 
+deviation σw. 
+ 
+ = (
+1
+√2.
+): −( −<)
+2
+ 
+ 
+ 
+Using Equation 22.3, we have:  
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         290 
+ 
+< 9() >= %
+9()'
+
+
+ 
+ 
+This equation calls for us to integrate from -∞ to +∞; however, we know that the risk of ruin for 
+win rates to the left of zero is always 1. Hence, we can split this integral into two parts: the 
+integral from 0 to ∞ of the value function (risk of ruin) multiplied by the density function 
+(normal for the distribution of win rates) plus the density function from -∞ to 0. This last equals 
+the probability that the win rate is equal to zero or less. 
+ 
+< 9 >= 
+1
+√2.
+ %
+: −2;
+ 
+
+
+: − −<
+2
+ + (< < 0) 
+ 
+The last term is the most important feature of this approach to the method. What it captures is 
+that the uncertainty surrounding the win rate and the idea that having a bankroll of any size does 
+not protect against the risk of ruin that comes from being a losing player. This probability, as we 
+shall see shortly, is directly tied to the uncertainty σw; the higher this dispersion is, the greater 
+the chance that the win rate is below zero. Also, the risk of ruin for win rates that are positive but 
+very low is also quite high itself. 
+ 
+We can also now point to a very practical reason for using the normal distribution for the 
+distribution of win rates. Because both the normal distribution and the risk of ruin formulas are 
+exponentials, the above expression simplifies! 
+ 
+
+1
+√2.
+ %
+: −2;
+ 
+
+
+: − −<
+2
+ ' + (< < 0) 
+ 
+
+1
+√2.
+ %
+: −2;
+
+− −2< + <
+2
+
+
+
+' + (< < 0) 
+ 
+
+1
+√2.
+ %
+: =−
+ −2 2; 
+
+ −< + <
+2
+>
+
+
+' + (< < 0) 
+ 
+Now call u = 2;
+
+ −< 
+ 
+
+1
+√2.
+ %
+: −( + ?) + < −?
+2
+
+
+
+' + (< < 0) 
+ 
+
+1
+√2.
+ %
+exp (−( −(−?))
+2
+): −< −?
+2 
+
+
+' + (< < 0) 
+ 
+That second exponential doesn't contain any x values, so we can pull it out of the integral, 
+leaving us with a constant multiplied by a normal distribution function: 
+ 
+: −< −?
+2  
+1
+√2.
+ %
+exp (−( −(−?))
+2
+)' + (< < 0)
+
+
+ 
+ 
+Now we need to introduce a little bit of notation and discuss normal distributions a bit. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         291 
+ 
+Recall that in Chapter 3 we defined:  
+ 
+Ф =
+1
+√2.
+%
+exp (−
+2 )
+
+
+ 
+ 
+where z was a normalized z-score. 
+ 
+Ф(t) represents the area under the normal distribution curve for a distribution with a mean of 0 
+and a standard deviation of 1 to the left of x, and we call it the cumulative normal distribution 
+function. 
+ 
+If this normal distribution function had integrands of -∞ and ∞, then it would equal one. 
+However, it is integrated from 0 to ∞. What this means is that it equals the cumulative normal 
+distribution function for a z-score of –u/σw, or (< −2;
+
+)/σw. This type of value can be looked 
+up in a table or retrieved using a spreadsheet function. 
+ 
+We are left with: 
+ 
+: −< −?
+2  (Ф(−?/<)) + (< < 0) 
+ 
+−< −?
+2
+= −
+< −(4; 
+
+ −4;< 
+
+ + <)
+2
+= (2; 
+
+ −2;<
+ ) 
+ 
+ 
+:(2; 
+
+ −2;<
+ )(Ф(−?/<)) + (< < 0) 
+ 
+We have one additional simplification: 
+ 
++@+A = +(<, ;):(2; 
+)(Ф((< −2;
+
+)/)) + (−</)   
+ 
+ 
+(23.1) 
+ 
+This is the formula for risk of ruin under uncertainty (RoRU). It contains what are essentially 
+four separate items. 
+ 
+Tire first is R(w,b), which is simply the normally distributed risk of ruin for the base observed 
+win rate. This factor is then multiplied by the second element, an exponential involving the 
+square of bankroll and the standard deviations of both the game and the win rate observations. 
+All of this is then multiplied by a factor of the cumulative normal distribution for an additional 
+expression involving w, the bankroll b, and the standard deviations of both distributions. This 
+product (of the first three terms) is the weighted risk of ruin for the player for win rates that are 
+positive. The last term is the cumulative standard normal distribution for win rates that are 
+negative, multiplied by the risk of ruin for those win rates, which is 1. 
+ 
+Here's a table which looks at some risk of ruin calculations, using the normal distribution RoR 
+and also this RoRU (risk of ruin under uncertainty) calculation: 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         292 
+ 
+Of note in these figures is that when the uncertainty of win rate is high (the sample size is small), 
+RoRU predicts a less than 100°/o chance of going broke, even if the win rate is negative up to 
+this point. This is because the sample might just have been unlucky, and the true win rate might 
+be above zero, in which case the RoR would be less than one, 
+ 
+RoRU is a powerful method of incorporating uncertainty about win rates into our risk of ruin 
+calculations; we can adjust our expectations and understanding of the risk of going broke and 
+include a quantitative adjustment for the possibility that we have just gotten somewhat lucky so 
+far. 
+ 
+The risk of ruin under uncertainty formula we just derived is more complex, of course, than the 
+previous formulas. The characteristic that makes it extremely useful, however, is that it attempts 
+0        0.2     0.4     0.6    0.8      1       1.2    1 .4     1.6     1.8 2
+Win Rate 
+Figure 23.1 RoRU vs win rate (bankroll -100, std. dev. -10 bets) 
+Figure 23.2 RoRU vs win rate (bankroll + 300 bets, std. dev. = 10 bets)
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         293 
+ 
+to account in some way for the tendency for players to use win rates that are too high in 
+estimating their risk of ruin. In terms of staying in action, it is difficult to overestimate the 
+importance of this tendency and the resultant loss of bankroll principal that results. 
+ 
+Bankroll Considerations 
+We believe that most players overestimate then win rates for risk of ruin calculations for any of a 
+number of reasons. 
+ 
+1) Initial Success - Players who begin then poker careers with a series of wins are more likely to 
+continue playing. Players who begin their poker careers with a series of losses are far more likely 
+to simply quit the game. This effect has perhaps a small selection effect toward players with 
+higher EVs, but this effect is swamped by variance. 
+ 
+If we look at the set of all players who begin then careers by winning, we will find quite a 
+number who are relatively poor players who have simply had positive variance events. These 
+players will likely rely on their past (inflated) win rates as predictors of their future (expected) 
+win rates and thus overestimate their prospects for the future. This effect is particularly 
+pronounced for players who are considering playing professionally. The most likely time for a 
+player to consider playing full-time is after some sort of upswing. Such upswings, while they 
+may be real, are often positive statistical swings that may not reflect an underlying change in 
+expectation. 
+ 
+2) Ego - Poker is an ego-driven game. Many players are convinced that they are much stronger 
+players than they really are, that their results up to now have been due primarily to bad luck and 
+not their poor play. This, of course, is sometimes true; but more often, it may be a combination 
+of the two. 
+ 
+3) Misinformation - There is a tremendous amount of information floating around the poker 
+community, both from public forums such as rec.gambling.poker, other Internet forums, 
+magazines, and now even mainstream media sources. In these media, players can claim any 
+(inflated) win rate they choose without any realistic chance of being exposed. This leads to a 
+general inflation of "win rate stories," as individuals do not wish to feel inferior to outer players. 
+In addition, the poker literature has a disturbing tendency to dismiss questions of what 
+constitutes realistic expectation in different types of games, preferring to rely on the "1 big bet 
+per hour" platitude as a guide to what a typical winning player can expect. 
+ 
+4) Changing Game Conditions - Players try to project their win rates from now into the future. 
+However, game conditions change - games dry up or shift to a different preferred game, as 
+lowball games did with the introduction of holdem. Likewise, players may improve over time. 
+Many things can change that make our estimates of the future inaccurate. 
+ 
+Very few poker players, especially those who have spent time and energy trying to improve, are 
+willing to admit that there is a significant chance that they are losing players overall. In all 
+honesty, overestirnating one's win rate is very close to a universal property of poker players. 
+There is one additional reason that win rates for risk of ruin calculations are often overstated, and 
+it has to do with the fact that most poker players do not put all the winnings from poker into then 
+bankroll. At this writing, one of your authors plays professionally. As a result, he spends money 
+on things like mortgage payments, food, and so on. We speak about "win rate" and "bankroll" as 
+it relates to risk of ruin using the same terms we do to describe the rate at which we win in a 
+particular game and the total amount of money we have on hand to play poker with. But these 
+are not at all the same. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         294 
+ 
+First of all, in the United States, poker winnings are taxable. This can impact "win rate" by 30% 
+or more, depending on how successful a player is. Second, "bankroll" should really be 
+considered to be the amount of money we are willing to lose playing poker at a particular game 
+and limit. For example, if a player plays $20-40 and has $12,000 set aside to play poker with, he 
+might be said to have a bankroll of 300 bets. But if he will quit poker after losing $6,000, for 
+example, or if he will drop down to a lower limit (a topic we will take up later), his effective 
+bankroll for $20-40 is only 150 bets. He is not "ruined" in the sense of having no more capacity 
+to play if he loses this amount, but it is illogical to consider the chance that he will lose $12,000 
+playing $20-40. In fact, he will never lose $12,000 at this game. His "true" risk of ruin is some 
+combination of his risk of losing at each game the amount that he will tolerate losing until he 
+will step down yet again in limits, or stop playing poker altogether. 
+ 
+Third, professional players have living expenses. These have to be met whether the player wins 
+or loses. This represents a steady outflow of money that must be considered hi terms of bankroll 
+and poker winnings. Even winning players who do not play professionally' usually do not leave 
+100% of then poker winnings in the bankroll. They instead spend the money on vacations, 
+jewelry, or plasma TVs. There are some different reasonable strategies for extracting money 
+from poker winnings to meet expenses, whether luxury or necessity, but your authors prefer a 
+particular method which enables us to continue to rationally assess risk while making steady 
+outflows of money. We simply pay ourselves a salary denominated in some time unit and reduce 
+our win rate by that amount. This is quite similar to starting a small business enterprise. 
+ 
+This may raise eyebrows with some of our readers. Deduct the salary from win rate! What if the 
+amount of money I need is almost as much as I make? Herein lies the rub. If a player's adjusted 
+win rate (after deducting the money that the player takes out for expenses) is close to zero (or 
+even negative!), then that player's risk of ruin is dramatically increased and will often be close 
+to 100%. Countless pros have ignored this principle, skimmed most of their profit off of the top 
+of their bankroll, and eventually gone bust when a severe negative swing hit. Even if a player 
+doesn't go broke, he often must forego income by being forced to drop down in limits (we will 
+have more to say on this topic later.) 
+ 
+Every dollar removed from a bankroll reduces that bankroll's resiliency to negative swings, and 
+so when calculating risk of ruin, it is imperative to use a win rate that accurately characterizes 
+not the amount of money won, but the amount of money put back into the bankroll as the 
+game is played. 
+ 
+For the aspiring professional, it gets worse; we have just shown a method by which we can 
+assess the weighted risk of ruin, which is heavily impacted by the chance of a player's win rate 
+being lower than his historical results would indicate. However, many players who are 
+considering going professional after a somewhat longer time playing as an "amateur" have 
+reached a threshold with their unadjusted win rate where the adjustment is not that large. 
+ 
+An example may help to elucidate this. Consider a player who has played 40.000 hands of his 
+favorite game, and won 2.5 bets/100 hands with a standard deviation of 18 bets/100 hands. He 
+has a bankroll of 300 bets. We can apply the RoRU function to find this player's weighted risk of 
+ruin: 
+ 
+RoRU = 3.67% 
+RoR (simple) = 0.98% 
+ 
+The difference between these two numbers is just 2.69%; this is because the player has built up 
+enough data that he is now almost three standard errors away from a zero win rate. As a result, 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         295 
+ 
+his weighted risk of ruin does not suffer much from being subjected to uncertainty. 
+ 
+The player is now considering going professional. He plans to take out from his monthly win 
+approximately 1 bet/100 hands he plays to pay his modest living expenses, and to allow his 
+bankroll to grow with the remainder. We can now recalculate his RoRU and RoR simple: 
+ 
+RoRU = 17.25%  
+RoR (simple) = 6.22% 
+ 
+What has happened here is that dropping from 2.5 bets/100 hands to 1.5 bets/100 hands (by 
+taking out 1 bet/100 hands for expenses) has brought his risk of ruin higher, but also 
+significantly raised his chance of being a losing player after expenses. Here, he is less than two 
+standard deviations above zero. Remember, it is not enough to be a winner overall: a player must 
+be a winner, and a significant one, in terms of the money that is put back into his bankroll in 
+order to have a risk of ruin below one. In the case of professional players, this includes fiving 
+expenses, business expenses, and so on. It also includes positive flows, such as a pro player's 
+salary or income from investments in other players. 
+ 
+Virtual Bankroll 
+This even applies to non-professional players who only take money out of the bankroll after 
+winning streaks; doing this decreases the capacity of the bankroll to weather future downswings 
+and increases the risk of ruin of the bankroll. But this brings up another important consideration, 
+which is the concept of virtual bankroll. After all, we do not play in a complete vacuum; for 
+non-professionals and even some professionals, there may be money available to flow into the 
+bankroll from other jobs' salaries, investments, or other sources of income. To do an exhaustive 
+analysis of poker risk of ruin, all of these factors would need to be considered. But in some 
+cases, an adjustment made in broad strokes is sufficient. For example, a serious player who has a 
+job that pays $300,000 a year has a virtual bankroll much larger than his present one, while a 
+player who has no job at all and very few skills with which to get one might treat his poker 
+bankroll a little more gingerly because it cannot be easily replaced. 
+ 
+The point of all this is that the impact on risk of ruin is not symmetric—slightly overestimating 
+your win rate causes you underestimate your risk of ruin by a lot, while slightly underestimating 
+it only causes you to overestimate it by a little. 
+ 
+One consideration that must color all of this analysis in a very important way is that game 
+conditions are not static. Games ebb and flow, get better and worse. With the advent of televised 
+poker, the world of poker players has grown immensely. It may be the case that this is a 
+permanent change, but it's certainly not guaranteed. The same tiling is true of online poker. 
+These types of things may also lead to an effect we discussed earlier. Upswings in profit are also 
+correlated to favorable changes in conditions. Often when players are considering playing 
+professionally, they have experienced some kind of winning streak. This may be due to a change 
+in conditions in their preferred game which may or may not be permanent. The fact that 
+conditions change makes it likely that most players ought to consider their overall risk of ruin to 
+be slightly higher than the formulas presented here would suggest because it is more 
+dramatically affected when conditions become worse than when they become better. 
+ 
+Key Concepts 
+• When we assess risk of ruin in the real world, we lack accuracy in our parameter 
+estimates, such as win rate or standard deviation. 
+• We can partially correct for this by assuming that our true distribution of win rates is a 
+normal distribution surrounding our point estimate. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         296 
+ 
+• The risk of ruin under uncertainty model is the resultant risk of ruin formula, which 
+includes an adjustment for the uncertainty surrounding the win rate point estimate. 
+• This method can be applied to situations where only a small sample has been recorded, 
+and includes the idea that the effect of error in win rate estimation is not symmetric. 
+• When considering becoming a professional, a realistic understanding of risk is an 
+important and often neglected consideration. 
+ 
+ 
+ 
+ 

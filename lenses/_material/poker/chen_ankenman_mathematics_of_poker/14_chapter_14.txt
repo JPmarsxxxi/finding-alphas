@@ -1,0 +1,590 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         146 
+ 
+Chapter 14 
+You Don't Have To Guess: No-Limit Bet Sizing 
+ 
+No-limit bet sizing is an important topic, but a topic that has generally been neglected from an 
+analytical standpoint. We find recommendations in the existing literature ranging from pot-sized 
+bets, to small underbets, to betting different amounts according to hand strength, and so on. 
+These recommendations are usually based on a combination of experience and consensus. In 
+some cases, however, we can find the analytical answer. 
+ 
+Let us first consider the half-street no-limit clairvoyant game. When we previously looked at the 
+clairvoyant game, it was limit betting, and the clairvoyant player bet all his whirling hands and a 
+fraction of the losers such that the other player was indifferent to calling. But in no-limit, there 
+are a multitude of bet sizes to choose from. What makes one bet size better than another? How 
+can we find the optimal strategies for such a game? 
+ 
+Example 14.1 - The Half-Street No-Limit Clairvoyance Game 
+One half street.  
+Pot size of 1 bet. 
+No-limit betting. (Stacks are n bets, where n is large) 
+Y is clairvoyant and his hand is randomly drawn from a distribution that is half winners and half 
+dead hands. 
+ 
+Note: In limit games, we use the convention that the bet size is 1 and the pot is P units. However, 
+in no-limit games with variable-sized bets, we instead use the convention that the pot is 1 unit, 
+and the bet is s. Thus a bet of s units is a bet of s times the pot. 
+ 
+Let us first describe the structure of the strategy. After X checks dark, Y will clearly want to bet 
+his winning hands for value, and protect those winning hands with bluffs such that X is 
+indifferent to calling. Y will choose a bet size s that he will bet with both types of hands. If Y 
+were to bet two different amounts, it would be necessary for such a strategy to be optimal that he 
+have equal expectation against the nemesis with those two bet sizes. Then X will call in a 
+proportion that makes Y indifferent to bluffing. 
+ 
+We can create a function  f(s), which is Y's expectation from betting an amount. Then if we find 
+the place where this function is maximum, we can find Y's proper bet size and have the solution 
+to the game. When Y bets and bluffs appropriately, then X can fold or call at his discretion - both 
+have equal expectation. Hence for finding Y's expectation, we can assume that X calls any bet as 
+long as we hold Y's strategy constant. We will use this idea much more when we look at the [0,1] 
+games later in Part III. 
+ 
+We know from the games we solved in Chapter 11 that Y's ratio of bluffs to bets will be α, and 
+also that X will fold α of his hands that beat a bluff. Recall from Equation 11.2 that for no-limit 
+games, we have an equivalent definition of α: 
+ 
+α  = s/(1 + s) 
+ 
+For any bet value s, Y will bluff s/(1 + s) as many hands as he value bets. Suppose y is the 
+fraction of Y's total hands that are winning hands. 
+ 
+f(s) = p(Y has nuts) (one bet) + p(Y bluffs) (lose one bet) 
+f(s) = (y)(s)+(ys /(1 + s))(-s) 
+f(s) = (y)(s)+-(ys2)/(1+s) 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         147 
+ 
+f(s) = ys/(1 + s) 
+ 
+This function, as seen in the following graph, lacks any local maxima or minima: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 14.1. The half street clairvoyance game, y= 0.5 
+ 
+In fact, this function continues to increase as s goes to infinity. Hence Y maximizes his value by 
+betting his whole stack and bluffing with the appropriate corresponding function. 
+ 
+We assumed in the above that Y's distribution was 50% nut hands and 50% dead hands. But 
+suppose that y is 3 5
+ , meaning that 3 5
+  Y's hands are winners and 2 5
+  are bluff, and the stacks are 
+just five pot-sized units. Now Y bets his whole stack. How should X respond? What if Y simply 
+bets the pot or s = 1, how should X respond? 
+ 
+We consider the first question first. Well, the immediate answer based on the reasoning above 
+would be that X should fold α = 5/(1 + 5) = 5 6
+  of his hands and call with the rest. This will make 
+Y indifferent to bluffing. But to see why this is wrong, let's consider the strategy-pair we're 
+discussing: 
+ 
+Y: Bet 5 with all winning hands and with all dead hands.  
+ 
+X: Call with 1 6
+  of hands. 
+ 
+With a bluff, Y gains the pot of 1 for 5 6
+  of the time for a total win of  5 6
+ , while losing the bet of 
+s = 5 for 1 6 
+  a of the time, for a loss of 5 6
+  of a unit, thus breaking even. With value bets, 
+however, Y wins 5 units 1 6
+  of the time, for a gain of 5 6
+  unit per value bet. Since value bets 
+make up 3 5
+  of his hands overall, this is a total win of 1 2
+  unit. 
+ 
+But what if X folded all the time? Then Y would win the entire pot with his bluffs, which make 
+up 2 5
+  of total hands, and gain nothing otherwise. So Y's equity would just be 2 5
+  of a unit. So 
+these cannot be the optimal strategies! X can unilaterally improve by simply folding all hands. Y 
+could exploit this by bluffing all his hands. Suppose he does this. Then he would gain nothing 
+with his value hands and the entire pot with this dead hands, for a total win of 2 5
+  unit, Against 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         148 
+ 
+this Y strategy, X's best response is to simply fold. 
+ 
+This is an important result; X's optimal strategy in this situation is to fold all his hands, even 
+though Y is bluffing all of his dead hands. This is because Y's distribution is so strong that he 
+can simply bet and ''claim" the pot with all hands, because X loses money by calling at all. We 
+will have more to say about these situations in the chapter on multi-street play. We have the 
+game and equity graphs as follows: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 14.2. Half street no-limit clairvoyance game, y=0.6 
+ 
+Suppose Y doesn't bet all his chips, but simply bets the pot (s =1)? It might seem as though we 
+can simply look at the above graph for s = 1 and see that we should call with half our hands. 
+This will make him indifferent to bluffing a value s = 1, and so on. Unfortunately, it isn't that 
+simple. The right answer is that X should still fold all hands. This is even true if Y had bet s= 1% 
+of the pot. 
+ 
+To see why, consider how Y might exploit X's call. We know that X will fold all his hands if Y 
+bets all his chips. Now suppose that X will respond to a smaller bet by calling in some mixed 
+strategy. Y can exploit this by adopting a strategy of betting the smaller amount with his winning 
+hands and betting all his chips with his bluffs. X could exploit that in turn, but since Y can 
+increase his equity against X's strategy, it cannot be optimal. From another perspective, Y can 
+simply push all-in with every hand and claim the pot-that is Y's optimal play. X does no better 
+playing against Y's optimal strategy than he does by throwing his hand away in the dark. Hence 
+X can play optimally by always throwing his hand away! 
+ 
+In Chapter 13, we considered the limit half-street AKQ game. There, we found that with a fixed 
+pot in relation to the bet size, we could solve the game and find the proper betting and bluffing 
+frequencies for both players. We continue our no-limit bet sizing investigations by considering 
+the no-limit version of this game. 
+ 
+Example 14.2 - AKQ Game #3 
+One half street.  
+Pot size of 1 unit. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         149 
+ 
+No-limit betting. (Stacks are n bets, where n is large) 
+ 
+In this game, we have the same situation as previously. X checks dark, and Y then seeks to 
+extract as much value from his hand distribution as possible. However, instead of a binary 
+decision of "bet or check," Y is now faced with a more complex decision. If he does decide to 
+bet, he must choose a bet amount as well. In fact, we can simply consider a "check" as betting 
+zero units. 
+ 
+At a glance, we can see that it would be foolish for Y to bet more than the pot. If he does, then X 
+picks off his bluffs with aces only and never pay off with kings. If he does this, he never loses 
+money when Y has an ace, and gains more than the pot when Y bluffs a queen. We know from 
+solving limit games previously that Y can profit by betting amounts smaller than the pot. Hence, 
+we can discard ah bet amounts greater than the size of the pot. 
+ 
+Next, consider what would happen if we were to value bet a different amount than we bluffed. 
+This would immediately be exploitable by X: X could simply fold kings to the value betting 
+amounts and call the bluff amounts. For each value betting amount we utilize, we must have 
+corresponding bluffs so that the ratio of bluffs to value bets (α) is preserved for that bet amount. 
+One additional idea that is important here is that if we have a bet amount s such that we make 
+more profit than betting some alternate amount t, then our strategies cannot be optimal. We could 
+simply switch all the hands that bet t over to betting s and improve our equity. This means that 
+either: 1) several bet amounts will have the same equity; or 2) there will be just one bet amount 
+in Y's optimal strategy. 
+ 
+With all those ideas in mind, we can calculate the optimal strategies as follows. First we will find 
+the optimal bluffing and calling frequencies for any bet amount s. These are the action 
+frequencies which are X's best response to Y betting j and Y's proper bluffing frequency when 
+betting s. Using these frequencies, we can solve for the expectation of the game, as a function of 
+s. Once we do this, we can find the value of j for which Y's equity is maximized. Y will choose 
+to bet and bluff at that particular value: X can do nothing to prevent this. 
+ 
+This is a common technique we use when considering games where different strategy choices 
+can be made. Sometimes, we can solve the game or portions thereof in terms of a variable that 
+only one player controls. When this is the case, we can find the strategies, calculate expectation, 
+and then the player who controls that variable will choose its value such that this expectation is 
+maximized. 
+ 
+Again we know from the games we solved in Chapter 11 that Y's ratio of bluffs to bets will be a, 
+and also that X will fold α of his hands that beat a bluff, where α = s/(1 + s). (See Equation 11.2) 
+ 
+So for any bet value s, Y will bluff s/(1 + s) of the time when he holds a queen. Likewise, X will 
+fold a total fraction of his hands equal to s/(1 + s). 
+ 
+Based on these frequencies, we can calculate the expectation of betting and bluffing any bet size 
+s. We will create a value function f(s) that represents this expectation for any s. 
+ 
+We know from previous experience that Y will break even on his bluffs, because X will call 
+often enough to make Y indifferent between bluffing and checking, and checking has an EV of 
+zero. On his value bets, then, Y gains value when the first player calls with a king. 
+ 
+X must call with an overall frequency of 1 - α, or l/( 1 + s). Subtracting 1 2
+  from this expression 
+for the aces with which X always calls: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         150 
+ 
+ckings = 2(1/(1 + s) - 1 2
+  ) 
+ckings = 2/(1 + s) - (1 + s) /(1 + s) 
+ckings = (1 - s)/ (1 + s) 
+ 
+We find that the percentage of kings with which X will call is (1 - s)/ (1 + s). When he does call, 
+Y's gain will be s units. So in the case where Y holds an ace and X holds a king, he gains s (1 - 
+s)/(1 + s) units. This case represents 1 6
+  of the total hands, so the total expectation of the game to 
+Y is: 
+ 
+f(s) = s (1 - s) /6(1 + s) 
+ 
+Y now chooses s such that the above expression is maximized. To do this requires a little 
+calculus, but before we do that, you can see approximately where the peak will be by looking at 
+the following graph: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 13.3. Equity of the NL clairvoyance game 
+ 
+Note: Remember that more complex derivations are marked off in boxes so that our less 
+mathematical readers can just "take our word for it" if they choose. 
+ 
+We set the derivative of this expression equal to 0:  
+ 
+f(s) = s(1 - s)/(1 + s) 
+f(s) = -(s2 +2s-1)/(1+s)2  
+s2+ 2s - l = 0 
+(1+s)2 = 2  
+s = -1 ± √2 
+-1 - √2  must be an extraneous solution, because we can't bet a negative amount. 
+ 
+So the value √2 - 1 or approximately 0.114 is the proper amount to bet. 
+ 
+In his book The Theory of Poker, David Sklansky corned the phrase "Fundamental Theorem of 
+Poker," a tongue-in-cheek reference to the Fundamental Theorem of Algebra and Fundamental 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         151 
+ 
+Theorem of Calculus from introductory texts on those two subjects. The constant √2 - 1 appears 
+so often in poker analysis that we will in the same vein go so far as to call it the golden mean of 
+poker, and we call it r for short. We will see this value in a number of important results 
+throughout this book. 
+ 
+r =  √2 - 1  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(14.1) 
+ 
+The solution to this game is the first example we have seen of finding the proper bet amount in 
+no-limit. This important concept revolves around the idea that we can find the expectation of the 
+game for all different bet amounts. Once we have done this, we can find the bet amount value so 
+that the bettor's expectation is maximized. 
+ 
+So in a game where the following conditions hold: 
+ 
+• You hold the nuts sometimes and a bluff sometimes. 
+• When you hold a bluff, your opponent holds the nuts half the time and the other half the 
+time a hand that can only beat a bluff. 
+ 
+The optimal strategy is for you to bet √2 - 1 times the pot (a little more than 41%) with all of 
+your nut hands, and to bluff with the corresponding frequency of bluffing hands 
+ 
+(1 - 1/√2). Your opponent in turn calls with all his nut hands and enough of his in-between hands 
+such that his total calling frequency is 1/√2. 
+ 
+In addition to discrete games such as the AKQ game, we can use a similar idea to solve more 
+complex no-limit games. Even continuous games such as the [0,1] game can be played no-limit. 
+In the AKO game, we found that there was exactly one optimal bet size that Y used. In the half-
+street [0,1] game, however, we find that we occasionally bet all different bet sizes. 
+ 
+Example 14.3 - [0,1] Game #3 
+One half street. 
+Betting is no-limit; both players have arbitrarily large stacks.  
+The pot is 1 unit.  
+Folding is allowed. 
+ 
+Here, we have a similar game, where X checks dark, and Y tries to maximize his equity. 
+However, we have a situation now where there are two variables that must be related - strength 
+of hand and size of bet. In the limit AKQ game, if Y held a queen, he had a simple binary 
+decision - bet or check. In the no-limit case, Y had to additionally choose what amount to bet. 
+ 
+In the half-street [0,1] no-limit game, Y must choose an amount to bet with each hand; it's 
+possible that he may bet one particular amount, or vary his bet based on the strength of his hand. 
+Just as in the previous game, we will attempt to solve the game in terms of the variables, and 
+then have each player choose the variables he controls in order to maximize his equity. 
+ 
+We can first appeal to our previous investigations to conclude that Y will play a two-pronged 
+strategy of betting and bluffing, and that his betting and bluffing regions will be related to each 
+other by a ratio like α. So when X is faced with a bet of t from Y, he will need to call to make Y 
+indifferent to bluffing at the edge of Y's bluffing threshold. 
+ 
+We can express X's strategy as a function of t. Let x(t) be X's calling threshold when faced with a 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         152 
+ 
+bet of t. So x(t) will only consist of hands that can beat Y's bluffs - X will never call with hands 
+that will lose even to Y's bluffs. The threshold where X will never call is x(0);. We will also call 
+this value X0. 
+ 
+X will choose his function x(t) such that if Y's handy is weaker than x0, then Y is mdifferent to 
+bluffing an amount s. In other words, X will call a bet of size t with exactly enough hands that Y 
+is indifferent between betting t or checking for any value of t. So t1, t2, t3 and so on, all have 
+equity equal to checking. Hence Y is indifferent to betting any s value. 
+ 
+This leads to the following indifference for Y at y: 
+ 
+X’s hand 
+Y bet’s 
+Y checks 
+[0, x(s)] 
+-s 
+0 
+[x(s), y] 
+1 
+0 
+ 
+y – x(s) – sx(s) = k 
+ 
+(where k is constant) 
+x(s) = (y - k)/(1+s)  
+ 
+We know that x(0) = x0, so y – k = x0, and therefore 
+ 
+x(s) = x0/(1+s) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(14.2) 
+ 
+To recap, the above equation means that after X checks, if Y bets some amount s, X will call 
+with hands better than x0/(1+s). At this point, we don't know what the value of x0 is, only that X 
+will never call with hands worse than that, no matter how little Y bets. We will solve for this 
+value later. 
+ 
+Next we turn to Y's strategy. 
+ 
+In the same way, Y's value betting strategy will be a function of s, the bet amount that returns the 
+hand value at which Y should bet a particular s. 
+ 
+If Y bets s for value at a particular hand value y, he will lose s when X holds a hand better than y 
+this occurs with probability y) and he will win s when X holds a hand better than x's calling 
+threshold X(S) but worse than y. This occurs with probability (x(s) - y). Then his equity is: 
+ 
+<Y> = (chance that Y gets called and loses) (-s) + (chance that Y gets called and wins)(s)  
+<Y> = (y)(-s) + (x(s) - y)s  
+<Y> = sx(s) – 2sy. 
+ 
+Again using calculus, we can maximize this value:  
+ 
+sx2(s)+x(s)-2y=0  
+s(-x0 /(1 + s)2) +x0 /(1+s)-2y=0  
+x0 /(1 + s)2 – 2y = 0 
+ 
+y(s) = x0 /2(1 + s)2 
+ 
+This is Y's value betting strategy. Y's strategy bets different amounts at different Y values - in 
+fact, bets a different amount at every Y value! The principle of information hiding would usually 
+indicate that this is a terrible mistake because it can telegraph Y's hand. However, it turns out 
+that in this particular game, X cannot make use of this information in an exploitive way, Y will 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         153 
+ 
+match every value bet with a corresponding bluff in the proper ratio. Then, when faced with a bet 
+of s, X can either call with confidence (when he knows that he has the best hand), call with 
+uncertainty (knowing that Y either has a bluff which he can beat or a value bet which he cannot), 
+or fold. Because X cannot raise, Y gives up no useful information by limiting the strength of his 
+hand; X would always call with hands that beat Y. 
+ 
+Now the next part - matching up the bluffing region with the value betting region - is a little 
+tricky; it again involves calculus. If you've understood what's happened up to this point, skipping 
+the following section is fine. What we've done so far is show that the strategies for this game are 
+as follows: 
+ 
+On [0, x(0)], X calls by his function x(s). On [x(0),1], X folds. 
+ 
+On [0, y(0)], Y value bets by his function y(s). On [y(0),y'(0)]. Y checks behind. And with worse  
+hands, Y bluffs according to y'(s). 
+ 
+In the following section, we will solve for the value of x0 and show the relationship of the betting 
+and bluffing region for Y. 
+ 
+We have a known value betting function: 
+ 
+y(s) = x0 /2(1 + s)2 
+ 
+We can then construct a value betting differential; effectively the size of one infinitesimal 
+movement along that function. Intuitively, this might be thought of as the size of the region in 
+which we bet one particular amount. The "dy" is the movement of Y per every "ds' movement in 
+s. 
+ 
+dy = x0 /(1 + s)2ds 
+ 
+It turns out that our familiar bluffing ratio of s/(1 + s) applies to this differential.  
+ 
+So we have a bluffing differential: 
+ 
+sx0/ (1+s)4ds 
+ 
+The total size of our bluffing region is then: 
+ 
+%
+&
+(1 + &) '&
+
+
+ 
+ 
+Making the substitution t = 1 + s, we have:  
+ 
+
+ %
+( −1
+(
+'(
+
+
+ 
+= 
+ %
+1
+( −1
+( '(
+
+
+ 
+ 
+= 	−1 2
+   + 1 3
+  ! | 1∞ 
+ 
+= 1 6
+ 	 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         154 
+ 
+The total size of the bluffing region is thus 1 6
+ 	 . Since the bluffing region begins immediately 
+after x0, we have: 
+ 
+x0 + 1 6
+ 	 = 1 
+ 
+So: 
+ 
+x0 = 6 7
+  
+ 
+Using the technique above, we can likewise map the bluffing region to the value betting region  
+for Y; we leave this as an exercise for determined mathematicians. Instead, we return and state 
+our strategy functions (Y's bluffing strategy as a function of S is omitted, but he bluffs some 
+amount s with a total of  1 7
+  of hands): 
+ 
+x(s) = 6 7
+ (1+s) 
+y(s) = 3 7
+ (1+s)2 
+ 
+The important thing here, however, is not the particular strategies themselves, but the technique 
+that we use for finding optimal bet sizes. In each of these two half-street games the AKQ and the 
+[0,1]), we solve the game using variables to stand in for the unilateral strategy choices - in this 
+case, the size of the bet that Y will make. Then the player who controls the variable selects its 
+value such that his expectation is maximized. 
+ 
+We can learn many useful lessons from half-street games; over the past four chapters we have 
+investigated a range of games: 
+• The clairvoyance game, which illustrated betting and bluffing ratios.  
+• The [0,1] Game #1, which introduced the concept of strategy regions and thresholds.  
+• The [0,1] Game #2, which showed the application of betting and bluffing ratios when the 
+distributions are continuous and symmetrical. 
+• The [0,1] Jam-or-Fold games, which showed how uncertainty in the outcome of the 
+• showdown makes preflop jam-or-fold play much looser. 
+• The Jam-or-Fold no-limit game, which is a real-life solution to a game of some 
+• importance. 
+• The AKQ limit game, which again showed betting and bluffing ratios as well as 
+introducing the idea of card removal. 
+• The AKQ no-limit game, which demonstrated the idea of calculating optimal bet size. 
+• The [0,1] game, which showed the much more complicated types of betting functions that 
+arise from continuous distributions. 
+ 
+Key Concepts 
+• Bet sizing can be attacked analytically. To do this, we can first solve games for the 
+strategies in terms of the bet size under consideration. Then the player who has control of 
+the bet size maximizes his equity through his choice of a bet size. 
+• When one player has a very strong distribution or clairvoyance, situations can arise 
+where the other player should simply give up no matter how small a bet the clairvoyant 
+player makes. 
+• Information hiding is especially important when different bet sizes are available. 
+ 
+ 
+ 

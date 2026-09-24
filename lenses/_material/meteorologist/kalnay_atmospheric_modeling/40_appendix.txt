@@ -1,0 +1,397 @@
+Appendix B
+Coding and checking the tangent linear
+and the adjoint models
+We have seen in Chapters 5 and 6 that given a nonlinear model x(t) = M[x(t0)]
+integrated between t0 and t, if we introduce a perturbation in the initial conditions
+δx(t0), neglecting terms of order O[δx(t0)]2, then
+x(t) + δx(t) = M[x(t0) + δx(t0)] ≈M(x(t0)) + ∂M
+∂x δx(t0)
+(B.1.1)
+so that the initial perturbation evolves like
+δx(t) ≈Lδx(t0)
+(B.1.2)
+The Jacobian L = ∂M/∂x is the tangent linear model that propagates the perturbation
+from t0 to t. It is a matrix that for nonlinear models depends on the basic solution
+x(t). If there are n time steps between t0 and tn = t, this matrix is equal to the product
+of matrices corresponding to each time step:
+L(t0, tn) = L(tn−1, tn) · · · L(t1, t2)L(t0, t1)
+(B.1.3)
+The adjoint model LT is frequently introduced in the context of 4D-Var (Chapter 5),
+with a cost function measuring the misﬁt of the model solution to observations:
+J(x(t0)) = 1
+2
+N
+
+i=0
+"
+H[x(ti)] −yo
+i
+#T R−1
+i
+"
+H[x(ti)] −yo
+i
+#
+(B.1.4)
+Here the observation error covariance Ri at a given time ti is assumed to be symmetric.
+The control variables (which we vary in order to ﬁnd the minimum of the cost
+function) are the initial conditions x(t0) = x0. If we take an increment in the initial
+264
+
+Coding and checking the tangent linear and the adjoint models
+265
+conditions δx(t0), then (cf. Remark 5.4.1(d))
+δJ = (∇xJ(x0), δx(t0)) =
+N
+
+i=0
+	
+R−1
+i
+"
+H[x(ti)] −yo
+i
+#
+T H[δx(ti)]
+(B.1.5)
+Now, at a time ti
+δxi = L(t0, ti)δx(t0)
+(B.1.6)
+Therefore
+δJ = [∇xJ(x0)]T δx(t0) =
+N
+
+i=0
+	
+LT HT R−1
+i
+"
+H[x(ti)] −yo
+i
+#
+T δx(t0)
+(B.1.7)
+and the gradient of the cost function with respect to the initial conditions is
+∇xJ(x0) =
+N
+
+i=0
+LT (ti, t0)
+	
+HT R−1
+i
+"
+H[x(ti)] −yo
+i
+#
+(B.1.8)
+As we saw in Chapters 5 and 6, the transpose LT (ti, t0) of the matrix of the tangent
+linear model is the adjoint model. If the tangent linear model matrix is complex, then
+the adjoint is the complex conjugate of the transpose of the tangent linear model.
+The observational increments are “forcings” of the adjoint model in computing the
+gradient of the cost function for 4D-Var.
+In addition to 4D-Var (Chapter 5), the adjoint model has several other important
+applications such as computing the vectors that grow fastest in a period of optimiza-
+tion. These are the leading singular vectors, i.e., the leading eigenvectors of LT L
+(Chapter 6). The adjoint of a model can also be used to ﬁnd optimal parameters in a
+model, e.g., the diffusion coefﬁcient that produces forecasts closest to a veriﬁcation
+ﬁeld (e.g., Caccuci, 1981, Zou et al., 1992). All these applications require the deﬁni-
+tion of a norm, with respect to which the gradient is computed, and the choice of the
+appropriate control variables. In the case of singular vectors and 4D-Var, the control
+variables are the vectors of initial conditions; in the problem of ﬁnding an optimal
+parameter, the control variable is the parameter itself.
+We now discuss brieﬂy the rules for generating adjoint codes. More detailed
+discussions are available in Talagrand (1991), Talagrand and Courtier (1987), Navon
+et al. (1992), Yang and Navon (1995), and Giering and Kaminski (1998). There
+are presently two compilers available for the automatic generation of tangent linear
+and adjoint codes, given the FORTRAN code of the forward nonlinear model.
+(Odyssee, Rostaing et al., 1996, and the Tangent and Adjoint Model Compiler
+(TAMC), Giering, 1994, Giering and Kaminski, 1998). TAMC is available on the
+web (http://puddle.mit.edu/∼ralf/tamc/tamc.html) and has been widely used in
+recent years.
+Taking the transpose of (B.1.3), we obtain that the adjoint model is
+LT (tn, t0) = LT (t1, t0) · · · LT (tn−1, tn−2)LT (tn, tn−1)
+(B.1.9)
+
+266
+Appendix B
+Within a time step, the TLM code is also composed by a number of subcodes or steps
+applied in succession:
+L(ti−1, ti) = S1 · · · Sm−1Sm
+(B.1.10)
+For example S1 could be initialization of the new time step, S2–S7 could be the
+computation of the time tendencies coming from horizontal advection, vertical ad-
+vection, convection, large-scale precipitation, S8 radiation, etc., and S9 the update of
+the model variables for the next time step. Each of these steps may contain several
+DO loops.
+In constructing the adjoint, because of the transposition, these steps (and the DO
+loops within the step) are also reversed:
+LT (ti, ti−1) = Sm · · · S2S1
+(B.1.11)
+We give now a simple example to illustrate the rules for constructing the adjoint
+from a nonlinear forward model. In the construction of the adjoint it is important to
+determine which are the “active” variables updated in the model.
+Consider the simple forward model of the diffusion equation (in this case a linear
+model):
+∂u
+∂t = σ ∂2u
+∂x2
+(B.1.12)
+It would be possible to derive ﬁrst the analytic adjoint of this equation and then
+discretize it, but it is preferable to ﬁrst discretize the original equation, code it, and
+then create the tangent linear model and adjoint of the code directly. This is because
+the adjoint of a discretized code is not necessarily identical to the discretization of
+the adjoint operator. We discretize (B.1.12) using ﬁnite differences and a scheme
+forward in time, centered in space, as discussed in Chapter 3:
+u j+1
+i
+= u j
+i + α
+	
+u j
+i+1 −2u j
+i + u j
+i−1
+
+(B.1.13)
+where α = σt/(x)2, xi = ix, i = 1, . . . , I, and t j = jt. If we assume u =
+ub + δu, where ub(t) is the basic solution, then the tangent linear model is
+δu j+1
+i
+= δu j
+i + α
+	
+δu j
+i+1 −2δu j
+i + δu j
+i−1
+
+= (1 −2α)δu j
+i + αδu j
+i+1 + αδu j
+i−1
+(B.1.14)
+or in matrix form
+δu j+1
+i
+=
+ 
+1 −2α
+α
+α
+!
+
+
+δu j
+i
+δu j
+i−1
+δu j
+i+1
+
+
+i = 1, . . . , I
+(B.1.15)
+In this computation, there are four “active” variables δu j+1
+i
+, δu j
+i , δu j
+i+1, δu j
+i−1 but
+onlyoneofthemhasbeenmodiﬁed.Inpreparationforthecomputationoftheadjointit
+
+Coding and checking the tangent linear and the adjoint models
+267
+is necessary to indicate explicitly that the other three active variables are not modiﬁed.
+The tangent linear model step is then
+
+
+δu j
+i−1
+δu j
+i
+δu j
+i+1
+δu j+1
+i
+
+=
+
+
+1
+0
+0
+0
+0
+1
+0
+0
+0
+0
+1
+0
+α
+1 −2α
+α
+0
+
+
+
+
+δu j
+i−1
+δu j
+i
+δu j
+i+1
+δu j+1
+i
+
+
+i = 1, . . . , I
+(B.1.16)
+Equation (B.1.16) is the same as (B.1.15) but includes the additional identities (no
+modiﬁcation) needed for the adjoint model. The adjoint model is the transpose of the
+tangent linear model matrix acting on the adjoint variables, so that this step becomes
+
+
+δ∗u j
+i−1
+δ∗u j
+i
+δ∗u j
+i+1
+δ∗u j+1
+i
+
+=
+
+
+1
+0
+0
+α
+0
+1
+0
+1 −2α
+0
+0
+1
+α
+0
+0
+0
+0
+
+
+
+
+δ∗u j
+i−1
+δ∗u j
+i
+δ∗u j
+i+1
+δ∗u j+1
+i
+
+
+i = I, . . . , 1
+(B.1.17)
+where the stars represent adjoint variables.
+This can be written line by line as
+δ∗u j
+i−1 = δ∗u j
+i−1 + αδ∗u j+1
+i
+δ∗u j
+i = δ∗u j
+i + (1 −2α)δ∗u j+1
+i
+δ∗u j
+i+1 = δ∗u j
+i+1 + αδ∗u j+1
+i
+δ∗u j+1
+i
+= 0
+i = I, . . . , 1
+
+
+
+(B.1.18)
+Note that the equation for the adjoint variable on the left-hand side of (B.1.15) is
+executed last.
+A second example is adapted form Giering and Kaminski (1998). Consider the
+nonlinear nth step of the following algorithm:
+zn = xn−1 sin[(yn−1)2]
+(B.1.19)
+where x, y, z are active variables. Using the chain rule, the tangent linear algorithm
+for this step is
+δzn = sin[(yn−1)2]δxn−1 + xn−1 cos[(yn−1)2]2yn−1δyn−1
+(B.1.20)
+or in matrix form
+
+
+δx
+δy
+δz
+
+
+n
+=
+
+
+1
+0
+0
+0
+1
+0
+sin[(yn−1)2] xn−1 cos[(yn−1)2]2yn−1
+0
+
+
+
+
+δx
+δy
+δz
+
+
+n−1
+(B.1.21)
+The adjoint operator is the transposed matrix of (B.1.21) acting on the adjoint vari-
+ables:
+
+
+δ∗x
+δ∗y
+δ∗z
+
+
+n−1
+=
+
+
+1
+0
+sin[(yn−1)2]
+0
+1
+xn−1 cos[(yn−1)2]2yn−1
+0
+0
+0
+
+
+
+
+δ∗x
+δ∗y
+δ∗z
+
+
+n
+(B.1.22)

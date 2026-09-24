@@ -1,0 +1,1016 @@
+150
+5 Data assimilation
+research and operational community, and OI became the operational analysis scheme
+of choice during the 1980s and early 1990s. In this discussion we generally follow
+the notation proposed by Ide et al. (1997) for data assimilation methods. This short
+paper, although ostensibly devoted to notation, is also an excellent overview of data
+assimilation. Later in this section we show that 3D-Var is equivalent to the OI method,
+although the method for solving it is quite different and advantageous for operational
+systems.
+5.4.1
+Optimal interpolation (OI)
+In Section 5.3 we studied the formulation of the “optimal” analysis of a scalar at a
+single point. We now consider the complete NWP operational problem of ﬁnding
+an optimum analysis of a ﬁeld of model variables xa, given a background ﬁeld xb
+available at grid points in two or three dimensions, and a set of p observations yo
+available at irregularly spaced points ri (Fig. 5.1.1).
+The unknown analysis and the known background can be two-dimensional ﬁelds
+of a single variable like the temperature analysis Ta(x, y), or the three-dimensional
+ﬁeldoftheinitialconditionsforallthemodelprognosticvariables:x=(ps, T, q, u, v).
+These model variables are ordered by grid point and by variable, forming a single
+vector of length n, where n is the product of the number of points times the number of
+variables. The (unknown) “truth” xt, discretized at the model points, is also a vector
+of length n.
+Note that we have used a different variable yo for the observations than for the
+ﬁeld we want to analyze. This is to emphasize that the observed variables are, in
+general, different from the model variables by: (a) being located in different points,
+and (b) possibly being indirect measures of the model variables. Examples of these
+measurements are radar reﬂectivities and Doppler shifts, satellite radiances, and
+global positioning system (GPS) atmospheric refractivities.
+As we did in (5.3.15) for a scalar, the analysis is cast as the background plus the
+innovation weighted by optimal weights which we will determine from statistical
+interpolation,
+xt −xb = W[yo −H(xb)] −εa = Wd −εa
+εa = xa −xt
+(5.4.1)
+but now the truth, the analysis, and the background are vectors of length n (the total
+number of grid points times the number of model variables) and the weights are given
+by a matrix of dimension (n × p). The forward observational operator H converts the
+background ﬁeld into “ﬁrst guesses of the observations.” H can be nonlinear (e.g., the
+radiative transfer equations that go from temperature and moisture vertical proﬁles
+to the satellite observed radiances). The observation ﬁeld yo is a vector of length p,
+the number of observations. The vector d, also of length p, is the “innovation” or
+
+5.4 Multivariate statistical data assimilation methods
+151
+“observational increments” vector:
+d = yo −H(xb)
+(5.4.2)
+Remarks 5.4.1
+(a) The weight matrix W is also called the gain matrix K, the same matrix that
+appears in Kalman ﬁltering.
+(b) An error covariance matrix is obtained by multiplying a vector error
+ε =
+
+
+e1
+e2
+...
+en
+
+
+by its transpose εT =
+
+e1 e2 . . . en
+
+, and averaging over many cases, to
+obtain the expected value:
+P = εεT =
+
+
+e1e1
+e1e2
+· · ·
+e1en
+e2e1
+e2e2
+· · ·
+e2en
+...
+...
+...
+ene1
+ene2
+· · ·
+enen
+
+
+(5.4.3)
+where the overbar represents the expected value (i.e. is the same as E( )). A
+covariance matrix is symmetric and positive deﬁnite. The diagonal elements
+are the variances of the vector error components eiei = σ 2
+i . If we normalize
+the covariance matrix, dividing each component by the product of the
+standard deviations eie j/σiσ j = corr(ei, e j) = ρi j, we obtain a correlation
+matrix
+C =
+
+
+1
+ρ12
+· · ·
+ρ1n
+ρ12
+1
+· · ·
+ρ2n
+...
+...
+...
+ρ1n
+ρ12
+· · ·
+1
+
+
+(5.4.4)
+and if
+D =
+
+
+σ 2
+1
+0
+· · ·
+0
+0
+σ 2
+2
+· · ·
+0
+...
+...
+...
+0
+0
+· · ·
+σ 2
+n
+
+
+is the diagonal matrix of the variances, then we can write
+P = D1/2CD1/2
+(5.4.5)
+
+152
+5 Data assimilation
+(c) The transpose of matrix products is given by the product of the transposes,
+but in reverse order: [AB]T = BT AT ; a similar rule applies to the inverse of a
+product: [AB]−1 = B−1A−1
+(d) The general form of a quadratic function is F(x) = 1
+2xT Ax + dT x + c,where
+A is a symmetric matrix, d is a vector and c a scalar. To ﬁnd the gradient of
+this scalar function ∇xF = ∂F/∂x (a column vector) we use the following
+properties of the gradient with respect to x: ∇(dT x) = ∇(xT d) = d (since
+∇xxT = I, the identity matrix), and ∇(xT Ax) = 2Ax. Therefore,
+∇F(x) = Ax + d
+∇2F(x) = A
+and
+δF = (∇F)T δx
+(5.4.6)
+(e) Multiple regression or best linear unbiased estimation (BLUE).
+Assume we have two time series of vectors
+x(t) =
+
+
+x1(t)
+x2(t)
+...
+xn(t)
+
+
+y(t) =
+
+
+y1(t)
+y2(t)
+...
+yp(t)
+
+
+centered about their mean value, E(x) = 0, E(y) = 0, i.e., vectors of
+anomalies. We derive now the best linear unbiased estimation of x in terms of
+y, i.e., the optimal value of the weight matrix W in the multiple linear
+regression
+xa(t) = Wy(t)
+(5.4.7)
+which approximates the true relationship
+x(t) = Wy(t) −ε(t)
+(5.4.8)
+Here ε(t) = xa(t) −x(t) is the linear regression (“analysis”) error, and W is
+an n × p matrix that minimizes the mean squared error E(εT ε). To derive W
+we write the regression equation matrix components explicitly:
+xi(t) =
+p
+
+k=1
+wik yk(t) −εi(t)
+Then
+n
+
+i=1
+ε2
+i (t) =
+n
+
+i=1
+,
+p
+
+k=1
+wik yk(t) −xi(t)
+-2
+
+5.4 Multivariate statistical data assimilation methods
+153
+and the derivative with respect to the weight matrix components is
+∂
+n
+i=1
+ε2
+i (t)
+∂wi j
+= 2
+ p
+k=1
+wik yk(t) −xi(t)
+ 
+y j(t)
+
+= 2
+ p
+k=1
+wik yk(t)yi(t) −xi(t)y j(t)
+
+(5.4.9)
+In matrix form, this is
+∂εT ε
+∂wi j
+= 2
+"
+Wy(t)yT (t)
+
+i j −
+
+x(t)yT (t)
+
+i j
+#
+so that if we take a long time mean, and choose W to minimize the mean
+squared error, we get the normal equation
+WE
+	
+yyT 
+−E
+	
+xyT 
+= 0
+or
+W = E
+	
+xyT 
+ 
+E
+	
+yyT 
+−1
+(5.4.10)
+which gives the best linear unbiased estimation xa(t) = Wy(t).
+Statistical assumptions
+We deﬁne the background error and the analysis error as vectors of length n:
+εb(x, y) = xb(x, y) −xt(x, y)
+(5.4.11a)
+εa(x, y) = xa(x, y) −xt(x, y)
+(5.4.11b)
+The p observations available at irregularly spaced points yo(ri) have observational
+errors
+εoi = yo(ri) −yt(ri) = yo(ri) −H[xt(ri)]
+(5.4.12)
+We don’t know the truth xt, thus we don’t know the errors of the available background
+and observations, but we can make a number of assumptions about their statistical
+properties. The background and observations are assumed to be unbiased:
+E{εb(x, y)} = E{xb(x, y)} −E{xt(x, y)} = 0
+E{εo(ri)} = E{yo(ri)} −E{yt(ri)} = 0
+%
+(5.4.13)
+If the forecasts (background) and the observations are biased, in principle we can
+and should correct the bias before proceeding. Dee and Da Silva (1998) show how
+the model bias can actually be estimated as part of the analysis cycle.
+
+154
+5 Data assimilation
+We deﬁne the error covariance matrices for the analysis, background and obser-
+vations respectively:
+Pa = A = E
+"
+εaε T
+a
+#
+Pb = B = E
+"
+εbε T
+b
+#
+Po = R = E
+"
+εoε T
+o
+#
+
+
+
+(5.4.14)
+The nonlinear observation operator H that transforms model variables into observed
+variables can be linearized as
+H(x + δx) = H(x) + Hδx
+(5.4.15)
+where H is a p × n matrix, denoted the linear observation operator with elements
+hi, j = ∂Hi/∂x j. We also assume that the background (usually a model forecast) is a
+good approximation of the truth, so that the analysis and the observations are equal
+to the background values plus small increments. Therefore, the innovation vector
+(5.4.2) can be written as
+d = yo −H(xb) = yo −H(xt + (xb −xt))
+= yo −H(xt) −H(xb −xt) = εo −Hεb
+(5.4.16)
+The H matrix transforms vectors in model space into their corresponding values in
+observation space. Its transpose or adjoint HT transforms vectors in observation space
+to vectors in model space.
+The background error covariance B (a matrix of size n × n) and the observation
+error covariance R (a matrix of size p × p) are assumed to be known. In addition,
+we assume that the observation and background errors are uncorrelated:
+E
+"
+εoε T
+b
+#
+= 0
+(5.4.17)
+We will now use the best linear unbiased estimation formula (5.4.10) to derive the
+optimal weight matrix W in (5.4.1). xa −xb = Wd, which approximates the true
+relationship xt −xb = Wd −ε a.
+From (5.4.16), d = yo −H(xb) = ε o −Hε b, and from (5.4.10) the optimal
+weight matrix W (also known as the gain matrix K) that minimizes ε T
+a ε a is given by
+W = E{(xt −xb)[yo −H(xb)]T }(E{[yo −H(xb)][yo −H(xb)]T })−1
+= E[(−εb)(εo −Hεb)T ]{E[(εo −Hεb)(εo −Hεb)T ]}−1
+(5.4.18)
+Recall that in (5.4.17) we assumed that the background errors are not correlated with
+the observational errors, i.e., that their covariance is equal to zero. Substituting the
+deﬁnitions of background error covariance B and observational error covariance R
+
+5.4 Multivariate statistical data assimilation methods
+155
+(5.4.14) into (5.4.18) we obtain the optimal weight matrix
+W = BHT (R + HBHT )−1
+(5.4.19)
+Finally, we derive the analysis error covariance.
+Pa = E
+"
+εaε T
+a
+#
+= E
+"
+εbε T
+b + εb(εo −Hεb)T WT
++W(εo −Hεb)ε T
+b + W(εo −Hεb)(εo −Hεb)T WT #
+= B −BHT WT −WHB + WRWT + WHBHT WT
+and substituting (5.4.19) we obtain
+Pa = (I −WH)B
+(5.4.20)
+Exercise 5.4.1: Derive (5.4.20).
+For convenience, we repeat the basic equations of OI, and express in words their
+interpretation, which is similar to that for a scalar least square problem from the last
+section:
+xa = xb + W[yo −H(xb)] = xb + Wd
+(5.4.1)
+W = BHT (R + HBHT )−1
+(5.4.19a)
+We will see in Section 5.5 (where we derive the variational approach or 3D-Var) that
+the weight matrix (5.4.19) can be written in an alternative equivalent form as
+W = (B−1 + HT R−1H)−1HT R−1
+(5.4.19b)
+(see (5.5.11) in Section 5.5)
+Pa = (In −WH)B
+(5.4.20)
+where the subscript n is a reminder that the identity matrix is in the analysis or model
+space.
+The interpretation of these equations is very similar to the scalar case discussed
+in Section 5.3:
+Equation (5.4.1) says: “The analysis is obtained by adding to the ﬁrst guess
+(background) the product of the optimal weight (or gain) matrix and the
+innovation (the difference between the observation and the ﬁrst guess).
+The ﬁrst guess of the observations is obtained by applying the observation
+operator H to the background vector.” Also, note that from (5.4.15),
+H(xb) = H(xt) + H(xb −xt) = H(xt) + Hε b, where the matrix H is the
+linear tangent perturbation of H.
+Equation (5.4.19a) says: “The optimal weight (or gain) matrix is given by the
+background error covariance in the observation space (BHT ) multiplied by
+
+156
+5 Data assimilation
+the inverse of the total error covariance (the sum of the background and the
+observation error covariances).” Note that the larger the background error
+covariance compared with the observation error covariance, the larger the
+correction to the ﬁrst guess.
+Equation (5.4.20) says: “The error covariance of the analysis is given by the
+error covariance of the background, reduced by a matrix equal to the
+identity matrix (n × n) minus the optimal weight matrix.”
+Finally we derive an alternative formulation for the analysis error covariances show-
+ing(asinthescalarcase)theadditivepropertiesofthe“precisions”(ifallthestatistical
+assumptions hold true). From (5.4.1), (5.4.16), and (5.4.19b) we can show that
+εa = εb + [B−1 + HT R−1H]−1HT R−1(ε0 −Hεb)
+= [B−1 + HT R−1H]−1[B−1εb + HT R−1εo]
+(5.4.21)
+If we again compute Pa = E{εaεT
+a } from (5.4.21), and make use of E{εbεT
+o } =
+0, Pb = B = E{εbεT
+b }, Po = R = E{εoεT
+o }, we obtain
+P−1
+a
+= B−1 + HT R−1H
+(5.4.22)
+Equation (5.4.22) says: “The analysis precision, deﬁned as the inverse of the
+analysis error covariance, is the sum of the background precision and the
+observation precision projected onto the model space.”
+Note that all these statements are dependent on the assumption that the statistical
+estimates of the errors are accurate. If the observations and/or background error co-
+variances are poorly known, if there are biases, or if the observations and background
+errors are correlated, the analysis precision can be considerably worse than implied
+by (5.4.20) or (5.4.22).
+Remarks 5.4.2
+(a) It is important to note that the observation error variances come from two
+different sources: one is the instrumental error variances proper, the second is
+the presence in the observations of subgrid-scale variability not represented in
+the grid-average values of the model and analysis. The second type of error is
+denoted “error of representativeness”. By performing a grid average similar
+to the Reynolds average discussed in Chapter 4, we obtain that the
+observational error variance R is the sum of the instrument error variance
+Rinstr and the representativeness error variance Rrepr, assuming that these
+errors are not correlated. If in addition we allow for errors in the observation
+operator H with observation error covariance RH, these can also be included
+in the observation error covariance (Lorenc, 1986):
+R = Rinstr + Rrepr + RH
+(5.4.23)
+
+5.4 Multivariate statistical data assimilation methods
+157
+(b) The equations for Kalman ﬁltering, discussed in detail in Section 5.5, are very
+similar as those for OI. The main difference ¯is that the background error
+covariance B, instead of being assumed to be constant in time as in OI or
+3D-Var, is updated (forecasted) from the previous analysis time tn to the new
+analysis time tn+1. The model forecast starts from the analysis at time
+tn, xn+1
+b
+= M(xn
+a), where M is the nonlinear model. Therefore, subtracting
+xn+1
+t
+= M(xn
+t ) −εM from both sides,
+εn+1
+b
+= Mεn
+a + εM
+(5.4.24)
+where εM is the model error. From (5.4.24) we obtain the Kalman ﬁlter new
+forecast error covariance
+B = P f (tn+1) = εn+1
+b
+	
+εn+1
+b
+
+T = M(tn)Pa(tn)MT (tn) + Q(tn)
+(5.4.25)
+Here Q = E(εmεT
+m) is the forecast model error covariance, M is the linear
+tangent model and MT its adjoint. With this change, the weight matrix
+becomes the Kalman gain matrix K. Although this is apparently a small
+change from OI, the matrix multiplications by M in (5.4.20) are
+approximately equivalent to integrating the forecast model n/2 times, where
+n is the number of degrees of freedom of the model.
+5.4.2
+Approximations made in the practical
+implementation of OI
+We have seen that, in matrix form, the analysis is obtained from
+xa = xb + W[yo −H(xb)]
+(5.4.26)
+or if we deﬁne increments from the background as δx = x −xb, then the analysis
+increment is
+δxa = Wδyo
+(5.4.27)
+The optimal weight matrix W that minimizes the analysis error covariance is given
+by
+W = BHT (HBHT + R)−1
+(5.4.28)
+If all the statistical assumptions are accurate, i.e., the background error covariance
+B and the observations error covariance R are known exactly, then the formulas
+(5.4.26) or (5.4.27), and (5.4.28) provide the OI analysis. In that case, the analysis
+error covariance is given by
+Pa = A = (I −WH)B
+(5.4.29)
+
+158
+5 Data assimilation
+If, as occurs in reality, the statistics are only approximations of the true statistics, then
+(5.4.26) and (5.4.28) provide a “statistical interpolation”, not necessarily “optimal
+interpolation”.
+OI is typically performed in physical space, either grid point by grid point (e.g.,
+McPherson et al., 1979, DiMego et al., 1985) or over limited volumes (Lorenc,
+1981). In the implementation of OI, (5.4.27) and (5.4.28) are solved point by point
+(or volume by volume) in grid-point space. To make the formulation in physical
+space clearer, we expand the matrix equations:
+B =
+
+
+b11 . . . b1n
+...
+...
+bn1 . . . bnn
+
+
+H =
+
+
+h11 . . . h1n
+...
+...
+h p1 . . . h pn
+
+
+R =
+
+
+r11 . . . r1p
+...
+...
+rp1 . . . rpp
+
+
+W =
+
+
+w11 . . . w1p
+...
+...
+wn1 . . . wnp
+
+
+
+
+
+(5.4.30)
+H is the linear perturbation (Jacobian) of the forward observational model H, and
+HT is its transpose or adjoint. Multiplying by H on the left transforms grid-point
+increments into observation increments (e.g., by linear interpolation), and HT trans-
+forms from observation points back to grid points. There are n grid points, or if we
+are considering several variables, n is the product of the number of grid points and the
+variables. Consider a speciﬁc grid point with the subscript g. The subscripts j and k
+represent particular observations affecting the grid point g, and there are p such ob-
+servations. Recall that B is the background error covariance, so that the background
+error is εb(x, y) = xb(x, y) −xt(x, y), and b jk = E[εb(x j, y j)εT
+b (xk, yk)], and the
+expected value is the average over many cases.
+We can rewrite the equation for the weights (5.4.28) as
+W(HBHT + R) = BHT
+(5.4.31)
+Consider again the OI equations in matrix form:
+xa = xb + W[yo −H(xb)]
+where the optimal weight matrix is obtained from the system of equations (5.4.31).
+As an illustration, let us write (5.4.31) for the simple case of three grid points
+e, f, g, and two observations, 1 and 2 (Fig. 5.4.1).
+e
+g
+f
+1
+2
+Figure 5.4.1: Simple system with three grid points (black dots) e, f, g, and two
+observation points, 1 and 2.
+
+5.4 Multivariate statistical data assimilation methods
+159
+In this case, xa = (xa
+e , xa
+f , xa
+g)T , and similarly for the background xb =
+(xb
+e , xb
+f , xb
+g)T . The observation vector is yo = (yo
+1, yo
+2)T , and the background values
+at the observation points are
+Hxb =
+
+h1e
+h1 f
+h1g
+h2e
+h2 f
+h2g
+ 
+
+xb
+e
+xb
+f
+xb
+g
+
+= yb
+(5.4.32)
+The coefﬁcients of the observation operator H are obtained from linear or higher
+order interpolation of the grid location to the observation location. We are assuming
+that the observed and analyzed variables are the same, so that the coefﬁcients of
+the matrix H are simply interpolation coefﬁcients. For example, if we used linear
+interpolation, H would be
+H =
+
+
+x f −x1
+x f −xe
+x1 −xe
+x f −xe
+0
+0
+xg −x2
+xg −x f
+x2 −x f
+xg −x f
+
+
+The background error covariance matrix elements are the covariances between grid
+points:
+B =
+
+
+bee
+bef
+beg
+b f e
+b f f
+b f g
+bge
+bg f
+bgg
+
+
+so that
+BHT =
+
+
+be1
+be2
+b f 1
+b f 2
+bg1
+bg2
+
+
+is an approximation by interpolation of the background error covariances between
+grid to observation points, e.g., bg2 = bgeh2e + bg f h2 f + bggh2g. Then
+HBHT =
+
+b11
+b12
+b21
+b22
+
+isanapproximationbybackinterpolationofthebackgrounderrorcovariancebetween
+observation points. The observation error covariance for this case is
+R =
+
+r11
+r12
+r21
+r22
+
+It is usually a reasonable assumption that measurement errors made at different
+locations are uncorrelated, in which case R is a diagonal matrix. (Measurement
+errors could be correlated, but only within small groups of observations made by the
+same instrument, in which case R is a block diagonal matrix, where the blocks are
+
+160
+5 Data assimilation
+still easily invertible.) From this simple example, it is apparent that, in general, we
+can write the OI equation for a particular grid point g inﬂuenced by p observations as:
+xa
+g = xb
+g +
+p
+
+j=1
+wgjδy j
+(5.4.33)
+where the weights are the solution of the linear system
+p
+
+j=1
+wgj(b jk+r jk) = bgk
+k = 1, . . . , p
+(5.4.34)
+In (5.4.34), wgj is the weight that multiplies the observation increment δy j to con-
+tribute to the analysis increment δxa
+g, r jk is the observation error covariance between
+two observation points j and k, b jk is the background error covariance between the
+observation points j and k, and bgk is the background error covariance between the
+grid point g and the observation point k. We are assuming that the observation
+vector has already been transformed into the same type of variables as the model,
+i.e., that a retrieval method is used, and the interpolation matrix H has already been
+multiplied by B, generating grid-to-observation and observation-to-observation
+background correlations as in the simple example above. There are equations like
+(5.4.34) and (5.4.33) for each grid point, and in the case of multivariate analysis
+(e.g., the geopotential height and the two horizontal wind components z, u, v), for
+each variable at each grid point.
+Equations (5.4.33) and (5.4.34) constitute the OI scheme written for each grid
+point g. Note the fundamental role that the background error covariance plays in
+the determination of the optimal weights (5.4.34). The background error covariance
+determinesthescaleandthestructureofthecorrectionstothebackground.Intheprac-
+tical implementation of (5.4.33) and (5.4.34), there are a number of commonly made
+additional simpliﬁcations, especially in the background error covariance elements b.
+Remarks 5.4.3
+(a) Perhaps the most important advantage of statistical interpolation schemes
+such as OI and 3D-Var over empirical schemes such as SCM is that the
+correlation between observational increments is taken into account. Recall
+that in SCM, the weights of the observational increments depend only on
+their distance to the grid point. Therefore, in SCM all observations will be
+given similar weight even if a number of them are “bunched up” in one
+quadrant (Fig. 5.1.1), with just a single observation in a different quadrant. In
+OI (or 3D-Var), by contrast, the isolated observational increment will be
+given more weight in the analysis than observations that are close together
+and therefore less independent. The fact that isolated observations have more
+independent information than observations close together is a result of the
+fact that the forecast error correlations b jk/b j jbkk at the observation points
+j, k are large if the observation points are close together.
+
+5.4 Multivariate statistical data assimilation methods
+161
+(b) When several observations are too close together, then the solution of (5.4.34)
+becomes an ill-posed problem. In those cases, it is common to compute a
+“superobservation” combining the close individual observations. This has the
+advantage of removing the ill-posedness, while at the same time reducing by
+averaging the random errors of the individual observations. The
+superobservation should be a weighted average that takes into account the
+relative observation errors of the original close observations.
+In order to develop an OI-based data assimilation, we need to make actual estimates
+of the prior error covariances, B and R and the observation operator H. We saw before
+that,forasimplesysteminwhichtheobservationsarethesameasthemodelvariables,
+the observation operator is simply an interpolator from the model to the observation
+location. If the variables are different, it has to include not only the interpolation to the
+observation location, but also the “forward model” that represents the observations
+that would be obtained if the model was true. For example, if the observations are
+satellite radiances, the observation operator interpolates from the model grid to the
+radiance observation location, and then uses radiative transfer theory to convert a
+model column of temperature and moisture as a function of pressure into synthetic
+“radiances”. The observational error covariance is obtained from instrument error
+estimates. If the measurements are independent, the matrix R is diagonal, which is a
+major advantage. The forecast error covariance B is the most difﬁcult error covariance
+to estimate, and has a crucial impact on the results.
+Most of the rest of this section is devoted to a brief review of the methods that
+were in use in the 1980s to estimate B in OI applications. They were based on esti-
+mations of the horizontal and vertical correlations between forecast errors, estimated
+as the differences between the short-range forecasts and the rawinsonde observations
+(Thiebaux and Pedder, 1987, Hollingsworth and L¨onnberg, 1986). In contrast, for
+3D-Var, the method that has been almost universally adopted does not depend on
+measurements at all, but on the difference between forecasts verifying at the same
+time. This is known as the “NMC method” and is discussed in Section 5.4.8.
+In OI it is common to standardize the background error covariance with D, the
+diagonal matrix of the variances:
+B = D1/2CD1/2
+D =
+
+
+σ 2
+1 0 . . . 0
+0 σ 2
+2 . . . 0
+...
+...
+...
+0
+0 . . . σ 2
+n
+
+
+C =
+
+
+µ11 µ12 . . . µ1p
+µ12 µ22 . . . µ2p
+...
+...
+...
+µ1p µ2p . . . µpp
+
+
+(5.4.35)
+Here
+µi j = bi j/(
+
+bii
+
+b j j) = bi j/
+	
+σ 2
+i
+
+σ 2
+j
+
+(5.4.36)
+
+162
+5 Data assimilation
+are the correlations of the background errors at two observational points i, j, and σ 2
+i
+are the error variances.
+It has been commonly assumed in OI implementations that the background error
+correlations can be separated into the product of the horizontal correlation and the
+vertical correlation. As we will see, these simpliﬁed correlations are typically deﬁned
+as functions of distance only.
+We present an example of simpliﬁcations frequently made in practice by con-
+sidering the two-dimensional analysis of z, u, v, at a single pressure level p, using
+rawinsondes as the only observations. Since the observation errors of two separate
+rawinsondes at points i and j are not correlated (although the geopotential errors
+are correlated in the vertical), we can assume that the observation error covariance
+matrix is a diagonal matrix:
+ri j = 0 if i ̸= j
+rii = σ 2
+oi
+%
+(5.4.37)
+We also assume that the background error variance is constant for each variable,
+bii = σ 2
+bg (equal to the background error variance at the grid point and assumed to
+be the same for all the grid points).
+With these assumptions, (5.4.34) for a grid point g becomes
+p
+
+j=1
+wgjµ jk + ηkwgk = µgk
+k = 1, . . . , p
+(5.4.38)
+Here ηk = σ 2
+ok/σ 2
+bg is the mean square of the relative error of observations compared
+with the background error, a parameter frequently “tuned” to give more or less weight
+to the observations. We can also show from (5.4.29) that the relative analysis error
+at the grid point is given by:
+σ 2
+ag
+σ 2
+bg
+= 1 −
+p
+
+k=1
+wgkµgk
+(5.4.39)
+where the analysis error has been scaled by the background error variance at the grid
+point. Note that (5.4.39) is the equivalent of (5.4.20) in grid-point space.
+We now further assume that the background error correlation between two points
+in the same horizontal surface is homogeneous and isotropic (i.e., it doesn’t change
+with a rigid translation or rotation of the two points). In that case the background
+error correlation of the geopotential height depends only on the distance between the
+two points. Gandin (1963), Schlatter (1975), Thiebaux and Pedder (1987) and others
+have used a Gaussian exponential function for the geopotential error correlation:
+µi j = e−r2
+i j/2L2
+φ
+(5.4.40)
+where r2
+i j = (xi −x j)2 + (yi −y j)2 is the square of the distance between two points
+i and j, and Lφ, typically of the order of 500 km, deﬁnes the background error
+
+5.4 Multivariate statistical data assimilation methods
+163
+correlation scale. Gaussian functions have also been used for the vertical correlation
+functions. These assumptions are clearly crude, and only qualitatively begin to reﬂect
+the true structure of the background error correlation. For example, in the real atmo-
+sphere the background error correlation length should depend on the Rossby radius
+of deformation, and therefore should be a function of latitude, with longer horizontal
+error correlations in the tropics than in the extratropics (Balgovind et al., 1983, Baker
+et al., 1987). It should also depend on the data density: at the boundaries between
+data-rich and data-poor regions, the correlations of the forecast errors should not be
+isotropic (Cohn and Parrish, 1986). We refer the reader to the discussions in Daley
+(1991) and Thiebaux and Pedder (1987) for further details and references.
+Another important assumption usually made in the OI analysis of large-scale
+ﬂow is that the background wind error correlations are geostrophically related to
+the geopotential height error correlations. This has two advantages: it avoids having
+to estimate independently the wind error correlation, and it imposes an approxi-
+mate geostrophic balance of the wind and height analysis increments, and therefore
+improves the balance of the analysis (see Remark 5.4.3(c)). Once a functional as-
+sumption for the background error correlation of the height like (5.4.40) is made,
+then the multivariate correlation between heights and winds can be obtained from the
+height correlations. For example, consider the background error correlation between
+two horizontal wind components:
+E(δuiδv j) = −g
+fi
+g
+f j
+E
+∂δzi
+∂yi
+∂δz j
+∂x j
+
+(5.4.41)
+Now, since the geopotential error at the point x j is independent of yi and vice versa,
+we can combine the derivatives, use (5.4.40) and write
+E(δuiδv j) = −g
+fi
+g
+f j
+∂2E(δziδz j)
+∂yi∂x j
+= −g
+fi
+g
+f j
+∂2bi j
+∂yi∂x j
+= −g2
+fi
+σ 2
+z
+f j
+∂2µi j
+∂yi∂x j
+(5.4.42)
+The standard deviation of the wind increments can also be derived from the
+geostrophic relationship, E(δu2
+i )1/2 = (gσz/ fi), E(δv2
+j)1/2 = (gσz/ f j), so that we
+obtain the correlation of the increments of the two wind components by dividing
+(5.4.42) by these standard deviations: ρu,v = −∂2µi j/∂yi∂x j. Similarly, we can ob-
+tain the correlations between the increments of any two of the three variables at two
+points i, j: ρh,h = µi j, ρh,u = −∂µi j
+∂yi , ρu,h = −∂µi j
+∂y j , etc.
+Fig. 5.4.2 shows schematically the shape of typical wind/height correlation func-
+tionsusedinOI(e.g.,Schlatter,1975).Notethattheu–hcorrelationshavetheopposite
+sign than the h–u correlations because the ﬁrst and second variables correspond to the
+ﬁrst and second points i and j respectively. For example, a height observation leading
+to a positive analysis increment of h will result in positive increments of u to its north.
+Conversely, a positive increment of u will lead to negative increments of h to its north.
+
+164
+5 Data assimilation
+φφ
+0.4
+0.8
+φu
+0.4
+0.0
+φv
+0.
+0
+0.4
+-0.4
+0.0
+u φ
+-0.4
+0.0
+vφ
+-0.4
+0.4
+0.0
+uu
+0.8
+-0.4
+vv
+0.8
+-0.4
+-0.4
+uv
+0.2
+0.2
+-0.2
+-0.2
+0.0
+0.0
+0.
+0
+vu
+0.2
+0.2
+-0.2
+-0.2
+0.0
+0.0
+-0.4
+ 0.4
+0.4
+Figure 5.4.2: Schematic illustration of the correlation and cross-correlation
+functions for multivariate OI analysis derived using the geostrophic increment
+assumption (after Gustaffson, 1981). Both x- and y-axes go from −
+√
+2Lφ to +
+√
+2Lφ.
+Equations (5.4.42) are not valid at the equator, and additional approximations
+have to be made in the tropics to allow for a smooth decoupling of wind and height
+increments (Lorenc, 1981).
+In addition, it is common to select the observations to be included in solving
+the linear system for the weight coefﬁcients (5.4.38), depending on the computer
+resources available for the analysis, allowing for a maximum number of observations
+affecting each grid point. Rules for the selection of the subset of observations to be
+used typically depend on the distance to the grid point (within a maximum radius of
+inﬂuence), the types of observations (giving priority to the most accurate) and their
+distribution (trying to “cover” all quadrants, and choosing the closest stations).
+Lorenc (1981) gave a comprehensive description of an OI as implemented
+at the ECMWF. Although later improvements were implemented in the error

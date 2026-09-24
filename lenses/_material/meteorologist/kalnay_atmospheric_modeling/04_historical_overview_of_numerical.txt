@@ -1,0 +1,131 @@
+1
+Historical overview of numerical
+weather prediction
+1.1
+Introduction
+In general, the public is not aware that our daily weather forecasts start out as initial-
+value problems on the major national weather services supercomputers. Numerical
+weather prediction provides the basic guidance for weather forecasting beyond the
+ﬁrst few hours. For example, in the USA, computer weather forecasts issued by the
+National Center for Environmental Prediction (NCEP) in Washington, DC, guide
+forecasts from the US National Weather Service (NWS). NCEP forecasts are per-
+formed by running (integrating in time) computer models of the atmosphere that
+can simulate, given one day’s weather observations, the evolution of the atmosphere
+in the next few days.1 Because the time integration of an atmospheric model is an
+initial-value problem, the ability to make a skillful forecast requires both that the
+computer model be a realistic representation of the atmosphere, and that the initial
+conditions be known accurately.
+NCEP (formerly the National Meteorological Center or NMC) has performed
+operational computer weather forecasts since the 1950s. From 1955 to 1973, the
+forecasts included only the Northern Hemisphere; they have been global since 1973.
+Over the years, the quality of the models and methods for using atmospheric obser-
+vations has improved continuously, resulting in major forecast improvements.
+1 In this book we will provide many examples mostly drawn from the US operational numerical
+center (NCEP), because of the availability of long records, and because the author’s experience
+in this center facilitates obtaining such examples. However, these operational NCEP examples
+are only given for illustration purposes, and are simply representative of the evolution of
+operational weather forecasting in all major operational centers.
+1
+
+2
+1 Historical overview of numerical weather prediction
+Figure 1.1.1(a) shows the longest available record of the skill of numerical weather
+prediction. The “S1” score (Teweles and Wobus, 1954) measures the relative error
+in the horizontal gradient of the height of the constant pressure surface of 500 hPa
+(in the middle of the atmosphere, since the surface pressure is about 1000 hPa) for
+36-h forecasts over North America. Empirical experience at NMC indicated that
+a score of 70% or more corresponds to a useless forecast, and a score of 20% or
+less corresponds to an essentially perfect forecast. This was found from the fact
+that 20% was the average S1 score obtained when comparing analyses hand-made
+by several experienced forecasters ﬁtting the same observations over the data-rich
+North American region.
+Figure 1.1.1(a) shows that current 36-h 500-hPa forecasts over North America
+are close to what was considered essentially “perfect” 40 years ago: the computer
+forecasts are able to locate generally very well the position and intensity of the large-
+scale atmospheric waves, major centers of high and low pressure that determine the
+general evolution of the weather in the 36-h forecast. The sea level pressure forecasts
+contain smaller-scale atmospheric structures, such as fronts, mesoscale convective
+systems that dominate summer precipitation, etc., and are still difﬁcult to forecast
+in detail (although their prediction has also improved very signiﬁcantly over the
+years) so their S1 score is still well above 20% (Fig. 1.1.1(b)). Fig. 1.1.1(a) also
+shows that the 72-h forecasts of today are as accurate as the 36-h forecasts were
+10–20 years ago. This doubling (or better) of skill in the forecasts is observed for
+other forecast variables, such as precipitation. Similarly, 5-day forecasts, which had
+no useful skill 15 years ago, are now moderately skillful, and during the winter of
+1997–8, ensemble forecasts for the second week average showed useful skill (deﬁned
+as anomaly correlation close to 60% or higher).
+The improvement in skill of numerical weather prediction over the last 40 years
+apparent in Fig.1.1.1 is due to four factors:
+the increased power of supercomputers, allowing much ﬁner numerical
+resolution and fewer approximations in the operational atmospheric models;
+the improved representation of small-scale physical processes (clouds,
+precipitation, turbulent transfers of heat, moisture, momentum, and radiation)
+within the models;
+the use of more accurate methods of data assimilation, which result in
+improved initial conditions for the models; and
+the increased availability of data, especially satellite and aircraft data over the
+oceans and the Southern Hemisphere.
+In the USA, research on numerical weather prediction takes place in the national
+laboratories of the National Oceanic and Atmospheric Administration (NOAA), the
+National Aeronautics and Space Administration (NASA) and the National Center
+for Atmospheric Research (NCAR), and in universities and centers such as the
+
+15
+25
+35
+45
+55
+65
+75
+1950
+1960
+1970
+1980
+1990
+2000
+NCEP operational S1 scores at 36 and 72 hr
+over North America (500 hPa)
+Year
+"Useless forecast"
+"Perfect forecast"
+S1 score
+72-h forecast
+36-h forecast
+10--20 years
+(a)
+15
+25
+35
+45
+55
+65
+75
+1940
+1950
+1960
+1970
+1980
+1990
+2000
+NCEP operational models S1 scores:
+Mean Sea Level Pressure over North America
+Year
+"Useless forecast"
+"Perfect forecast"
+72-h (AVN)
+AVN 36-h
+LFM 36-h
+NGM 36-h
+Eta 36-h
+S1 score
+(b)
+Figure 1.1.1: (a) Historic evolution of the operational forecast skill of the NCEP
+(formerly NMC) models over North America (500 hPa). The S1 score measures the
+relative error in the horizontal pressure gradient, averaged over the region of interest.
+The values S1 = 70% and S1 = 20% were empirically determined to correspond
+respectively to a “useless” and a “perfect” forecast when the score was designed.
+Note that the 72-h forecasts are currently as skillful as the 36-h were 10–20 years ago
+(data courtesy C.Vlcek, NCEP). (b) Same as (a) but showing S1 scores for sea level
+pressure forecasts over North America (data courtesy C.Vlcek, NCEP). It shows
+results from global (AVN) and regional (LFM, NGM and Eta) forecasts. The LFM
+model development was “frozen” in 1986 and the NGM was frozen in 1991.

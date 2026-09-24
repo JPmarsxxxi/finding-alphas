@@ -1,0 +1,995 @@
+10
+Risk measures
+Il faut entrer dans le discours du patient et non tenter de lui imposer le nˆotre.†
+(G´erard Haddad, Le jour o`u Lacan m’a adopt´e.)
+10.1 Risk measurement and diversiﬁcation
+Measuring and controlling risks is now a major concern in many modern human activities.
+The ﬁnancial markets, which act as highly sensitive (probably over sensitive) economical
+and political thermometers, are no exception. One of their rˆoles is actually to allow the
+different actors in the economic world to trade their risks, to which a price must therefore
+be given.
+The very essence of the ﬁnancial markets is to ﬁx thousands of prices all day long, thereby
+generating enormous quantities of data that can be analysed statistically. An objective
+measure of risk therefore appears to be easier to achieve in ﬁnance than in most other
+human activities, where the deﬁnition of risk is vaguer, and the available data often very
+poor. Even if a purely statistical approach to ﬁnancial risks is itself a dangerous scientists’
+dream (see e.g. Fig. 1.1), it is fair to say that this approach has not been fully exploited until
+the very recent years, and that many improvements can be still expected in the future, in
+particular concerning the control of extreme risks. The aim of this chapter is to introduce
+some classical ideas on ﬁnancial risks, to illustrate their weaknesses, and to propose several
+theoretical ideas devised to handle more adequately the ‘rare events’ where the true ﬁnancial
+risk resides.
+10.2 Risk and volatility
+Financial risk has been traditionally associated with the statistical uncertainty on the ﬁnal
+outcome. Its traditional measure is the RMS, or, in ﬁnancial terms, the volatility. We will
+note by R(T ) the logarithmic return on the time interval T , deﬁned by:
+R(T ) = log
+x(T )
+x0
+
+,
+(10.1)
+† One should accept the patient’s language, and not try to impose our own.
+
+10.2 Risk and volatility
+169
+where x(T ) is the price of the asset X at time T , knowing that it is equal to x0 today (t = 0).
+When |x(T ) −x0| ≪x0, this deﬁnition is equivalent to R(T ) = x(T )/x0 −1.
+If P(x, T |x0, 0) dx is the conditional probability of ﬁnding x(T ) = x within dx, the
+volatility σ of the investment is the standard deviation of R(T ), deﬁned by:
+σ 2 = 1
+T
+
+P(x, T |x0, 0)R2(T ) dx −
+
+P(x, T |x0, 0)R(T ) dx
+2
+.
+(10.2)
+The volatility is still now often chosen as the adequate measure of risk associated to a
+given investment. We notice however that this deﬁnition includes in a symmetrical way
+both abnormal gains and abnormal losses. This fact is a priori curious. The theoretical
+foundations behind this particular deﬁnition of risk are numerous:
+r First, operational; the computations involving the variance (volatility squared) are rela-
+tively simple and can be generalized easily to multi-asset portfolios.
+r Second, the central limit theorem (CLT) presented in Chapter 2 seems to provide a gen-
+eral and solid justiﬁcation: by decomposing the motion from x0 to x(T ) in N = T/τ
+increments, one can write:
+x(T ) = x0
+N−1
+
+k=0
+(1 + ηk),
+(10.3)
+where ηk is by deﬁnition the instantaneous return. Therefore, we have:
+R(T ) = log
+x(T )
+x0
+
+=
+N−1
+	
+k=0
+log(1 + ηk).
+(10.4)
+In the classical approach one assumes that the returns ηk are independent variables. From
+the CLT we learn that in the limit where N →∞, R(T ) becomes a Gaussian random vari-
+able centred on a given average return ˜mT , with ˜m = ⟨log(1 + η)⟩/τ, and whose standard
+deviation is given by σ
+√
+T .† Therefore, in this limit, the entire probability distribution of
+R(T ) is parameterized by two quantities only, ˜m and σ: any reasonable measure of risk
+must therefore be based on σ.
+However, as we have discussed at length in Chapter 2, this is not true for ﬁnite N (which
+corresponds to the ﬁnancial reality: for example, there are only roughly N ≈320 half-hour
+intervals in a working month), especially in the ‘tails’ of the distribution, that correspond
+precisely to the extreme risks. We will discuss this point in detail below. Furthermore, as
+explained in Chapter 7, the presence of long-ranged correlations in the way the volatility
+itself ﬂuctuates can slow down dramatically the asymptotic convergence towards the Gaus-
+sian limit: non Gaussian effects are in fact important after several weeks, sometimes even
+after several months.
+One can give to σ the following intuitive meaning: after a long enough time T , the price
+of asset X is given by:
+x(T ) = x0 exp[ ˜mT + σ
+√
+T ξ],
+(10.5)
+† To second order in ηk ≪1, we ﬁnd: σ 2 = 1
+τ ⟨η2⟩and ˜m = 1
+τ ⟨η⟩−1
+2σ 2.
+
+170
+Risk measures
+where ξ is a Gaussian random variable with zero mean and unit variance. The quantity σ
+√
+T
+gives us the order of magnitude of the deviation from the expected return. By comparing
+the two terms in the exponential, one ﬁnds that when T ≫ˆT ≡σ 2/ ˜m2, the expected return
+becomes more important than the ﬂuctuations. This means that the probability that x(T )
+turns out to be less than x0 (and that the investment leads to losses) becomes small. The
+security horizon ˆT increases with σ. For a rather good individual stock, one has – say –
+˜m = 10% per year and σ = 20% per year, which gives a ˆT as long as 4 years!
+In fact, one should not compare x(T ) to x0, because a risk free investment would have pro-
+duced x0erT . The investor should therefore only be concerned with the excess return over the
+risk free rate, m∗= ˜m −r. (Note however that the existence of guaranteed capital products
+shows that many people think in terms of raw returns and not in terms of excess returns!)
+The quality of an investment is often measured by its Sharpe ratio S, that is, the ‘signal-
+to-noise’ ratio of the excess return m∗T to the ﬂuctuations σ
+√
+T . The Sharpe ratio is in fact
+directly related to the ‘security horizon’ ˆT :
+S = m∗√
+T
+σ
+≡
+
+T
+ˆT
+.
+(10.6)
+The Sharpe ratio increases with the investment horizon and is equal to 1 precisely when
+T = ˆT . Practitioners usually deﬁne the Sharpe ratio for a 1-year horizon. In the case of
+stocks mentioned above, the Sharpe ratio is equal to 0.25 if one subtracts a risk-free rate
+of 5% annual. An investment with a Sharpe ratio equal to one is considered as extremely
+good. Note however that the Sharpe ratio itself is only known approximately. Suppose that
+one has ten years of daily returns, corresponding to N = 2500 observations. We neglect
+volatility correlations, which leads to a substantial underestimation of the error. The error
+on ˜m is σ/
+√
+N, whereas the relative error on σ is √(2 + κ)/N, where κ is the daily kurtosis.
+The error on the Sharpe ratio therefore reads:
+S =
+1
+√
+N
+[
+√
+T + S
+
+(2 + κ)],
+(10.7)
+where T is expressed in days. For the one year Sharpe ratio, T = 250, one ﬁnds S ≈
+0.31 + 0.045S with κ = 3. Take the case of stocks, for which S ≈0.25: the error on the
+Sharpe is of the same order as the Sharpe itself! This illustrates the difﬁculty of establishing
+the quality of a given investment, especially based on a few months of performance.
+As a rule of thumb, for the one-year Sharpe ratio, the error is:
+S ≈
+1
+√n ,
+(10.8)
+where n is the number of available years of data.
+
+10.3 Risk of loss, ‘value-at-risk’ (VaR) and expected shortfall
+171
+Note that the most probable value of x(T ), as given by Eq. (10.5), is equal to x0 exp( ˜mT ),
+whereas the mean value of x(T ) is higher: assuming that ξ is Gaussian, one ﬁnds:
+x0 exp[( ˜mT + σ 2T /2)]. This difference is due to the fact that the returns ηk, rather than
+the absolute increments δxk, are taken to be iid random variables. However, if T is short
+(say up to a few months), the difference between the two descriptions is hard to detect. As
+explained in details in Chapter 8, a purely additive description is actually more adequate at
+short times. We shall therefore often write in the following x(T ) as:
+x(T ) = x0 exp[ ˜mT + σ
+√
+T ξ] ≃x0 + mT +
+√
+DT ξ,
+(10.9)
+where we have introduced the following notations, which we shall use throughout the
+following: m ≡˜mx0 for the absolute return per unit time, and D ≡σ 2x2
+0 for the absolute
+variance per unit time (usually called the diffusion constant of the stochastic process). As
+we now discuss, the non-Gaussian nature of the random variable ξ is the most important
+factor determining the probability for extreme risks.
+10.3 Risk of loss, ‘value-at-risk’ (VaR) and expected shortfall
+10.3.1 Introduction
+The fact that ﬁnancial risks are often described using the volatility is actually intimately
+related to the idea that the distribution of price changes is Gaussian. In the extreme case of
+‘L´evy ﬂuctuations’, for which the variance is inﬁnite, this deﬁnition of risk would obviously
+be meaningless. Even in a less risky world where the variance is well deﬁned, this measure
+of risk has three major drawbacks:
+r The ﬁnancial risk is obviously associated to losses and not to proﬁts. A deﬁnition of risk
+where both events play symmetrical roles is thus not in conformity with the intuitive
+notion of risk, as perceived by professionals.
+r As discussed at length in Chapter 2, a Gaussian model for the price ﬂuctuations is never
+justiﬁed fortheextremeevents,sincetheCLTonlyappliesinthecentreofthedistributions.
+Now, it is precisely these extreme risks that are of most concern for all ﬁnancial houses, and
+thus those which need to be controlled in priority. In recent years, international regulators
+have tried to impose some rules to limit the exposure of banks to these extreme risks.
+r The presence of extreme events in the ﬁnancial time series can actually lead to a very bad
+empirical determination of the variance: its value can be substantially changed by a few
+‘big days’. A bold solution to this problem is simply to remove the contribution of these
+so-called aberrant events! This rather absurd solution was actually quite commonly used
+in the past.
+Both from a fundamental point of view, and for a better control of ﬁnancial risks, another
+deﬁnition of risk is thus needed. An interesting notion that we shall present now is the
+probability of extreme losses, or, equivalently, the value-at-risk (VaR).
+
+172
+Risk measures
+10.3.2 Value-at-risk
+The probability of losing an amount −δx larger than a certain threshold  on a given time
+interval τ is deﬁned as:
+P[δx < −] = P<[−] =
+ −
+−∞
+Pτ(δx) dδx,
+(10.10)
+where Pτ(δx) is the probability density for a price change on the time interval τ. One can
+alternatively deﬁne the risk as a level of loss (the ‘VaR’) ∗corresponding to a certain
+probability of loss P∗over the time interval τ (for example, P∗= 1%):
+ −∗
+−∞
+Pτ(δx) dδx = P∗.
+(10.11)
+This deﬁnition means that a loss greater than ∗over a time interval of τ = 1 day (for
+example) happens only every 100 days on average (for P∗= 1%). Let us note that:
+r This deﬁnition does not take into account the fact that losses can accumulate on con-
+secutive time intervals τ, leading to an overall cumulated loss which might substantially
+exceed ∗.
+r Similarly, this deﬁnition does not take into account the value of the maximal loss ‘inside’
+the period τ. In other words, only the closing price over the period [kτ, (k + 1)τ] is
+considered, and not the lowest point reached during this time interval: we shall come
+back on these temporal aspects of risk in Section 10.4.
+More precisely, one can discuss the probability distribution P(, N) for the worst daily
+loss  (we choose τ = 1 day to be speciﬁc) on a temporal horizon T = Nτ. Using the
+results of Section 2.1, one has:
+P(, N) = N[P>(−)]N−1Pτ(−).
+(10.12)
+For N large, this distribution takes a universal shape that only depends on the asymptotic
+behaviour of Pτ(δx) for δx →−∞. In the important case where Pτ(δx) decays faster
+than any power-law, one ﬁnds that P(, N) is given by Eq. (2.7), which is represented in
+Figure 10.1.
+Choosing the temporal horizon to be T ∗= τ/P∗such that on average one event beyond
+∗takes place, we ﬁnd that the distribution of the worst daily loss has a maximum precisely
+for  = ∗. The intuitive meaning of ∗is thus the value of the most probable worst day
+over a time interval T ∗.†
+Note that the probability for  to be even worse ( > ∗) is equal to 63% (Fig. 10.1).
+One could deﬁne ∗in such a way that this exceedance probability is smaller, by requiring
+a higher conﬁdence level, for example 95%. This would mean that on a given horizon (for
+example 100 days), the probability that the worst day is found to be beyond ∗is equal to
+† If the distribution Pτ (δx) is a power-law with an index µ = 3, one ﬁnds that the most probable worst day over
+a time interval T ∗is (3/4)1/3∗≈0.91∗.
+
+10.3 Risk of loss, ‘value-at-risk’ (VaR) and expected shortfall
+173
+Λ
+P(Λ, N)
+Λmax
+37%
+63%
+Fig. 10.1. Extreme value distribution (the so-called Gumbel distribution) P(, N) when Pτ(δx)
+decreases faster than any power-law. The most probable value, max, has a probability equal to 0.63
+to be exceeded.
+5%, instead of 63%. This new ∗then corresponds to the most probable worst day on a
+time period equal to 100/0.05 = 2000 days.
+The standard in the ﬁnancial industry is to choose τ = 10 trading days (two weeks) and
+P∗= 0.05, corresponding to the 95% VaR over two weeks. In this case, the time interval
+and the time horizon are identical.
+In the Gaussian case, the VaR is directly related to the volatility σ. Indeed, for a Gaussian
+distribution of RMS equal to σ1x0 = σ x0
+√τ, and of mean m1, one ﬁnds that ∗is given
+by:
+PG<
+
+−∗+ m1
+σ1x0
+
+= P∗−→∗=
+√
+2σ1x0erfc−1[2P∗] −m1
+(10.13)
+(cf. Eq. (2.36)). When m1 is small, minimizing ∗is thus equivalent to minimizing σ. It is
+furthermore important to note the very slow growth of ∗as a function of the time horizon
+in a Gaussian framework. For example, for TVaR = 250τ (1 market year), corresponding
+to P∗= 0.004, one ﬁnds that ∗≈2.65σ1x0. Typically, for τ = 1 day, σ1 = 1%, and
+therefore, the most probable worst day on a market year is equal to −2.65%, and grows
+only to −3.35% over a 10-year horizon!
+In the general case, however, there is no useful link between σ and ∗. In some cases,
+decreasing one actually increases the other (see below, Sections 12.1.3 and 12.3). Let us
+nevertheless mention the Chebyshev inequality, often invoked by the volatility fans, which
+states that if σ exists,
+∗2 ≤σ 2
+1 x2
+0
+2P∗.
+(10.14)
+This inequality suggests that in general, the knowledge of σ is tantamount to that of ∗.
+This is however completely wrong, as illustrated in Figure 10.2. We have represented ∗
+as a function of the time horizon T ∗= Nτ for three distributions Pτ(δx) which all have
+exactly the same variance, but decay as a Gaussian, as an exponential, or as a power-law
+
+174
+Risk measures
+0
+500
+1000
+1500
+2000
+Number of days
+0
+2
+4
+6
+8
+Most probable worst loss (%)
+µ=3
+Exponential
+Gaussian
+Fig. 10.2. Growth of ∗as a function of the number of days N, for an asset of daily volatility equal
+to 1%, with different distribution of price increments: Gaussian, (symmetric) exponential, or
+power-law with µ = 3 (cf. Eq. (2.55)). Note that for intermediate N, the exponential distribution
+leads to a larger VaR than the power-law; this relation is however inverted for N →∞.
+with an exponent µ = 3 (cf. Eq. (2.55)). Of course, the slower the decay of the distribution,
+the faster the growth of ∗with time.
+Table 10.1 shows, in the case of international bond indices, a comparison between the
+prediction of the most probable worst day using a Gaussian model, or using the observed
+quasi-exponential character of the tail of the distribution (TLD), and the actual worst day
+observed the following year. It is clear that the Gaussian prediction is systematically over-
+optimistic. The exponential model leads to a number which is seven times out of 11 below
+the observed result, which is indeed the expected result (Fig. 10.1).
+Note ﬁnally that the measure of risk as a loss probability keeps its meaning even if the
+variance is inﬁnite, as for a L´evy process. Suppose indeed that Pτ(δx) decays very slowly
+when δx is very large, as:
+Pτ(δx)
+≃
+δx→−∞
+µAµ
+|δx|1+µ ,
+(10.15)
+with µ < 2, such that ⟨δx2⟩= ∞. Aµ is the ‘tail amplitude’ of the distribution Pτ; A gives
+the order of magnitude of the probable values of δx. The calculation of ∗is immediate
+and leads to:
+∗= AP∗−1/µ,
+(10.16)
+which shows that in order to minimize the VaR one should minimize Aµ, independently of
+the probability level P∗.
+
+10.3 Risk of loss, ‘value-at-risk’ (VaR) and expected shortfall
+175
+Table 10.1. J. P. Morgan international bond indices (expressed
+in French francs), analysed over the period 1989–93, and worst
+day observed day in 1994. The predicted numbers correspond
+to the most probable worst day max. The amplitude of the
+worst day with 95% conﬁdence level is easily obtained, in the
+case of exponential tails, by multiplying max by a factor 1.53.
+The last line corresponds to a portfolio made of the 11 bonds
+with equal weight. All numbers are in per cent.
+Worst day
+Worst day
+Worst day
+Country
+Log-normal
+TLD
+Observed
+Belgium
+0.92
+1.14
+1.11
+Canada
+2.07
+2.78
+2.76
+Denmark
+0.92
+1.08
+1.64
+France
+0.59
+0.74
+1.24
+Germany
+0.60
+0.79
+1.44
+Great Britain
+1.59
+2.08
+2.08
+Italy
+1.31
+2.60
+4.18
+Japan
+0.65
+0.82
+1.08
+Netherlands
+0.57
+0.70
+1.10
+Spain
+1.22
+1.72
+1.98
+United States
+1.85
+2.31
+2.26
+Portfolio
+0.61
+0.80
+1.23
+10.3.3 Expected shortfall
+Although more directly related to large risks than the variance, the concept of Value-at-Risk
+still suffers from some inconsistencies. For example, ∗is the amount (in dollar) that has
+a certain probability P∗to be exceeded, but if exceeded, what is the typical loss incurred?
+The second problem is that value-at-risk is not subadditive in general, which means that if
+one mixes two assets X1 and X2 with weights p1 and p2, one does not necessarily have
+that:
+∗(p1X1 + p2X2) ≤p1∗(X1) + p2∗(X2).
+(10.17)
+This inequality means that diversiﬁcation should never increase the total risk, which is
+indeed a required property of any consistent measure of risk. Note that the volatility is
+indeed subadditive, since:
+p2
+1σ 2
+1 + p2
+2σ 2
+2 + 2ρ12 p1 p2σ1σ2 ≤(p1σ1 + p2σ2)2,
+(10.18)
+which follows because the correlation coefﬁcient ρ12 ≤1.
+A quantity which is subadditive, and gives a more faithful estimate of the amplitude
+of large losses, is the average loss conditioned to the fact that ∗is exceeded, called the
+
+176
+Risk measures
+expected shortfall (or conditional value-at-risk) E∗:
+E∗=
+ −∗
+−∞(−δx)Pτ(δx) dδx
+P∗
+.
+(10.19)
+Note that in this deﬁnition, P∗is ﬁxed, and ∗deduced from Eq. (10.11).
+We should nevertheless mention that for typical (well behaved) distributions Pτ(δx), E∗
+and ∗are, in the small P∗limit, proportional to each other. For example, if Pτ(δx) is a
+power-law as in Eq. (10.15), one ﬁnds (see Eq. (2.16)):
+E∗=
+µ
+µ −1∗
+(µ > 1).
+(10.20)
+Typically, for stocks µ is in the range 3 to 5, and thus E∗∼1.25 −1.5∗.
+In some special cases, however, the distribution of proﬁt and losses contains discrete
+components, or has a non monotone behaviour, that make E∗very different from ∗.
+10.4 Temporal aspects: drawdown and cumulated loss
+Worst low
+A ﬁrst problem which arises is the following: we have deﬁned P as the probability for the
+loss observed at the end of the period [kτ, (k + 1)τ] to be at least equal to . However,
+in general, a worse loss still has been reached within this time interval. What is then the
+probability that the worst point reached within the interval (the ‘low’) is a least equal to ?
+The answer is easy for symmetrically distributed increments (we thus neglect the average
+return mτ ≪, which is justiﬁed for small enough time intervals): this probability is simply
+equal to 2P,
+P[Xlo −Xop < −] = 2P[Xcl −Xop < −],
+(10.21)
+where Xop is the value at the beginning of the interval (open), Xcl at the end (close) and
+Xlo, the lowest value in the interval (low). The reason for this is that for each trajectory just
+reaching − between kτ and (k + 1)τ, followed by a path which ends up above − at
+the end of the period, there is a mirror path with precisely the same weight which reaches
+a ‘close’ value lower than −.† This factor of 2 in cumulative probability is illustrated
+in Figure 10.3. Therefore, if one wants to take into account the possibility of further loss
+within the time interval of interest in the computation of the VaR, one should simply divide
+by a factor 2 the probability level P∗appearing in Eq. (10.11).
+A simple consequence of this ‘factor 2’ rule is the following: the average value of the
+maximal excursion of the price during time τ, given by the high minus the low over that
+period, is equal to twice the average of the absolute value of the variation from the beginning
+† In fact, this argument – which dates back to Bachelier himself (1900)! – assumes that the moment where the
+trajectory reaches the point − can be precisely identiﬁed. This is not the case for a discontinuous process, for
+which the doubling of P is only an approximate result.
+
+10.4 Temporal aspects: drawdown and cumulated loss
+177
+Table 10.2. Average value of the absolute value of the open/close daily
+returns and maximum daily range (high-low) over open for S&P 500,
+DEM/$ and Bund. Note that the ratio of these two quantities is indeed
+close to 2. Data from 1989 to 1998.
+A =
+ |Xcl−Xop|
+Xop
+
+B =
+ Xhi−Xlo
+Xop
+
+B/A
+S&P 500
+0.472%
+0.924%
+1.96
+DEM/$
+0.392%
+0.804%
+2.05
+Bund
+0.250%
+0.496%
+1.98
+0
+2
+4
+6
+8
+loss level (%)
+10
+-4
+10
+-3
+10
+-2
+10
+-1
+P>(dx)
+losses (close-open) [left axis]
+0
+2
+4
+6
+8
+10
+-3
+10
+-2
+10
+-1
+10
+0
+intraday losses (low-open) [right axis]
+Fig. 10.3. Cumulative probability distribution of losses (Rank histogram) for the S&P 500 for the
+period 1989–98. Shown is the daily loss (Xcl −Xop)/Xop (thin line, left axis) and the intraday loss
+(Xlo −Xop)/Xop (thick line, right axis). Note that the right axis is shifted downwards by a factor of
+two with respect to the left one, so that in theory the two lines should fall on top of one another.
+to the end of the period (⟨|open-close|⟩). This relation can be tested on real data; the
+corresponding empirical factor is reported in Table 10.2.
+Cumulated losses
+Another very important aspect of the problem is to understand how losses can accumulate
+over successive time periods. For example, a bad day can be followed by several other bad
+days, leading to a large overall loss. One would thus like to estimate the most probable
+value of the worst week, month, etc. In other words, one would like to construct the graph
+of ∗(M), where M is the number of successive days over which the risk must be estimated,
+given a ﬁxed overall investment horizon T = Nτ.
+
+178
+Risk measures
+The answer is straightforward in the case where the price increments are independent
+random variables. When the elementary distribution Pτ is Gaussian, PMτ is also Gaussian,
+with a variance multiplied by M. One must also take into account the fact that the number of
+different intervals of size Mτ for a ﬁxed investment horizon T decreases by a factor M. For
+large enough N/M, one then ﬁnds, using the asymptotic behaviour of the error function:
+∗(M)
+
+T ≃σ1x0
+
+2M log
+
+N
+√
+2π M
+
+,
+(10.22)
+where the notation |T means that the investment period is ﬁxed.† The main effect is then
+the
+√
+M increase of the volatility, up to a small logarithmic correction.
+The case where Pτ(δx) decreases as a power-law has been discussed in Chapter 2: for
+any M, the far tail remains a power-law (that is progressively ‘eaten up’ by the Gaussian
+central part of the distribution if the exponent µ of the power-law is greater than 2, but keeps
+its integrity whenever µ < 2). For ﬁnite M, the largest moves will always be described by
+the power-law tail. Its amplitude Aµ is simply multiplied by a factor M (cf. Section 2.2.2).
+Since the number of independent intervals is divided by the same factor M, one ﬁnds:‡
+∗(M)
+
+T = AM1/µ
+ N
+Mτ
+ 1
+µ
+= AN 1/µ,
+(10.23)
+independently of M. Note however that for µ > 2, the above result is only valid if ∗(M) is
+located outside of the Gaussian central part, the size of which growing as σ
+√
+M (Fig. 10.4).
+In the opposite case, the Gaussian formula (10.22) should be used.
+One can ask a slightly different question, by ﬁxing not the investment horizon T but
+rather the total probability of occurrence P∗. This amounts to multiplying simultaneously
+the period over which the loss is measured and the investment horizon by the same factor
+M. In this case, one ﬁnds that:
+∗(M) = M
+1
+µ ∗(1).
+(10.24)
+The growth of the value-at-risk with M is thus faster for small µ, as expected. The case of
+Gaussian ﬂuctuations corresponds to µ = 2.
+Drawdowns
+One can ﬁnally analyze the amplitude of a cumulated loss over a period that is not a priori
+limited. More precisely, the question is the following: knowing that the price of the asset
+today is equal to x0, what is the probability that the lowest price ever reached in the future will
+be xmin; and how long such a drawdown will last? This is a classical problem in probability
+theory (see Feller (1971)). We shall assume a multiplicative model of independent returns,
+and denote as  = log(x0/xmin) > 0 the maximum amplitude of the loss. If the Pτ(η) decays
+† One can also take into account the average return, m1 = ⟨δx⟩. In this case, one must subtract to ∗(M)|T the
+quantity −m1N (the potential losses are indeed smaller if the average return is positive).
+‡ cf. previous footnote.
+
+10.4 Temporal aspects: drawdown and cumulated loss
+179
+-10
+-5
+0
+5
+10
+dx
+0.00
+0.05
+0.10
+0.15
+0.20
+P(dx)
+Gaussian region
+`Tail’
+−Λ
+Fig. 10.4. Distribution of cumulated losses for ﬁnite M: the central region, of width ∼σ M1/2, is
+Gaussian. The tails, however, remember the speciﬁc nature of the elementary distribution Pτ(δx),
+and are in general fatter than Gaussian. The point is then to determine whether the conﬁdence level
+P∗puts ∗(M) within the Gaussian part or far in the tails.
+sufﬁciently fast for large negative η, the result is that the tail of the distribution of  behaves
+as an exponential:
+P()
+∝
+→∞exp
+
+−
+0
+
+,
+(10.25)
+where 0 > 0 is the ﬁnite solution of the following equation:
+
+exp
+
+−ln(1 + η)
+0
+
+Pτ(η) dη = 1.
+(10.26)
+If this equation only has 0 = ∞as a solution, the decay of the distribution of drawdowns
+is slower than exponential.
+It is interesting to show how the above result can be obtained. Let us introduce the
+cumulative distribution P>() =
+ ∞
+ P(′) d′. The ﬁrst step of the ‘walk’ of the log-
+arithm of the price, of size log(1 + η), can either exceed −, or stay above it. In the
+ﬁrst case, the level  is immediately exceeded, and the event contributes to P>(). In
+the second case, one recovers the very same problem as initially, but with  shifted to
+ + log(1 + η). Therefore, P>() obeys the following equation:
+P>() =
+ η∗
+−1
+Pτ(η) dη +
+ +∞
+η∗
+Pτ(η)P>( + log(1 + η)) dη,
+(10.27)
+where log(1 + η∗) = −. If one can neglect the ﬁrst term in the right-hand side for large
+
+180
+Risk measures
+ (which should be self-consistently checked), then, asymptotically, P>() should obey
+the following equation:
+P>() ≈
+
+Pτ(η)P>( + log(1 + η)) dη.
+(10.28)
+Inserting an exponential ansatz for P>() then leads to Eq. (10.26) for 0, in the limit
+ →∞.
+Let us study the simple case of Gaussian ﬂuctuations, for which:
+Pτ(η) =
+1
+√
+2πσ 2τ
+exp −(η −m∗τ)2
+2σ 2τ
+.
+(10.29)
+where m∗is the excess return, which means that we are deﬁning drawdowns with respect
+to a risk free investment. For m∗τ, σ 2τ ≪1, equation (10.26) becomes:
+−m∗
+0
++ σ 2
+22
+0
+= 0 →0 = σ 2
+2m∗.
+(10.30)
+The quantity 0 gives the order of magnitude of the worst drawdown. One can under-
+stand the above result as follows: 0 is the amplitude of the probable ﬂuctuation over the
+characteristic time scale ˆT = σ 2/m∗2 introduced above. By deﬁnition, for times shorter
+than ˆT , the average return m∗is negligible. Therefore, the order of typical drawdowns is:
+∝
+√
+σ 2 ˆT = σ 2/m∗.
+If m∗= 0, the very idea of worst drawdown loses its meaning: if one waits a time
+long enough, the price can reach arbitrarily low values (again, compared to the risk free
+investment). It is natural to introduce a quality factor that compares the average excess return
+m∗T on a time T to the amplitude of the worst drawdown 0. One thus has m∗T /0 =
+2m∗2T /σ 2 ≡2T / ˆT . This quality factor is therefore twice the square of the Sharpe ratio.
+The larger the Sharpe ratio, the smaller the time needed to end a drawdown period.
+More generally, if the width of Pτ(η) is much smaller than 0, one can expand the
+exponential and ﬁnd that the above equation, −(m∗/0) + (σ 2/22
+0) = 0 is still valid,
+independently of the detailed shape of the distribition of returns.
+How long will these drawdowns last? The answer can only be statistical. The probability
+for the time of ﬁrst return T to the initial investment level x0, which one can take as the
+deﬁnition of a drawdown (although it could of course be immediately followed by a second
+drawdown), has, for large T , the following form:
+P(T ) ≃τ 1/2
+T 3/2 exp
+
+−T
+ˆT
+
+.
+(10.31)
+The probability for a drawdown to last much longer than ˆT is thus very small. In this sense,
+ˆT appears as the characteristic drawdown time. However, ˆT is not equal to the average
+drawdown time, which is on the order of
+
+τ ˆT , and thus much smaller than ˆT . This is
+
+10.5 Diversiﬁcation and utility – satisfaction thresholds
+181
+related to the fact that short drawdowns have a large probability: as τ decreases, a large
+number of drawdowns of order τ appear, thereby reducing their average size.
+10.5 Diversiﬁcation and utility – satisfaction thresholds
+It is intuitively clear that one should not put all his eggs in the same basket. A diversiﬁed
+portfolio, composed of different assets with small mutual correlations, is less risky because
+the gains of some of the assets more or less compensate the loss of the others. Now, an
+investment with a small risk and small return must sometimes be preferred to a high yield,
+but very risky, investment.
+The theoretical justiﬁcation for the idea of diversiﬁcation comes again from the CLT. A
+portfolio made up of M uncorrelated assets and of equal volatility, with weight 1/M, has an
+overall volatility reduced by a factor
+√
+M. Correspondingly, the amplitude (and duration) of
+the worst drawdown is divided by a factor M (cf. Eq. (10.30)), which is obviously satisfying.
+This qualitative idea stumbles over several difﬁculties. First of all, the ﬂuctuations of ﬁ-
+nancial assets are in general strongly correlated; this substantially decreases the possibility
+of true diversiﬁcation, and requires a suitable theory to deal with these correlations and
+construct an ‘optimal’ portfolio: this is Markowitz’s theory, to be detailed in Chapter 12.
+Furthermore, since price ﬂuctuations can be strongly non-Gaussian, a volatility-based mea-
+sure of risk might be unadapted: one should rather try to minimize the value-at-risk, or the
+expected shortfall, of the portfolio. It is therefore interesting to look for an extension of
+the classical formalism, allowing one to devise minimum VaR portfolios. This will also be
+presented in Chapter 12.
+One is thus in general confronted with the problem of deﬁning properly an ‘optimal’
+portfolio. Usually, one invokes the rather abstract concept of ‘utility functions’, on which
+we shall brieﬂy comment in this section, in particular to show that it does not naturally
+accommodate for the notion of value-at-risk or expected shortfall.
+We will call WT the wealth of a given operator at time t = T . If one argues that the level
+of satisfaction of this operator is quantiﬁed by a certain function of WT only, which one
+usually calls the utility function U(WT ). Note that one assumes that the satisfaction does
+not depend on the whole ‘history’ of the wealth between t = 0 and T . One thus assumes
+that the operator is insensitive to what can happen between these two dates. This is not very
+realistic and a generalization to path dependent utility functionals U({W(t)}0≤t≤T ) could
+change signiﬁcantly some of the following discussion.
+The utility function U(WT ) is furthermore taken to be continuous and even twice differ-
+entiable. The postulated ‘rational’ behaviour for the operator is then to look for investments
+which maximize his expected utility, averaged over all possible histories of price changes:
+⟨U(WT )⟩=
+
+P(WT )U(WT ) dWT .
+(10.32)
+The utility function should be non-decreasing: a larger proﬁt is clearly always more satisfy-
+ing. One can furthermore consider the case where the distribution P(WT ) is sharply peaked
+around its mean value ⟨WT ⟩= W0 + mT . Performing a Taylor expansion of ⟨U(WT )⟩
+
+182
+Risk measures
+around U(W0 + mT ) to second order, one ﬁnds:
+⟨U(WT )⟩=
+
+U(W0 + mT + ε)P(ε) dε ≈U(W0 + mT ) + 1
+2
+d2U
+dW 2
+
+W0+mT
+⟨ε2⟩+ . . . ,
+(10.33)
+where we have used that ⟨ε⟩= 0. On the other hand ⟨ε2⟩measures the uncertainty on the
+ﬁnal wealth, which should also degrade the satisfaction of the agent. One deduces that the
+utility function must be such that:
+d2U
+dW 2 < 0.
+(10.34)
+This property reﬂects the fact that for the same average return, a less risky investment should
+always be preferred.†
+A simple example of utility function compatible with the above constraints is the expo-
+nential function U(WT ) = −exp[−WT /w0]. Note that w0 has the dimensions of a wealth,
+thereby ﬁxing a wealth scale in the problem. A natural candidate is the initial wealth of the
+operator, w0 ∝W0. If P(WT ) is Gaussian, of mean W0 + mT and variance DT , one ﬁnds
+that the expected utility is given by:
+⟨U⟩= −exp
+
+−W0
+w0
+−T
+w0
+
+m −
+D
+2w0
+
+.
+(10.35)
+One could think of constructing a utility function with no intrinsic wealth scale by choosing
+a power-law: U(WT ) = (WT /w0)α with α < 1 to ensure the correct convexity. Indeed, in
+this case a change of w0 can be reabsorbed in a change of scale of the utility function itself,
+which is arbitrary. The choice α = 0 corresponds to Bernouilli’s logarithmic utility function
+U(WT ) = log(WT ). However, these deﬁnitions cannot allow for negative ﬁnal wealths, and
+is thus sometimes problematic.
+Despite the fact that these postulates sound reasonable, and despite the very large number
+of academic studies based on the concept of utility function, this axiomatic approach suffers
+from a certain number of fundamental ﬂaws. For example, it is not clear that one could ever
+measure the utility function used by a given agent. ‡ The theoretical results are thus:
+r Either relatively weak, because independent of the special form of the utility function,
+and only based on its general properties.
+r Or rather arbitrary, because based on a speciﬁc, but unjustiﬁed, form for U(WT ).
+On the other hand, the idea that the utility function is regular is probably not always real-
+istic. The satisfaction of an operator is often governed by rather sharp thresholds, separated
+† This is however not obvious when one considers path dependent utilities, since a more volatile stock leads to
+the possibility of larger potential proﬁts if the reselling time is not a priori determined.
+‡ Even the idea that an operator would really optimize his expected utility, and not take decisions partly based
+on ‘non-rational’, ‘random’ motivations, is far from obvious. On this point, see e.g.: Kahnemann & Tversky
+(1979), Marsili & Zhang (1997), Shleifer (2000).
+
+10.5 Diversiﬁcation and utility – satisfaction thresholds
+183
+-10.0
+-8.0
+-6.0
+-4.0
+-2.0
+0.0
+2.0
+∆W
+0.0
+1.0
+2.0
+3.0
+4.0
+5.0
+U(∆W)
+Fig. 10.5. Example of a utility function with thresholds, where the utility function is
+non-continuous. These thresholds correspond to special values for the proﬁt, or the loss, and are
+often of purely psychological origin.
+by regions of indifference (Fig. 10.5).† For example, one can be in a situation where a
+speciﬁc project can only be funded if the proﬁt W = WT −W0 exceeds a certain amount.
+Symmetrically, the clients of a fund manager will take their money away as soon as the
+losses exceed a certain value: this is the strategy of ‘stop-losses’, which ﬁx a level for
+acceptable losses, beyond which the position is closed. The existence of option markets
+(which allow one to limit the potential losses below a certain level – see Chapter 13), or of
+items the price of which is $99 rather than $100, are concrete examples of the existence of
+these psychological thresholds where ‘satisfaction’ changes abruptly. Therefore, the utility
+function U is not necessarily continuous. This remark is actually intimately related to the
+fact that the value-at-risk is often a better measure of risk than the variance. Let us indeed
+assume that the operator is ‘happy’ if W > − and ‘unhappy’ whenever W < −.
+This corresponds formally to the following utility function:
+U(W) =
+U1 (W > −)
+U2 (W < −) ,
+(10.36)
+with U2 −U1 < 0.
+The expected utility is then simply related to the loss probability:
+⟨U⟩= U1 + (U2 −U1)
+ −
+−∞
+P(W) dW
+= U1 −|U2 −U1|P.
+(10.37)
+Therefore, optimizing the expected utility is in this case tantamount to minimizing the
+probability of losing more that . Despite this rather appealing property, which certainly
+corresponds to the behaviour of some market operators, the function U(W) does not
+† It is possible that the presence of these thresholds actually plays an important role in the fact that the price
+ﬂuctuations are strongly non-Gaussian.
+
+184
+Risk measures
+satisfy the above criteria (continuity and negative curvature). The same remark would hold
+for the expected shortfall, that corresponds to replacing U2 by U2 × W in Eq. (10.36).
+Confronted to the problem of choosing between risk (as measured by the variance) and
+return, a very natural strategy for those not acquainted with utility functions would be to
+compare the average return to the potential loss
+√
+DT . This can thus be thought of as
+deﬁning a risk-corrected, ‘pessimistic’ estimate of the proﬁt, as:
+mλT = mT −λ
+√
+DT ,
+(10.38)
+where λ is an arbitrary coefﬁcient that measures the pessimism (or the risk aversion) of
+the operator. A rather natural criterion would then be to look for the optimal portfolio that
+maximizes the risk adjusted return mλ. However, this optimal portfolio cannot be obtained
+using the standard utility function formalism. For example, Eq. (10.35) shows that the object
+whichshouldbemaximizedinthecontextthisparticularutilityfunctionis notmT −λ
+√
+DT
+but rather mT −DT/2w0. This amounts to comparing the average proﬁt to the square of
+the potential losses, divided by the reference wealth scale w0 – a quantity that depends a
+priori on the operator.† On the other hand, the quantity mT −λ
+√
+DT is directly related (at
+least in a Gaussian world) to the value-at-risk ∗, cf. Eq. (10.22).
+This argument can be expressed slightly differently: a reasonable objective could be to
+maximize the value of the probable gain Gp, such that the probability of earning more is
+equal to a certain probability p:‡
+ +∞
+Gp
+P(W) dW = p.
+(10.39)
+In the case where P(W) is Gaussian, this amounts again to maximizing mT −λ
+√
+DT ,
+where λ is related to p in a simple manner. Now, one can show that it is impossible to
+construct a utility function such that, in the general case, different strategies can be ordered
+according to their probable gain Gp. Therefore, the concepts of loss probability, value-at-
+risk or probable gain cannot be accommodated naturally within the framework of utility
+functions.
+10.6 Summary
+r The simplest measure of risk is the volatility σ. Compared to the average return ˜m,
+this deﬁnes a ‘security’ time horizon ˆT = σ 2/ ˜m2 beyond which the probability of
+loss becomes small. Correspondingly, the typical drawdown amplitude is σ 2/ ˜m.
+r The volatility is not always adapted to the real world. The tails of the distributions,
+where the large events lie, are very badly described by a Gaussian law: this leads to
+† This comparison is actually meaningful, since it corresponds to comparing the reference wealth w0 to the order
+of magnitude of the worst drawdown D/m, cf. Eq. (10.30).
+‡ Maximizing Gp is thus equivalent to minimizing ∗such that P∗= 1 −p. Note that one could alternatively
+try to maximize the probability p that a certain gain G is achieved.
+
+10.6 Summary
+185
+a systematic underestimation of the extreme risks. Sometimes, the measurement of
+volatility using historical data is difﬁcult, precisely because of the presence of these
+large ﬂuctuations.
+r Themeasureofriskthroughtheprobabilityofloss,value-at-risk,orexpectedshortfall
+on the other hand, focus speciﬁcally on the tails. Extreme events are considered as
+the true source of risk, whereas the small ﬂuctuations that contribute to the ‘centre’ of
+the distributions (and contribute to the volatility) can be seen as background noise,
+inherent to the very activity of ﬁnancial markets, but not relevant for risk assessment.
+r From a theoretical point of view, these deﬁnitions of risk (based on extreme events)
+do not easily ﬁt into the classical utility function framework. The minimization of
+a loss probability rather assumes that there exist well-deﬁned thresholds (possibly
+different for each operator) where the utility function is discontinuous. The concept
+of value-at-risk, or probable gain, cannot be naturally dealt with using classical utility
+functions.
+r Further reading
+C. Alexander, Market Models: A Guide to Financial Data Analysis, John Wiley, 2001.
+L. Bachelier, Th´eorie de la Sp´eculation, Gabay, Paris, 1995.
+M. Dempster, Value at Risk and Beyond, Cambridge University Press, 2001.
+P. Embrechts, C. Kl¨uppelberg, T. Mikosch, Modelling Extremal Events for Insurance and Finance,
+Springer-Verlag, Berlin, 1997.
+W. Feller, An Introduction to Probability Theory and its Applications, Wiley, New York, 1971.
+J. Galambos, The Asymptotic Theory of Extreme Order Statistics, R. E. Krieger Publishing Co.,
+Malabar, Florida, 1987.
+E. J. Gumbel, Statistics of Extremes, Columbia University Press, New York, 1958.
+P. Jorion, Value at Risk: The New Benchmark for Managing Financial Risk, McGraw-Hill, 2nd edition,
+2000.
+A. Shleifer, Inefﬁcient Markets, An Introduction to Behavioral Finance, Oxford University Press,
+2000.
+r Specialized papers
+C. Acerbi, D. Tasche, On the coherence of Expected Shortfall, e-print cond-mat/0104295.
+P. Artzner, F. Delbaen, J.-M. Eber, D. Heath, Coherent measures of risk, Mathematical Finance, 9,
+203 (1999).
+V. Bawa, Optimal rules for ordering uncertain prospects, J. Fin. Eco., 2, 95 (1975).
+S. Galluccio, J.-P. Bouchaud, M. Potters, Rational decisions, random matrices and spin glasses,
+Physica A, 259, 449 (1998).
+D. Kahnemann, A. Tversky, Prospect theory: An analysis of decision under risk, Econometrica, 47,
+263 (1979).
+M. Marsili, Y. C. Zhang, Fluctuations around Nash equilibria in game theory, Physica A, 245, 181
+(1997).
+R. T. Rockafellar, S. Uryasev, Conditional value-at-risk for general loss distributions, Journal of
+Banking & Finance, 26, 1443 (2001).
+D. Tasche, Expected Shortfall and Beyond, e-print cond-mat/0203558.

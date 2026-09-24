@@ -1,0 +1,97 @@
+of noise while preserving its ﬁt of the signal.
+Objective Function and Computational Algorithm. The statistical model for our penalized
+linear model is the same as the simple linear model in equation (3). That is, it continues to consider
+only the baseline, untransformed predictors. Penalized methods diﬀer by appending a penalty to the
+original loss function:
+L(θ; ·) =L(θ) + φ(θ; ·).
+(7)
+There are several choices for the penalty function φ(θ; ·). We focus on the popular “elastic net”
+penalty, which takes the form
+φ(θ; λ, ρ) = λ(1 −ρ)
+P
+X
+j=1
+|θj| + 1
+2λρ
+P
+X
+j=1
+θ2
+j.
+(8)
+The elastic net involves two non-negative hyperparameters, λ and ρ, and includes two well known
+regularizers as special cases. The ρ = 0 case corresponds to the lasso and uses an absolute value,
+or “l1”, parameter penalization. The fortunate geometry of the lasso sets coeﬃcients on a subset
+of covariates to exactly zero. In this sense, the lasso imposes sparsity on the speciﬁcation and can
+thus be thought of as a variable selection method. The ρ = 1 case corresponds to ridge regression,
+which uses an l2 parameter penalization, that draws all coeﬃcient estimates closer to zero but does
+not impose exact zeros anywhere. In this sense, ridge is a shrinkage method that helps prevent
+coeﬃcients from becoming unduly large in magnitude. For intermediate values of ρ, the elastic net
+encourages simple models through both shrinkage and selection.
+We adaptively optimize the tuning parameters, λ and ρ, using the validation sample. Our imple-
+mentation of penalized regression uses the accelerated proximal gradient algorithm and accommo-
+dates both least squares and Huber objective functions (see Appendix B.1 for more detail).
+2.4
+Dimension Reduction: PCR and PLS
+Penalized linear models use shrinkage and variable selection to manage high dimensionality by forcing
+the coeﬃcients on most regressors near or exactly to zero. This can produce suboptimal forecasts
+when predictors are highly correlated. A simple example of this problem is a case in which all of the
+predictors are equal to the forecast target plus an iid noise term. In this situation, choosing a subset
+of predictors via lasso penalty is inferior to taking a simple average of the predictors and using this
+as the sole predictor in a univariate regression.
+The idea of predictor averaging, as opposed to predictor selection, is the essence of dimension
+reduction. Forming linear combinations of predictors helps reduce noise to better isolate the signal in
+predictors, and also helps de-correlate otherwise highly dependent predictors. Two classic dimension
+reduction techniques are principal components regression (PCR) and partial least squares (PLS).
+PCR consists of a two-step procedure. In the ﬁrst step, principal components analysis (PCA)
+combines regressors into a small set of linear combinations that best preserve the covariance structure
+12
+
+among the predictors. In the second step, a few leading components are used in standard predictive
+regression.
+That is, PCR regularizes the prediction problem by zeroing out coeﬃcients on low
+variance components.
+A drawback of PCR is that it fails to incorporate the ultimate statistical objective—forecasting
+returns—in the dimension reduction step. PCA condenses data into components based on the covari-
+ation among the predictors. This happens prior to the forecasting step and without consideration of
+how predictors associate with future returns.
+In contrast, partial least squares performs dimension reduction by directly exploiting covariation
+of predictors with the forecast target.11 PLS regression proceeds as follows. For each predictor j,
+estimate its univariate return prediction coeﬃcient via OLS. This coeﬃcient, denoted ϕj, reﬂects the
+“partial” sensitivity of returns to each predictor j. Next, average all predictors into a single aggregate
+component with weights proportional to ϕj, placing the highest weight on the strongest univariate
+predictors, and the least weight on the weakest. In this way, PLS performs its dimension reduction
+with the ultimate forecasting objective in mind. To form more than one predictive component, the
+target and all predictors are orthogonalized with respect to previously constructed components, and
+the above procedure is repeated on the orthogonalized dataset. This is iterated until the desired
+number of PLS components is reached.
+Model. Our implementation of PCR and PLS begins from the vectorized version of the linear
+model in equations (1)–(3). In particular, we reorganize the linear regression ri,t+1 = z′
+i,tθ + ϵi,t+1 as
+R = Zθ + E,
+(9)
+where R is the NT × 1 vector of ri,t+1, Z is the NT × P matrix of stacked predictors zi,t, and E is
+a NT × 1 vector of residuals ϵi,t+1.
+PCR and PLS take the same general approach to reducing the dimensionality. They both con-
+dense the set of predictors from dimension P to a much smaller number of K linear combinations of
+predictors. Thus, the forecasting model for both methods is written as
+R = (ZΩK)θK + ˜E.
+(10)
+ΩK is P × K matrix with columns w1, w2, . . . , wK. Each wj is the set of linear combination weights
+used to create the jth predictive components, thus ZΩK is the dimension-reduced version of the
+original predictor set. Likewise, the predictive coeﬃcient θK is now a K ×1 vector rather than P ×1.
+Objective Function and Computational Algorithm. PCR chooses the combination weights
+ΩK recursively. The jth linear combination solves12
+wj = arg max
+w
+Var(Zw),
+s.t.
+w′w = 1,
+Cov(Zw, Zwl) = 0,
+l = 1, 2, . . . , j −1.
+(11)
+11See Kelly and Pruitt (2013, 2015) for asymptotic theory of PLS regression and its application to forecasting risk
+premia in ﬁnancial markets.
+12For two vectors a and b, we denote Cov(a, b) := (a−¯a)⊺(b−¯b), where ¯a is the average of all entries of a. Naturally,
+we deﬁne Var(a) := Cov(a, a).
+13

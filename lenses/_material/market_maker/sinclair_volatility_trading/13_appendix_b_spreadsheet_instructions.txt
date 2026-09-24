@@ -1,0 +1,121 @@
+A P P E N D I X B
+Spreadsheet
+Instructions
+I
+n all spreadsheets, user input is required in white cells. Yellow cells are
+the result of calculations.
+GARCH
+This spreadsheet uses MLE and the solver add-in to estimate a GARCH(1,1)
+model. It also shows the volatility term structure consistent with this
+model. This sheet makes use of the Solver add-in so it is not protected.
+r Go to ﬁnance.yahoo.com.
+r Enter the ticker symbol in the “Get Quotes” box.
+r Go to the “Historical Prices” link, which is third from the top in the box
+“More on (ABC)” on the left of the page.
+r Set the start date to be four years before the end date and click “Get
+Prices.”
+r Scroll to the bottom of the page and click on “Download to Spread-
+sheet.” Choose the option “Open.”
+r Cut and paste all of the data to the Yahoo! Finance data tab in
+Garch.xls.
+r Go to Data->Sort->By Date Ascending.
+r Go to the GARCH(1,1) tab and make sure all the data at the lower range
+is correct. Four calendar years can contain slightly different numbers
+of trading days so some samples will be of different lengths. It is also
+183
+
+184
+VOLATILITY TRADING
+important to clear the Yahoo! data before reusing the sheet on a differ-
+ent day.
+r Go to Tools->Solver. The inputs should be set up to maximize cell G2
+by varying cells C3 through C5 with the constraints C3 >= 0, C4 >= 0
+and C6 <= 0. Run Solver.
+r On the “Calendar Curve” tab, you can enter your best estimate of cur-
+rent volatility in cell C7 and look at the calendar curve being implied
+by the ﬁtted GARCH model.
+VOLATILITY CONES AND SKEW AND
+KURTOSIS CONES
+These spreadsheets produce various volatility, skewness, and kurtosis
+cones from historical data.
+r Go to ﬁnance.yahoo.com.
+r Enter the ticker symbol in the “Get Quotes” box.
+r Go to the “Historical Prices” link, which is third from the top in the box
+“More about (ABC)” on the left of the page.
+r Set the start date to be four years before the end date and click on “Get
+Prices.”
+r Scroll to the bottom of the page and click “Download to Spreadsheet.”
+Choose the option “Open.”
+r Cut and paste all of the data to the Yahoo! Finance data tab in Volatility
+Cones.xls or Skew and Kurtosis cones.xls.
+DAILY OPTION HEDGING SIMULATION
+Here we simulate the evolution of a hedged long option position of 1,000
+vega (this can be changed in cell O18 on the historical returns sheet and
+cell N18 on the normal returns sheet), where we hedge each day on the
+close. We use the standard U.S. option convention where one option is for
+100 shares. The tab “Normal Returns” generates a GBM process from the
+parameters in cells N3 and N4. The tab “Historical Returns” uses historical
+data. Here cell O4 is a derived quantity and cell O3 is set to zero. This is
+consistent with our basic assumptions regarding measuring volatility from
+historical time series.
+r Go to ﬁnance.yahoo.com.
+r Enter the ticker symbol in the “Get Quotes” box.
+
+Spreadsheet Instructions
+185
+r Set the start date to be one year before the end date and click on “Get
+Prices.” Check that this gives 250 days of data. Some adjustment will
+be needed here (and clearly the sheet can be modiﬁed to deal with any
+length of historical data).
+r Scroll to the bottom of the page and click “Download to Spreadsheet.”
+Choose the option “Open.”
+r Cut and paste all of the data to the Yahoo! Finance data tab in
+Garch.xls.
+r Go to Data->Sort->By Date Ascending.
+r In cell 013 (or N13 on the “Normal Returns” tab) enter the implied
+volatility at which the option was purchased (the zero-sum nature of
+derivatives trading means that the results for a short position are the
+exact opposite of those for a long).
+r The hedging volatility can be adjusted in cell O7 (N7 on the “Normal
+Returns” tab).
+r The “Normal Returns” sheet can be recalculated by hitting the F9 key.
+TRADE EVALUATION
+This sheet is a template for the post-trade evaluation process. Daily P/Ls
+are entered in column C and haircuts in column H. The interest rate is
+entered in cell E2.
+TRADING GOALS
+In this case we simulate the results of a strategy with a given expected P/L
+and Sharpe ratio (cells C3 and C4). It plots 20 realizations of the process
+over half a year. Clearly even very good traders can have very mediocre
+results over the short term. Use the F9 key to recalculate.
+CORRADO-SU SKEW CURVE
+This sheet uses least squares and Solver to extract the implied volatility,
+skewness, and kurtosis consistent with the Corrado-Su model, from the
+quoted call option prices. This sheet makes use of the Solver add-in so it
+is not protected. Set the parameters in cells C2 through C4. Set the lowest
+strike in cell E3. Enter the call midmarket prices in cells H3 through H9.
+Open Solver. It should be set to minimize cell J2 (the sum of the squares
+
+186
+VOLATILITY TRADING
+of the differences of the market prices and the Corrado-Su prices) by
+changing cells C5 through C7. The implied volatility curve as a function of
+strike can be produced either by entering the implied volatilities directly
+into cells F3 through F9 or by using Solver. For example, to obtain the
+implied volatility of the 35 strike, use Solver to minimize the difference
+between cells G3 and H3 by changing cell F3.
+MEAN REVERSION SIMULATOR
+Here we have a simulation for trading a mean-reverting process using the
+rules in Chapter 6. The tab “‘Normal Noise’ simple” uses a modiﬁed rule
+to enter a trade where the underlying is driven by an Ornstein-Uhlenbeck
+process with normally distributed innovations with a standard deviation of
+one. The entry level is set by changing cell J3. A value of 2 means we enter
+the trade when we deviate from fair value by two standard deviations. At
+this point we commit half our available wealth. The position is held until
+the asset returns to fair value. The tab “‘normal noise’ exact” scales our en-
+try according to the optimal rule of equation (6.28). The fat-tailed tabs sim-
+ulate the same trade but for the case where the noise is T-distributed. This
+introduces excess kurtosis. The P/L curve generated in “‘fat-tailed’ noise
+exact” shows that the scaling law of equation (6.28) is too aggressive for
+this situation; however, simple rules can still be found (by adjusting cell Z3
+in tab “‘fat-tailed’ noise simple”) that are proﬁtable.

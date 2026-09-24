@@ -1,0 +1,308 @@
+C H A P T E R 1
+Option Pricing
+I
+n order to proﬁtably trade options we need a model for valuing them.
+This is a framework we can use to compare options of different maturi-
+ties, underlyings, and strikes. We do not insist that it is in any sense true
+or even a particularly accurate reﬂection of the real world. As options are
+highly leveraged, nonlinear, time-dependent bets on the underlying, their
+prices change very quickly. The major goal of a pricing model is to trans-
+late these prices into a more slowly moving system.
+A model that perfectly captures all aspects of a ﬁnancial market is
+probably unobtainable. Further, even if it existed it would be too complex
+to calibrate and use. So we need to somewhat simplify the world in order to
+model it. Still, with any model we must be aware of the simplifying assump-
+tions that are being used and the range of applicability. The speciﬁc choice
+of model isn’t as important as developing this level of understanding.
+THE BLACK-SCHOLES-MERTON MODEL
+We present here an analysis of the Black-Scholes-Merton (BSM) equation.
+The BSM formalism becomes the conceptual framework for an options
+trader: In the same way that we hear our own thoughts in English, an ex-
+perienced derivatives trader thinks in the BSM language.
+The standard derivation of the BSM equation can be found in any num-
+ber of places (for example, Hull 2005). While good derivations carefully
+lead us through the mathematics and ﬁnancial assumptions, they don’t
+7
+
+8
+VOLATILITY TRADING
+generally make it obvious what to do as a trader. We must always remem-
+ber that our goal is to identify and proﬁt from mispriced options. How does
+the BSM formalism help us do this?
+Here we approach the problem backwards. We start from the assump-
+tion that a trader holds a delta hedged portfolio consisting of a call option
+and  units of short stock.1 We then apply our knowledge of option dy-
+namics to derive the BSM equation.
+Even before we make any assumptions about the distribution of under-
+lying returns, we can state a number of the properties that an option must
+possess. These should be ﬁnancially obvious.
+r A call (put) becomes more valuable as the underlying rises (falls), as it
+has more chance of becoming intrinsically valuable.
+r An option loses value as time passes, as it has less time to become
+intrinsically valuable.
+r An option loses value as rates increase. Since we have to borrow
+money to pay for options, as rates increase our ﬁnancing costs in-
+crease, ignoring for now any rate effects on the underlying.
+r The value of a call (put) can never be more than the value of the un-
+derlying (strike).
+As we have said, even before the invention of the BSM formalism, op-
+tion traders were aware that directional risk could be mitigated by combin-
+ing their options with a position in the underlying. So let’s assume we hold
+the delta hedged option position,
+C −St
+(1.1)
+where
+C is the value of the option
+St is the underlying price at time t
+ is the number of shares we are short
+1That this is a standard delta hedged portfolio should be common knowledge for
+option traders or indeed anyone who has previously seen any sort of derivation of
+BSM. Indeed, traders knew about delta hedging long before BSM. For an interesting
+history refer to Haug 2007a. But even if this is the ﬁrst derivation of BSM the reader
+has seen, this shouldn’t be seen as a remarkable fact. A call (put) option gains (de-
+clines) in value as the underlying rises. So in principle we can offset this directional
+risk with a position in the underlying. This should be obvious. The details of exactly
+how much of the underlying to hold are certainly not meant to be obvious.
+
+Option Pricing
+9
+Over the next time step the underlying changes to St+1. The change in
+the value of the portfolio is given by the change in the option and stock po-
+sitions together with any ﬁnancing charges we incur by borrowing money
+to pay for the position.
+C(St+1) −C(St) −(St+1 −St) + r (C −St)
+(1.2)
+The last term is written as positive because we know that the value of
+the long call/short stock portfolio will be negative (or at most zero when
+ is 1) and hence will have us lending money and thus receiving interest
+income. Note also that we assume the time step is small enough that we
+can take delta to be unchanged.
+The change in the option value due to the underlying price change can
+be approximated by a second-order Taylor expansion. Also, we know that
+when other things are held constant, the option will decrease due to the
+passing of time by an amount denoted by θ.
+So we get
+(St+1 −St) + 1
+2(St+1 −St)2 ∂2C
+∂S 2 + θ −(St+1 −St) + r (C −St)
+(1.3)
+Or
+1
+2(St+1 −St)2 + θ + r (C −St)
+(1.4)
+where  is the second derivative of the option price with respect to the
+underlying.
+Expression (1.4) gives the change in value of the portfolio, or the proﬁt
+the trader makes when the stock price changes by a small amount. It has
+three separate components:
+1. The ﬁrst term gives the effect of gamma. Since gamma is positive,
+the option holder makes money. The return is proportional to half the
+square of the underlying price change.
+2. The second term gives the effect of theta. The option holder loses
+money due to the passing of time.
+3. The third term gives the effect of ﬁnancing. Holding a hedged long op-
+tion portfolio is equivalent to lending money.
+Further, we see in Chapter 2 that on average
+(St+1 −St)2 ∼= σ 2S 2
+
+10
+VOLATILITY TRADING
+where σ is the standard deviation of the underlying’s returns, generally
+known as volatility.
+So we can rewrite expression (1.4) as
+1
+2σ 2S 2 + θ + r (C −St)
+(1.5)
+If we accept that this position should not earn any abnormal proﬁts
+because it is riskless and ﬁnanced with borrowed money, the expression
+can be set equal to zero. Therefore the equation for the fair value of the
+option is
+1
+2σ 2S 2  + θ + r(C −St) = 0
+(1.6)
+Before continuing, we need to make explicit some of the assumptions that
+this informal derivation has hidden.
+r In order to write down expression (1.1) we needed to assume the exis-
+tence of a tradable underlying asset. In fact, we assume that it can be
+shorted and the underlying can be traded in any size necessary without
+incurring transaction costs.
+r Expression (1.2) has assumed that the proceeds from the short sale
+can be reinvested at the same interest rate at which we have borrowed
+to ﬁnance the purchase of the call. We have also taken this rate to be
+constant.
+r Expression (1.3) has assumed that the underlying changes are continu-
+ous and smooth. Further, we have considered second-order derivatives
+with respect to price but only ﬁrst-order with respect to time.
+But something about which we haven’t made any assumptions at all is
+whether the underlying has any drift. This is remarkable. We may naively
+assume that an instrument whose value increases as the underlying asset
+rises would be dependent on its drift. However, the effect of drift can be
+negated by combining the option with the share in the correct proportion.
+As the drift can be hedged away, the holder of the option is not compen-
+sated for it. When we consider hedging later in Chapter 4, we ﬁnd that in
+the real world, where the assumptions about continuity fail, directional de-
+pendence will reemerge.
+However, note that while the price change does not appear in equation
+(1.6), the square of the price change does through the volatility term. So
+the magnitude of the price changes is central to whether the trader makes
+a proﬁt with a delta hedged position. This is true whether or not returns are
+
+Option Pricing
+11
+normally distributed. As long as the variance of returns is ﬁnite, this result
+holds. In fact, if we had included higher-order price terms in the Taylor
+expansion, we would see that the option’s price change also depended on
+higher-order price differences.
+With appropriate ﬁnal conditions, equation (1.6) holds for a variety of
+instruments: European and American options, calls and puts, and many
+exotics. It can be solved with any of the usual methods for solving partial
+differential equations.
+In this exercise we have derived a form of the BSM equation by
+working backwards from our trader’s knowledge of how options react to
+changes in underlying and time. In doing so, it has given us what we need
+to know to trade options from the point of volatility.
+We have shown how the fair price for an option is related to the stan-
+dard deviation of the underlying returns. Since at any time there is an op-
+tion market and the underlying market, there are two ways we can pro-
+ceed:
+1. Using the quoted price of the option, calculate the implied standard
+deviation or volatility.
+2. Using an estimate of the volatility over the life of the option, calculate
+a theoretical option price.
+If our estimate of volatility differs signiﬁcantly from that implied
+by the option market, then we can trade the option accordingly. If we
+forecast volatility to be higher than that implied by the option, we would
+buy the option and hedge in the underlying market. Our expected proﬁt
+would depend on the difference between implied volatility and realized
+volatility. Equation (1.6) says that instantaneously this proﬁt would be
+proportional to
+1
+2 S2
+
+σ 2 −σ 2
+implied
+
+(1.7)
+A complementary way to think of the expected proﬁt of a hedged op-
+tion is by considering vega. Vega is deﬁned as the change in value of an op-
+tion if implied volatility changes by one point (e.g., from 19 to 18 percent).
+This means that if we buy an option at σ implied and volatility immediately
+increases to σ we would make a proﬁt of
+vega
+
+σ −σimplied
+
+(1.8)
+If we have to hold the option to expiration and realized volatility aver-
+ages σ we will also make this amount, but only on average. The vega proﬁt
+
+12
+VOLATILITY TRADING
+is realized as the sum of the hedges as we rebalance our delta. This can be
+formalized by noting the relationship between vega and gamma,
+vega = σTS2
+(1.9)
+So expression (1.7) can also be written as
+vega
+σ T
+
+σ 2 −σ 2
+implied
+
+(1.10)
+The problem this presents is that the gamma is highly dependent on
+the moneyness of the option, which obviously changes as the underlying
+moves around. So the proﬁt is highly volatile and path dependent. We ex-
+amine this further in Chapter 5.
+It is perfectly acceptable to make simplifying assumptions when devel-
+oping a model. It is totally unacceptable to make assumptions that are so
+egregiously incorrect that the model is useless, even as a basic guide. So
+before we go any further we look at how limiting our assumptions really
+are.
+r We assumed that the underlying was a tradable asset. While the BSM
+formalism has been extended to cases where this is not true, notably
+in the pricing of real options, we are primarily concerned with options
+on equities and futures, so this assumption is not restrictive. However,
+on many optionable underlyings liquidity is an issue, so tradable is not
+always a clearly deﬁned quality.
+r We assumed that the underlying pays no dividends or any other in-
+come. This changes the equations slightly, but the same principles still
+apply.
+r We also assumed this asset was able to be shorted. This is not a prob-
+lem where the underlying is a future but when it is a stock, shorting is
+often more difﬁcult. For example, in the United States, stocks can only
+be shorted on an uptick. Further, even when shorting is achievable, the
+short seller rarely receives the full proceeds of the sale for investment,
+as fees must be paid to borrow the stock. This can be accounted for
+synthetically by assuming an extra dividend yield on the underlying,
+equal to the penalty cost associated with shorting the stock.
+r Interest rates have a bid/ask spread. We cannot invest the proceeds of
+a sale at the same rate at which we borrow. Further, rates are not con-
+stant. However, the BSM is often used to price options on bonds and
+money market rates which would have no volatility if this assumption
+was valid. We can get away with this because the risk due to interest
+charges (rho) is insubstantial in comparison to other risks, at least for
+short-dated options.
+
+Option Pricing
+13
+r We have assumed that volatility is a constant, neither a function of
+time nor of the underlying price. Not only is this untrue but we will be
+actively trying to trade these changes. There are models that explic-
+itly take into account volatility changes. However, we choose to rec-
+ognize this limitation and learn to use the BSM model anyway. This is
+consistent with our philosophy of the model as a framework for orga-
+nizing our thoughts rather than as an accurate depiction of reality.
+r We assumed that volatility is the only parameter needed to specify the
+distribution of the underlying returns. The mean can be hedged away
+and we have ignored higher-order moments. This is the same as as-
+suming a normal return distribution or a lognormal price distribution.
+The fact that this is incorrect leads to the well-known phenomenon of
+the volatility smile, where implied volatility is a function of strike. In
+essence, implied volatility is the wrong number we put into the wrong
+formula to get the correct option price. This can be rectiﬁed in sev-
+eral ways. In Chapter 3 we present methods of quantifying the implied
+skewness and kurtosis.
+r We have assumed that the underlying’s changes are continuous so we
+can continually adjust our hedge. This is not true. Sometimes the un-
+derlying has vast jumps. For example, it isn’t uncommon for the shares
+of a biotech company to jump by 70 to 80 percent in one day. Modiﬁca-
+tions have been made to the BSM formalism to price options in these
+circumstances (Merton 1976), but this isn’t really the point. These
+jumps cannot be hedged and the replication strategy fails utterly. We
+have to learn to hedge this risk with other options. This is the concept
+of semistatic hedging that traders need to use in practice.
+The BSM model is remarkably robust. Most of the assumptions that
+we need to derive the equation can be loosened without destroying the
+model’s utility. But note that we will only use the BSM paradigm as a
+pricing method, not a risk control method. It is useful to translate the
+fast-moving option prices into a slow-moving parameter, implied volatil-
+ity, which can be compared to the estimated realized volatility. But risk
+control must be handled separately. Traders should never think about ex-
+treme risk in terms of the moments of the Gaussian distribution. Asking,
+“What happens if IBM moves ﬁve standard deviations?” is useful only in
+normal situations (where normal is deﬁned as those times when moves
+are well described by the Gaussian distribution). We must also always be
+aware of what happens if IBM drops by 50 percent, despite the fact that this
+has never happened. Merton argued that these extreme jumps could be di-
+versiﬁed away. The bad news is that traders have to hope he was correct.
+Tail risk can often be capped by trading far out-of-the-money options, and
+keeping individual positions to a small proportion of the total portfolio can
+
+14
+VOLATILITY TRADING
+also help. But generally we get paid for taking risks. Just try to be aware of
+the risks you have an edge in and those you don’t. And never estimate the
+magnitude of risks from within the same model that you priced them with.
+SUMMARY
+We always need to remember that a pricing model is not meant to be an
+accurate reﬂection of reality. It is a framework to think within, and a con-
+sistent intellectual backdrop that helps us build intuition. We eventually
+learn to express our trading thoughts in terms of the model. The most im-
+portant things to remember about the BSM model are:
+r The drift of the underlying can be hedged away.
+r The magnitude of the underlying price moves cannot.
+r The BSM model is a model for ﬁnding trades, not a model for control-
+ling risk.
+r The assumptions used in the derivation of the model need to be re-
+membered at all times.

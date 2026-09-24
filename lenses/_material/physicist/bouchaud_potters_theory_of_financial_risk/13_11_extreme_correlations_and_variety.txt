@@ -1,0 +1,986 @@
+11
+Extreme correlations and variety
+Etait-ce parce que je ne l’avais qu’entr-aper¸cue que je l’avais trouv´ee si belle?†
+(Marcel Proust, A l’ombre des jeunes ﬁlles en ﬂeurs.)
+A proper understanding of cross-correlations between different stocks, or more generally
+between different ﬁnancial assets, is of crucial importance for risk management and, as will
+be discussed in the Chapter 12, for portfolio optimization. In fact, much as the tail of the
+distributions of individual returns is of particular relevance for risk management, it is the
+correlations between extreme events that must be faithfully described.
+As we have discussed in depth in Chapter 7, the volatility of each asset is in general
+not constant in time, but ﬂuctuates randomly. It is therefore tempting to think that the
+whole covariance matrix (of which the diagonal contains the squared volatilities) also
+randomly ﬂuctuates in time. The simplest case would be that the correlation matrix has
+a ﬁxed structure, and that the variations of the covariance matrix only reﬂects that of the
+volatilities. However, it is a common belief in the ﬁnancial industry that cross-correlations
+between stocks themselves ﬂuctuate in time, and in fact increase substantially in a period
+of high market volatility. If true, this would mean that the possibility of risk diversiﬁcation
+is much reduced, since in the periods that really matter as far as risk is concerned, all stocks
+would behave similarly.
+The aim of this chapter is ﬁrst to introduce several possible measures of correlations of
+extreme events, such as conditional correlations, exceedance correlations, tail dependence
+and tail covariance. We show that some of these indicators are misguided in the sense that
+they can lead to an apparent increase of correlations in extreme market conditions whereas
+the underlying stochastic process has ﬁxed, time independent correlations. We illustrate
+this point using a simple one-factor model with a time dependent random volatility, that
+we compare with data using stocks from the S&P 500. We then discuss the limitations of
+the one-factor description, that fails to describe the time dependence of the variety, a new
+quantity akin to the volatility, that measures the variability of the returns of the different
+stocks for a given day. Similarly, the skewness of the distribution of returns of the different
+stocks for a given day is also time dependent.
+† Was it because I only had a glimpse of her that I thought she was so beautiful?
+
+11.1 Extreme event correlations
+187
+11.1 Extreme event correlations
+11.1.1 Correlations conditioned on large market moves
+The simplest idea is to measure correlations between stocks conditioned on certain extreme
+events, for example an extreme market return. It is indeed commonly believed that cross-
+correlations betweenstocksincreaseinsuch“high-volatility”periods.Introducingthereturn
+of stock i, ηi, and the return of the market ηm simply deﬁned as the average of all ηi’s, a
+natural measure of these correlations is given by the following coefﬁcient:
+ρ>(λ) =
+1
+N 2
+
+i, j(⟨ηiη j⟩>λ −⟨ηi⟩>λ⟨η j⟩>λ)
+1
+N
+
+i
+
+η2
+i
+
+>λ −⟨ηi⟩2
+>λ
+
+,
+(11.1)
+where the subscript > λ indicates that the averaging is restricted to market returns ηm in
+absolute value larger than a certain λ. For λ = 0 the conditioning disappears. Note that the
+quantity ρ> is the average covariance divided by the average variance, and therefore differs
+from the average correlation coefﬁcient. The two objects however behave very similarly
+with λ, and the theoretical discussion is much easier in terms of ρ>.
+In a ﬁrst approximation, the distribution of individual stocks returns can be taken to be
+symmetrical (see Section 6.3.2), leading ⟨ηi⟩>λ ≈0. Using the fact that ηm = 
+i ηi/N,
+the above equation can be transformed into:
+ρ>(λ) ≈
+σ 2
+m(λ)
+1
+N
+N
+i=1 σ 2
+i (λ)
+,
+(11.2)
+where σ 2
+m(λ) is the market volatility conditioned to market returns in absolute value larger
+than λ, and σ 2
+i (λ) = ⟨r2
+i ⟩>λ.
+Now, assume the following decomposition to hold:
+ηi(t) = βiηm(t) + ϵi(t),
+(11.3)
+where βi are ﬁxed, time independent coefﬁcients such that 
+i βi/N = 1, and the ϵi are
+uncorrelated with the market and are the so-called idiosyncratic parts, or residuals. (The one-
+factor model would correspond to the case where all idiosyncracies are uncorrelated, which
+we do not need to assume here.) Then one obtains for the average conditional correlation
+ρ>(λ):
+ρ>(λ) =
+σ 2
+m(λ)
+
+1
+N
+N
+i=1 β2
+i
+
+σ 2m(λ) + 1
+N
+N
+i=1 σ 2ϵi
+.
+(11.4)
+The quantity σ 2
+m(λ) is obviously an increasing function of λ. If the residual volatilities σ 2
+ϵi are
+independent of ηm (and therefore of λ) then the coefﬁcient ρ>(λ) is an increasing function
+of λ, see Fig. 11.1.
+
+188
+Extreme correlations and variety
+0
+1
+2
+3
+4
+λ (%)
+0.2
+0.4
+0.6
+0.8
+1
+r>(λ)
+One factor model
+Empirical data
+Fig. 11.1. Correlation measure ρ>(λ) conditional to the absolute market return to be larger than λ,
+both for the empirical data and the one-factor model. Note that both show a similar apparent
+increase of correlations with λ. This effect is actually overestimated by the one-factor model with
+ﬁxed residual volatilities. λ is in percents.
+Equation (11.4) naturally predicts an increase of the correlations (as measured by
+ρ>(λ)) in high volatility periods. This conclusion is quite general: the very fact of
+conditioning the correlation on large market returns leads to an increase of the mea-
+sured correlation, even if the true structure of correlations is strictly time independent.
+Equation (11.4) actually even overestimates the correlations for large λ, as shown in
+Fig. 11.1. This overestimation can be understood qualitatively as a result of neglecting
+the positive correlation between the amplitude of the market return |rm| and the resid-
+ual volatilities σϵi, which we discuss in more details in Section 11.2.1 below in terms
+of the ‘variety’. For large values of λ, σϵi is indeed found to be larger than its aver-
+age value. From Eq. (11.4), this effect lowers the correlation ρ>(λ) for a given value
+of σ 2
+m(λ).
+11.1.2 Real data and surrogate data
+The data set we consider in this chapter is composed of the daily returns of 450 U.S.
+equities among the most liquid ones from 1993 up to 1999. In order to test the relevance
+of a simple one-factor model, we also generated surrogate data compatible with this
+model. Very importantly, the one-factor model we consider is not based on Gaussian
+distributions, but rather on fat-tailed distributions that match the empirical observations
+for both the market and the stocks daily returns – see Chapter 6.
+The procedure used to generate the surrogate data is the following:
+r Compute the βi’s using
+βi = ⟨ηiηm⟩−⟨ηi⟩⟨ηm⟩
+
+η2
+m
+
+−⟨ηm⟩2
+,
+(11.5)
+
+11.1 Extreme event correlations
+189
+where the brackets refer to time averages over the whole time period. These βi’s are
+found to be rather narrowly distributed around 1, with (1/N) N
+i=1 β2
+i = 1.05.
+r Compute the variance of the residuals σ 2
+ϵi = σ 2
+i −β2
+i σ 2
+m. On the dataset we used σm
+was 0.91% (per day) whereas the volatility σϵi was 1.66%.
+r Generate the residual ϵi(t) = σϵi ui(t), where the ui(t) are independent random vari-
+ables of unit variance with a Student distribution with an exponent µ = 4:
+P(u) =
+3
+(2 + u2)5/2 ,
+(11.6)
+see Sections 1.9 and 18.6.
+r Compute the surrogate return as ηsurr
+i
+(t) = βiηt
+m(t) + ϵi(t), where ηt
+m(t) is the true
+(historical) market return at day t.
+Therefore, within this method, both the empirical and surrogate returns are based on
+the very same realization of the market statistics. This allows one to compare mean-
+ingfully the results of the surrogate model with real data, without further averaging.
+It also short-cuts the precise parameterization of the distribution of market returns, in
+particular its correct negative skewness, which turns out to be crucial.
+11.1.3 Conditioning on large individual stock returns: exceedance correlations
+We now study more speciﬁcally how extreme stock returns are correlated between them-
+selves. A ﬁrst possibility is to study the so-called exceedance correlation function, in-
+troduced in Longin & Solnik (2001). One ﬁrst deﬁnes from the ηi’s normalized centered
+returns ˜ηi with zero mean and unit variance. The positive exceedance correlation between
+i and j is deﬁned as:
+ρ+
+i j (θ) =
+⟨˜ηi ˜η j⟩>θ −⟨˜ηi⟩>θ⟨˜η j⟩>θ
+
+˜η2
+i
+
+>θ −⟨˜ηi⟩2
+>θ
+
+˜η2
+j
+
+>θ −⟨˜η j⟩2
+>θ
+,
+(11.7)
+where the subscript > θ means that both normalized returns ˜ηi, j are larger than a certain
+θ. For θ →−∞, ρ+
+i j becomes the usual correlation coefﬁcient, whereas large positive
+θ’s correspond to correlations between extreme positive moves. The negative exceedance
+correlation ρ−
+i j (θ) is deﬁned similarly, the conditioning being now on normalized returns
+smaller than θ.
+Figure 11.2 shows the exceedance correlation function as a function of θ, when ˜ηi, j are
+obtained as the linear combination of two independent random variables ξ1,2, such that their
+correlation coefﬁcient is equal to ρ = 0.5, but when (a) ξ1,2 are Gaussian random variables
+and (b) ξ1,2 are Student variables with a tail index µ = 4. Interestingly, the shape of ρ±
+i j (θ)
+is completely different in the two cases. For correlated Gaussian variables, ρ±
+i j (θ) decreases
+with |θ|; in this sense, extreme events become uncorrelated for Gaussian returns. On the
+contrary, ρ±
+i j (θ) increases with |θ| in the Student case and becomes unity for large |θ|. More
+generally, the growth of the exceedance correlation with |θ| is associated to distribution
+tails fatter than exponential (as for the Student case).
+
+190
+Extreme correlations and variety
+-3
+-2
+-1
+0
+1
+2
+3
+q
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+r(θ)
+Student ( µ=4)
+Gaussian
+Fig. 11.2. Exceedance correlation functions for two Gaussian variables (full line) and two Student
+variables (dotted line). We have shown ρ+
+i j (θ) for positive θ and ρ−
+i j (θ) for negative θ. In both cases
+the correlation coefﬁcient is set to ρ = 0.5. Note the important difference of shape in the two cases.
+-2
+-1
+0
+1
+2
+θ
+0
+0.2
+0.4
+0.6
+0.8
+1
+r(θ)
+Surrogate data
+Empirical data
+Fig. 11.3. Average exceedance correlation functions between stocks as a function of the level
+parameter θ, both for real data and the surrogate one-factor model. We have shown ρ+
+i j (θ) for positive
+θ and ρ−
+i j (θ) for negative θ. Note that this quantity grows with |θ| and is strongly asymmetric.
+Figure 11.3 shows the exceedance correlation function, averaged over all the possible
+pairs of stocks i and j, both for real data and for the surrogate one-factor model data. As in
+other studies, the empirical ρ±(θ) is found to grow with |θ| and is larger for large negative
+moves than for large positive moves.
+Figure 11.3 however clearly shows that a ﬁxed correlation non Gaussian one-factor
+model is enough to explain quantitatively the level and asymmetry of the exceedance
+correlation function,
+
+11.1 Extreme event correlations
+191
+without having to invoke time dependent correlations (such as, for example, ‘regime
+switching’ scenarios, see Beckaert & Wu (2000)). In particular, the asymmetry is entirely
+induced by the large negative skewness in the distribution of index returns.
+11.1.4 Tail dependence
+An interesting way to measure the correlation between extreme events is to compute the
+so-called coefﬁcient of tail dependence, deﬁned as follows. Consider two random vari-
+ables ηi, η j, with marginal distributions Pi(ηi), Pj(η j), and the corresponding cumulative
+distributions P>,i, j. If we choose a certain probability level p, one can deﬁne the values of
+η∗
+i , η∗
+j such that:
+P>,i(η∗
+i ) = P>, j(η∗
+j) = p.
+(11.8)
+The coefﬁcient of tail dependence ρ+
+t,i j measures the probability that ηi exceeds η∗
+i , condi-
+tional to the fact that η j itself exceeds η∗
+j, in the limit of extreme events, i.e. p →0:†
+ρ+
+t,i j = lim
+p→0 P(ηi > η∗
+i |η j > η∗
+j).
+(11.9)
+In other words, ρ+
+t measures the tendency for extreme events to occur simultaneously. As
+deﬁned, ρ+
+t is between 0 and 1 but appears not to be symmetrical in the permutation of
+i and j. However, the conditional probability is by deﬁnition given by:
+P(ηi > η∗
+i |η j > η∗
+j) =
+P(ηi > η∗
+i ∧η j > η∗
+j)
+P>(η∗
+j)
+,
+(11.10)
+and since we have chosen η∗
+i and η∗
+j such that Eq. (11.8) holds, one sees that ρ+
+t,i j is indeed
+symmetrical.
+If ηi and η j are independent, then P(ηi > η∗
+i |η j > η∗
+j) = p and therefore ρ+
+t,i j = 0. In-
+terestingly, if ηi and η j are correlated Gaussian variables with a correlation coefﬁcient ρ
+then, unless ρ = 1, one also has ρ+
+t,i j = 0. Note that the coefﬁcient of tail dependence is
+by construction invariant under any change of variables ˜ηi = fi(ηi), ˜η j = f j(η j), which
+changes the marginal distributions but not ρ+
+t,i j. The coefﬁcient of tail dependence therefore
+only reﬂects the correlation structure of the underlying ‘copula’ (see Section 9.2.3).
+More interesting is the case where ηi and η j are obtained as the sum of power-law
+distributed independent ‘factors’:
+ηi =
+M
+	
+a=1
+va,iea,
+(11.11)
+where
+P(ea)
+≃
+ea→±∞
+µAµ
+a
+|ea|1+µ ,
+(11.12)
+† We deﬁne here the coefﬁcient of tail dependence for the right tail. The left tail coefﬁcient ρ−
+t
+can be deﬁned
+similarly and is a priori different from ρ+
+t .
+
+192
+Extreme correlations and variety
+the va,i are coefﬁcients. Since power-law variables are (asymptotically) stable under ad-
+dition, the decomposition Eq. (11.11) leads for all µ to correlated power-law variables ηi
+with, as discussed in Chapter 2, a tail amplitude given by:
+Aµ
+i =
+M
+	
+a=1
+|va,i|µAµ
+a .
+(11.13)
+The crucial remark is that for power law variables, ηi is asymptotically large whenever one
+of the factor ea is individually large (this property is also useful for the analysis of the risk
+of complex portfolios, see Section 12.4). The coefﬁcient of tail dependence can then be
+computed to be:
+ρ+
+t,i j =
+	
+a/va,iva, j>0
+Aµ
+a min
+
+|va,i|µ
+
+b |vb,i|µAµ
+b
+,
+|va, j|µ
+
+b |vb, j|µAµ
+b
+
+.
+(11.14)
+Note that 0 ≤ρ+
+t,i j ≤1 from the above formula. In the simple case of a one-factor model
+given by Eq. (11.3), where both the market and residual have a power-law distribution and
+βi > 0, the coefﬁcient of tail dependence between asset i and the market can be computed
+using the above formula, and reads:†
+ρ±
+t,im =
+βµ
+i Aµ
+m
+βµ
+i Aµ
+m + Aµ
+ϵi
+.
+(11.15)
+As intuitively expected, ρ±
+t,im grows from zero to one as βi increases from zero to inﬁnity.
+Another case of interest is when the ηi, η j are multivariate Student variables. As explained
+in Section 9.2.5, one can obtain such variables by ﬁrst choosing two random Gaussian
+variables ξi, ξ j, of unit variance and correlation coefﬁcient ρ, and multiplying both of them
+by a common factor f = √µ/s, where s is a positive random variable with a Gamma
+distribution. The coefﬁcient of tail dependence in this case can be computed, but the ﬁnal
+formula is not very helpful. A plot of ρ+
+t,i j as a function of ρ for µ = 4 is shown in Fig. 11.4.
+On a more practical side, one might wonder whether the tail dependence coefﬁcient and
+the usual correlation coefﬁcient really grasp different information about a given pair of
+assets. To say it bluntly: is the tail dependence useful in real life?
+To compute an empirical tail dependence, one needs to set a value for p. This value
+should be small since in theory we should let p tend towards zero. On the other hand the
+smaller the value of p, the fewer the events that determine ρ±
+t,i j and therefore the more noise
+in its determination. The relative standard error on ρ±
+t,i j is given by 1/
+
+ρ±
+t,i j pN, where N is
+the number of data points (days) used. This is found to be 28% for the values given below,
+which is much larger than the relative error on the usual correlation coefﬁcient: 1/
+√
+N
+(2.3%). Note also that the possible values of ρ±
+t,i j are discrete and come in increments of
+1/pN.
+We have computed ρ±
+t,i j and the standard correlation ρi j for a set of 388 large cap. US
+stocks using daily data from Jan. 1993 to June 2000. Figure 11.5 shows a scatter plot of ρ−
+t,i j
+† This formula was also obtained in Malevergne & Sornette (2002b).
+
+11.1 Extreme event correlations
+193
+0
+0.2
+0.4
+0.6
+0.8
+1
+ ρ
+0
+0.2
+0.4
+0.6
+0.8
+1
+ρt
+Tail correlation
+Tail dependence
+Fig. 11.4. Tail dependence coefﬁcient ρ+
+t and tail correlation coefﬁcient ρt as a function of the
+correlation coefﬁcient ρ of the two Gaussian variables used to generate a bivariate Student
+distribution with µ = 4. Note that these coefﬁcients are non zero even if ρ = 0, since the correlation
+is induced by the strong common ‘volatility’ factor.
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+rij
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+rt
+−
+ij
+Fig. 11.5. Scatter plot of ρ−
+t,i j versus the usual correlation ρi j. The empirical ρ−
+t,i j was deﬁned using
+p = 5%. The dataset consists of 7.5 years of daily data for 388 US large cap. stocks. The
+discreteness of ρ−
+t,i j arises from the empirical determination of probabilities, the minimum
+difference between two values is given by 1/(0.05T ) ≈0.01.
+vs. ρi j. We notice that the two quantities are very correlated (ρ = 76%) with a fairly linear
+relationship between them. On our dataset, the average ρ−
+t,i j is 0.154 while the average ρi j is
+0.168. Results for ρ+
+t,i j (not shown) were very similar, with a lower average value (0.123).†
+† The difference between ⟨ρ+
+t ⟩and ⟨ρ−
+t ⟩is a manifestation of the large skewness of the market returns.
+
+194
+Extreme correlations and variety
+Note however that ρ−
+t,i j never exceeds 0.45, whereas ρi j can be as high as 0.7. Interestingly,
+from that point of view, extreme events appear less correlated than naively expected.
+Are the deviations from the linear relationship seen in Figure 11.5 signal or noise? In
+other words are the two quantities noisy estimates of the same thing or are they carrying
+different information? To answer that question one can divide the dataset between odd days
+and even days and correlate the coefﬁcients obtained on the two non-overlapping datasets.
+The ﬁrst ﬁnding is that the empirical tail dependences are much more noisy than the standard
+correlation coefﬁcients. Values for the same pair of stocks from non-overlapping datasets
+are correlated to a mere 34% while the standard coefﬁcients have an 80% correlation. More
+interestingly the ρi j’s are correlated at 54% with the ρ−
+t,i j’s computed on a different dataset,
+i.e. more than the tail dependence among themselves! This clearly shows that on real data
+the potential extra information in the tail dependence coefﬁcients is completely obscured
+by measurement noise.
+11.1.5 Tail covariance (∗)
+Let us again assume a linear model of correlations:
+ηi =
+M
+	
+a=1
+va,iea,
+(11.16)
+where the ea have a distribution with a tail exponent µ and, for simplicity, equal left and
+right tail amplitudes A+
+a = A−
+a = Aa. The tail amplitude of ηi is denoted, as usual, as Ai.
+The usual deﬁnition of the covariance is related to the average value of ηiη j, but this
+quantity can in some cases be divergent (i.e. when µ < 2). In order to ﬁnd a sensible
+generalization of the covariance in this case, the idea is to study directly the behaviour of
+the tail of the product variable πi j = ηiη j.† The justiﬁcation is the following: if ea and eb
+are two independent power-law variables, their product πab is also a power-law variable (up
+to logarithmic corrections) with the same exponent µ (cf. Appendix C):
+P(πab)
+≃
+πab→∞
+µ2 
+Aµ
+a Aµ
+b
+
+log(|πab|)
+|πab|1+µ
+(a ̸= b).
+(11.17)
+On the contrary, the quantity πaa is distributed as a power-law with an exponent µ/2 (cf.
+Appendix C):
+P(πaa)
+≃
+πaa→∞
+µAµ
+a
+2|πaa|1+ µ
+2 .
+(11.18)
+Hence, the variable πi j gets both ‘non-diagonal’ contributions πab and ‘diagonal’ ones πaa.
+For πi j →∞, however, only the latter survive. Therefore πi j is a power-law variable of
+exponent µ/2, with a tail amplitude that we will note Aµ/2
+i j , and an asymmetry coefﬁcient
+βi j (see Section 1.8). Using the additivity of the tail amplitudes, and the results of Appendix
+† Other generalizations of the covariance have been proposed in the context of L´evy processes, such as the
+‘covariation’ (Samorodnitsky & Taqqu, 1994).
+
+11.2 Variety and conditional statistics of the residuals
+195
+C, one ﬁnds:
+Aµ/2
+i j
+=
+M
+	
+a=1
+|va,iva, j|
+µ
+2 Aµ
+a ,
+(11.19)
+and
+Ct,i j ≡βi j Aµ/2
+i j
+=
+M
+	
+a=1
+sign(va,iva, j)|va,iva, j|
+µ
+2 Aµ
+a .
+(11.20)
+In the limit µ = 2, one sees that the quantity Ct,i j reduces to the standard covariance,
+provided one identiﬁes A2
+a with the variance of the explicative factors, as should be. This
+suggests that Ct,i j is the suitable generalization of the covariance for power-law variables,
+which is constructed using extreme events only. The expression Eq. (11.20) furthermore
+shows that the matrix Oia = sign(va,i)|va,i|µ/2 allows one to diagonalize the ‘tail covariance
+matrix’ Ct,i j;† its eigenvalues are given by the Aµ
+a ’s. Correspondingly, a natural generaliza-
+tion of the correlation coefﬁcient to tail events is:
+ρt,i j =
+βi j Aµ/2
+i j
+
+Aµ
+i Aµ
+j
+.
+(11.21)
+This deﬁnition is similar to, but different from, the tail dependence coefﬁcient of the
+previous section. For example, in the case of the linear model studied here, one ﬁnds:
+ρt,i j =
+M
+a=1 sign(va,iva, j)|va,iva, j|
+µ
+2 Aµ
+a
+M
+a=1 |va,i|µAµ
+a
+M
+a=1 |va, j|µAµ
+a
+,
+(11.22)
+to be compared with Eq. (11.14). In the case of the simple one factor model, one ﬁnds:
+ρt,im =
+βµ/2
+i
+Aµ/2
+m
+
+βµ
+i Aµ
+m + Aµ
+ϵi
+.
+(11.23)
+One can also study the tail correlation coefﬁcient of two correlated Student variables. The
+result is shown in Figure 11.4 for µ = 4 and compared to the tail dependence coefﬁcient.
+In summary, the tail covariance matrix Ct,i j can be obtained by studying the asymptotic
+tail of the product variable ηiη j, which is a power-law variable of exponent µ/2. The
+product of its tail amplitude and of its asymmetry coefﬁcient is the natural deﬁnition of the
+tail covariance Ct,i j. This quantity will be useful in the context of portfolio optimization.
+11.2 Variety and conditional statistics of the residuals
+11.2.1 The variety
+On any given day, every stock of the S&P 500 performs differently. The market return
+ηm(t) is the average return over the population of stocks. A measure of the heterogeneity
+of the performance of the different stocks on a given day can be deﬁned as the standard
+† Note that Oia = va,i for µ = 2, as it should.
+
+196
+Extreme correlations and variety
+deviation of the returns over the population of stocks, that we will call the variety V (t):
+ηm(t) = 1
+M
+M
+	
+i=1
+ηi(t);
+V (t) =
+
+
+
+ 1
+M
+M
+	
+i=1
+(ηi(t) −ηm(t))2.
+(11.24)
+Suppose the market return is ηm(t) = 3%. If the variety is, say, 0.1%, then most stocks
+have indeed made between 2.9% and 3.1%. But if the variety is 10%, then stocks followed
+rather different trends during the day and their average happened to be positive. The variety
+is not the volatility of the index. The latter is a measure of the temporal ﬂuctuations of the
+market return ηm, whereas the variety measures the instantaneous heterogeneity of stocks.
+Consider a day where the market has gone down 5% with a variety of 0.1% – that is, all
+stocks have gone down by nearly 5%. This is a very volatile day, but with a low variety.
+Note that low variety means that it is hard to diversify: all stocks behave the same way.
+The intuition is however that there should be a positive correlation between volatility and
+variety: when the market makes big swings, stocks are expected to be all over the place. This
+is indeed observed empirically: for example, the correlation coefﬁcient between V (t) and
+|ηm|, which is a simple proxy for the volatility, is 0.68. A study of the temporal correlations
+of the variety shows a similar long-ranged dependence as the one discussed in details in the
+case of the volatility. More precisely, the variety variogram ⟨(V (t + τ) −V (t))2⟩can also
+be ﬁtted as an inverse power-law of τ with a small exponent, as in Section 7.2.2.
+11.2.2 The variety in the one-factor model
+A theoretical relation between variety and market average return can be obtained within
+the framework of the one-factor model, that suggests that the variety increases when the
+market volatility increases. We assume that Eq. (11.3) holds with constant (in time) βi’s.
+In the standard one-factor model the distributions of ηm and ϵi are chosen to be Gaussian
+with constant variances. We do not make this assumption here and let these distributions be
+completely general including possible volatility ﬂuctuations.
+In the study of the properties of the one-factor model it is useful to consider the variety
+v(t) of the residuals, deﬁned as
+v2(t) = 1
+M
+M
+	
+i=1
+[ϵi(t)]2.
+(11.25)
+Under the above assumptions the relation between the variety and the market average return
+is well approximated by (see below):
+V 2(t) ≈v2(t) + β2 η2
+m(t),
+(11.26)
+where β2 is the variance of the β’s.
+
+11.2 Variety and conditional statistics of the residuals
+197
+If the number of stocks M is large, then up to terms of order 1/
+√
+M, Eq. (11.26) indeed
+holds. Summing Eq. (11.3) over i = 1, . . . , M one ﬁnds:
+ηm(t) = ηm(t) 1
+M
+M
+	
+i=1
+βi + 1
+M
+M
+	
+i=1
+ϵi(t)
+(11.27)
+Since for a given day t the idiosyncratic factors are uncorrelated from stock to stock,
+the second term on the right hand side is of order 1/
+√
+M, and can thus be neglected in
+a ﬁrst approximation giving
+β = 1,
+(11.28)
+where β ≡M
+i=1 βi/M. Now square Eq. (11.3) and sum again over i = 1, . . . , M. This
+leads to:
+1
+M
+M
+	
+i=1
+η2
+i (t) = η2
+m(t) 1
+M
+M
+	
+i=1
+β2
+i + 1
+M
+M
+	
+i=1
+ϵ2
+i (t) + 2 ηm(t) 1
+M
+M
+	
+i=1
+βiϵi(t)
+(11.29)
+Under the assumption that ϵi(t) and βi are uncorrelated the last term can be neglected
+and the variety V (t), using (11.24), is given by Eq. (11.26).
+Therefore, even if the idiosyncratic variety v is constant, Eq. (11.26) predicts an increase
+of the variety with η2
+m, which is a proxy of the market volatility. Because β2 ≈0.05 is
+small, however, the increase predicted by this simple model is too small to account for the
+empirical data. As we shall now discuss, the effect is enhanced by the fact that v itself
+increases with the market volatility.
+11.2.3 Conditional variety of the residuals
+In its simplest version, the one-factor model assumes that the idiosyncratic part ϵi is inde-
+pendent of the market return. In this case, the variety of idiosyncratic terms v(t) is constant
+in time and independent from ηm. In Fig. (11.6), we show the variety of idiosyncratic terms
+as a function of the market return. In contrast with these predictions, the empirical results
+show that a signiﬁcant correlation between v(t) and ηm(t) indeed exists. The degree of
+correlation is in fact different for positive and negative values of the market average. In fact,
+the best linear least-squares ﬁt between v(t) and ηm(t) provides different slopes when the
+ﬁt is performed for positive (slope +0.55) or negative (slope −0.30) value of the market
+average. Therefore, from Eq. (11.26) we ﬁnd that the increase of variety in highly volatile
+periods is stronger than what is expected from the simplest one-factor model, although not
+as strong for negative (crashes) than it is for positive (rally) days.
+The fact that the idiosyncratic variety v(t) increases when the market return is large
+means that Eq. (11.4) grows less rapidly with |ηm| than anticipated by the simplest one
+factor model. This allows one to understand qualitatively the effect shown in Fig. 11.1.
+Hence, as anticipated in Section 9.2.4, one of the most serious drawback of linear cor-
+relation models such as the one-factor model is their inability to account for a common
+volatility factor.
+
+198
+Extreme correlations and variety
+-0.05
+0
+0.05
+ηm
+0
+0.02
+0.04
+v
+-0.15
+0
+0.15
+Fig. 11.6. Daily variety v of the residuals terms as a function of the market return ηm of the 1071
+NYSE stocks continuously traded from January 1987 to December 1998. Each circle refers to one
+trading day of the investigated period. Main panel: trading days with ηm belonging to the interval
+[−0.05, 0.05]. Inset: the whole data set including ﬁve most extreme days. The two solid lines are
+linear ﬁts over all days of positive (right line) and negative (left line) market average. The dotted
+lines are ‘robust’ linear ﬁts. (Courtesy of F. Lillo and R. Mantegna.)
+11.2.4 Conditional skewness of the residuals
+Therefore, the idiosyncrasies are by construction uncorrelated, but not independent of the
+market. This shows up in the variety, does it also appear in different quantities? A natural
+question is: what fraction f of stocks did actually better than the market? A balanced
+market would have f = 50%. If f is larger than 50%, then the majority of the stocks beat
+the market, but a few ones lagging behind rather badly, and vice versa. A closely related
+measure is the asymmetry A, deﬁned as A(t) = ηm(t) −η∗(t), where the median η∗is,
+by deﬁnition, the return such that 50% of the stocks are above, 50% below. If f is larger
+than 50%, then the median is larger than the average, and vice versa. Is the asymmetry A
+also correlated with the market factor? Figure 11.7 shows that it is indeed the case: large
+positive days show a positive skewness in the distribution of returns – that is, a few stocks
+do exceptionally well – whereas large negative days show the opposite behaviour. In the
+ﬁgure each day is represented by a circle and all the circles cluster in a pattern which has a
+sigmoidal shape. The asymmetrical behaviour observed during two extreme market events
+is shown in the insets of Figure 11.7. This empirical observation cannot be explained by a
+one-factor model, which predicts that A is a constant. Intuitively, one possible explanation
+of this anomalous skewness (and a corresponding increase of variety) might be related to the
+existence of different sectors which strongly separate from each other during volatile days.
+
+11.3 Summary
+199
+-0.2
+-0.1
+0
+0.1
+0.2
+ηm
+-0.01
+0
+0.01
+0.02
+A
+-0.4
+0
+0.4
+0
+3
+6
+-0.4
+0
+0.4
+0
+3
+6
+Fig. 11.7. Daily asymmetry A of the probability density function of daily returns of a set of 1071
+NYSE stocks continuously traded from January 1987 to December 1998 as a function of the market
+return ηm. Each circle refers to one trading day of the investigated period. Insets: the probability
+density function of daily returns observed for the two most extreme market days, both in October
+1987. (Courtesy of F. Lillo and R. Mantegna).
+11.3 Summary
+r Many indicators can be devised to measure correlations speciﬁc to extreme events.
+However, several of them, such as exceedance correlations, are misleading since their
+increase as one probes more extreme events does not reﬂect a genuine increase of
+correlations, but simply reﬂects the existence of volatility ﬂuctuations and fat tails.
+r Tail dependence coefﬁcients measure the propensity of extreme events to occur si-
+multaneously, and can be of interest for risk management purposes. However, the
+empirical determination of these coefﬁcients is quite noisy and they carry less infor-
+mation than the standard correlation coefﬁcient.
+r The variety is a measure of the dispersion of the returns of all the stocks of a given
+market on a given day. The variety is strongly correlated with the amplitude of the
+market return, an effect that would be absent in a simple (linear) factor model. This
+shows that the variance of the residuals is strongly correlated with the market return.
+Similarly, the asymmetry of the residuals is also strongly correlated with the market
+return.
+
+200
+Extreme correlations and variety
+11.4 Appendix C: some useful results on power-law variables
+Let us assume that the random variable X is distributed as a power-law, with an exponent
+µ and a tail amplitude Aµ
+X. The random variable λX is then also distributed as a power-law,
+with the same exponent µ and a tail amplitude equal to λµAµ
+X. This can easily be found
+using the rule for changing variables in probability densities, recalled in Section 1.2.1: if y
+is a monotonic function of x, then P(y) dy = P(x) dx. Therefore:
+P(λx) = 1
+λ
+µAµ
+Xλ1+µ
+(λx)1+µ .
+(11.30)
+For the same reason, the random variable X2 is distributed as a power-law, with an exponent
+µ/2 and a tail amplitude (A2
+X)µ/2. Indeed:
+P(x2) = P(x)
+2x
+≃
+x→∞
+µAµ
+X
+2(x2)1+µ/2 .
+(11.31)
+On the other hand, if X and Y are two independent power-law random variables with the
+same exponent µ, the variable Z = X × Y is distributed according to:
+P(z) =
+ 
+P(x)P(y)δ(xy −z) dx dy =
+ 1
+x P(x)P
+
+y = z
+x
+
+dx.
+(11.32)
+When z is large, one can replace P(y = z/x) by µAµ
+Y x1+µ/z1+µ as long as x ≪z. Hence,
+in the limit of large z’s:
+P(z) ≃
+ az
+xµP(x)µAµ
+Y
+z1+µ dx
+(11.33)
+where a is a certain constant. Now, since the integral x diverges logarithmically for large
+x’s (since P(x) ∝x−1−µ), one can, to leading order, replace P(x) in the integral by its
+asymptotic behaviour, and ﬁnd:
+P(z) ≃µ2Aµ
+X Aµ
+Y
+z1+µ
+log z.
+(11.34)
+r Further reading
+P. Embrechts, C. Kl¨uppelberg, T. Mikosch, Modelling Extremal Events for Insurance and Finance,
+Springer-Verlag, Berlin, 1997.
+G. Samorodnitsky, M. S. Taqqu, Stable Non-Gaussian Random Processes, Chapman & Hall, New
+York, 1994.
+r Specialized papers
+A. Ang, G. Bekaert, International Asset Allocation with time varying correlations, NBER working
+paper (1999).
+A. Ang, G. Bekaert, International Asset Allocation with Regime Shifts, working paper (2000).
+G. Bekaert, G. Wu, Asymmetric volatility and risk in equity markets, The Review of Financial Studies,
+13, 1 (2000).
+P. Embrechts, A. J. Mc Neil, D. Straumann, Correlation and Dependency in Risk Management:
+Properties and Pitfalls, in Value at risk and Beyond, M. Dempster Edt., Cambridge University
+Press, 2001.
+
+11.4 Appendix C: some useful results on power-law variables
+201
+B. H. Boyer, M. S. Gibson, M. Lauretan, Pitfalls in tests for changes in correlations, international
+Finance Discussion paper 597, Board of the Governors of the Federal Reserve (1988).
+C. B. Erb, C. R. Harvey, T. E. Viskanta, Forecasting International correlations, Financial Analysts
+Journal, 50, 32 (1994).
+P. Cizeau, M. Potters, J.-P. Bouchaud, Correlation structure of extreme stock returns, Quantitative
+Finance, 1, 217 (2001).
+W. L. Lin, R. F. Engle, T. Ito, Do bulls and bears move across borders? International transmission of
+stock returns and volatility, The review of Financial Studies, 7, 507 (1994).
+F. Lillo, R. N. Mantegna, Symmetry alteration of ensemble return distribution in crash and rally days
+of ﬁnancial markets, e-print cond-mat/0002438 (2000).
+F. Lillo, R. N. Mantegna, J.-P. Bouchaud, M. Potters, Introducing variety in risk management, Wilmott
+Magazine, (December 2002).
+F. Longin, B. Solnik, Correlation structure of international equity markets during extremely volatile
+periods, Journal of Finance, LVI, 649 (2001).
+Y. Malevergne, D. Sornette, Investigating Extreme Dependences: Concepts and Tools, e-print: cond-
+mat/0203166 (2002a), and references therein.
+Y. Malevergne, D. Sornette, Tail Dependence of Factor Models, e-print cond-mat/0202356; Minimiz-
+ing Extremes, Risk, 15, 129 (2002b).
+Y. Malevergne, D. Sornette, Testing the Gaussian Copula Hypothesis for Financial Assets Depen-
+dences, e-print cond-mat/0111310, to appear in Quantitative Finance.
+B. Solnik, C. Boucrelle, Y. Le Fur, International market correlations and volatility, Financial Analysts
+Journal, 52, 17 (1996).
+C. Starica, Multivariate extremes for models with constant conditional correlations, Journal of
+Empirical Finance, 6, 515 (1999).

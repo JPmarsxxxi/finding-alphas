@@ -1,0 +1,684 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         338 
+ 
+Chapter 28 
+Poker's Still Poker: Tournaments, Part III 
+ 
+Game Theoretic Tournament Concepts 
+From a game theory standpoint, tournaments have one important quality that affects play-beyond 
+the usual poker considerations, even among equally skilled players. In a tournament, every 
+player has some stake in every hand, because every player gains equity when other players are 
+eliminated. Because of this, hands played headsup are not constant-sum as they are in other 
+forms of poker. When an all-in confrontation occurs, both players lose some equity. This amount 
+can range from negligible (as would be the case on the first hand of the tournament) to extremely 
+significant (as on the bubble in a supersatellite). One effect of this is to create an advantage to the 
+first player to enter a pot, but particularly to the first player to enter a pot for all his chips. 
+Because of the escalating blinds of tournaments, these opportunities occur rather frequently in 
+no-limit holdem. 
+ 
+In a normal full cash game situation, players behind an all-in raiser must hold a hand that has 
+enough equity to justify calling against the raiser's distribution of hands. This means the caller 
+must generally have a tighter distribution than the raiser. For example, if the raiser's distribution 
+is {55+, A9+, KJ+}, a potential caller with AJo has just 42.8% equity against this distribution, 
+despite the face that his hand is well above the minimum of the initial jammer. 
+ 
+In a tournament, this effect is exaggerated. Players behind the first jammer must not only-
+overcome the effect created by playing against a distribution, they must also overcome the loss 
+of equity caused by engaging in a confrontation. If the fraction of their stack that must be 
+committed is small, then this effect is less important, but if they too must call all-in, there can be 
+a significant cost to that as well. 
+ 
+There is a game theory toy game that has some parallels to this situation; it is called the "game of 
+chicken." Two drivers accelerate towards each other at high speed down a long road. Both 
+drivers may swerve to avoid the accident. If both swerve, then both break even, while if both 
+drive on, there is a terrible accident and both lose large amounts of equity. If one drives on and 
+the other swerves, however, the swerver is labeled "chicken," and he loses a small amount of 
+equity for his loss of "face." 
+ 
+Example 28.1 - Game of Chicken 
+The payoff matrix for this game is as follows: 
+ 
+ 
+Player B 
+ 
+Player A 
+Drive on 
+Swerve 
+Drive on 
+(-10, -10) 
+(1, -1) 
+Swerve 
+(-1,1) 
+(0, 0) 
+ 
+Note that this game is not zero-sum, so there is not a unique optimal solution. In fact there are 
+three equilibria (strategy pairs where neither player can unilaterally improve). The equilibrium 
+that is most often discussed in game theory is where both players use a mixed strategy of 
+swerving and driving on designed to make the opponent indifferent to either choice. But there 
+are two other equilibria, which are of some interest in poker. The first is where Player A drives 
+on and Player B swerves. Note that Player B cannot improve his payoff; he can only cause 
+mutual destruction. And likewise Player B driving on and Player A swerving is an equilibrium. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         339 
+ 
+In this subgame, poker is played sequentially. So when it is folded around to the blinds and they 
+are at jamming stack sizes, Player A (the first player) can simply declare "drive on," (jam) and 
+B's best response is to swerve (fold). In poker, of course, the penalty for a confrontation is not 
+ten times as large as the penalty for folding one's blinds, and there are common situations where 
+the second player's equity is so high as to ignore this additional penalty altogether. But the idea is 
+that insomuch as there is a game of chicken at work in this situation, the first player should 
+attempt to establish the favorable equilibrium of jam-fold if possible. This means playing slightly 
+looser than jam or fold, since the confrontation equity penalty makes it more difficult for the 
+opponent to exploit you. 
+ 
+Play On the Bubble 
+The bubble of tournaments, especially larger multi-table tournaments, is often a tremendous 
+opportunity to exploit tight play. Many players attach an unreasonable amount of psychological 
+value to "finishing in the money," causing them to play extremely tightly just as the step into the 
+money occurs, or when a step within the payout structure occurs (as from three tables to two 
+tables, when the third table is paid out a constant amount). We exploit this phenomenon by 
+liberally raising the blinds of these players and using this period to accumulate chips rapidly. 
+This is one reason that our distribution of tournament finishes is somewhat top-heavy, with a 
+disproportionately large amount of "just out of the money" finishes, and a similarly 
+disproportionate amount of high finishes. 
+ 
+However, there are a fair number of situations where relatively tight play is correct - most 
+obviously in supersatellites, but also in situations where the step into the money is significant. 
+One important example of this is the common sit-and-go tournament structure. Often, these 
+tournaments have ten players, and the payouts are structured 5-3-2. The large jump from zero (4th 
+place) to two units (3rd place) actually makes it correct to play significantly tighter (especially 
+when calling all-in) because the bonus for making it into the money is so large. 
+ 
+Example 28.2 
+To illustrate this, consider the following situation in a sit-and-go tournament: 
+ 
+4 players remain; all have 2,500 m chips. The payouts are 5-3-2. The blinds are 200-400. The 
+under-the-gun player and the button fold. The small blind jams 2500. What equity does the big 
+blind need in order to call? We can approximate this by looking at the cash values of the possible 
+outcomes. The values here are approximations - with large blinds it's often difficult to accurately 
+estimate the chance of others going broke, etc. 
+ 
+Case 1: He calls and wins and has 5000 in chips. Then his prize equity is at least 50% of 5 plus 
+50% of something between 2 and 3; let's just say 2.5 for simplicity. Then his prize equity is 3.75. 
+ 
+Case 2: He calls and loses and gets zero. 
+ 
+Case 3: He folds and now has 2100 and the small blind. His prize equity is 21% of 5 plus about 
+29% of zero plus 50% of something between 2 and 3. So his total prize equity is about 2.3 
+ 
+In order for it to be correct to call, he needs to have X% equity in the pot such that 3.75X > 2.3, 
+or 61.33%. 
+ 
+Comparing this to the equity he would need to make it a  +chip EV play: 
+ 
+(X)5000 - 2100 = 0  
+X = 42% 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         340 
+ 
+We can see that he should play much tighter on the bubble here. 
+ 
+Adjusting for playing on the bubble at the table can be tricky. One mnemonic that we often use 
+in lieu of attempting to calculate equities is to assess the rough value in chips of moving up one 
+additional place, and utilize that value in our chip equity calculations. For example, suppose we 
+are on the bubble of a 500-player $100 + 9 tournament where there are 500,000 chips in play. 
+50th place pays $120. Our equity from moving up one spot is approximately 1200 chips. When 
+we jam, we might consider the additional penalty when we are called and eliminated to be 1200 
+chips (the $120 we forewent by jamming instead of folding). This often doesn't amount to much, 
+as it involves a parlay of being called and then losing (perhaps 25% for the first and 65% for the 
+second, or a total parlay of just 16%, or 200 chips). However, if only 10 places paid, for 
+example, and 10th was $1200, while 11th was zero, then the penalty would be substantially higher 
+and proper play would be tighter. 
+ 
+Shootouts and Single-Table Satellites 
+We group these two types of tournaments together because they are similar- in structure; a single 
+table of players play until one player has all the chips. The winner of the table either wins all the 
+buyins or advances to another round where there is a prize structure. In either case, the key 
+strategic point of these single-table tournaments is that there is no step into the money, so chip 
+preservation strategies should only be employed in order to maintain the opportunity to apply 
+skill. 
+ 
+Occasionally in these types of tournaments, the second place finisher gets some sort of prize, 
+which is often only a small fraction of the first place prize. As a result, this prize often has only a 
+small effect on strategy. Normally most efforts should be expended toward winning the table 
+outright. 
+ 
+One benefit of these types of tournaments is that the skilled player gets the opportunity to play 
+shorthanded much more often. This is normally favorable, as many opponents will not have a 
+great deal of experience playing shorthanded. Also, in headsup or shorthanded situations, 
+opportunities to use the jam-or-fold strategies arise much more often. In single-table satellites, 
+deals are often struck once the action is headsup or three-handed. Ordinarily, the important idea 
+is that the percentage of chips a player holds is approximately equal to the percentage of the prize 
+pool he deserves, skill being equal. 
+ 
+Match Play 
+One format gaining in popularity online is the "match play" format, where the tournament is 
+structured in some fashion as a series of headsup matches. It should be evident that goals of chip 
+preservation are of little value here; the goal is simply to win each match. 
+ 
+One concept that may be of use in playing headsup matches is the knowledge that (excepting 
+small skill adjustments) playing a hard in a headsup match where one player has a larger stack 
+than the other is equivalent equity-wise to playing a hand in a headsup match where both players 
+have stacks equal to the smaller of the two stacks. The result of this concept is that the player 
+with a bigger stack should simply ignore his additional chips (except for skill considerations). 
+ 
+Another thing that bears mentioning (which David Sklansky points out in his book about 
+tournament play), is that in a headsup no-limit match with even moderately sized blinds, neither 
+player can have a tremendous edge. In fact, a great deal of the edge can be neutralized by the 
+weaker player moving all-in preflop. Limit headsup matches often give a larger advantage. 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         341 
+ 
+Single-Table Sit-and-Go Tournaments 
+Another format popularized online but which is now frequently seen in brick and mortar casinos 
+is the "sit-and-go" single table tournament. Generally these are no-limit tournaments (although 
+other games and formats are available, they are less popular), where there is one table, and the 
+prize structure is something like 50% to first place, 30% to second, and 20% to third. 
+ 
+The sit-and-go format has a number of positive elements for the skilled player. First, the 
+tournaments go quickly (often limits escalate every ten hands or ten minutes). Normally, fast 
+escalation of blinds is less favorable for the skilled player, but in this case, many players offset 
+this effect by playing many of these tournaments simultaneously. Second, these tournaments 
+have quite low variance compared to most other types of tournaments since 30% of the field gets 
+paid. A half-bankroll for an expert player even at higher buyin levels will be only 6 to 7 buyins. 
+Third, many parts of the tournament can be played relatively by rote with just a little preparation. 
+For example, when these tournaments get headsup, the blinds are almost always high enough 
+that jam-or-fold play is indicated. 
+ 
+Additionally, there is wide latitude for the application of skill because of the distortion caused by 
+the payout structure. When the tournament becomes four-handed, the difference for a small stack 
+between busting fourth or surviving into the money is quite large. As a result, play on the bubble 
+of a sit-and-go is quite interesting, with the high blinds putting pressure on the small stacks, 
+while the big stacks steal from them. Several different interesting dynamics can develop, all of 
+which require different adjustments. For all of these, we will provide the stacks with four players 
+remaining and make some comments about the ensuing situation. 
+ 
+One Big Stack: (5500/1500/1500/1500, 150-300 blinds) 
+ 
+In this situation, the big stack has a very large advantage as long as these relative stacks are 
+maintained and the tournament remains four-handed. For example, if the big stack simply 
+jammed every hand, the other players would have a difficult problem to solve as they need quite 
+a strong hand to justify calling all-in. For example, if the big stack jams and the big blind is left 
+to potentially defend, we can approximate the equity of the big stack: 
+ 
+From calling and losing: 0. 
+From calling and winning: (30%)(5) + (40%)(3) + (25%)(2) + (5%)(0) = 3.2 buyins.  
+From folding: (10%) (5) + (30%) (3) + (30%)(2) + (30%)(0) = 2 buyins. 
+ 
+Hence, he needs 2/3.2 buyins, or about 62.5% equity against a random hand. The hands that have 
+this are: (66+, A9s+, AT+, KJs+}, or about 7% of hands. The advantage gained by this is so 
+great for the big stack that he can actually consider such counter-intuitive plays as folding the 
+small blind to a very small stack in the big blind in order to prolong this situation. 
+ 
+Four Equal Stacks: (2500/2500/2500/2500, 200-400 blinds) 
+ 
+A like situation occurs here; this is linked to the idea that it is very dangerous for players to call 
+all-in when losing will cause them to go out fourth. In fact, all the adjustments on the bubble 
+revolve around this idea. 
+ 
+Suppose the under-the-gun player jams blind here. 
+Then each of the other players has a similar decision as the last one; to call all-in, or to fold. 
+From calling and losing: 0. 
+From calling and winning: (50%) (5) + (30%) (3) + (20%) (2) = 3.8 buyins. 
+From folding: (25%) (5) + (25%) (3) + (25%) (2) + (25%)(0) =2.5 buyins. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         342 
+ 
+Here the required equity is even higher: 65.8%, which limits the range of calling hands to {77+, 
+AJs+}. This is only about 5% of hands. Note that even AKo is a fold. 
+ 
+We can see that if the three remaining players will call only 5% of the time each (neglecting 
+coincident overcalls), that the first player must profit from picking up 600 in blinds when not 
+called, even if he has an average of 25% equity when he is called. 
+ 
+So in this type of situation, we see the result of a sequential game of chicken. The first player 
+declares that he's driving straight, and everyone else can only pick him off with powerful hands. 
+ 
+Abuser and Abusee: (6000/2500/750/750, 200-400 blinds) 
+ 
+A third type of situation is as above, where there is one big stack and one smaller stack that is 
+still significantly bigger than the other two stacks. In this situation, the big stack can repeatedly 
+jam at the 2500 stack, and the 2500 is restricted in his ability to call. The 2500 stack desperately 
+wants one of the smaller stacks to bust so that he can play reasonably against the large stack. As 
+a result, the big stack can play passively against the very small stacks in order to maintain this 
+situation where he can steal with impunity. 
+ 
+These are just a few of the situations that can occur near the bubble of a sit-and-go tournament, 
+but the key concept is that the large step into 3rd place (from zero to two buyins) is extremely 
+important in sit-and-go strategy. 
+ 
+Supersatellites 
+Supersatellites are another very popular structure, particularly as gateways for players with 
+limited bankrolls to enter larger buyin tournaments. The distinguishing characteristic of a 
+supersatellite is the division of the prize pool into a certain number of equal prizes (occasionally 
+with a little cash left over). These prizes are often denominated in entries to a larger tournament. 
+Then all of the final N players receive this prize. 
+ 
+This structure creates extreme distortions in play strategy, especially as the money approaches. 
+For example, in a supersatellite that pays eleven places, any chips a player accumulates beyond 
+perhaps a quarter of the chips in play have virtually no value. It is often correct for a player who 
+has accumulated a large stack to simply fold all hands, effectively walking away from the table. 
+ 
+A story was related to us about a supersatellite to the main event of the World Series of Poker. 
+The "hero" of the story was one of two large stacks left in the supersatellite. There were ten 
+players left, and eight players won seats. Between the two big stacks, they had approximately 
+75% of the total chips in play and the two big stacks' chips were roughly equal. In any event, one 
+of the big stacks pushed all-in for about 50 times the blind preflop. The other big stack looked 
+down to find AA. 
+ 
+At this point in the story, we interrupted with the question. "Why did the second big stack even 
+look at his cards?" The story went on that the second big stack called and was against JJ and lost. 
+This is a fairly unlucky result, but even with a very large advantage, such as the AA had here, it 
+would still be incorrect to call. 
+ 
+The reason for this is that the AA hand was not wagering chips: he was wagering his equity in a 
+seat. The fact is that his chance of winning a seat by simply folding away all hands was close to 
+100%. By taking on the other big stack, he could only improve his chances to a number closer to 
+100%, but he risked being busted out of the tournament. Even though he had an 81% probability 
+of winning the pot, the gain from winning was extremely small compared to the cost of losing. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         343 
+ 
+This distortion manifests itself throughout the later stages of the tournament; the mapping of 
+chips to equity is decidedly non-linear, and the principle that additional chips are worth less is 
+magnified, particularly as one's stack moves near certain threshold levels. In typical tournament 
+structures, there is somewhat of a bias toward being the player to push all-in. In supersatellites, 
+this effect is magnified, and often a player with a medium or large stack is justified in folding to 
+another player's all-in bet even with a reasonably strong hand, because the cost of losing the 
+showdown is so high and the reward for winning it so meager due to the devaluation of the 
+additional chips. 
+ 
+Multi-table Tournaments 
+Multi-table tournaments are the most common structure for large buyin tournaments, as well as 
+one of the most popular when the buyin is smaller. Players start at a large number of tables, and 
+as seats open up (from players being busted), other tables are broken and the players from the 
+broken tables filled into the seats. 
+ 
+Multi-table tournaments place a higher premium on full-table play than most other tournament 
+structures. However, shorthanded play is still extremely important here, because the situations 
+where the play is shorthanded have a disproportionate impact on total win rate, since they occur 
+with two tables to go and at the final table. 
+ 
+The play in multi-table tournaments is in most cases quite similar to play in a ring game: the 
+payout structure of most multi-table tournaments is quite gradual and lacks a very large step in to 
+the money or from place to place that would cause tournament adjustments. Near or in the 
+money, there are sometimes adjustments to be made, but generally these are much smaller than 
+they are in some of the other types of tournaments discussed here. The fundamental idea is that 
+the game is still poker, and that for all but the most marginal circumstances, gaining chip equity 
+is directly tied to gaining cash equity in the tournament. 
+ 
+This is not to say that a fixed ring game strategy that is appropriate for situations where the 
+money is fairly deep will be effective when the average stack is 10 blinds, however. Nor is it 
+correct from an exploitive standpoint to play a typical ring game strategy if the opponents in the 
+tournament play vastly differently from opponents in a ring game. What is constant is the idea 
+that aggressively accumulating chips should not give way to passively surviving simply because 
+chips are irreplaceable. There are some specific adjustments in play that come about directly 
+because of the tournaments structure, which we will discuss in a moment. 
+ 
+Rebuy Tournaments 
+Rebuy and add-on tournaments provide the opportunity to sweeten the prize pool beyond the 
+initial buy-in amount by allowing players to buy more chips (subject to certain restrictions) for 
+some specified time period. Often, rebuy tournaments are structured something like this: 
+ 
+There is a buy-in amount $X. with some additional entry fee (such as $100 + 9), for which 
+players receive some fixed number of chips N. Players may "rebuy" as long as their stacks are 
+less than or equal to N. So at the start of the tournament they may buy N chips for $X. They may 
+continue to do this throughout the first three limits of the tournament. After the third limit, the 
+rebuy period is over, and the players may take any last rebuys as well as an "add-on,"' on which 
+there are no restrictions except that each player make take only one. Often the addon chips are at 
+a discount to the original buyin. For example, if each player started with 1000 chips, the add-on 
+might be 1500 chips for $100. 
+ 
+This naturally leads to the question of whether to rebuy. We can look at a number of situations 
+and assess whether a rebuy is indicated or not. For all of these cases, we ignore risk and variance 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         344 
+ 
+issues and assume that the players are adequately bankrolled for the tournaments they are 
+entering and their goal is to maximize equity on their entries. In particular, then-decision to enter 
+the tournament was rational. 
+ 
+Case 1: 
+It's the beginning of the rebuy period. Player A loses his starting chips on the first hand. Should 
+he rebuy? 
+ 
+Almost certainly yes. Player A can simply view this as an opportunity to buy-in to a completely 
+different rebuy tournament, except that the second tournament has no entry fee. Since he was 
+willing to pay the entry fee to this tournament because he believes his edge is large enough to 
+overcome it, he must certainly have sufficient edge to buy into the second tournament. Hence he 
+should rebuy. 
+ 
+Case 2: 
+It's the end of the rebuy period- Player A has increased his starting chips of 1000 to 6000. There 
+are 300 players, and Player A thinks his chance of doubling up overall is 54%. The total prize 
+pool is likely to be about $90,000 (200 players will take the add-on, making a total of one 
+million chips in play). He can now take an add-on for $100 and get 1500 in chips. Should he do 
+so? How large does his stack have to be before he should decline the add-on? 
+ 
+Player A's equity can be estimated using the Theory of Doubling Up. If A has 6000 chips, then 
+the number of doubles he needs in order to have all the chips is: 
+ 
+N(6000) = log2 1,000,000/6,000 = 7.38  
+N(7500) = log2 1,000,000/7,500 = 7.06 
+ 
+E(6000) = 0.547.38 = (0.0105) (90,000) = $953  
+E(7500) = 0.547.06 = (0.0129) (90,000) = $1,162 
+ 
+Since the value in equity of the additional chips is more than $200 but they cost only $100. A 
+should definitely take the add-on. 
+ 
+For the second part of the question, we need to find a stack size x such that A is indifferent to 
+taking the rebuy. We know that: 
+ 
+N(no add-on) = log2 1,000,000/x  
+N(add-on) = log2 l,000,000/(x+ 1500) 
+ 
+Additionally, we know that: 
+ 
+E(x) = E(x+ 1500) -$100  
+E(x) = (90,000) (0.54N(noadd-on)) 
+E(x+ 1500) = (90,000)(0.54N(add-on)) 
+ 
+Solving these equations simultaneously, we can find that the value of the add-on is greater than 
+$100 all the way to stack sizes of half the chips in play (well above the level at which the Theory 
+of Doubling Up would break down). This indicates that for this skill level, buying the discounted 
+add-on chips is basically always correct. 
+ 
+Even at a C of 0.51, it would be correct to take this discounted add-on at all stack sizes. 
+However, at a C of 0.51. the breakeven point for buying 1500 additional chips at par (for $150) 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         345 
+ 
+is near 8,325. 
+ 
+What we can glean from this is that assuming you were a winning enough player to enter the 
+tournament in the first place, taking add-ons where the chips are at a premium is virtually always 
+correct. Rebuying at par, however, should be done with care. The Theory of Doubling Up can be 
+a guide to the skill-adjusted value of chips here. 
+ 
+Playing with Shortened Stacks 
+One of the distinguishing characteristics of tournament play is that generally, some players in the 
+field will not bust until they are forced to by the tournament structure. As a result, tournament 
+structures almost always include escalating blinds. As a result of this, chip stacks are normally 
+reduced to levels (relative to the blinds) that are rarely found in cash games. For example, it is 
+not unusual for the late stages of a no-limit holdem tournament to have an average stack of just 
+ten to fifteen blinds. However, no-limit holdem ring games are rarely-played in situations where 
+the average stack is this small. By "shortened" stacks, we do not exclusively mean small stacks 
+relative to the other players; we also refer to the situation where the stacks are shortened relative 
+to the blinds because the blinds have escalated to the point where all the stacks are short. 
+ 
+Two major types of adjustments are made. The first primarily affects no-limit play. At smaller 
+stack-to-blind ratios, there comes a point where in lieu of raising a small amount, we simply 
+move ail-in. This threshold generally occurs at a stack size where making an appropriate smaller 
+raise commits us to the pot anyway, because we will be getting at least 2 to 1 on calling an all-in 
+reraise. A general rule of thumb for this is that if our stack is six times the preflop pot 
+(including antes and blinds) or more, then we should prefer to raise to an appropriate smaller 
+amount, while below this level, we should prefer to jam all-in. This is close to the 
+recommendation we made in the jam-or-fold section, where approximately ten blinds (6 x 1.5 = 
+9) was the threshold for playing jam-or-fold. 
+ 
+Second, hand selection in shortened-stack play is adjusted from larger-stack play. Hands that 
+have high showdown equity are preferred over hands that have high implied odds potential, and 
+hands that contain "blockers" are often valuable because they make it more likely that opponents 
+will not have strong enough hands to call. We saw the first of these effects in the jam-or-fold 
+discussion, where hands such as T9s were jams up to very high blind levels. This is because 
+when called, these types of hands have high equity against the distribution of calling hands. The 
+second of these effects makes it more worthwhile to raise with hands such as Ax, because 
+holding an ace removes one from the opponent's potential holdings. In no-limit, this second 
+effect is very strong when raising in late position because there are fewer players behind who can 
+call. 
+ 
+Playing with Antes 
+In stud, and also in the middle and later stages of many no-limit holdem tournaments, antes are 
+present. Antes affect play with short stacks dramatically because they create additional overlay 
+for players with very short stacks. Consider a stud situation where a player has just three or four 
+antes left. When this player commits his chips, he will often play against just one or two 
+opponents but will get eight to one on his ante chips, in addition to even money action on his 
+remaining chips. The taller the small stack is, the less pronounced this overlay is. Contrast this 
+with, for example, limit holdem, where frequently a short stack with just two blinds will play 
+against the big blind only when he decides to commit, with only the overlay of the small blind 
+preventing him from getting even money. This means that in stud tournaments, players should be 
+a little more willing to pass up terrible hands with very small stacks because as their stacks 
+shrink, their potential overlay grows. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         346 
+ 
+This also occasionally allows for play adjustments in mixed-game tournaments; occasionally it 
+will be correct to pass up marginal hands in flop games with a small stack if the stud round is 
+coming up in order to get this overlay. 
+ 
+In no-limit holdem, of course, the antes create a situation where there is more money in the pot 
+without increasing the size of the blinds. This makes raising first in more attractive, as picking 
+up the blinds for a small raise can often be profitable immediately. Exploitively, it is frequently 
+the case that players play so tightly in certain ante situations, especially when the antes are large, 
+that raising every hand is profitable. For example, suppose the limits are 200-400 with a 50 ante 
+in a 9-handed game, and by raising to 1000, you expect to pick up the blinds 50% of the time. 
+Then you can simply raise with any two cards, since you immediately win 1050 when everyone 
+folds. In addition, when players do play with you, you will occasionally have a strong hand. 
+These situations occur frequently, and from an exploitive standpoint it is definitely worth it to be 
+aware of the players who will fold too often to raises when there are antes in play. 
+ 
+Tournament Backing Agreements 
+In Part IV, we provided some discussion about the value of a backing agreement to the backer 
+and the player. In that section, we considered only ring game backing agreements. However, 
+tournament backing agreements are much more popular and common, and so we would be 
+remiss to not provide a short discussion of evaluating such things. 
+ 
+The most common structure (in our experience) of a tournament backing agreement is some sort 
+of open-ended agreement with the following conditions: 
+ 
+• The backer provides some amount of bankroll. 
+• The player plays tournaments according to the agreement. 
+• There is some division of profits (often split evenly between the backer and the player).  
+• Most agreements allow the player to take a distribution whenever the player is ahead -this 
+will typically be after a moderate to large sized win. 
+ 
+One thing to consider in this type of arrangement is that since the fixed bankroll is static, an 
+agreement with the above conditions will have a risk of "ruin" - that is, that the fixed bankroll 
+will be lost - of 100%. This is because previous profit will have been distributed to the backer 
+and the backee. This does not necessarily mean that the backing agreement is doomed to lose 
+money; only that if the backer is unwilling to increase the size of the bankroll, at some point, the 
+player will lose the entire bankroll amount. 
+ 
+We can attempt to evaluate a closed-ended tournament agreement, however, using the idea of 
+effective tournament size. Suppose that we have a hypothetical player A with an estimated win 
+rate of about 1 buyin per tournament, and that A is going to enter into a backing agreement with 
+a backer B to play 70 tournaments. At the end they will settle up with B taking any losses and the 
+wins being split equally between A and B. The tournaments are of size approximately 400 
+players. 
+ 
+We can approximate the outcomes of these tournaments by considering them to be winner-take-
+all tournaments of a smaller size. We'll use the tournament variance multiple k from the previous 
+section (Equation 27.4), which for a tournament of 400 players with some typical payout 
+structure is about 72. We can use the binomial distribution to assess our player's chance of 
+winning such a tournament. Since his edge is approximately 1 buyin, his chance of winning the 
+tournament is approximately 1 in 36. 
+ 
+His chances of winning the virtual tournament N times in 70 are: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         347 
+ 
+ 
+N 
+% chance 
+0 
+13.92% 
+l 
+ 27.84% 
+2 
+27.44% 
+3 
+17.77% 
+4 
+8.50% 
+5 
+3.21% 
+6 
+0.99% 
+7 
+0.26% 
+8 
+0.06% 
+9 
+0.01% 
+10 
+ 0.00% 
+ 
+These are not his chances of winning the real tournament; those are of course much lower. 
+However, his outcomes from playing the real tournament can be roughly- approximated by his 
+outcomes of playing the virtual tournament (of a much smaller size). 
+ 
+We can convert the above table to a form that more accurately reflects the backing arrangement 
+by adding some columns related to the settlement. 
+ 
+N 
+p (N) 
+Outcome 
+Backer’s share 
+Weighted share 
+0 
+13.92% 
+- 70 
+(70.00) 
+(9.74) 
+1 
+27.84% 
+  2 
+1.00 
+0.28 
+2 
+27.44% 
+ 74 
+37.00 
+10.15 
+3 
+17.77% 
+146 
+73.00 
+12.97 
+4 
+8.50% 
+218 
+109.00 
+9.27 
+5 
+3.21% 
+290 
+145.00 
+4.65 
+6 
+0.99% 
+362 
+181.00 
+1.80 
+7 
+0.26% 
+434 
+217.00 
+0.56 
+8 
+0.06% 
+506 
+253.00 
+0.15 
+9 
+0.01% 
+578 
+289.00 
+0.03 
+10 
+0.00% 
+650 
+325.00 
+0.01 
+Total 
+ 
+ 
+ 
+30.13 
+ 
+The backer and player together will win 70 buyins total (because of the player's 1 buyin per 
+tournament win rate). Tile backer's share is only 30.13 because of the backing agreement, instead 
+of 35. So the backer loses about 4.9 buyins to the player because of the nature of this backing 
+agreement. This is a significantly better case for the backer than the usual agreement, because 
+settlement occurs only at the end of the seventy tournaments. We can account for this settlement 
+effect using, for example, computer simulation. 
+ 
+We simulated 10,000 series of 70 tournaments with a player who finished in each money place at 
+twice the normal rate and seeded at the end of 70 tournaments. The average return to the backer 
+here was approximately 32 buyins. The variance between these two numbers is likely a 
+systematic bias. This method (using the variance multiplier) slightly underestimates the return to 
+the backer. We then ran the same simulations, but allowed the player to settle whenever he was 
+ahead. The average return to the backer here was approximately 27 buyins. So "settling when 
+ahead" here is worth about five buyins (out of 70, remember) to the player. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         348 
+ 
+"Fairness" in backing agreements is a relative term. In a very real sense, backing agreements 
+exist in a marketplace and the rules of the marketplace dictate what the "price" for backing a 
+player is. Backers should be aware; however, that the shorter the duration of the backing 
+agreement and the more often the player may settle, the expectation of the backer is diminished 
+by the skew of tournament results. 
+ 
+ 
+Key Concepts 
+• In treating tournaments (with multiple payouts) using game theory, we must consider that 
+the game is not strictly a two-player game. When two players enter a confrontation, all 
+the other players gain. Hence, tournament play is heavily influenced by the "game of 
+chicken" concept - it is often far better to be the first one into the pot for all the chips than 
+to be the second. 
+• Many different tournament structures have been proposed and have become popular. 
+Each of these structures introduces different specific play adjustments in order to 
+maximize equity. 
+• Tournament backing agreements can be evaluated using some of the same tools as we 
+used for evaluating ring game backing agreements. The severe skew of tournament 
+results makes these backing agreements often very favorable for the player, particularly if 
+settlement occurs when the player is ahead. 
+• One specific recommendation for no-limit tournaments is six that if our stack is six times 
+the preflop pot (including antes and blinds) or more, then we should prefer to raise to an 
+appropriate smaller amount, while below this level, we should prefer to jam all-in. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

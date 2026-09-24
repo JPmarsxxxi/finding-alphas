@@ -1,0 +1,473 @@
+1
+Introduction: The Case for Financial Machine
+Learning
+1.1
+Prices are Predictions
+Modern analysis of ﬁnancial markets centers on the following deﬁnition
+of a price, derived from the generic optimality condition of an investor:
+Pi,t = E[Mt+1Xi,t+1|It].
+(1.1)
+In words, the prevailing price of an asset, Pi,t, reﬂect investors’ valuation
+of its future payoﬀs, Xi,t+1. These valuations are discounted based on in-
+vestors’ preferences, generically summarized as future realized marginal
+rates of substitution, Mt+1. The price is then determined by investor
+expectations of these objects given their conditioning information It. In
+other words, prices are predictions—they reﬂect investors’ best guesses
+for the (discounted) future payoﬀs shed by an asset.
+It is common to analyze prices in an equivalent expected return, or
+“discount rate,” representation that normalizes (1.1) by the time t price:
+E[Ri,t+1|It] = βi,tλt,
+(1.2)
+where Ri,t+1 = Xi,t+1/Pi,t −Rf,t is the asset’s excess return, Rf,t =
+E[Mt+1|It]−1 is the one-period risk-free rate, βi,t = Cov[Mt+1,Ri,t+1|It]
+Var[Mt+1|It]
+is
+2
+
+1.2. Information Sets are Large
+3
+the asset’s covariance with Mt+1, and λt = −Var[Mt+1|It]
+E[Mt+1|It]
+is the price
+of risk. We can ask economic questions in terms of either prices or
+discount rates, but the literature typically opts for the discount rate
+representation for a few reasons. Prices are often non-stationary while
+discount rates are often stationary, so when the statistical properties
+of estimators rely on stationarity assumptions it is advantageous to
+work with discount rates. Also, uninteresting diﬀerences in the scale of
+assets’ payoﬀs will lead to uninteresting scale diﬀerences in prices. But
+discount rates are typically unaﬀected by diﬀerences in payoﬀscale so
+the researcher need not adjust for them.
+More generally, studying market phenomena in terms of returns
+alleviates some of the researcher’s modeling burden by partially ho-
+mogenizing data to have tractable dynamics and scaling properties.
+Besides, discount rates are also predictions, and their interpretation
+is especially simple and practically important. E[Ri,t+1|It] describes
+investors’ expectations for the appreciation in asset value over the next
+period. As such, the expected return is a critical input to allocation
+decisions. If we manage to isolate an empirical model for this expecta-
+tion that closely ﬁts the data, we have achieved a better understanding
+of market functionality and simultaneously derived a tool to improve
+resource allocations going forward. This is a ﬁne example of duality in
+applied social science research: A good model both elevates scientiﬁc
+understanding and improves real-world decision-making.
+1.2
+Information Sets are Large
+There are two conditions of ﬁnance research that make it fertile soil
+for machine learning methods: large conditioning information sets and
+ambiguous functional forms. Immediately evident from (1.1) is that
+the study of asset prices is inextricably tied to information. Guiding
+questions in the study of ﬁnancial economics include “what information
+do market participants have and how do they use it?” The predictions
+embodied in prices are shaped by the available information that is
+pertinent to future asset payoﬀs (Xi,t+1) and investors’ feelings about
+those payoﬀs (Mt+1). If prices behaved the same in all states of the
+world—e.g. if payoﬀs and preferences were close to i.i.d.—then infor-
+
+4
+Introduction: The Case for Financial Machine Learning
+mation sets would drop out. But even the armchair investor dabbling
+in their online account or reading the latest edition of The Wall Street
+Journal quickly intuits the vast scope of conditioning information lurk-
+ing behind market prices. Meanwhile, the production function of the
+modern asset management industry is a testament to the vast amount of
+information ﬂowing into asset prices: Professional managers (in various
+manual and automated fashions) routinely pore over troves of news
+feeds, data releases, and expert predictions in order to inform their
+investment decisions.
+The expanse of price-relevant information is compounded by the
+panel nature of ﬁnancial markets. The price of any given asset tends
+to vary over time in potentially interesting ways—this corresponds to
+the time series dimension of the panel. Meanwhile, at a given point in
+time, prices diﬀer across assets in interesting ways—the cross section
+dimension of the panel. Time series variation in the market environment
+will aﬀect many assets in interconnected ways. For example, most asset
+prices behave diﬀerently in high versus low risk conditions or in diﬀerent
+policy regimes. As macroeconomic conditions change, asset prices adjust
+in unison through these common eﬀects. Additionally, there are cross-
+sectional behaviors that are distinct to individual assets or groups of
+assets. So, conditioning information is not just time series in nature,
+but also includes asset-level attributes. A successful model of asset
+behavior must simultaneously account for shared dynamic eﬀects as well
+as asset-speciﬁc eﬀects (which may themselves be static or dynamic).
+As highlighted by Gu et al. (2020b),
+The profession has accumulated a staggering list of predic-
+tors that various researchers have argued possess forecasting
+power for returns. The number of stock-level predictive char-
+acteristics reported in the literature numbers in the hundreds
+and macroeconomic predictors of the aggregate market num-
+ber in the dozens.
+Furthermore, given the tendency of ﬁnancial economics research to
+investigate one or a few variables at a time, we have presumably left
+much ground uncovered. For example, only recently has the information
+content of news text emerged as an input to empirical models of (1.1),
+
+1.3. Functional Forms are Ambiguous
+5
+and there is much room for expansion on this frontier and others.
+1.3
+Functional Forms are Ambiguous
+If asset prices are expectations of future outcomes, then the statistical
+tools to study prices are forecasting models. A traditional econometric
+approach to ﬁnancial market research (e.g. Hansen and Singleton, 1982)
+ﬁrst speciﬁes a functional form for the return forecasting model moti-
+vated by a theoretical economic model, then estimates parameters to
+understand how candidate information sources associate with observed
+market prices within the conﬁnes of the chosen model. But which of the
+many economic models available in the literature should we impose?
+The formulation of the ﬁrst-order condition, or “Euler equation,”
+in (1.1) is broad enough to encompass a wide variety of structural
+economic assumptions. This generality is warranted because there is no
+consensus about which speciﬁc structural formulations are viable. Early
+consumption-based models fail to match market price data by most
+measures (e.g. Mehra and Prescott, 1985). Modern structural models
+match price data somewhat better if the measure of success is suﬃciently
+forgiving (e.g. Chen et al., 2022a), but the scope of phenomena they
+describe tends to be limited to a few assets and is typically evaluated
+only on an in-sample basis.
+Given the limited empirical success of structural models, most em-
+pirical work in the last two decades has opted away from structural
+assumptions to less rigid “reduced-form” or “no-arbitrage” frameworks.
+While empirical research of markets often steers clear of imposing de-
+tailed economic structure, it typically imposes statistical structure (for
+example, in the form of low-dimensional factor models or other paramet-
+ric assumptions). But there are many potential choices for statistical
+structure in reduced-form models, and it is worth exploring the beneﬁts
+of ﬂexible models that can accommodate many diﬀerent functional
+forms and varying degrees of nonlinearity and variable interactions.
+Enter machine learning tools such as kernel methods, penalized
+likelihood estimators, decision trees, and neural networks. Comprised of
+diverse nonparametric estimators and large parametric models, machine
+learning methods are explicitly designed to approximate unknown data
+
+6
+Introduction: The Case for Financial Machine Learning
+generating functions. In addition, machine learning can help integrate
+many data sources into a single model. In light of the discussion in
+Section 1.2, eﬀective modeling of prices and expected returns requires
+rich conditioning information in It. On this point, Cochrane (2009)1
+notes that “We obviously don’t even observe all the conditioning infor-
+mation used by economic agents, and we can’t include even a fraction of
+observed conditioning information in our models.” Hansen and Richard
+(1987) (and more recently Martin and Nagel, 2021) highlight diﬀerences
+in information accessible to investors inside an economic model versus
+information available to an econometrician on the outside of a model
+looking in. Machine learning is a toolkit that can help narrow the
+gap between information sets of researchers and market participants
+by providing methods that allow the researcher to assimilate larger
+information sets.
+The more expansive we can be in our consideration of large con-
+ditioning sets, the more realistic our models will be. This same logic
+applies to the question of functional form. Not only do market par-
+ticipants impound rich information into their forecasts, they do it in
+potentially complex ways that leverage the nuanced powers of human
+reasoning and intuition. We must recognize that investors use informa-
+tion in ways that we as researchers cannot know explicitly and thus
+cannot exhaustively (and certainly not concisely) specify in a parametric
+statistical model. Just as Cochrane (2009) reminds us to be circumspect
+in our consideration of conditioning information, we must be equally
+circumspect in our consideration of functional forms.
+1.4
+Machine Learning versus Econometrics
+What is machine learning, and how is it diﬀerent from traditional econo-
+metrics? Gu et al. (2020b) emphasize that the deﬁnition of machine
+learning is inchoate and the term is at times corrupted by the mar-
+keting purposes of the user. We follow Gu et al. (2020b) and use the
+term to describe (i) a diverse collection of high-dimensional models for
+1Readers of this survey are encouraged to re-visit chapter 8 of Cochrane (2009)
+and recognize the many ways machine learning concepts mesh with his outline of
+the role of conditioning information in asset prices.
+
+1.4. Machine Learning versus Econometrics
+7
+statistical prediction, combined with (ii) “regularization” methods for
+model selection and mitigation of overﬁt, and (iii) eﬃcient algorithms
+for searching among a vast number of potential model speciﬁcations.
+Given this deﬁnition, it should be clear that, in any of its incar-
+nations, ﬁnancial machine learning amounts to a set of procedures
+for estimating a statistical model and using that model to make deci-
+sions. So, at its core, machine learning need not be diﬀerentiated from
+econometrics or statistics more generally. Many of the ideas underlying
+machine learning have lived comfortably under the umbrella of statistics
+for decades (Israel et al., 2020).
+In order to learn through the experience of data, the machine
+needs a functional representation of what it is trying to learn. The
+researcher must make a representation choice—this is a canvas upon
+which the data will paint its story. Part (i) of our deﬁnition points
+out that machine learning brings an open-mindedness to functional
+representations that are highly parameterized and often nonlinear. Small
+models are rigid and oversimpliﬁed, but their parsimony has beneﬁts like
+comparatively precise parameter estimates and ease of interpretation.
+Large and sophisticated models are much more ﬂexible, but can also be
+more sensitive and suﬀer from poor out-of-sample performance when
+they overﬁt noise in the system. Researchers turn to large models
+when they believe the beneﬁts from more accurately describing the
+complexities of real world phenomena outweigh the costs of potential
+overﬁt. At an intuitive level, machine learning is a way to pursue
+statistical analysis when the analyst is unsure which speciﬁc structure
+their statistical model should take. In this sense, much of machine
+learning can be viewed as nonparametric (or semi-parametric) modeling.
+Its modus operandi considers a variety of potential model speciﬁcations
+and asks the data’s guidance in choosing which model is most eﬀective
+for the problem at hand. One may ask: when does the analyst ever
+know what structure is appropriate for their statistical analysis? The
+answer of course is “never,” which is why machine learning is generally
+valuable in ﬁnancial research. As emphasized by Breiman (2001), its
+focus on maximizing prediction accuracy in the face of an unknown
+data model is the central diﬀerentiating feature of machine learning
+from the traditional statistical objective of estimating a known data
+
+8
+Introduction: The Case for Financial Machine Learning
+generating model and conducting hypothesis tests.
+Part (ii) of our deﬁnition highlights that machine learning chooses a
+preferred model (or combination of models) from a “diverse collection”
+of candidate models. Again, this idea has a rich history in econometrics
+under the heading of model selection (and, relatedly, model averaging).
+The diﬀerence is that machine learning puts model selection at the
+heart of the empirical design. The process of searching through many
+models to ﬁnd top performers (often referred to as model “tuning”)
+is characteristic of all machine learning methods. Of course, selecting
+from multiple models mechanically leads to in-sample overﬁtting and
+can produce poor out-of-sample performance. Thus machine learning
+research processes are accompanied by “regularization,” which is a
+blanket term for constraining model size to encourage stable performance
+out-of-sample. As Gu et al. (2020b) put it, “An optimal model is a
+‘Goldilocks’ model. It is large enough that it can reliably detect potentially
+complex predictive relationships in the data, but not so ﬂexible that it is
+dominated by overﬁt and suﬀers out-of-sample.” Regularization methods
+encourage smaller models; richer models are only selected if they are
+likely to give a genuine boost to out-of-sample prediction accuracy.
+Element (iii) in the machine learning deﬁnition is perhaps its clear-
+est diﬀerentiator from traditional statistics, but also perhaps the least
+economically interesting. When data sets are large and/or models are
+very heavily parameterized, computation can become a bottleneck. Ma-
+chine learning has developed a variety of approximate optimization
+routines to reduce computing loads. For example, traditional economet-
+ric estimators typically use all data points in every step of an iterative
+optimization routine and only cease the parameter search when the
+routine converges. Shortcuts such as using subsets of data and halting
+a search before convergence often reduce computation and do so with
+little loss of accuracy (see, e.g., stochastic gradient descent and early
+stopping which are two staples in neural network training).
+
+1.5. Challenges of Applying Machine Learning in Finance (and the
+Beneﬁts of Economic Structure)
+9
+1.5
+Challenges of Applying Machine Learning in Finance (and the
+Beneﬁts of Economic Structure)
+While ﬁnancial research is in many ways ideally suited to machine learn-
+ing methods, some aspects of ﬁnance also present challenges for machine
+learning. Understanding these obstacles is important for developing
+realistic expectations about the beneﬁts of ﬁnancial machine learning.
+First, while machine learning is often viewed as a “big data” tool,
+many foundational questions in ﬁnance are frustrated by the decidedly
+“small data” reality of economic time series. Standard data sets in macro
+ﬁnance, for example, are conﬁned to a few hundred monthly observations.
+This kind of data scarcity is unusual in other machine learning domains
+where researchers often have, for all intents and purposes, unlimited
+data (or the ability to generate new data as needed). In time series
+research, new data accrues only through the passage of time.
+Second, ﬁnancial research often faces weak signal-to-noise ratios.
+Nowhere is this more evident than in return prediction, where the forces
+of market eﬃciency (proﬁt maximization and competition) are ever
+striving to eliminate the predictability of price movements (Samuel-
+son, 1965; Fama, 1970). As a result, price variation is expected to
+emanate predominantly from the arrival of unanticipated news (which
+is unforecastable noise from the perspective of the model). Markets
+may also exhibit ineﬃciencies and investor preferences may give rise to
+time-varying risk premia, which result in some predictability of returns.
+Nonetheless, we should expect return predictability to be small and
+ﬁercely competed over.
+Third, investors learn and markets evolve. This creates a moving
+target for machine learning prediction models. Previously reliable pre-
+dictive patterns may be arbitraged away. Regulatory and technological
+changes alter the structure of the economy. Structural instability makes
+ﬁnance an especially complex learning domain and compounds the
+challenges of small data and low signal-to-noise ratios.
+These challenges present an opportunity to beneﬁt from knowledge
+gained by economic theory. As noted by Israel et al. (2020),
+“A basic principle of statistical analysis is that theory and
+model parameters are substitutes. The more structure you
+
+10
+Introduction: The Case for Financial Machine Learning
+can impose in your model, the fewer parameters you need
+to estimate and the more eﬃciently your model can use
+available data points to cut through noise. That is, models are
+helpful because they ﬁlter out noise. But an over-simpliﬁed
+model can ﬁlter out some signal too, so in a data-rich and
+high signal-to-noise environment, you would not want to use
+an unnecessarily small model. One can begin to tackle small
+data and low signal-to-noise problems by bringing economic
+theory to describe some aspects of the data, complemented
+by machine learning tools to capture aspects of the data for
+which theory is silent.”
+1.6
+Economic Content (Two Cultures of Financial Economics)
+We recall Breiman (2001)’s essay on the “two cultures” of statistics,
+which has an analogue in ﬁnancial economics (with appropriate modiﬁ-
+cations). One is the “structural model/hypothesis test” culture, which
+favors imposing fully or partially speciﬁed structural assumptions and
+investigating economic mechanisms through hypothesis tests. The tra-
+ditional program of empirical asset pricing analysis (pre-dating the
+emergence of reduced form factor models and machine learning pre-
+diction models) studies prices through the lens of heavily constrained
+prediction models. The constraints come in the form of i) speciﬁc func-
+tional forms/distributions, and ii) limited variables admitted into the
+conditioning information set. These models often “generalize” poorly
+in the sense that they have weak explanatory power for asset price
+behaviors outside the narrow purview of the model design or beyond
+the training data set. This is such an obvious statement that one rarely
+considers out-of-sample performance of fully speciﬁed structural asset
+pricing models.
+The other is the “prediction model” culture, which values statis-
+tical explanatory power above all else, and is born largely from the
+limitations of the earlier established structural culture. The prediction
+model culture willingly espouses model speciﬁcations that might lack
+an explicit association with economic theory, so long as they produce
+meaningful, robust improvements in data ﬁt versus the status quo. In
+
+1.6. Economic Content (Two Cultures of Financial Economics)
+11
+addition to reduced-form modeling that has mostly dominated empirical
+ﬁnance since the 1990’s, ﬁnancial machine learning research to date
+falls squarely in this second culture.
+“There is no economics” is a charge sometimes lobbed at the statisti-
+cal prediction research by economic seminar audiences, discussants, and
+referees. This criticism is often misguided and we should guard against
+it unduly devaluing advancements in ﬁnancial machine learning. Let
+us not miss the important economic role of even the purest statistical
+modeling applications in ﬁnance. Relatively unstructured prediction
+models makes them no less economically important than the traditional
+econometrics of structural hypothesis testing, they just play a diﬀerent
+scientiﬁc role. Hypothesis testing learns economics by probing speciﬁc
+economic mechanisms. But economics is not just about testing theo-
+retical mechanisms. Atheoretical (for lack of a better term) prediction
+models survey the empirical landscape in broader terms, charting out
+new empirical facts upon which theories can be developed, and for which
+future hypothesis tests can investigate mechanisms. These two forms of
+empirical investigation—precision testing and general cartography—play
+complementary roles in the Kuhnian process of scientiﬁc advancement.
+Consider the fundamental question of asset pricing research: What
+determines asset risk premia? Even if we could observe expected returns
+perfectly, we would still need theories to explain their behavior and
+empirical analysis to test those theories. But we can’t observe risk
+premia, and they are stubbornly hard to estimate. Machine learning
+makes progress on measuring risk premia, which facilitates development
+of better theories of economic mechanisms that determine their behavior.
+A critical beneﬁt of expanding the set of known contours in the
+empirical landscape is that, even if details of the economic mechanisms
+remain shrouded, economic actors—ﬁnancial market participants in
+particular—can always beneﬁt from improved empirical maps. The
+prediction model culture has a long tradition of producing research
+to help investors, consumers, and policymakers make better decisions.
+Improved predictions provide more accurate descriptions of the state-
+dependent distributions faced by these economic actors.
+Economics is by and large an applied ﬁeld. The economics of the pre-
+diction model culture lies precisely in its ability to improve predictions.
+
+12
+Introduction: The Case for Financial Machine Learning
+Armed with better predictions—i.e., more accurate assessments of the
+economic opportunity set—agents can better trade oﬀcosts and beneﬁts
+when allocating scarce resources. This enhances welfare. Nowhere is
+this more immediately clear than in the portfolio choice problem. We
+may not always understand the economic mechanisms by which a model
+delivers better return or risk forecasts; but if it does, it boosts the utility
+of investors and is thus economically important.
+Breiman’s central criticism of the structural hypothesis test culture
+is that
+“when a model is ﬁt to data to draw quantitative conclusions:
+the conclusions are about the model’s mechanism, and not
+about nature’s mechanism. If the model is a poor emulation
+of nature, the conclusions may be wrong.”
+We view this less as a criticism of structural modeling, which must
+remain a foundation of empirical ﬁnance, but rather as a motivation
+and defense of prediction models. The two-culture dichotomy is, of
+course, a caricature. Research spans a spectrum and draws on multiple
+tools, and researchers do not separate into homogenous ideological
+camps. Both cultures are economically important. Breiman encourages
+us to consider ﬂexible, even nonparametric, models to learn about
+economic mechanisms:
+“The point of a model is to get useful information about
+the relation between the response and predictor variables.
+Interpretability is a way of getting information. But a model
+does not have to be simple to provide reliable information
+about the relation between predictor and response variables;
+neither does it have to be a [structural] data model.”
+Prediction models are a ﬁrst step to understanding mechanisms. More-
+over, structural modeling can beneﬁt directly from machine learning
+without sacriﬁcing pointed hypothesis tests or its speciﬁcity of economic
+mechanisms.2 Thus far machine learning has predominantly served the
+prediction model culture of ﬁnancial economics. It is important to rec-
+ognize it as a similarly potent tool for the structural hypothesis testing
+2See, for example, our discussion of Chen and Ludvigson (2009), in Section 5.5.
+
+1.6. Economic Content (Two Cultures of Financial Economics)
+13
+culture (this is a critical direction for future machine learning research
+in ﬁnance). Surely, a research program founded solely on “measurement
+without theory” (Koopmans, 1947) is better served by also considering
+data through the lens of economic theory and with a deep understanding
+of the Lucas Jr, 1976 critique. Likewise, a program that only interprets
+data through extant economic models can overlook unexpected yet
+economically important statistical patterns.
+Hayek (1945) confronts the economic implications of dispersed in-
+formation for resource allocation. Regarding his central question of how
+to achieve an eﬀective economic order, he notes
+If we possess all the relevant information, if we can start
+out from a given system of preferences, and if we command
+complete knowledge of available means, the problem which
+remains is purely one of logic... This, however, is emphat-
+ically not the economic problem which society faces. And
+the economic calculus which we have developed to solve this
+logical problem, though an important step toward the solu-
+tion of the economic problem of society, does not yet provide
+an answer to it. The reason for this is that the ‘data’ from
+which the economic calculus starts are never for the whole
+society ‘given’ to a single mind which could work out the
+implications and can never be so given.
+While Hayek’s main interest is in the merits of decentralized planning,
+his statements also have implications for information technologies in
+general, and prediction technologies in particular. Let us be so presump-
+tuous as to reinterpret Hayek’s statement as a statistical problem: There
+is a wedge between the eﬃciency of allocations achievable by economic
+agents when the data generating process (DGP) is known, versus when
+it must be estimated. First, there is the problem of model speciﬁcation—
+economic agents simply cannot be expected to correctly specify their
+statistical models. They must use some form of mis-speciﬁed paramet-
+ric model or a nonparametric approximating model. In either case,
+mis-speciﬁcation introduces a wedge between the optimal allocations
+achievable when the DGP is known (call this “ﬁrst-best”) and the allo-
+cations derived from their mis-speciﬁed models (call this “second-best”).
+
+14
+Introduction: The Case for Financial Machine Learning
+But even second best is implausible, because we must estimate these
+models with ﬁnite data. This gives rise to yet another wedge, that due
+to sampling variation. Even if we knew the functional form of the DGP,
+we still must estimate it and noise in our estimates produces deviations
+from ﬁrst-best. Compound that with the realism of mis-speciﬁcation,
+and we recognize that in reality we must always live with “third-best”
+allocations; i.e., mis-speciﬁed models that are noisily estimated.
+Improved predictions derived from methods that can digest vast
+information and data sets provide an opportunity to mitigate the wedges
+between the pure “logic” problem of ﬁrst-best resource allocation noted
+by Hayek, and third-best realistic allocations achievable by economic
+agents. The wedges never shrink to zero due to statistical limits to
+learnability (Da et al., 2022; Didisheim et al., 2023). But powerful
+approximating models and clever regularization devices mean that ma-
+chine learning is economically important exactly because they can lead
+to better decisions. The problem of portfolio choice is an illustrative
+example. A mean-variance investor who knows the true expected re-
+turn and covariance matrix of assets simply executes the “logic” of a
+Markowitz portfolio and achieves a ﬁrst-best allocation. But, in analogy
+to Hayek, this is emphatically not the problem that real world investors
+grapple with. Instead, their problem is primarily one of measurement—
+one of prediction. The investor seeks a sensible expected return and
+covariance estimate that, when combined with the Markowitz objective,
+performs reasonably well out-of-sample. Lacking high-quality measure-
+ments, the Markowitz solution can behave disastrously, as much research
+has demonstrated.

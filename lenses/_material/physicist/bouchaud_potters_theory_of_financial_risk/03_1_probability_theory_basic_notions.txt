@@ -1,0 +1,845 @@
+1
+Probability theory: basic notions
+All epistemological value of the theory of probability is based on this: that large scale
+random phenomena in their collective action create strict, non random regularity.
+(Gnedenko and Kolmogorov, Limit Distributions for Sums of Independent
+Random Variables.)
+1.1 Introduction
+Randomness stems from our incomplete knowledge of reality, from the lack of information
+which forbids a perfect prediction of the future. Randomness arises from complexity, from
+the fact that causes are diverse, that tiny perturbations may result in large effects. For over a
+century now, Science has abandoned Laplace’s deterministic vision, and has fully accepted
+the task of deciphering randomness and inventing adequate tools for its description. The
+surprise is that, after all, randomness has many facets and that there are many levels to
+uncertainty, but, above all, that a new form of predictability appears, which is no longer
+deterministic but statistical.
+Financial markets offer an ideal testing ground for these statistical ideas. The fact that
+a large number of participants, with divergent anticipations and conﬂicting interests, are
+simultaneously present in these markets, leads to unpredictable behaviour. Moreover, ﬁnan-
+cial markets are (sometimes strongly) affected by external news – which are, both in date
+and in nature, to a large degree unexpected. The statistical approach consists in drawing
+from past observations some information on the frequency of possible price changes. If one
+then assumes that these frequencies reﬂect some intimate mechanism of the markets them-
+selves, then one may hope that these frequencies will remain stable in the course of time.
+For example, the mechanism underlying the roulette or the game of dice is obviously always
+the same, and one expects that the frequency of all possible outcomes will be invariant in
+time – although of course each individual outcome is random.
+This ‘bet’ that probabilities are stable (or better, stationary) is very reasonable in the
+case of roulette or dice;† it is nevertheless much less justiﬁed in the case of ﬁnancial
+markets – despite the large number of participants which confer to the system a certain
+† The idea that science ultimately amounts to making the best possible guess of reality is due to R. P. Feynman
+(Seeking New Laws, in The Character of Physical Laws, MIT Press, Cambridge, MA, 1965).
+
+2
+Probability theory: basic notions
+regularity, at least in the sense of Gnedenko and Kolmogorov. It is clear, for example, that
+ﬁnancial markets do not behave now as they did 30 years ago: many factors contribute to
+the evolution of the way markets behave (development of derivative markets, world-wide
+and computer-aided trading, etc.). As will be mentioned below, ‘young’ markets (such as
+emergent countries markets) and more mature markets (exchange rate markets, interest rate
+markets, etc.) behave quite differently. The statistical approach to ﬁnancial markets is based
+on the idea that whatever evolution takes place, this happens sufﬁciently slowly (on the scale
+of several years) so that the observation of the recent past is useful to describe a not too
+distant future. However, even this ‘weak stability’ hypothesis is sometimes badly in error,
+in particular in the case of a crisis, which marks a sudden change of market behaviour. The
+recent example of some Asian currencies indexed to the dollar (such as the Korean won or
+the Thai baht) is interesting, since the observation of past ﬂuctuations is clearly of no help
+to predict the amplitude of the sudden turmoil of 1997, see Figure 1.1.
+9706
+9708
+9710
+9712
+0.4
+0.6
+0.8
+1
+x(t)
+KRW/USD
+9206
+9208
+9210
+9212
+6
+8
+10
+12
+x(t)
+Libor 3M dec 92
+8706
+8708
+8710
+8712
+t
+200
+250
+300
+350
+x(t)
+S&P 500
+Fig. 1.1. Three examples of statistically unforeseen crashes: the Korean won against the dollar in
+1997 (top), the British 3-month short-term interest rates futures in 1992 (middle), and the S&P 500
+in 1987 (bottom). In the example of the Korean won, it is particularly clear that the distribution of
+price changes before the crisis was extremely narrow, and could not be extrapolated to anticipate
+what happened in the crisis period.
+
+1.2 Probability distributions
+3
+Hence, the statistical description of ﬁnancial ﬂuctuations is certainly imperfect. It is
+nevertheless extremely helpful: in practice, the ‘weak stability’ hypothesis is in most cases
+reasonable, at least to describe risks.†
+In other words, the amplitude of the possible price changes (but not their sign!) is, to a
+certain extent, predictable. It is thus rather important to devise adequate tools, in order to
+control (if at all possible) ﬁnancial risks. The goal of this ﬁrst chapter is to present a certain
+number of basic notions in probability theory which we shall ﬁnd useful in the following.
+Our presentation does not aim at mathematical rigour, but rather tries to present the key
+concepts in an intuitive way, in order to ease their empirical use in practical applications.
+1.2 Probability distributions
+Contrarily to the throw of a dice, which can only return an integer between 1 and 6, the
+variation of price of a ﬁnancial asset‡ can be arbitrary (we disregard the fact that price
+changes cannot actually be smaller than a certain quantity – a ‘tick’). In order to describe
+a random process X for which the result is a real number, one uses a probability density
+P(x), such that the probability that X is within a small interval of width dx around X = x
+is equal to P(x) dx. In the following, we shall denote as P(·) the probability density for
+the variable appearing as the argument of the function. This is a potentially ambiguous, but
+very useful notation.
+The probability that X is between a and b is given by the integral of P(x) between a
+and b,
+P(a < X < b) =
+ b
+a
+P(x) dx.
+(1.1)
+In the following, the notation P(·) means the probability of a given event, deﬁned by the
+content of the parentheses (·).
+The function P(x) is a density; in this sense it depends on the units used to measure X.
+For example, if X is a length measured in centimetres, P(x) is a probability density per unit
+length, i.e. per centimetre. The numerical value of P(x) changes if X is measured in inches,
+but the probability that X lies between two speciﬁc values l1 and l2 is of course independent
+of the chosen unit. P(x) dx is thus invariant upon a change of unit, i.e. under the change
+of variable x →γ x. More generally, P(x) dx is invariant upon any (monotonic) change of
+variable x →y(x): in this case, one has P(x) dx = P(y) dy.
+In order to be a probability density in the usual sense, P(x) must be non-negative
+(P(x) ≥0 for all x) and must be normalized, that is that the integral of P(x) over the
+whole range of possible values for X must be equal to one:
+ xM
+xm
+P(x) dx = 1,
+(1.2)
+† The prediction of future returns on the basis of past returns is however much less justiﬁed.
+‡ Asset is the generic name for a ﬁnancial instrument which can be bought or sold, like stocks, currencies, gold,
+bonds, etc.
+
+4
+Probability theory: basic notions
+where xm (resp. xM) is the smallest value (resp. largest) which X can take. In the case where
+the possible values of X are not bounded from below, one takes xm = −∞, and similarly
+for xM. One can actually always assume the bounds to be ±∞by setting to zero P(x) in
+the intervals ]−∞, xm] and [xM, ∞[. Later in the text, we shall often use the symbol
+
+as
+a shorthand for
+ +∞
+−∞.
+An equivalent way of describing the distribution of X is to consider its cumulative
+distribution P<(x), deﬁned as:
+P<(x) ≡P(X < x) =
+ x
+−∞
+P(x′) dx′.
+(1.3)
+P<(x) takes values between zero and one, and is monotonically increasing with x. Obvi-
+ously, P<(−∞) = 0 and P<(+∞) = 1. Similarly, one deﬁnes P>(x) = 1 −P<(x).
+1.3 Typical values and deviations
+It is quite natural to speak about ‘typical’ values of X. There are at least three mathematical
+deﬁnitions of this intuitive notion: the most probable value, the median and the mean.
+The most probable value x∗corresponds to the maximum of the function P(x); x∗needs
+not be unique if P(x) has several equivalent maxima. The median xmed is such that the
+probabilities that X be greater or less than this particular value are equal. In other words,
+P<(xmed) = P>(xmed) = 1
+2. The mean, or expected value of X, which we shall note as
+m or ⟨x⟩in the following, is the average of all possible values of X, weighted by their
+corresponding probability:
+m ≡⟨x⟩=
+
+x P(x) dx.
+(1.4)
+For a unimodal distribution (unique maximum), symmetrical around this maximum, these
+three deﬁnitions coincide. However, they are in general different, although often rather
+close to one another. Figure 1.2 shows an example of a non-symmetric distribution, and the
+relative position of the most probable value, the median and the mean.
+One can then describe the ﬂuctuations of the random variable X: if the random process is
+repeated several times, one expects the results to be scattered in a cloud of a certain ‘width’
+in the region of typical values of X. This width can be described by the mean absolute
+deviation (MAD) Eabs, by the root mean square (RMS) σ (or, standard deviation), or
+by the ‘full width at half maximum’ w1/2.
+The mean absolute deviation from a given reference value is the average of the distance
+between the possible values of X and this reference value,†
+Eabs ≡
+
+|x −xmed|P(x) dx.
+(1.5)
+† One chooses as a reference value the median for the MAD and the mean for the RMS, because for a ﬁxed
+distribution P(x), these two quantities minimize, respectively, the MAD and the RMS.
+
+1.3 Typical values and deviations
+5
+0
+2
+4
+6
+8
+x
+0.0
+0.1
+0.2
+0.3
+0.4
+P(x)
+x*
+xmed
+<x>
+Fig. 1.2. The ‘typical value’ of a random variable X drawn according to a distribution density P(x)
+can be deﬁned in at least three different ways: through its mean value ⟨x⟩, its most probable value x∗
+or its median xmed. In the general case these three values are distinct.
+Similarly, the variance (σ 2) is the mean distance squared to the reference value m,
+σ 2 ≡⟨(x −m)2⟩=
+
+(x −m)2P(x) dx.
+(1.6)
+Since the variance has the dimension of x squared, its square root (the RMS, σ) gives the
+order of magnitude of the ﬂuctuations around m.
+Finally, the full width at half maximum w1/2 is deﬁned (for a distribution which is
+symmetrical around its unique maximum x∗) such that P(x∗± (w1/2)/2) = P(x∗)/2, which
+corresponds to the points where the probability density has dropped by a factor of two
+compared to its maximum value. One could actually deﬁne this width slightly differently,
+for example such that the total probability to ﬁnd an event outside the interval [(x∗−w/2),
+(x∗+ w/2)] is equal to, say, 0.1. The corresponding value of w is called a quantile. This
+deﬁnition is important when the distribution has very fat tails, such that the variance or the
+mean absolute deviation are inﬁnite.
+The pair mean–variance is actually much more popular than the pair median–MAD. This
+comes from the fact that the absolute value is not an analytic function of its argument, and
+thusdoesnotpossessthenicepropertiesofthevariance,suchasadditivityunderconvolution,
+which we shall discuss in the next chapter. However, for the empirical study of ﬂuctuations,
+it is sometimes preferable to use the MAD; it is more robust than the variance, that is, less
+sensitive to rare extreme events, which may be the source of large statistical errors.
+
+6
+Probability theory: basic notions
+1.4 Moments and characteristic function
+More generally, one can deﬁne higher-order moments of the distribution P(x) as the average
+of powers of X:
+mn ≡⟨xn⟩=
+
+xn P(x) dx.
+(1.7)
+Accordingly, the mean m is the ﬁrst moment (n = 1), and the variance is related to the
+second moment (σ 2 = m2 −m2). The above deﬁnition, Eq. (1.7), is only meaningful if the
+integral converges, which requires that P(x) decreases sufﬁciently rapidly for large |x| (see
+below).
+From a theoretical point of view, the moments are interesting: if they exist, their knowl-
+edge is often equivalent to the knowledge of the distribution P(x) itself.† In practice how-
+ever, the high order moments are very hard to determine satisfactorily: as n grows, longer
+and longer time series are needed to keep a certain level of precision on mn; these high
+moments are thus in general not adapted to describe empirical data.
+For many computational purposes, it is convenient to introduce the characteristic func-
+tion of P(x), deﬁned as its Fourier transform:
+ˆP(z) ≡
+
+eizx P(x) dx.
+(1.8)
+The function P(x) is itself related to its characteristic function through an inverse Fourier
+transform:
+P(x) = 1
+2π
+
+e−izx ˆP(z) dz.
+(1.9)
+Since P(x) is normalized, one always has ˆP(0) = 1. The moments of P(x) can be obtained
+through successive derivatives of the characteristic function at z = 0,
+mn = (−i)n dn
+dzn ˆP(z)
+
+z=0
+.
+(1.10)
+One ﬁnally deﬁnes the cumulants cn of a distribution as the successive derivatives of the
+logarithm of its characteristic function:
+cn = (−i)n dn
+dzn log ˆP(z)
+
+z=0
+.
+(1.11)
+The cumulant cn is a polynomial combination of the moments m p with p ≤n. For example
+c2 = m2 −m2 = σ 2. It is often useful to normalize the cumulants by an appropriate power
+of the variance, such that the resulting quantities are dimensionless. One thus deﬁnes the
+normalized cumulants λn,
+λn ≡cn/σ n.
+(1.12)
+† This is not rigorously correct, since one can exhibit examples of different distribution densities which possess
+exactly the same moments, see Section 1.7 below.
+
+1.6 Gaussian distribution
+7
+One often uses the third and fourth normalized cumulants, called the skewness (ς) and
+kurtosis (κ),†
+ς ≡λ3 = ⟨(x −m)3⟩
+σ 3
+κ ≡λ4 = ⟨(x −m)4⟩
+σ 4
+−3.
+(1.13)
+The above deﬁnition of cumulants may look arbitrary, but these quantities have remark-
+able properties. For example, as we shall show in Section 2.2, the cumulants simply add
+when one sums independent random variables. Moreover a Gaussian distribution (or the
+normal law of Laplace and Gauss) is characterized by the fact that all cumulants of order
+larger than two are identically zero. Hence the cumulants, in particular κ, can be interpreted
+as a measure of the distance between a given distribution P(x) and a Gaussian.
+1.5 Divergence of moments – asymptotic behaviour
+The moments (or cumulants) of a given distribution do not always exist. A necessary
+condition for the nth moment (mn) to exist is that the distribution density P(x) should
+decay faster than 1/|x|n+1 for |x| going towards inﬁnity, or else the integral, Eq. (1.7),
+would diverge for |x| large. If one only considers distribution densities that are behaving
+asymptotically as a power-law, with an exponent 1 + µ,
+P(x) ∼µAµ
+±
+|x|1+µ for x →±∞,
+(1.14)
+then all the moments such that n ≥µ are inﬁnite. For example, such a distribution has
+no ﬁnite variance whenever µ ≤2. [Note that, for P(x) to be a normalizable probability
+distribution, the integral, Eq. (1.2), must converge, which requires µ > 0.]
+The characteristic function of a distribution having an asymptotic power-law behaviour
+given by Eq. (1.14) is non-analytic around z = 0. The small z expansion contains regular
+terms of the form zn for n < µ followed by a non-analytic term |z|µ (possibly with
+logarithmic corrections such as |z|µ log z for integer µ). The derivatives of order larger
+or equal to µ of the characteristic function thus do not exist at the origin (z = 0).
+1.6 Gaussian distribution
+The most commonly encountered distributions are the ‘normal’ laws of Laplace and Gauss,
+which we shall simply call Gaussian in the following. Gaussians are ubiquitous: for
+example, the number of heads in a sequence of a thousand coin tosses, the exact number
+of oxygen molecules in the room, the height (in inches) of a randomly selected individual,
+† Note that it is sometimes κ + 3, rather than κ itself, which is called the kurtosis.
+
+8
+Probability theory: basic notions
+are all approximately described by a Gaussian distribution.† The ubiquity of the Gaussian
+can be in part traced to the central limit theorem (CLT) discussed at length in Chapter 2,
+which states that a phenomenon resulting from a large number of small independent causes
+is Gaussian. There exists however a large number of cases where the distribution describing
+a complex phenomenon is not Gaussian: for example, the amplitude of earthquakes, the
+velocity differences in a turbulent ﬂuid, the stresses in granular materials, etc., and, as we
+shall discuss in Chapter 6, the price ﬂuctuations of most ﬁnancial assets.
+A Gaussian of mean m and root mean square σ is deﬁned as:
+PG(x) ≡
+1
+√
+2πσ 2 exp
+
+−(x −m)2
+2σ 2
+
+.
+(1.15)
+The median and most probable value are in this case equal to m, whereas the MAD (or any
+other deﬁnition of the width) is proportional to the RMS (for example, Eabs = σ√2/π).
+For m = 0, all the odd moments are zero and the even moments are given by m2n =
+(2n −1)(2n −3) . . . σ 2n = (2n −1)!! σ 2n.
+All the cumulants of order greater than two are zero for a Gaussian. This can be realized
+by examining its characteristic function:
+ˆPG(z) = exp
+
+−σ 2z2
+2
++ imz
+
+.
+(1.16)
+Its logarithm is a second-order polynomial, for which all derivatives of order larger than
+two are zero. In particular, the kurtosis of a Gaussian variable is zero. As mentioned above,
+the kurtosis is often taken as a measure of the distance from a Gaussian distribution. When
+κ > 0 (leptokurtic distributions), the corresponding distribution density has a marked peak
+around the mean, and rather ‘thick’ tails. Conversely, when κ < 0, the distribution density
+has a ﬂat top and very thin tails. For example, the uniform distribution over a certain interval
+(for which tails are absent) has a kurtosis κ = −6
+5. Note that the kurtosis is bounded from
+below by the value −2, which corresponds to the case where the random variable can only
+take two values −a and a with equal probability.
+A Gaussian variable is peculiar because ‘large deviations’ are extremely rare. The quan-
+tity exp(−x2/2σ 2) decays so fast for large x that deviations of a few times σ are nearly
+impossible. For example, a Gaussian variable departs from its most probable value by more
+than 2σ only 5% of the times, of more than 3σ in 0.2% of the times, whereas a ﬂuctuation
+of 10σ has a probability of less than 2 × 10−23; in other words, it never happens.
+1.7 Log-normal distribution
+Another very popular distribution in mathematical ﬁnance is the so-called log-normal law.
+That X is a log-normal random variable simply means that log X is normal, or Gaussian. Its
+use in ﬁnance comes from the assumption that the rate of returns, rather than the absolute
+† Although, in the above three examples, the random variable cannot be negative. As we shall discuss later, the
+Gaussian description is generally only valid in a certain neighbourhood of the maximum of the distribution.
+
+1.7 Log-normal distribution
+9
+change of prices, are independent random variables. The increments of the logarithm of the
+price thus asymptotically sum to a Gaussian, according to the CLT detailed in Chapter 2.
+The log-normal distribution density is thus deﬁned as:†
+PLN(x) ≡
+1
+x
+√
+2πσ 2 exp
+
+−log2(x/x0)
+2σ 2
+
+,
+(1.17)
+the moments of which being: mn = xn
+0en2σ 2/2.
+From these moments, one deduces the skewness, given by ς3 = (e3σ 2 −3eσ 2 + 2)/
+(eσ 2 −1)3/2, (≃3σ for σ ≪1), and the kurtosis κ = (e6σ 2 −4e3σ 2 + 6eσ 2 −3)/(eσ 2 −
+1)2 −3, (≃19σ 2 for σ ≪1).
+In the context of mathematical ﬁnance, one often prefers log-normal to Gaussian distri-
+butions for several reasons. As mentioned above, the existence of a random rate of return,
+or random interest rate, naturally leads to log-normal statistics. Furthermore, log-normals
+account for the following symmetry in the problem of exchange rates:‡ if x is the rate of
+currency A in terms of currency B, then obviously, 1/x is the rate of currency B in terms
+of A. Under this transformation, log x becomes −log x and the description in terms of a
+log-normal distribution (or in terms of any other even function of log x) is independent of
+the reference currency. One often hears the following argument in favour of log-normals:
+since the price of an asset cannot be negative, its statistics cannot be Gaussian since the
+latter admits in principle negative values, whereas a log-normal excludes them by construc-
+tion. This is however a red-herring argument, since the description of the ﬂuctuations of
+the price of a ﬁnancial asset in terms of Gaussian or log-normal statistics is in any case an
+approximation which is only valid in a certain range. As we shall discuss at length later,
+these approximations are totally unadapted to describe extreme risks. Furthermore, even if
+a price drop of more than 100% is in principle possible for a Gaussian process,§ the error
+caused by neglecting such an event is much smaller than that induced by the use of either
+of these two distributions (Gaussian or log-normal). In order to illustrate this point more
+clearly, consider the probability of observing n times ‘heads’ in a series of N coin tosses,
+which is exactly equal to 2−NCn
+N. It is also well known that in the neighbourhood of N/2,
+2−NCn
+N is very accurately approximated by a Gaussian of variance N/4; this is however
+not contradictory with the fact that n ≥0 by construction!
+Finally, let us note that for moderate volatilities (up to say 20%), the two distributions
+(Gaussian and log-normal) look rather alike, especially in the ‘body’ of the distribution
+(Fig. 1.3). As for the tails, we shall see later that Gaussians substantially underestimate
+their weight, whereas the log-normal predicts that large positive jumps are more frequent
+† A log-normal distribution has the remarkable property that the knowledge of all its moments is not sufﬁ-
+cient to characterize the corresponding distribution. One can indeed show that the following distribution:
+1
+√
+2π x−1 exp[−1
+2(log x)2][1 + a sin(2π log x)], for |a| ≤1, has moments which are independent of the value of
+a, and thus coincide with those of a log-normal distribution, which corresponds to a = 0.
+‡ This symmetry is however not always obvious. The dollar, for example, plays a special role. This symmetry can
+only be expected between currencies of similar strength.
+§ In the rather extreme case of a 20% annual volatility and a zero annual return, the probability for the price to
+become negative after a year in a Gaussian description is less than one out of 3 million.
+
+10
+Probability theory: basic notions
+50
+75
+100
+125
+150
+x
+0.00
+0.01
+0.02
+0.03
+P(x)
+Gaussian
+log-normal
+Fig. 1.3. Comparison between a Gaussian (thick line) and a log-normal (dashed line), with
+m = x0 = 100 and σ equal to 15 and 15% respectively. The difference between the two curves
+shows up in the tails.
+than large negative jumps. This is at variance with empirical observation: the distributions of
+absolute stock price changes are rather symmetrical; if anything, large negative draw-downs
+are more frequent than large positive draw-ups.
+1.8 L´evy distributions and Paretian tails
+L´evy distributions (noted Lµ(x) below) appear naturally in the context of the CLT (see
+Chapter 2), because of their stability property under addition (a property shared by
+Gaussians). The tails of L´evy distributions are however much ‘fatter’ than those of Gaus-
+sians, and are thus useful to describe multiscale phenomena (i.e. when both very large
+and very small values of a quantity can commonly be observed – such as personal income,
+size of pension funds, amplitude of earthquakes or other natural catastrophes, etc.). These
+distributions were introduced in the 1950s and 1960s by Mandelbrot (following Pareto)
+to describe personal income and the price changes of some ﬁnancial assets, in particular
+the price of cotton. An important constitutive property of these L´evy distributions is their
+power-law behaviour for large arguments, often called Pareto tails:
+Lµ(x) ∼µAµ
+±
+|x|1+µ for x →±∞,
+(1.18)
+where 0 < µ < 2 is a certain exponent (often called α), and Aµ
+± two constants which we
+call tail amplitudes, or scale parameters: A± indeed gives the order of magnitude of the
+
+1.8 L´evy distributions and Paretian tails
+11
+large (positive or negative) ﬂuctuations of x. For instance, the probability to draw a number
+larger than x decreases as P>(x) = (A+/x)µ for large positive x.
+One can of course in principle observe Pareto tails with µ ≥2; but, those tails do not
+correspond to the asymptotic behaviour of a L´evy distribution.
+In full generality, L´evy distributions are characterized by an asymmetry parameter
+deﬁned as β ≡(Aµ
++ −Aµ
+−)/(Aµ
++ + Aµ
+−), which measures the relative weight of the positive
+and negative tails. We shall mostly focus in the following on the symmetric case β = 0. The
+fully asymmetric case (β = 1) is also useful to describe strictly positive random variables,
+such as, for example, the time during which the price of an asset remains below a certain
+value, etc.
+An important consequence of Eq. (1.14) with µ ≤2 is that the variance of a L´evy
+distribution is formally inﬁnite: the probability density does not decay fast enough for the
+integral, Eq. (1.6), to converge. In the case µ ≤1, the distribution density decays so slowly
+that even the mean, or the MAD, fail to exist.† The scale of the ﬂuctuations, deﬁned by the
+width of the distribution, is always set by A = A+ = A−.
+There is unfortunately no simple analytical expression for symmetric L´evy distributions
+Lµ(x), except for µ = 1, which corresponds to a Cauchy distribution (or Lorentzian):
+L1(x) =
+A
+x2 + π2A2 .
+(1.19)
+However, the characteristic function of a symmetric L´evy distribution is rather
+simple, and reads:
+ˆLµ(z) = exp(−aµ|z|µ),
+(1.20)
+where aµ is a constant proportional to the tail parameter Aµ:
+Aµ = µ	(µ −1)sin(πµ/2)
+π
+aµ
+1 < µ < 2,
+(1.21)
+and
+Aµ = (1 −µ)	(µ)sin(πµ/2)
+πµ
+aµ
+µ < 1.
+(1.22)
+It is clear, from (1.20), that in the limit µ = 2, one recovers the deﬁnition of a Gaussian.
+When µ decreases from 2, the distribution becomes more and more sharply peaked around
+the origin and fatter in its tails, while ‘intermediate’ events lose weight (Fig. 1.4). These
+distributions thus describe ‘intermittent’ phenomena, very often small, sometimes gigantic.
+The moments of the symmetric L´evy distribution can be computed, when they exist. One
+ﬁnds:
+⟨|x|ν⟩= (aµ)ν/µ
+	(−ν/µ)
+µ	(−ν) cos(πν/2),
+−1 < ν < µ.
+(1.23)
+† The median and the most probable value however still exist. For a symmetric L´evy distribution, the most probable
+value deﬁnes the so-called localization parameter m.
+
+12
+Probability theory: basic notions
+-3
+-2
+-1
+0
+1
+x
+0
+0.5
+1
+P(x)
+-3
+-2
+-1
+0
+2
+µ=0.8
+µ=1.2
+µ=1.6
+µ=2 (Gaussian)
+5
+10
+15
+0
+0.02
+3
+Fig. 1.4. Shape of the symmetric L´evy distributions with µ = 0.8, 1.2, 1.6 and 2 (this last value
+actually corresponds to a Gaussian). The smaller µ, the sharper the ‘body’ of the distribution, and
+the fatter the tails, as illustrated in the inset.
+Note ﬁnally that Eq. (1.20) does not deﬁne a probability distribution when µ > 2, because
+its inverse Fourier transform is not everywhere positive.
+In the case β ̸= 0, one would have:
+ˆLβ
+µ(z) = exp
+
+−aµ|z|µ
+
+1 + iβ tan(µπ/2) z
+|z|
+
+(µ ̸= 1).
+(1.24)
+It is important to notice that while the leading asymptotic term for large x is given
+by Eq. (1.18), there are subleading terms which can be important for ﬁnite x. The full
+asymptotic series actually reads:
+Lµ(x) =
+∞
+
+n=1
+(−)n+1
+πn!
+an
+µ
+x1+nµ 	(1 + nµ) sin(πµn/2).
+(1.25)
+The presence of the subleading terms may lead to a bad empirical estimate of the exponent
+µ based on a ﬁt of the tail of the distribution. In particular, the ‘apparent’ exponent which
+describes the function Lµ for ﬁnite x is larger than µ, and decreases towards µ for x →∞,
+but more and more slowly as µ gets nearer to the Gaussian value µ = 2, for which the
+power-law tails no longer exist. Note however that one also often observes empirically
+the opposite behaviour, i.e. an apparent Pareto exponent which grows with x. This arises
+when the Pareto distribution, Eq. (1.18), is only valid in an intermediate regime x ≪1/α,
+beyond which the distribution decays exponentially, say as exp(−αx). The Pareto tail is
+then ‘truncated’ for large values of x, and this leads to an effective µ which grows with x.
+
+1.8 L´evy distributions and Paretian tails
+13
+An interesting generalization of the symmetric L´evy distributions which accounts for this
+exponential cut-off is given by the truncated L´evy distributions (TLD), which will be of
+much use in the following. A simple way to alter the characteristic function Eq. (1.20) to
+account for an exponential cut-off for large arguments is to set:
+ˆL(t)
+µ (z) = exp
+	
+−aµ
+(α2 + z2)
+µ
+2 cos (µarctan(|z|/α)) −αµ
+cos(πµ/2)
+
+,
+(1.26)
+for 1 ≤µ ≤2. The above form reduces to Eq. (1.20) for α = 0. Note that the argument in
+the exponential can also be written as:
+aµ
+2 cos(πµ/2)[(α + iz)µ + (α −iz)µ −2αµ].
+(1.27)
+The ﬁrst cumulants of the distribution deﬁned by Eq. (1.26) read, for 1 < µ < 2:
+c2 = µ(µ −1)
+aµ
+| cos πµ/2|αµ−2
+c3 = 0.
+(1.28)
+The kurtosis κ = λ4 = c4/c2
+2 is given by:
+λ4 = (3 −µ)(2 −µ)| cos πµ/2|
+µ(µ −1)aµαµ
+.
+(1.29)
+Note that the case µ = 2 corresponds to the Gaussian, for which λ4 = 0 as expected.
+On the other hand, when α →0, one recovers a pure L´evy distribution, for which c2
+and c4 are formally inﬁnite. Finally, if α →∞with aµαµ−2 ﬁxed, one also recovers the
+Gaussian.
+As explained below in Section 3.1.3, the truncated L´evy distribution has the interesting
+property of being inﬁnitely divisible for all values of α and µ (this includes the Gaussian
+distribution and the pure L´evy distributions).
+Exponential tail: a limiting case
+Very often in the following, we shall notice that in the formal limit µ →∞, the power-
+law tail becomes an exponential tail, if the tail parameter is simultaneously scaled as
+Aµ = (µ/α)µ. Qualitatively, this can be understood as follows: consider a probability
+distribution restricted to positive x, which decays as a power-law for large x, deﬁned
+as:
+P>(x) =
+Aµ
+(A + x)µ .
+(1.30)
+This shape is obviously compatible with Eq. (1.18), and is such that P>(x = 0) = 1. If
+A = (µ/α), one then ﬁnds:
+P>(x) =
+1
+[1 + (αx/µ)]µ −→
+µ→∞exp(−αx).
+(1.31)
+
+14
+Probability theory: basic notions
+1.9 Other distributions (∗)
+There are obviously a very large number of other statistical distributions useful to describe
+random phenomena. Let us cite a few, which often appear in a ﬁnancial context:
+r The discrete Poisson distribution: consider a set of points randomly scattered on the
+real axis, with a certain density ω (e.g. the times when the price of an asset changes).
+The number of points n in an arbitrary interval of length ℓis distributed according to the
+Poisson distribution:
+P(n) ≡(ωℓ)n
+n!
+exp(−ωℓ).
+(1.32)
+r The hyperbolic distribution, which interpolates between a Gaussian ‘body’ and expo-
+nential tails:
+PH(x) ≡
+1
+2x0K1(αx0) exp −
+
+α
+
+x2
+0 + x2
+,
+(1.33)
+where the normalization K1(αx0) is a modiﬁed Bessel function of the second kind. For
+x small compared to x0, PH(x) behaves as a Gaussian although its asymptotic behaviour
+for x ≫x0 is fatter and reads exp(−α|x|).
+From the characteristic function
+ˆPH(z) = αx0K1(x0
+√
+1 + αz)
+K1(αx0)
+√
+1 + αz
+,
+(1.34)
+we can compute the variance
+σ 2 = x0K2(αx0)
+αK1(αx0) ,
+(1.35)
+and kurtosis
+κ = 3
+ K2(αx0)
+K1(αx0)
+2
++ 12
+αx0
+K2(αx0)
+K1(αx0) −3.
+(1.36)
+Note that the kurtosis of the hyperbolic distribution is always between zero and three.
+(The skewness is zero since the distribution is even.)
+In the case x0 = 0, one ﬁnds the symmetric exponential distribution:
+PE(x) = α
+2 exp(−α|x|),
+(1.37)
+with even moments m2n = (2n)! α−2n, which gives σ 2 = 2α−2 and κ = 3. Its character-
+istic function reads: ˆPE(z) = α2/(α2 + z2).
+r The Student distribution, which also has power-law tails:
+PS(x) ≡
+1
+√π
+	((1 + µ)/2)
+	(µ/2)
+aµ
+(a2 + x2)(1+µ)/2 ,
+(1.38)
+which coincides with the Cauchy distribution for µ = 1, and tends towards a Gaussian in
+the limit µ →∞, provided that a2 is scaled as µ. This distribution is usually known as
+
+1.9 Other distributions (∗)
+15
+0
+x
+10
+-2
+10
+-1
+10
+0
+P(x)
+Truncated Levy
+Student
+Hyperbolic
+5
+10
+15
+20
+10
+-18
+10
+-15
+10
+-12
+10
+-9
+10
+-6
+10
+-3
+2
+3
+1
+Fig. 1.5. Probability density for the truncated L´evy (µ = 3
+2), Student and hyperbolic distributions.
+All three have two free parameters which were ﬁxed to have unit variance and kurtosis. The inset
+shows a blow-up of the tails where one can see that the Student distribution has tails similar to (but
+slightly thicker than) those of the truncated L´evy.
+Student’s t-distribution with µ degrees of freedom, but we shall call it simply the Student
+distribution.
+The even moments of the Student distribution read: m2n = (2n −1)!!	(µ/2 −n)/
+	(µ/2) (a2/2)n, provided 2n < µ; and are inﬁnite otherwise. One can check that
+in the limit µ →∞, the above expression gives back the moments of a Gaussian:
+m2n = (2n −1)!! σ 2n. The kurtosis of the Student distribution is given by κ = 6/(µ −4).
+Figure 1.5 shows a plot of the Student distribution with κ = 1, corresponding to
+µ = 10.
+Note that the characteristic function of Student distributions can also be explicitly
+computed, and reads:
+ˆPS(z) = 21−µ/2
+	(µ/2)(az)µ/2Kµ/2(az),
+(1.39)
+where Kµ/2 is the modiﬁed Bessel function. The cumulative distribution in the useful
+cases µ = 3 and µ = 4 with a chosen such that the variance is unity read:
+PS,>(x) = 1
+2 −1
+π
+
+arctan x +
+x
+1 + x2
+
+(µ = 3, a = 1),
+(1.40)
+
+16
+Probability theory: basic notions
+and
+PS,>(x) = 1
+2 −3
+4 u + 1
+4 u3,
+(µ = 4, a =
+√
+2),
+(1.41)
+where u = x/
+√
+2 + x2.
+r The inverse gamma distribution, for positive quantities (such as, for example, volatilities,
+or waiting times), also has power-law tails. It is deﬁned as:
+P	(x) =
+xµ
+0
+	(µ)x1+µ exp
+
+−x0
+x
+
+.
+(1.42)
+Its moments of order n < µ are easily computed to give: mn = xn
+0	(µ −n)/	(µ). This
+distribution falls off very fast when x →0. As we shall see in Chapter 7, an inverse
+gamma distribution and a log-normal distribution can sometimes be hard to distinguish
+empirically. Finally, if the volatility σ 2 of a Gaussian is itself distributed as an inverse
+gammadistribution,thedistributionof x becomesaStudentdistribution–seeSection9.2.5
+for more details.
+1.10 Summary
+r The most probable value and the mean value are both estimates of the typical values
+of a random variable. Fluctuations around this value are measured by the root mean
+square deviation or the mean absolute deviation.
+r For some distributions with very fat tails, the mean square deviation (or even the
+mean value) is inﬁnite, and the typical values must be described using quantiles.
+r The Gaussian, the log-normal and the Student distributions are some of the important
+probability distributions for ﬁnancial applications.
+r The way to generate numerically random variables with a given distribution
+(Gaussian, L´evy stable, Student, etc.) is discussed in Chapter 18, Appendix F.
+r Further reading
+W. Feller, An Introduction to Probability Theory and its Applications, Wiley, New York, 1971.
+P. L´evy, Th´eorie de l’addition des variables al´eatoires, Gauthier Villars, Paris, 1937–1954.
+B. V. Gnedenko, A. N. Kolmogorov, Limit Distributions for Sums of Independent Random Variables,
+Addison Wesley, Cambridge, MA, 1954.
+G. Samorodnitsky, M. S. Taqqu, Stable Non-Gaussian Random Processes, Chapman & Hall, New
+York, 1994.

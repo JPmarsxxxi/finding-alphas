@@ -1,0 +1,845 @@
+Chapter 10:  Multivariate Classification 
+170 
+ 
+CHAPTER 10:  MULTIVARIATE CLASSIFICATION 
+As discussed in the previous chapter, classification ratemaking allows the insurer to price individual risks 
+more equitably by analyzing the loss experience of groups of similar risks.  This protects the insurer 
+against adverse selection, which can lead to unsatisfactory profits and loss in market share.  Effective 
+classification ratemaking may provide insurers with a competitive advantage and may help expand the 
+profile of risks the insurer is willing and able to write profitably. 
+This chapter begins with a review of the shortcomings of the one-way classification ratemaking 
+approaches outlined in the previous chapter.  It then discusses the advancement of iteratively standardized 
+one-way approaches, such as the minimum bias procedures, which address some of the shortcomings of 
+one-way approaches.  Much of this chapter is dedicated to the use of multivariate approaches, including: 
+ 
+Circumstances that led to their adoption in classification ratemaking 
+ 
+The overall benefits of multivariate approaches 
+ 
+A basic explanation of the mathematical foundation of one particular multivariate method, 
+generalized linear models (GLMs)  
+ 
+A sample of GLM output 
+ 
+Examples of statistical diagnostics associated with GLMs 
+ 
+Finally, this chapter concludes with a brief discussion of practical considerations and two developments 
+that have augmented multivariate analysis in the context of classification ratemaking:  data mining 
+techniques and the use of external data sources. 
+A REVIEW OF THE SHORTCOMINGS OF UNIVARIATE METHODS 
+The previous chapter reviewed one-way, or univariate, approaches to classification ratemaking whereby 
+the loss experience (either pure premium or loss ratio) of the levels within each rating variable is 
+examined and compared in order to establish rate differentials to the base level.   
+The shortcomings of univariate approaches were also discussed—the primary one being that they do not 
+accurately take into account the effect of other rating variables.  The pure premium approach does not 
+consider exposure correlations with other rating variables.  If the rating algorithm only contained a 
+handful of rating variables, this shortcoming could be mitigated with two-way analysis or some manual 
+adjustments.  Today, however, actuaries working on many lines of business are analyzing tens or 
+hundreds of variables that make manual adjustment inefficient if not impossible.   
+As an illustrative example of the distortion created with univariate methods, a one-way pure premium 
+analysis may show for a personal auto insurance book of business that older cars have high claims 
+experience relative to newer cars.  In reality, however, this analysis is distorted by the fact that older cars 
+tend to be driven by younger drivers—who tend to have high claims experience.  The experience for both 
+young drivers and old cars looks unfavorable despite the fact that this may be driven primarily by the 
+youthful driver effect.   
+
+Chapter 10:  Multivariate Classification 
+171 
+ 
+Conducting a loss ratio analysis adjusts for an uneven mix of business to the extent the premium varies 
+with risk, but current premium is only an approximation as it most often deviates from true loss cost 
+differentials.  Similarly, the adjusted pure premium approach attempts to standardize data for the uneven 
+mix of business by multiplying exposures by the exposure-weighted average of all other rating variables’ 
+relativities before calculating the one-way relativities.  Again, this is merely an approximation to a proper 
+reflection of all exposure correlations. 
+MINIMUM BIAS PROCEDURES 
+Another classification ratemaking approach that was popular during the latter half of the 20th century is 
+the family of minimum bias procedures.  Essentially these are iteratively standardized univariate 
+approaches.  Each procedure involves the selection of a rating structure (e.g., additive, multiplicative or 
+combined) and the selection of a bias function (e.g., balance principle, least squares, χ2, and maximum 
+likelihood bias functions).  The bias function is a means of comparing the procedure’s observed loss 
+statistics (e.g., loss costs) to indicated loss statistics and measuring the mismatch.  Both sides of this 
+equation must be weighted by the exposures in each cell to adjust for an uneven mix of business.  The 
+term “minimum bias” refers to the commonly used balance principle that requires that the sum of the 
+indicated weighted pure premiums equals the sum of the weighted observed loss costs for every level of 
+every rating variable.  This is referred to as “minimizing the bias” along the dimensions of the 
+classification system.   
+A simple example of the balance principle applied to a multiplicative personal auto rating structure is 
+outlined below.  This example assumes only two rating variables:  gender and territory.  Gender has 
+values male (with a rate relativity expressed as g1) and female (g2).  Territory has values urban (t1) and 
+rural (t2).  The base levels, relative to which all multiplicative indications will be expressed, are female 
+and rural (hence g2 = 1.00 and t2 = 1.00).  The actual loss costs (or pure premiums) are as follows: 
+ 
+Urban 
+Rural 
+Total 
+Male 
+$650 
+$300 
+$528 
+Female 
+$250 
+$240 
+$244 
+Total 
+$497 
+$267 
+$400 
+The exposure distribution is as follows: 
+ 
+Urban 
+Rural 
+Total 
+Male 
+170 
+90 
+260 
+Female 
+105 
+110 
+215 
+Total 
+275 
+200 
+475 
+As stated previously, the balance principle requires that the exposure-weighted observed loss costs equal 
+the indicated exposure-weighted loss cost across every dimension of each rating variable (i.e., each 
+gender and each territory).  The following four equations show the observed weighted loss costs on the 
+
+Chapter 10:  Multivariate Classification 
+172 
+ 
+left and the indicated weighted loss costs (represented as the product of the base rate, the exposure, and 
+the indicated relativities) on the right.  The base rate is assumed to be $100. 
+Males 
+ 
+170 x $650 +   90 x $300 = $100 x 170 x g1 x t1 + $100 x   90 x g1 x t2. 
+Females 
+105 x $250 + 110 x $240 = $100 x 105 x g2 x t1 + $100 x 110 x g2 x t2. 
+Urban 
+ 
+170 x $650 + 105 x $250 = $100 x 170 x g1 x t1 + $100 x 105 x g2 x t1. 
+Rural 
+ 
+  90 x $300 + 110 x $240 = $100 x   90 x g1 x t2 + $100 x 110 x g2 x t2. 
+These equations are not linearly independent; consequently, there is no closed form solution.  In order to 
+solve for one variable’s unknowns, initial (seed) relativities for the other rating variable are chosen.  
+Generally a sensible seed is the univariate pure premium relativities.  Hence, the urban relativity is the 
+total urban loss costs divided by the total rural loss costs: 
+t1 = 1.86 = ($497 / $267) 
+t2 = 1.00. 
+Substituting these seed values into the first two equations above, we are able to solve for the first values 
+of g1 and g2: 
+170 x $650 + 90 x $300 = ($100 x 170 x g1 x 1.86) + ($100 x 90 x g1 x 1.00) 
+$137,500 = ($31,620 x g1) + ($9,000 x g1) 
+$137,500 = $40,620 x g1 
+g1 = 3.39. 
+ 
+105 x $250 + 110 x $240 = ($100 x 105 x g2 x 1.86) + ($100 x 110 x g2 x 1.00) 
+$52,650 = ($19,530 x g2) + ($11,000 x g2) 
+$52,650 = $30,530 x g2 
+g2 = 1.72. 
+We can now use these seed values for gender, g1 and g2, and set up equations to solve for the new 
+intermediate values of t1 and t2: 
+170 x $650 + 105 x $250 = ($100 x 170 x 3.39 x t1) + ($100 x 105 x 1.72 x t1) 
+$136,750 = ($57,630 x t1) + (18,060 x t1) 
+$136,750 = $75,690 x t1 
+t1 = 1.81. 
+
+Chapter 10:  Multivariate Classification 
+173 
+ 
+ 
+90 x $300 + 110 x $240 = ($100 x 90 x 3.39 x t2) + ($100 x 110 x 1.72 x t2) 
+$53,400 = ($30,510 x t2) + ($18,920 x t2) 
+$53,400 =$49,430 x t2 
+t2 = 1.08. 
+This same procedure is repeated, each time discarding the previous relativities and solving for new ones.  
+The procedure is iterated until there is no material change in any of the values of g1, g2, t1, and t2.  Upon 
+such convergence, it is common practice to normalize the base class relativities to 1.00.  For example, 
+assume the relativities derived above represent the final iteration.  Normalizing the base class relativities 
+to 1.00 would result in: 
+g1 = 3.39 / 1.72 = 1.97 
+g2 = 1.72 / 1.72 = 1.00 
+ 
+t1 = 1.81 / 1.08 = 1.68 
+t2 = 1.08 / 1.08 = 1.00. 
+Recall from above that the univariate relativity for t1 was 1.86 (this was used to seed the initial value of t1 
+in the minimum bias equations).  After one iteration of the minimum bias method, the replacement value 
+for t1 is 1.68.  The minimum bias result reflects the fact that the cell for urban males has considerably 
+more exposure than the other cells; consequently, the experience in that cell is given more weight. 
+Finally, the base loss cost also needs to be adjusted to reflect the normalization: 
+Base loss cost = $100 x 1.72 x 1.08 = $185.76. 
+Now the reader should better understand the phrase iteratively standardized one-ways.  The method 
+outlined above involves performing several iterations of univariate analysis on rating variables, each time 
+adjusting for the exposure weight and the indication of the previous variable in the sequence.  Note that 
+the simple example outlined above only considers one of the minimum bias methods (multiplicative 
+structure with balance principle) using the pure premium statistic.  In addition, it considers only two 
+rating variables each with two levels.  The computation required to incorporate several rating variables 
+requires at the very least some spreadsheet programming.  Several papers have been authored on the 
+various minimum bias procedures.  Detailed, intuitive explanations with simple illustrative examples are 
+contained in “The Minimum Bias Procedures:  A Practitioner’s Guide” (Feldblum and Brosius 2002, pp. 
+591-684).  Sequential analysis, a method related to minimum bias, may also be of interest to the 
+ratemaking actuary.  It is currently mandated as the only classification ratemaking method allowed for 
+pricing voluntary private passenger automobile insurance in the state of California.  In sequential analysis, 
+the actuary performs a standard one-way analysis on the first variable selected to determine the indicated 
+relativities.  The exposures are adjusted for the results of the first variable’s analysis (i.e., the adjusted 
+
+Chapter 10:  Multivariate Classification 
+174 
+ 
+one-way pure premium approach), and the indicated relativities are calculated for the second variable.  
+This continues until the actuary has calculated the indicated relativities for every variable.  Sequential 
+analysis involves making only one pass through the sequence of chosen rating variables (rather than 
+iterating until convergence is achieved).  The main criticism of the non-iterative sequential approach is 
+that it does not have a closed form solution; the results vary depending on the order of the rating variables 
+in the sequence.  There is considerably more detail to the sequential analysis mandated in California, and 
+the ratemaking actuary should seek additional references if working in that market. 
+THE ADOPTION OF MULTIVARIATE METHODS 
+The minimum bias procedures are not technically multivariate methods, and they were not necessarily 
+based directly on statistical theory.  However, many of the minimum bias procedures are actually a subset 
+of the statistical method, generalized linear models (GLMs).  In fact, iterating the minimum bias 
+procedure a sufficient number of times may result in convergence with GLM results, though many would 
+argue the minimum bias procedures involve less computational efficiency.  Stephen Mildenhall’s paper, 
+“A Systematic Relationship between Minimum Bias and Generalized Linear Models” (Mildenhall 1999) 
+demonstrates that many of the minimum bias procedures correspond directly to generalized linear models. 
+Several things happened around the late 20th century and start of the 21st century that led to the adoption 
+of statistical techniques, particularly generalized linear models, for classification ratemaking.  First, 
+computing power greatly increased.  Data no longer had to be aggregated in order to be analyzed.  What 
+previously was only achievable by large mainframe machines was now being accomplished by desktop 
+PCs in a fraction of the time.  Second, insurers were instituting data warehouse initiatives that greatly 
+improved the granularity and accessibility of data that could be analyzed for ratemaking purposes.  So 
+despite the fact that sophisticated statistical techniques existed much earlier than this, it was the 
+circumstances of enhanced computing power and better data that enabled their usage in classification 
+ratemaking.  A final and perhaps the most important trigger in the widespread adoption of multivariate 
+methods was competitive pressure.  As explained in the last chapter, when one or more companies 
+implement improved classification ratemaking, they gain a competitive advantage and put the rest of the 
+industry in a position of adverse selection and decreased profitability.  This occurred in the U.K. personal 
+lines markets in the 1990s and in the U.S. personal auto markets in the early 2000s. 
+THE BENEFITS OF MULTIVARIATE METHODS 
+The main benefit of multivariate methods is that they consider all rating variables simultaneously and 
+automatically adjust for exposure correlations between rating variables, which should now be understood 
+as the primary shortcoming of univariate approaches.  Later in this chapter a graphical example (Figure 
+10.1) shows a disparity in results between the univariate method and a particular multivariate method, 
+when rating variables are correlated. 
+Secondly, multivariate methods attempt to remove unsystematic effects in the data (also known as noise) 
+and capture only the systematic effects (also known as signal) as much as possible.  This is not the case 
+with univariate methods, which include both signal and noise in the results.  
+
+Chapter 10:  Multivariate Classification 
+175 
+ 
+Third, many multivariate methods produce model diagnostics, additional information about the certainty 
+of results and the appropriateness of the model fitted.  Statistical assumptions and model diagnostics will 
+be discussed in more detail later in this chapter. 
+A fourth benefit of multivariate methods is that they allow consideration of the interaction, or 
+interdependency, between two or more rating variables.  Interactions occur when the effect of one 
+variable varies according to the levels of another (e.g., the effect of square footage varies across different 
+levels of amount of insurance).  Interactions are an important refinement to multivariate models that can 
+improve the predictive value.  They also complicate the model and should therefore be analyzed with an 
+eye for business considerations (e.g., ease of understanding and monitoring results). 
+As a side note, it is important not to confuse interaction (sometimes referred to as response correlation) 
+with exposure correlation, which describes a relationship between the exposures of one rating variable 
+and another.  Gender exposures may be uniformly distributed across age (meaning at any age there is an 
+identical distribution of men and women and no exposure correlation exists), but the two variables may 
+interact if the loss experience for men relative to women  is distinctly different at the youthful ages than at 
+the middle and senior ages.  Conversely, a variable’s exposures may be unevenly distributed across the 
+levels of another rating variable (i.e., exposure correlation exists), yet no interaction is present.  The other 
+scenarios of both exposure correlation and interaction being present or neither being present are less 
+confusing. 
+Other potential benefits vary considerably among the different types of multivariate methods.  For 
+example, GLMs, which will be discussed later in this chapter, are widely accepted as a classification 
+ratemaking method.  One of the main advantages of GLMs is that they are transparent; the model output 
+includes parameter estimates for each level of each explanatory variable in the model, as well as a range 
+of statistical diagnostics.  Other multivariate techniques, such as neural networks (also discussed briefly 
+later in this chapter) are often criticized for a lack of transparency.  No matter how sophisticated the 
+mathematics underlying a method, it is important for practitioners to be able to follow and communicate 
+how the results were developed and be able to translate the results into something that can be 
+implemented in the insurance company’s operations.   
+So how do the methods mentioned thus far stack up to this list of benefits?  As discussed, the results of 
+univariate approaches are distorted by distributional biases.  The results can also be heavily distorted by 
+unsystematic effects (noise).  The result is a set of answers with no additional information about the 
+certainty of the results.  Interactions can be incorporated but only by expanding the analysis into two-way 
+or three-way tables.  Perhaps it scores high only in terms of transparency, but this is overshadowed by the 
+inaccuracies of the method. 
+In contrast, the minimum bias methods account for an uneven mix of business but, as stated previously, 
+the iterative calculations are considered computationally inefficient.  As with one-way analysis, no 
+diagnostics are included.  This method scores high on transparency and outperforms univariate analysis in 
+terms of accuracy, but does not provide all of the benefits of full multivariate methods. 
+
+Chapter 10:  Multivariate Classification 
+176 
+ 
+GLMs  
+The multivariate statistical technique that has quickly become the standard for classification ratemaking 
+in many countries and for many lines of business is the generalized linear model, GLM.  This technique 
+achieves each of the benefits of multivariate methods listed above.  Though less transparent than the 
+cruder and less accurate univariate results, it still scores favorably in comparison to other multivariate 
+methods such as neural networks.  Not only can the iterations of a GLM be tracked, but the output of a 
+multiplicative GLM is a series of multipliers—much like the insurance industry is accustomed to using in 
+rating algorithms and rating manuals. 
+A Mathematical Foundation for GLMs:  Linear Models 
+Though touted above as a relatively transparent method, many practitioners familiar with the traditional 
+univariate approaches may not understand the statistical underpinnings of GLMs.  A good foundation for 
+understanding GLMs is to first review linear models (LMs), something many actuaries may have studied 
+in college coursework.  Both LMs and GLMs aim to express the relationship between an observed 
+response variable (Y) and a number of explanatory variables, referred to as predictor variables.  For 
+example, the response variable may be claim frequency for homeowners insurance, and the predictor 
+variables may include amount of insurance, age of home, and deductible.  The observations in the data 
+(e.g., claims on individual exposures) are considered a realization of the response variable. 
+Linear models express the response variable (Y) as the sum of its mean (µ) and a random variable (ε), 
+also known as the error term: 
+ε.
+μ
+Y
+
+
+ 
+They assume that the mean can be written as a linear combination of the predictor variables.  For 
+example,  
+ε,
+)
+X
+β
+X
+β
+X
+β
+X
+ (β
+Y 
+
+
+
+
+
+4
+4
+3
+3
+2
+2
+1
+1
+ 
+where X1, X2, X3, and X4 are each predictor variables, and β1, β2, β3, and β4 are the parameter estimates to 
+be derived by the LM. 
+Linear models also assume that the random variable, ε, is normally distributed with a mean of zero and 
+constant variance, σ2.   
+The aim of the linear model is to find the parameter estimates, which, when applied to the chosen model 
+form, produce the observed data with the highest probability.  The function used to achieve this aim is 
+usually the likelihood function (or equivalently the log-likelihood).  Maximum likelihood relies on linear 
+algebra to solve a system of equations.  In practice, due to the high volume of observations in 
+classification ratemaking datasets, numerical techniques such as multi-dimensional Newton-Raphson 
+algorithms are employed.  These techniques find the maximum of a function by finding a zero in the 
+function’s first derivative.  Also note that in the specific case of linear models, the likelihood function is 
+equivalent to minimizing the sum of squared error between actual and indicated. 
+
+Chapter 10:  Multivariate Classification 
+177 
+ 
+Generalized Linear Models:  Loosening the Restrictions 
+GLMs are a generalized version of linear models that remove the restrictions of the normality assumption 
+and the constant variance.  They also allow a function, called the link function, to define the relationship 
+between the expected response variable (e.g., claim severity) and the linear combination of the predictor 
+variables (e.g., age of home, amount of insurance, etc.).  The choice of various link functions means the 
+predictor variables do not have to relate strictly in an additive fashion (as they do with LMs).  For 
+example, GLMs fit to insurance claims experience for ratemaking purposes often specify a log link 
+function, which assumes the rating variables relate multiplicatively to one another.  There are other 
+components of the GLM formularization (offset terms, prior weights) that are beyond the scope of this 
+text. 
+In order to solve a GLM, the modeler must: 
+ 
+Supply a modeling dataset with a suitable number of observations of the response variable and 
+associated predictor variables to be considered for modeling. 
+ 
+Select a link function to define the relationship between the systematic and random components. 
+ 
+Specify the distribution of the underlying random process, typically a member of the exponential 
+family of distributions (e.g., normal, Poisson, gamma, binomial, inverse Gaussian33); this is done 
+by specifying the mean and the variance of the distribution, the latter being a function of the 
+mean. 
+ 
+The maximum likelihood approach then maximizes the logarithm of the likelihood function and computes 
+the predicted values for each variable. 
+More comprehensive detail on the theory of GLMs is beyond the scope of this text, but may be found in 
+Section 1 of “The Practitioner’s Guide to Generalized Linear Models” (Anderson , D. et al. 2005). 
+SAMPLE GLM OUTPUT 
+Unlike univariate analysis of claims experience that is typically performed on either loss ratios or loss 
+costs, GLM analysis is typically performed on loss cost data (or preferably frequency and severity 
+separately).  There are statistical and practical reasons supporting this practice: 
+ 
+Modeling loss ratios requires premiums to be adjusted to current rate level at the granular level 
+and that can be practically difficult.   
+ 
+Experienced actuaries have an a priori expectation of frequency and severity patterns (e.g., 
+youthful drivers have higher frequencies).  In contrast, the loss ratio patterns are dependent on 
+the current rates.  Thus, the actuary can better distinguish the signal from the noise when building 
+models. 
+ 
+Loss ratio models become obsolete when rates and rating structures are changed. 
+ 
+There is no commonly accepted distribution for modeling loss ratios. 
+More details can be found about this in “GLM Basic Modeling: Avoiding Predictive Modeling Pitfalls” 
+(Werner and Guven 2007, pp. 263-264).  Best practice also dictates that modeling be performed on a 
+homogeneous body of claims.  For example, personal automobile models are generally performed at the 
+                                                     
+33 The Tweedie family of distributions is considered a special extension of the exponential family. 
+
+Chapter 10:  Multivariate Classification 
+178 
+ 
+coverage level but could even be more granular (e.g., subdividing comprehensive claims into theft and 
+non-theft). 
+A useful way to strengthen an understanding of GLMs is to view illustrative graphical output.  The 
+following graph shows the effect of the rating variable vehicle symbol on claim frequency for the claim 
+type personal auto collision.  This rating variable has seventeen discrete levels, and each level’s exposure 
+count is represented by the yellow bars (the right y-axis).  Each symbol represents a group of vehicles that 
+have been combined based on common characteristics (e.g., weight, number of cylinders, horsepower, 
+cost).  Note that in addition to discrete variables (also known as categorical factors), GLMs can also 
+accommodate numeric fields as continuous variables (referred to as variates).  Variates can take the form 
+of polynomials or splines34 within GLMs. 
+10.1 Effect of Vehicle Symbol on Automobile Collision Frequency 
+ 
+This output is from a multiplicative model.  The base level, to which all other levels’ parameter estimates 
+will be expressed relative, is vehicle symbol 4.  Consequently, its multiplicative differential is 1.00.  The 
+base level is typically chosen as one with a fairly large, if not the largest, volume of exposure.  This 
+ensures statistical diagnostics are expressed relative to something large and presumably stable.  The GLM 
+output is shown as the green line with circle markers.  The GLM gives the statistical effect of vehicle 
+symbol on collision frequency, all other variables being considered.  For example, the GLM indicates that 
+vehicle symbol 10 has a 25% higher indicated collision frequency than vehicle symbol 4, all other 
+                                                     
+34 Splines are a series of polynomial functions with each function defined over a short interval. 
+ 
+0
+5
+10
+15
+20
+25
+0.4
+0.6
+0.8
+1
+1.2
+1.4
+1.6
+1.8
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+Exposure
+One-way result
+GLM Result
+
+Chapter 10:  Multivariate Classification 
+179 
+ 
+variables being considered.  The pink line with the square markers on the graph represents the results of a 
+univariate analysis.  The disparity suggests vehicle symbol is strongly correlated with another variable in 
+the model (perhaps age of driver, prior accident experience, or some other variable), and the univariate 
+results are distorted as discussed earlier. 
+In a multivariate analysis, it is important to understand the phrase “all other variables being considered.”35  
+The GLM results of one variable are only meaningful if the results for all other variables are considered at 
+the same time.  So for example, the indicated relativity for vehicle symbol 10 discussed above will not be 
+valid if the model is manipulated to remove or change other key predictor variables in the model.  
+Consequently, the results of one variable are only valid if the results for all other key variables are also 
+being used.  In other words, that indicated relativity for vehicle symbol 10 is dependent on the other 
+relativities being considered.  Chapter 13 discusses how the company’s final rate relativities often deviate 
+from the actuary’s indicated relativities for business reasons, but for now it is important to understand the 
+statistical relevance of the comments above. 
+A SAMPLE OF GLM DIAGNOSTICS 
+Chapter 9 listed statistical significance as an important criterion for evaluating the appropriateness of 
+rating variables.  A previous section of this chapter listed the statistical diagnostics to be a major benefit 
+of GLMs.  These are tools that aid the modeler in understanding the certainty of the results and the 
+appropriateness of the model.  Certain diagnostics can help determine if a predictive variable has a 
+systematic effect on insurance losses (and should therefore be retained in the model).  Models should be 
+refined until only such significant variables remain.  Other diagnostics assess the modeler’s assumptions 
+around the link function and error term.  Diagnostics can be grounded in statistical theory or can be more 
+practical in nature.  Examples of each will be given. 
+One of the most common statistical diagnostics for deciding whether a variable has a systematic effect on 
+losses is the standard errors calculation.  The mathematical concept is beyond the scope of this text, but 
+“The Practitioner’s Guide to Generalized Linear Models” supplies a nice intuitive explanation:  “standard 
+errors are an indicator of the speed with which the log-likelihood falls from the maximum given a change 
+in parameter.”  Two standard errors from the parameter estimates are akin to a 95% confidence interval.  
+This means the GLM parameter estimate is a point estimate, and the standard errors show the range in 
+which the modeler can be 95% confident the true answer lies within.  The following graph is identical to 
+the graph shown previously for vehicle symbol but now includes standard error lines for the non-base 
+levels (i.e., +/- two standard errors from the differentials indicated by the GLM).  In this particular case, 
+the upward pattern and narrow standard errors suggest this variable is statistically significant.  Wide 
+standard errors, often straddling unity, might suggest the factor is detecting mostly noise and is worthy of 
+elimination from the model.  In this example, symbol 17 shows wide standard errors, but that is mainly a 
+function of the small volume present in that level.  It does not invalidate the strong results for symbols 1-
+16, where most of the business volume exists.   
+ 
+ 
+                                                     
+35 This caveat may also be written as “all other variables being constant” or “all other variables at the base level.” 
+
+Chapter 10:  Multivariate Classification 
+180 
+ 
+10.2 Standard Errors for Effect of Vehicle Symbol on Automobile Collision Frequency 
+ 
+Measures of deviance are an additional diagnostic to assess the statistical significance of a predictor 
+variable.  Generally speaking, a deviance is a single figure measure of how much the fitted values differ 
+from the observations.  Deviance tests are often used when comparing nested models (one is a subset of 
+the other) to assess whether the additional variable(s) in the broader model are worth including.  The 
+deviance of each model is scaled and the results are compared.  Statistical tests such as Chi-Square or F-
+test are used to gauge the theoretical trade-off between the gain in accuracy by adding the variables versus 
+the loss of parsimony in adding more parameter estimates to be solved.  Similarly, deviance tests such as 
+Akaike Information Criteria (AIC) and BIC (Bayesian Information Criteria) can be applied to non-nested 
+models. 
+An example of a practical diagnostic in the modeling process is comparing the GLM results for individual 
+years (assuming a multi-year dataset) to gauge consistency of results from one year to the next.36  The 
+following graph shows the effect of vehicle symbol on automobile collision frequency separately for the 
+two years present in the experience period.  The two lines show some random differences but in general 
+the patterns are the same. 
+ 
+ 
+ 
+ 
+                                                     
+36 Consistency can also be tested on random subsets of data rather than individual years. 
+0
+5
+10
+15
+20
+25
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+1.4
+1.6
+1.8
+2
+2.2
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+Exposure
+GLM Prediction
+GLM Prediction + 2 Standard Errors
+GLM Prediction - 2 Standard Errors
+
+Chapter 10:  Multivariate Classification 
+181 
+ 
+10.3 Consistency of Time for Vehicle Symbol 
+ 
+In addition to reviewing these diagnostics for each factor, another best practice is to perform model 
+validation techniques.  One such technique compares the expected outcome of the model with historical 
+results on a hold-out sample of data (i.e., data that was not used in the development of the model so that it 
+could be used to test the effectiveness of the model).  The extent to which the model results track closely 
+to historical results for a large part of the portfolio is an indication of how well the model validates.  The 
+following example output is a validation of a frequency model.  For most of the sample, the bands of 
+expected frequencies from the GLM (ordered from lowest to highest) track very closely to the actual 
+weighted frequency of each band in the hold-out sample of data.  The volatile results for the high 
+expected frequency bands are a result of low volume of data. 
+ 
+ 
+0
+10
+20
+30
+40
+50
+0
+0.5
+1
+1.5
+2
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+2008
+2009
+
+Chapter 10:  Multivariate Classification 
+182 
+ 
+10.4 Model Validation 
+ 
+Considerable disparity between actual and expected results on the hold-out sample may indicate that the 
+model is over or under-fitting.  If the modeler retains variables in the model that reflect a non-systematic 
+effect on the response variable (i.e., noise) or over-specifies the model with high order polynomials, the 
+result is over-fitting.  Such a model will replicate the historical data very well (including the noise) but is 
+not going to predict future outcomes reliably (as the future experience will most likely not have the same 
+noise).  Conversely, if the model is missing important statistical effects (the extreme being a model that 
+contains no explanatory variables and fits to the overall mean), the result is under-fitting.  This model will 
+predict future outcomes (e.g., in the extreme case mentioned above, the future mean) reliably but hardly 
+help the modeler explain what is driving the result. 
+Appendix F includes additional examples and more details. 
+ 
+ 
+0
+5000
+10000
+15000
+20000
+25000
+30000
+35000
+40000
+45000
+50000
+-0.1
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+Exposure
+Weighted average frequency
+Expected frequency from GLM
+Exposure
+Historical 
+frequency
+Expected 
+frequency
+
+Chapter 10:  Multivariate Classification 
+183 
+ 
+PRACTICAL CONSIDERATIONS 
+In practice, GLM routines are included in various commercial software packages, alleviating the burden 
+of programming the underlying formulae and diagnostics.  This does not imply, however, that the 
+ratemaking actuary’s role is at all diminished.  In fact, the use of such methods means the actuary should 
+focus attention on areas such as: 
+ 
+ensuring data is adequate for the level of detail of the classification ratemaking analysis (avoiding 
+what is known as the GIGO principle:  Garbage In, Garbage Out) 
+ 
+identifying when anomalous results dictate additional exploratory analysis 
+ 
+reviewing model results in consideration of both statistical theory and business application 
+ 
+developing appropriate methods to communicate model results in light of a company’s 
+ratemaking objectives (e.g., policyholder dislocation, competitive position) 
+ 
+This list is hardly exhaustive.  The nature of statistical modeling for classification ratemaking is such that 
+more work can always be done.  The retrieval of data alone requires careful consideration of necessary 
+volume of data; definition of homogeneous claim types; method of organization (e.g., policy year versus 
+calendar-accident year); the treatment of midterm policy changes, large losses, underwriting changes 
+during the experience period, and the effect of inflation and loss development.  Actuaries always have to 
+balance stability and responsiveness as it relates to choice of experience period as well as to geographies 
+to be included in the analysis (e.g., countrywide versus individual state analysis).  Most importantly, 
+commercial considerations such as IT constraints, marketing objectives, and regulatory requirements have 
+to be carefully incorporated into the statistical analysis before any results are implemented in practice.   
+The ratemaking actuary is best served to have a solid background in the company’s data warehouses, to 
+develop some understanding of statistical methods and diagnostics, and to work collaboratively with other 
+professionals who have a solid understanding of the portfolio being analyzed.  The ratemaking actuary 
+should also communicate effectively with various stakeholders and ensure that technical results are 
+ultimately expressed in relation to the company’s business objectives. 
+DATA MINING TECHNIQUES 
+In addition to GLMs, many actuaries have become more familiar with various data mining techniques.  
+The following is a brief, non-exhaustive survey of some methods used in practice.  Though these 
+techniques might not necessarily be used directly for producing rate differentials, they are often used to 
+enhance the underlying classification analysis in various ways as described below. 
+Factor Analysis 
+Factor analysis, of which principle components analysis may be the most commonly used, is a technique 
+to reduce the number of parameter estimates in a classification analysis (such as a GLM).  This can imply 
+a reduction in the number of variables or a reduction in the levels within a variable.   
+An example may best illustrate how factor analysis works.  If one can summarize the exposure correlation 
+between two variables in a scatter plot, a regression line can then be fit that summarizes the linear 
+relationship between the two variables.  A variable can then be defined that approximates this regression 
+
+Chapter 10:  Multivariate Classification 
+184 
+ 
+line.  This combination variable essentially replaces the original variables and thereby reduces the 
+parameter estimates of the model. 
+This technique might be used in ratemaking to compress a long list of highly correlated variables into a 
+score variable (or a small number of uncorrelated score variables) that represents linear combinations of 
+the original variables.  For example, the vehicle symbols discussed earlier in this chapter may have been 
+derived as a linear combination of correlated variables such as vehicle weight, vehicle height, number of 
+cylinders, horsepower, cost when new, etc..  Another example is combining various geo-demographic 
+variables, which are variables describing average characteristics of an area (e.g., population density, 
+average proportion of home-ownership, average age of home, median number of rooms in the home, etc.) 
+Cluster Analysis 
+Cluster analysis is an exploratory data analysis tool that seeks to combine small groups of similar risks 
+into larger homogeneous categories or “clusters.”  It generally aims to minimize the differences within a 
+category and maximize the difference between categories. 
+In practice, cluster analysis is most commonly used in rating for geography.  Actuaries generally start 
+with small geographic units (such as postal code or zip code) that are often quite granular.  Cluster 
+analysis applies a collection of different algorithms to group these units into clusters based on historical 
+experience, modeled experience, or well-defined similarity rules.  This allows easier incorporation into 
+GLMs. 
+CART 
+The purpose of CART (Classification and Regression Trees) is to develop tree-building algorithms to 
+determine a set of if-then logical conditions that help improve classification. 
+In personal automobile insurance, a resulting tree may start with an if-then condition around gender.  If 
+the risk is male, the tree then continues to another if-then condition around age.  If the risk is male and 
+youthful, the tree may then continue to an if-then condition involving prior accident experience.  The tree 
+“branch” for females may involve a different order or in fact, a completely different set of conditions. 
+Examination of the tree may help ratemaking actuaries identify the strongest list of initial variables (i.e., 
+whittle down a long list of potential variables to a more manageable yet meaningful list) and determine 
+how to categorize each variable.  CART can also help detect interactions between variables. 
+MARS 
+The Multivariate Adaptive Regression Spline (MARS) algorithm operates as a multiple piecewise linear 
+regression where each breakpoint defines a region for a particular linear regression equation.  This 
+technique is generally used to select breakpoints for categorizing continuous variables.  For example, in 
+homeowners insurance, amount of insurance may be treated as a categorical factor despite being 
+continuous in nature.  MARS can help select the breakpoints used to categorize the amount of insurance 
+factor before using it in a GLM.  MARS can also help detect interactions between variables. 
+
+Chapter 10:  Multivariate Classification 
+185 
+ 
+Neural Networks 
+Neural networks are very sophisticated modeling techniques though they are often criticized for their lack 
+of transparency.  The neural network user gathers test data and invokes training algorithms designed to 
+automatically learn the structure of the data.  This technique has been described as a recursion applied to a 
+GLM.   
+In practice, the results of a neural network can be fed into a GLM (or vice versa).  This process helps 
+highlight areas of improvement in the GLM (e.g., a missing interaction). 
+In general the data mining techniques listed above can enhance a ratemaking exercise by: 
+ 
+whittling down a long list of potential explanatory variables to a more manageable list for use 
+within a GLM; 
+ 
+providing guidance in how to categorize discrete variables; 
+ 
+reducing the dimension of multi-level discrete variables (i.e., condensing 100 levels, many of 
+which have few or no claims, into 20 homogenous levels); 
+ 
+identifying candidates for interaction variables within GLMs by detecting patterns of inter-
+dependency between variables. 
+ 
+ A full survey of these and other methods is beyond the scope of this text.  For more information, readers 
+can reference “The Elements of Statistical Learning:  Data Mining, Inference and Prediction” (Hastie et 
+al. 2009). 
+AUGMENTING MULTIVARIATE ANALYSIS WITH EXTERNAL DATA 
+The adoption of GLMs also resulted in many companies seeking external data sources to augment what 
+had already been collected and analyzed about their own policies.  This includes but is not limited to 
+information about: 
+ 
+geo-demographics (e.g., population density of an area, average length of home ownership of an 
+area); 
+ 
+weather (e.g., average rainfall or number of days below freezing of a given area); 
+ 
+property characteristics (e.g., square footage of a home or business, quality of the responding fire 
+department); 
+ 
+information about insured individuals or business (e.g., credit information, occupation). 
+ 
+This additional data can help actuaries further improve the granularity and accuracy of classification 
+ratemaking.  Almost certainly there will continue to be more and more reliable data available publically 
+for actuaries to analyze and use in classification ratemaking.  
+SUMMARY 
+Much of the early history of classification ratemaking was based on rudimentary methods such as 
+univariate analysis and later iteratively standardized univariate methods such as the minimum bias 
+procedures.  As computing power and data capabilities evolved, pioneering insurance companies 
+employed multivariate methods in their classification ratemaking and moved the entire industry forward. 
+
+Chapter 10:  Multivariate Classification 
+186 
+ 
+Grounded in statistical theory, multivariate methods adjust for an uneven mix of business and reflect the 
+nature of the random process of insurance.  They provide valuable diagnostics that aid in understanding 
+the certainty and reasonableness of results.  They can be refined to incorporate interaction variables.  The 
+litmus test of practicality is when multivariate methods are transparent and results can be incorporated in 
+insurance company rating algorithms. 
+Generalized linear models have become the standard for classification ratemaking in most developed 
+insurance markets—particularly because of the benefit of transparency.  Understanding the mathematical 
+underpinnings is an important responsibility of the ratemaking actuary who intends to use such a method.  
+Linear models are a good place to start as GLMs are essentially a generalized form of such a model.  As 
+with many techniques, visualizing the GLM results is an intuitive way to connect the theory with the 
+practical use. 
+GLMs do not stand alone as the only multivariate classification method.  Other methods such as CART, 
+factor analysis, and neural networks are often used to augment GLM analysis.  Finally, the adoption of 
+GLMs and data mining techniques influenced classification ratemaking in other ways as well—
+particularly in the incorporation of external data to enhance analysis. 
+
+Chapter 10:  Multivariate Classification 
+187 
+ 
+KEY CONCEPTS IN CHAPTER 10 
+ 
+1. Shortcomings of univariate approach 
+ 
+2. Minimum bias techniques 
+ 
+3. Circumstances that led to the adoption of multivariate techniques 
+a. Computing power 
+b. Data warehouse initiatives 
+c. Early adopters attaining competitive advantage 
+ 
+4. Overall benefits of multivariate methods 
+a. Adjust for exposure correlations 
+b. Allow for nature of random process 
+c. Provide diagnostics 
+d. Allow interaction variables 
+e. Considered transparent 
+ 
+5. Mathematical foundation of generalized linear models (GLMs) 
+ 
+6. Sample GLM output 
+ 
+7. Statistical diagnostics, practical tests, and validation techniques 
+a. Standard errors 
+b. Deviance tests 
+c. Consistency with time 
+d. Comparison of model results and historical results on hold-out sample 
+ 
+8. Practical considerations 
+ 
+9. Data mining techniques 
+a. Factor analysis 
+b. Cluster analysis 
+c. CART  
+d. MARS 
+e. Neural networks 
+ 
+10. Incorporation of external data in multivariate classification analysis 
+ 

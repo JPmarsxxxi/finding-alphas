@@ -1,0 +1,750 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         312 
+ 
+Chapter 26 
+Doubling Up: Tournaments, Part I 
+ 
+The largest growth area for poker over the past few years has undoubtedly been in the 
+proliferation of tournaments. From the $10,000 World Poker Tour™ events to $1 or freeroll 
+online megatournaments with thousands of players, tournaments have become the most visible 
+and popular form of the game. There are a number of different structures tournaments can take, 
+but they all fundamentally reduce to a poker contest with two key principles: 
+ 
+Tournament chips are irreplaceable - once all a player's tournament chips are gone, the player 
+is eliminated from the tournament. 
+ 
+The first of these principles results in strategic adjustments related to skill - that is, a concept of 
+passing up small edges that put one's whole stack at risk because of presumed situations that will 
+occur later where larger edges will be available. Players who have an edge over the field should 
+be less willing to commit all their chips for a thin edge because if they lose, they cannot replace 
+those chips with additional cash as they could in a ring game. Conversely, players who have 
+negative EV in the tournament should be more willing to gamble all-in on situations with slightly 
+negative chip expectation. 
+ 
+This "skill adjustment," however, has been far overdone by some players; there is a limit to the 
+type of situation that one can legitimately pass up and still actually have such an edge in the 
+future. After all, as the blinds escalate in a tournament, it becomes more and more difficult to 
+find hugely profitable situations. In addition, occasionally opponents will have big hands at the 
+same time as we do. But this skill adjustment is real, and we can seek to quantify it 
+approximately. We model this skill edge as a recursive effect and later in this chapter present a 
+model that attempts to quantify the effect of a skill edge and provide insight into actual 
+situations. 
+ 
+Rebuy tournaments obviously provide a temporary exception to this rule, although all rebuy 
+tournaments eventually reduce to a tournament that satisfies it. We will revisit the topic of taking 
+rebuys later in this chapter. 
+ 
+The prize pool of the tournament is distributed according to a payout structure that is 
+coordinated with the order of bustout and not the raw accumulation of chips. 
+ 
+The second of these principles provides the main mathematically distinguishing characteristic of 
+tournament play in the late stages when compared with cash games. In cash games, seeking to 
+maximize cash EV means seeking to maximize chip EV; chips in cash games are cash. But in 
+tournaments, this is not always the case. Obviously there is a strong correlation between chip 
+position and prize equity; however, the decoupling of what we will call chip equity (the number 
+of tournament chips a player holds) and prize equity (the EV of those chips in terms of the prize 
+pool) can create significant adjustments. 
+ 
+A simple example will help to clarify the divergence of chip equity and prize equity in a 
+tournament due to the payout structure. 
+ 
+Consider a 200-player limit holdem tournament of equally skilled players that has been reduced 
+to 19 players. The tables are now going hand-for-hand. 10th-18th place pay $250, and the payouts 
+then escalate to $6,000 for 1st place. The total prize pool is $20,000. There are 300,000 
+tournament chips in play, and the blinds are 300-600. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         313 
+ 
+Three players are extremely short-stacked. Player A has just 1 T100 chip remaining, but has the 
+button at his table. Player B has T400 left and is under the gun. Player C has T500 left and is in 
+also under the gun. 
+ 
+Early on in the tournament, the chips that the players hold are worth a share of the prize pool; A's 
+100 is worth 1 3000
+
+ of the $20,000 prize pool or about $6.67. But in this situation, his T100 chip 
+has been significantly increased in value. Consider that if he folds his next hand, both of his 
+shortstacked opponents will be all-in for the blind. Assuming that each of them has a 40% 
+chance of winning the hand against (presumably) the strongest hand in the field against them, A 
+has an 84% chance of surviving into the money and getting $250. So even discounting his 
+chances of actually doubling up and building his chip into a stack, his T100 is worth a minimum 
+of $210. This is a far cry from the $6.67 that his chip is worth a priori. The tournament payout 
+structure has given his chip additional value. This value is of course taken away from the values 
+of chips in big stacks; recall that collecting all the chips in the tournament is worth only 20% of 
+the prize pool. 
+ 
+This is perhaps a rather extreme example but situations that are of the same character occur in 
+just about every tournament. In these cases, survival is actually worth something - real money. 
+This is generally the case for very small stacks near the "bubble". Their chair is actually worth 
+more than their chips. In addition, at steps in the money, there is incentive for small stacks to 
+play more tightly and attempt to move up, though this is only valid to a point. Some authors have 
+(wrongly) taken this principle and attempted to extend it into the early-game, arguing that strong 
+players should attempt to survive at almost all costs, avoiding confrontations in the early going 
+and attempting to make the money and then making a push toward first. 
+ 
+We believe that this view sacrifices equity because skill-independent chip equity and prize equity 
+are closely tied together in the early going. There simply aren't enough chances to get one's 
+money in as a substantial favorite to justify the loss of tournament chip expectation from the 
+resulting timid, exploitable play. This view also tails because even with the flatter structures now 
+favored by many tournament directors (at this writing 20-25% to first place), a large percentage 
+of the prize pool is concentrated in the top three places and the number of tournament chips held 
+by a player is a strong predictor of that player's chance of finishing in the top three places. 
+ 
+We advocate, then, a strategy which is mindful of the necessary adjustments brought on by the 
+payout structure along with those that a skilled played should make to ensure his repeated ability 
+to apply his skill, but which recognizes that these strategy adjustments are fairly minor while the 
+money is still reasonably far away. From an exploitive standpoint, as well, we seek to capitalize 
+on our opponents' misunderstandings of these concepts, particularly near the money. This results 
+in a lot more "just out of the money" finishes, but it also results in more high finishes and higher 
+expectation overall. 
+ 
+Tournament models are generally most useful in attempting to express the mapping between 
+chip equity and prize equity in tournaments. If we can map chip equity- to prize equity, then we 
+can return to the familiar idea of maximizing EV from decisions. In this case, however, we do 
+not maximize chip EV, but instead the corresponding cash EV. The first model we consider 
+attempts to quantify the first effect (skill) on tournament decision-making in the early and middle 
+stages of a tournament. 
+ 
+The Theory of Doubling Up 
+Many players will pass up even large edges in the early or middle stages of tournaments, 
+believing (almost certainly wrongly) that even better edges will present themselves. But if this 
+were actually true, then these players would have gigantic edges over the field in terms of equity. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         314 
+ 
+Observation does not bear this out. Nonetheless there is an effect - we seek to measure and 
+quantify the effect, and use it as a guide in making accurate decisions at the table. 
+ 
+To assess the value of different tournament stacks, we can use a variety of different models. 
+These models are useful in different stages of the tournament. Some of these models, such as the 
+ones we will introduce in the next section, are primarily useful when the players are near or in 
+the money and the problem is allocating the prize payouts such that each player gets a fair share. 
+The Theory of Doubling Up, by contrast, is intended to be applied in the opening and middle 
+stages of the tournament as a guide to decision-making. 
+ 
+First, let us consider a winner-take-all tournament. In winner-take-all tournaments, excepting 
+skill considerations, a player's equity in the tournament is proportional to his chip stack. We then 
+further make an important assumption: The chance of doubling a certain player's chip stack 
+before that player busts is constant throughout the tournament. 
+ 
+There are a number of effects that work on a player's chance of doubling up throughout the 
+tournament. First, there is a mild selection effect. Stronger players tend to survive longer, and the 
+longer a tournament goes, the stronger the overall field will be (on average). This causes all 
+players' chance of doubling up to fall as the tournament progresses. 
+ 
+Secondly, the increasing blinds tend to compress all players' chances of doubling up toward 50% 
+by reducing their latitude to apply their skill (or alternatively, their lack thereof). In the early 
+going, skilled players will have plenty of opportunities to gain chips. Hence, doubling up early is 
+better than doubling up later. 
+ 
+However, neither of these effects is particularly strong, and so we are comfortable taking the 
+above assumption to be true in modeling tournament equities. 
+ 
+Based on this assumption, we can construct a model of a winner-take-all tournament with X 
+players of equal skill who begin with equal stacks. Consider one single player. Let E be his 
+chance of winning the tournament outright, C be his (constant) chance of doubling his stack 
+before busting, and N be the number of times he must double his stack in order to win. 
+ 
+Then we have the simple relationship 
+ 
+E = CN  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(26.1) 
+ 
+For example, there are 128 players, he must double his stack seven times 1-2-4-8-16-32-64-128. 
+Since each of these doubles is roughly independent, the chance of doubling seven times is C7. 
+ 
+With this formula, if we have any two of these quantities we can calculate the third. Let's 
+consider the situation at the beginning of the tournament. Since all the players are equally 
+skilled, we know that our player has an equity E — 1/X. We also know that in order to win the 
+tournament, our player must increase this stack from its starting value to X times that amount. 
+The number of doubles that this requires can be expressed as: 
+ 
+X=2N 
+ 
+So, for a 2-player tournament, N would obviously be 1, as one double would be required to win, 
+while for a 128-player tournament, N is 7. More generally: 
+ 
+N = log2 X 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         315 
+ 
+Substituting: 
+ 
+1/X = Clog2X 
+ 
+log2 1/X = (log2 X) log2 C 
+log2 C = -1 
+C = 0.5  
+ 
+Of course, this is what we would expect for a winner-take-all tournament where all players are 
+equally skilled; that each player would have a 50% chance of doubling before busting from any 
+stack size. It is easily verified by plugging in other values of A" (representing different stack 
+sizes) that chip values are exactly linear for players of equal skill. 
+ 
+This methodology also generalizes to situations where the players are of unequal skill. For 
+example, consider a hypothetical player A playing in a 100-player tournament where he has EV 
+of 1 buyin net (2 buyins per tournament gross). We can calculate his C by plugging in his initial 
+values: 
+ 
+E = CN 
+2 100
+
+ = Clog2 100 
+0.02 = C6.643856 
+C= 0.5550 
+ 
+So A’s chance of doubling his current stack before busting is 55.5%. Now we can calculate his  
+chance of winning the tournament from any stack size S (where S is the number of starting stacks 
+he has) by plugging into the equity formula E = CN. N, of course, is the number of doubles it will 
+take to reach 100. 
+ 
+So for a stack size of 2 (double the initial stack), A has equity of E= Clog2 50, or 0.0360. Note that 
+this value is more than the a priori value of the chips (which would of course be 0.02), but less 
+than double A's chance of winning the tournament from the start. 
+ 
+What this model does, in effect, is provide us a means for evaluating marginal tournament equity 
+decisions including the skill of the player making the decisions. The qualitative judgment of "I 
+have an edge over the field, so I should protect my chips" is quantified into an adjusted equity 
+for any stack size that utilizes the assumptions that underlie the model. By doing this, this model 
+provides a mapping of chip equity to tournament equity. To see how the model might work in 
+practice, consider the following marginal situation from a no-limit holdem tournament. 
+ 
+The blinds are 75-150. Player B, with a stack of 3000 (250 players played with starting stacks of 
+1500), raises to 450 on the button with Qs Ts. The small blind folds and the big blind calls. The 
+flop comes Ks 8c 2s. The blind checks and player B bets 500. The blind check-raises all-in (and 
+has B covered). B estimates his equity' at 36% and is faced with the decision of calling 2050 to 
+win 4025. 
+ 
+An analysis based purely on tournament chip values would indicate that calling is clear - (0.36) 
+(6075) -2050 = 137 chips, for nearly a tenth of a buyin worth of profit. But let's assume that 
+Player B had an edge of 3 4
+  of a buyin over the field at the beginning of the tournament. 
+Calculating C for Player B: 
+ 
+1.75 250
+
+ = Clog2 250 
+C = 0.5364 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         316 
+ 
+Now we can calculate the equity E of the three scenarios: 
+ 
+If B calls and wins, he will have 6075 chips, or 4.05 starting stacks. 
+ 
+E = 0.5364log2 (250/4.05)  = 0.024603 buyins. 
+ 
+If B calls and loses, he will have 0 chips and have 0 equity.  
+ 
+If B folds, he will have 2050 chips, or 1.36667 starting stacks. 
+ 
+E= 0.5364log2 (250/1.36667) = 0.009269 buyins. 
+ 
+So B's equity from calling is (0.024603)(0.36), or 0.008857 buyins. Comparing this to B's equity 
+from folding, we find that calling is actually incorrect given B's skill edge over the field. 
+ 
+Another result that can be easily derived from the Theory of Doubling Up includes the "coinflip'' 
+problem - what chance of winning do you need to hi order to accept a coinflip for all your chips 
+on the first hand? Since E0 = CN at the start of the tournament, if you call and double up, your 
+equity becomes E1 = CN-1. If you take a coinflip with chance of winning W, then your equity 
+becomes WE1. If you decline, then your equity is E0. Setting these things equal, we get: 
+ 
+CN = WCN-1, or W=C. 
+ 
+So you are indifferent to accepting a coinflip if your chance of winning the coinflip is equal to C. 
+Yet consider that many players have a stated preference that they would decline a QQ vs AK 
+(57-43) confrontation in the early tournament. By applying the Theory of Doubling Up, we can 
+find out something about what these players believe their equity in, for example, a 250-player 
+tournament to be. 
+ 
+E = CN = (0.57)8 = 0.01114 
+ 
+...or about 2.85 buyins per tournament. In order for it to be to correct to decline a 57-43 
+confrontation with no dead money in the pot, one has to have nearly three times the average 
+equity in the tournament. Our observations lead us to believe that having this win rate in a 
+typical tournament field would place such a player among the best players in the world. 
+ 
+Another interesting effect of the Theory of Doubling Up is what it indicates about players with 
+negative expectation. Of course our readers are all winning players, but nevertheless, the mean 
+result of all players in a tournament is to lose the entry fee, so someone must be losing. The 
+Theory of Doubling Up, then, indicates that losing players should be willing to commit their 
+chips even in marginally bad situations. This is a result of the idea that losing players should 
+encourage variance, as it is their best chance to win. The more that other players get a chance to 
+apply their skill, the worse off the losing player will be. Hence, they should be willing to commit 
+all their chips in zero-EV situations or even slightly bad ones. 
+ 
+The Theory of Doubling Up also has some important implications for multi-way confrontations, 
+ha poker, in general, the "third man in" to an all-in confrontation needs quite a strong hand. This 
+effect is exacerbated by the tournament structure. Consider a situation on the flop where two 
+players are all-in for a pot-sized bet and a player must consider calling all-in for the third bet. In 
+a situation where chips are linear, he would need just a '/4 chance of having the winner to make 
+the call breakeven. In the three-way confrontation, however, the player needs a much stronger 
+hand. If he wins, his chips will be worth four times as much as if he folds; that is, he will have 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         317 
+ 
+reduced his necessary doubles by 2. If his original chance of doubling up was, for example, 55%, 
+he needs 30.25% of the pot just to break even equitywise, compared to 25% chipwise. This is 
+because so often he will be broke and have no future opportunity to apply his skill. 
+ 
+In addition to the form we presented previously, we can show the Theory of Doubling Up 
+formula in a different manner. We have the following from the previous discussion: 
+ 
+E = CN 
+ 
+We can transform this using the rules of logarithms. Suppose we have a stack size S (which is 
+the fraction of total chips in the tournament). Then the number of doubles we need is: 
+ 
+N = log2 (1/S) = -log2 S 
+ 
+E = C-log2 S 
+ln E = (-log2 S)(ln C) 
+ln E = (ln S) (-log2 C) 
+logS E = -log2 C 
+E = S-log2 C 
+ 
+We denote the quantity -log2 C as β. making this formula: 
+ 
+E = Sβ  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(26.2) 
+ 
+Here we have a restatement of Equation 26.1; only now it is our stack raised to a constant power. 
+We can go further with the ideas of the Theory of Doubling Up and simplify the calculations as 
+well as incorporate ideas that affect our equity estimates. Previously, we have dealt only with 
+winner-take-all tournaments. However, we can additionally incorporate a structured payout into 
+the Theory of Doubling Up. 
+ 
+To understand this methodology, consider a winner-take-all match play tournament with 256 
+players. Then a single player's equity in the tournament is simply equal to (256) (C8), or his 
+chance of doubling up seven times (that is, winning matches seven times) multiplied by the 
+number of buyins he wins. We can rewrite this expression as: 
+ 
+(256)(C8) = (2C)8 
+ 
+In fact, in general, we can modify' the E= CN equation to express equity in the total prize pool of 
+X buyins as follows: 
+ 
+EX=XCN  
+E = (2C)N 
+ 
+(since N is the number of doubles required) 
+ 
+Now consider the same tournament, except that the total prize pool is divided between first and 
+second place equally - that is, 1st and 2nd are both 128 buyins. His equity here is actually 
+(128)(C7), or (2C)7. 
+ 
+How does this relate to the previous equity? 
+ 
+(2C)8 > (2C)7  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         318 
+ 
+C > 1 2
+  
+ 
+By splitting the first prize equally among the first two players, our player's equity is reduced if 
+his chance of doubling is greater than 1 2
+  , while it is increased otherwise. This makes sense - 
+basically, what's happening here is that instead of getting his chance of winning the last match 
+times 256, he gets 128 instead. So his chance of winning the last match is simply replaced by 1 2
+ . 
+ 
+What this reflects is that in tournaments where not all the money is paid to first place, the 
+opportunity to apply skill is reduced, because a player who acquires all the chips only acquires a 
+fraction of the prize pool. So in the second case discussed above (where the prize pool is split 
+between first and second place), our skillful player has less equity by one factor of 2C. 
+According to our equity estimates from the Theory of Doubling Up (which of course applies 
+directly and not as a model in this case), the skill multiplier for this tournament is the same as if 
+the tournament contained 128 players instead of 256. 
+ 
+We call this the effective tournament size - essentially what we're doing is quantifying the 
+degree to which the structured payouts reduce the opportunity to apply skill. We can say that as a 
+close approximation, a tournament of 256 players where the first and second prizes are equal has 
+the same latitude for skill as a 128-player tournament where it's winner-take-all. We denote the 
+effective tournament size (generally) as k, and define k more formally to be a value such that the 
+following equation is satisfied for a given prize distribution: 
+ 
+(2C)log2 k = EN  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(26.3) 
+ 
+where C is the chance of doubling up and EN is the number of buyins the player wins in the 
+tournament with the prize structure intact. Then k will be the size of the equivalent tournament 
+(for the Theory of Doubling Up) with a winner-take-all structure. 
+ 
+Of course, tournaments don't often split the prize pool equally between first and second place, 
+preferring to instead give a larger piece of the pool to first. Suppose that our hypothetical match 
+play tournament instead has payouts of f of the prize pool to first place and (1 - f) to second. Now 
+our player's equity becomes: 
+ 
+(total prize pool)[(lst money)(p(lst)) + (2nd money)(p(2nd))]  
+(256)(f (C8) + (1 - f)(C7 – C8)  
+(256)C7 (2fC + 1 – C - f) 
+ 
+We know that for our hypothetical whining player, C will be a little bit higher than 0.5; for 
+example 0.53. We'll use the symbol 5 to denote the difference between C and 0.5, 
+ 
+δ = C - 0.5 
+ 
+Then our equity formula simplifies to: 
+ 
+(256) C7 (δ (2f - 1) + 1 2
+ ) 
+ 
+This formula is fundamentally made of three parts: 
+ 
+• (256) C7 is our hypothetical player's chance of making it to the finals times the entire 
+prize pool. 
+• δ (2f - 1) is the "extra" equity he wins because of skill.  
+• 
+1 2
+  is his base share of the prize pool. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         319 
+ 
+ 
+Using this equity formula, we can find the effective tournament size for this tournament. 
+ 
+Let d equal log2 k, the number of doubles that would be required in a winner-take-all tournament 
+of size k. 
+ 
+ 
+There exists some winner-take-all tournament such that: 
+ 
+(2C)d = EN 
+ 
+In this case, EN  is equal to our equity expression, so: 
+ 
+(2C)d = (256)C7 (δ (2f - 1) + 1 2
+ ) 
+(2C)d-7 = 2 (δ (2f - 1) + 1 2
+ ) 
+(d - 7)(ln 2C) = ln (2 (δ (2f - 1) + 1 2
+ )) 
+ 
+(d - 7) = ln (2 (δ (2f - 1) + 1 2
+ ))/ ln (2C) 
+d = ln (2 (δ (2f - 1) + 1 2
+ ))/ ln (2C) + 7 
+k = 2d 
+ 
+Suppose that f is 154/256 and C is 0.52. Then  
+ 
+' =
+ln (2(0.02(2 5154
+256 −17 + 0.5)
+232
++ 7 ≈7.206 
+k = 2d = 147.68 
+ 
+Notice that k here is dependent on the value of C that we use. However, it turns out that the value 
+of k is relatively insensitive to the chosen value of C as long as C falls within the usual 
+parameters. We will utilize this fact in extending this discussion to payout structures with more 
+paid places. 
+ 
+So our effective tournament field size here is actually about a hundred players smaller than the 
+actual field size, simply as a result of the prize structure being divided. Note that this effective 
+field size is used as the field size in the Theory of Doubling Up equations. Also, the E term must 
+be multiplied by this number of buyins to find the proper equity. 
+ 
+For example, to find the equity of a player with C = 0.53 who has won his first four matches 
+(thus needing 4 more doubles to win), we can use the following: 
+ 
+kE = Clog2 (k/S) 
+(147.68)(E) = (0.53)log2 (147.68/16) 
+E = 19.287 buyins 
+ 
+We can also calculate this directly as a check: 
+ 
+Chance of making the finals: 0.533 = 0.14888 
+ 
+Chance of winning in the finals: 0.53 
+ 
+(0.14888)[(0.53)(154) + (0.47)(102)] = 19.288 buyins 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         320 
+ 
+Most tournaments are not match play, and most are not limited to two places paying. However, 
+accepting some assumptions about the likelihood of brushing in different places, we can actually 
+generalize this result to find the effective tournament field size (and by doing so, be able to 
+generate the proper skill adjustments) for any payout structure. 
+ 
+Assumption: 
+ 
+The chance of a player's finishing in place N is equal to his chance of doubling up to a stack size 
+of 1/N of the chips in play, less his chance of finishing in a higher place. 
+ 
+So a player's chance of finishing first is his chance of doubling up to all of the chips in the 
+tournament. His chance of finishing second, then, is his chance of doubling up to half the chips 
+in the tournament less his chance of finishing first. His chance of finishing third is his chance of 
+doubling up to a third of the chips in the tournament, less this chance of finishing first or second, 
+and so on. This series does hi fact sum to one: even though it's true that it's not required that a 
+player double up to 1/N chips in order to finish Nth, this approximation is a reasonable one. 
+ 
+We can manipulate the Theory of Doubling Up and this assumption to find an effective 
+tournament field size for any tournament. The following discussion is a little challenging, so we 
+mark it off and you can feel free to skip it 
+ 
+A player's equity (in buyins) is given by the following formula: 
+ 
+D	 = - 9
+
+
+ 
+ 
+where pi is the probability of placing in ith place, vi is the prize payout for finishing in ith place, 
+and X is the total number of players in the tournament. 
+ 
+The probability of finishing in each place is equal to the probability of doubling up to the 
+appropriate chips minus the chance of doubling to the appropriate chips for the next higher spot: 
+ 
+ = &'(()
+ ) −&'(( )
+) 
+ 
+We define N= log2 X. This is the number of doubles it would take if this were a winner-take-all 
+tournament. Substituting into the equation for the probabilities of finishing in each place: 
+ 
+pi = C N – log
+2
+i - C N – log
+2
+(i-1) 
+ 
+This last equation only holds true if i > 1; at i = 1, pi = CN.  
+ 
+We now define a separate series of terms, related to pi. 
+ 
+E = - 
+)
+
+ 
+ 
+So qi is the "cumulative" probability that we will finish in the top i players; qi is the chance that 
+we will finish first, q2 is the chance that we will finish first or second, and qN is the chance that 
+we will finish in  Nth place or higher. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         321 
+ 
+Plugging in pi values, we have: 
+ 
+qi = CN – log2 i 
+ 
+Now consider the prize structure of our tournament. Calling the total prize pool P, where vi, is 
+the payout for finishing ith we have: 
+ 
+ = - 9
+)
+
+ 
+ 
+Then wi is the incremental increase in guaranteed money for finishing in ith place instead of [i + 
+1)th place such that: 
+ 
+< = - 9 −9
+)
+
+ 
+ 
+with the special rule that wX = vX 
+ 
+We also have the following identity:  
+ 
+ = - C<
+)
+
+ 
+ 
+because 
+ 
+-C< = -(C(9* −9)) 
+ 
+   
+   = ∑C9 −∑
+C9"# 
+  
+   = ∑C9 −∑
+C −19 
+     =∑9 =  
+ 
+The total prize pool is equal to the money guaranteed for finishing ith or higher times the number 
+of players who finish there, summed for all i values. 
+ 
+We saw previously that 
+ 
+D	 = - 
+
+
+9 
+ 
+A player's equity is equal to the value of each finish times the probability of that finish, summed 
+over all finishes. 
+ 
+However, we can also say the following: 
+D	 = - E
+
+
+< 
+ 
+A player's equity is equal to his chance of finishing in each place or higher multiplied by the 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         322 
+ 
+incremental money he is guaranteed by getting to that spot. 
+ 
+To show this, suppose that we have just three payouts (this approach generalizes to more 
+payouts), v1, v2, and v3 and the probabilities of finishing each of these spots are p1 ,p2, and p3, 
+respectively. 
+ 
+We then have:  
+ 
+q1= p1 
+q2 = p1 + p2 
+q3 = p1 + p2 + p3 
+ 
+and 
+ 
+g1 = v1 – v2 
+g2 = v2 – v3 
+g3 = v3 
+ 
+We can now show that q1g1 + q2g2 + q3g3  is equivalent to our equity: 
+ 
+q1g1 + q2g2 + q3g3   
+p1(v1 – v2) + (p1 + p2)(v2 – v3) + (p1 + p2 + p3)(v3) 
+p1v1 + p2v2 + p3v3 
+ 
+With this, we have our equity for the game. What we are looking for is the k value such that the 
+following equation is satisfied: 
+2 - E
+
+
+< = (2)+ 
+ 
+where D is the number of doubles necessary to reach k. players, or log2 k. This presumes that wi 
+is denominated in buyins and not fractions of the prize pool. 
+2 - 	&'( <
+
+
+= (2)+ 
+-(2)	 &'( <
+
+
+= (2)+ 
+ 
+-  &'( <
+
+
+= (2)+	 
+ 
+- C(2) &'( <
+
+
+= (2)+	 
+ 
+Next we make use of the idea that k is insensitive to the value of C chosen. Suppose we choose C 
+very close to 0.5. In keeping with convention, we use ε to denote twice the distance between 0.5 
+and C (The value 0.5 exactly is a discontinuity because it involves dividing by zero). 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         323 
+ 
+- C(1 + F) &'( <
+
+
+= (2)+	 
+ 
+Assuming e is close enough to 0.5, we can approximate the exponential of expansion as follows: 
+ 
+(1 + ε)x = 1 + xε. 
+- C<1 −log CF = (1 −( −)F)
+
+
+ 
+ 
+The C< term simply sums to 1, and we are left with: 
+ 
+- C<(log C) = ( −)
+
+
+ 
+ 
+N - D can be thought of as the number of doubles that are "missing" from the tournament when 
+the prize structure is incorporated. To find the actual effective tournament field size, we can 
+divide X by 2N-D 
+ 
+This much simpler formula can be used to find the effective prize structure for any tournament. 
+We can test it on our previously examined tournament. 
+ 
+g1 = 154 256
+
+ 
+g2 = 102 256
+
+ 
+ 
+204 256
+
+ = N - D 
+ 
+k = 256 / 2204/256 = 147.35 where D = log2 k 
+ 
+The slight variance here is caused by the fact that when we first looked at this tournament, we 
+chose a C of 0.52. 
+ 
+Key Concepts 
+• The Theory of Doubling Up allows us to evaluate equity decisions in the early to middle 
+portions of a tournament by using a constant "chance of doubling up" and finding the 
+number of doubles required to get all the chips. Using these two measures, we can 
+effectively model tournament skill and get a sense for the marginal values of chips. 
+• The E=CN form of the Theory of Doubling Up can be further refined to understand the 
+effect that a flat payout structure has on skill. When money is given to a place other than 
+1st, the effect of skill is diminished. 
+• We can solve for an effective tournament size (see Equation 26.3), which is the size of a 
+winner-take-all tournament where the skill adjustments are the same as our structured 
+payout tournament. 
+ 
+ 
+ 

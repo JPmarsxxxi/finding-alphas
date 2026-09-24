@@ -1,0 +1,757 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         34 
+ 
+Chapter 3 
+Using All the Information: 
+Estimating Parameters and Bayes' Theorem 
+ 
+In the last chapter, we described some statistical properties of valued probability distributions, as 
+well as the relationship of samples taken from those distributions to the normal distribution. 
+However, throughout the chapter, we simply assumed in examining the sampling distribution 
+that we knew the parameters of the underlying distribution. But in real life, we often don't know 
+these things. Even for simple things such as coin flips, the "true" distribution of outcomes is that 
+the coin is very slightly biased in one direction or the other. A die has tiny imperfections in its 
+surface or composition that make it more likely to land on one side or another. However, these 
+effects are usually small, and so using the "theoretical" coin which is truly 50-50 is a reasonable 
+approximation for our purposes. Likewise, we generally assume for the purposes of poker 
+analysis that the deck is fair and each card is random until it is observed. 
+ 
+We can mitigate real-world difficulties with distributions that we can reasonably approximate 
+(such as coin flips or die rolls). Other types of distributions, however, pose much more difficult 
+problems. In analyzing poker results, we are often interested in a distribution we discussed in the 
+last chapter - per hand won/loss amounts. When playing in a casino, it would be quite difficult 
+and time-consuming to record the results of every hand - not to mention it might draw unwanted 
+attention. The process is somewhat easier online, as downloadable hand histories and software 
+tools can automate the process. But even if we have all this data, it's just a sample. For poker 
+hands, the probabilities of the underlying distribution won't be reflected in the observed data 
+unless you have a really large amount of data. 
+ 
+We can get around this to some extent by using the subject matter of the last chapter. Suppose 
+that we could get the mean and variance of our hand outcome distribution. Then we could find 
+the sampling distribution and predict the aggregate outcomes from playing different numbers of 
+hands. We can't predict the actual outcome of a particular future sample, but we can predict the 
+distribution of outcomes that will occur. 
+ 
+Now the problem is to try to infer the population mean and variance from the sample mean and 
+variance. We will examine two approaches to this process. The first is the approach of classical 
+statistics, and the second is an approach that utilizes the primary topic of this chapter, Bayes' 
+theorem. The first approach takes as one of its assumptions that we have no information other 
+than the sample about the likelihood of any particular win rate. The second approach postulates a 
+distribution of win rates that exists outside of our particular sample that can be used to refine our 
+estimates of mean and variance for the population distribution. 
+ 
+Estimating Parameters: Classical Statistics 
+Suppose that we have a player who has played a total of 16,900 hands of limit poker. 
+Normalizing his results to big bets (BB) in order to account for different limits he has played, he 
+has achieved a win rate of x = 1.15 BB/100 hands with a standard deviation of s = 2.1 BB/hand. 
+Here instead of µ and σ, which represent population parameters, we use x and s, which are 
+sample parameters. Assuming that he plans to continue to play in a similar mix of games with 
+similar lineups of players, what can we say about his "true" win rate µ in the games he has 
+played? We assume in this section that we have no other information about the likelihood of 
+various win rates that might be possible; all win rates from -1 BB/hand to +1BB/hand are 
+deemed to be equally probable. 
+ 
+First of all, it's important to note that we only have a sample to work with. As a result, there will 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         35 
+ 
+be uncertainty surrounding the value of his win rate. However, we know that the sampling 
+distribution of 16,900 hands of limit poker will be approximately normal because of the Central 
+Limit Theorem. The observed standard deviation s = 2.1 BB/h is a reasonable estimate of the 
+standard deviation of the population, particularly because the sample is relatively large. We can 
+use these facts to obtain the maximum likelihood estimate of the population mean. 
+ 
+Consider all possible win rates. For each of these win rates, there will be a corresponding 
+sampling distribution, a normal curve with a mean of µ and a standard deviation σN. The peak of 
+each of these normal curves will be at x = µ, and all the other points will be lower. Now suppose 
+that we assume for a moment that the population mean is in fact some particular µ. The height of 
+the curve at x =  will be associated with the probability that the observed rumple mean would 
+have been the result of the sample. We can find this value for all possible values of µ. Since all 
+these normal curves have the same standard deviation σN, they will all be identical, but shifted 
+along the X-axis, as in Figure 3.1. 
+ 
+Since the peak of the curve is the highest point, and the observed value  is the peak when µ = , 
+this means that  — 1.15 BB/l00h is the maximum likelihood estimate of the mean of the 
+distribution. This may seem intuitive, but we will see when we consider a different approach to 
+this problem that the maximum likelihood estimate does not always have to equal the sample 
+mean, if we incorporate additional information. 
+ 
+Knowing that the single win rate that is most likely given the sample is the sample mean is a 
+useful piece of data, but it doesn't help much with the uncertainty. After all, our hypothetical 
+player might have gotten lucky or unlucky. We can calculate the standard deviation of a sample 
+of 16,900 hands and we can do some what-if analysis about possible win rates. 
+ 
+Suppose we have a sample N that consists of 16,900 hands taken from an underlying distribution 
+with a mean, or win rate, of 1.15 BB/l00h and a standard deviation of 2.1 BB/h. 
+ 
+ 
+Then, using equation 2.4: 
+Figure 3.1, Shifted normal distributions (labeled points atx=1.15) 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         36 
+ 
+ 
+σN = √ 
+σ16,900 = 2.1 /ℎ(√16,900 hands) 
+σ16,900 =273 BB, so 
+σN /100h=273/169 ≈1.61 
+ 
+The standard deviation of a sample of this size is greater than the win rate itself. Suppose that we 
+knew that the parameters of the underlying distribution were the same as the observed ones. If 
+we took another sample of 16,900 hands, 32% of the time, the observed  outcome of the 16,900 
+hand sample would be lower than -0.46 BB/100 or higher than 2.76 BB/100. 
+ 
+This is a little troubling. How can we be confident in the idea that the sample represents the true 
+population mean, when even if that were the case, another sample would be outside of even 
+those fairly wide bounds 32% of the time? And what if the true population mean were actually, 
+say, zero? Then 1.15 would fall nicely into the one-sigma Interval. In fact, it seems like we can't 
+tell the difference very clearly based on this sample between a win rate of zero and a win rate of 
+1.15 BB/100. 
+ 
+What we can do to help to capture this uncertainty is create a confidence interval. To create a 
+confidence interval, we must first decide on a level of tolerance. Because we're dealing with 
+statistical processes, we can't simply say that the probability that the population mean has some 
+certain value is zero - we might have gotten extremely lucky or extremely unlucky. However, we 
+can choose what is called a significance level. This is a probability value that represents our 
+tolerance for error, Then the confidence interval is the answer to the question, "What are all the 
+population mean values such that the probability of the observed outcome occurring is less than 
+the chosen significance level?" 
+ 
+Suppose that for our observed player, we choose a significance level of 95%. Then we can find a 
+confidence level for our player. If our population mean is µ, then a sample of this size taken from 
+this population will be between (µ -2σ) and (µ +2σ) 95% of the time. So we can find all the 
+values of µ such that the observed value  = 1.15 is between these two boundaries. 
+ 
+As we calculated above, the standard deviation of a sample of 16,900 hands is 1.61 units/100 
+hands: 
+ 
+σN = √ 
+σ = 2.1 BB/h(√16,900 ) 
+σ =273 BB per 16,900 hands 
+σ /100h=273 BB/169 = 1.61 
+ 
+So as long as the population mean satisfies the following two equations, it will be within the 
+confidence interval: 
+ 
+ −2 < 1.15 
+ + 2 > 1.15 
+ −2 < 1.15 
+ −2(1.61) < 1.15 
+ < 4.37 
+ + 2 > 1.15 
+ + 21.61 > 1.15 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         37 
+ 
+ > -2.07 
+So a 95% confidence interval for this player's win rate (based on the 16,900 hand sample he 
+has collected) is [-2.07 BB/100, 4.37 BB/100]. 
+ 
+This does not mean that his true rate is 95% likely to lie on this interval. This is a common 
+misunderstanding of the definition of confidence intervals. The confidence interval is all 
+values that, if they were the true rate, then the observed rate would be inside the range of 
+values that would occur 95% of the time. Classical statistics doesn't make probability estimates 
+of parameter values - in fact, the classical view is that the true win rate is either in the interval 
+or it isn't, because it is not the result of a random event. No amount of sampling can make us 
+sure or unsure as to what the parameter value is. Instead, we can only make claims about the 
+likelihood or unlikelihood that we would have observed particular outcomes if a parameter had a 
+particular value. 
+ 
+The maximum likelihood estimate and a confidence interval are useful tools for evaluating what 
+information we can gain from a sample. In this case, even though a rate of 1.15 BB/100 might 
+look reasonable, concluding that this rate is close to the true one is a bit premature. The 
+confidence interval can give us an idea of how wide the range of possible population rates might 
+be. However, if pressed, the best single estimate of the overall win rate is the maximum 
+likelihood estimate, which is the sample mean of 1.15 BB/100 in this case. 
+ 
+To this point, we have assumed that we had no information about the likelihood of different win 
+rates - that is, that our experimental evidence was the only source of data about what win  rate a 
+player might have. But in truth, some win rates are likelier than others, even before we take 
+a 
+measurement. Suppose that you played, say, 5,000 hands of casino poker and in those hands you 
+won 500 big bets, a rate of 10 big bets per 100 hands. In this case, the maximum likelihood 
+estimate from the last section would be that your win rate was exactly that -10 big bets per 100 
+hands, 
+ 
+But we do have other information. We have a fairly large amount of evidence, both anecdotal 
+and culled from hand history databases and the like that indicates that among players who play a 
+statistically significant number of hands, the highest win rates are near 3-4 BB/100. Even the few 
+outliers who have win rates higher than this do not approach a rate of 10 BB/100. Since this is 
+information that we have before we even start measuring anything, we call it a priori 
+information. 
+ 
+In fact, if we just consider any particular player we measure to be randomly selected from the 
+universe of all poker players, there is a probability distribution associated with his win rate. We 
+don't know the precise shape of this distribution, of course, because we lack observed evidence 
+of the entire universe of poker players. However, if we can make correct assumptions about the 
+underlying a priori distribution of win rates, we can make better estimates of the parameters 
+based on the observed evidence by combining the two sets of evidence. 
+ 
+Bayes' theorem 
+In Chapter 2, we stated the basic principle of probability (equation 1.5). 
+ 
+ ∩ = (|)  
+ 
+ 
+In this form, this equation allows us to calculate the joint probability of A and B from the 
+probability of A and the conditional probability of B given A. However, in poker, we are often 
+most concerned with calculating the conditional probability of B given that A has already-
+occurred - for example, we know the cards in our own hand (A), and now we want to know how 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         38 
+ 
+this information affects the cards in our opponents hand (B). What we are looking for is the 
+conditional probability of B given A. 
+ 
+So we can reorganize equation 1.5 to create a formula for conditional probability.  
+ 
+This is the equation we will refer to as Bayes' theorem: 
+ 
+
+| =
+(∩)
+()   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(3.1) 
+ 
+Recall that we defined  as the complement of B in Chapter 1; that is: 
+ 
+p( )= 1- p(B) 
+p(B) + p() = l 
+ 
+We already have the definitions: 
+ 
+ ∩ = (|) 
+ 
+Since we know that B and  sum to 1, p(A) can be expressed as the probability of A given B 
+when B occurs, plus the probability of A given B when B occurs. 
+ 
+So we can restate equation 3.1 as: 
+ 
+
+| =
+|()
+|()  
+ 
+ 
+ 
+ 
+ 
+ 
+(3.2) 
+ 
+In poker, Bayes' theorem allows us to refine our judgments about probabilities based on new 
+information that we observe. In fact, strong players use Bayes' theorem constantly as new 
+information appears to continually refine their probability assessments; the process of Bayesian 
+inference is at the heart of reading hands and exploitive play, as we shall see in Part II. 
+ 
+A classic example of Bayes' theorem comes from the medical profession. Suppose that we have a 
+screening process for a particular condition. If an individual with the condition is screened, the 
+screening process properly identifies the condition 80% of the time. If an individual without the 
+condition is screened, the screening process improperly identifies him as having the condition 
+10% of the time. 5% of the population (on average) has the condition. 
+ 
+Suppose, then, that a person selected randomly from the population is screened, and the 
+screening returns a positive result. What is the probability that this person has the condition 
+(absent further screening or diagnosis)? 
+ 
+If you answered "about or a little less than 80%," you were wrong, but not alone. Studies of 
+doctors' responses to questions such as these have shown a perhaps frightening lack of 
+understanding of Bayesian concepts. 
+ 
+We can use Bayes' theorem to find the answer to this problem as follows:  
+A = the screening process returns a positive result.  
+B = the patient has the condition. 
+ 
+Then we are looking for the probability | and the following are true:  
+|) = 0.8 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         39 
+ 
+(if the patient has the condition, the screening will be positive 80% of the time)  
+
+ = 0.1 
+ 
+(if the patient doesn't have the condition, the result will be positive 10% of the time) 
+p(B) = 0.05     (5% of all people have the condition) 
+p[) = 0.95     (95% of all people don't have the condition) 
+ 
+And using Equation 3.2, we have:  
+ 
+| =
+|
+| + 
+
+
+ 
+ 
+| =
+0.8(0.05)
+0.8(0.05) + 0.1(0.95) 
+ 
+| ≈  29.63% 
+ 
+As you can see, the probability that a patient with a positive screening result actually has the 
+condition is much lower than the 80% "accuracy" the test has in identifying the condition in 
+someone who has it. Testing with this screening process would need to be followed up by 
+additional testing to confirm the presence of the condition. 
+ 
+But rather than just plugging into an equation, let's discuss what's happening here by considering 
+a population of 100,000 people, all of whom are tested using this screening process. 
+ 
+Of these 100,000 people: 
+5,000 actually have the condition. 
+ 
+(5% of the population) 
+95,000 actually do not have the condition. (95% of the population) 
+ 
+Of the 5,000 who have the condition: 
+4,000 will test positive. 
+(80% of those with the condition) 
+1,000 will test negative. 
+(20% false negatives) 
+ 
+Of the 95,000 who have the condition: 
+9,500 will test positive. 
+(10% false positives) 
+85,500 will test negative. 
+(90% of those without the condition) 
+ 
+Now our question was: given that a person has tested positive, how likely are they to have the 
+condition? Out of our 100,000 tested individuals, a total of 13,500 tested positive. Of those, only 
+4,000 actually have the condition. 
+ 
+|= 4,000/13,500  
+| ≈ 29.6% 
+ 
+Additionally, we can see that by increasing the accuracy of the test, either by making it more 
+accurate in identifying the condition in those who have it, or in producing fewer false positive 
+identifications of the condition in those who do not, we can increase the conditional probability 
+that someone who tests positive has the condition. Note that this does not increase the chance 
+that somebody actually has the condition - we would not want to increase that! - but rather 
+decreases the number of people who incorrectly test positive, and potentially have to incur the 
+stress of incorrectly believing they have a condition. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         40 
+ 
+Suppose that we increase the effectiveness of the test to always identify those who have the 
+condition, while the false positive rate remains the same. Then, using Bayes' theorem: 
+ 
+| =
+|
+| + 
+
+
+ 
+ 
+| =
+1(0.05)
+1(0.05) + 0.1(0.95) 
+ 
+| ≈  34.5% 
+ 
+Likewise, if we hold the 80% identification rate constant and drop the rate of false positives from 
+10% to 6%, we obtain: 
+ 
+| =
+0.8(0.05)
+0.8(0.05) + 0.06(0.95) 
+ 
+| ≈  41.2% 
+ 
+The key to the application of Bayes' theorem is the existence of a prior probability and obtaining 
+new information. In the above example, we began with a prior probability that our patient had 
+the condition of 5%. After the screening, the positive result was new information that allowed us 
+to revise the probability for the patient - in this case upward. This process is called Bayesian 
+inference and is critical to successful poker play. 
+ 
+There are countless ways in which Bayesian inference can be used; in fact, many players employ 
+this process unconsciously all the time. Consider a situation in a tournament when a player is at a 
+table that breaks very early on. He is moved to a new table where the player on his right has 
+already amassed a stack seven times as large as the starting stacks, while most of the other 
+players in the tournament are still near their starting stacks. Most players would conclude that 
+two scenarios are likely: the player with the huge stack is either an extremely loose and 
+aggressive player or he happens to simply be an ordinary player who got extremely lucky. The 
+natural inclination to believe that he is more likely to be loose and aggressive than very lucky is 
+a direct consequence of Bayes' theorem, whether the player from the broken table is aware of this 
+concept or not. 
+ 
+We can quantify this effect using the formal version of Bayes' theorem, and this can lead us to 
+making stronger plays even without solid information. Consider the following common situation: 
+ 
+A new player sits down in the game. Using all the observational information available to us, 
+which might include stereotyping the player's ethnicity, gender, manner, wardrobe, personal 
+appearance, and so on, we conclude that he is 10% likely to be a "maniac" who will raise 80% of 
+his hands from the cutoff and 90% likely to be a tight player who will raise 10% of his hands 
+from that seat. On the first hand he plays, he raises from the cutoff. (Assume there is no posting.) 
+Now what is the probability- that he is a maniac? 
+ 
+We can use Bayes' theorem to solve this problem, but we invite you to estimate this probability 
+before continuing. We believe that testing intuition is one of the best ways to refine our ability to 
+estimate accurately, a skill chat is invaluable not only in poker but in life. 
+ 
+A = The opponent will raise the first hand he plays from the cutoff. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         41 
+ 
+B= The opponent is a maniac. 
+ 
+|  = 0.8  
+ 
+(if the player is a maniac, he will raise 80% of the time) 
+
+ = 0.1  
+ 
+(if the player is not a maniac, he will raise 10% of the time) 
+p(B) = 0.1 
+ 
+ 
+(10% of the time, he is a maniac a priori) 
+p()= 0.9 
+ 
+ 
+(90% of the time, he is not a maniac a priori) 
+ 
+Applying Bayer’s theorem again: 
+ 
+| =
+|
+| + 
+
+
+ 
+ 
+| =
+0.8(0.1)
+0.8(0.1) + 0.1(0.9) 
+ 
+| ≈  47.1% 
+ 
+So simply by observing this player raising the first hand, we can adjust the probability of this 
+slayer being a maniac from just 10% to 47% immediately. If the player raises the first two hands 
+(assuming the same inference for the seat next to the cutoff], this probability moves to nearly 
+87%! Of course, these probabilities are subject to the accuracy of our original assumptions - in 
+reality, there are not just two types of players, and our probability estimates are probably not so 
+crisp about what type of player he is. 
+ 
+One tendency among players is to delay characterizing and adjusting to a player's play until 
+gaining a little more information, by observing some hands or the like. But this view is overly 
+passive in our view; maximizing EV means taking advantage of all the information we have at 
+our disposal and not necessarily waiting for confirmation that the information is reliable before 
+trying to take advantage of it. The error that these players are making is that they- do not realize 
+the power of the information they have gained. It is worth noting that many players, even players 
+who do not play well often make this adjustment, or a similar one, intuitively. But beware! This 
+adjustment is open to exploitation by players who will sit down in a game and play very 
+differently from their usual style in an attempt to induce significant adjustments by players in the 
+game. 
+ 
+Strong players use Bayes' theorem constantly as new information appears to continually refine 
+their probability assessments; the process of Bayesian inference is at the heart of reading hands 
+and exploitive play, as we shall see in Part II. But even away from the table, Bayes' theorem can 
+allow us to make more informed conclusions about data. To see an example of this, we return to 
+the topic of win rates. 
+ 
+Estimating Parameters: Bayesian Statistics 
+Recall earlier in this chapter we discussed a player who had played a total of 16,900 hands of 
+limit poker with the following observed statistics:  
+Win rate of  = 1.15 BB/100 hands  
+Standard deviation of s = 2.1 BB/hand. 
+ 
+We were concerned with some of the statements that we could make about his "true" win rate 
+based on these observations. Using methods from classical statistics, we found that his maximum 
+likelihood estimator for win rate was 1.15 BB/100 hands and his 95% confidence interval was [-
+2.07 BB/100, 4.37 BB/100]. These statements relied on an assumption that we had no additional 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         42 
+ 
+information about the distribution of this player's win rates. 
+ 
+However, suppose that we guess at a distribution of win rates and try to apply Bayes' theorem to 
+the distribution of win rates and this player's results in order to produce a more accurate estimate. 
+To do this, we must first hypothesize an overall distribution of win rates for this player. Let's 
+assume that he is pulled randomly from the population of regular poker players. What is the 
+shape of this distribution, which is called a prior probability distribution? 
+ 
+It's pretty unclear at a glance what this distribution looks like - after all, we do not have access to 
+the results and records of the broad population. But we can simplify and estimate, hoping that 
+our distribution of win rates will be close enough to the truth that we can gain from incorporating 
+it into our estimates. Assuming that our player plays some mixture of lower mid-limit games 
+such as $10-$20 to $30- $60, we can estimate the total rake paid by the game as about $3-$4 per 
+hand, or perhaps 0.1 BB/h. Dividing this amongst all the players approximately equally, we 
+obtain a net rake effect on everyone's win rate of about 0.01 BB/h, or 1 BB/100. 
+ 
+The mean of the distribution of all players' win rates, then, is equal to this value, as this is the net 
+flow of money out of the game. Suppose that we have a roughly normal distribution of win rates, 
+let's just estimate a standard deviation (of win rates) of about 0.015 BB/h. This would lead to a 
+population where 68% of players have a rate between -2.5 BB/100 and +0.5 BB/100 and where 
+95% of players would have a rate between -4 bb/100 and +2 BB/100. This might square with 
+your intuition - if not, these numbers can be tweaked to reflect different assumptions without 
+changing the underlying process. 
+ 
+To simplify the computation, instead of using the continuous normal distribution, we will create 
+a discrete distribution that roughly mirrors our assumptions. We assume that the underlying 
+distribution of all poker players is as follows: 
+ 
+Win Rate 
+% of players with this 
+win rate 
+-5 BB/100 
+0.25% 
+-4 BB/100 
+2% 
+-3 BB/100 
+8% 
+-2 BB/100 
+20% 
+-1 BB/100 
+39.5% 
+0 BB/100 
+20% 
++1 BB/100 
+8% 
++2 BB/100 
+2% 
++3 BB/100 
+0.25% 
+ 
+Now that we have an a priori distribution of win rates, we can apply Bayes' theorem to this 
+problem. For each win rate, we calculate: 
+A = the chance of a win rate of 1.15 being observed. 
+B = the chance that this particular win rate is the true one (a priori). 
+ 
+We cannot directly find the probability of a particular win rate being observed (because the 
+normal is a continuous distribution). We will instead substitute the probability of a win rate 
+between 1.14 and 1.16 being observed as a proxy for this value. Recall that the standard 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         43 
+ 
+deviation of a sample of this size was 1.61 bets. 
+ is calculated by simply calculating the 
+weighted mean of | excluding the current row. From a probability chart: 
+ 
+Win Rate 
+p() 
+| 
+
+ 
+p(B) 
+- 5 BB/100 
+0.25% 
+0.000004 
+0.00222555 
+99.75% 
+- 4 BB/100 
+2% 
+0.000031 
+0.00226468 
+98% 
+- 3 BB/100 
+8% 
+0.000182 
+0.00239720 
+92% 
+- 2 BB/100 
+20% 
+0.000738 
+0.00259053 
+80% 
+- 1 BB/100 
+39.5% 
+0.002037 
+0.00233943 
+60.5% 
+ 0 BB/100 
+20% 
+0.003834 
+0.00181659 
+80% 
+- 1 BB/100 
+8% 
+0.004918 
+0.00198539 
+92% 
+- 2 BB/100 
+2% 
+0.004301 
+0.00217753 
+98% 
+- 3 BB/100 
+0.25% 
+0.002564 
+0.00221914 
+99.75% 
+ 
+Applying Bayes' theorem to each of these rows: 
+ 
+| =
+|
+| + 
+
+
+ 
+ 
+Win Rate 
+| 
+- 5 BB/100 
+0.00% 
+- 4 BB/100 
+0.03% 
+- 3 BB/100 
+0.66% 
+- 2 BB/100 
+6.65% 
+- 1 BB/100 
+36.25% 
+ 0 BB/100 
+34.54% 
+- 1 BB/100 
+17.72% 
+- 2 BB/100 
+3.87% 
+- 3 BB/100 
+0.29% 
+Total 
+100% 
+ 
+When we looked at the classical approach, we were able to generate a maximum likelihood 
+estimator. In the same way, we can identify -1 BB/100 as the maximum likelihood estimate 
+given these assumptions. Of course, these assumptions aren't really the truth - possible win rates 
+for players are close to continuous. Nevertheless, if we used a continuous distribution and did the 
+more complex math that arises, we would find a distribution similar to this one. And the key 
+implication of this approach is that because of the relative scarcity of winning players, our 
+hypothetical hero is nearly as likely to be a losing player who has gotten lucky as he is to have a 
+positive win rate. 
+ 
+We could see this even more starkly if we considered a player with a much higher observed win 
+rate, perhaps 5 BB/l00h. The classical approach would still assign a maximum likelihood 
+estimate of 5 BB/l00h, because it considers all win rates to be equally likely (because in the 
+classical method we have no additional information about the distribution of win rates). 
+However, recalculating the above analysis with an observed win rate of 5 BB. we find: 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         44 
+ 
+Win Rate 
+| 
+- 5 BB/100 
+0.00% 
+- 4 BB/100 
+0.00% 
+- 3 BB/100 
+0.00% 
+- 2 BB/100 
+0.16% 
+- 1 BB/100 
+3.79% 
+0 BB/100 
+15.78% 
+- 1 BB/100 
+35.40% 
+- 2 BB/100 
+33.84% 
+- 3 BB/100 
+11.03% 
+Total 
+100% 
+ 
+We can see that here, our player is a heavy favorite to be a winning player, and a substantial one 
+at that. However, as win rates of 5 BB/100 hands are absent from the population, Bayes' theorem 
+properly adjusts his win rate to the more likely levels of the top 10% of all players. 
+ 
+Gathering more data should naturally cause these Bayesian estimates to converge on the 
+observed win rates - the more consistently a player has demonstrated his ability to win at a 
+particular rate, the more likely that that is his true rate. And if we recalculate the above 
+considering a sample of 100,000 hands, we obtain: 
+ 
+Win Rate 
+| 
+- 5 BB/100 
+0.00% 
+- 4 BB/100 
+0.00% 
+- 3 BB/100 
+0.00% 
+- 2 BB/100 
+0.00% 
+- 1 BB/100 
+1.57% 
+0 BB/100 
+33.42% 
+- 1 BB/100 
+58.37% 
+- 2 BB/100 
+6.60% 
+- 3 BB/100 
+0.04% 
+Total 
+100% 
+ 
+By this sample size, we are much more confident that the observations match the reality, even 
+though in the underlying distribution, only ten percent of players win at least 1 BB/100. 
+ 
+It is worth noting that there is somewhat of a schism between classical statisticians (sometimes 
+called frequentists) and Bayesian statisticians. This disagreement centers (roughly) on the 
+Bayesian idea that population parameters should be thought of as probability distributions. 
+Bayesians estimate a prior distribution, observe a sample, and then adjust their prior distribution 
+in light of the new evidence. Frequentists reject this approach, preferring to characterize 
+population parameters as fixed, unchanging values, even if we cannot know their value. We are 
+strongly oriented toward the Bayesian point of view because of its usefulness in poker analysis. 
+ 
+The method we have used here is not even a full-fledged Bayesian technique, but merely a 
+simplification of techniques of Bayesian analysis intended to make the idea accessible. For more 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         45 
+ 
+detail on this and on the divide between practitioners of Bayesian techniques and classical 
+statisticians, we suggest that you consult advanced statistics texts, particularly those that have 
+thorough treatments of point estimation and Bayesian methods. 
+ 
+One topic that emerges from this analysis is the idea of regression to the mean. Suppose you 
+take an observation - perhaps of win rates over a sample that is of a small size. The idea here is 
+that observed win rates above the mean will tend be lower if you repeat the observation in the 
+future, and observed win rates below the mean will tend to perform better in the future. This is 
+not because of any kind of statistical "evening out" where outlying trials from the past are offset 
+by outlying trials (in the other direction) in the future - these events are independent. The 
+principle that is at work here is that if you have outperformed the mean of the entire population, 
+it is somewhat more likely that you have outperformed your expectation as well, while if you 
+have underperformed it, you have likely underperformed your own expectation also. As a result, 
+you will tend (sometimes very slightly) to regress a little toward the mean of all players - that is, 
+the best prediction we can make contains a small amount of the overall mean mixed with 
+observed results. We can see this at work in the Bayesian analysis of our hypothetical player - 
+after 16,900 hands, his adjusted win rate prediction was still very heavily influenced by the 
+population distribution, which dragged his win rate down toward the population mean of -1 
+BB/100. 
+ 
+Key Concepts 
+• When estimating population parameters from observed data, we can use one of two 
+methods: the frequentist or classical method, or a Bayesian method. 
+• The classical method assumes that we have no information about the underlying 
+distribution. This gives rise to a maximum likelihood estimate equal to the sample mean, 
+and a confidence interval that includes all values for which the observed result is inside 
+the significance level. 
+• Bayes' rule gives us a robust methodology for incorporating new information into prior 
+probability estimates. 
+• Using a prior probability distribution and applying Bayes' theorem can yield better 
+(Bayesian) estimators of population parameters when we have accurate information about 
+the prior distribution. 
+ 
+ 

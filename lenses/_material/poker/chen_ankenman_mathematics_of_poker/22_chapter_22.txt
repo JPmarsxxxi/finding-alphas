@@ -1,0 +1,958 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         274 
+ 
+Chapter 22 
+Staying in Action: Risk of Ruin 
+ 
+Throughout this book, we have focused almost exclusively on expectation as a guide to proper 
+play. Our assumption, stated at the outset, was that all players were adequately bankrolled for the 
+games and that their only concern was to maximize EV. For this chapter, however, we suspend 
+this assumption and consider instead the important question, "What does it mean to be 
+adequately bankrolled for a game?" 
+ 
+Of course, there is no one single answer to this question; all players have different tolerances for 
+risk. For some people, the risk of losing their entire poker bankroll is unacceptable: for others, 
+playing poker may be just like a startup business, where a relatively high chance of failing is 
+acceptable in pursuit of profit maximization. We can, however, apply quantitative methods to the 
+problem by making assumptions, figuring out the implications of those assumptions, and 
+building a model. One model that we use frequently in assessing bankroll requirements is called 
+the Risk of Ruin (RoR) model. 
+ 
+A substantial part of the following was originally worked out by Bill Chen and Tom Weideman 
+on rec.gambling.poker. 
+ 
+This model assumes the following: 
+ 
+• We repeatedly play a fixed game with a fixed distribution of outcomes X, 
+• Each trial is independent and randomly selected from X.  
+• We have a starting bankroll b. 
+• The bankroll b is modified by the outcome of each trial. 
+ 
+We play the game indefinitely, or until the bankroll is reduced to zero. 
+ 
+For the assumptions outlined above, there are always only two possible outcomes for an infinite 
+number of trials. The first possibility is that the bankroll grows without bound; that is, we win 
+more and more and our long-term win rate approaches our win rate in the game. The second is 
+that we lose the entire bankroll at some point. The value we are interested in obtaining is the 
+probability that the starting bankroll will be lost under these conditions. We call this function the 
+risk of ruin function, RX(b). We often shorten this to R(b) when dealing with a single game and 
+its corresponding distribution. 
+ 
+This function has certain properties that will allow us to describe its behavior and eventually find 
+its value for a particular game. 
+ 
+Property 1. 
+If there is no probability of a negative outcome, then R(b)=0 for all b. 
+ 
+If we never have a negative outcome as a result of playing the game, then there is no chance of 
+losing the entire bankroll. 
+ 
+Property 2. 
+If the game has negative expectation, then R(b) = 1 for all b. 
+ 
+This property is a result of the fact that the game will be played indefinitely. If the game has 
+negative expectation, then the expected amount lost will grow without bound as the number of 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         275 
+ 
+trials goes to infinity. Contrast this with the situation where expectation is positive. Here the 
+amount won will grow without bound except in the case where we lose the entire bankroll first. 
+ 
+Property 3. 
+If a game has any possible negative outcomes in X, then R(b) > 0 for all b. 
+ 
+This property is easily justified as follows. Let's say that the probability of a certain negative 
+outcome XL is p, and the value of that negative outcome is v. If we have a bankroll B, then we 
+can lose the entire bankroll immediately by having the outcome XL occur B/v times in a row. 
+This probability is simply pB/v. This probability might be incredibly small, but as long as there 
+exist any possible negative outcomes, R(b) > 0. 
+ 
+Property 4. 
+If a game has positive expectation and bounded negative outcomes, R(b) < 1 for all b. 
+ 
+Suppose X has positive expectation. Then let Xn be a sequence of independent trials. Define the 
+cumulative result: 
+ 
+8 = ∑
+
+
+
+ then we know that with probability 1: < X >= lim→
+
+ > 0 
+ 
+Suppose that R(b)=1. Then also with (ruin) probability 1, we know that there will be a 
+cumulative result that is negative for some Cn. Furthermore for each Cn we know there will be an 
+m>n such that Cm<Cn.   This means we have a subsequence:  
+ 
+0> Cn1> Cn2> Cn3>... 
+ 
+This contradicts the original assumption that X has positive expectation.  
+ 
+Property 5. 
+The risk of ruin function for the sum of two bankrolls is equal to the product of the individual 
+risk of ruin values for each bankroll. 
+ 
+R(a + b) = R(a)R(b)   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(22.1) 
+ 
+This property forms the basis for the derivation of the RoR function. If we have a bankroll of 
+$500, and some risk of ruin given that size bankroll, what is the chance that we go broke with 
+$1000? After we have lost the first $500, which occurs with some specified probability, we now 
+have another $500 bankroll with which to play. Since losing the bankrolls are independent 
+events, the joint probability of losing two $500 bankrolls (equivalent to losing one $1000 
+bankroll) is simply the probability of losing a $500 bankroll squared. 
+ 
+There are some definitional issues with this statement; for example, say we have a game that 
+consists of a $100 wager, but we only have $50. In this sense, we have been "ruined" already. 
+However, we take the position that from an RoR standpoint, since we can put two $50 bankrolls 
+together to form a $100 bankroll to play the game, $50 has a lower risk of ruin than $0 for this 
+game. When we consider poker games, this distinction effectively never comes up, so we simply 
+neglect it. 
+ 
+Example 22.1 
+Let us look at a simple example. Suppose we play the following game. We roll a die, and if the 
+the comes up 1 or 2 we lose $100. If the die comes up 3-6, we win $100. This is a great game! 
+We win more than $33 per toss. But suppose we only have $100. What is our chance of 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         276 
+ 
+eventually losing this $100 if we play the game indefinitely? Using the properties above, we can 
+actually solve this problem. 
+ 
+On the first roll, we have a 1 3
+  chance of going broke, and a 2 3
+  chance of growing our bankroll to 
+$200. Suppose we call $100 "one unit." Then the risk of ruin of a bankroll of $100 is R(l), and 
+the risk of ruin of a bankroll of $200 is R(2). 
+ 
+R(1) = 1 3
+  + 2 3
+  R(2) 
+ 
+We know From Property 5 above that R(a + b) = R(a) + R(b), so: 
+ 
+R(2) = R(1)R(1) 
+ 
+Substituting and solving: 
+ 
+R(1) = 1 3
+  + 2 3
+  R(1)2 
+2R2 - 3R + 1 = 0 
+(2R - 1)(R- 1) = 0 
+ 
+This gives us two possible risk of ruin values, 1 2
+  and 1. We know that this game has positive 
+expectation and therefore by Property 4 above, the risk of ruin must be less than one. Hence, 
+R(1) for this game is 1 2
+ . 
+ 
+The reader can actually verify this by trials. Roll dice and play the game until either losing the 
+initial $100 stake or winning $1000. If you repeat this process enough times, the results will 
+converge on 1 2
+ , 
+ 
+Remming to Equation 22.1: 
+ 
+R(a+ b)=R(a)R(b) 
+ 
+We can do some algebraic manipulation which will help us to expose an important property 
+of R(x). 
+ 
+First, we take the natural logarithm of each side: 
+ 
+ln R(a + b) = ln R(a) + ln R(b)  
+ 
+If we make up a function f(x) = ln R(x), then we have: 
+ 
+f(a + b) = f(a) + f(b) 
+ 
+This relationship shows that f is linear. We can see, for example: 
+ 
+f (1+1) = f (1) + f (1) 
+f (2) = 2 f (1) 
+f (2+1) = f (2) + f (1) 
+f (3) = 3f (1) 
+ 
+f (n) = nf (1) 
+ 
+...and so on. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         277 
+ 
+So f (x) has the form f (x) = -αx, where α is a constant. (This is not to be confused with the α of 
+Equation 11.1, the ratio of bluffs to value bets.) The risk of rum for every game has this form, 
+and we call α the risk of ruin constant. This causes α to be positive, α is actually equal to the 
+natural logarithm of the risk of ruin of a bankroll of 1 unit. Because we know that R(x) is 
+between 0 and 1 for all x, we add the negative sign by convention, as ln x is negative for x 
+between 0 and 1. 
+ 
+a = ln (R(l)) 
+ 
+α is a constant that tells us how much one unit of bankroll is worth in terms of risk of ruin. 
+Suppose that we have one unit of bankroll. Then our risk of ruin is e-α. (e is a common 
+mathematical constant - approximately 2.71 - that appears frequently throughout Part TV). We 
+use the notation exp(x) and ex interchangeably for ease of reading. Suppose that we have two 
+units of bankroll. Then our risk of ruin is e-α times e-α, or e-2α. And our risk of ruin for N units of 
+bankroll is just e-Nα. 
+ 
+So we have: 
+ 
+In R(x) = -αx  
+R(x) = e-αx 
+ 
+So the form of the risk of ruin function is an exponential depending on the bankroll and some 
+constant that is a function of the structure of the distribution of outcomes of the game. 
+ 
+Let's reconsider the example we had. Based on what we showed previously, we know that the 
+risk of ruin for the 1 unit bankroll is 1 2
+ . The game where the bankroll is $100 and the outcomes 
+are +$100 and $100 is equivalent to the game where the bankroll is 1 unit and the outcomes are 
++1 units and -1 units. 
+ 
+R(b) = e-αb 
+R(1) = 1 2
+  
+1 2
+  = e-α 
+-α = ln 1 2
+  
+α = ln 2 
+ 
+There is one more important property of the risk of ruin function.  
+ 
+Property 6. 
+For one play, R(B) = <R(B + x)>, where x is a random variable selected from the outcome 
+distribution X. 
+ 
+This property states that the risk of ruin for a bankroll B is the expected value of the risk of ruin 
+of the bankroll after one additional trial. This is because the risk of ruin model assumes that you 
+will play the game indefinitely, one dial at a time. So if you have a bankroll B with a risk of ruin 
+R(B) right now, and you play the game once, R(B) is the weighted average of your possible 
+bankrolls after this trial. This may be a little confusing, but an example should help to show its 
+simplicity. 
+ 
+Example 22.2 
+In our example game, we have the following outcomes: 
+ 
++1, probability 2 3
+  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         278 
+ 
+-1, probability 1 3
+ . 
+ 
+What this property says is that for any bankroll, 
+ 
+R(B) = <R(B + x)> 
+R(B) = 1 3 
+ R(B – l) + 2 3
+ R(B +1) 
+ 
+This relationship describes the relationship between risk of rain and the expected outcomes of 
+the game. After one trial, there is some number of discrete possible bankrolls, each 
+corresponding to a particular outcome of the game. The expected value of the risk of ruin of each 
+of those bankrolls must equal the current risk of ruin. This game is repeated an infinite number 
+of times.  
+ 
+Using this, we have: 
+ 
+R(B) = <R(B + x)> 
+e-αB = < e-αB e-αx > 
+ 
+On the right side, e-αB is a constant, so we can pull that outside of the expectation brackets: 
+ 
+e-αB =  e-αB< e-αx > 
+ 
+1 = < e-αx > 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ (22.2) 
+ 
+We can use this important relationship to find the risk of ruin constant for simple risk of rain 
+problems directly, such as the example we have been working on: 
+ 
+1 3 
+ eα + 2 3 
+	 e-α = 1 
+eα + 2e-α = 3 
+1 + 2e-2α = 3e-α 
+ 
+Letting x = e-α 
+ 
+1 + 2x2 = 3x 
+2x2 – 3x + 1 = 0 
+(2x - 1)(x - 1) = 0 
+x = 1 2 
+   or x = 1 
+ 
+e-α = 1 2 
+  or e-α = 1 
+ 
+When we solve equation 22.2 for any game, one of the solutions is always α = 0. For games with 
+EV < 0, this is the correct solution to use, as R(b) = 1 for these games. However, for games with 
+EV > 0, the answer is the second root, in this case α = ln 2. Again, this matches our previous 
+solutions. 
+ 
+We should take some time here to review what we've done so far. First, we created a set of 
+assumptions about a function called the risk of ruin function, which we called R(b). Then we 
+enumerated some properties of this function, including the extremely important property R(a 
++b)= R(a)R(b). From this and the other properties of the function, we were able to derive a more 
+direct formula for the risk of ruin of any game, R(b) = e-αb, where α is a constant that is a 
+property of the game being studied. However, at this point, we had no reasonable way to find α 
+other than solving for R(l) directly. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         279 
+ 
+Next, we stated an additional property of the function R(b), which explained the relationship of 
+the R(b) to the expected value of risk of ruin after a single trial. Using this relationship, we were 
+able to cancel out the bankroll-dependent portion of the risk of ruin function and show that we 
+can find the value of a directly from the parameters of the game, without solving any risk of 
+ruin for any particular case. This makes an entire class of problems tractable that would have 
+been difficult under other circumstances. We continue by observing some things about the value 
+of α. 
+ 
+We can make some interesting observations about the behavior of the function <e-αx>, which we 
+will call g(a) for now. 
+ 
+First, we know that g(0) = 1. 
+ 
+Second, we can take the partial derivative of g with respect to α to obtain: 
+ 
+g'(a) = < -x e-αx >. g(0) then = < -x >, Since we know that the game has positive expectation, 
+g'(0) is always negative. So at 0, g is 1 with a downward slope. 
+ 
+Third, we can find g"(α) = < -x2e-αx >. This value is always positive. 
+ 
+Fourth, we can see that if there are any negative outcomes in X, then g(x) goes to infinity as α 
+goes to infinity, because all terms with positive outcomes go to zero while those with negative 
+terms increase without bound. 
+Taking all these findings together, the graph of g must begin at 1, slope downward but with 
+upward concavity, and eventually Increase without bound as a goes to infinity. Therefore a 
+solution to Equation 22.2 exists where a > 0, and that solution is unique. This obviates a 
+potential difficulty that could arrive if we had several different a values that all satisfied 
+Equation 22.2. Once we find a non-zero value of a, we know that it is the correct value to use. 
+Figure 22.1. A sample of g(x) for a game with positive EV. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         280 
+ 
+This suggests, then, a method for solving any risk of ruin problem where the distribution of 
+outcomes is known, which is to solve Equation 22.2 for the expected distribution of outcomes. 
+We consider a more complex and real-world example next. 
+ 
+Example 22.3 
+Consider the case of a player on a limited bankroll. He is fairly risk-averse, as he has neither 
+another means of support nor any way to raise an additional bankroll. He has decided that 
+$200+15 sit-and-go tournaments are the best mixture of return and variance reduction for him. 
+These tournaments pay out the following: 
+ 
+1st place: $1000  
+2nd place: $600  
+3rd place: $400 
+ 
+His expected finishes in the tournaments are as follows: 
+ 
+Finish 
+Probability 
+Net 
+1st 
+0.12 
+$785 
+2nd 
+0.13 
+$385 
+3rd 
+0.13 
+$185 
+4th-10th 
+0.62 
+-$215 
+Total 
+1 
+EV = $35/tournament 
+ 
+What is his risk of ruin for various bankroll sizes? 
+ 
+The method to use here is to set up Equation 22.1 for this player's outcome distribution. 
+ 
+0.12e-a(785) + 0.13e-a(385) + 0.13e-a(185) + 0.62e-a(215) = 1 
+ 
+Now this equation is not easily solvable by hand; however, there are many tools, such as 
+Microsoft Excel, that include "solver" utilities that can solve such problems by converging on a 
+solution. By putting the above equation into one of these, we have: 
+ 
+a ≈ 0.000632 
+R(b) = exp(-0.000632b). 
+ 
+Looking at the results of this for some different possible bankroll sizes: 
+ 
+Bankroll Size 
+Risk of Ruin 
+500 
+72.9% 
+1000 
+53.2% 
+2000 
+28.3% 
+3000 
+15.0% 
+4000 
+8.0% 
+5000 
+4.3% 
+7500 
+0.9% 
+10000 
+0.2% 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         281 
+ 
+A Word of Caution 
+Before we proceed any further, let us make particular note of an important assumption that 
+underlies risk of ruin. This assumption is that the player will put all the money won in the game 
+back into the bankroll and let it grow without bound. When we look at risk of ruin values as 
+percentages, the temptation is to view these values as an ongoing and permanent chance that we 
+will go broke given a certain bankroll that generates motley that we skim off the top. We cannot 
+be too clear about this misconception. 
+ 
+The risk of ruin of a bankroll that is maintained at a particular level and from which all the 
+profit above that level is taken out of the bankroll is 1, or a 100% chance. 
+ 
+If any money is taken out of the bankroll even if it is from profit, then the risk of ruin of that 
+bankroll will naturally increase. Risk of ruin takes into account that some of the paths include 
+making enough money initially to sustain a long losing streak in the future. There are many 
+reasonable strategies for extracting money from a bankroll in a manner that allows us to 
+rationally consider risk, but all of them increase the risk of ruin. 
+ 
+Half-Bankrolls 
+Those readers familiar with the sciences will recognize the structure of the risk of ruin function 
+as being similar to that of other functions, such as radioactive decay. A radioactive substance 
+contains (usually) certain isotopes of an element that are unstable. The unstable isotopes decay in 
+a random way over a period of time, called the half-life. During this amount of time, the random 
+decay process causes half of the radioactive matter inside a sample to decay. However, after two 
+half-fives, the sample is not completely decayed. Instead, during the second period, half of the 
+remaining sample decays, leaving 1 4
+  of the original, and so on. The sample never truly decays 
+completely, but simply approaches zero over a large number of half-lives. 
+ 
+We have analogized the process of risk of ruin to this; both are exponential functions and behave 
+in similar ways. A half-bankroll is the amount of bankroll required such that the risk of ruin of 
+the bankroll is exactly one-half. Then in the same way, the RoR of two half-bankrolls is 1 4
+  of 
+three half-bankrolls is 1 8
+ , and so on. 
+To find a formula for generating half-bankrolls, we simply solve the RoR equation such that the 
+RoR is 1 2
+ : 
+ 
+e-ab = 1 2
+  
+-ab = -ln2 
+b = (ln2)/a 
+ 
+So the size of a half-bankroll is (ln 2)/a. We can approximate the half-bankroll for the sit-and-go 
+tournament situation described earlier; recall that ln 2 is about 0.693 and a was about 0.00632. 
+So the size of a half-bankroll is approximately $1100. Looking at the table of risk of ruin values 
+above, we see that if we interpolate the risk of ruin for $1100, $2200. $3300, etc, we see that 
+they follow the geometric pattern of 0.5b, which we expect. 
+ 
+Half-bankrolls are simply a special case of the more general risk of ruin formula, and can be of 
+some use for approximating bankrolls required for various levels of risk of ruin. We often use 
+these as a shorthand for the more complex risk of ruin formula as they can easily be compared 
+across different games. Once we have solved for any particular risk of ruin, we can easily find 
+the half-bankroll and then put together multiples of the half-bankroll for any desired risk of ruin. 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         282 
+ 
+Risk of Ruin for Normally Distributed Outcomes 
+Next we consider the risk of ruin formula for a game in which the distribution X is normal, with 
+a mean µ and a standard deviation σ. 
+ 
+Calling v(x) the value function and p(x) the probability density function for that value function, 
+we have the following: 
+ 
+< 9() >= 6
+9()'
+
+
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(22.3) 
+ 
+This identity provides the basis for extending our basic risk of ruin formula to this case where the 
+distribution is normal. 
+ 
+The normal distribution is defined by its characteristic density function: 
+ 
+ = 
+1
+√2.
+ : −( −)
+2
+ 
+ 
+where µ is the mean of the distribution and σ its standard deviation. 
+ 
+We begin with equation 22.2: 
+ 
+<e-ax> = 1 
+ 
+Combining this with equation 22.3, we have:  
+ 
+%
+:' = 1
+
+
+ 
+ 
+1
+√2.
+%
+exp−αx : − −
+2
+ ' = 1
+
+
+ 
+ 
+1
+√2.
+%
+: −[ − + 2*]
+2
+ ' = 1
+
+
+ 
+ 
+ 
+Considering briefly only the exponent of e, we have: 
+ 
+− − + 2*
+2
+ 
+ 
+− −2 + 
++ 2*
+2
+ 
+ 
+− −2 + 2* + 
+2
+ 
+ 
+ 
+− −2( −*) + 
+2
+ 
+We can then complete the square of the numerator of this function to obtain: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         283 
+ 
+ 
+− −2 −* + ( −*) +  −( −*)
+2
+ 
+ 
+ 
+−[ − −*) +  − −*]
+2
+ 
+ 
+Substituting this back into our original equation: 
+ 
+1
+√2.
+%
+: −[ −( −*) +  −( −*)]
+2
+ ' = 1
+
+
+ 
+ 
+1
+√2.
+%
+: −[ − −*]
+2
+ : −[ −( −*)]
+2
+ ' = 1
+
+
+ 
+ 
+As the second exponential term of this equation contains no x variables, we can move it outside 
+the integral and we are left with: 
+ 
+: −[ −( −*)]
+2
+
+1
+√2.
+%
+: −[ − −*]
+2
+ ' = 1
+
+
+ 
+ 
+We also have the following: 
+ 
+1
+√2.
+%
+: −[ − −*]
+2
+ ' = 1
+
+
+ 
+ 
+This is true because this equation is the integral of the density function of a different normal 
+distribution, where the mean is  −* instead of simply µ. 
+ 
+So we are left with:  
+ 
+: −[ − −*]
+2
+ = 1 
+ 
+Taking the natural logarithm of both sides: 
+ 
+(− − −*)/2 = 0 
+ 
+(− − −*) = 0 
+ 
+ −*) =  
+ 
+± =  −* 
+ 
+0 = a OR 2µ/σ2 = a 
+ 
+So we again have our familiar two solutions for a. One is where a = 0, and the other (the critical 
+value for this case), is where a = 2µ/σ2. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         284 
+ 
+Substituting this back into our generic risk of ruin formula, we have: 
+ 
++; = : 5
+
+ 7  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(22.4) 
+ 
+This important result allows us to solve risk of rain problems for games with normal 
+distributions. However, poker results are not in and of themselves normally distributed; in order 
+to attempt to apply this risk of rain formula to poker, we must recognize the limitations of this 
+approach. Poker games are not precisely normal. In general, poker hand results are clustered 
+around particular outcomes, such as losing 1 small bet, losing 2 small bets, and so on. However, 
+we know that the Central Limit Theorem allows us to conclude that the distribution of samples 
+of sufficient size will converge on normal. The term "sufficient size" begs for clarification. Our 
+ability to use the risk of rain formula in the previous section is dependent upon the size of sample 
+that allows us to assume normality. 
+ 
+If we have a distribution (of any shape) X for a game and we have samples of a certain size such 
+that the samples are roughly normal, we can calculate the risk of ruin of a game using the 
+sampling distribution X'. This will provide an approximation of the risk of ruin of the game: 
+however, this risk of ruin is often biased because of the difference between the sampling 
+distribution and the underlying distribution. 
+ 
+One of the primary sources of bias here is skew. Skew is a cousin of variance. When we looked 
+at the variance of a distribution, we considered the distance of each outcome from the mean and 
+squared it. Tins resulted in positive numbers for each possible outcome, which were summed to 
+find the variance of the distribution. Skew instead sums the cubes of the distances, which causes 
+the values to have sign. Distributions where the weighted sum of the cubes of the distances is 
+positive arc called skew positive and those where the sum is negative are called skew negative. 
+When calculating skew, we also divide the sum of the cubed dinstances by the standard deviation 
+of the distribution cubed. 
+ 
+The normal distribution has zero skew; it is symmetrical around the mean. By contrast, 
+tournament distributions are highly skew positive. It is easy to see this by considering a 100- 
+player, winner-take-all tournament. A player of average ability in this tournament would win 99 
+buyins 1% of the time and lose 1 buyin the other 99%. The expectation of this tournament would 
+be zero, the variance would be 99 buyins2/tourney, and the skew of the tourney would be about 
++9.84. Skew effectively measures the tendency of the distribution to have outliers or larger 
+values to one side of the mean or another. 
+ 
+Distributions that have a lot of skew cause problems for the normal approximation method of 
+calculating risk of ruin. We can attempt to calculate the risk of ruin for this tournament in two 
+ways: first by using the normal approximation, and second by calculating a directly. Since risk of 
+ruin is only directly applicable to games with positive expectation, we will consider a flayer with 
+a full buyin overlay; that is, a player who wins 2% of the tournaments (as described above) that 
+he enters. 
+ 
+First, the normal approximation: 
+ 
+w = 1 buyin/tourney 
+σ = 14.036 buyins/tourney 
+R(b) = e-2b/197 
+ 
+For a convenient value of 100 buyins, we have a risk of ruin of about 36.2%. 
+Contrast this with the results we get from solving for a directly:  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         285 
+ 
+ 
+<e-ax > = 1 
+1 50
+
+ (e-99a) + 49 50
+
+ (ea) = 1 
+ 
+Solving this equation by numerical methods, we get a ≈ 0.01683.  
+ 
+Using this value in our RoR formula: 
+ 
+R(100) = e-1.683 = 18.6% 
+ 
+So by solving directly for the risk of ruin of the game, we obtain a much lower risk of ruin. This 
+is because the distribution of outcomes for a tournament has so much positive skew. It is possible 
+to win 99 buyins m a single tournament; however at most we can lose 1 buyin. The normal 
+approximation assumes that there will be a substantial number of larger negative outcomes, such 
+as -5 or -10 buyins. However, the fact that these outcomes do not exist causes the normally 
+distributed risk of ruin formula to overestimate the chance of initial ruin. 
+ 
+For this reason, we do not advocate the utilization of the normally distributed risk of ruin 
+formula for tournaments. This, admittedly, was an extreme example because of the winner-take-
+all format, but the bias for skew right distributions is significant and present even for more 
+graduated payout structures. 
+ 
+However, when we consider limit poker, we have a different situation. Here our initial 
+distribution, though it is still somewhat skew right, is not nearly as distorted by this skew as the 
+tournament example above. 
+ 
+As a starting point, we take the following distribution of hand outcomes, which, while 
+simplified, is not too far away from what we might find for a typical mildly successful player. 
+ 
+Result in small bets (SB) 
+Probability 
+Weighted contribution 
+0 
+70% 
+0 
+-1 
+4.07% 
+-0.0407 
+-2 
+8.14% 
+-0.1627 
+-4 
+4.41% 
+-0.1763 
+-6 
+2.03% 
+-0.1220 
+-8 
+1.01% 
+-0.0814 
+-12 
+0.34% 
+-0.0407 
++2 
+2.81% 
+0.0563 
++4 
+3.44% 
+0.1375 
++8 
+2.5% 
+0.2 
++16 
+0.94%                              
+0.15 
++32 
+0.31% 
+0.1 
+Total 
+100% 
+0.02 SB/hand 
+ 
+If the reader disagrees with this characterization of the shape of the distribution of hand 
+outcomes, the particular numbers chosen are not essential to the analysis that follows. 
+ 
+This distribution has a mean of 0.02 SB/hand and a variance of 10.80 SB2/hand. Using the 
+normal approximation for a bankroll of 300 small bets, we find the risk of ruin to be: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         286 
+ 
+ 
+e-(2)(300)(0.02)/10.80 = 32.89% 
+ 
+We can set up Equation 22.1 for this distribution as well. This equation is fairly complex; we 
+omit the details, although it is no different than our previous problems, only with more numerous 
+terms added together. 
+ 
+Solving this with numerical methods, we find a = 0.00378. The risk of ruin of a 300-unit 
+bankroll with this a value is: 
+ 
+e-300a = 32.17% 
+ 
+As you can see, these values are quite close; this property holds for most typical distributions of 
+hand results. The point of this is that even though the skew of these distributions does exist, it is 
+nowhere near as large as the skew of tournament outcomes (this remains the case even when we 
+have graduated payout structures, as we shall see in a moment). Distributions of hand results and 
+the normal distribution appear, in our experience, and from the data we've worked with, to be 
+close enough to justify using the normal distribution risk of ruin as an accurate approximation to 
+the full risk of ruin formula. 
+ 
+To review what we have covered so far. First we looked at tournaments. The primary 
+characteristic of interest with regard to tournament distributions is that they are significantly 
+skew right. When we apply the normal distribution risk of ruin function to tournament mean and 
+variance, we overstate the risk of ruin significantly. This occurs because we lack large negatives; 
+each tournament can only cost a single buyin total. Second, we considered limit ring games. 
+Here we found that the distribution was sufficiently normal that the normal distribution risk of 
+ruin formula was relatively accurate. So the characteristics of most importance in assessing risk 
+of ruin for limit ring games are mean and variance. 
+ 
+A third type of distribution is common and increasing in popularity. This is the no-limit ring 
+game distribution. Here we have large positives from hands where all the money goes in and we 
+win, but also large negatives from hands where we lose our entire stacks. As a result of this, we 
+find that the normal distribution risk of ruin again is a biased approximation. The characteristic 
+of most importance here is kurtosis, which is the tendency of the tails of the distribution to be 
+"fat," or the tendency of outcomes far from the mean to occur more often than the normal 
+distribution would indicate. Recall that, for example, events three standard deviations away from 
+the mean of the normal distribution occur only 0.3% of the time. However, in a game like no-
+limit, events several standard deviations away happen with a higher frequency. As it turns out, 
+this effect is fairly minimal in its effect on risk of ruin for most distributions. Consider the 
+following highly simplified distribution: 
+ 
+Result (in big blinds) 
+Probability 
+Weighted contribution 
+0 
+70% 
+0 
++1 
+15% 
+0.15 
+-1 
+13% 
+ -0.13 
++50 
+1.1% 
+0.55 
+-50 
+0.9% 
+-0,45 
+Total 
+100% 
+0.12 BB/hand 
+The point here is that we can compare the risk of ruin values computed directly and from the 
+normal distribution risk of ruin formula and see that the normal distribution understates the risk 
+of ruin. Suppose our bankroll for this game is 500 units. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         287 
+ 
+ 
+The mean of this distribution is 0.12 BB/hand, and the variance is 50.27 BB2/hand. 
+ 
+R(500) = e-2(0.12)(500)/50.27 = 9.19% 
+ 
+Solving Equation 22.1 for this distribution, we find that 
+ 
+a = 0.004789  
+ 
+The risk from this value is: 
+ 
+e-0.004789(500) = 9.12% 
+ 
+So in this particular distribution, the kurtosis has very little effect. In fact, the risk of ruin is 
+lower when calculated directly than by using the normal distribution. As a result of this and other 
+calculations, it seems that the normal distribution provides an approximation with tolerable error 
+that can be used in assessing risk of ruin in no-limit ring games as well. 
+ 
+However, it bears noting that no-limit ring game results can also be skew right in the same 
+manner as tournaments, particularly for players who play very rightly in big pots. If a player 
+loses many small pots but wins most of the big ones he enters due to playing style, the kurtosis 
+has minimal effect, but the skew will tend to cause the risk of ruin formula to overestimate the 
+chance of ruin. 
+ 
+We summarize the findings of this section: 
+ 
+Type of Game 
+Risk formula to use 
+Error of normal distribution 
+Limit ring games 
+Normal Distribution 
+Small 
+Tournaments 
+Direct Calculation 
+Large (using normal distribution results 
+is values that are too high) 
+No-limit ring games 
+Normal Distribution 
+Small 
+ 
+Key Concepts 
+• The risk of ruin model can give us valuable insights into our chance of going broke from 
+a particular bankroll level. This model assumes that we will play a single game with a 
+known distribution of outcomes either indefinitely or until we lose the starting stake. The 
+risk of ruin R(b) is the chance that we will go broke starting from a bankroll b. 
+• Risk of ruin is 100% for games with negative expectation. 
+• Equation 22.2 provides us a method of calculating risk of ruin for any game with a fixed 
+distribution of outcomes. 
+• Maintaining a bankroll at a given level will not provide insulation from risk of ruin; if we 
+have a bankroll N and we take all the money above N out of the bankroll on a regular 
+basis, our risk of ruin is 100%. 
+• Half-bankrolls are a useful shorthand for risk of ruin that can allow us to make off-the-
+cuff risk calculations by simply finding the number of half-bankrolls needed to assure a 
+particular risk level. 
+• For normally distributed outcomes, Equation 22.4 gives the risk of ruin for a particular 
+bankroll. 
+• For some distributions, such as tournaments, we cannot use the normal distribution 
+formula because the outcome distributions are too skew. Instead, we can solve directly 
+using Equation 22.2. 

@@ -1,0 +1,637 @@
+24
+
+Tactical return forecasting models
+
+• Systematic forecasting models may focus on (1) timing a
+single asset or an asset pair or (2) selecting a portfolio across a
+cross-section of assets.
+• Such models often use multiple indicators, such as value,
+carry, and momentum.
+• The trading horizon can vary from within-day to a year. A
+monthly or weekly trading frequency is common.
+• Numerous techniques have been applied to return
+forecasting. In out-of-sample evaluations, simple models often
+perform just as well as more complex ones.
+• Data mining and crowding problems are inevitable. They
+can be mitigated but not fully avoided.
+
+...
+24.1 INTRODUCTION
+
+Valuation indicators are effective in providing a long-horizon (multi-year)
+view on an asset’s prospects. In this chapter, I turn to dynamic trading
+strategies and forecasting models that have a shorter horizon (one week,
+month, or quarter). I first describe the generics—model types, assets traded,
+indicators—and then comment on possible improvements and pitfalls for
+the systematic trading style. I keep this chapter brief so as to retain some of
+my proprietary trade secrets, but Chapters 8 through 10 review several
+publicly known market-timing indicators for equities, duration, and credit,
+while 
+Chapters 
+12 
+through 
+15 
+review 
+four 
+popular 
+dynamic 
+trading
+strategies: equity value, foreign exchange carry, commodity momentum,
+and volatility selling.
+
+What types of models are used? Single-trade timing models and multi-
+asset selection models are the two main classes. Dynamic strategies may
+focus on (1) timing a single asset (say, market timing Treasury bonds) or a
+single asset pair (say, sector timing the yield spread between corporate
+credits and Treasuries) or (2) selecting a portfolio of assets from a broader
+universe. Leveraged investors often construct a long–short portfolio that
+may be superior to a long-only portfolio because the former hedges away
+some directional risks.
+
+Which assets are typically traded? Any liquid assets can be traded on a
+standalone basis (directionally) or on a relative value basis. Liquidity and
+low trading costs are more important the shorter the trading horizon.
+
+What kind of predictive indicators are used? Both timing models and
+selection models can use a multitude of indicators. The best known are
+related to value, carry, and momentum. I discuss various types of models.
+
+...
+24.2 WHAT TYPE OF MODEL?
+
+Timing models
+
+The simplest timing model is a binary trend-following model that goes long
+or short an asset based on its recent price trend. But there is no need to rely
+only on the price of the asset itself as an indicator, or for that matter on any
+single indicator. I illustrate these ideas with a bond market (duration) timing
+model. One possible single-indicator model is to go long one unit of
+Treasuries if equity markets have performed poorly in recent months but to
+sell short one unit if equity markets have been strong. (This model may be
+called “1/—1” in Treasury bond units held long/units held short. Another
+variant—the “1/0” trading model—might never sell Treasury bonds short
+but only invest in cash when faced with a bond-bearish signal.)
+
+Multiple indicators can be used, and each can be expressed as a simple
+binary (bullish/ bearish) signal, as above, or each can be scaled by current
+signal strength and/or perceived predictive ability.
+
+There are a number of ways to aggregate multiple indicators into a
+composite market-timing signal. The simplest approach involves averaging
+individual indicators using equally weighted binary signals. For example,
+Figure 24.1 shows the monthly signals and cumulative profits of a duration-
+timing model whose composite signal (and thus active Treasury position) is
+an average of three 1/—1 trading signals—bullish if equities have lost
+money in the past six months, if bond market momentum is positive, or if
+bond carry is positive. This particular duration-timing strategy achieved an
+SR of 0.66 and a hit rate of 60% (i.e., the correct sign in 60% of months).
+
+Figure 24.1. Signals and performance of a bond-market-timing strategy,
+1978–2009.
+
+Sources: Bloomberg, Citigroup, own calculations.
+A slightly smarter timing model is based on a straightforward linear
+regression approach. We can identify a set of predictive indicators with
+which we forecast the next period (say, next month) excess return of
+Treasuries over cash. Predicting excess returns makes sense because timing
+trades often involve a self-financed long or short position in an underlying
+asset or an equivalent derivatives position [1]. Mechanically, we just regress
+monthly excess Treasury returns on a set of indicators that are available at
+the beginning of the month—preferably using at least five years of monthly
+data. The fitted value in this regression is predicted excess Treasury return
+for next month. One approach is to size the position each month according
+to this fitted value. To evaluate the model’s past track record, we can study
+the correlation of these fitted values with actual monthly excess returns;
+alternatively, we can compute the hit rate (how often the model predicted
+the correct sign of next month market direction) or, most practically, the
+Sharpe ratio of a trading rule based on the model’s prescribed positions.
+
+We 
+can 
+strengthen 
+our 
+understanding 
+of 
+the 
+regression 
+model’s
+mechanics if we normalize all indicators before running the forecasting
+regression. (Normalizing or “Z-scoring” involves subtracting the sample
+mean from each series and then dividing by sample standard deviation.)
+Such a modified regression has the same fitted values as before but now the
+contribution of each predictor is in units that are quite intuitive. The
+regression coefficient (multiple regression beta) of each predictor now
+equals the partial correlation between the predictor and next month excess
+Treasury return—a pure statistical measure of predictive ability [2]. Thus,
+the contribution of each indicator to predicted excess bond return is a
+product of the “β” and “Z” terms (i.e., the indicator’s past predictive ability
+and 
+its 
+current 
+signal 
+strength). 
+Total 
+predicted 
+excess 
+return 
+can 
+be
+conveniently decomposed into the sum of these contributions plus the
+regression intercept. Table 24.1 shows a stylized example.
+
+In this modified regression, the intercept reflects the sample mean of
+excess bond return. If this sample mean appears too high and misleading for
+the future—arguably reflecting the strong bond rally that occurred in the
+past—we can easily constrain this mean to be a lower number and thus
+reduce “neutral” future excess return (the return forecast that would make
+us indifferent between bonds and cash). I emphasize that these convenient
+interpretations of the regression model are possible only after all predictive
+indicators 
+have 
+been 
+normalized. 
+One 
+interesting 
+extension 
+involves
+incorporating economic priors into the regression. If there is a strong case
+for, say, only a positive relation between an indicator (say, curve steepness)
+and future returns, one can constrain the relevant regression coefficient to
+be non-negative.
+
+More 
+complex 
+variants 
+of 
+a 
+market-timing 
+model 
+exist, 
+including
+nonlinear models and data-intensive learning models. Yet complexity does
+not necessarily enhance performance, and these two approaches—summing
+up binary signals and using a normalized regression model—are among the
+most popular in practice. It is worth contrasting how differently the two
+approaches use the same information set. The first approach only sums up
+the signs of various predictors; it thus ignores information about each
+indicator’s signal strength, predictive ability, and diversification ability
+which the regression model captures by incorporating signal strengths and
+partial correlations. However, the simplicity of the first approach can make
+it 
+more 
+robust, 
+not 
+an 
+insignificant 
+advantage. 
+Indeed, 
+in 
+real-world
+comparisons, 
+simple 
+approaches 
+are 
+often 
+competitive 
+with 
+any
+theoretically superior approaches.
+
+Table 24.1. A stylized example of a predictive regression where positive
+predicted excess bond return mainly reflects prevailing equity weakness,
+while rising bond yields give a bearish signal
+Cross-asset selection models
+
+Timing models can be extended to analyze pre-selected asset pairs or sector
+decisions. Typically, a correlated pair is identified and tracked over time;
+once excessive deviation from historical relations occurs, a mean-reverting
+long–short trade may be put on to benefit from expected normalization.
+Many fixed income arbitrage strategies and equity pairs trading strategies
+(the latter being original statistical arbitrage) were based on this idea, which
+was implemented using some simple spread analysis or more complex
+statistical models (e.g., co-integration and error correction) or mathematical
+models (such as term structure models). Again, it often makes sense to use
+multiple predictors, and this is commonly done when timing the relative
+performance of corporate vs. government debt or of growth stocks vs. value
+stocks.
+
+The above examples involve favoring one of two pre-selected assets. It is
+of course restrictive to pre-select just two candidate assets. More open asset
+selection models study a whole cross-section of assets—say, the largest
+1,000 stocks in the U.S. equity market, or the G10 currencies—and identify
+the most and least attractive assets in this universe based on some criteria
+[3].
+
+If we only use one criterion, we can just sort or rank all assets each
+period based on that criterion. Two popular approaches—due to their
+empirical success in recent decades—rank U.S. equities based on some
+value measure, or the G10 currencies based on carry (see Chapters 12–13).
+A leveraged long–short strategy would then select some top-ranked assets
+to buy and some bottom-ranked assets to sell. (A constrained long-only
+investor may only be able to use the information about the top half. This
+fact gives a key advantage to unconstrained investors such as hedge funds,
+and has recently prompted relaxation of the long-only constraint among
+many previously constrained investors; it has also aided introduction of so-
+called 130/30 funds.)
+Cross-sectional strategies, too, are often based on multiple indicators, and
+this again complicates analysis. How should the various inputs (criteria) be
+combined? In practice, there are two common approaches: composite-
+ranking models and cross-sectional regressions.
+
+A composite-ranking model can be as simple as sorting assets along a set
+of indicators and then taking an average of an asset’s ranks across the
+various indicators as its “total score”. A low total score implies an attractive
+average rank in many dimensions. For example, G10 currencies may be
+traded based on their average ranks along carry, momentum, and value
+criteria. I have used this approach in Ilmanen–Sayood (2002) and noted that
+it works surprisingly well.
+
+Analogous to the discussion about simple binary models vs. regression
+models 
+for 
+single-asset 
+timing, 
+this 
+simple 
+ranking 
+approach 
+misses
+information about signal strength, past predictive ability, and diversification
+ability in different indicators that would be captured by a more formal
+optimization model.
+
+Cross-sectional regressions help disentangle many correlated influences
+on asset returns and identify their distinct rewards. Consider cross-sectional
+regression of U.S. equity excess returns on various risk factors and other
+characteristics (say, estimated market beta, market capitalization, book-to-
+market ratio, and recent price momentum). By construction, the estimated
+slope coefficients in such cross-sectional regressions reflect the reward for
+each factor or characteristic while keeping the others constant. That is, the
+slope coefficient represents the return of a “factor-mimicking portfolio” that
+has maximal correlation with one factor and zero correlations with all other
+factors. Such cross-sectional regressions are run each period and then the
+slope coefficient of each factor or characteristic is averaged over time to
+give an estimated “pure” premium for the factor or characteristic. Past
+average factor premia can be used as inputs into portfolio construction—or
+the expected premia may be forecast using an econometric model. If the
+model is taken at face value, it gives the expected returns of each asset as a
+function of the asset’s factor exposures or characteristics and estimated
+expected 
+factor 
+premia. 
+However, 
+these 
+estimates 
+are 
+subject 
+to
+measurement errors (even if we ignore likely time variation in these premia,
+many factor exposures are estimated with noise), and to specification errors
+(the model may omit important factors, the assumption of linear relations
+may be faulty, etc.).
+
+Combining models
+
+While I will not review portfolio construction issues in this book beyond
+the 
+discussion 
+in 
+Chapter 
+28, 
+I 
+note 
+that 
+so-called 
+Black–Litterman
+optimizers are particularly well suited for combining information from
+systematic trading models. Black–Litterman optimizers enable (i) blending
+historical 
+experience 
+with 
+anchoring 
+priors 
+(such 
+as 
+perceived 
+market
+equilibrium returns) and/or with active views; (ii) inputting expected return
+views on particular trades (instead of on each asset separately); and (iii)
+incorporating a measure of uncertainty for each view. Both inputs from
+trading model backtests (quality of trading performance, current signal
+strength) and the user’s subjective assessments of model reliability can be
+included. New studies have extended the classic model beyond the mean
+variance world.
+
+...
+24.3 WHICH ASSETS/TRADES?
+
+Active 
+trading 
+requires 
+liquidity, 
+the 
+more 
+so 
+the 
+higher 
+the 
+trading
+frequency. It is important to assess the tradeoff between higher gross gains
+in any dynamic trading strategy and the associated increase in trading costs.
+High-turnover strategies (fast signals) implemented at high frequencies
+require either very high gross Sharpe ratios or low trading costs, preferably
+both. Low-turnover strategies (slow signals) can afford lower gross Sharpe
+ratios or higher trading costs. For a given rate of turnover, less liquid assets
+have higher trading costs.
+
+Equities may be traded directionally (market timing) or on a relative
+value basis (stock selection). Between these two extremes, we can take
+active positions across countries, across industry sectors, or across styles.
+Fixed income can likewise be traded directionally (duration timing), on a
+relative value basis (issue selection) and on a sector basis along many
+dimensions (maturities, countries, sectors, credit ratings—and mixing these
+dimensions by, say, boxing government curve flatteners with credit curve
+steepeners). Commodities are mostly traded directionally but specialists can
+put on active positions along the futures term structure, across commodities,
+or between commodity futures and commodity-related stocks or currencies.
+
+While I discuss systematic strategies here, it is important to remember
+that most investors and traders are discretionary, and there are diverse paths
+to success. Some hedge funds focus on one market niche (say, emerging
+markets, distressed debt, or merger arbitrage), while other funds take a
+broader view and trade across asset classes (global tactical asset allocation,
+capital structure arbitrage, or convertible arbitrage). Some of the all-time
+great investors were generalists, but the majority of successful traders are
+probably discretionary specialists in one area.
+...
+24.4 WHICH INDICATOR TYPES?
+
+Investors use a large variety of trading signals and there is no consensus
+how these could best be classified. The most popular themes are value,
+carry, and momentum, but many other indicators do not belong to these
+styles. 
+Table 
+24.2 
+suggests 
+one 
+plausible 
+classification 
+scheme—price
+patterns, seasonals, other indicators—and presents examples of each for
+both time series and cross-sectional trading.
+
+Price patterns (information discernible from the asset’s own price). Short-
+term and/or medium-term momentum as well as long-term reversal are
+common 
+tendencies 
+of 
+many 
+asset 
+return 
+series—and 
+even 
+of 
+many
+dynamic strategies. Yet, the exact patterns observed for cross-sectional
+equity trading do not travel well. That is, few other asset classes share the
+exact timing observed in equities: relative reversal patterns for the first
+month, followed by a medium-term momentum effect, and a long-term
+reversal effect beyond 12 months.
+
+Table 24.2. One simple taxonomy of financial market regularities
+Time-series predictability Cross-sectional predictability
+Price
+patterns
+Short-term momentum
+Short-term and long-term reversal
+Long-term mean
+reversion
+Intermediate momentum
+Seasonals
+January, Hallowe’en, turn
+of month
+Carry-strong and momentum-poor in
+January, etc.
+Other
+indicators
+Value and carry
+indicators
+Value and carry indicators
+Cyclical and inflation
+indicators
+Underreactions (profitability,
+management actions, etc.)
+Supply–demand factors
+Sentiment, liquidity, and
+risk indicators
+Supply–demand (net issuance,
+inventories, etc)
+Sentiment, liquidity, and risk
+indicators
+
+Seasonal regularities will be discussed in Chapter 25 but few are strong
+enough to be exploited.
+
+“Other 
+indicators” 
+include 
+the 
+kitchen 
+sink. 
+Carry 
+and 
+value 
+are
+important, but the list also includes macroeconomic indicators, supply–
+demand 
+factors, 
+sentiment, 
+liquidity 
+and 
+risk 
+indicators, 
+and 
+others.
+Underreactions to news and lead–lag effects across asset markets are close
+cousins to (own price) momentum, but are included here.
+
+An alternative classification scheme contrasts convergent and divergent
+strategies. Convergent strategies rely on relationships in markets moving
+toward their long-term averages and include carry seeking, relative value,
+mean reversion, and volatility selling. Divergent strategies rely on market
+relationships 
+moving 
+further 
+away 
+from 
+their 
+long-term 
+averages 
+and
+include trend following, momentum, and volatility buying.
+
+Yet another scheme focuses on the investment time horizon and the speed
+of information decay in indicators. As a classic example, the information in
+value indicators decays slowly while that in short-term momentum or
+reversal indicators decays fast. This book focuses on strategies traded at
+relatively low frequencies. High-frequency trading strategies—especially
+active within-day trading—are seldom based on economic intuition and are
+feasible only for traders facing the lowest trading costs anyway. Such
+strategies often exploit short-term price reversals and effectively act as
+liquidity suppliers.
+
+...
+24.5 ENHANCEMENTS AND PITFALLS
+
+Enhancements
+
+The 
+strategies 
+above 
+imply 
+stable 
+relations 
+between 
+asset 
+returns 
+and
+predictors, as they involve market timing one asset or trading long–short
+pairs or portfolios across assets “in any weather”. It seems plausible that
+style timing can refine these strategies by identifying conditions when these
+strategies are more likely to excel or fail. These conditions may reflect the
+general market environment (e.g., carry trading is known to underperform
+amidst heightened volatility and tightening liquidity). Style timing may also
+be based on the strategy’s own history—many strategies’ returns exhibit a
+mild version of well-known short-run momentum and long-run reversal
+patterns—as well as on seasonal patterns. Contextual models give the cross-
+sectional equivalent to style timing: they identify subsets of the asset
+universe where a given strategy is more likely to excel or fail. For example,
+trend following works better for poorly anchored macrotrades than for well-
+anchored micro-trades, while many stock selection strategies work better
+for small-cap than for large-cap stocks, at least on paper. Chapters 12
+through 14 provide examples of such enhancements.
+
+Improvements can come in other areas. Many investment managers put
+as much effort into smart portfolio construction, risk management, and
+implementation efficiency (cheaper and/or faster execution, and other cost
+saving) as they do on alpha generation through return forecasts. Quants use
+data-intensive 
+learning 
+algorithms 
+for 
+model 
+selection, 
+Kalman 
+filter
+methods for dynamic parameter estimation, regime-switching models to
+capture instability in predictive relations, Bayesian or robust optimizers to
+replace standard mean variance optimizers, and other methods.
+
+Pitfalls
+Data mining. In-sample regressions exaggerate a model’s predictive ability.
+Since regression coefficients may evolve over time, it is more realistic to
+run rolling “outof-sample” regressions over time, estimating coefficients
+each month using only the data available to investors in real time. Even this
+approach does involve some lookahead bias because a model’s indicator
+selections 
+are 
+likely 
+motivated, 
+in 
+part, 
+by 
+information 
+gathered 
+in
+hindsight. Chapter 7 discusses data mining further and argues that it is an
+inevitable feature of systematic trading models. The use of nonstationary
+(highly persistent) time series as predictors and applying long-horizon
+regressions are especially likely to result in econometric problems and
+spurious findings.
+
+Overcrowding. Another shortcoming in systematic strategies is that their
+transparency makes them easy to replicate and therefore more exposed than
+discretionary strategies to consensus positioning or crowding risk. The 1998
+and 2007–2008 experiences suggest that all systematic strategies—not just
+risk-seeking carry strategies—may be subject to de-leveraging risks when
+financial conditions tighten. Moreover, technological advances and greater
+data availability have made any observed regularities ever more fleeting as
+they quickly attract profit-seeking competition. Taming these endogenous
+risks is a new but central challenge for systematic investors (see Chapter
+20).
+
+...
+24.6 NOTES
+
+1. Every long position is assumed to be financed by a cash money
+market rate and every short position involves re-investing the proceeds
+in the cash market. Cash returns for a long–short position naturally
+wash out. In reality, short selling is not quite so easy in equity markets
+but in Treasury, currency, and futures markets these approximations
+are reasonable.
+2. 
+Partial 
+correlation 
+is 
+simple 
+correlation 
+adjusted 
+for 
+the
+influence of other predictors. This is the same distinction as between a
+multiple regression beta and a simple regression beta. If different
+predictors are uncorrelated with each other, there is no difference
+between simple and partial correlations. High overlap between any two
+predictors raises the 
+gap 
+between simple 
+and partial 
+correlations;
+intuitively, their predictive impact should not be doublecounted. Raw
+regression 
+betas—without 
+normalization—would 
+also 
+reflect 
+the
+different relative volatilities of predictors as well as their correlations.
+3. Cross-sectional asset selection strategies are seen to benefit
+from a broader opportunity set and are better diversified than market-
+timing 
+models. 
+It 
+is 
+true 
+that 
+timing 
+the 
+whole 
+market 
+involves
+particularly concentrated risk. However, if we combine long–short
+timing models for several assets, the resulting composite portfolio may
+not differ much from that of a cross-sectional long–short strategy.
+Source notes. For examples of simple forecasting models in the bond
+market context, see Ilmanen (1997), Ilmanen–Sayood (2002), and Naik–
+Balakrishnan–Devarajan (2009). For an example of fair value models, see
+Panigirtzoglou–Loeys (2005). There are hundreds, if not thousands, of
+practitioner books on trading models and academic articles on forecasting
+asset returns. For books on quantitative forecasting models and trading
+approaches, all with equity orientation, see Grinold–Kahn (1999), Qian–
+Hua–Sorensen 
+(2007), 
+and 
+Fabozzi–Focardi–Kolm 
+(2010). 
+On 
+factor-
+mimicking 
+portfolios, 
+see 
+Melas–Suryanarayanan–Cavaglia 
+(2010). 
+On
+econometric issues that get a short shrift in my book, see Campbell–Lo–
+McKinlay (1996) and Cochrane (2005a).
+
+...

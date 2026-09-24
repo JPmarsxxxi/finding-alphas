@@ -1,0 +1,361 @@
+11 Portfolio Credit Risk Management
+Review
+Exercise 11.1 (Dependence in credit risk management)
+a) Give economic reasons why it is generally not appropriate to assume independence between
+the default of diﬀerent obligors in a loan portfolio.
+b) How does dependence between defaults aﬀect the loss distribution in a typical loan portfolio?
+Discuss implications for managing the risk of loan portfolios.
+Exercise 11.2 (Gaussian threshold models)
+Consider a Gaussian threshold model (X, d) where the critical variables X follow a factor
+model.
+a) Describe the mathematical structure of such a model and explain the advantages of using a
+factor model for X.
+b) Explain the diﬀerence between default correlation and asset correlation in this context .
+c) How is the threshold di chosen in order to calibrate the model to a given default probability
+pi for obligor i?
+d) Derive the form of an equivalent Bernoulli mixture model.
+Exercise 11.3 (Tail dependence in threshold models)
+Consider a threshold model (X, d) and explain why lower tail dependence of the critical
+variables might have a substantial impact on the tail of the credit loss distribution.
+Exercise 11.4 (Exchangeable Bernoulli mixture models)
+Consider an exchangeable Bernoulli mixture model for m obligors and denote by the random
+variable Q the conditional default probability.
+a) Derive the relationship between the unconditional default probability π and the default
+correlation ρY and the ﬁrst two moments of Q. Why is ρY always nonnegative in Bernoulli
+mixture models?
+b) Explain why for large m the tail of the distribution of the number of defaults is ‘up to ﬁrst
+order’ determined by the tail of Q.
+Exercise 11.5 (Importance sampling in credit risk models)
+a) Describe the basic idea of importance sampling and the motivation for using the method in
+credit risk.
+85
+
+11 Portfolio Credit Risk Management
+b) Assume that a Bernoulli mixture with mixing variable Ψ is used to model the default
+state of a given credit portfolio. Why might importance sampling for the conditional
+loss distribution as described in MFE (2015, Algorithm 11.24) not suﬃce to obtain a low
+variance of the IS estimator, in particular for large portfolios.
+Basic
+Exercise 11.6 (Calculating moments of portfolio credit loss distributions)
+Consider a portfolio containing m = 1000 equally rated credit risks. Assume that for every
+obligor i ∈{1, . . . , m} the exposure is ei = 1M GBP and the default probability is pi = 1%.
+Calculate the expected value and standard deviation of the portfolio loss in the following
+situations.
+a) Loss-given-defaults (LGDs) are modeled as deterministic and δi = 0.4, i ∈{1, . . . , m}.
+Defaults are assumed to occur independently.
+b) LGDs are modeled as deterministic as in a) but defaults are assumed to be dependent with
+pairwise default correlation (that is correlation between pairs of default indicators Yi) given
+by ρ = corr(Yi, Yj) = 0.005 for i ̸= j.
+c) Defaults are dependent as in b) but LGDs are modeled as random variables ∆i satisfying
+∆i ∼Beta(a, b), i ∈{1, . . . , m}, where a = 9.2 and b = 13.8.
+Assume that LGDs
+are mutually independent across the portfolio and independent of the default indicator
+variables.
+Hint. E(∆k
+1) = Qk−1
+l=0
+a+l
+a+b+l, k ∈N.
+Exercise 11.7 (Correlation bounds for default indicators)
+Let Xj ∼B(1, pj), pj ∈(0, 1), j ∈{1, 2}.
+a) Show that the correlation coeﬃcient ρ of (X1, X2) satisﬁes ρmin ≤ρ ≤ρmax where
+ρmin =
+W(p1, p2) −p1p2
+p
+p1(1 −p1)p2(1 −p2)
+and
+ρmax =
+M(p1, p2) −p1p2
+p
+p1(1 −p1)p2(1 −p2),
+for the countermonotonicity copula W and the comonotonicity copula M.
+Hint. Use Höﬀding’s Theorem (MFE (2015, Theorem 7.28)).
+b) Consider the case p1 = p2 =: p. For which value of p is the range of ρ maximal and what is
+this range?
+Exercise 11.8 (Asset correlations in Gaussian threshold models with two-group structure)
+Consider a Gaussian threshold model (X, d) in which the critical variables follow the factor
+model
+Xi =
+p
+βi ˜Fi +
+p
+1 −βiεi,
+i ∈{1, . . . , m},
+86
+
+Basic
+where ˜Fi, ε1, . . . , εm are independent standard normal variables and 0 ≤βi ≤1 for all i. The
+systematic variables ˜Fi in turn satisfy
+˜Fi =
+(
+F1,
+i = 1, . . . , n,
+ρF1 +
+p
+1 −ρ2F2,
+i = n + 1, . . . , m,
+where F1, F2 are independent standard normal factors, 0 ≤ρ ≤1 and 1 < n < m −1.
+Obviously, this model has a two-group structure determining the dependence between defaults.
+Derive expressions for the within-group asset correlations (for each of the two groups) and the
+between-group asset correlation.
+Exercise 11.9 (Joint default probabilities in Gaussian threshold models)
+Consider a Gaussian threshold model (X, d) in which the critical variables follow the one-factor
+model
+Xi =
+p
+βiF +
+p
+1 −βiεi,
+i ∈{1, . . . , m}.
+Here F, ε1, . . . , εm are independent standard normal variables and 0 ≤βi ≤1 for all i. The
+goal of this exercise is to describe the equivalent Bernoulli mixture model.
+a) For 1 ≤k ≤m, express the joint probability that the group of obligors {i1, . . . , ik} ⊆
+{1, . . . , m} all default as a one-dimensional integral over the distribution of the factor F.
+b) Show that in the exchangeable version of this model (that is for di = d and βi = ρ =
+corr(Xj, Xl) for all i, j, l) the formula in a) leads to
+πk =
+Z ∞
+−∞
+ 
+Φ
+ Φ−1(π) −√ρx
+√1 −ρ
+!k
+φ(x) dx;
+that is the kth order joint default probability πk is related to the default probability π of
+each obligor according to this formula.
+Exercise 11.10 (Joint default probabilities in threshold models with Gumbel copula)
+Derive a formula that relates higher-order default probabilities πk and individual default
+probabilities π in an exchangeable default model of threshold type based on the Gumbel copula.
+Exercise 11.11 (Exchangeable one-factor Bernoulli mixture models)
+Suppose you have a portfolio of m similarly rated obligors. You decide to model the default state
+of this portfolio by an exchangeable Bernoulli mixture model with mixing variable Q. Recall
+that in this model, the default indicators Yj ∈{0, 1} satisfy P(Yj = yj | Q = q) = qyj(1 −q)1−yj,
+yj ∈{0, 1}, j ∈{1, . . . , m}, so that
+P(Y = y | Q = q) =
+m
+Y
+j=1
+qyj(1 −q)1−yj = q
+Pm
+j=1 yj(1 −q)m−Pm
+j=1 yj.
+a) Show that the kth order joint default probability πk = P(Yj1 = 1, . . . , Yjk = 1, 1 <
+j1 < · · · < jk < m) of any subgroup of k ∈{1, . . . , m} components defaulting satisﬁes
+πk = E(Qk), k ∈{1, . . . , m}.
+87
+
+11 Portfolio Credit Risk Management
+b) Compute the implied default correlation ρY = corr(Yj1, Yj2) for j1, j2 ∈{1, . . . , m}, j1 ̸= j2,
+in terms of π1 and π2.
+Exercise 11.12 (Exchangeable beta mixture model)
+Suppose the credit risk of a portfolio of m similar obligors is modelled with an exchangeable
+Bernoulli mixture model with mixing variable
+Q ∼Beta(a, b),
+that is the mixing variable Q is distributed according to a beta distribution with parameters a >
+0, b > 0 and density fQ(x) = xa−1(1−x)b−1/β(a, b), x ∈(0, 1), where β(a, b) = Γ(a)Γ(b)/Γ(a+b)
+denotes the beta function.
+a) Let k ∈{1, . . . , m}.
+Compute the kth order joint default probability πk = P(Yj1 =
+1, . . . , Yjk = 1) for all 1 < j1 < · · · < jk ≤m.
+Hint. Γ(z + 1) = zΓ(z), z > 0.
+b) Determine a, b such that the individual default probability π1 is 1% and the default
+correlation ρY is 0.5%.
+c) Let M = Pm
+j=1 Yj denote the number of defaults in the portfolio. Show that its probability
+mass function (pk)m
+k=0 is given by
+pk = P(M = k) =
+ 
+m
+k
+!
+β(a + k, b + m −k)
+β(a, b)
+,
+k ∈{0, . . . , m}.
+d) Compute the probability mass function ˜pk = P(M = k), k ∈{0, . . . , m}, under the
+assumption that the default indicators Yj’s are independent.
+e) Suppose m = 1000. For k ∈{0, . . . , 60}, plot pk and ˜pk. Also plot pk/˜pk and comment on
+the plot.
+Exercise 11.13 (Exchangeable probit-normal mixture model)
+Suppose the credit risk of a portfolio of m similar obligors is modelled with an exchangeable
+Bernoulli mixture model where the mixing variable Q has a probit-normal distribution with
+parameters µ ∈R and σ > 0, that is
+Q = Φ(µ + σZ),
+Z ∼N(0, 1).
+Therefore, Q = Φ(X) for X ∼N(µ, σ2) and thus, by Exercise 11.11 a), πk = E(Φ(X)k),
+k ∈{1, . . . , m}.
+a) Derive the distribution function and density of Q.
+b) Use Exercise 11.9 to infer that the exchangeable mixture model is equivalent to an exchange-
+able Gaussian threshold model with default probability π and asset correlation ρ which you
+should determine as functions of µ and σ.
+c) Use these results to give the mean E(Q) of the probit-normal distribution.
+88
+
+Basic
+Exercise 11.14 (Exchangeable Bernoulli mixtures with extremal mixing)
+Consider an exchangeable Bernoulli mixture model for m obligors with given default probability
+P(Yi = 1) = π ∈(0, 1) but unspeciﬁed distribution function G(q) of the mixing variable Q.
+a) Determine the mixing distributions Gmin(q) and Gmax(q) such that the default correlation
+ρY attains the bounds ρmin
+Y
+= 0 respectively ρmax
+Y
+= 1.
+b) Show that for the mixing distribution Gmax(q) the default indicators are comonotone.
+c) Let L = Pm
+i=1 Yi (exposures are ignored for simplicity). Show that for the mixing distribution
+Gmax(q) the expected shortfall ESα(L) is maximized over all mixing distributions G(q) with
+R 1
+0 q dG(q) = π (that is all mixing distributions that are consistent with the constraint
+P(Yi = 1) = π). Does Gmax(q) also maximize Value at Risk (proof or counterexample)?
+Exercise 11.15 (Two-factor CreditRisk+ model)
+Consider a portfolio of m = 1000 obligors with an exposure of ei = 1M for each obligor
+i ∈{1, . . . , m}. Suppose we model dependent defaults in the portfolio using a two-factor
+CreditRisk+-style of model as in MFE (2015, Section 11.2.5). Assume that the default count
+variables ˜Yi, see MFE (2015, Section 11.2.5), satisfy
+˜Yi | ((Ψ1, Ψ2) = (ψ1, ψ2)) ∼
+(
+Poi(0.01ψ1),
+i = 1, . . . , 500,
+Poi(0.01(0.5ψ1 + 0.5ψ2)),
+i = 501, . . . , 1000.
+Also assume that loss-given-default is 100% in all cases and that Ψ1, Ψ2
+ind.
+∼Ga(1/2, 1/2); note
+that the second parameter 1/2 is the rate parameter of the gamma distribution. Compute the
+mean and variance of the portfolio loss.
+Exercise 11.16 (Large portfolio asymptotics application)
+Over the years a retail banking division specialising in small commercial loans has had a
+consistent lending policy: 50% of its loans have been for the amount of 5M and 50% of its loans
+have been for the amount of 1M. Moreover, 50% of both the larger and smaller loans have been
+rated as ‘risky’ and have been assigned a default probability of 1% per annum, whereas the
+other 50% have been rated as ‘safe’ and have been assigned a default probability of 0.1% per
+annum.
+The bank uses a one-factor Gaussian threshold model for its portfolio and carries out a fully
+internal calculation for economic capital purposes. In the one-factor model the risky loans are
+assumed to be 80% systematic (that is 80% of the variance of the driving ‘asset value’ variable
+is assumed to be explained by systematic factors) whereas the safe loans are assumed to be
+only 20% systematic. A deterministic loss-given-default of 0.6 is assumed.
+The portfolio consists of m = 10 000 individual loans and the bank decides to use a large
+portfolio argument to compute the 99.9% value-at-risk.
+a) Derive the form of the asymptotic relative loss function ¯l(ψ), see MFE (2015, Section 11.3.2),
+under the assumption that the portfolio is grown ad inﬁnitum with the same lending policy.
+b) Approximate the 99.9% VaR for the portfolio.
+89
+
+11 Portfolio Credit Risk Management
+Exercise 11.17 (Large portfolio asymptotics with stochastic LGD)
+Consider a Gaussian threshold model (X, d) with the critical variables following the one-factor
+model
+Xi =
+p
+βiF +
+p
+1 −βiεi,
+i ∈{1, . . . , m},
+where F, ε1, . . . , εm
+ind.
+∼N(0, 1) and 0 ≤βi ≤1 for all i. For i = 1, . . . , m, let Yi = I{Xi≤di}
+denote the default indicator variables and pi = P(Yi = 1) the default probabilities.
+a) Show that the model is equivalent to a one-factor Bernoulli mixture model for the default
+indicators where the common factor is Ψ = −F and the conditional default probabilities
+take the form
+pi(ψ) = P(Yi = 1 | Ψ = ψ) = Φ(µi + σiψ).
+Also derive expressions for µi and σi.
+b) Suppose there are m = 10 000 obligors in the portfolio, half of them have exposure 2M GBP,
+default probability pi = 0.01 and factor loading bi = 0.6 and the other half of them have
+exposure 4M GBP, default probability pi = 0.05 and factor loading bi = 0.8. Assume the
+loss-given-default (LGD) is 0.6 for all obligors. Use a large portfolio argument to compute
+an approximation for the 99% value-at-risk of the portfolio loss.
+c) Now suppose that a stochastic LGD ∆i depending on the economic factor Ψ is introduced
+into the model for every obligor i. It is assumed that
+i)
+LGDs are conditionally independent given Ψ;
+ii) they are independent of the default indicators given Ψ; and
+iii) the expected LGD given Ψ satisﬁes E(∆i | Ψ = ψ) = Φ(0.5 + ψ).
+Recompute the approximate 99% value-at-risk to incorporate the stochastic LGDs.
+Exercise 11.18 (Importance sampling with exponential tilting for gamma)
+Let X ∼Ga(α, β) be a gamma distributed random variable with corresponding density
+fX(x) =
+βα
+Γ(α)xα−1 exp(−βx), x > 0, and moment-generating function MX(t).
+a) Compute the exponentially tilted density gt(x) = exp(tx)fX(x)/MX(t), x > 0. What are
+the constraints on the value of t?
+b) Can the mean of X be shifted to arbitrary positive values under the importance sampling
+density?
+90
+
+Advanced
+Exercise 11.19 (Importance sampling with exponential tilting for Poisson)
+a) Let X ∼Poi(µ) under the probability measure P. Determine the distribution of X under
+the probability measure Q obtained by exponential tilting; in other words, what is the
+distribution of X after exponential tilting?
+b) Let Xi
+ind.
+∼Poi(µi), i = 1, . . . , m, under the probability measure P. We are interested in the
+distribution of the random variable L = Pm
+i=1 eiXi where e1, . . . , em are known deterministic
+exposures. Suppose we change the probability measure to Qt by exponentially tilting the
+random variable L. What is the joint distribution of (X1, . . . , Xm) under Qt?
+c) Suppose we want to estimate the exceedance probability P(L > c) of L over some threshold
+c ≫E(L) with a Monte Carlo simulation. Since c ≫E(L), we would like to use as variance
+reduction technique importance sampling based on a proposal distribution Qt under which
+L has mean c. Suppose this proposal distribution is obtained by exponentially tilting the
+distribution of L. What equation should we solve to determine the exponential tilting
+parameter t?
+Advanced
+Exercise 11.20 (Importance sampling for CreditRisk+)
+How are Exercises 11.18 and 11.19 relevant to the problem of using importance sampling to
+estimate tail probabilities of the loss distribution in CreditRisk+?
+Hint. You may assume the one-factor case.
+Exercise 11.21 (Probability mass function of number of defaults under exchangeability)
+Let Y1, . . . , Ym ∼B(1, p) be exchangeable default indicators of a portfolio of size m and let
+M = Pm
+i=1 Yi be the number of defaults in this portfolio. For k ∈{1, . . . , m}, derive an
+expression for P(M = k) (that is for the probability that exactly k obligors default) in terms of
+the higher-order default probabilities πk, . . . , πm.
+Note. Recall that πk is the probability that an arbitrarily selected subgroup of at least k obligors
+default.
+Exercise 11.22 (Threshold model with Archimedean survival copula)
+Let (X, d) be an m-dimensional threshold model where X has an Archimedean survival copula
+with generator given by the Laplace transform bG of some distribution function G on [0, ∞)
+with G(0) = 0.
+a) Show that this model is equivalent to a one-factor Bernoulli mixture model with a factor Ψ
+whose distribution function has Laplace transform bG and show that the conditional default
+probabilities are given by
+pi(ψ) = 1 −exp(−ψ bG−1(1 −pi)),
+i ∈{1, . . . , m},
+where pi is the unconditional default probability.
+91
+
+11 Portfolio Credit Risk Management
+b) Assume now that Ψ ∼Ga(α, α), α > 0, so that bG is the Laplace transform of a gamma
+distribution. In this case, X has a so-called Clayton survival copula. Show that
+pi(ψ) = 1 −exp(−ψα((1 −pi)−1/α −1)),
+i ∈{1, . . . , m}.
+c) Let ki = α((1 −pi)−1/α −1), i ∈{1, . . . , m}. Show that ki ≈pi for small pi.
+d) Explain why this threshold model is equivalent to the Bernoulli mixture model implied by
+a one-factor version of CreditRisk+ with heterogeneous default rates.
+e) Compute the joint default probability of obligors i ̸= j with identical unconditional default
+probabilities p := pi = pj ∈(0, 1). Work out how this probability behaves as α →0+ and
+α →∞. Which direction increases the amount of dependence in the model?
+Exercise 11.23 (Copula of exchangeable CreditRisk+ model)
+Suppose that ˜Y = ( ˜Y1, . . . , ˜Ym) follows an exchangeable one-factor CreditRisk+ model in
+which the ˜Yi are conditionally independent and Poisson-distributed with parameter cΨ where
+Ψ ∼Ga(α, α) and c > 0, α > 0. Let Yi = I{ ˜Yi>0} be the default indicator for ﬁrm i. Show that
+for any 1 ≤k ≤m and distinct i1, . . . , ik ∈{1, . . . , m},
+πk = P(Yi1 = 1, . . . , Yik = 1) = bCCl
+θ (π, . . . , π),
+where bCCl
+θ is the survival copula of a k-dimensional Clayton copula CCl
+θ (u1, . . . , uk) = (Pk
+j=1 u−θ
+j −
+k + 1)−1/θ with parameter θ that you should determine.
+Hint. Show that ˆπk = P(Yi1 = 0, . . . , Yik = 0) = CCl
+θ (ˆπ, . . . , ˆπ) for all k ∈{1, . . . , m} and use
+the fact that this implies that πk = bCCl
+θ (π, . . . , π) for all k ∈{1, . . . , m}.
+92

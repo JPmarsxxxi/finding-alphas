@@ -1,0 +1,1173 @@
+19
+The yield curve
+Time ﬂies like an arrow, fruit ﬂies like a banana.
+(Groucho Marx)
+19.1 Introduction
+The case of the interest rate curve is particularly complex and interesting, since it is not the
+random motion of a point, but rather the consistent history of a whole curve (corresponding
+to different loan maturities) which is at stake. Indeed, interest rates corresponding to all
+possible maturities (from one week to thirty years) are ‘ﬂoating’, that is, ﬁxed by the
+market.† When money lenders are more numerous, money is cheaper to borrow, and the
+corresponding rate goes down. Conversely, the rates are high whenever money lenders are
+uncertain about the future and ask for a substantial yield on their loans.
+The need for a consistent description of the whole interest rate curve is driven by the
+importance, for large ﬁnancial institutions, of asset liability management and by the rapid
+development of interest rate derivatives (options, swaps, options on swaps, etc.‡). Present
+models of the interest rate curve fall into two categories: the ﬁrst one is the Vasicek model
+and its variants, which focuses on the dynamics of the short-term interest rate, from which
+the whole curve is reconstructed.§ The second one, initiated by Heath, Jarrow and Morton
+takes the full forward rate curve as dynamic variables, driven by (one or several) continuous-
+time Brownian motion, multiplied by a maturity-dependent scale factor. Most models are
+however primarily motivated by their mathematical tractability rather than by their ability to
+describe the data. For example, the ﬂuctuations are often assumed to be Gaussian, thereby
+neglecting ‘fat tail’ effects.
+Our aim in this chapter is to discuss the ﬁrst category of interest rate models in the
+spirit of the previous chapters. Several ideas, introduced in the context of futures and
+options, will turn out to be useful for bonds as well. We then present an empirical study
+of the forward rate curve (FRC), where we isolate several important qualitative features
+† All maturities are ﬁxed by money markets, except the shortest one (day to day), which is ﬁxed by central banks
+that try to monitor the way money is injected in the economy.
+‡ A swap is a contract where one exchanges ﬁxed interest rate payments with ﬂoating interest rate payments
+(Section 5.2.6).
+§ For a compilation of the most important theoretical papers on the interest rate curve, see: Hughston (1996).
+
+19.3 Hedging bonds with other bonds
+335
+that a good model should be asked to reproduce, and discuss how badly the simplest models
+fail. Finally, some intuitive arguments are proposed to relate the series of observations
+reported below.
+19.2 The bond market
+A ‘zero-coupon’ bond is a contract that pays $1 at a certain time in the future. The notation
+which we will use for the price of this contract at time t is B(t, θ), where θ is the maturity
+of the bond; the contract therefore expires at date T = t + θ. Bonds on markets are usually
+more complex contracts since they also pay a certain amount every year, or every six months,
+traditionally called the ‘coupon’. The price of the bond must therefore also allow for this
+cash ﬂow at regular dates in the future, on top of the ‘nominal’ terminal payment.
+Bonds of different maturities coexist in the market. What should the fair value of these
+different contracts be? The simplest assumption is that all these different bonds are sensitive
+to a unique source of uncertainty, namely the value of the short term (say daily) interest
+rate r(t), which is every day subject to change. A naive ‘fair-game’ argument suggests that
+the value B(t, θ) of the bond today should be such that the compounded short rate interest
+on this value allows the seller of the bond to receive, one average, $1 at maturity. One is
+thus led to a Bachelier-like price for bonds:
+T −τ
+
+t′=t
+(1 + r(t′)τ)
+
+BB(t, θ) ≡1,
+(19.1)
+which reads, in the continuous time limit τ →0:
+BB(t, θ) =
+
+exp
+ T
+t
+r(u) du
+	
+−1
+T = t + θ.
+(19.2)
+In the case where the short term rate is a constant equal to r0, one ﬁnds, as expected:
+BB(t, θ) = e−r0θ,
+(19.3)
+which is the exact result. If, on the other hand, the short term rate is random, one can wonder
+whether Eq. (19.2) is correct, or if as in the case of futures and options, a correction term
+coming from the possibility of hedging comes into play.
+19.3 Hedging bonds with other bonds
+19.3.1 The general problem
+Consider a market where bonds of M different maturities dates Tn, n = 1, . . . , M are
+traded. The seller of a bond of a certain maturity TN can try to hedge his position by trading
+simultaneously bonds of other maturities. Let us call φn the number of bonds of maturity
+Tn, with by deﬁnition φN = −1 (one bond of maturity TN sold). Between time t and time
+t + τ, the value of Bn(t) ≡B(t, Tn −t) changes by an amount δBn ≡Bn(t + τ) −Bn(t).
+
+336
+The yield curve
+The change of the value δS of the whole portfolio, compared to the risk-free short rate, is
+thus given by:
+δS =
+M
+
+n=1
+φn (δBn −r(t)τ Bn(t)).
+(19.4)
+If one assumes that bond prices only depend on the short rate r(t), the random part δr Bn of
+change of price of a bond can only come from the change of the short rate itself between
+time t and t + τ:
+δr Bn = Bn(r + δr) −Bn(r).
+(19.5)
+The variance of δS can therefore be expressed in terms of the covariance matrix of the bond
+price changes much in the same way as for usual portfolios, see Chapter 12:
+DS ≡⟨(δS)2⟩=
+M
+
+n,m=1
+φnφmCnm
+Cnm ≡⟨δr Bn · δr Bm⟩c.
+(19.6)
+The minimization of DS with the constraint φN = −1 leads to:
+
+m̸=N
+Cnmφ∗
+m = CnN −→φ∗
+n =
+
+m̸=N
+( ˜C)−1
+nmCmN,
+(19.7)
+where ˜C is the matrix C with the row and column associated to N suppressed. We now
+show that the matrix Cnm can be given a more explicit form if the spot rate has Gaussian
+ﬂuctuations.
+19.3.2 The continuous time Gaussian limit
+We ﬁrst introduce the Fourier transform of Bn(r), deﬁned as:
+Bn(r) =
+
+eizr ˆBn(z) dz
+2π .
+(19.8)
+Let us ﬁrst compute the average of the product Bn(r + δr)Bm(r + δr) over the random
+variable δr:
+⟨Bn(r + δr)Bm(r + δr)⟩=
+
+ei(z+z′)(r+δr) ˆBn(z) ˆBm(z′)P(δr) dz
+2π
+dz′
+2π dδr.
+(19.9)
+Using the deﬁnition of the characteristic function ˆP(z) of P(δr), one ﬁnds:
+⟨Bn(r + δr)Bm(r + δr)⟩=
+
+ei(z+z′)r ˆBn(z) ˆBm(z′) ˆP(z + z′) dz
+2π
+dz′
+2π .
+(19.10)
+The calculation of Cnm involves three other similar terms; the ﬁnal result reads:
+Cnm =
+
+ei(z+z′)r ˆBn(z) ˆBm(z′)[ ˆP(z + z′) −ˆP(z) −ˆP(z′) + 1] dz
+2π
+dz′
+2π .
+(19.11)
+
+19.4 The equation for bond pricing
+337
+Let us ﬁrst look at the case where P(δr) is Gaussian, with a variance equal to σ 2
+1 ≪1. In
+this case, ˆP(z) = exp(−σ 2
+1 z2/2), and to ﬁrst order in σ 2
+1 one ﬁnally obtains:
+Cnm = σ 2
+1
+
+ei(z+z′)rzz′ ˆBn(z) ˆBm(z′) dz
+2π
+dz′
+2π ≡σ 2
+1
+∂Bn
+∂r
+∂Bm
+∂r .
+(19.12)
+We ﬁnd the very important result that in the Gaussian case, the matrix Cnm is a projector
+on the vector ∂Bn/∂r. Therefore, in this case, Eq. (19.7) has many solutions, since one can
+add to a certain solution φ∗
+n any vector orthogonal to ∂Bn/∂r without changing the overall
+risk. A special family of solutions correspond to all φ∗
+m, m ̸= N, equal to zero except one.
+In this case, one chooses to hedge the bond BN with a single other bond Bn, with:
+φ∗
+n =
+∂BN
+∂r
+∂Bn
+∂r
+.
+(19.13)
+This hedge is the analogue of the -hedge in the case of options, and has an obvious
+interpretation: the change of value of BN is, to ﬁrst order in δr, given by (∂BN/∂r)δr; this
+change is, in the continuous time limit, exactly compensated by the quantity φ∗
+n(∂Bn/∂r)δr.
+In this limit, the hedging strategy becomes perfect, as for options in the Black-Scholes world.
+The degeneracy of the hedging problem in the continuous time, Gaussian case, which
+tells us that one can hedge optimally using any other bond, is lifted as soon as non-Gaussian
+or discrete time effects exist. Indeed, to the kurtosis order, one ﬁnds (assuming that P(δr)
+is symmetric) that Cnm can no longer be written as a projector, and reads:
+Cnm = σ 2
+1
+∂Bn
+∂r
+∂Bm
+∂r
++ (κ + 3)σ 4
+1
+6
+∂3Bn
+∂r3
+∂Bm
+∂r
++ 3
+2
+∂2Bn
+∂r2
+∂2Bm
+∂r2 + ∂Bn
+∂r
+∂3Bm
+∂r3
+
+.
+(19.14)
+As was the case with options, the optimal hedge in the presence of non-Gaussian ﬂuctuations
+ceases to be the -hedge. In the case of bonds, non-Gaussian effects in fact determine
+uniquely the optimal hedge, i.e. the maturities that should be used for hedging. One could
+of course extend the above calculation to the case where bond prices depend on other
+(possibly non-Gaussian) factors, such as the long-term interest rate.
+19.4 The equation for bond pricing
+Now we know the optimal hedging strategy, we can ﬁnd an equation that sets the bond prices
+usingafair-gameargument,onceagainonthefullbalanceequationthatincludesthehedging
+strategy. The fair-game argument becomes a strict absence of arbitrage opportunities in the
+continuous time, Gaussian world, as was the case for options. When the risk is non-zero,
+a risk premium proportional to the residual risk
+
+⟨δS2⟩could be added to the balance
+equation. In the present case, the set of equations ﬁxing the fair-game price of all bonds
+simultaneously reads:
+−⟨˜δBN⟩+
+
+n̸=N
+φ∗
+n⟨˜δBn⟩= 0,
+(19.15)
+
+338
+The yield curve
+where we have set ˜δBn = δBn −r(t)τ Bn. A trivial solution of the above equations is:
+⟨˜δBn(t)⟩= 0
+∀n −→⟨δBn(t)⟩= r(t)τ Bn(t).
+(19.16)
+Using the explicit form of φ∗
+n, given by Eq. (19.7), one can actually show, using simple linear
+algebra (detailed in Appendix G), that the general solution to the bond pricing equations
+reads:
+⟨˜δBn⟩+ λσ ∂B1
+∂r
+∂Bn
+∂r
+= 0,
+(19.17)
+where λ is an arbitrary parameter, possibly time dependent, but independent of maturity.
+The extra factor σ was added for later convenience.
+The shortest maturity bond B1 is trivial to price since there is no uncertainty about future
+short rates: B1 = exp(−rτ), and ∂B1/∂r ≈−τ. Therefore the fundamental bond pricing
+equation takes the following form:
+⟨δBn(t)⟩= r(t)τ Bn(t) + λστ ∂Bn(t)
+∂r
+,
+Bn(t = Tn) ≡1.
+(19.18)
+Let us ﬁrst show that in the continuous time limit, and for Gaussian ﬂuctuations of r(t), the
+above equation reproduces the form quoted in the literature (see e.g. Hull (1997), Hughston
+(1996)). We ﬁrst write, to lowest order in τ:
+δBn(t) ≃∂Bn
+∂t τ + ∂Bn
+∂r ⟨δr⟩+ 1
+2
+∂2Bn
+∂r2 ⟨δr2⟩.
+(19.19)
+Now, setting ⟨δr⟩= mτ and ⟨δr2⟩= σ 2
+1 = σ 2τ, Eq. (19.18) becomes a partial differential
+equation in the limit τ →0:†
+∂Bn
+∂t
++ (m −λσ)∂Bn
+∂r + σ 2
+2
+∂2Bn
+∂r2 = r(t)Bn(t),
+(19.20)
+where λ is often called the market price of risk. This interpretation comes from the
+following observation. Using Ito’s lemma for the function Bn(r, t) and dr = mdt + σdW,
+one ﬁnds:
+d Bn =
+∂Bn
+∂t
++ m ∂Bn
+∂r + σ 2
+2
+∂2Bn
+∂r2
+
+dt + ∂Bn
+∂r σdW ≡m B Bndt + σB BndW,
+(19.21)
+where the last part of the equation deﬁnes the average bond return m B and the bond volatility
+σB. Using these quantities, Eq. (19.20) can be identically rewritten as:
+m B −r = λσB,
+(19.22)
+which means that the average bond return should exceed the short term rate by an amount
+proportional to the volatility of the same bond, with a proportionality constant independent
+† Note that both m and σ could depend both on time t and on the short rate r.
+
+19.4 The equation for bond pricing
+339
+of the maturity of the bond. The risk of the bond, measured through σB, should lead to an
+increase of the return, hence the term ‘market price of risk’ for λ. Interestingly, λ is not
+ﬁxed by the above theory: any value is in principle consistent with the fair-game/absence
+of arbitrage prescription.
+19.4.1 A general solution
+Interestingly, in the case where the short rate process is Markovian, Eq. (19.18) can be
+solved formally using a discrete time path integral method. Suppose ﬁrst that the market
+price of risk λ is zero, and consider the following expression:
+In(r, t) =
+Tn−τ
+
+t′=t
+[1 −r(t′)τ]
+
+t
+(19.23)
+where the subscript |t means that the average is taken over all future histories of the short
+time rate, conditioned to all information available at time t. By construction, In(r, Tn) ≡1.
+Using the assumption that r(t) follows a Markov process, the only relevant information at
+time t is in fact the value of r(t). Therefore, Eq. (19.23) can be written as:
+In(r, t) = [1 −r(t)τ] ⟨In(r + δr, t + τ)⟩δr.
+(19.24)
+Since by deﬁnition, ⟨δIn⟩≡⟨In(r + δr, t + τ)⟩δr −In(r, t), one has:
+⟨δIn⟩= r(t)τ⟨In(r + δr, t + τ)⟩δr.
+(19.25)
+To ﬁrst order in τ, one can furthermore replace r(t)τ⟨In(r + δr, t + τ)⟩δr by r(t)τ In. Hence
+Eqs. (19.25) and (19.18) are identical, which shows that the bond price Bn is in fact given
+by Eq. (19.23). So, in the limit τ →0, one can write the bond price in the following form:
+Bn(r, t) =
+
+exp
+
+−
+ Tn
+t
+r(u) du
+	
+t
+.
+(19.26)
+This formula is close to, but different from the Bachelier price, Eq. (19.2). The Bachelier
+formula says that the bond price is one over the average of eyT, where y =
+ T
+t r(u) du/T is
+the yield. The above formula assumes that the instantaneous returns of all bonds is equal to
+the short rate, and gives the bond price as the average of e−yT . Since the following bound
+is true:
+⟨e−yT ⟩⟨eyT ⟩≥1,
+(19.27)
+one concludes that the Bachelier price is a lower bound to the bond price. Said differently,
+selling a bond at price (19.26) and reinvesting continuously on a short term money market
+account is on average proﬁtable (but risky).
+
+340
+The yield curve
+When λ ̸= 0, Eq. (19.26) continues to hold (in the small τ limit), but the average is taken
+assuming a ﬁctitious ‘trend’ on the short rate, equal to m −λσ, instead of the true trend m.
+When λ > 0, therefore, the price of bonds increases compared to the case λ = 0, since the
+effective future value of the short rate is, according to this procedure, reduced.
+19.4.2 The Vasicek model
+Let us now study a speciﬁc model for the short rate ﬂuctuations. Since the short rate does
+not wander away inﬁnitely far, it is reasonable to assume some sort of mean reverting term.
+The simplest model is:
+r(t) = r0 +
+t−τ
+
+t′=−∞
+e−(t−t′)ξt′,
+(19.28)
+where r0 is the ‘reference’ value for the short rate,  measures the strength of the mean
+reverting term, and ξ is a (possibly non-Gaussian) random noise. When the noise is Gaussian
+and the continuous time limit is taken, the above model deﬁnes the Ornstein-Uhlenbeck
+process which is called, in this context, the Vasicek model.
+A simple property of Eq. (19.28) is that:
+r(t2) −r0 =
+t2−τ
+
+t′=t1
+e−(t2−t′)ξt′ + e−(t2−t1) (r(t1) −r0) ,
+(t2 ≥t1).
+(19.29)
+Hence, a quantity such as T −τ
+t′=t r(t′)τ, that appears in the exponential of Eq. (19.26), can
+be rewritten as:
+T −τ
+
+t′=t
+r(t′)τ = r0(T −t) + (r(t) −r0) τ
+T −τ
+
+t′=t
+e−(t′−t) + τ
+T −τ
+
+t′=t
+t′−τ
+
+t′′=t
+e−(t′−t′′)ξt′′.
+(19.30)
+Now, permuting the order of the sum over t′ and t′′, and evaluating the sums in the continuous
+time limit leads to:
+ T
+t
+r(u) du = r0θ + (r(t) −r0) 1 −e−θ
+
++
+ T
+t
+ξ(T −t′′)1 −e−t′′
+
+dt′′,
+(19.31)
+where θ = T −t is the maturity. The ﬁrst two terms of this expression are not random, and
+can be pulled out from the average. The last term can be evaluated in general in terms of the
+characteristic function of the random variable ξt (see Section 19.4.4), but we will restrict
+here to the Vasicek model where ξt is Gaussian, of variance σ 2τ. In this case, one ﬁnds:
+
+exp
+
+−
+ T
+t
+ξ(T −t′′)1 −e−t′′
+
+dt′′
+
+= exp
+
+σ 2
+2
+ T
+t
+
+1 −e−t′′
+
+2
+dt′′
+
+.
+(19.32)
+This formula allows one to obtain an explicit expression for the bond price as a function
+of the present short term rate, the maturity of the bond, and the parameters of the Vasicek
+model (, σ). Instead of writing down this formula, however, we will introduce the notion
+forward rates, in terms of which the result is much simpler.
+
+19.4 The equation for bond pricing
+341
+19.4.3 Forward rates
+The forward interest rate curve (FRC) at time t is fully speciﬁed by the collection of all
+forward rates f (t, θ), for different maturities θ. The forward rates are by deﬁnition such
+that they compound to give the bond price B(t, θ) exactly:
+B(t, θ) = exp
+
+−
+ θ
+0
+f (t, u) du
+
+,
+(19.33)
+r(t) = f (t, θ = 0) is called the short rate (spot rate). The forward rate f (t, θ) is the rate
+on a future loan, between times t + θ and t + θ + dθ, decided at time t. Using the above
+deﬁnition of forward rates, one sees that from the knowledge of all bond prices, one deduces
+the whole FRC as:
+f (t, θ) = −∂log B(t, θ)/∂θ.
+(19.34)
+Noting that the derivative with respect to θ or with respect to T are identical for ﬁxed t, one
+deduces very simply from the results of the previous section the FRC in the Vasicek model:
+f (t, θ) = r0(1 −e−θ) + r(t)e−θ −σ 2
+22 (1 −e−θ)2.
+(19.35)
+This result will be further discussed and compared with empirical data in Section 19.6.1.
+Note that, in practice, the last term, proportional to σ 2, is quite small. When the market
+price of risk is non-zero, r0 is replaced by r0 −λσ/.
+19.4.4 More general models
+Non-Gaussian Vasicek model
+Using the deﬁnition of the cumulants cn of P(δr), the generalization of the formula for the
+FRC in the case of non Gaussian ﬂuctuations is very simple and reads:
+f (t, θ) = r0(1 −e−θ) + r(t)e−θ −
+∞
+
+n=2
+(−1)ncn
+n!n (1 −e−θ)n.
+(19.36)
+Heath-Jarrow-Morton and the dynamics of the whole FRC
+If one takes the time derivative of Eq. (19.35) for a ﬁxed maturity date T = t + θ, one
+obtains a dynamical equation for the time evolution of the FRC which will lend itself to
+interesting generalizations of the Vasicek model. Using the fact that ∂/∂t|T = −∂/∂θ|T ,
+this dynamical equation reads:
+d f (t, θ)|T = dr(t)e−θ + [r(t) −r0]e−θdt + σ 2
+ e−θ[1 −e−θ] dt.
+(19.37)
+
+342
+The yield curve
+In the continuous time limit, the Vasicek model corresponds to an Ornstein-Uhlenbeck
+model for the short rate, such that:
+dr(t) = −[r(t) −r0] dt + σdW(t).
+(19.38)
+This allows one to transform Eq. (19.37) into:
+d f (t, θ)|T = σ 2
+ e−θ[1 −e−θ] dt + σe−θdW(t).
+(19.39)
+In the presence of a non-zero market price of risk, an extra −λe−θdt term appears on the
+right-hand side.
+Now, deﬁning σ(θ) = σe−θ as the volatility of the forward rate, and noting that
+ θ
+0
+σ(θ′) dθ′ = σ
+[1 −e−θ],
+(19.40)
+one can rewrite the above equation as:
+d f (t, θ)|T = m(θ) dt + σ(θ) dW(t);
+m(θ) = σ(θ)
+
+−λ +
+ θ
+0
+σ(θ′) dθ′
+
+,
+(19.41)
+which shows that in the framework of the Vasicek model, the drift m(θ) of the forward rate
+is found to be directly related to the volatility σ(θ) of the same rate.
+The interesting point now is to generalize the dynamical equation (19.41) to a more
+general form, possibly time dependent, of the volatility σ(θ), and write the so-called Heath-
+Jarrow-Morton equation:
+d f (t, θ)|T = m(t, θ) dt + σ(t, θ) dW(t)
+T = t + θ.
+(19.42)
+Since we consider a Gaussian model in continuous time, perfect hedging is possible, and
+the fair-game argument becomes equivalent to the constraint of absence of arbitrage oppor-
+tunities. In the present context, this constraint leads to a relation between drift and volatility
+that generalizes the one found above, namely:
+m(t, θ) = σ(t, θ)
+
+−λ(t) +
+ θ
+0
+σ(t, θ′) dθ′
+
+,
+(19.43)
+where the market price of risk itself can be time dependent, but, as emphasized above,
+independent of θ.
+Although Eq. (19.42) is rather general and allows for a large class of maturity dependent
+volatilities for the forward rates, we are still in the framework of single factor models,
+where the factor is the short term rate. All HJM models are indeed equivalent to a certain
+model of short term rate dynamics. However, as the following sections will show, the
+description of real FRCs require at least two extra factors, namely the long term rate, and
+(say) the initial slope of the FRC. Generalized HJM models, where each forward rate is
+driven by several independent Gaussian noises, have to be considered. We prefer at this
+
+19.5 Empirical study of the forward rate curve
+343
+stage to discuss the most important features of empirical data, that any plausible model
+should reproduce.
+19.5 Empirical study of the forward rate curve
+19.5.1 Data and notations
+Our study is based on a data-set of daily prices of Eurodollar futures contracts on Libor
+USD interest rates, and similar contracts on rates of other countries.† The interest rate
+underlying the Eurodollar futures contract is a 90-day rate, earned on dollars deposited in
+a bank outside the U.S. by another bank. The interest in studying forward rates rather than
+yield curves is that one has a direct access to a ‘derivative’ (in the mathematical sense:
+f (t, θ) = −∂log B(t, θ)/∂θ), which obviously contains more precise information than the
+yield curve itself (deﬁned from the logarithm of B(t, θ)).
+In practice, the futures markets price 3-months forward rates for ﬁxed expiration dates,
+separated by 3-month intervals. Identifying 3-months futures rates with instantaneous for-
+ward rates, we have available a sequence of time series on forward rates f (t, Ti −t), where
+Ti are ﬁxed dates (March, June, September and December of each year). We can convert
+these into ﬁxed maturity (multiple of 3-months) forward rates by a simple linear interpo-
+lation between the two nearest points such that Ti −t ≤θ ≤Ti+1 −t. Between 1990 and
+1996, one has at least 15 different Eurodollar maturities for each market date. Between
+1994 and 1999, the number of available maturities rises to 30 (as time grows, longer and
+longer maturity forward rates are being traded on future markets). Since we only consider
+daily data, our reference time scale will be τ = 1 day. The variation of f (t, θ) between t
+and t + τ will be denoted as δf (t, θ):
+δf (t, θ) = f (t + τ, θ) −f (t, θ).
+(19.44)
+19.5.2 Quantities of interest and data analysis
+The description of the FRC has two, possibly interrelated, aspects:
+(i) What is, at a given instant of time, the shape of the FRC as a function of the maturity
+θ?
+(ii) What are the statistical properties of the increments δf (t, θ) between time t and time
+t + τ, and how are they correlated with the shape of the FRC at time t?
+The two basic quantities describing the FRC at time t are the value of the short-term
+interest rate f (t, θmin) (where θmin is the shortest available maturity), and that of the short-
+term/long-term spread s(t) = f (t, θmax) −f (t, θmin), where θmax is the longest available
+† In principle forward contracts and futures contracts are not strictly identical – they have different margin re-
+quirements – and one may expect slight differences, which we shall neglect in the following.
+
+344
+The yield curve
+94
+95
+96
+97
+98
+99
+t (years)
+0
+2
+4
+6
+8
+r(t), s(t)
+r(t)
+s(t)
+Fig. 19.1. The historical time series of the spot rate r(t) from 1994 to 1999 (top curve) – actually
+corresponding to a 3-month future rate (dark line) and of the ‘spread’ s(t) (bottom curve), deﬁned
+with the longest maturity available over the whole period 1994–99 on future markets, i.e. θmax = 9.5
+years.
+maturity. The two quantities r(t) ≈f (t, θmin), s(t) are plotted versus time in Figure 19.1;†
+note that:
+r The volatility σ of the spot rate r(t) is equal to 0.8%/√year.‡ This obtained by averaging
+over the whole period.
+r The spread s(t) has varied between 0.6 and 4.0%. Contrarily to some European interest
+rates on the same period, s(t) has always remained positive. (This however does not mean
+that the FRC is increasing monotonically, see below.)
+Figure 19.2 shows the average shape of the FRC, determined by averaging the difference
+f (t, θ) −r(t) over time. Interestingly, this function is rather well ﬁtted by a simple square-
+root law. This means that on average, the difference between the forward rate with maturity
+θ and the spot rate is equal to a
+√
+θ, with a proportionality constant a = 0.85%/√year
+which turns out to be nearly identical to the spot rate volatility. A similar
+√
+θ law for the
+average shape of the FRC was also found for different rate markets (UK, Australia, Japan):
+see Matacz & Bouchaud (2000b). Again, the proportionality constant a is found to be
+† We shall from now on take the 3-month rate as an approximation to the spot rate r(t).
+‡ The dimension of r should really be % per year, but we conform here to the habit of quoting r simply in %.
+Note that this can sometimes be confusing when checking the correct dimensions of a formula.
+
+19.5 Empirical study of the forward rate curve
+345
+0.0
+0.5
+1.0
+1.5
+2.0
+2.5
+q
+1/2−qmin
+1/2  (in sqrt years)
+0.0
+0.5
+1.0
+1.5
+2.0
+<f(q,t)-f(qmin,t)>
+data
+fit
+Fig. 19.2. The average FRC in the period 1994–99, as a function of the maturity θ. We have shown
+for comparison a one parameter ﬁt with a square-root law, a(
+√
+θ −√θmin).
+comparable to the spot rate volatility. We shall propose a simple interpretation of this fact
+below.
+Let us now turn to an analysis of the ﬂuctuations around the average shape. These
+ﬂuctuations are actually similar to that of a vibrating elastic string. The average deviation
+(θ) can be deﬁned as:
+2(θ) ≡
+
+f (t, θ) −r(t) −s(t)
+
+θ
+θmax
+2
+,
+(19.45)
+and is plotted in Figure 19.3. The maximum of  is reached for a maturity of θ∗= 1 year.
+We now turn to the statistics of the daily increments δf (t, θ) of the forward rates, by
+calculating their volatility σ(θ) =
+
+⟨δf (t, θ)2⟩and their excess kurtosis
+κ(θ) = ⟨δf (t, θ)4⟩
+σ 4(θ)
+−3.
+(19.46)
+A very important quantity will turn out to be the following ‘spread’ correlation function:
+C(θ) = ⟨δf (t, θmin) (δf (t, θ) −δf (t, θmin))⟩
+σ 2(θmin)
+,
+(19.47)
+which measures the inﬂuence of the short-term interest ﬂuctuations on the other modes of
+motion of the FRC, subtracting away any trivial overall translation of the FRC.
+Figure19.4showsσ(θ)andκ(θ).Somewhatsurprisingly,σ(θ),muchlike(θ)hasamax-
+imum around θ∗= 1 year. The order of magnitude of σ(θ) is 0.05%/√day, or 0.8%/√year.
+
+346
+The yield curve
+0
+2
+4
+6
+8
+q  (years)
+-0.2
+0.0
+0.2
+0.4
+0.6
+0.8
+C(q)
+∆(q)
+Fig. 19.3. Root mean square deviation (θ) from the average FRC as a function of θ. Note the
+maximum for θ ∗= 1 year, for which  ≈0.38%. We have also plotted the correlation function C(θ)
+(deﬁned by Eq. (19.47)) between the daily variation of the spot rate and that of the forward rate at
+maturity θ, in the period 1994–96. Again, C(θ) is maximum for θ = θ∗, and decays rapidly beyond.
+The daily kurtosis κ(θ) is rather high (on the order of 5), and only weakly decreasing with θ.
+Finally, C(θ) is shown in Figure 19.3; its shape is again very similar to those of (θ) and
+σ(θ), with a pronounced maximum around θ∗= 1 year. This means that the ﬂuctuations of
+the short-term rate are ampliﬁed for maturities around 1 year. We shall come back to this
+important point below.
+19.6 Theoretical considerations (∗)
+19.6.1 Comparison with the Vasicek model
+The explicit form of the FRC in the Vasicek model was computed in Section 19.4.3. The
+basic predictions of this model for λ = 0 are as follows:
+r The FRC is a monotonous function of maturity, either increasing from r(t) for θ = 0 to
+r0 for θ →∞when r0 > r(t), or decreasing if r0 < r(t).
+r Since ⟨r0 −r(t)⟩= 0, the average of f (t, θ) −r(t) is given by
+⟨f (t, θ) −r(t)⟩= −σ 2/22(1 −e−θ)2,
+(19.48)
+and should thus be negative, at variance with empirical data. Note that in the limit θ ≪1,
+the order of magnitude of this (negative) term is very small: taking σ = 1%/√year and
+
+19.6 Theoretical considerations (∗)
+347
+0
+2
+4
+6
+8
+q (years)
+0.05
+0.06
+0.07
+0.08
+0.09
+s(q)
+1994 - 1996
+1990 - 1996 
+0
+10
+20
+30
+q (years)
+0
+2
+4
+6
+8
+k(q)
+1994 -1996
+1990 -1996
+Fig. 19.4. The daily volatility and kurtosis as a function of maturity. Note the maximum of the
+volatility for θ = θ∗, while the kurtosis is rather high, and only very slowly decreasing with θ. The
+two curves correspond to the periods 1990–96 and 1994–96, the latter period extending to longer
+maturities.
+θ = 1 year, it is found to be equal to 0.005%, much smaller than the typical differences
+actually observed on forward rates.
+r The volatility σ(θ) is monotonically decreasing as exp −θ, whereas the kurtosis κ(θ)
+is identically zero (because the noise ξ driving the short rate ﬂuctuations is Gaussian).
+r The correlation function C(θ) is negative and is a monotonic decreasing function of its
+argument, in total disagreement with observations (Fig. 19.3).
+r The variation of the spread s(t) and of the spot rate should be perfectly correlated, which
+is not the case (Fig. 19.3): more than one factor is in any case needed to account for the
+deformation of the FRC.
+An interesting extension of Vasicek’s model designed to ﬁt exactly the ‘initial’ FRC
+f (t = 0, θ) was proposed by Hull and White. It amounts to replacing the constants  and
+r0 by time-dependent functions. For example, r0(t) represents the anticipated evolution
+of the ‘reference’ short-term rate itself with time. These functions can be adjusted to ﬁt
+f (t = 0, θ) exactly. Interestingly, one can then derive the following relation:
+∂r(t)
+∂t
+	
+=
+∂f
+∂θ (t, 0)
+	
+,
+(19.49)
+up to a term of order σ 2 which turns out to be negligible, exactly for the same reason
+as explained above. On average, the second term (estimated by taking a ﬁnite difference
+estimate of the partial derivative using the ﬁrst two points of the FRC) is deﬁnitely found to
+
+348
+The yield curve
+be positive, and equal to 0.8%/year. On the same period (1990–96), however, the spot rate
+has decreased from 8 to 5%, instead of growing by 7 × 0.8% = 5.6%.
+In simple terms, both the Vasicek and the Hull–White model mean the following: the
+FRC should basically reﬂect the market’s expectation of the average evolution of the spot
+rate (up to a correction of the order of σ 2, but which turns out to be very small, see above).
+However, since the FRC is on average increasing with the maturity (situations when the FRC
+is ‘inverted’ are comparatively much rarer), this would mean that the market systematically
+expects the spot rate to rise, which it does not. It is hard to believe that the market would
+persist in error for such a long time. Hence, the upward slope of the FRC is not only related
+to what the market expects on average, but that a systematic risk premium is needed to
+account for this increase.
+19.6.2 Market price of risk
+A possibility is to assign the above discrepancy to the market price of risk, which we discuss
+in the context of the one factor HJM model, where we assume that the volatility σ(θ) and
+the market price of risk λ are independent of time t. From Eq. (19.42) above, one ﬁnds that
+the FRC at time t is given by:
+f (t, θ) = f (t0, t −t0 + θ) +
+ t
+t0
+m(t + θ −u) du +
+ t
+t0
+σ(t + θ −u) dW(u),
+(19.50)
+where t0 is the initial time, and:
+m(θ) = σ(θ)
+ θ
+0
+σ(θ′) dθ′ −λ
+
+,
+(19.51)
+The average FRC, over a certain time window of size T , contains three terms. First is the
+contribution of the initial FRC. In our case the initial FRC was indeed somewhat steeper
+than the average FRC. Yet its contribution to the average FRC is roughly a factor of three
+smaller than the observed average. The second contribution comes from the O(σ 2) term in
+Eq. (19.51). The size of this term is again very small, in any case at least a factor ten smaller
+than the observed average FRC. This term can therefore be neglected. More interesting is
+the contribution of the market price of risk λ, and is given by:
+⟨f (t, θ) −r(t)⟩|λ = λ
+T
+ T
+0
+(T −u)(σ(u) −σ(u + θ))du.
+(19.52)
+For long time periods (T ≫θ), this contribution takes the form:
+⟨f (t, θ) −r(t)⟩λ ≃λ
+ θ
+0
+σ(u) du −θσ(θmax)
+
++ O(σ(θmax)θ2/T ).
+(19.53)
+We deduce that this contribution is negative (when λ > 0) for some initial region of the
+FRC if, as found empirically, σ(θ) > σ(θ = 0) for all θ. In Figure 19.5 we show a plot of
+Eq. (19.53) where we use the empirical volatility σ(θ) and choose λ = 4.4√year which
+gives a best ﬁt to the average FRC. It is clear that this ﬁt is very bad, in particular compared to
+
+19.6 Theoretical considerations (∗)
+349
+0
+2
+4
+6
+8
+10
+Maturity (years)
+-0.5
+0.0
+0.5
+1.0
+1.5
+2.0
+Average FRC (%)
+USD 94-99
+Sqrt fit
+HJM Fit
+Fig. 19.5. Comparison between the empirical average FRC in the period 1994–99, as a function of
+the maturity θ and the one factor HJM model with a non zero market price of risk, Eq. (19.53), with
+the empirically determined σ(θ) (dotted line).
+the simple square-root ﬁt described above. The negative part of the average FRC predicted
+by the HJM model is even stronger for other rate markets.†
+19.6.3 Risk-premium and the
+√
+θ law
+The average FRC and value-at-risk pricing
+The observation that on average the FRC follows a simple
+√
+θ law (i.e. ⟨f (t, θ) −r(t)⟩∝
+√
+θ), with a prefactor precisely given by the short rate volatility suggests an intuitive, direct
+interpretation, related to the strong asymmetry, in bond markets, between lenders (investors)
+and borrowers.
+At any time t, the market anticipates either a future rise, or a decrease of the spot rate.
+However, the average anticipated trend is, in the long run, zero, since the spot rate has
+bounded ﬂuctuations. Hence, the average market’s expectation is that the future spot rate
+r(t) will be close to its present value r(t = 0). In this sense, the average FRC should thus
+be ﬂat. However, even in the absence of any trend in the spot rate, its probable change
+between now and t = θ is (assuming the simplest random walk behaviour) of the order of
+σ
+√
+θ, where σ is the volatility of the spot rate. Money lenders agree at time t on a loan at
+rate f (t, θ), which will run between time t + θ and t + θ + dθ. These money lenders will
+themselves borrow money from central banks at the short-term rate prevailing at that date,
+i.e. r(t + θ). They will therefore lose money whenever r(t + θ) > f (t, θ).
+† see Matacz & Bouchaud (2000a).
+
+350
+The yield curve
+Hence, money lenders are taking a bet on the future value of the spot rate and want to be
+sure not to lose their bet more frequently than, say, once out of ﬁve. Thus their price for the
+forward rate is such that the probability that the spot rate at time t + θ, r(t + θ) actually
+exceeds f (t, θ) is equal to a certain number p:
+ ∞
+f (t,θ)
+P(r′, t + θ|r, t) dr′ = p,
+(19.54)
+where P(r′, t′|r, t) is the probability that the spot rate is equal to r′ at time t′ knowing that
+it is r now (at time t). Assuming that r′ follows a simple random walk centred around r(t)
+then leads to:†
+f (t, θ) = r(t) + aσ(0)
+√
+θ,
+a =
+√
+2 erfc−1(2p),
+(19.55)
+which indeed matches the empirical data, with p ≈0.16. Other rates (British, Australian,
+Japanese) show a similar
+√
+θ with a prefactor comparable to the volatility of the spot rate.
+Hence, the shape of today’s FRC can be thought of as an envelope for the probable future
+evolutions of the spot rate. The market appears to price future rates through a Value-at-
+Risk procedure (Eqs. (19.54) and (19.55)) rather than through an averaging procedure. As
+illustrated above by the HJM model, this averaging procedure leads to results that are quite
+inconsistent with the data.
+The anticipated trend and the volatility hump
+Let us now discuss, along the same lines, the shape of the FRC at a given instant of
+time, which of course deviates from the average square root law. For a given instant
+of time t, the market actually expects the spot rate to perform a biased random walk.
+We shall argue that a consistent interpretation is that the market estimates the trend
+m(t) by extrapolating the past behaviour of the spot rate itself. Hence, the probability
+distribution P(r ′, t + θ|r, t) used by the market is not centred around r(t) but rather
+around:
+r(t) +
+ t+θ
+t
+m(t, t + u) du,
+(19.56)
+where m(t, t′) can be called the anticipated bias at time t′, seen from time t.
+It is reasonable to think that the market estimates m by extrapolating the recent past
+to the nearby future. Mathematically, this reads:
+m(t, t + u) = m1(t)Z(u) where m1(t) ≡
+ ∞
+0
+K(v)δr(t −v) dv,
+(19.57)
+and where K(v) is an averaging kernel of the past variations of the spot rate. One
+may call Z(u) the trend persistence function; it is normalized such that Z(0) = 1, and
+describes how the present trend is expected to persist in the future. Equation (19.54)
+then gives:
+f (t, θ) = r(t) + aσ
+√
+θ + m1(t)
+ θ
+0
+Z(u) du.
+(19.58)
+† This assumption is certainly inadequate for small times, where large kurtosis effects are present. However, on
+the scale of months, these non-Gaussian effects can be considered as small.
+
+19.7 Summary
+351
+This mechanism is a possible explanation of why the three functions introduced above,
+namely (θ), σ(θ) and the correlation function C(θ) have similar shapes. Indeed, taking
+for simplicity an exponential averaging kernel K(v) of the form ϵ exp[−ϵv], one ﬁnds:†
+dm1(t)
+dt
+= −ϵm1 + ϵ dr(t)
+dt
++ ϵξ(t),
+(19.59)
+where ξ(t) is an independent noise of strength σ 2
+ξ , added to introduce some extra noise
+in the determination of the anticipated bias. In the absence of temporal correlations,
+one can compute from the above equation the average value of m2
+1. It is given by:
+
+m2
+1
+
+= ϵ
+2
+
+σ 2(0) + σ 2
+ξ
+
+.
+(19.60)
+In the simple model deﬁned by Eq. (19.58) above, one ﬁnds that the correlation
+function C(θ) is given by:‡
+C(θ) = ϵ
+ θ
+0
+Z(u) du.
+(19.61)
+Using the above result for ⟨m2
+1⟩, one also ﬁnds:
+(θ) =
+
+σ 2(0) + σ 2
+ξ
+2ϵ
+C(θ),
+(19.62)
+thus showing that (θ) and C(θ) are in this model simply proportional.
+Turning now to the volatility σ(θ), one ﬁnds that it is given by:
+σ 2(θ) = [1 + C(θ)]2 σ 2(0) + C(θ)2σ 2
+ξ .
+(19.63)
+We thus see that the maximum of σ(θ) is indeed related to that of C(θ). Intuitively, the
+reason for the volatility maximum is as follows: a variation in the spot rate changes that
+market anticipation for the trend m1(t). But this change of trend obviously has a larger
+effect when multiplied by a longer maturity. For maturities beyond 1 year, however, the
+decay of the persistence function comes into play and the volatility decreases again. The
+relation Eq. (19.63) is tested against real data in Figure 19.6. An important prediction of
+the model is that the deformation of the FRC should be strongly correlated with the past
+trend of the spot rate, averaged over a time scale 1/ϵ (see Eq. (19.59)). This correlation
+has been convincingly established recently, with 1/ϵ ≈100 days.§
+19.7 Summary
+r Much like options, bonds can be hedged with other bonds. In the continuous time
+Gaussian limit, the optimal hedging portfolio is degenerate, in the sense that many
+different combinations of bonds are optimal. This degeneracy is lifted in the presence
+of non-Gaussian effects.
+† This equation is quite similar to the second equation of the Hull-White II model, Hull & White (1994).
+‡ Inreality,oneshouldalsotakeintoaccountthefactthataσ(0)canvarywithtime.Thisbringsanextracontribution
+both to C(θ) and to σ(θ).
+§ see Matacz & Bouchaud (2000b).
+
+352
+The yield curve
+0
+2
+4
+6
+8
+q (years)
+0.04
+0.05
+0.06
+0.07
+0.08
+0.09
+s(q)
+Data
+Theory, with spread vol.
+Theory, without spread vol.
+Fig. 19.6. Comparison between the theoretical prediction and the observed daily volatility of the
+forward rate at maturity θ, in the period 1994–96. The dotted line corresponds to Eq. (19.63) with
+σξ = σ(0), and the full line is obtained by adding the effect of the variation of the coefﬁcient aσ(0)
+in Eq. (19.58), which adds a contribution proportional to θ.
+r A fair-game argument applied to an hedged portfolio of bonds allows one to obtain the
+price of bonds as a function of the short term interest rate. It is given by Eq. (19.26).
+r The Vasicek model, or the more general Heath-Jarrow-Morton framework allows
+one to obtain a relation between the average shape of the forward rate curve and the
+maturity dependent volatility. This relation is not satisﬁed by empirical data, which
+suggests that some sort of value-at-risk premium sets the shape of the forward rate
+curve.
+r The dynamics of the forward rate curve shows a number of interesting peculiarities,
+such as a humped shape volatility as a function of maturity, or a strong correlation
+between the initial slope of the curve and the past trend of the spot rate.
+19.8 Appendix G: optimal portfolio of bonds
+Consider the equation:
+−⟨˜δBN⟩+
+
+n̸=N
+φ∗
+n⟨˜δBn⟩= 0,
+(19.64)
+where φ∗
+n is the solution of the risk optimization problem, and is given by:
+φ∗
+n =
+
+m̸=N
+( ˜C)−1
+nmCmN,
+(19.65)
+
+19.8 Appendix G: optimal portfolio of bonds
+353
+with ˜C is the matrix C with the row and column associated to N suppressed. Inject in
+Eq. (19.64) the ansatz ⟨˜δBn⟩= λCnn0. Then:
+
+n̸=N
+φ∗
+n⟨˜δBn⟩= λ
+
+m̸=N
+CmN
+
+n̸=N
+( ˜C)−1
+nmCnn0 = λ
+
+m̸=N
+CmNδmn0.
+(19.66)
+Provided n0 ̸= N, one has:
+λ
+
+m̸=N
+CmNδmn0 = λCNn0 = ⟨˜δBN⟩,
+(19.67)
+and thus Eq. (19.64) is satisﬁed. Since n0 must be different from all bonds traded in the
+markets, the only choice is n0 = 1, corresponding to the short rate itself.
+r Further reading
+M. Baxter, A. Rennie, Financial Calculus, An Introduction to Derivative Pricing, Cambridge
+University Press, Cambridge, 1996.
+D. Brigo, F. Mercurio, Interest Rate Models Theory and Practice: Theory and Practice, Springer
+Finance, 2001.
+L. Hughston (ed.), Vasicek and Beyond, Risk Publications, London, 1996.
+L. Hughston (ed.), New Interest Rate Models, Risk Publications, London, 2001.
+J. C. Hull, Futures, Options and Other Derivatives, Prentice Hall, Upper Saddle River, NJ, 1997.
+M. Musiela, M. Rutkowski, Martingale Methods in Financial Modelling, Springer, New York, 1997.
+R. Rebonato, Interest-Rate Option Models: Understanding, Analyzing and Using Models for Exotic
+Interest-Rate Options, Wiley Series in Financial Engineering, 1998.
+r Specialized papers
+B. Baaquie, M. Srikant, Empirical investigation of a quantum ﬁeld theory of forward rates, e-print
+cond-mat/0106317.
+B. Baaquie, M. Srikant, Comparison of ﬁeld theory models of interest rates with market data, e-print
+cond-mat/0208528.
+B. Baaquie, M. Srikant, Hedging in ﬁeld theory models of the term structure, e-print cond-
+mat/0209343.
+B. Baaquie, Quantum Finance, book in preparation.
+M. Baxter, General Interest-Rate Models and the Universality of HJM, in Mathematics of Derivative
+Securities, M. A. H. Dempster and S. R. Pliska. Cambridge University Press, 1997, p. 315.
+J.-P. Bouchaud, N. Sagna, R. Cont, N. ElKaroui, M. Potters, Phenomenology of the interest rate curve,
+Applied Mathematical Finance, 6, 209 (1999) and Strings attached, RISK Magazine, 11 (7), 56
+(1998).
+A. Brace, D. Gatarek, M. Musiela, The market model of interest rate dynamics, Math Finance, 7, 127
+(1997).
+R. Cont, Modelling the term structure of interest rates: an inﬁnite dimensional approach, to appear
+in International Journal of Theoretical and Applied Finance.
+T. Di Matteo, T. Aste, How does the Eurodollar interest rate behave? Int. Jour. Theo. Appl. Fin., 5,
+107 (2002).
+D. Heath, R. Jarrow and A. Morton, Bond pricing and the term structure of interest rates: A new
+methodology for contingent claim valuation, Econometrica, 60, (1992), 77–105.
+J. Hull and A. White, Numerical procedures for implementing term structure models II: two-factor
+models, Journal of Derivatives, Winter, 37 (1994).
+
+354
+The yield curve
+D. P. Kennedy, Characterizing Gaussian models of the term structure, Mathematical Finance, 7, 107
+(1997).
+A. Matacz, J.-P. Bouchaud, Explaining the forward interest rate term structure, International Journal
+of Theoretical and Applied Finance, 3, 381 (2000a).
+A. Matacz, J.-P. Bouchaud, An empirical study of the interest rate curve, International Journal of
+Theoretical and Applied Finance, 3, 703 (2000b).
+L. C. G. Rogers, Which Model for Term-Structure of Interest Rates Should One Use? in M. Davis,
+D. Dufﬁe, W. Fleming and S. Shreve, eds. Mathematical Finance. IMA Vol. Math. Appl., 65,
+(New York: Springer-Verlag, 1995).
+P. Santa-Clara, D. Sornette, The dynamics of the forward rate curve with stochastic string shocks, The
+Review of Financial Studies, 14, 149 (2001).

@@ -1,0 +1,1259 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         212 
+ 
+Chapter 18 
+Lessons and Values: The [0,1] Game Redux 
+ 
+At the outset of this book, we described an approach to studying poker that focused on the 
+dimensions of the game; instead of attempting to solve all of poker all at once, an impossible 
+task, we instead focus on the different elements and characteristics of games and attempt to 
+understand how they affect our play, whether optimal or exploitive. The [0,1] game is a clear 
+example of this; over the course of Part III, we have investigated twelve different [0,1] games, 
+each with different betting structures and rules. To this point, we have focused on the solutions 
+to games, and also to the methodologies we could use to solve any game of this type. 
+ 
+However, another important aspect of analyzing games and learning lessons is to consider the 
+value of the game. The value of the game is the expectation of a particular player assuming the 
+game is played with optimal strategies. By convention, we state the value of the game in terms 
+of Y's expectation; we do this because almost all poker games favor the second player because of 
+his positional advantage. Thus, when we use this convention, values of games are usually 
+positive. We also, as usual, discuss the ex-showdown value of the game unless otherwise stated. 
+We often use the letter G to denote the game value, whether in a particular region or overall. 
+ 
+We can always calculate the value of a game by brute force; simply calculating all the 
+possibilities for hands that either player would hold, finding the strategies they would employ, 
+the joint probabilities of all possible holdings, and adding up the resultant value distribution. 
+This is often an easy and useful method for solving simple games, such as [0,1] Game #1 
+(Example 11.2). 
+ 
+X's hand 
+Y's hand 
+Probability 
+Outcome 
+Weighted Factor 
+[0, 1 2
+ ] 
+[0, 1 2
+ ] 
+1 4
+  
+0 
+0 
+[0, 1 2
+ ] 
+[1 2
+  ,1] 
+1 4
+
+0 
+0 
+[1 2
+ , 1] 
+[0, '1 2
+ ] 
+1 4
+
++1 
++ 1 4
+  
+[1 2
+ ,  1 ] 
+[1 2
+ , 1] 
+1 4
+  
+0 
+0 
+Total 
+ 
+ 
+ 
++ 1 4
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 18.1 -Game Value for [0,1 ] Game #1 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         213 
+ 
+So Y's equity in the half-street no-fold game is 1 4
+ . We can apply this methodology to many of 
+the other games we solved as well. However, this method becomes more and more difficult to 
+implement, as the game gets more and more complex. Fortunately, we can take advantage of 
+some of the properties of optimal strategies to find methods that are more suitable for finding 
+game values for games that are more complex. 
+ 
+Consider this same game. Suppose that we hold Y's strategy constant - that is, Y plays his 
+optimal strategy. We can move X's strategy around, knowing that X can never gain value by 
+doing this; remember, if X can improve his equity, then Y isn't playing optimally. 
+ 
+So we can have X follow a "best response" strategy instead of his optimal strategy. This is 
+convenient for us, because on hands where X is indifferent to different actions, we can choose 
+whichever action is easiest for calculation purposes. Note that this does not mean that X can play 
+these strategies and achieve these values; Υ could exploit him. We are trying to calculate the 
+value of the game here, not the strategies both players will follow. 
+ 
+Considering full-street games: 
+ 
+[0,1] Game #4 (Example 15.1) was more of an instructive examination of degeneracy than a 
+game in the mold of the other games; its equity is quickly calculated by noting that both players 
+put in one bet with all hands. Hence the ex-showdown value of the game is zero. 
+ 
+[0,1] Game #5 (Example 15.2) was the no-fold game with a single raise allowed, but no check-
+raising. The solution to this game was: 
+ 
+x1 = 1 4
+  
+y1 = 3 4
+  
+y2 = 1 4
+  
+ 
+We can easily calculate the equity of this game by holding Y's strategy constant, and finding a 
+best-response strategy for X. The key to the best response strategy is that X can either check or 
+bet between 1 4
+  and 3 4
+  against the optimal strategy and obtain the same value. If he bets, he gains 
+a bet from Y's hands between 3 4
+  and 1, but loses a bet to Y's hands between 0 and 1 4
+  (compared 
+to checking). Since the equities from betting or diecking are the same, we can simply use + 1 4
+  as 
+Y's equity when X is on [1 4
+ , 3 4
+ ]. 
+ 
+X's hand 
+Y's hand 
+Probability 
+Outcome 
+Weighted Factor 
+[0, 1 4
+  ] 
+[0, 1 4
+ ] 
+1 16
+  
+0 
+0 
+[0, 1 4
+ ] 
+[1 4
+ , 1] 
+3 16
+  
+-1 
+- 3 16
+  
+[1 4
+ ,3 4
+ ] 
+[0, 1] 
+1 2
+
++ 1 4
+  
++ 1 8
+  
+[3 4
+ , 1] 
+[0, 3 4
+ ] 
+3 16
+  
++1 
++3 16
+  
+[3 4
+ , 1] 
+[3 4
+ , 1] 
+1 16
+  
+0 
+0 
+Total 
+ 
+ 
+ 
++ 1 8
+  
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         214 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 18.2. Game Value for [0,1] Game #5 
+ 
+So the value of the two-bet no-check-raise game to Y is 1 8
+  of a unit. This is actually quite a bit 
+of value! To put this into terms that you might be more familiar with, let's consider the total 
+action that Y puts into the pot. 
+ 
+When X bets, Y raises Vi of the time, and calls a bet the rest of the time, for a total of (5 4
+ )( 1 2
+ ) 
+action, or 5 8
+  of a bet. When X checks, Y puts in one bet 3 4
+  of the time, for a total of (3 4
+ )( 1 2
+ ) = 
+3 8
+  of a bet. So the total average action Y puts in from one trial of this game is one bet. For this, 
+he obtains an eighth of a unit, for an edge of 12.5% on his total action. 
+ 
+The reason for this edge is entirely positional; the game is symmetric except that Y acts second. 
+You can see from this simple example that the value of position is inherent in poker. However, 
+this game is not as biased against X as the half-street game was. Recall that in that game, X is 
+reduced to checking and calling. Here, he gains an additional strategic option, that of betting. Y, 
+at the same time, gains the option of raising. It turns out that this game, where X can bet, is 
+worth half as much to Y as the game where X is compelled to check in the dark. 
+ 
+We can further remove the bias against X (in a manner more like regular poker) by looking at the 
+same game, but with check-raise allowed. [0,1] Game #7 (Example 16.4) is the same as [0,1] 
+Game #5 (Example 16.2), except for the addition of check-raise. We should then expect that X 
+will do better because he has gained an additional strategic option. 
+ 
+Let's calculate the equity of this game: 
+ 
+The solution to this game was: 
+ 
+x1 = 5 9
+  
+y1 = 2 3
+  
+x2 = 1 9
+   
+y2 = 1 3
+  
+ 
+Again, we hold Y's thresholds constant, and examine X's equity from his best response 
+strategies. 
+ 
+When X is below 1 3
+ , we know that no matter what X does, two bets will go in when Y is 
+between 0 and 1 3
+ . X gains a bet from check-raising (compared to betting) when Y is between 1 3
+  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         215 
+ 
+and 2 3
+ , but loses that bet when Y is between 2 3
+  and 1. So X is indifferent to betting or check-
+raising on the entire interval [0, 1 3
+ ]. 
+ 
+When X is between 1 3
+  and 5 9
+ , he no longer can profitably check-raise, because the additional 
+bet he loses to Y's good hands is not made up by the additional bet he gains from Y's mediocre 
+betting hands. Hence, he will simply bet in this interval. Above 5 9
+  X checks. 
+ 
+So we can evaluate the table assuming that X plays the following strategy: 
+ 
+Bet hands below 5 9
+  
+ 
+Check and call with hands above 5 9
+ . 
+ 
+This strategy has the same equity as X's optimal strategy against Y's optimal strategy. Y could 
+exploit it, but remember we are only trying to find the game value here, not strategies for the two 
+players to follow. 
+ 
+X's hand 
+Y's hand 
+Probability 
+Outcome 
+Weighted Factor 
+[0, 1 3
+ ] 
+[0, 1 3
+ ] 
+1 9
+  
+0 
+0 
+[0, 1 3
+ ] 
+[1 3
+ , 1] 
+2 9
+  
+-1 
+-2 9
+  
+[1 3
+ , 5 9
+ ] 
+[0, 1 3
+ ] 
+2 27
+  
++2 
++ 4 27
+  
+[1 3
+ , 5 9
+ ] 
+[1 3
+ , 5 9
+ ] 
+4 81
+  
+0 
+0 
+[1 3
+ , 5 9
+ ] 
+[5 9
+ ,  l] 
+8 81
+  
+-1 
+-8 81
+  
+[5 9
+ , 1] 
+[0, 5 9
+ ] 
+20 81
+  
++1 
++20 81
+  
+[5 9
+ , 1] 
+[5 9
+ , 2 3
+ ] 
+4 81
+  
++3 4
+  
++1 27
+  
+[5 9
+  ,1] 
+[2 3
+ , 1] 
+4 27
+  
+0 
+0 
+Total 
+ 
+ 
+ 
++1 9
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 18.3 Game Value for [0,1] Game #7 
+ 
+The equity of the game with check-raise is 1 9
+  compared to the equity of the game without check-
+raise, which is 1 8
+ . So X gains 1 72
+  of a unit in value from the strategic option of check-raising. 
+This isn't a lot. In fact, when we first solved this game, we expected that the value of check-
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         216 
+ 
+raising would be significant; we conjectured that it would reduce the game value by half. But 
+looking at this more critically, we find that check-raise doesn't really impact Y's strategy 
+tremendously. He raises a little more loosely (from 1 4
+  to 1 3
+ ), and bets a little tighter (from 3 4
+ to 
+2 3
+ ), but neither of these changes create a very large movement in equity from the non-check-
+raise case. 
+ 
+The final two no-fold games that we considered were the games with infinite raises allowed. 
+[0,1] Game #6 (Example 16.3), where check-raise was not allowed, is the simpler of these 
+games. To find the value of this game, we can take advantage of the game's symmetry once we 
+reach the second bet. 
+ 
+The solution to this game was: 
+ 
+x1 = 1/(1 + 2 r) 
+xn = rn-1x1 (for odd x > 1) 
+y1 = (1 + r)x1 
+yn = rn – lx1 (for even n > 1) 
+ 
+Let's consider first the various regions of interest, working backwards from the weakest hands. 
+We can construct a matrix as follows (X's hands across the top, Y's on the left): 
+ 
+ 
+[0, x1] 
+[x1, y1] 
+[y1, 1] 
+[0, x1] 
+* (see below) 
++1 
++1 
+[x1, y1] 
+-1 
+0 
++1 
+[y1, 1] 
+-1 
+0 
+0 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 18.4. Game Value for [0,1] Game #6 
+ 
+We have marked the area where both players have a hand better than x1 with a* because the 
+equity in that area is unclear; there are many thresholds where players win different amounts of 
+bets. Specifying the entire range of infinite thresholds would be impossible. However, consider 
+the situation where both players have a hand on [0, x1]. X would bet, and when both players are 
+on this interval, we have a sub-game. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         217 
+ 
+Let's use g to represent the equity for Y in the region marked * 
+ 
+Within the * region, we have: 
+ 
+X's hand 
+Y's hand 
+ Probability 
+Outcome 
+Weighted Factor 
+[y2, x1] 
+[y2, x1] 
+(x1 – y2)2 
+0 
+0 
+[y2, x1] 
+[0, y2] 
+(y2)(x1 – y2) 
++2 
+2(y2)(x1 – y2) 
+[0, y2] 
+[y2, x1] 
+(y2)(x1 – y2) 
+-1 
+-(y2)(x1 – y2) 
+[0, y2] 
+[0, y2] 
+y22 
+-g 
+-gy22 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 18.5. Game Value for [0,1] Game #6 in special region 
+ 
+After one more raise, this game is the same as in [0,1] Game 6, except that the situation has been 
+reversed! Both players have a hand on a particular interval, and the player who made the last 
+raise has equity -g. 
+ 
+We can now find g: 
+ 
+g = y2(xl - y2) - gy22 
+g = rx1(x1 - rx3) – gr2x1
+2  
+gr2x1
+2 + g= rx1(x1 — rx1)  
+gr2 + g= r - r2  
+g(1+r2) = r - r2  
+g(2(1 - r)) = r - r2  
+g  = r/2 
+ 
+So the equity in this region where both players have strong hands is r/2. 
+ 
+Filling this value into our matrix, we have: 
+ 
+ 
+[0, x1] 
+[x1, y1] 
+[y1, 1] 
+[0, x1] 
+r/2 
++1 
++1 
+[x1, y1] 
+-1 
+0 
++1 
+[y1, 1] 
+-1 
+0 
+0 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         218 
+ 
+Taking the weighted average equity of the game, we have: 
+ 
+<Y> = (1 – y1)(y1 - xl) + rx1
+2/2  
+<Y> = (1 4
+ )( 1 4
+ ) + r(1 8
+ )  
+<Y> = 1 16 
+
+ + r/8  
+<Y> ≈ 0.11428 
+ 
+We can compare this value to the value 1 8 
+ obtained from the first game in this chapter, where 
+only two bets were allowed without check-raise. This game is slightly more favorable for X than 
+that one. This is of course due to the fact that X can reraise after Y raises. Even then, Y can put 
+in the fourth bet, X the fifth, and so on, but each succeeding bet has a much smaller impact on 
+the EV. The relatively small change that the addition of infinite bets makes on X's equity can be 
+seen by calculating x3 = r2/(l + 2r) = 0.09384. In order for X to put the third bet in, Y must be 
+above y2, which occurs only about 22% of the time and X must be above x3 a parlay of just 2%. 
+ 
+The last of the no-fold games is the infinite bet game with check-raise allowed (see Example 
+16.4). We can solve this game in a like manner. Recall that in the two-bet check-raise game, X 
+was indifferent between check-raising and betting with all the hands stronger than y2 in the 
+previous check-raise game. It turns out that this remains the case in the infinite bet game; X is 
+indifferent between check-raising and betting between any two Y thresholds. Hence as our 
+best response strategy for X we will play the simple strategy:  
+ 
+xl = y1 
+x3 = y3  
+ 
+... and so on. 
+ 
+In the region where both players are better than y1, we again find (as in the last game) that the 
+equity of that region is r/2. We invite you to verify that this is the case, as well as verifying X's 
+indifference between his various strategy options. 
+ 
+This creates a simple matrix like the previous one: 
+ 
+ 
+[0, y1] 
+[y1, 1] 
+[0, y1] 
+r/2 
++1 
+[y1, 1] 
+-1 
+0 
+ 
+Taking the weighted average equity of this game, we have: 
+ 
+<Y> = ry1
+2/2  
+<Y> = r/4  
+<Y> ≈ 0.10355 
+ 
+Again, we see that the addition of check-raise benefits the first player only a small amount, 
+moving Y's equity from about 0.114 to about 0.104. By contrast, allowing X to bet immediately 
+decreased Y's equity from 1 4
+  to 1 8
+ . We will return to comparing the values of these games 
+shortly, after quickly considering the equity of the finite pot games. 
+ 
+The simplest finite pot game we considered was the half-street game where folding is allowed, 
+[0,1] Game #2 (Example 11.3), whose solution was as follows: 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         219 
+ 
+y1 = (1 - α)/(2 - α)(α +1) 
+x1* = 2y1 
+1 - y0 = αy1 
+ 
+To solve this game, we will hold Y's strategy constant and find a best response strategy for X. 
+We will use the notation Gn to represent the value in regions beginning with the weakest (n = 0) 
+and proceeding to the strongest. 
+ 
+When X is on [0, y1], he obviously achieves maximum value by calling, since he even beats 
+some of Y's value bets. So here X calls. He breaks even when Y has a value betting hand, and 
+gains one bet against Y's bluffs. 
+ 
+G2 = <X on [0, y1] >  
+G2 = -αy1 
+ 
+When X is on [y1, y0], he is actually indifferent with all these hands to calling or folding. He 
+wins against bluffs and loses against value bets. Since he is indifferent, we can arbitrarily assume 
+that he folds. Then Y gains nothing with value bets and wins the pot of P units with bluffs. 
+ 
+G1 = <X on [y1, y0] >  
+G1 = Pαy1 
+G1 = (1- α)y1 
+ 
+When X is on [y0, 1], he folds, and Y wins the pot. Y gains half a pot when he is on the same 
+interval as X, so: 
+ 
+G0 = <X on [y0, 1] >  
+G0 = Pαy1/2 
+G0 = y1(1- α)/2 
+ 
+To find the overall equity of the game, we can take the weighted sum of these over the interval 
+lengths: 
+ 
+G = y1G2 + (y0 – y1)G1 + (1 – y0)G0 
+G = y1(-αy1) + (1 – y1 – αy1)(1 - α)y1 + αy1
+2(l - α)/2 
+ 
+G = (1 - α)y1 – (2 - α)(1 + α)y1
+2/2 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(18.1) 
+ 
+We can further simplify this by using the value of y1 and obtain:  
+ 
+G  = y1(1 - α)/2 
+ 
+[0,1] Game #9 (Example 17.1) was the finite pot game for a full street. The game value can be 
+found through a similar process. In the region [0, y1], we can find that the value of X's checks or 
+bets against Y's optimal strategy is the same: 
+ 
+Y's hand 
+X checks 
+X bets 
+[0, x1] 
+ +1 
++1 
+[x1, y1] 
+ -1 
+-1 
+[y1, y1*] 
+ 0 
+-1 
+[y1*, y0] 
+ 0 
+0 
+[y0, 1] 
+- 1 
+0 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         220 
+ 
+ 
+The solution to this game (for Y) was: 
+ 
+y1 = (1 - a)/(1 + a) 
+y0 = (1 + a2)/(1 + a) 
+y1* = 1 – a 
+ 
+ 
+We see that Y gains a bet in the region [y1, y1* ] when X checks, but loses a bet in the region [y0, 
+1], We can show that these regions are equally sized as follows: 
+ 
+y1* - y1 = (1 - a) – (1 - a)/(1 + a) = (a – a2)/(1 + a) = ay1 = 1 – y0 
+ 
+So X is indifferent to checking or betting against Y's optimal strategy with a hand on [0, y1]. This 
+is convenient as it allows us to reuse all the work from the previous game - the value of this 
+game is equivalent to the value of Game #2 (Example 11.3) where X checks dark except that the 
+value of y1 is different. 
+ 
+Equation 18.1 holds here: 
+ 
+G = (1 - a)y1 - (2 - a)(l + a)y1
+2/2 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(18.1) 
+ 
+Instead of substituting the value of y1 from the original game, we substitute the new value of y1 
+from this game: 
+ 
+y1 = (1 - a)/(l + a) 
+ 
+G = (1 - a)2/(l + a) - (2 - a) (1 - a)2/2(l + a)   
+ 
+ 
+ 
+ 
+ 
+(18.1)  
+G = (1 - a)2(2 - 2 + a)/2(l + a)  
+G = a(l - a)2/2(l + a) 
+ 
+The third finite-pot game we looked at was the game where Y could raise but there was no 
+check-raise (Example 17.2). For this game, we can see that the equations for the following 
+values are the same as in the one-bet case: 
+ 
+G1 = <X on [y1,y0] > 
+G1= Pay1 
+G1 = (1 – a)y1 
+G0 = <X on [y0, 1] > 
+G0 = Pay1/2 
+G0 = y1( l - a)/2 
+ 
+For G2, the case where X is on [y1, y2] we can examine X's options. We know that if X bets in 
+this region, he is indifferent to his choices when Y raises. Y will always have him beat with 
+value raises, and X will always beat bluffs. So he is indifferent between bet-folding and bet- 
+calling in this region. Comparing the value of X check-calling in this region to his bet-calling, 
+we have: 
+ 
+Y's hand 
+X check-calls 
+X bet-calls 
+[0, y2] 
++1 
++2 
+[y2, y1] 
+0 
+0 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         221 
+ 
+[y1, y1*] 
+0 
+-1 
+[y1*, y2#] 
+0 
+-2 
+[y2#, y0] 
+0 
+0 
+[y0, 1] 
+-1 
+0 
+ 
+Again, we can show that X is indifferent between these choices as follows. One of the 
+indifference equations from this game was: 
+ 
+y1* - y1 = (P + 1 )(y2# - y1*) + (1 –y0) 
+ 
+For bet-calling, X gains: 
+ 
+2 (y2# - y1*) + y1* - y1 = (P + 3) (y2# - y1*) + 1 - y0 = y2 + ay1 
+ 
+From check-calling, X gains: 
+ 
+(y2 - 0) + (l - y0) = y2 + ay1 
+ 
+Hence on the interval [y2, y1] X is indifferent between check-calling, bet-folding, and bet- 
+calling. To those of you who are interested in solving additional [0,1] games, this type of 
+relationship (which we call a triple indifference) is common in more complex finite pot games, 
+and is often helpful in solving these games with fewer and simpler indifference equations. 
+ 
+We can most easily find Y's equity when X is on this interval by assuming X checks and calls. 
+Then we have: 
+ 
+G2 = <X on [y2, y1] > = y2 – ay1 
+ 
+With hands stronger than y2, X's best option is to bet-call. By doing so, he breaks even when Y 
+raises for value, gains one bet when Y calls, and gains two bets when Y raise-bluffs. Y's equity, 
+then, is: 
+ 
+G3 = <X on [0, y2] > - (y1* - y2) – 2(y2# - y1*)  
+G3 = y2 - y2# - (y2# - y1)  
+G3 = y2 - (l - a) - a2y2  
+G3 = (1 – a2)y2 – 1 + a 
+ 
+Summing the weighted values of these four regions, we have: 
+ 
+<Y> = y2G3 + (y1 -y2)G2 + (y0 – y1)G1 + (1 - y0)G0  
+<Y> = y2G3 + (y1 - y2)G2 + (y0 – y1)G1 + (1- y0)G0  
+<Y> = y2(G3 - G2)+y1G2 + (y0 – y1)G1 + (1 – y0)G0  
+<Y> = -(1 - a)y2 - a2y2
+2 + (1 + a)y1y2 + (1 - a)y1 - (1 + a)(2 - a)y1
+2/2 
+ 
+For [0,1] Game #11 (Example 17.3), the check-raise game with two bets, we have an analogous 
+situation to the no-fold game. Holding Y's strategy constant, we can show that X is indifferent to 
+check-raising or bet-calling in the region [0, y2]. Hence the value of Game #11 follows the same 
+formula as the value of Game #10; of course the values of y1 and y2 are different, and hence Y's 
+equity is decreased. 
+ 
+We're going to stop deriving the game values here; as you can see, the values and the process of 
+deriving them scale in complexity along with the games. However, these methods can be used to 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         222 
+ 
+find the value of any game, so we encourage you to attempt to find the values and solutions to 
+other [0,1] games. 
+ 
+Lessons of the [0,1] Game 
+Now, let's take a deep breath, and review what all these values mean. 
+ 
+Take a look at the following figure, which shows some of the relationships between these games: 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 18.6. Game Value for various [0,1] Games 
+ 
+We can see in this figure that some of these games are in fact special cases of each other; for 
+example, Game #1 is actually a special case of the more general Game #2. To obtain Game #1, 
+we simply let the pot become arbitrarily large. This means that the value of a goes to zero. This 
+relationship holds between any finite pot and its no-fold counterpart; we can simply find the 
+value of the game for the finite pot game and take the limit as the pot goes to infinity to find the 
+value of the no-fold game. There are other relationships between the games as well. We can see 
+that some games are obtained by adding strategic alternatives to a different game. For example, 
+Game #7 is simply Game #5, but we give X the opportunity to check-raise. By comparing the 
+equities of the games, we can see the verification of a principle we stated earlier: 
+Strategic options have non-negative value. 
+Throughout these games, we find examples of this. Consider the half-street games #1 and #2. In 
+Game #2, the primary change that occurs is that X gains the strategic option of folding to Y's bet. 
+Hence the value of Game #2 (from Y's perspective, remember) is reduced. Likewise for all of the 
+following transitions: 
+ 
+Between Game #1 and Game #4, where X gained the option to bet.  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         223 
+ 
+Between Game #4 and Game #5, where Y gained the option of raising.  
+Between Game #5 and Game #6, where X gained the option of reraising.  
+Between Game #5 and Game #7, where X gained the option of check-raising. 
+ 
+In all of these cases, and in their counterparts in the finite pot games, the player who gained a 
+strategic option gained (or at least retained their previous) equity. 
+ 
+The second principle that we find in the [0,1] game is the value of r. In real poker, there are card 
+removal effects, the effects of multi-street play, and so on that subtly change the value of r. But 
+the idea that you should raise your opponent on the river with about 41% of the hands that he 
+would bet is a practical one. 
+ 
+Consider the following game. Suppose you and a friend decide to play a variant of holdem where 
+you each receive two cards, but then the entire board is dealt, and there is one round of betting 
+(the river). Suppose you structure the betting so that Y can either bet or show down, then X can 
+raise and you allow unlimited raises. The optimal strategy for this game is something roughly 
+like this: the first players bets r of his hands; the second player raises with r2 of the hands, the 
+first player reraises with r3 of the hands, and so on. Suppose the board was J♥ 9♣ 8♠ 3♦ 2♣. Then 
+the hands could be ranked from top to bottom by value. Each player can have a total of 1,081 
+hands. 
+ 
+Hand 
+Number of Ways 
+Cumulative # of ways 
+QT 
+16 
+16 
+T7 
+16 
+32 
+JJ, 99, 88, 33, 22 
+30 
+62 
+J9, J8 
+18 
+80 
+J3 or worse two pair 
+72 
+152 
+AJ, KJ, QJ 
+36 
+188 
+JT, J7, J4 
+60 
+248 
+A9-Q9, T9, 97-94 
+96 
+344 
+A9-Q9, T9, 97-94 
+96 
+440 
+Other hands 
+641 
+1081 
+ 
+(1081)r ≈ 448  
+(1081)r2 ≈ 185 
+(1081)r3 ≈ 77  
+(1081)r4 ≈ 32  
+(1081)r5 ≈ 13 
+ 
+In doing true optimal strategics for this game, we would be forced to consider card removal 
+effects and account for the fact that the hands are not uniformly distributed, etc. Obviously, you 
+would never stop raising with the nuts in real poker, and so on. But equally, we can see that in 
+the above example, the approximate cutoffs for putting in the nth bet are third pair or better for 
+the first bet, QJ or better for the second bet, first and third pair for the third bet, the second nut 
+straight for the fourth bet, and the nuts for the fifth. 
+ 
+Can we apply this directly to holdem? Not precisely, because the play on previous streets and the 
+resultant distribution of hands changes how the hands are allocated. But using this guideline of 
+41% (if your opponent cannot, fold - for example the pot is too big and he cannot have a draw) is 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         224 
+ 
+a reasonable guess. In games where the opponent can fold, we can adjust this number downward 
+(because the opponent still raises with his best hands but can now fold his worst), to about 35%. 
+ 
+This last example, in addition to showing how we might apply the value of r to real poker, 
+provides an introduction to the last and most important lesson of the [0,1] game. In all the [0,1] 
+games, hands were partitioned into regions, where each player took various actions. We saw that 
+at the threshold points, the players were indifferent to taking the actions on either side. But they 
+are not indifferent to taking all actions most of the time. 
+ 
+When we calculated some of the game values, we held Y's strategies constant and found that in 
+most of his value regions, X was indifferent to taking various value actions. This means that as a 
+practical matter, if Y plays optimally, X has some latitude to make mistakes near his threshold 
+values without it costing much. We call this type of strategy flexible. For Y, however, this is not 
+the case. If X plays optimally and Y fails to bet hands a litde better than y1, Y loses equity 
+immediately. We call strategies like Ys brittle. X's strategies are often flexible in [0,1] games 
+because with hands near his betting threshold, if he should check incorrectly, Y will often put in 
+the bet anyway. Such a situation doesn't exist for Y, however. 
+ 
+When you play a side whose strategies are brittle (which happens frequently to both sides of real 
+poker), the selection of hands with which you take each action is very important for optimal 
+play. Organizing hands into regions is both a logical and practical step as well as a high-
+expectation practice. What this means is that typically in real poker, we will identify cutoffs 
+between various actions and have clear ideas about what our intent in making such a bet or raise 
+is. On the river, these ideas are primarily centered around how many bets we are willing to put 
+in, and whether we will call or fold to a raise. On previous streets, these decisions are primarily 
+oriented toward whether we are betting for value or semi-bluffing, and how we will respond to 
+future action. 
+ 
+Additionally, this means that we typically do not play mixed strategies with very many hands: 
+that is, at the boundaries there are mixed strategies, and there may occasionally be reason to play 
+mixed strategies for the purpose of hiding card removal effects, but normally hands adjacent in 
+value are played in the same way. 
+ 
+Also to be noted is the fact that the [0,1] strategies for finite pot games are filled with regions 
+that exist primarily to make the strategies balanced. For each value bet, there is a corresponding 
+bluff, and a set of hands within the value region that will call a raise and some that will fold a 
+raise. Thinking about real poker play in this way is a very strong tool for enabling you to play in 
+a balanced manner. For every value bet you make, consider the bluffing region that corresponds. 
+How big is it? Are the ratios proper? When raising, do you raise-bluff? With which hands do you 
+do so? Questions like these are the kind that lead to balanced play that is difficult to exploit. 
+ 
+We close this chapter with a look at the last [0,1] game in this book, which provides an 
+interesting result related to high-low games. 
+ 
+ 
+ 
+Example 18.1 - The [0,1] x [0,1] Game 
+In this variant of the [0,1] game, each player receives two real numbers independently and 
+uniformly distributed from 0 to 1. One of these numbers is pre-designated to stand in as his 
+"high" hand, and the other as his "low" hand. Both hands are subject to the usual rules of the 
+[0,1] game; the lower "high'" number gets half the pot and the lower "low" number gets half the 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         225 
+ 
+pot. As a result, each possible pair (x, y) where x and y axe between 0 and 1 represents a possible 
+hand in this game. 
+ 
+Fox this game we stipulate that neither player may fold, there are two bets left, and check-raise is 
+not allowed. The pot size, as is usual in games where neither side may fold, is irrelevant. 
+ 
+A high percentage of bets in this game axe in fact a type of bet that we haven't discussed yet. 
+These bets are called semi-bluffs, where a player makes a bet expecting to often win half the pot 
+when called. These bets are extremely common in high-low games, but occur in holdem as well. 
+(As an example consider the play on the river of a two-paired board. Ace-high will often bet 
+expecting to often win half the pot when called by another ace-high.) In high-low games, 
+however, bets of this nature, where a player has a reasonably strong hand one way and a 
+mediocre hand the other make up a substantial part of all bets. 
+ 
+One way of looking at the game is by graphing the game as xy-coordinate pairs in a plane. 
+Instead of a single threshold, however, for each player's strategy, we have a boundary that 
+encloses a region fox an action. We initially parameterize the game as having three curves - we 
+call them x1, y1; and y2 by analogy with [0,1] Game #5 (Example 16.2). We also employ the 
+terms "below" the curve as referring to the area closer to (0,0) and "above" the area closer to 
+(1,1). These three curves, then, are related as follows: 
+ 
+(0, 0) < y1 < x1 < y2 < (l, 1) 
+ 
+We have indifference equations at each boundary as well. However, generating these 
+indifference equations is a little more complex than previously. In this case, we will begin by 
+assuming X's strategy first, deriving Y's strategy from that, and then retaining and trying to 
+improve X's equity by varying his strategy to prove that the strategy we assumed for X was in 
+fact optimal. 
+ 
+Assumption: x1 lies on the line y = 1 - x. 
+ 
+This assumption may perhaps make intuitive sense to the reader, by analogy with x1 in the one-
+dimensional [0,1] games that was 1 2
+  in the no-fold-allowed case. 
+ 
+Next consider the boundary y2. Y must be indifferent between calling (above y2) and raising 
+(below y2). The next step is to identify the regions that generate expectation for either player. 
+Note that in many regions the pot is split and neither player gains. For any point (x, y) on y2: 
+ 
+When X's hand in is a rectangle with vertices {(0, 0), (0, y), (x, 0), (x, y)}, Y loses one bet by 
+calling, but two by raising. This rectangle is the only place where X scoops Y. Y in turn scoops 
+X in a triangular region bounded by the vertices {(x, 1 - x), (1 - y, y), (x, y)}. See Figure 18.7. 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         226 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Each of these regions is worth one bet, so setting their areas equal: 
+ 
+xy =  1 2
+  (1 - y - x) (1 - x - y) 
+2xy = 1 - y - x - y + xy + y2 - x - x2 + xy 
+1 = x2 + y2 - 2x - 2y + 2 
+l = (x – l)2 + (y – l)2 
+ 
+Students of algebra will recognize this as the equation of a circle of radius 1, centered at (1, 1). 
+So we find that y2 is a quarter-circle of radius 1 centered at (1, 1}. 
+ 
+Turning to y1, we look at Y's indifference between checking and betting; Y gains a bet by betting 
+when X is in a rectangle with vertices {(1, 1), (1, y), (x, 1), (x, y)) and loses a bet when betting in 
+a triangle with vertices {(x, y), (x, 1 - x), (y, 1 - y)}. 
+ 
+Setting the areas of these regions equal: 
+ 
+(1 - x)(l - y) = 1 2
+  (y - (1 - x))(x- (1 -y)) 
+1 – x - y + xy = 1 2
+ (y- 1 + x)2 
+1- x - y + xy = 1 2
+  (y2 - y + xy - y + 1 - x + xy - x+ x2) 
+2 – 2x – 2y + 2xy = y2 - 2y + 2xy - 2x + x2 + 1 
+ 
+1 = y2 + x2 
+ 
+This is the equation of a circle of radius 1 centered at (0, 0). Plotting these three graphs, we see 
+that the strategies form a "football" about the centerline y = 1 - x. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+0 
+0.2 
+0.4 
+0.6 
+0.8 1 
+Figure 18.7. Region comparisons for hands in the [0,1] x [0,1] 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         227 
+ 
+We now return to our assumption and show that x1 does in fact he on the line y = 1 - x. To do  
+this, we can use the fact that we know that along x1, X is indifferent to betting or checking. 
+Along this boundary, X gains a bet by checking (over betting) when Y is below y2, because he 
+does not get raised. At the same time, he loses a bet when Y lies above y1 because he fails to gain 
+a bet from Y. Of course, for some hands above y1 and below y2, there is no difference because 
+the pot is split. 
+ 
+We know that the size of the two regions A and B must be equal. Intuitively we can see that 
+along the diagonal from (0, 1) to (1, 0) there will be symmetry between the two regions. Since 
+the diagonal is actually y = 1 - x, we have our optimal strategies. 
+ 
+This gives rise to at least one interesting answer: if it's a two-bet high-low game with no 
+qualifier, no card removal effects, no check-raise, and neither player may fold, what percentage 
+of hands should the second player bet? The answer is ./4! 
+ 
+These restrictions are quite onerous and so this game is not a true analogue to real-life high-low 
+games. However, it is at least sometimes the case that when playing high-low games (for 
+example stud), we find ourselves in a position very much like the "no fold" restriction The 
+distribution of hands with which we have arrived at seventh street is such that neither player can 
+fold, due to the high probability that the opponent has a one-way hand. Even weakened in this 
+way, this result indicates a significantly higher betting frequency than is commonly thought, 
+particularly by the player who is acting in last position. 
+ 
+Key Concepts 
+• Comparing the values of various games gives us insight into the importance of various 
+concepts. 
+• Adding strategic options to a one player increases the value of the game for that player. 
+• When considering the value of a game, we can often hold one player's strategy constant 
+and allow the other player's strategy to maximally exploit it in order to simplify the game 
+value calculation. 
+• Some strategic options are brittle - that is, small deviations from optimal cost equity 
+immediately. Others are flexible – that is, against the optimal strategy, they can  move 
+around in a range. 
+• Strategic options have non-negative value. 
+ 
+ 
+(0, 1] x[0,1] Game 
+0.2 
+0.4 
+0.6 
+O.e 
+1 
+0 
+0.2 
+0.4 
+0.6 
+0.8 I 
+X-Strategy Y-Strategy 

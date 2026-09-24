@@ -1,0 +1,355 @@
+144
+5 Data assimilation
+5.3.2
+Variational (cost function) approach
+We can also obtain the same best estimate of Tt by minimizing a function of the
+temperature deﬁned as the sum of the square of the distance (or misﬁt) of the estimate
+T to the two observations, weighted by their observational error precisions:
+J(T ) = 1
+2
+(T −T1)2
+σ 2
+1
++ (T −T2)2
+σ 2
+2
+
+(5.3.12)
+Exercise 5.3.2: Show that the minimum of the cost function J is obtained for T = Ta
+deﬁned in (5.3.5) with the same weights as in (5.3.10). Hint: ∂J/∂T = 0 for T = Ta.
+One may ask the motivation for deﬁning a cost function as in (5.3.12). We now
+show that (5.3.12) can be formulated using the maximum likelihood approach, where
+we ask the question: Given the two independent observations T1 and T2, which are
+assumed to have normally distributed errors with standard deviations σ1 and σ2, what
+is the most likely value of the true temperature T ? We deﬁne the analysis as the most
+likely value of T given the observations and their statistical errors.
+The probability distribution of an observation T1 given a true value T and an
+observational standard deviation σ1, is given by the gaussian distribution
+pσ1(T1|T ) =
+1
+√
+2πσ1
+e
+−(T1−T )2
+2σ2
+1
+Conversely, the likelihood (Edwards, 1984) of a true value T given an observation
+T1 with a standard deviation σ1 is given by
+Lσ1(T ||T1) = pσ1(T1|T ) =
+1
+√
+2πσ1
+e
+−(T1−T )2
+2σ2
+1
+Similarly, the likelihood of a true value T given an observation T2 with a standard
+deviation σ2 is
+Lσ2(T ||T2) = pσ2(T2|T ) =
+1
+√
+2πσ2
+e
+−(T2−T )2
+2σ2
+2
+Therefore the most likely value of T given the two independent measurements T1
+and T2 is the one that maximizes the joint probability, i.e., their product:
+max
+T
+Lσ1,σ2(T ||T1, T2) = pσ1(T1|T )pσ2(T2|T ) =
+1
+2πσ1σ2
+e
+−(T1−T )2
+2σ2
+1
+−(T2−T )2
+2σ2
+2
+Since the logarithm is a monotonic function, we can take the logarithm of the likeli-
+hood and obtain the same maximum likelihood temperature:
+max
+T
+ln Lσ1,σ2(T ||T1, T2) = max
+T
+
+const. −(T1 −T )2
+2σ 2
+1
+−(T2 −T )2
+2σ 2
+2
+
+(5.3.13)
+
+5.3 Introduction to least squares methods
+145
+The standard deviations are constant so that the maximum likelihood is attained when
+the cost function (5.3.12) is minimized.
+Alternatively (Purser, 1984), the Bayesian derivation of (5.3.12) assumes we
+made the observation T1 (the background forecast in the data assimilation prob-
+lem), which implies a prior probability distribution of the truth pT1,σ1(T ) =
+(1/
+√
+2πσ1)e−(T1−T )2/2σ 2
+1 , prior to the second observation. Then Bayes formula for
+the a posteriori probability of the truth given observation T2 is
+pσ2(T |T2) = pσ2(T2|T )pT1,σ1(T )
+pσ2(T2)
+=
+1
+√
+2πσ2
+e
+−(T2−T )2
+2σ2
+2
+1
+√
+2πσ1
+e
+−(T1−T )2
+2σ2
+1
+pσ2(T2)
+(5.3.14)
+The denominator
+pσ2(T2) =
+
+T ′
+1
+√
+2πσ2
+e
+−(T2−T ′)2
+2σ2
+2
+dT ′
+is independent of T . The estimate of the truth that maximizes the a posteriori prob-
+ability (5.3.14) is obtained by maximizing the logarithm of the numerator, and is
+given, once again, by the minimum of the cost function (5.3.12).
+Note that the control variable for the minimization of (5.3.12) (i.e., the variable
+with respect to which we are minimizing the cost function J) is now the temperature
+itself, not the weights. The equivalence between the minimization of the analysis
+error variance (ﬁnding the optimal weights through a least squares approach), and
+the variational cost function approach (ﬁnding the optimal analysis that minimizes
+the distance to the observations weighted by the inverse of the error variance) is an
+important property. This equivalence also holds true for multidimensional problems
+(in which case we use the covariance matrix rather than the scalar variance), and it
+indicates that OI (Gandin, 1963) and 3D-Var (e.g., Sasaki, 1970, Parrish and Derber,
+1992) are solving the same problem (Lorenc, 1986).
+Figure 5.3.1 illustrates the probability distribution for a simple case. Note that the
+analysis (the most likely value of the truth that maximizes the joint probability of T 1
+and T 2) has a probability distribution with a maximum closer to T 2, and a smaller
+standard deviation (higher precision) than either observation.
+5.3.3
+Simplest sequential assimilation and Kalman ﬁltering
+for a scalar
+This is a prototype of the full multivariate OI. Assume that one of the two pieces of
+information T1 = Tb is the forecast (or any other “background” value) and the other
+
+146
+5 Data assimilation
+-0.1
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+-4
+-2
+0
+4
+8
+T
+P(T2)
+P(T1)
+P(T)
+Probability
+T1=2; σ1=2
+T2=0; σ2=1
+T=0.4; σ=sqrt(0.8)
+6
+2
+Figure 5.3.1: Illustration of the properties of the probability distribution of the
+analysis T, given observations T1 and T2, using either the least squares approach or
+the Bayesian approach (after Purser, 1984).
+is an observation T2 = To. From (5.3.5) and (5.3.10), we can write the analysis as
+Ta = Tb + W(To −Tb)
+(5.3.15)
+where (To −Tb) is deﬁned as the observational “innovation” , i.e., the new infor-
+mation brought by the observation. It is also known as the observational increment
+(with respect to the background); W is the optimal weight, given by
+W = σ 2
+b
+	
+σ 2
+b + σ 2
+o
+
+−1
+(5.3.16)
+and the analysis error variance is, as before,
+σ 2
+a =
+	
+σ −2
+b
++ σ −2
+o
+
+−1
+(5.3.17)
+The analysis variance can in turn be written as σ 2
+a = σ 2
+b σ 2
+o /(σ 2
+b + σ 2
+o ), or
+σ 2
+a = (1 −W)σ 2
+b
+(5.3.18)
+Exercise 5.3.3: Derive equations (5.3.15)–(5.3.18).
+
+5.3 Introduction to least squares methods
+147
+Equations (5.3.15)–(5.3.18) have been derived for the simplest scalar case, but they
+are important for the problem of data assimilation because they have exactly the same
+form as the least squares sequential estimation methods used for real multidimen-
+sional problems (OI, interpolation, 3D-Var and even Kalman ﬁltering). Therefore we
+interpret these equations in detail:
+Equation (5.3.15) says: “The analysis is obtained by adding to the ﬁrst guess
+(background) the innovation (difference between the observation and ﬁrst
+guess) weighted by the optimal weight.”
+Equation (5.3.16) says: “The optimal weight is the background error variance
+multiplied by the inverse of the total error variance (the sum of the
+background and the observation error variances).” Note that the larger the
+background error variance, the larger the correction to the ﬁrst guess.
+Equation (5.3.17) says: “The precision of the analysis (inverse of the analysis
+error variance) is the sum of the precisions of the background and the
+observation.”
+Equation (5.3.18) says: “The error variance of the analysis is the error
+variance of the background, reduced by a factor equal to one minus the
+optimal weight.”
+All these statements are important because they also hold true for sequential data
+assimilation systems (OI and Kalman ﬁltering) for multidimensional problems. In
+these problems, in which Tb and Ta are three-dimensional ﬁelds of size order 107
+and To is a set of observations (typically of size 105 or 106), we have to replace the
+expression “error variance” by “error covariance matrix”, and the “optimal weight”
+by an “optimal gain matrix”.
+Note also from (5.3.16) that there is one essential “tuning” parameter in OI: the
+ratio of the a priori estimate of the observational to the background error variances
+(σo/σb)2.
+Moreover, if the background is a forecast, we can use equations (5.3.15), (5.3.16),
+and (5.3.18) to create a simple sequential “analysis cycle”, in which the observation is
+used once at the time it appears and then discarded. Assume that we have completed
+the analysis at time ti (e.g., at 12 UTC), and we want to proceed to the next cycle
+(time ti+1, or 18 UTC in the example). The analysis cycle has two phases, a forecast
+phase to update the background Tb and its error variance σ 2
+b , and an analysis phase,
+to update the analysis Ta and its error variance σ 2
+a .
+In the forecast phase of the analysis cycle, the background is ﬁrst obtained through
+a forecast:
+Tb(ti+1) = M [Ta(ti)]
+(5.3.19)
+where M representsaforecastmodel(whichcouldbeadynamicalmodel,persistence,
+climatology, extrapolation, etc.). We also need to estimate the error variance of the
+
+148
+5 Data assimilation
+background. In OI, this is done by making some suitable simple assumption, such as
+that the model integration increases the initial error variance by a ﬁxed amount, e.g.,
+a factor a not much greater than 1 (such as 1.5 or 2).
+σ 2
+b (ti+1) = aσ 2
+a (ti)
+(5.3.20)
+This allows the new weight W(ti+1) to be estimated using (5.3.16).
+In Kalman ﬁltering, (5.3.19) is the same as in OI, but instead of assuming a value
+for σ 2
+b (ti+1) as in (5.3.20) we compute the forecast error covariance using the forecast
+model itself. If we applied the model (5.3.19) to update the true temperature, there
+would be an error, since the model is not perfect: Tt(ti+1) = M [Tt(ti)] −εM.
+The model error is assumed to be unbiased (unfortunately this is not in general a
+good assumption) with an error variance Q2 = E(ε2
+M). Then,
+εb,i+1 = (Tb −Tt)i+1 = M(Ta)i −M(Tt)i + εM = Mεa,i + εM
+(5.3.21)
+whereM= ∂M/∂T isthelinearizedortangentlinearmodeloperator,andtheforecast
+for the background error covariance at the new time level is:
+σ 2
+b,i+1 = E
+	
+ε2
+b,i+1
+
+= M2σ 2
+a,i+Q2
+(5.3.22)
+Exercise 5.3.4: Derive (5.3.21) and (5.3.22).
+Intheanalysisphaseoftheanalysiscycle(forbothOIandKalmanﬁltering)wegetthe
+new observation To(ti+1), and we derive the new analysis Ta(ti+1) using (5.3.15),
+the estimates of σ 2
+b from either (5.3.20) for OI, or (5.3.22) for Kalman ﬁltering, and
+the new analysis error variance σ 2
+a (ti+1) using (5.3.18). After the analysis, the cycle
+for time ti+1 is completed, and we can proceed to the next cycle.
+Remarks 5.3.1
+In general, we cannot directly observe the model variables that we want to ana-
+lyze (i.e., temperature, moisture, wind, and surface pressure at the grid points of the
+model). Instead we have rawinsondes (which were designed to provide these de-
+sirable variables) but at locations which are different from the analysis grid points,
+so that we have to perform horizontal and vertical interpolations. A more complex
+problem is that we may have remote sensing instruments (like satellites and radars)
+that measure quantities inﬂuenced by the desired variables, like radiances, reﬂectivi-
+ties, refractivities, and Doppler shifts, rather than the variables themselves. Typically,
+then, we have to use an observation operator H(Tb) (also known as an observational
+forward operator) to obtain from the ﬁrst guess gridded ﬁeld a ﬁrst guess of the
+observations. The observation operator H includes spatial interpolations (or spectral
+to physical space transformation) from the ﬁrst guess to the location of the observa-
+tions. It also includes transformations based on physical laws, such as the radiative
+
+5.4 Multivariate statistical data assimilation methods
+149
+transfer equations that go from a model vertical proﬁle of temperature and moisture
+to “observed” ﬁrst guess satellite radiances.
+Instead of using the observation operator, the operational assimilation of remotely
+sensed data used to be done following the “retrieval” approach. For example, TOVS
+(TIROS-N Operational Vertical Sounder) is an instrument that measures radiances
+in the infrared and microwave range of the spectrum. The forward operator model
+H(T,q,clouds) was inverted by ﬁrst ﬁltering the clouds and then retrieving “observed”
+proﬁles of temperature and moisture, T (p) and q(p). The retrieved proﬁles (that
+“looked” like rawinsonde observations) were then assimilated into the models. As
+indicated in Chapter 1, the direct assimilation of radiances, using the forward obser-
+vational model H to convert the ﬁrst guess into “ﬁrst guess TOVS radiances” and
+then the assimilation of the “radiances innovations” (observed minus ﬁrst guess radi-
+ances) has resulted in major improvements in the forecasts in both hemispheres (e.g.,
+Fig. 1.4.3). This will be discussed further in Section 5.5, but we remark here that the
+improvements obtained by direct assimilation of the radiances are due basically to
+two reasons:
+(1) There are fewer independent radiance observations than vertical levels of T
+and q in the model, which means that the problem of deriving a “retrieval”
+using only radiances is underdetermined. Therefore, in order to “retrieve”
+(invert the forward observational operator) it is necessary to introduce
+additional and less accurate statistical information into the problem. The
+introduction of this ancillary information (usually based on climatology, and
+generally less accurate than a short-range forecast used as a ﬁrst guess) is
+unnecessary with the direct assimilation of radiance innovations.
+(2) The observation error covariance of the retrieved T and q proﬁles is very
+difﬁcult to determine, since it involves strong error correlations among
+retrievals in different latitude and longitude locations introduced by the use of
+ancillary information. On the other hand, observed radiances have “cleaner”
+error covariances, since they depend only on instrument errors, and not on
+how the data were processed. As a result, the observational error covariance
+for the radiances is usually diagonal.
+5.4
+Multivariate statistical data assimilation methods
+We now generalize the least squares method to obtain the OI equations for vectors
+of observations and background ﬁelds. These equations were derived originally by
+Eliassen (1954, reproduced in Bengtsson et al., 1981). However, Gandin (1963)
+derived the multivariate OI equations independently and applied them to objective
+analysis in the Soviet Union. Gandin’s work had a profound inﬂuence upon the

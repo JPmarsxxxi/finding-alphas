@@ -1,0 +1,1115 @@
+APPENDIX 3
+Execution
+After deciding what trade to do, we still need to do it. Trade execution is a
+complex subject. Many open-outcry traders made a lot of money purely
+because of their ability to execute well. Execution was such a valuable skill
+that being good at it could mask a lot of other trading weaknesses. It was
+possible to be a good floor trader if your only skill was execution. Similarly,
+on the electronic exchanges many firms have done very well with
+algorithmic trading, order-type arbitrage, and latency advantages.
+Even if execution ability isn't going to be a source of alpha (which it
+absolutely can be), a large enough trader may need to seriously consider
+optimizing execution. But most traders won't be in this situation. They will
+obviously want to minimize trading costs but won't trade enough to need to
+invest in an algorithmic system. For these people, using the built-in
+execution algorithms in the widely available (and free) brokerage-provided
+trading systems should be fine. Twenty years ago, it was reasonably easy to
+beat most VWAP systems (volume-weighted average price). Now it isn't.
+However, it is still important to understand how to think about transaction
+costs generally. All financial decision-making is about balancing risk and
+reward. In the case of trade execution, the issue is how much we should pay
+to do a trade. If we are too aggressive, we will kill our returns by paying too
+much, but if we are too passive, we won't ever make any trades at all. This
+is true no matter what size we are trading or how liquid the product is. The
+situation may differ by degree, but the principles will be the same. The
+mathematics of balancing expected return and trading cost can become
+complex but there are also some broadly applicable rules of thumb that we
+can use.
+The decision to make a trade is contingent on the instrument being at some
+particular price, the “decision price.” This is often the price in the middle of
+the bid-ask spread but it could be any price at all. A transaction cost is the
+price premium paid above the decision price for buyers and the discount
+below the decision price for sellers. The total cost has several components.
+Here they are in rough order of how evident they are:
+Commissions and fees. Commissions are paid to brokers and fees are
+charged by exchanges and regulatory bodies, but they are both fixed
+and visible. Who they go to doesn't matter to us as traders, so we will
+consider them to be the same.
+Bid-ask spreads. The bid-ask spread is the difference between the
+highest bid price and the lowest ask price. It exists to compensate the
+market-makers for providing liquidity. Because market-makers have
+their own set of problems, the bid-ask spread is highly variable, both
+during the day and in different market regimes. Further, the displayed
+bid-ask spread will often not be the true spread. The visibly quoted
+spread will be for a given size. Orders smaller than this can often be
+filled inside the spread and larger orders will usually pay a wider
+spread.
+Price change. Price change is the change in value of the instrument
+between our decision to trade and the execution. This can be positive
+or negative depending on whether we are buying or selling and
+whether the market is rallying or dropping. Generally, when we are
+entering a trade the cost will be negative because we will be selling
+something we expect to drop or buying something we expect to
+increase in value. But the cost will be random when we exit, because if
+we had a price view, we wouldn't be exiting. This is visible and
+variable.
+Market impact. Market impact is the price change due to our order.
+Because the price will also be changing of its own accord, market
+impact is invisible. It is also variable and depends on what other
+traders are doing at the same time. Some of the market impact will be
+temporary and lasts only until the market has absorbed the new trade,
+but some is permanent as the market processes the new information
+from the more aggressive price takers.
+Opportunity cost. Opportunity cost is the lost profit when we do not
+enter a trade. This is generally due to insufficient liquidity. This cost is
+invisible and variable.
+The trader's execution dilemma is to maximize return given these costs. If
+he is too aggressive, the realized costs will be high. If he is too passive,
+there will be significant timing risk and opportunity cost because many
+trades will be missed.
+Commissions, fees, and taxes are inescapable by-products of our trading
+strategy. A given strategy can't just be made to trade less often or to take a
+different holding period. Then it is a different strategy. These costs should
+be considered when the strategy is being planned and tested but once we are
+trading, they are what they are. Changing these would require changing the
+strategy.
+The bid-ask spread is also in some ways a fact of nature. If you demand to
+be filled, you will pay the spread. Many traders have a hard time even
+accepting this, thinking that they can buy on the bid and sell on the offer. Of
+course, it is possible to try to do this, but if you want a guaranteed fill, you
+will need to pay the spread.
+But the effective spread will probably not be the difference between the low
+offer and the high bid. To see this, look at the order book in Table A3.1.
+TABLE 
+A3.1 
+The 
+Order 
+Book 
+of 
+All 
+Bids 
+and 
+Offers 
+for 
+UVXY
+(ProShares Ultra VIX Short-Term Futures ETF) on the Morning of August
+10, 2016
+Bid
+Size
+Pric
+e
+Ask
+Size
+20.7
+1
+1,200
+20.7
+0
+1,200
+20.6
+9
+1,100
+20.6
+8
+1,800
+20.6
+7
+600
+Bid
+Size
+Pric
+e
+Ask
+Size
+20.6
+6
+1,400
+20.6
+5
+800
+200
+20.6
+4
+1,000
+20.6
+3
+900
+20.6
+2
+500
+20.6
+1
+700
+20.6
+0
+1,300
+20.5
+9
+The best bid is 20.64 and the best offer is 20.65, but the 20.65 offer contains
+only 800 shares for sale. So, if we wanted to buy up to 800 shares, we could
+say that the spread was $.01 (the difference between 20.64 and 20.65). But
+if we wanted to buy 5,000 shares, we would need to pay up to 20.69, with
+an average purchase price of 20.6692. Similarly, to sell 5,000 shares would
+give an average fill price of 20.608. So, for an order of 5,000 shares the
+effective bid-ask spread is $0612. The bid-ask spread is contingent on the
+size of the order. In some cases, such as where we have a populated order
+book, this is self-evident. But it is always the case.
+The example of the UVXY order book that we just gave showed the case in
+which the actual, effective spread is wider than the difference between the
+best bid and best offer. But there are also cases in which the actual spread is
+narrower than the currently posted spread. This can often happen in option
+markets. The market-makers don't want to run the risk of showing tight
+prices for large size, but they will probably trade tighter for smaller size.
+For example, the indicated spread might be a bid of 9.0 for 100 options and
+an offer of 9.5 for 100 options but the market-maker might be prepared to
+pay 9.2 for 5 and sell 5 at 9.3.
+Sometimes you can see the actual spread and sometimes you can't.
+Sometimes you have to “fish” by placing a small order and seeing where
+you get filled. But remember that the spread is a fact of life. If the market is
+showing 9.0 bid for 100 and 100 offered at 9.5, it is highly unlikely you are
+going to get filled if you try to sell 1,000 at 9.2.
+Generally speaking, the following are true:
+The fill-price for an order of infinitesimal size will be the mid-point of
+what you see.
+You need to pay a spread if you demand to be filled.
+The bigger your order the further away from the “zero size” price you
+will need to go.
+Somewhat related to the bid-ask spread is the idea of market impact. This is
+the amount that a given order changes the market price. It is useful to
+further split market impact into temporary and permanent impacts.
+First, let's think about temporary market impact. This is just the fact that by
+doing a trade we will take out some of the orders in the book. Most of this
+is temporary because we would expect the book to fill back in again. But it
+won't completely, and this difference is permanent impact. There are a
+couple of ways to see that permanent impact has to exist. The first is that all
+trades convey information. If someone is buying, they must think the price
+is going up. The price of a security is just the aggregation of all of this
+information and every new order will cause some adjustment. The second
+reason is to prevent arbitrage. If all of the market impact was temporary, we
+could split our order into smaller pieces and always be guaranteed to pay a
+smaller spread than by doing a single large trade. We would just wait for the
+market to repopulate. In the UVXY example, the impact when buying 500
+shares is only $.01. Why not just buy this many, wait for the book to fill
+back in, then do it 10 more times? Even if we ignore fixed fees and price
+appreciation, the effect of permanent market impact means doing this is not
+automatically advantageous.
+If we are to make a sensible decision about whether to execute in slices or
+all at once, we will need to have a model of the order book dynamics. At
+any random time, what is the spread as a function of order size?
+If we had such a model we could decide on the optimal “slicing” procedure,
+dividing the total order into suborders that minimize impact. But although
+there are many such models, most are far too complex to be of any use to a
+non-quantitative trader (and it also isn't clear to me that they add enough
+value to make all the work worthwhile anyway). If you are trading large
+enough size for such a model to be useful (a decent guess for “large
+enough” would be an order about 1% of the volume in a given time period),
+you should probably use one of the execution algorithms provided by most
+professional-level brokerage firms. If you aren't trading this big, it probably
+isn't too important exactly how to split an order.
+The class of algorithms that is designed to minimize market impact is
+VWAP trading, which aims to match the volume weighted average price.
+The VWAP itself is a measure of the average transaction price for all market
+activity in a given amount of time. It is often considered a sort of fair
+execution price and many traders have their own execution benchmarked to
+the VWAP price.
+Achieving VWAP is theoretically easy, but obviously is harder in real life.
+By definition, to perfectly match VWAP a trader would need to participate
+in every single trade. For example, if a trader's order was 10% of the
+volume in a given time, he would need to participate by having 10% of
+every trade. This is impossible for several reasons:
+Most exchange filling algorithms won't just let you get on any trade
+you want. A lot operate on a time-priority basis.
+You can't know what volume will trade until after the event.
+It is impossible to enter enough individual orders to participate on
+every trade.
+However, the volume profile is stable enough that we can get a good idea of
+volume per unit time by looking at historical numbers. The numbers are so
+stable that many brokers offer a guaranteed VWAP execution where they
+promise your fill price will be the actual realized VWAP. They will never
+actually execute at this price, but their tracking errors are small and bias
+free.
+VWAP strategies are good at lowering market impact because they are
+trading proportionally to the amount of volume in the market. They don't try
+to push large volume into thin markets, which would move the price, the
+definition of market impact. But market impact is just one trading cost and
+VWAP strategies are not the best at managing the most important cost for
+the active trader: timing cost.
+The timing cost is the amount the market moves in the time between the
+trading decision and the end of the execution. This can either be positive or
+negative. As an example, consider the VIX Fed trade. Here my thesis is that
+the VIX futures rally in the 15 minutes before the Fed announcement and
+crash immediately afterwards. This means that I can be somewhat passive
+when selling before the announcement, sitting on the offer as the price
+should come to me. The same idea is true when I'm buying back the
+position after the announcement. I can afford to wait on the bids.
+Conversely if I was buying futures, say 30 minutes before the
+announcement, in the anticipation that they would rally right up until the
+release I would need to be aggressive and lift the offer. I can't sit on the bid
+because the price will be naturally going away from the bid.
+Understanding this idea is crucial for the active trader because we will
+generally be trading in the expectation of making a quick profit on a market
+move. If we dither around and refuse to pay the spread, we may never get
+filled and miss all of the profit.
+Example
+Let's say we want to sell the straddle on a stock because we expect implied
+volatility to collapse after the earnings are announced. On the open of the
+day before the announcement, the straddle is 2.1 bid and offered at 2.5. We
+want to sell 20 straddles and the bid and offer are both for 100.
+Because I know that the implied volatility will generally tend to rise until
+the announcement, I can afford to let the market come to me. So, I would
+put in a mid-market order to sell 20 straddles at 2.3. If this doesn't get filled,
+then we need to try something else. I know from back testing and previous
+trade results that I expect the straddle to drop to 1.0 after the announcement.
+From the mid-price this would give a profit of 1.3, but even from the bid the
+profit would be 1.1. This profit projection has some uncertainty to it but
+according to my own risk-reward calculus I would never miss out on a
+profit of 1.1 trying to get a better fill by 0.2. I might be able to get filled at a
+better price so I will do a little fishing. I will put an offer to sell one lot and
+gradually walk it down, lowering the offer until I get filled. Then I will
+offer the remaining 19 straddles at slightly better than that. If I don't get
+filled, I will just hit the bid. The trade is expected to be profitable, so I don't
+want to miss it.
+By far the most important aspect of execution to an active trader is not
+missing the trade. Psychologically, an easy way to avoid missing trades is to
+value the trade against the bid if selling and the offer if buying. This stops
+you being intimidated by the size of the spread.
+Keep in mind the expected direction of the instrument you are trading. If
+you are selling into a rising market, you can be patient, but if you are
+buying into a rising market, you will need to be aggressive.
+...
+REFERENCES
+Abreu, D., and M. Brunnermeier. 2003. “Bubbles and Crashes.”
+Econometrica 71: 173–204.
+Ahmad, R., and P. Wilmott. 2005. “Which Free Lunch Would You Like
+Today, Sir?” Wilmott Magazine (November): 64–79.
+Andersson, M., L. Overby, and S. Sebestyen. 2009. “Which News Moves
+the Euro Area Bond Market.” German Economic Review 10: 1–31.
+Andries, M., T. Eisenbach, M. Schmalz, and Y. Wang. 2015. “The Term
+Structure of the Price of Volatility Risk.” Working paper, Toulouse
+School of Economics.
+Aronson, D. 2007. Evidence-Based Technical Analysis. New York: Wiley.
+Bachelier, L. 1900. Theorie de la Speculation. Paris: Gauthier-Villars.
+(Reprinted in English in Cootner, 1964).
+Bakshi, Z., C. Cao, and Z. Chen. 1997. “Empirical Performance of
+Alternative Option Pricing Models.” The Journal of Finance 52: 2003–
+2049.
+Bakshi, Z., C. Cao, and Z. Chen. 2000. “Pricing and Hedging Long-term
+Options.” Journal of Econometrics 94: 277–318.
+Ball, R. J., and P. Brown. 1968. “An Empirical Evaluation of Accounting
+Income Numbers.” Journal of Accounting Research 6: 159–178.
+Baltas, N. 2019. “The Impact of Crowding in Alternative Risk Premia
+Investing.” Financial Analysts Journal. SSRN: 33603350.
+Barber, B., and T. Odean. 2008. “All That Glitters: The Effect of Attention
+and News on the Buying Behavior of Individual and Institutional
+Investors.” Review of Financial Studies 21: 785–818.
+Bartov, E., S. Radhakrishnan, and I. Krinsky. 2000. “Investor Sophistication
+and Patterns in Stock Returns after Earnings Announcements.” The
+Accounting Review 75: 43–63.
+Beaver, W. 1968. “The Information Content of Annual Earnings
+Announcements.” Journal of Accounting Research, Empirical Research
+in Accounting: Selected Studies 6: 67–92.
+Ben-Meir, A., and J. Schiff. 2012. “The Variance of Standard Option
+Returns.” http://arxiv.org/abs/1204.3452
+Bergman, Y. 1995. “Option Pricing with Differential Interest Rates.”
+Review of Financial Studies 8: 475–500.
+Bernard, C., and P. Boyle. 2009. “Mr. Madoff's Amazing Returns: An
+Analysis of the Split-Strike Conversion Strategy.” Journal of Derivatives
+17: 62–76.
+Bernard, V., and J. K. Thomas. 1989. “Post-Earnings-Announcement Drift:
+Delayed Price Response or Risk Premium?” Journal of Accounting
+Research 27: 1–36.
+Bernard, V. L., and J. K. Thomas. 1990. “Evidence That Stock Prices Do
+Not Fully Reflect the Implications of Current Earnings for Future
+Earnings.” Journal of Accounting and Economics 13: 305–340.
+Beunza, D., and D. Stark. 2012. “From Dissonance to Resonance:
+Cognitive Interdependence in Quantitative Finance.” Economy and
+Society 41: 383–417.
+Biermann, C. 2019. Football Hackers: The Science and Art of a Data
+Revolution. London: Blink Publishing.
+Black, F. 1986. “Noise.” Journal of Finance 41: 528–543.
+Bollen, N., and E. Raisel. 2003. “The Performance of Alternative Valuation
+Models in the OTC Currency Option Market.” Journal of International
+Money and Finance 22: 33–64.
+Bollerslev, T., J. Marrone, L. Xu, and H. Zhou. 2014. “Stock Return
+Predictability and Variance Risk Premia, Statistical Inference and
+International Evidence 49: 633–661.
+Bollerslev, T., and V. Todorov. 2011. “Tails, Fears, and Risk Premia.” The
+Journal of Finance 66: 2165–2211.
+Bollerslev, T., and H. Zhou. 2007. “Expected Stock Returns and Variance
+Risk Premia.” Working paper, Federal Reserve Board.
+Bondarenko, O. 2003. “Why Are Put Options So Expensive?” Working
+paper, University of Illinois-Chicago.
+Boness, J. 1962. “A Theory and Measurement of Stock Option Value.” PhD
+Dissertation, University of Chicago.
+Boness, J. 1964. “Elements of a Theory of Stock-Option Value.” Journal of
+Political Economy 72: 163–175.
+Box, G. 1976. “Science and Statistics.” Journal of the American Statistical
+Association 71: 791–799.
+Boyer, B., and K. Vorkink. 2014. “Stock Options as Lotteries.” The Journal
+of Finance 69: 1485–1527.
+Brenner, M., and M. Subrahmanyam. 1988. “A Simple Formula to Compute
+the Implied Standard Deviation.” Financial Analysts Journal 5: 80–83.
+Bronzin, V. 1906. Lehrbuch der Politischen Arithmetik. Leipzig: Franz
+Deuticke.
+Browne, S. 1999. “Reaching Goals by a Deadline: Digital Options and
+Continuous-Time Active Portfolio Management.” Advances in Applied
+Probability 31: 551–577.
+Browne, S. 2000a. “Can You Do Better Than Kelly in the Short Run?” In
+Finding the Edge: Mathematical Analysis of Casino Games, ed. O.
+Vancura, J. Cornelius, and W. Eadington, 215–231. Reno: University of
+Nevada, Reno Bureau of Business.
+Browne, S. 2000b. “Risk Constrained Dynamic Active Portfolio
+Management.” Management Science 46: 1188–1199.
+Cahan, R., and Y. Luo. 2013. “Standing Out from the Crowd: Measuring
+Crowding in Quantitative Strategies.” Journal of Portfolio Management
+39: 14–23.
+Cao, J., A. Vasquez, X. Xiao, and X. Zhan. 2018. “Volatility Uncertainty
+and the Cross Section of Option Returns.” SSRN: 3178263.
+Cao, J., B. Han, Q. Tong, and X. Zhan. 2015. “Option Return
+Predictability,” 27th Annual Conference on Financial Economics and
+Accounting Paper, Rotman School of Management Working Paper No.
+2698267.
+Capinski, M., and W. Patena. 2003. “Real Options-Realistic Valuation.”
+SSRN: 476721.
+Cerny, A., and S. Hodges. 2000. “The Theory of Good-Deal Pricing in
+Financial Markets.” Imperial College Management School, London.
+Chabot, B., E. Ghysels, and R. Jagannathan. 2009. “Price Momentum in
+Stocks: Insights from Victorian Age Data.” NBER Working Paper No.
+w14500.
+Choi, H., P. Mueller, and A. Vedolin. 2017. “Bond Variance Risk
+Premiums.” Review of Finance 21: 987–1022.
+Chordia, T., A. Subrahmanyam, and Q. Tong. 2014. “Have Capital Market
+Anomalies Attenuated in the Recent Era of High Liquidity and Trading
+Activity?” Journal of Accounting and Economics 58: 41–58.
+Chen, E., and A. Clements. 2007. “S&P 500 Implied Volatility and
+Monetary Policy Announcements.” Finance Research Letters 4: 227–
+232.
+Chung, S., and H. Lewis. 2017. “Earnings Announcements and Option
+Returns.” Journal of Empirical Finance 40: 220–235.
+Clare, A., J. Seaton, P. Smith, and S. Thomas. 2013. “Breaking into the
+Blackbox: Trend Following, Stop Losses and the Frequency of Trading–
+The Case of the S&P500.” Journal of Asset Management 14: 182–194.
+Cootner, P. 1964. The Random Character of Stock Market Prices.
+Cambridge, MA: MIT Press.
+Cvitanic, J., and I. Karatzas. 1995. “On Portfolio Optimization under
+‘Drawdown’ Constraints.” IMA Volumes in Mathematics and Its
+Applications 65: 35–46.
+Daniel, K., D. Hirshleifer, and A. Subrahmanyam. 1998. “Investor
+Psychology and Security Market Under- and Overreactions.” Journal of
+Finance 53: 1839–1885.
+De Grauwe, P., and M. Grimaldi. 2004. “Bubbles and Crashes in a
+Behavioural Finance Model.” Sveriges Riksbank Working Paper No.
+164, Stockholm, May.
+DellaVigna, S., and J. Pollet. 2009. “Investor Inattention and Friday
+Earnings Announcements.” Journal of Finance 64: 709–749.
+Dew-Becker, I., S. Giglio, A. Le, and M. Rodriguez. 2014. “The Price of
+Variance Risk.” Working paper, Kellogg.
+Diba, B., and H. Grossman. 1988. “The Theory of Rational Bubbles in
+Stock Prices.” The Economic Journal 98: 746–754.
+Di Pietro, V., and G. Vainberg. 2006. “Systematic Variance Risk and Firm
+Characteristics in the Equity Options Market.” SSRN: 858304.
+do Vale, R., R. Pieters, and M. Zeelenberg. 2016. “The Benefits of
+Behaving Badly on Occasion: Successful Regulation by Planned
+Hedonic Deviations.” Journal of Consumer Psychology 26: 17–28.
+Driessen, J., and P. Maenhout. 2006. “The World Price of Jump and
+Volatility Risk.” Working paper, Insead.
+Driessen, J., P. Maenhout, and G. Vilkov. 2009. “The Price of Correlation
+Risk: Evidence from Equity Options.” Journal of Finance 64: 1377–
+1406.
+Dyson, F. 2004. “A Meeting with Enrico Fermi.” Nature 427 (January 22):
+297.
+Easton, P., G. Gao, and P. Gao. 2010. “Pre-earnings Announcement Drift.”
+SSRN: 1786697.
+Ederington, L., and J. Lee. 1996. “The Creation and Resolution of Market
+Uncertainty: The Impact of Information Releases on Implied Volatility.”
+Journal of Financial and Quantitative Analysis 31: 513–539.
+Engle, R., and J. Rosenberg. 2002. “Empirical Pricing Kernels.” Journal of
+Financial Economics 64: 341–372.
+Erb, C., and C. Harvey. 2006. “The Strategic and Tactical Value of
+Commodity Futures.” Financial Analysts Journal 62: 69–97.
+Fama, E. F. 1965a. “The Behavior of Stock-Market Prices.” The Journal of
+Business 38: 34–105.
+Fama, E. F. 1965b. “Random Walks in Security Prices.” Financial Analysts
+Journal 41: 55–59.
+Fama, E. F. 1998. “Market Efficiency, Long-Term Returns, and Behavioral
+Finance.” Journal of Financial Economics 49: 283–306.
+Fama, E., and K. French. 1997. “Industry Costs of Equity.” Journal of
+Financial Economics 43: 153–193.
+Fama, E., and K. French. 2010. “Size, Value and Momentum in
+International Stock Returns.” Fama-Miller Working Paper, Tuck School
+of Business Working Paper No. 2011–85, Chicago Booth Research Paper
+No. 11–10.
+Fernandez-Perez, A., B. Frijns, and A. Tourani-Rad. 2017. “When No News
+Is Good News–The Decrease in Investor Fear after the FOMC
+Announcement.” Journal of Empirical Finance 41: 187–199.
+Fisher, I. 1930. The Theory of Interest, as Determined by Impatience to
+Spend Income and Opportunity to Invest It. New York: McMillan.
+Fligstein, N., and L. Dauter. 2007. “The Sociology of Markets.” The Annual
+Review of Sociology 33: 105–128.
+Foster, G., C. Olsen, and T. Shelvin. 1984. “Earnings Releases, Anomalies
+and the Behavior of Security Returns.” The Accounting Review 59: 574–
+603.
+Fuss, R., F. Mager, H. Wohlenberg, and L. Zhao. 2011. “The Impact of
+Macroeconomic Announcements on Implied Volatility.” Applied
+Financial Economics 21: 1571–1580.
+Gao, C., Y. Xing, and X. Zhang. 2017. “Anticipating Uncertainty: Straddles
+around Earnings Announcements.” SSRN: 2204549.
+Geczy, C., and M. Samnov. 2016. “Two Centuries of Price Return
+Momentum.” Financial Analysts Journal 72: 32–56.
+Gorton, G., F. Hayashi, and K. Rouwenhorst. 2013. “The Fundamentals of
+Commodity Futures Returns.” Review of Finance 17: 35–105.
+Gorton, G., and K. Rouwenhorst. 2006. “Facts and Fantasies about
+Commodity Futures.” Financial Analysts Journal 62: 47–68.
+Gospodinov, N., and I. Jamali. 2012. “The Effects of Federal Funds Rate
+Surprises on S&P500 Volatility and Volatility Risk Premium.” Journal of
+Empirical Finance 19: 497–510
+Gray, W. 2014. “Are You Trying Too Hard?” SSRN: 2481675.
+Grosshans, D., and S. Zeisberger. 2018. “All's Well That Ends Well? On the
+Importance of How Returns Are Achieved.” Journal of Banking and
+Finance 87: 397–410.
+Grossman, S., and J. Stiglitz. 1980. “On the Impossibility of
+Informationally Efficient Markets.” American Economic Review 70:
+393–408.
+Grossman, S., and Z. Zhou., 1993. “Optimal Investment Strategies for
+Controlling Drawdowns.” Mathematical Finance 3: 241–276.
+Han, Y., G. Zhou, and Y. Zhu. 2016. “Taming Momentum Crashes: A
+Simple Stop-Loss Strategy.” SSRN: 2407199.
+Hanley, J. A., and A. Lippman-Hand. 1983. “If Nothing Goes Wrong Is
+Everything All Right?” Journal of the American Medical Association
+249: 1743–1745.
+Harvey, C., Y. Liu, and Z. Hequing. 2016. “… and the Cross-Section of
+Expected Returns.” The Review of Financial Studies 29: 5–68.
+He, W., Y. Lee, and P. Wei. 2010. “Do Option Traders on Value and Growth
+Stocks React Differently to New Information?” Review of Quantitative
+Finance and Accounting 34: 371–381.
+Higgins, L. 1906. The Put-and-Call. London: Effingham Wilson.
+Hirshleifer, D., S. Lim, and S. Teoh. 2009. “Driven to Distraction:
+Extraneous Events and Underreaction to Earnings News.” Journal of
+Finance 64: 2289–2325.
+Hodges, S. 1998. “A Generalization of the Sharpe Ratio and Its
+Applications to Valuation Bounds and Risk Measures.” Working paper,
+Financial Options Research Centre, University of Warwick.
+Hodges, S., R. Tompkins, and W. Ziemba. 2003. “The Favorite/Long-Shot
+Bias in S&P 500 and FTSE 100 Index Futures Options: The Return to
+Bets and the Cost of Insurance.” EFA 2003 Annual Conference Paper
+No. 135.
+Hogan, R. 2011. “Quantifying the Variance Risk Premium in VIX Options.”
+CMC Senior Thesis Paper 147.
+http://scholarship.claremont.edu/cmc_theses/147.
+Hou, K., C. Xue, and L. Zhang. 2017. “Replicating Anomalies.” NBER
+Working Papers 23394, National Bureau of Economic Research.
+Huang, D., C. Schlag, I. Shaliastovich, and J. Thime. 2018. “Volatility of
+Volatility Risk.” Journal of Financial and Quantitative Analysis 53: 1–
+63.
+Hubbard, D. W. 2007. How to Measure Anything: Finding the Value of
+Intangibles in Business. 3rd ed. New York: Wiley.
+Hull, J., and A. White. 2017. “Optimal Delta Hedging for Options.” Journal
+of Banking and Finance 82: 180–190.
+Ioannidis, J. 2005. “Why Most Published Research Findings Are False.”
+PLoS Medicine 2: e124.
+Israelov, R., and H. Tummala. 2017. “Which Index Options Should You
+Sell.” SSRN: 2990542.
+Jansen, I., and A. Nikiforov. 2016. “Fear and Greed: A Returns-Based
+Trading Strategy around Earnings Announcements.” Journal of Portfolio
+Management 42: 88–95.
+Jenkinson, T., H. Jones, and J. Martinez. 2015. “Picking Winners?
+Investment Consultants' Recommendations of Fund Managers.” The
+Journal of Finance 71: 2333–2370.
+Jones, C., O. Lamont, and R. Lumsdaine. 1998. “Macroeconomic News and
+Bond Market Volatility.” Journal of Financial Economics 47: 315–337.
+Jones, C., and J. Shemesh. 2017. “Option Mispricing around Nontrading
+Periods.” The Journal of Finance 73: 861–900.
+Jung, D. 2000. “The Model Risk of Option Pricing Models When Volatility
+Is Stochastic: A Monte Carlo Simulation Approach.” PhD dissertation,
+University of Missouri–Columbia.
+Jung, D., and C. Corrado. 2009. “Tweaking Black Scholes.” SSRN:
+1330248.
+Kaeck, A. 2017. “Variance-of-Variance Risk Premium.” Review of Finance
+22: 1549–1579.
+Katona, G. 1975. Psychological Economics. New York: Elsevier.
+Kelly, B., and H. Jiang. 2014. “Tail Risk and Asset Prices.” Review of
+Financial Studies 27: 2841–2871.
+Kelly, J. 1956. “A New Interpretation of Information Rate.” Bell System
+Technical Journal 35: 917–926.
+Keynes, J. M. 1930. A Treatise on Money. London: MacMillan.
+Kim, Y.-J. 2002. “Option Pricing under Stochastic Interest Rates: An
+Empirical Investigation.” Asia-Pacific Financial Markets 9: 23–44.
+Kipling, R. 1910. “If” in Rewards and Fairies. London: Doubleday.
+Knight, F. 1921. Risk, Uncertainty, and Profit. Boston: Houghton Mifflin.
+Koijen, R., M. Schmeling, and E. Vrugt. 2015. “Survey Expectations of
+Returns and Asset Pricing Puzzles.” London Business School IFA
+working paper.
+Kozhan, R., A. Neuberger, and P. Schneider. 2011. “The Skew Risk
+Premium in Index Option Prices.” AFA 2011 Denver Meetings Paper.
+SSRN: 1571700.
+Lamont, O., and A. Frazzini. 2007. “The Earnings Announcement Premium
+and Trading Volume.” NBER Working Papers 13090, National Bureau of
+Economic Research.
+Lee, Y. 2017. “Market Reactions to Unexpected Relative Earnings
+Performance.” Asia-Pacific Journal of Accounting and Economics 24:
+339–357.
+Lei, A., and H. Li. 2009. “The Value of Stop Loss Strategies.” Financial
+Services Review 18: 23–51.
+Lempérière, Y., C. Deremble, P. Seager, M. Potters, and J. P. Bouchaud.
+2014. “Two Centuries of Trend Following.” Journal of Investment
+Strategies 3: 41–61.
+Li, M., and N. Pearson. 2007. “A ‘Horse Race’ Among Competing Option
+Pricing Models Using S&P 500 Index Options.” SSRN: 952770.
+Lintner, J. 1965. “The Valuation of Risk Assets and the Selection of Risky
+Investments in Stock Portfolios and Capital Budgets.” The Review of
+Economics and Statistics 47: 13–37.
+Lo, B., and S. Zhang. 2005. “The Volatility Risk Premium Embedded in
+Currency Options.” Journal of Financial and Quantitative Analysis 40:
+803–832.
+Londono, J. 2011. “The Variance Risk Premium around the World.” Federal
+Reserve International Discussion Papers, Number 1035.
+Londono, J., and H. Zhou. 2017. “Variance Risk Premiums and the Forward
+Premium Puzzle.” Journal of Financial Economics 124: 415–440.
+Louis, T. 1981. “Confidence Intervals for a Binomial Parameter after
+Observing No Successes.” The American Statistician 35: 154.
+Lucca, D., and E. Moench. 2011. “The pre-FOMC Announcement Drift.”
+Staff Report, No. 512, Federal Reserve Bank of New York.
+Maillard, D. 2018. “Adjusted Sharpe Ratio: Some Caveats.” SSRN:
+3284396.
+Mandelbrot, M. 1963. “The Variation of Certain Speculative Prices.” The
+Journal of Business 36: 394–419.
+Markopolos, H. 2010. No One Would Listen: A True Financial Thriller.
+New York: Wiley.
+Mason, P., and S. Utke. 2019. “Investor Taxes and Option Prices.” SSRN:
+332680.
+Massey, A., and A. Hill. 2012. “Dieting and Food Craving: A Descriptive,
+Quasi-Prospective Study.” Appetite 58: 781–785.
+McLean, R., and J. Pontiff. 2016. “Does Academic Research Destroy Stock
+Return Predictability?” Journal of Finance 71: 5–32.
+Merton, R. 1973. “Theory of Rational Option Pricing.” The Bell Journal of
+Economics and Management Science 4: 141–183.
+Mills, F. 1927. “The Behavior of Prices.” National Bureau of Economic
+Research, New York.
+Mitchell, W. 1915. “The Making and Using of Index Numbers.” Bulletin
+1973 of the U.S. Bureau of Labor Statistics.
+Mossin, J. 1966, “Equilibrium in a Capital Asset Market.” Econometrica
+34: 768–783.
+Muravyev, D., and X. Ni. 2018. “Why Do Option Returns Change Sign
+from Day to Night?” SSRN: 2820264.
+Nietzsche, F. 1878, “Human, All Too Human,” Section Nine. Man Alone
+with Himself, aphorism 494.
+Nikkinen, J., and P. Sahlström. 2004. “Impact of the Federal Open Market
+Committee's Meetings and Scheduled Macroeconomic News on Stock
+Market Uncertainty.” International Review of Financial Analysis 13: 1–
+12.
+Oehlert, G. 1992. “A Note on the Delta Method.” American Statistician 46:
+27–29.
+Olivier, M. 1926. “Les Nombres Indices de la Variation des Prix.” Doctoral
+Dissertation: Paris
+Osborne, M. 1959. “Brownian Motion in the Stock Market.” Operations
+Research 7: 145–173, 807–811.
+Patell, J., and M. Wolfson. 1979. “Anticipated Information Releases
+Reflected in Call Option Prices.” Journal of Accounting and Economics
+1: 117–140.
+Park, Y. 2015. “Volatility-of-Volatility and Tail Risk Hedging Returns.”
+Journal of Financial Markets 26: 38–63.
+Pézier, J. 2004. “Risk and Risk Aversion. In The Professional Risk
+Managers' Handbook, ed. C. Alexander and E. Sheedy. New York:
+PRMIA Publications.
+Philippon, T. 2012. “Finance versus Wal-Mart: Why Are Financial Services
+So Expensive.” In Rethinking the Financial Crisis, ed. A. Blinder, A. Lo,
+and R. Solow. New York: Russell Sage Foundation.
+Poon, S. 2005. A Practical Guide to Forecasting Financial Market
+Volatility. London: Wiley.
+Poon, S., and C.W.J. Granger. 2003. “Forecasting Volatility in Financial
+Markets: A Review.” Journal of Economic Literature 41 (2): 478–539.
+Prokopczuk, M., and C. Simen. 2014. “Variance Risk Premia in
+Commodity Markets.” SSRN: 2195691.
+Ramnath, S. 2002. “Investor and Analyst Reactions to Earnings
+Announcements of Related Firms: An Empirical Analysis.” Journal of
+Accounting Research 40: 1351–1376.
+Ross, S. 1976. “The Arbitrage Theory of Capital Asset Pricing.” Journal of
+Economic Theory 13: 341–360.
+Ruan, X. 2017. “Cross Section of Option Returns and Volatility-of-
+Volatility.” SSRN: 3055982.
+Samuelson, P. 1965. “Proof That Properly Anticipated Prices Fluctuate
+Randomly.” Industrial Management Review 6: 41–49.
+Scholes, M. 1976. “Taxes and the Pricing of Options.” The Journal of
+Finance 31: 319–332.
+Shaikh, I. and P. Padhi. 2013. “Macroeconomic Announcements and
+Implied Volatility Index: Evidence from India VIX.” Margin: The
+Journal of Applied Economic Research 7: 417–442.
+Sharpe, W. 1964. “Capital Asset Prices: A Theory of Market Equilibrium
+under Conditions of Risk.” The Journal of Finance 19: 425–442.
+Simon, D., and J. Campasano. 2014. “The VIX Futures Basis: Evidence and
+Trading Strategies.” The Journal of Derivatives 21: 54–69.
+Sinclair, E. 2010. Option Trading: Pricing and Volatility Strategies and
+Techniques. New York: Wiley.
+Sinclair, E. 2013. Volatility Trading. 2nd ed. New York: Wiley.
+Sinclair, E. 2014. “Confidence Intervals for the Kelly Criterion.” Journal of
+Investment Strategies 3: 65–74.
+Sinclair, E. 2018. “Reflections on Recent Volatility.” Journal of Investment
+Strategies 7: 77–82.
+Sinclair, E., and R. Brooks. 2017 “The Skewness and Kurtosis of European
+Options and the Implications for Trade Sizing.” SSRN: 2956161.
+So, E., and S. Wang. 2014. “News-Driven Return Reversals: Liquidity
+Provision ahead of Earnings Announcements.” Journal of Financial
+Economics 114: 20–35.
+Taylor, D. 2011. “Retail Investors and the Adjustment of Stock Prices to
+Earnings Information.” Wharton School Working Papers, University of
+Pennsylvania.
+Tosi, A., and A. Ziegler. 2017. “The Timing of Option Returns.” SSRN:
+2909163.
+Treynor, J. 1962. “Toward a Theory of Market Value of Risky Assets.”
+Unpublished manuscript.
+Vähämaa, S., and J. Äijö. 2011. “The Fed's Policy Decisions and Implied
+Volatility.” The Journal of Futures Markets 31: 995–1010.
+van Binsbergen, J., and R. Koijen. 2015. “The Term Structure of Returns:
+Facts and Theory.” NBER Working Paper 21234.
+Vasquez, A. 2017. “Equity Volatility Term Structures and the Cross Section
+of Option Returns.” Journal of Financial and Quantitative Analysis 52:
+1–28.
+Vilkov, G. 2008. “Variance Risk Premium Demystified.” SSRN: 891360.
+Watts, R. L. 1978. “Systematic ‘Abnormal’ Returns After Quarterly
+Earnings Announcements.” Journal of Financial Economics 6: 127–150.
+Yung, H., and H. Zhang. 2003. “An Empirical Investigation of the GARCH
+Option Pricing Model: Hedging Performance.” Journal of Futures
+Markets 23: 1191–1207.
+Zhang, L. 2007. “Sample Mean and Sample Variance: Their Covariance and
+Their (In)Dependence.” American Statistician 61: 159–160.
+...
+Index
+A
+Acceleration, 60
+Adjustment repair, 86
+Alpha decay, 15–16
+Anchoring, 19
+Arbitrage counterparty risk, 178–179
+Arbitrage pricing theory (APT), 63
+ASPX option profits, taxation, 187
+Asymmetric implied volatility skew, 191
+ATM, 104, 106t, 123, 131t, 137
+At-the-money covered call, delta level, 135
+Autocorrelation, 73f, 91
+Availability heuristic, 19
+Average return, calculation, 24
+B
+Back-tested rules, performer sample, 23
+Backwardation, 61, 62
+Badly priced butterfly, returns (summary statistics), 98t
+Badly priced condor, returns (summary statistics), 98t
+Bankruptcy, risk (increase), 66
+Bayesian model, usage, 30
+Behavioral biases, inefficiency, 67–68
+Behavioral finance, 16–21
+Best, defining (possibility), 121
+Beta, 67–68, 68t, 82, 196
+BFLY index, 45, 46f
+Biases, 18–20, 23, 30, 113
+Bid-ask spreads (total cost component), 200
+Bitcoin, 172–173, 172f
+Black-Scholes-Merton (BSM) assumptions/equation/model, 2–4, 6, 108,
+113, 115, 183, 192
+Black-Scholes-Merton (BSM) PDE, 5, 116
+Bonds, 49–50
+Bonferroni's correction, usage, 23
+Broken wing butterflies/condors, 99–100
+Butterflies, 95–100, 96f, 98t
+BXMD/BXM/BXY, 133, 134t
+C
+Calendar spread, 100–102
+Calls, 55f, 129–136, 129f, 132f, 142
+call spread, 130f, 131t, 142f, 143t
+implied volatility, level (example), 140t
+put-call parity/relationship, 95, 115, 116
+strike call, 118f, 120f
+Capital asset pricing model (CAPM), development, 63
+Cash flows, taxation rate, 6
+Catastrophe theory, 20
+Chicago Board Options Exchange (CBOE), 16, 36, 45–46, 133, 134f
+CNDR index, 45, 45f
+Commissions (total cost component), 200
+Commodities, 47–49, 48t, 49t
+Condors, 95–100, 96f, 97f, 98t, 104t
+Confidence, 61–62, 71–75, 80
+Conservatism, 19, 30
+Convergence strategy, 58
+Copper, price (decrease), 175
+Correlation effects, 99
+Counterarguments, examination, 30
+Covered calls, 131–137, 132f, 136f
+Crowdedness, quantification, 58
+Crowded, term (understanding), 58
+Crowds/crowding, 36, 57–61
+Cryptocurrencies, problems, 172
+Currencies, 25, 50, 171–173
+D
+Daily hedging, usage, 94f, 94t
+Data mining, 22, 23
+Debt to equity (D/E) ratio, 63, 65
+Decision price, 200
+Delta, 5, 70–71, 93–95
+delta/gamma P/L, 141
+delta-hedged option returns, 75
+performance, improvement, 136
+Directional anomaly, 76–77
+Directional forecast, problems, 91t
+Directional options, 113, 127
+Distribution function, usage, 152
+Divergence strategy, 58
+Diversifier, function, 101
+Dollar premium, 106
+Dow Jones 30, variance premia, 44
+Dow Jones Industrial Average (DJIA), 26, 44f
+Downside risk, 87, 140
+Drawdown, 158–161, 159f
+Drift, 69, 116
+E
+Earnings announcements, 68–74, 81–82
+Earnings-induced reversals, 80–81
+Earnings surprises, 31
+Efficiency, conditions, 13
+Efficient market hypothesis (EMH), 11–15, 18, 21–26, 68
+Employment announcement, impact, 50
+Ensemblle predictions, 36–37
+Equities, 39, 42–46, 50–51, 136f
+EuroSTOXX 50, composition, 178
+Event-driven trades, strengths, 32
+Excess kurtosis, 71, 72
+Expiration, selection, 109–111
+Exponentially weighted moving average (EWMA) model, 22, 34–37, 38t
+F
+Factor exposures/investing, 57, 51
+Fairly priced butterfly, 96f, 97t
+Fairly priced condor, 96f, 97t
+Fairly priced short straddle, returns (summary statistics), 87t
+Fairly priced short strangle, returns (summary statistics), 88t
+Fama-French-Carhart, usage, 31
+Fat-tailed results, 71, 72
+Federal Reserve Open Market Committee (FOMC), 76–77
+FED funds rate, stability, 29
+Feedback, 58, 59
+Fees (total cost component), 200
+Fiat currency, risk, 171
+Financial advisors, problems, 26
+Financial anomalies, data mining (impact/traps), 23
+Financial forecasting, principles, 29–30
+Financial options, real options (distinctions), 188–189
+First-order lagged terms, 34
+Fixed commissions, absence, 15
+Flat skew condor, results, 104t
+Forecast, 35f, 37
+Fractional Kelly ratio, impact, 159f
+Fraud, impact, 173–174
+Front-month implied volatility, 102t
+Front-month options, straddle spread at expiry (P/L), 101f
+Front-month VIX future/volatility, 40f, 101
+Full Kelly, quarter Kelly (trading comparison), 169t
+Fundamental analysis, 13, 21, 25–26
+Fundamental factors, 63–68
+Fundamentals, 136–137
+Futures, 4, 40
+G
+Gamma, 6, 54
+Gann angles, 22
+GBM, 8, 85, 93, 163, 168f, 169f
+Generalized autoregressive conditional heteroskedasticity (GARCH), 2, 24,
+33–36
+Generalized Sharpe ratio (GSR), 122–127
+Growth rate, 147–148, 150f, 151f, 159, 159f
+H
+Half-Kelly, betting, 158
+Hedged option position, average PL, 7, 7f
+Hedgers, insurance payment, 52
+Hedging costs, presence/absence, 9t
+Hedging strike, selection, 107–109
+Historical data, usage, 85
+Historical long-term average, 34–35
+Historical returns, impact, 93t
+Historical situations, examination, 29–30
+Human nature, impact, 16–17
+I
+Implied correlation premium, 47
+Implied skew, 92, 141
+Implied skewness premium, 46–47
+Implied variance premium, 40–42
+Implied volatility, 36, 46–47, 61–62, 76, 123, 133
+asymmetric implied volatility skew, 191
+example, 140t
+skew, 102–104, 103t
+Implied volatility surface, 7f
+Index options, 78
+Index restructuring, 177–178
+Index variance swaps, sale, 47
+Industry beta, 82
+Inefficiencies, trader profit, 14–15
+Inefficiency-based strategy, half-life, 15
+Inflation, examples, 171–172
+Information, 13–14, 70
+Information, price implications (agreement), 13
+In-sample data sets, usage, 23
+Interest rates, 183–186
+Interpolation, usage, 34–35
+Intuition, 30, 36
+Investment ratio, change effect (quantification), 160
+Investors, overconfidence/overreaction, 69–70, 81
+J
+Japanese candlesticks, 22
+Jump risk, 52
+K
+Kelly control/criterion, 147–149, 158–161, 167–169, 169t
+Kelly ratio, 127, 155, 160f, 161f
+Knowledge, classification, 30
+Know your customer (KYC) due diligence, 173
+L
+Liquidity providers, opportunities, 53
+Long call, 54, 55f, 127, 129–131
+Long-dated futures, expense, 61
+Long option, usage, 54
+Long stock, 128, 133
+Long straddle strategy, results, 72f
+Long-term growth rate (maximization), Kelly criterion (usage), 147–148
+Long volatility positions profits, increase, 66–67
+Loss aversion/size, 19, 71, 72
+Losses (limitation), stops (usage), 165
+M
+Market, 12, 16, 20, 52–53, 64
+impact (total cost component), 200
+risk, reduction, 77
+Mean reversion, allowance, 34
+Mean-reverting strategy, usage, 58
+Mean, weighted three-point estimate, 196
+Median final underlying price, 119
+Meta risks, 171
+Mid-market prices, usage, 72
+Mispriced short straddle, returns (summary statistics), 89t
+Model-driven forecasting, 30–33
+Model-free directional trading, 114
+Model-free volatility trading, 4
+Modified BSM model, performance (comparison), 192
+Momentum, behavioral roots, 67
+Money put options, sell-out, 133
+Monte Carlo simulation, usage, 104
+Mutual funds, performance, 26
+N
+NASDAQ 100, variance premia, 44, 44f
+Nikkei, drop, 174–175
+No-good-deal theory (Cerny/Hodges), 189
+Noise traders, 13, 18
+Nonconstant volatility, 190–192
+Non-farm Payroll report, PPI release, 76
+Non-normality, 149
+Non-normal outcomes, 149–154
+Non-normal return distribution, creation, 190–191
+Normal backwardation, theory, 62
+Notional exposure, maintenance, 59
+O
+Occurrence rate, upper bound, 197
+Offshoring, impact, 15
+Opportunity cost (total cost component), 200
+Option pricing models, 1, 4, 5
+Options, 3–10, 101f, 106t, 109, 113–118, 157f, 157t
+factors/dependencies, 63–68, 189
+hedging, imperfectly correlated underlying (inclusion), 190f
+non-redundancy, 52
+premia, ignoring, 107
+pricing inputs, range estimates (conversion), 195–196
+real options, financial options (distinctions), 188–189
+returns, distribution (summary statistics), 118–120
+risk-neutral option prices, subjective option prices (comparison), 117t
+value, factors, 188
+Orders, fill-price, 202
+OTM calls/puts, 102, 130
+Outperformance, determination, 24
+Over-betting, 155, 158t
+Overconfidence, 18
+Overnight effect, 75
+Overnight returns, volatility (reduction), 75
+Overoptimism, 19
+P
+Patterns, subjectivity, 22
+Percentage-based trailing stop, usage, 168
+Peso problem, 55–56
+P/L, 54, 130, 141
+dispersion, reduction, 100
+standard deviation, 190f
+terminal distributions, 85
+PL distribution, 8, 9f, 100t, 102t, 128f
+Poorly priced butterfly, profit distribution, 96f
+Poorly priced condor, profit distribution, 97f
+Poorly priced short strangle, returns (summary statistics), 90t
+Portfolios, 64–67
+Post-earnings announcement drift (PEAD), 21, 68–75, 82
+PPI announcement, impact, 50
+Pre-BSM pricing models, usage, 115
+Pre-earnings announcement drift, 81–82
+Pre-earnings anomalies, 82
+Pre-earnings long straddles, profitability, 74
+Price changes (total cost component), 200
+Price-to-book (P/B) ratio, 63, 64, 66
+Price-to-cash flow (P/CF) ratio, 63, 65
+Price-to-earnings (P/E) straddle trading results, 64
+Profitable trades, risk adjustment, 12
+ProShares Ultra VIX short-term futures ETF (UVXY), 178, 201t, 202–203
+Psychological explanations, problem, 17
+Purchasing power parity, 58
+Puts, 102, 105t, 133, 144t
+put-call parity, 95, 116
+put-call relationship, 115
+short put, 55f, 127, 131, 137–138, 141t
+p-value, defining, 24
+Q
+Quarter Kelly, full Kelly (trading comparison), 169t
+R
+Range estimates, conversion, 195–196
+Rational expectations hypothesis, 41
+Rational expectations theory, 12, 41
+Ratio spreads, 142–145
+Realized skewness, 47
+Realized volatility, 86, 103f, 103t, 123t, 124t, 140t
+Real options, 188–189
+Return on asset (RoA)/return on equity (RoE) straddle trading results, 65
+Return paths, 53f, 54f
+Returns, 24, 53–55, 95, 118–120, 162f
+Risk, 52–53, 117t, 118, 161, 171–179
+factor, 26
+ratios, 127–128
+reduction, cost, 101
+reversal, 127, 138–143, 139f, 139t, 140t, 141t
+slide, 144t
+volatility risk premia, volatility, 78–80
+Rolling 30-day close-to-close volatility, 34f
+Rule of five/rule of three, 196–198
+Russell 2000, variance premia, 44, 44f
+S
+Sampling, 24, 157–158
+Second-month implied volatility, 102t
+Second-month volatility, 101
+Self-attribution bias, 19
+Selling volatility, positive expected value, 88–89
+Shares, stock price (summary statistics), 128t
+Sharpe ratio, 47, 121–122, 127
+Short-dated futures, expense, 61
+Shorter-dated options, hedges (comparison), 108
+Short front-month straddle, PL distribution (summary statistics), 100t, 102t
+Shorting ability, 187–190
+Short option volability indices (CBOE), 45
+Short put, 55f, 127, 131, 137–138
+Short sales proceeds, risk-free rate investment, 6
+Short straddle, 73f, 87f, 94f
+Short straddle returns, 87t, 89f, 89t, 91t
+Short strangle, 88f
+Short strangle returns, 88t, 90f, 90t, 91t
+Short-term thinking, 19
+Short volatility products, popularity, 59–60
+Single 241 put, risk slide, 144t
+Situational forecasting, 30–33
+Sizing fraction, variance, 156
+Skew, 46–47, 141–143, 191
+Skewness, 141, 153, 154f
+Smart beta factors, risk/behavioral reasons, 68t
+Spread bet arbitrage, usage, 178
+Spread payment, requirement, 202
+SPY, 7f, 35, 35f, 104, 105t, 107t
+Standard & Poor's 100 (S&P100), 63–64
+Standard & Poor's 500 (S&P500), 29, 37t, 79, 133, 134t
+options, 47, 110
+realized volatility, VIX (impact), 42f
+returns, 91, 92f, 99t
+variance premium, 43f, 43t
+volatility EWMA forecast, 38t
+Standard & Poor's (S&P) GSCI Commodity Index, 58
+Stocks, 25–26, 51t, 55f
+dividend payments, absence, 186
+returns (prediction), high-variance premium (usage), 136
+Stops, 161–169, 162f, 163f, 164f
+Straddles, 64–66, 86–93, 93t, 94t, 95f, 100, 100t, 101f, 102t
+Strangles, 86–93, 88f, 88t, 93t, 94t, 103f, 103t, 107t
+Strawman arguments, usage, 148
+Strikes, 104–109, 118f, 120–124, 120f, 123t, 124t, 131, 133
+Subjective option prices, risk-neutral option prices (comparison), 117t
+Subjective option pricing, 113–118
+Subjective technical analysis, 22
+T
+Taxes, absence, 186–187
+Technical analysis, 13, 21–25
+Terminal PL distribution, 8f, 9f
+Term structure, 7, 42f, 62
+Theft, impact, 173–174
+Thesis/antithesis/synthesis, 18
+Theta, 6, 77
+Three-point estimators, 195
+Time series analysis, 67
+Time until expiration, 4
+Time-varying crash risk factor, risk premums, 79
+Total cost, components, 200
+Traders, 17, 133, 182
+Trades, 25, 32–33, 147
+execution, 199, 204–205
+location, positive expected value, 57
+profitability, 71, 72
+risk, stops (usage), 165
+simulation (return distribution), trailing stop (usage), 164f
+Trading, 52, 80–81, 187–190
+opportunities, classification, 31
+results, skewness level, 158t
+statistical rules of thumb, 195
+strategy, return distribution, 162f
+Trailing stop, 164, 168
+Transaction costs, absence, 13
+Trend-following, 58
+Trend lines, 22
+Two-option hedge, expense, 108–109
+U
+Uncertain parameters, 154–158
+Uncertainty premiums, risk premiums, 79–80
+Uncertainty, signifiers, 74
+Underlying, 6, 187–190
+Underlying price/strike, 4
+Unhedged option, return, 115
+V
+Variance premium, 39, 44f
+commodity sectors, correlation, 49t
+equity indices usage, 42–46
+implied variance premium, 40–42
+reasons, 51
+size/significance (commodity options), 48t
+S&P500 variance premium, 43f
+Variance swaps, 50, 51t
+Vega, 6, 86, 95, 95f, 101, 144
+vega per option, 104
+Volatility, 4–9, 34f, 76–80, 103f, 103t, 190–192
+arbitrage model, 32
+decrease, 34
+delta-neutral volatility strategies, profitability, 70–71
+explosions, 30
+forecasting, 29, 35f
+positions, 85
+prediction, 143
+premium, 4, 135, 136f
+shorting, 143
+uncertainty, 79
+Volatility Index (VIX), 25, 39–41, 41f, 42f, 50, 62
+action, prediction, 32
+construction, 36
+creation/tradability, 16
+ETNs, 59, 60
+front-month VIX future, sale (profit), 40f, 42f
+initiation, 16
+sorting, summary statistics, 44t
+Volatility Index of Volatility Index (VVIX), 78–80
+Volume-weighted average price (VWAP), 199, 203, 204
+VXX (volatility ETN), 59
+W
+Weekend effect, 77–78
+Weekend returns, establishment, 78
+White's reality check (WRC), 23, 24
+Windowing effect, 33
+Win potential, 141
+Win size, example, 71, 72
+Y
+Year-over-year earnings, focus, 69
+Z
+Zero size price, 202
+...
+WILEY END USER LICENSE
+AGREEMENT
+Go to www.wiley.com/go/eula to access Wiley’s ebook EULA.
+...
+
+...

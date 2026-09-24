@@ -1,0 +1,760 @@
+CHAPTER7
+Volatility Surface Asymptotics
+F
+rom the discussion so far, the reader might wonder to what extent the
+results derived and the ﬁts shown are tied to the precise form of the
+dynamics assumed. In this chapter, we investigate the shape of the volatility
+surface for very generic models of the stochastic volatility with jumps type.
+We see that, in fact, all such models generate volatility surfaces with a
+similar shape. In particular, we will see that it’s practically impossible to
+deduce anything about the speciﬁc form of the volatility dynamics from a
+single observation of the volatility surface.
+SHORT EXPIRATIONS
+We start by rewriting our original general stochastic volatility SDEs (1.1)
+and (1.2) in terms of the log-moneyness x := log (F/K) and under the risk
+neutral measure, specializing to the case where α and β do not depend on S
+or t.
+dx = −v
+2dt + √v dZ1
+dv = α (v) dt + η√vβ (v) dZ2
+(7.1)
+We may rewrite
+dZ2 = ρdZ1 + ϕ dZ∗
+1
+with ϕ =
+
+1 −ρ2 and
+
+dZ∗
+1, dZ1
+
+= 0. Eliminating √vdZ1, we get
+dv = α (v, t) dt + ρη β (v, t)
+
+dx + v
+2dt
+
++ ϕη β (v) √v dZ∗
+1
+87
+
+88
+THE VOLATILITY SURFACE
+Then,
+E[v + dv|dx] = v + α (v) dt + ρη β (v)
+
+dx + v
+2dt
+
+so for small times to expiration (relative to the variation of α(v) and β(v)),
+we have
+vloc(x, t) = E [vt |xt = x]
+≈v0 +
+
+α(v0) + ρηv0
+2 β(v0)
+
+t + ρηβ(v0) x
+(7.2)
+The coefﬁcient of x (the slope of the skew) here agrees with that derived by
+Lee (2001) using a perturbation expansion approach.
+To extend the result to implied volatility, we need the following
+lemma:
+Lemma
+The local volatility skew is twice as steep as the implied volatility
+skew for short times to expiration.
+Proof
+From Chapter 3, we know that Black-Scholes implied total variance
+is the integral of local variance along the most probable path from the stock
+price on the valuation date to the strike price at expiration. This path is
+approximately a straight line (see Figure 7.1).
+Also, from equation (7.2), we see that the slope of the local variance
+skew is a roughly constant β(v0) for short times. The BS implied variance
+skew, being the average of the local variance skews, is one half of the local
+variance skew. Formally,
+σBS(K, T)2 ≈1
+T
+ T
+0
+vloc(˜xt, t)dt
+≈const. + 1
+T
+ T
+0
+ρηβ(v0)˜xtdt
+≈const. + 1
+T
+ T
+0
+ρηβ(v0)xT
+t
+T dt
+= const. + 1
+2ρηβ(v0) xT
+
+Volatility Surface Asymptotics
+89
+x
+t
+Local variance
+k  k
+k
+x
+FIGURE 7.1
+For short expirations, the most probable path is approximately a
+straight line from spot on the valuation date to the strike at expiration. It follows
+that σ 2
+BS
+	
+k, T
+
+≈
+
+vloc(0, 0) + vloc(k, T)
+
+/2 and the implied variance skew is roughly
+one half of the local variance skew.
+where ˜x represents the ‘‘most probable’’ path from the stock price at time
+zero to the strike price at expiration.
+⊓⊔
+We conclude that for short times to expiration, the BS implied variance
+skew is given by
+∂
+∂xσBS(x, t)2 = ρη
+2 β(v0)
+(7.3)
+Recall that in the Heston model, β(v) = 1 we see that equation (7.3)
+is consistent with the short-dated volatility skew behavior that we derived
+earlier in Chapter 7 for the Heston model.
+THE MEDVEDEV-SCAILLET RESULT
+It turns out that we can do much better than the heuristic argument of
+Chapter 5 to compute the contribution of jumps in the limit of small time
+to expiration. In a working paper, Medvedev and Scaillet (2004) develop a
+perturbation expansion for small times to expiration τ and ﬁxed normalized
+
+90
+THE VOLATILITY SURFACE
+log-strike z deﬁned as
+z :=
+k
+σBS(k, τ) √τ
+First specializing their result to the case where the underlying process is
+a diffusion of the form
+dSt
+St
+= σt dZ1
+dσt = a (σt) dt + b (σt) dZ2
+(7.4)
+we ﬁnd that the implied volatility I has the following short-term asymptotics
+(with σ = σ0)
+I(z, τ, σ) = σ + I1(z; σ) √τ + I2(z; σ) τ + O(τ √τ)
+where I1 and I2 are functions of z and the instantaneous volatility σ = √v
+only:
+I1(z; σ) = ρ b(σ) z
+2
+I2(z; σ) = 1
+6
+b(σ)2 (1 −ρ2)
+σ
++ ρ2 b(σ) ∂σb(σ)
+
+z2
++ a(σ)
+2
++ ρ σ b(σ)
+4
++ 1
+24
+ρ2 b(σ)2
+σ
++ 1
+12
+b(σ)2
+σ
+−1
+6 ρ2 b(σ) ∂σb(σ)
+(7.5)
+We note that the limit of implied volatility as the log-strike k →0
+and the time to expiration τ →0 is just the instantaneous volatility σ.
+So although critics of stochastic volatility models love to point out that
+instantaneous volatility is not observable and that this is a deﬁciency of such
+models, we see that this deﬁciency is not a major limitation in practice. In
+liquid option markets, the implied volatility surface is typically very smooth
+and we can extrapolate to the zero expiration, at-the-money strike limit
+with little uncertainty.
+To compute the short-dated volatility skew, we substitute
+z =
+k
+I(z, τ; σ) √τ
+
+Volatility Surface Asymptotics
+91
+into (7.5) and take the limit τ →0 in order to obtain
+∂I
+∂k
+
+k=0
+→ρ b(σ)
+2 σ
+(7.6)
+which proves our earlier result (7.3) derived using heuristic methods.
+We note that the short-dated volatility skew is not explicitly time-
+dependent; it depends only on the form of the SDE for volatility.
+In contrast, as we shall see, local volatility models imply short-dated
+skews that decay rapidly as time advances. So even if we ﬁnd a stochastic
+volatility model and a local volatility model that price all European options
+identically today, forward-starting options (i.e., options whose strikes are to
+be set some time in the future) cannot possibly be priced identically by these
+two models. Both models ﬁt the options market today, but the volatility
+surface dynamics implied by the two models are quite different.
+Equations (7.3) and (7.6) suggest a wild generalization: perhaps all
+stochastic volatility models, whether analytically tractable or not, generate
+the same BS implied volatility skew up to a factor of β(v), not just in the
+limit τ →0 but for all τ ≥0. Later on, we will investigate the behavior
+of the volatility skew at long expirations and present further evidence that
+makes this claim more plausible.
+The SABR Model
+Pat Hagan’s well-known SABR (or ‘‘stochastic alpha beta rho’’) model
+(Hagan, Kumar, Lesniewski, and Woodward 2002) has dynamics
+dSt = σt Stβ dZ1
+dσt = χ σt dZ2
+with ⟨dZ1 dZ2⟩= ρ dt.
+Volatility does not mean revert in the SABR model, so it is only good
+for short expirations. Nevertheless the model has the virtue of having an
+exact expression for the implied volatility smile in the short-expiration limit
+τ →0. The resulting functional form can be used to ﬁt observed short-dated
+implied volatilities and the model parameters α, β, and ρ thereby extracted.
+In the special case β = 1, the SABR implied volatility formula (2.17a) of
+Hagan, Kumar, Lesniewski, and Woodward (2002) reduces to
+σBS(k) = σ0
+y
+f(y)
+
+1 +
+1
+4 ρ χ σ0 + 2 −3ρ2
+24
+χ2
+
+τ + O(τ 2)
+
+(7.7)
+
+92
+THE VOLATILITY SURFACE
+with
+y := −χ k
+σ0
+and
+f(y) = log
+
+1 −2 ρ y + y2 + y −ρ
+1 −ρ
+
+Note that the lognormal SABR formula (7.7) factorizes with one factor
+depending only on y and the other factor depending only on τ. Taylor-
+expanding (7.7) to second order in y and ﬁrst order in τ (i.e., with y ∼√τ)
+gives
+σBS(k, τ) = σ0
+
+1 −1
+2ρ y + 2 −3 ρ2
+12
+y2
++
+1
+4 ρ χ σ0 + 2 −3ρ2
+24
+χ2
+
+τ + O(τ √τ)
+
+Substituting a(σ) = 0 and b(σ) = χ σ0 into equation (7.5) give
+I1(z; σ0) = 1
+2 ρ χ σ0 z
+I2(z; σ0) = 1
+6 χ2 σ0 z2 + 1
+4 ρ χ σ 2
+0 + 1
+24 ρ2 χ2 σ0 + 1
+12 χ2 σ0 −1
+6 ρ2 χ2 σ0
+Then, noting that
+χ z √τ = χ
+k
+σBS
+= −y σ0
+σBS
+= −y
+
+1 + 1
+2 ρ y
+
++ O(y3)
+we obtain
+σBS(k, τ) = σ0 + I1(z; σ0) √τ + I2(z; σ0) τ + O(τ √τ)
+= σ0
+
+1 −1
+2ρ y + 2 −3 ρ2
+12
+y2
++
+1
+4 ρ χ σ0 + 2 −3ρ2
+24
+χ2
+
+τ + O(τ √τ)
+
+
+Volatility Surface Asymptotics
+93
+We see that the Medvedev-Scaillet formula (7.5) gives precisely the same
+result as the SABR implied volatility formula (7.7) for small τ.
+Finally, we note that the SABR formula implies that
+∂σBS
+∂k
+
+k=0
+= ρ
+2
+which is a special case of the general result (7.6) with β(v) = √v and
+η = 2 χ. To see this, apply Itˆo’s lemma to the SABR volatility process to
+obtain
+dv = χ2 v dt + 2 χ v dZ
+with v = σ 2.
+INCLUDING JUMPS
+Medvedev and Scaillet’s (2004) main result is a more complicated expression
+for models that include jumps in the stock price. The authors note that
+adding jumps in volatility would make the model more realistic but as we
+also noted earlier, there is no contribution to the shape of the volatility
+surface from the jump in volatility for very short expirations.
+Speciﬁcally, consider the stochastic volatility with jump model
+dSt
+St
+= σt dZ1 + J(σt) dqt
+dσt = a (σt) dt + b (σt) dZ2
+(7.8)
+The jump term dq is a standard Poisson process with intensity λJ(σt) and
+J(σt) is a (−1, ∞)-valued random variable with density f sampled at each
+jump. As before, the jump compensator µJ is given by
+µJ = λJ
+ +∞
+−1
+f(x) dx
+In this model, short-dated implied volatilities are given by
+I(z, τ, σ) = σ + ˜I1(z; σ) √τ + ˜I2(z; σ) τ + O(τ √τ)
+where ˜I1 and ˜I2 are given by
+˜I1(z; σ) = I1(z; σ) −µJ g(z) + ηJ h(z)
+
+94
+THE VOLATILITY SURFACE
+˜I2(z; σ) = I2(z; σ) + 1
+2 σ
+	
+µJ g(z) −ηJ h(z)
+
+2 z2
+−
+
+−µJ σ
+2
+−σ λJ +
+µ2
+J
+σ + µJ b(σ) ρ
+2 σ
+
+g(z) z
+−
+ηJ σ
+2
++ σ χJ −µJ ηJ
+σ
+−ηJ b(σ) ρ
+2 σ
+
+h(z) z
++ ρ b(σ) µJ
+2 σ
+−ρ ∂σb(σ) µJ
+2
++
+µ2
+J
+2 σ −σ µJ
+2
+−λJ σ
+(7.9)
+where ηJ = λJ
+ ∞
+0
+x f(x) dx, χ = λJ
+ ∞
+0
+f(x) dx are respectively the positive
+part of the jump compensator and the probability of an upwards jump and
+g(z) = N(−z)
+N′(z) ; h(z) =
+1
+N′(z)
+As expected, all jump-related terms (with subscript J) vanish if there are no
+jumps.
+Corollaries
+In a jump diffusion model (with volatility deterministic), the limit of the
+implied volatility skew as τ →0 is given by
+∂I
+∂k
+
+k=0
+→−µJ
+σ
+To get this result, note that g′(0) = 1 and h′(0) = 0. The result is exactly
+consistent with our earlier heuristic derivation in Chapter 5.
+In the SVJ model, the limit of the implied volatility skew as τ →0 is
+given by
+∂I
+∂k
+
+k=0
+→ρ b(σ)
+2 σ
+−µJ
+σ
+This is consistent with our earlier observation that the jump and stochas-
+tic volatility effects on the at-the-money variance skew are approximately
+additive. In fact we have
+∂vBS
+∂k
+
+k=0
+→ρ b(σ) −2 µJ as τ →0
+so they are exactly additive at τ = 0!
+
+Volatility Surface Asymptotics
+95
+LONG EXPIRATIONS: FOUQUE,
+PAPANICOLAOU, AND SIRCAR
+Fouque, Papanicolaou, and Sircar (1999) and Fouque, Papanicolaou, and
+Sircar (2000) show using a perturbation expansion approach that in any
+stochastic volatility model where volatility is mean-reverting, Black-Scholes
+implied volatility can be well approximated by a simple function of log-
+moneyness and time to expiration for long-dated options. In particular, they
+study a model where the log-volatility is an Orenstein-Uhlenbeck process
+(log-OU for short). That is,
+dx = −σ 2
+2 dt + σ dZ1
+d log(σ) = −λ[ log(σ) −log(σ) ]dt + ξ dZ2
+They ﬁnd that the slope of the BS implied volatility skew is given (for large
+λ T) by
+∂
+∂x σBS(x, T) ≈ρ ξ
+λ T
+(7.10)
+To recast this in terms of v to be consistent with the form of the generic
+process we wrote down in equation (7.1), we note that (considering random
+terms only), dv ∼2 σ dσ and in the log-OU model,
+dσ ∼ξ σdZ2
+So
+dv ∼2 ξ v dZ2
+Then β(v) as deﬁned in equation (7.1) is given by
+η β(v) = 2ξ √v
+and, from equation (7.10), the BS implied variance skew is given by
+∂
+∂x σBS(x, T)2 ≈2 ρ ξ √v
+λ T
+= ρ η β(v)
+λ T
+Looking back at equation (3.19), we see that the Heston skew (where
+β(v) = 1) has the same behavior for large λ T. We now have enough evidence
+
+96
+THE VOLATILITY SURFACE
+to make our generalization more plausible: It seems that both for long and
+short expirations, the skew behavior may be identical for all stochastic
+volatility models up to a factor of β(v). Supposing this claim were true,
+what would be the natural way to interpolate the asymptotic skew behaviors
+between long and short expirations?
+Clearly, the most plausible interpolation function between short expi-
+ration and long expiration volatility skews is the one we already derived for
+the Heston model in Chapter 3 and
+∂
+∂x σBS(x, T)2 ≈ρ η β(v)
+λ′ T
+
+
+1 −
+
+1 −e−λ′T
+λ′ T
+
+
+
+(7.11)
+with λ′ = λ −1
+2 ρ η β(v).
+SMALL VOLATILITY OF VOLATILITY: LEWIS
+Lewis (2000) performs perturbation expansions of implied volatility with
+respect to the volatility of volatility parameter (assumed small) in any
+stochastic volatility model of the form (7.1) for general choices of β(v).
+According to equation (3.14) on p 143 of Lewis (2000), we have
+vBS(k, t) = β0(v, t) + β1(v, t) k + β2(v, t) k2 + O(η)3
+where
+β0(v, t) = v + 1
+2
+η
+t J(1) +
+η2
+
+J(2)
+t
+−1
+2
+J(3)
+v t2
+
+1 + 1
+4 v t
+
+−J(4)
+v t2
+
+1 −1
+4 v t
+
++(J(1))2
+v2 t3
+3
+4 + 1
+16 v t
+ 
+β1(v, t) = η
+vt2 J(1) + η2
+
+−J(4)
+v t2 −(J(1))2
+v2 t3
+ 
+β2(v, t) = η2
+
+1
+2
+J(3)
+v2 t3 + J(4)
+v2 t3 −5
+4
+(J(1))2
+v3 t4
+ 
+(7.12)
+
+Volatility Surface Asymptotics
+97
+Example 4 on page 144 of Lewis (2000) deals with the case of most
+interest to us:
+dv = −λ (v −v) dt + η vφ dZ
+For this volatility process, in the special case v = v, we have
+J(1) = v1/2+φtρ
+λ
+
+1 −1 −e−λt
+λt
+
+J(3) = v2φ ρ
+2λ3
+3
+2 + λt + 2e−λt −1
+2e−2λt
+
+J(4) = v2φ ρ2
+λ3
+1
+2 + φ
+ !
+−2 + λt + (2 + λt) e−λt"
+Substituting back into equation (7.12) gives
+∂vBS
+∂k
+
+k=0
+= ρ η vφ−1/2
+λ t
+
+1 −1 −e−λt
+λt
+
++ O(η2)
+and we see that (7.11) is not only plausible but is exactly correct to ﬁrst
+order in the volatility of volatility η.
+EXTREME STRIKES: ROGER LEE
+In a beautiful paper, Roger Lee (2004) shows that implied variance is
+bounded above by a function linear in the log-strike k = log(K/F) as
+|k| →∞. Moreover, he shows how to relate the gradients of the wings
+of the upper bound of the implied variance skew to the maximal ﬁnite
+moments of the underlying process.
+Speciﬁcally, let q∗:= sup
+
+q : E S−q
+T
+< ∞
+
+and
+β∗:= lim sup
+k→−∞
+σ 2
+BS(k, T) T
+|k|
+Then β∗∈[0, 2],
+q∗= 1
+2
+
+1
+√β∗−
+√β∗
+2
+2
+
+98
+THE VOLATILITY SURFACE
+and inverting this, we obtain β∗= g(q∗) with
+g(x) = 2 −4
+
+x2 + x −x
+
+Also let p∗:= sup
+
+p : E S1+p
+T
+< ∞
+
+and
+α∗:= lim sup
+k→+∞
+σ 2
+BS(k, T) T
+|k|
+Then α∗∈[0, 2],
+p∗= 1
+2
+#
+1
+√
+α∗−
+√
+α∗
+2
+$2
+and as for the left wing, it follows that α∗= g(p∗).
+Lee’s derivation assumes only the existence of a Martingale measure: It
+makes no assumptions on the distribution of underlying returns. His result
+is completely model independent.
+Denote the (cumulative) distribution function of the returns x of the
+underlying by F(x). Benaim and Friz (2006) go on to show that Roger
+Lee’s upper bound (lim sup) may be replaced by a limit provided that
+log [1 −F(x)] and log [F(−x)] respectively satisfy some technical conditions
+that are in fact satisﬁed in most models of practical interest. If so, we may
+write for the right tail
+σBS(k, T)2 T
+k
+∼g
+#
+−1 −log
+
+1 −F(k)
+
+k
+$
+as k →∞
+(7.13)
+and for the left tail
+σBS(−k, T)2 T
+k
+∼g
+−log F(−k)
+k
+
+as k →∞
+(7.14)
+So, by direct substitution of the tail behavior of the distribution F of
+underlying returns into equations (7.13) and (7.14), we can deduce the full
+tail behavior of the smile, not just Lee’s upper bound. Moreover, the tail
+behavior of the distribution is known for a large class of models.
+The connection between the Lee and Benaim-Friz results becomes clear
+when we note that in most models of practical interest, the limits exist,
+q∗= lim
+k→∞
+
+−log F(−k)
+k
+
+
+Volatility Surface Asymptotics
+99
+and
+p∗= lim
+k→∞
+
+−1 −log
+
+1 −F(k)
+
+k
+
+Example: Black-Scholes
+In the Black-Scholes case with time to expiration T and volatility σ,
+1 −F(k) =
+ ∞
+k
+1
+√
+2 π σ 2 T
+e−y2/(2σ 2 T) dy ∼
+1
+√
+2 π
+e−k2/(2 σ 2 T)
+k
+as k →∞
+Then
+log
+
+1 −F(k)
+
+∼−
+k2
+2 σ 2 T as k →∞
+and
+σBS(k, T)2 T
+k
+∼g
+
+−1 +
+k
+2 σ 2 T
+
+∼2 σ 2 T
+2 k
+as k →∞
+It follows that
+σBS(k, T)2 ∼σ 2 as k →∞
+in trivial agreement with the Black-Scholes ﬂat volatility smile. Note that
+we obtain the full limiting behavior from the Benaim-Friz result; in the
+Black-Scholes case, all moments are ﬁnite, p∗= q∗= ∞and the lim sup
+result does not exclude behavior ∼k/ log(k) for example.
+Stochastic Volatility Models
+Dr˘agulescu and Yakovenko (2002) compute the tail behavior of the Heston
+cumulative distribution function and ﬁnd it to be linear in |k|. It follows
+from Benaim and Friz that the tail behavior of σ 2
+BS(k, T) must also be linear
+in |k|. As noted by Dr˘agulescu and Yakovenko, qualitatively similar results
+from other authors suggest that linearity in the tails is a generic feature of
+stochastic volatility models, not just the Heston model.
+
+100
+THE VOLATILITY SURFACE
+ASYMPTOTICS IN SUMMARY
+It’s quite clear from the results presented here that the general shape of the
+volatility surface doesn’t depend very much on the speciﬁc choice of model.
+Any stochastic volatility with jump model should generate a similar shape
+of volatility surface with appropriate numerical choices of the parameters.

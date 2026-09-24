@@ -1,0 +1,714 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         349 
+ 
+Chapter 29 
+Three's a Crowd: Multiplayer Games 
+ 
+Throughout the preceding material we have primarily focused on two-player games. One reason 
+for this is practical. Especially at higher limits, many pots are contested heads up, and the degree 
+to which a player can make money in the game is tied very strongly to his ability to play well in 
+heads-up situations. Another reason that we focus primarily on heads-up play is that it yields 
+more easily to analysis than multiplayer play. 
+ 
+Multiplayer games, as we shall see presently, frequently include, in addition to their 
+"unexploitable" elements, strong exploitive elements that make them much more complex than 
+two-player games. What frequently happens is that there is an equilibrium that creates a situation 
+where no single player can unilaterally improve his equity. However, individual players can 
+disturb the equilibrium and create situations where other players have incentive to change their 
+play, implicitly colluding against the other players. These situations are difficult to analyze and 
+have no "solution" per se; instead, we can only learn about how to cope with the various types of 
+exploitation we may find. 
+ 
+However, since most poker games are in fact multiplayer games, we would be remiss in not at 
+least introducing the field of multiplayer game theory. Recall the idea of equilibrium from two-
+player zero-sum games (see Chapter 10). This situation occurs when neither player can 
+unilaterally improve his equity by changing strategy. We stated previously in Chapter 10 that all 
+zero-sum two-player games have at least one such equilibrium. In the 1950s, mathematician John 
+Nash proved that all games with a finite number of players, zero-sum or not, possess at least one 
+such equilibrium. We call these Nash equilibria. Of course, the equilibria for two-player zero-
+sum games are also Nash equilibria, but we normally apply the Nash modifier only when dealing 
+with multiplayer games. 
+ 
+A Nash equilibrium is a set of a strategies for all players such that no single player can 
+improve his expectation from the game by unilaterally changing his strategy. 
+ 
+In two-player zero-sum games, it was typical that if there were multiple equilibria, they were all 
+similar except that some contained dominated strategy choices that were Irrelevant against an 
+optimal opponent. However, in multiplayer games, there may be several Nash equilibria with 
+quite different characters. 
+ 
+To see this, we can revisit the two-player non-zero-sum "game of chicken" introduced in Chapter 
+28 (see Example 28, 1). 
+ 
+ 
+Player B 
+ 
+Player A 
+Drive on 
+Swerve 
+Drive on 
+(-10, -10) 
+(1, -1) 
+Swerve 
+(-1, 1) 
+(0, 0) 
+ 
+We can convert this game to a zero-sum game by adding a third passive player G, who has no 
+strategy decisions, but simply has an outcome equal to the negative of the other two players' 
+outcomes: 
+ 
+ 
+Player B 
+ 
+Player A 
+Drive on 
+Swerve 
+Drive on 
+(-10, -10, +20) 
+(1, -1, 0) 
+Swerve 
+(-1, 1, 0) 
+(0, 0, 0) 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         350 
+ 
+This type of conversion can be done to any non-zero-sum game in order to convert it into a zero-
+sum game with one additional player. In any event, recall that we identified three equilibria for 
+this game: 
+ 
+A and B both swerve 90% of the time and drive straight on 10% of the time. 
+A drives on 100% of the time and B swerves 100% of the time.  
+B drives on 100% of the time and A swerves 100% of the time. 
+ 
+If you check, you will see that in each of these cases, neither player can improve his own 
+outcome unilaterally by changing strategy. 
+ 
+Finding a Nash equilibrium for a game is an important first step in analyzing it. In just about all 
+cases, the Nash equilibrium does represent strong play for each player. In two-player zero-sum 
+games, strategies that form a Nash equilibrium are optimal. But Nash equilibria alone do not 
+suffice to describe the best play in multiplayer games. There are a number of reasons for this, but 
+one of the most important is the presence of alliances. 
+ 
+Just as in strategy board games, players may form alliances within a multiplayer game to their 
+(presumed) mutual benefit. This causes the analysis of multiplayer games a serious problem, 
+which is that multiple players can "collude" to enhance their joint EV at the expense of other 
+players. Often there are many possible alliances that could be formed, and choosing from among 
+them is not a matter that can be solved directly by analysis, whether using game theoretic or 
+simply exploitive analysis. 
+ 
+We can subdivide collusive alliances into "hard" and "soft" varieties. These are distinguished by 
+whether or not players are sharing secret information about the game and whether or not they are 
+acting to maximize their joint or their individual expectation. "Hard" collusion, which occurs 
+when players share secret information about the game or when they act against their own self-
+interest to the joint interest of the alliance, is prohibited directly by the rules of the game. For 
+example, a cheating team might signal their confederates about their hole card holdings and 
+manipulate the betting to their benefit. Or, players might agree to share tournament equity in a 
+tournament and then play softly against each other or work to even out their chips, thus 
+maximizing their joint expectation in the tournament. 
+ 
+Such behavior subverts the game because individuals are no longer acting in their own individual 
+self-interest (within the game). Two or more competent colluders would have little trouble 
+extracting a substantial amount of additional expectation over and above what they would make 
+from playing individually. In terms of analysis, we often simply ignore "hard" collusion as a 
+matter of course, deeming it to be outside of the rules of the game. However, players should be 
+aware that hard collusion does exist and is often very difficult to detect. 
+ 
+"Soft" collusion, on the other hand, does not normally violate the rules and is an integral part of 
+multiplayer poker. The canonical example of this concept is the extremely loose and passive play 
+in low-limit games. Often what occurs in these games is that most if not all of the players have 
+an informal, unspoken agreement that they will play very loosely and passively on early streets. 
+As a result of this unspoken agreement, plays that would be equity disasters in tight, aggressive, 
+games (such as limping under the gun in limit holdem with 75o) become only mild mistakes. 
+This concept has been labeled "implicit collusion" by other authors, and this is a reasonable term 
+with which to describe it. 
+ 
+It may seem to the reader that this implicit collusion is relatively unimportant horn an exploitive 
+point of view. After all, it would seem that if we can accurately read our opponents' hands and 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         351 
+ 
+strategies, we can make money regardless of what they do as long as the game is not biased 
+against us. However, this turns out to be false in some circumstances. 
+ 
+Example 29.1 
+Consider the following toy game: 
+ 
+Three players play and they ante $10 each, making a pot of $30. Each player receives one card 
+from a standard deck. One player has the button, which rotates after each hand. There is a round 
+of betting. Each player may check or bet $30. Once a player has bet, then the remaining players 
+act in turn to either call or fold. At the showdown, all players who have not folded reveal their 
+cards. All players holding an ace or king (a winner) split the pot, unless there are no aces or 
+kings, in which case all remaining players (who hold losers) split the pot. This game is simple 
+and symmetrical. It would seem that on each hand, the button player would have some sort of 
+advantage, but since the button rotates, the game remains fair. 
+ 
+Now presume that we are invited to play this game by two players. The two players agree to do 
+two things: to state their strategies at the outset and to agree to show whatever information is 
+necessary (folded hands, etc.) to verily that they are in fact playing those strategies. On the face 
+of it, this would likely seem like a good opportunity. So we sit down. 
+ 
+The player to our left states his strategy as: 
+"Check all hands if possible, and only call bets when I have a winner." 
+ 
+The player to our right states his strategy as:  
+"Bet all hands, and call all bets." 
+ 
+It's plain to see that each of these strategies individually is fairly exploitable, and that we can 
+determine the proper exploitive response and our expectation against these strategies. We can 
+simplify our strategy to simply deciding whether to call the bet of the player to our right (call 
+him the maniac). Betting any hands is simply equivalent to calling his bet. Obviously, if we have 
+an ace or king, we will call the bets. The question is what to do if we have a losing card? 
+ 
+There are three cases of action: 
+ 
+Case 1: We have the button. 
+In this case, the player to our left (call him the rock) checks and the maniac bets. 
+ 
+Case 2: The rock has the button. 
+In this case, the maniac bets immediately. 
+ 
+Case 3: The maniac has the button. 
+In this case, both we and the rock check, and the maniac bets. 
+ 
+In all three of these cases, we have gained no information about either hand and it is our turn. 
+ 
+When we do not hold an ace or king, neither of the opponents will hold a winner (43 51
+ ) (42 50
+ ) of 
+the time, or about 70.8% of the time. The remaining 29.2% of the time, we will have zero equity 
+in the pot. When neither of the opponents hold a winner, if we call, the total pot will be $90, and 
+we will get half of it, or $45. 
+ 
+<call> = (0.708) (45) + (0.292) (0) - $30 = $1.87 
+<folds> = 0 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         352 
+ 
+So it seems that our best approach is to call with a loser, as this has higher expectation than 
+folding. With this data in hand, we can calculate our total EV for the game: 
+ 
+Our’s hand 
+Opp’s hand 
+Result (inc. antes) 
+Probability 
+EV 
+Winner 
+Both winners 
+   $0 
+0.25% 
+0$ 
+Winner 
+R-W, M-L 
++ $20 
+1.86% 
++$0.372 
+Winner 
+R-L, M-W 
++ $5 
+1.86% 
++$0.093 
+Winner 
+Both losers 
++ $50 
+11.41% 
++$5.707 
+Loser 
+Both losers 
++ $5 
+59.93% 
++$2.996 
+Loser 
+1 or 2 W 
+- $40 
+24.69% 
+-$9.875 
+Total 
+ 
+ 
+100% 
+-$0.707 
+ 
+What a strange result! Here we have a game where we know both players' strategies, each of 
+those strategies seems weak and exploitable, the game is symmetrical and otherwise fair...and yet 
+we cannot win. 
+ 
+This is because these two players' strategies form an implicit alliance. By playing with these 
+strategies they actually collude against the player in the middle, without exchanging information 
+or even playing reactively to the situation within the game. It is probable, although we have not 
+as yet proved it, that similar situations exist in real-life three-handed poker games, such that two 
+players could specify their entire strategies before the game started and make it impossible for 
+the third player to have positive expectation. 
+ 
+Also note that the third player here has the opportunity to decide which of the opponents will 
+win. If he plays like the rock, then the maniac will be the only net winner in the game. If he plays 
+like the maniac, the rock will be the only one to come out ahead. In a sense, the third player in 
+has the opportunity to join an alliance with either of the other two players, by playing the 
+opposite of their strategy. However, none of the alliances he can join result in him personally 
+gaining equity. 
+ 
+There are other types of alliances possible; in fact, sometimes there may be multiple possible 
+alliances on the same hand. In this case, which alliances should be chosen by the various players 
+is not always indicated by a simple EV analysis. 
+ 
+Consider the following three-handed situation in holdem 
+(cards face-up and a moderately-sized pot): 
+Player A: A♠ A♣ 
+Player B: A♥ Q♥ 
+Player C: 8♥  7♥ 
+Board:     9♥  6♥ 2♦ 
+ 
+Now let's consider what collusive possibilities there are. 
+ 
+Suppose that the made hand and the straight flush draw decide to collude. So the straight flush 
+draw bets and the aces raise. Now the nut flush draw is in a difficult spot. He has just five outs 
+on the turn, and doesn't have odds to call. When the nut flush draw folds, the colluding hands 
+have won the entire pot. 
+ 
+Or suppose that the made hand and the nut flush draw decide to collude. Now the straight flush 
+draw has eight outs and is a little less than 2-1 to make his hand. He does, then, have odds to call. 
+So the flush draw and the made hand (who control together 79% of the equity in the pot) are able 
+to extract four bets from the straight flush draw. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         353 
+ 
+Or suppose that the two flush draws decide to collude. Then the nut flush draw folds, because the 
+nut flush draw adds no additional equity to his alliance. The straight flush draw assumes all the 
+outs the nut flush draw had, and the alliance pays just one bet to draw to all their outs. 
+ 
+So it's clear from examining this that one difficulty with studying multiplayer games using game 
+theory is that it's unclear how the play should go even when the cards are face-up, due to the 
+possible collusive alliances. An important and emerging branch of mathematics, cooperative 
+game theory, is the study of games where the players may cooperate to improve then joint equity 
+in the game. 
+ 
+We will only briefly mention this topic. A more complete treatment is beyond the scope of this 
+text. Cooperative game theory is often geared toward games where side payments are allowed; 
+that is, players may offer each other inducements outside the game to create alliances. In poker, 
+this might take the form of chip passing or playing out of the same bankroll, both of which are 
+prohibited or at least frowned upon by the rules of the game. Additionally, cooperative game 
+theory often deals with situations of repeated ploy, where the players play the game over and 
+over, with the players responding to new information revealed with each iteration. Both of these 
+conditions can apply, but especially the last is useful in actual poker play. A concept of 
+considerable theoretical interest is the Shapley value, which is a sort of weighted average of the 
+value of all the possible alliances into which a player may enter. For more discussion on this and 
+related topics, we refer you to texts on cooperative game theory. 
+ 
+In the second part of this chapter, we will discuss (note that the term ''solve" doesn't have a clear 
+meaning here) three multiplayer scenarios and find some lessons. The first two of these 
+situations were originally posed to us by Chris Ferguson; both deal with situations where one 
+player is all-in. 
+ 
+The conventional wisdom in situations where one player is all-in with no side pot, particularly in 
+tournaments, is that the two remaining players should a) be more inclined to check the hand 
+down in an attempt to eliminate the all-in player or b) at least refrain from bluffing with weak 
+hands as there is no additional money to be won by bluffing out the other player who still has 
+chips. But it isn't so clear as that... 
+ 
+Example 29.2 - Dry Side Pot Game #1 
+Three players, X, Y, and Z play.  
+The game is stud, and it's the river. 
+ 
+We solve only a one-street game here for illustrative purposes. Previous betting would influence 
+the action, of course in real poker. 
+ 
+X: (??) A♥ A♦ A ♣ A♥ (?) 
+Y: (??) 5♦ 6♦ 7 ♦ 8♦ (?) 
+Z: (??) K♥ K♣ K♦ K♠ (?) 
+ 
+Z is all-in for the pot of Pbets.  
+X and Y remain with chips. 
+One full street.  
+Limit betting. 
+ 
+Neither X nor Z can improve on the hands that they're showing; hence we have here what is 
+essentially a situation where Y is clairvoyant - either he has a straight flush or not. X should 
+never bet, and should call Y's bets enough to make Y indifferent to bluffing. But Y can never be 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         354 
+ 
+indifferent to bluffing; if he does bluff, even if X folds, he cannot beat Z's hand and never gains 
+by bluffing X out of the pot. So X needn't call at all. 
+ 
+The Nash equilibrium for this game is that Y value bets his straight flushes, and X always folds 
+to a bet. None of the players can unilaterally improve their equity. 
+ 
+But suppose Y does bluff, just a little bit. Every time that Y bluffs and X folds, Z wins the pot. Y 
+gains nothing by doing this, of course, except to shift equity from X to Z. This will likely cause 
+X aggravation, as Y is taking money away from X and giving it to Z. To counteract this, X might 
+call Y's bets some fraction of the time so that he can retain his equity in the pot. 
+ 
+But if he does this, Y gains equity immediately because X will now be calling Y's value bets as 
+well. In fact, Y doesn't even need to bluff in an appropriate ratio; he can gain in this way by 
+bluffing just a few hands. Of course, X could just play the equilibrium strategy - in that case, Y 
+risks nothing. In fact, in this situation, Y cannot be hurt by X's actions. 
+ 
+This is a simple example that shows how the player betting can sometimes benefit from 
+deviating from equilibrium in order to tempt other players away from equilibrium. Next we 
+consider a more complex example. 
+ 
+Example 29.2 - Dry Side Pot Game #2 
+ 
+Three players, X, Y, and Z play. 
+Each has a uniform hand from the [0, 1] distribution. 
+Z is all-in for the antes - the pot is 9 bets. 
+ 
+We solve this game for a particular pot size because the general case is a bit complicated and 
+the complication gets in the way of understanding the lesson. 
+ 
+X and Y remain with chips. 
+One half street.  
+Limit betting. 
+ 
+After X checks dark, let us consider Y's strategy. Clearly Y wants to bet his very best hands for 
+value, hoping to get called by X with a mediocre hand. In the analogous game without an all-in 
+player, Y would also bluff with his very worst hands. However, here if he does successfully bluff 
+out X, he still has to beat Z. 
+ 
+Is he then limited to simply betting for value? If he does this, it seems that X can exploit him by 
+folding mediocre hands instead of calling. Y should attempt to prevent this in some way. One 
+thing is clear, however; X will have one threshold for calling Y's bets. 
+ 
+Call X's threshold for calling x, and Y's threshold for value betting yl. Suppose that Y is going to 
+bet some hands worse than yl (separated by a checking region). We'll call these bets "bluffs," 
+although they're not the same as the very worst hands Y bet in previous games. In fact they are 
+semi-bluffs, which hope that X will fold a hand better than Y's but than Y's hand will still beat 
+Z's. X will call whenever he has positive equity by doing so. Clearly, X will never call with a 
+hand that cannot beat Y's "bluffs," so the threshold x will be between yl and Y's bluffing region. 
+For now we'll just call the bluffing region YB, and its call its width w. It is not true that in this 
+game the size of the bluffing region is a times the size of the value betting region, because the 
+all-in player reduces the equity of a successful bluff. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         355 
+ 
+X's equity of calling Y's bet at the threshold x is: 
+ 
+Y’s hand 
+Z’s hand 
+Probability 
+<X, call> 
+[0, y1] 
+[0, 1] 
+y1 
+- 1 
+YB  
+[0, x] 
+w (x) 
++ 1 
+YB 
+[x, 1] 
+w (1 – x) 
++ 10 
+ 
+X's total equity from calling at X must equal zero (since he must be indifferent to calling or 
+folding). 
+ 
+wx + 10 (w (1 – x)) = y1 
+wx + 10 w – 10 wx = y1 
+w (10 – 9x) = y1 
+w = y1 / (10 – 9x) 
+ 
+At the upper bound of Y's bluffing region (call this y for a moment), we have: 
+ 
+X’s hand 
+Z’s hand 
+Probability 
+<Y, bluff> 
+[0, x] 
+[ 0, 1] 
+x 
+- 1 
+[x ,1] 
+[0, y] 
+y (1 –x) 
+0 
+[x, y] 
+[y, 1] 
+(y – x) (1 – y) 
++ 9 
+[y, 1] 
+[y, 1] 
+(1 – y)2 
+0 
+ 
+x = 9 (y –x) (1 –y) 
+x = 9y – 9x – 9y2 + 9xy 
+10x = 9 (1 +x) y – 9y2 
+9y2 – 9 (1 + x) y +10x = 0 
+y2 – (1 + x) y + 10x / 9 = 0 
+y = (1 + x) / 2 ± (
+9
+/
+40
+2
+)
+1
+x
+x
+−
++
+) / 2 
+ 
+This indifference equation yields a quadratic. This is because there are two points at which Y is 
+indifferent between bluffing and checking; the upper bound of the bluffing region as well as the 
+lower bound of that region. 
+ 
+Notice that this equation actually specifies the entire bluffing region. We can see that the center 
+of the region will be (1 + x) / 2, and the width of the region will be distance between the two 
+bounds, or (
+9
+/
+40
+2
+)
+1
+x
+x
+−
++
+. 
+w = (
+9
+/
+40
+2
+)
+1
+x
+x
+−
++
+ 
+ 
+And at yl, we have: 
+ 
+X’s hand 
+Z’s hand 
+Probability 
+<Y, value bet> 
+[0, y1] 
+[0, 1] 
+y1 
+- 1 
+[y1, x] 
+[0, 1] 
+x – y1 
++ 1 
+[x, 1] 
+[0, 1] 
+(1 – x) 
+0 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         356 
+ 
+This, by far the easiest of the indifference equations, is the familiar idea that Y should bet with 
+half the hands with which X will call. 
+ 
+y1 = x – y1 
+ 
+y1 = 1 2
+ x 
+ 
+We now have three indifference equations:  
+ 
+w = y1/ (10 – 9x) 
+ 
+y1 = 1 2
+ x 
+ 
+w = (
+9
+/
+40
+2
+)
+1
+x
+x
+−
++
+ 
+ 
+Solving these simultaneously, we get: 
+w = x / (20 – 18x) 
+x / (20 – 18x) = (
+9
+/
+40
+2
+)
+1
+x
+x
+−
++
+ 
+x ≈ 0.2848 
+ 
+Using this, we can identify the other thresholds. Y's bluffing region will be centered on 0.6424, 
+and have a width of 0.0190 units, and yl will be approximately 0.1424. 
+ 
+So we can see that the "a" value for this game is slightly higher than in the games with no all-in 
+player. Y bets about 14% of his hands for value, and bluffs about 1.9%. α in this case would be 
+1 10
+ . There is a dramatic effect, however, on X's calling strategy. Instead of calling 9/10 of the 
+time as he would do if Z were not present, he calls just 28.5% of the time. 
+ 
+These values comprise the Nash equilibrium for this game - neither X nor Y can unilaterally 
+improve his equity by changing strategies. 
+ 
+But now we can illustrate the multiplayer difficulties we discussed at the beginning of the 
+chapter. Suppose Y decides to bluff more often. He decides to widen w to be 3% instead of 
+1.9%. Recall that we showed in the analysis immediately preceding that Y was indifferent to 
+bluffing at the endpoints of his bluffing region in the Nash equilibrium. Since he's bluffing hands 
+outside this range, his expectation will he lower. 
+ 
+X will gain a small amount of this value when he calls because Y more frequently has a bluff. 
+But the player who benefits most of all is Z, because Y bluffs out X's hands that are between X's 
+calling threshold and Y's bluffing threshold much more often. Whenever the situation was such 
+that X's hand was better than Z's hand, which in turn was better than Y's hand, and Y bluffs X 
+out, Z gains the entire pot. Overall, Y takes a small loss from overbluffing and being called by X, 
+However. X loses a larger amount on the hands where he is bluffed out; the "extra" equity goes 
+to Z. 
+ 
+X can modify his strategy to try to increase his equity (remember, the Nash equilibrium has been 
+disturbed by Y's strategy change). Suppose X calls with more of his in-between hands -that is, he 
+increases x, his calling threshold. Now X gets more of the pots that he's "entitled" to when X < Z 
+< Y, but he also winds up paying off Y more often when Y has a value bet. Looking at the 
+situation from Y's point of view, X calling more is actually quite welcome. Y gains a bet (for 
+value) about 14.2% of the time, loses a bet about 3% of the time, and loses about a third of the 9-
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         357 
+ 
+unit pot as well. Sometimes Y bluffs X out when Z has a weak hand and wins the entire pot. 
+Adding all these up results in a net gain to Y of about 2% of a bet when X calls with additional 
+hands. By doing this, X reclaims most of his "lost" equity from Z - but by doing so, he must 
+redistribute some of it to T. 
+ 
+The counter-intuitive idea here is that when Y overbluffs, and X plays to maximize his 
+expectation, Y gains. In fact, it is in Y's best interest to make sure that X knows he will 
+overbluff. Otherwise, X might just play his Nash equilibrium strategy and Y would lose equity 
+by overbluffing. So Y is much better off to announce his strategy to X in the hopes that X will 
+exploit it. By overbluffing, Y unilaterally enters into an alliance with Z. The alliance will bluff X 
+out of the pot and give Z equity. However, by announcing his strategy, Y offers X the 
+opportunity to enter into a different alliance - this time X and Y against Z. The only catch is that 
+X has to give Y equity in order to enter into this alliance. The alternative is that X can ally with 
+Z (at personal cost to X) to punish Y for his manipulative behavior. 
+ 
+As an important aside, bluffing into dry side pots violates convention, and there are strong 
+reasons not to engage in this behavior because of the overtly collusive aspect of it. Players 
+should consider carefully whether the tiny hit of potential equity they may gain by making these 
+plays is sufficiently compensated by potential retaliation in future hands or tournaments. These 
+issues are fairly unclear. We present this example, though, to show an example of a wholly 
+counter-intuitive situation that exists only because of the all-in player's presence and the 
+opportunity for Y to transfer equity from X to Z. 
+ 
+Example 29.4 - The Clairvoyant Maniac Game 
+Three players (X, Y, and Z) play. 
+Z is clairvoyant, while X and Y have equivalent hands. 
+One half street 
+X and Y may only check and call/fold, Z may bet one unit. 
+Pot of 9 units. 
+All players have chips left. 
+ 
+You may notice that we often utilize a pot size of 9 units; this is because a (from Equation 11.1) 
+is a convenient value of 1 10
+ in this case. 
+ 
+First, we can find the Nash equilibrium for this game. Our experience with half-street games tells 
+us that Z will value bet his winning hands and some fraction of his losing hands. He will do this 
+such that the two players remaining will be indifferent to calling. It turns out here that there are 
+many Nash equilibria. In fact, any strategy that X and Y follow that satisfies the following two 
+conditions is a Nash equilibrium for this game. 
+ 
+• The total fraction of the time that Z gets called is 9 10
+ . 
+• Y never overcalls when X calls. 
+ 
+The first of these is the standard "make the bluffer indifferent to bluffing" idea: the second is 
+simply a matter of pot odds for the overcaller. If X calls first, then Y stands to split the pot with 
+X by calling. When Z value bets, Y loses one bet by calling. When Z bluffs, Y gains a net of five 
+bets by overcalling. Since Z will only bluff 1 10 
+
+as often as he will value bet, Y can never overall. 
+Suppose that we simply take as our candidate equilibrium that X calls 50% of the time, and Y 
+80% of the time when X folds. Then we have a Nash equilibrium and the value of the game to Y 
+is 9/10 of a bet when he has a value betting hand. 
+ 
+As we saw previously, however, Z can attempt to disturb the equilibrium by bluffing more often. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         358 
+ 
+Suppose that Z announces that he is going to bluff 1 8
+ as much as he value bets instead of 1 10
+ . 
+Now X's exploitive response is to call all the time, picking off Z's bluffs. However, Y is still 
+unable to overcall because he lacks pot odds. This is actually bad for Z; he loses additional 
+equity on his failed bluffs and docs not gain enough back from additional called value bets to 
+offset this. 
+ 
+Nevertheless, suppose that Z decides that he must not be bluffing enough. So instead he 
+announces that he will begin bluffing three times as often as he would in equilibrium, or 3 10
+ as 
+often as he value bets. X will of course keep calling all the time. But consider Y's situation now. 
+3 13
+
+ of the time, Z is bluffing, and Y can win five bets net by overcalling. The remaining 10 13 
+
+of 
+the time. Z is value betting and Y loses a bet by overcalling. Now Y has positive expectation 
+overcalling Z's bet and X's call. 
+ 
+Who gains from this? The answer is, of course, Z! Now the 10 13 
+
+ of the time he is value betting, 
+he gains two bets from the call and overcall, while losing only one bet when he bluffs. So he 
+gains a total of 17 10
+ bets per value bet instead of only 9 10
+ . 
+ 
+The upshot of all this is that if Z plays the equilibrium strategy, no alliances are formed. If he 
+bluffs just a little more than the equilibrium amount, then X and Z forms an alliance against Y. If 
+he bluffs a lot more often than the equilibrium amount, then Y and Z form an alliance against X. 
+The key to this game is how Z can increase his equity substantially by bluffing much more often 
+than the equilibrium strategy, assuming his opponents will move to maximize their equity. 
+ 
+We have considered just a few multiplayer games here: the pattern should hopefully be clear. We 
+can always find a Nash equilibrium for a game, where all the players cannot unilaterally improve 
+their equity. Often, however, one or more players can disturb the equilibrium by changing 
+strategies. When the other players move to maximize their equity by exploiting the disturbance, 
+alliances arc formed, and often the disturber can gain equity from the shift, without counter-
+exploiting at all. This is of course impossible in two-player zero-sum games, as any equity that 
+one player gains must be lost by the other player. It is this idea that leads us to refrain from using 
+the term "optimal'' in regard to multiplayer strategies. 
+ 
+Key Concepts 
+• Multiplayer games are much more complicated than two-player games because players 
+can collude with one another, entering into implicit alliances to maximize their joint 
+equity. These "soft" collusive alliances are not prohibited by the rules of the game - in 
+fact; they are an integral part of it. 
+• A Nash equilibrium is a set of a strategies for ail players such that no single player can 
+improve his expectation from the game by unilaterally changing his strategy. 
+• In many situations, there are several alliances possible. Each player must decide which 
+alliance to enter and how to induce others to ally with him. 
+• We saw several examples of situations where one player was able to disturb the 
+equilibrium in such a way that he benefited unless another player took a negative EV 
+action to punish him for disturbing the equilibrium. 
+• It is often the case that the best way to disturb the equilibrium is to bluff much more 
+often. 
+ 
+ 
+ 
+ 
+ 
+ 

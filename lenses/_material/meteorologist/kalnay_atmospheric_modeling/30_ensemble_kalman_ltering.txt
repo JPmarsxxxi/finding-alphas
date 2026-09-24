@@ -1,0 +1,379 @@
+180
+5 Data assimilation
+The updating of the forecast error covariance matrix ensures that the analysis
+takes into account the “errors of the day”. Unfortunately the extended Kalman ﬁlter
+is exceedingly expensive, since the linear model matrix Li−1 has size n, the number
+of degrees of freedom of a modern model (more than 106) and updating the error
+covariance is equivalent to performing O(n) model integrations. For this reason, this
+step has been replaced by the use of simplifying assumptions (e.g., a lower order
+model and/or infrequent updating).
+5.6.2
+Ensemble Kalman ﬁltering
+One promising simpliﬁcation of Kalman ﬁltering is ensemble Kalman ﬁltering. In
+this approach, an ensemble of K data assimilation cycles is carried out simulta-
+neously (Houtekamer et al., 1996, Houtekamer and Mitchell, 1998, 2001, Hamill
+and Snyder, 2000, Hamill et al., 2001, Anderson, 2001). All the cycles assimilate
+the same real observations, but in order to maintain them realistically independent,
+different sets of random perturbations are added to the observations assimilated in
+each member of the ensemble data assimilations. This ensemble of data assimila-
+tion systems can be used to estimate the forecast error covariance (Evensen, 1994,
+Evensen and van Leewen, 1996, Houtekamer and Mitchell, 1998, Hamill and Snyder,
+2000). After completing the ensemble of analyses at time ti−1, and the K forecasts
+x f
+k (ti) = Mk
+i−1[xa
+k(ti−1)], one can obtain an estimate of the forecast error covariance
+from the K forecasts x f
+k (ti). For example one could assume
+P f ≈
+1
+K −1
+K
+
+k=1
+	
+x f
+k −x f 
+	
+x f
+k −x f 
+T
+where the overbar represents the ensemble average, but this would tend to underesti-
+mate the variance of the forecast errors because every forecast is used to compute the
+estimate of its own error covariance. Houtekamer and Mitchell (1998) and Hamill
+and Snyder (2000) suggested instead to compute the forecast error covariance for
+ensemble member ifrom an ensemble that excludes the forecast l:
+P f
+l ≈
+1
+K −2
+
+k̸=l
+	
+x f
+k −x f
+l
+
+	
+x f
+k −x f
+l
+
+T
+(5.6.12)
+Hamill and Snyder (2000) also suggested a hybrid between 3D-Var and ensemble
+Kalman ﬁltering, where the forecast error covariance is obtained from a linear com-
+bination of the (constant) 3D-Var covariance B3D-Var:
+P f (hybrid)
+l
+= (1 −α)P f
+l + αB3D-Var
+(5.6.13)
+where α is a tunable parameter that varies from 0, pure ensemble Kalman ﬁltering
+from (5.6.12) to 1, pure 3D-Var. In (5.6.12) the ensemble Kalman ﬁltering covariance
+is estimated from only a limited sample of ensemble members K −1, compared with
+a much larger number of degrees of freedom of the model, it is rank deﬁcient. The
+
+5.6 Advanced data assimilation methods
+181
+combination with the 3D-Var, computed from many estimated forecast errors (using
+for example the method of Parrish and Derber (1992)) may ameliorate this sampling
+problem and “ﬁll out” the error covariance. In the experiments of Hamill and Snyder
+(2000) the best results were obtained for low values of α, between 0.1 and 0.4,
+indicating good impact of the use of the ensemble-evolved forecast error covariance.
+They found that 25–50 ensemble members were enough to provide the beneﬁt of
+ensemble Kalman ﬁltering (but this may be different when using a more complex
+model than the quasi-geostrophic model used here).
+The ensemble Kalman ﬁltering approach has several advantages: (a) K is of the
+order of 10–100, so that the computational cost (compared with OI or 3D-Var) is
+increased by a factor of 10–100. Although this increased cost may seem large, it
+is small compared to extended Kalman ﬁltering, which requires a cost increase of
+the order of the number of degrees of freedom of the model. (b) Ensemble Kalman
+ﬁltering does not require the development of a linear and adjoint model. (c) It does
+not require the linearization of the evolution of the forecast error covariance. (d) It
+may provide excellent initial perturbations for ensemble forecasting. Despite these
+advantages, at the time of writing no operational center has yet implemented this
+system, although Canada has plans to do so. Ott et al. (2002) proposed to do en-
+semble Kalman ﬁltering based on the bred vectors available from operations, and
+taking advantage of the local low dimensionality observed by Patil et al. (2001). En-
+semble Kalman ﬁltering appears at the present time to be one of the most promising
+approaches for the future.
+5.6.3
+4D-Var
+This is an important extension of the 3D-Var which allows for observations dis-
+tributed within a time interval (t0, tn) (e.g., Lewis and Derber, 1985, Courtier and
+Talagrand, 1990, Derber, 1989, Daley, 1991, Zupanski, 1993, Bouttier and Rabier,
+1997). The cost function includes a term measuring the distance to the background
+at the beginning of the interval, and a summation over time of the cost function for
+each observational increment computed with respect to the model integrated to the
+time of the observation:
+J[x(t0)] = 1
+2[x(t0) −xb(t0)]T B−1
+0 [x(t0) −xb(t0)]
++1
+2
+N
+
+i=0
+
+H(xi) −y0
+i
+T R−1
+i
+
+H(xi) −yo
+i
+
+(5.6.14)
+The control variable (the variable with respect to which the cost function is min-
+imized) is the initial state of the model with the time interval x (t0), whereas the
+analysis at the end of the interval is given by the model integration from the solution
+x (tn) = M0 [x (t0)]. Thus, the model is used as a strong constraint (Sasaki, 1970),
+i.e., the analysis solution has to satisfy the model equations. In other words, 4D-Var
+
+182
+5 Data assimilation
+seeks an initial condition such that the forecast best ﬁts the observations within the
+assimilation interval. The fact that the 4D-Var method assumes a perfect model is a
+disadvantage since, for example, it will give the same credence to older observations
+at the beginning of the interval as to newer observations at the end of the interval
+(Menard and Daley, 1996). Derber (1989) suggested a method of correcting for a
+constant model error (a constant shape within the assimilation interval), see also
+Zupanski (1993).
+A variation in the cost function when the control variable x (t0) is changed by a
+small amount δx(t0) is given by
+δJ = J[x(t0) + δx(t0)] −J[x(t0)] ≈
+ ∂J
+∂x(t0)
+T
+· δx(t0)
+(5.6.15)
+where the gradient of the cost function [∂J/∂x(t0)] j = ∂J/∂x j(t0) is a column vector.
+As suggested by (5.6.15), iterative minimization schemes require the estimation of
+the cost function gradient. In the simplest scheme, the steepest descent method, the
+change in the control variable after each iteration is chosen to be opposite to the
+gradient δx(t0) = −a∇x(t0) J = −a ∂J/∂x(t0). Other, more efﬁcient methods, such
+as the conjugate gradient or quasi-Newton (Navon and Legler, 1987) method, also
+require the use of the gradient, so that in order to solve this minimization problem
+efﬁciently, we need to be able to compute the gradient of J with respect to the elements
+of the control variable.
+As we saw in Sections 5.4 and 5.5, given a symmetric matrix A and a functional
+J = 1
+2xT Ax, the gradient is given by ∂J/∂x = Ax. If J = yT Ay, and y = y(x), then
+∂J
+∂x =
+∂y
+∂x
+T
+Ay
+(5.6.16)
+where [∂y/∂x]k,l = ∂yk/∂xl is a matrix.
+We can write (5.6.14) as J = Jb + Jo, and from the rules discussed above,
+the gradient of the background component of the cost function Jb = 1
+2[x(t0) −
+xb(t0)]T B−1
+0 [x(t0) −xb(t0)] with respect to x (t0) is given by
+∂Jb
+∂x(t0) = B−1
+0 [x(t0) −xb(t0)]
+(5.6.17)
+The
+gradient
+of
+the
+second
+term
+of
+(5.6.14)
+Jo = 1
+2
+N
+i=0[H(xi) −
+yo
+i ]T R−1
+i [H(xi) −yo
+i ] is more complicated because xi = Mi[x(t0)]. If we introduce
+a perturbation to the initial state, then δxi = L(t0, ti)δx0, so that
+∂
+	
+H(xi) −yo
+i
+
+∂x(t0)
+= ∂H
+∂xi
+∂M
+∂xo
+= HiL(t0, ti) = Hi
+0
+.
+j=i−1
+L(t j, t j+1)
+(5.6.18)
+As indicated by (5.6.18), the matrices Hi, Li are the linearized Jacobians
+∂H/∂xi, ∂M/∂xo. Therefore, from (5.6.16) and (5.6.18) the gradient of the
+
+5.6 Advanced data assimilation methods
+183
+00
+03
+06
+09
+12
+d1
+d2
+d3
+d4
+d0
+LT
+0
+LT
+1
+LT
+2
+LT
+3
+Figure 5.6.2: Schematic of the computation of the gradient of the observational
+cost function for a period of 12 h, observations every 3 h and the adjoint model that
+integrates backwards within each interval.
+observation cost function is given by
+ ∂Jo
+∂x (t0)
+
+=
+N
+
+i=0
+L(ti, t0)T HT
+i R−1
+i
+
+H(xi) −yo
+i
+
+(5.6.19)
+Equation (5.6.19) shows that every iteration of the 4D-Var minimization requires
+the computation of the gradient, i.e., computing the increments [H(xi) −yo
+i ] at the
+observation times ti during a forward integration, multiplying them by HT
+i R−1
+i
+and
+integrating these weighted increments back to the initial time using the adjoint model.
+Since parts of the backward adjoint integration are common to several time intervals,
+the summation in (5.6.19) can be arranged more conveniently. Assume, for example
+that the interval of assimilation is from 00 Z to 12 Z, and that there are observations
+every 3 h (Fig. 5.6.2). We compute during the forward integration the weighted neg-
+ative observation increments di = HT
+i R−1
+i [H(xi) −yo
+i ] = −HT
+i R−1
+i di. The adjoint
+model LT (ti, ti−1) = LT
+i−1 applied on a vector “advances” it from ti to ti−1. Then we
+can write (5.6.19) in the example shown in Fig. 5.6.2 as
+∂Jo
+∂xo
+= do + LT
+0
+"
+d1 + LT
+1
+
+d2 + LT
+2
+	
+d3 + LT
+3 d4
+
+#
+(5.6.20)
+From (5.6.17) plus (5.6.19) or (5.6.20) we obtain the gradient of the cost function,
+and the minimization algorithm modiﬁes appropriately the control variable x(t0).
+After this change, a new forward integration and new observational increments are
+computed and the process is repeated.
+4D-Var can also be written in an incremental form with the cost function deﬁned
+by
+J(δx0) = 1
+2(δx0)T B−1
+0 (δx0)
++1
+2
+N
+
+i=0
+
+HiL(t0, ti)δx0 −do
+i
+T R−1
+i
+
+HiL(t0, ti)δx0 −d0
+i
+
+(5.6.21)
+and the observational increment deﬁned as in (5.6.10). Within the incremental for-
+mulation, it is possible to choose a “simpliﬁcation operator” that solves the problem
+of minimization in a lower dimensional space w than that of the original model
+
+184
+5 Data assimilation
+variables x:
+δw = Sδx
+S is meant to be rank deﬁcient (as would be the case, for example, if a lower resolution
+spectral truncation was used for w than for x), so that its inverse doesn’t exist, and
+we have to use a generalized inverse S−I = [SST ]−1ST . Then the minimum of the
+problem is obtained for
+J(δw), xb
+0 = xg
+0 + S−Iδw0
+and a new “outer iteration” at the full model resolution can be carried out (Lorenc,
+1997).
+The iteration process can also be accelerated through the use of “pre-condition-
+ing”, a change of control variables that makes the cost function more “spherical”, and
+therefore each iteration can get closer to the center (minimum) of the cost function
+(e.g., Parrish and Derber, 1992, Lorenc, 1997).
+The most important advantage of 4D-Var is that if we assume that: (a) the model
+is perfect, and (b) the a priori error covariance at the initial time B0 is correct, it can
+be shown that the 4D-Var analysis at the ﬁnal time is identical to that of the extended
+Kalman ﬁlter (Lorenc, 1986, Daley, 1991). This means that implicitly 4D-Var is able
+to evolve the forecast error covariance from B0 to the ﬁnal time (Thepaut et al., 1993).
+Unfortunately, this implicit covariance is not available at the end of the cycle, and
+neither is the new analysis error covariance. In other words, 4D-Var is able to ﬁnd the
+best linear unbiased estimation but not its error covariance. To mitigate this problem,
+a simpliﬁed Kalman ﬁlter algorithm has been proposed to estimate the evolution of
+the analysis errors in the subspace of the dynamically most unstable modes (Fischer
+and Courtier, 1995, Cohn and Todling, 1996).
+5.6.4
+Method of representers
+Finally, we mention that Bennett (1992), Bennett et al. (1997) and Egbert et al.,
+(1994) developed a variational method with a weak constraint, rather than a strong
+constraint, thus accounting for the existence of model errors in the evolution of the
+forecast and the forecast error covariance. The forecast errors appear as random
+forcings on the dynamics, with an a priori forecast error covariance matrix Q. The
+cost function therefore becomes
+J[x(t0)] = 1
+2[x(t0) −xb(t0)]T B−1
+0 [x(t0) −xb(t0)]
++1
+2
+M
+
+m,m′=0
+[xm+1 −Mm(xm)]T Qm,m′−1[xm′+1 −Mm′(xm′)]
++1
+2
+N
+
+i=0
+
+H(xi) −yo
+i
+T R−1
+i
+
+H(xi) −y0
+i
+
+(5.6.22)

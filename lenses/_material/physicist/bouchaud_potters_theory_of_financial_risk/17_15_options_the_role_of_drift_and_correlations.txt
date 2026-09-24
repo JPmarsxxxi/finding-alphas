@@ -1,0 +1,760 @@
+15
+Options: The role of drift and correlations
+O`u est la raison de tout cela ? Pourquoi la fum´ee de cette pipe va-t-elle `a droite plutˆot
+qu’`a gauche ? Fou! trois fois fou `a lier, celui qui calcule ses chances, qui met la raison
+de son cˆot´e !†
+(A. de Musset, Les caprices de Marianne.)
+15.1 The inﬂuence of drift on an optimally hedged option
+We should now come back to the case where the excess return (or drift) m1 ≡⟨δxk⟩= mτ is
+non-zero. This case is very important conceptually: indeed, one of the most striking results
+of Black and Scholes (besides the zero risk property) is that the price of the option and the
+hedging strategy are totally independent of the value of m. This may sound at ﬁrst rather
+strange, since one could think that if m is very large and positive, the price of the underlying
+asset on average increases fast, thereby increasing the average pay-off of the option. On the
+contrary, if m is large and negative, the option should be worthless.
+This intuitive argument does not take into account the impact of the hedging strategy
+on the global wealth balance, which is itself proportional to m. In other words, the pay-off
+max(x(N) −xs, 0), averaged with the historical distribution Pm(x, N|x0, 0), such that:
+Pm(x, N|x0, 0) = Pm=0(x −Nm1, N|x0, 0),
+(15.1)
+is obviously strongly dependent on the value of m. However, this dependence is partly
+compensated when one includes the trading strategy, and even vanishes in the Black–
+Scholes model.
+15.1.1 A perturbative expansion
+Let us ﬁrst present a perturbative calculation, assuming that m is small, or more precisely
+that (mT )2/DT ≪1. Typically, for indices, for T = 100 days, mT = 5%100/365 = 0.014
+and
+√
+DT ≈1%
+√
+100 ≈0.1. The term of order m2 that we neglect corresponds to a relative
+error of (0.14)2 ≈0.02.
+† What is the logic of all this? Why is the smoke of this pipe going to the right rather than to the left? Mad,
+completely mad, the one who calculates his bets, who puts reason on his side!
+
+15.1 Inﬂuence of drift on optimally hedged option
+277
+The average gain (or loss) induced by the hedge is equal to:†
+⟨WS⟩= +m1
+N−1
+
+k=0
+
+Pm(x, k|x0, 0)φN∗
+k (x) dx.
+(15.2)
+To order m, one can consistently use the general result Eq. (14.24) for the optimal hedge
+φ∗, established above for m = 0, and also replace Pm by Pm=0:‡
+⟨WS⟩= −m1
+N−1
+
+k=0
+
+P0(x, k|x0, 0)
+×
+ +∞
+xs
+(x′ −xs)
+∞
+
+n=2
+(−)ncn,1
+Dτ(n −1)!
+∂n−1
+∂x′n−1 P0(x′, N|x, k) dx′ dx,
+(15.3)
+where P0 is the unbiased distribution (m = 0).
+Now, using the Chapman–Kolmogorov equation for conditional probabilities:
+
+P0(x′, N|x, k)P0(x, k|x0, 0) dx = P0(x′, N|x0, 0),
+(15.4)
+one easily derives, after an integration by parts, and using the fact that P0(x′, N|x0, 0) only
+depends on x′ −x0, the following expression:
+⟨WS⟩= m1N
+ +∞
+xs
+P0(x′, N|x0, 0) dx′
++
+∞
+
+n=3
+cn,1
+Dτ(n −1)!
+∂n−3
+∂xn−3
+0
+P0(xs, N|x0, 0)
+
+.
+(15.5)
+On the other hand, the increase of the average pay-off, due to a non-zero mean value of the
+increments, is calculated as:
+⟨max(x(N) −xs, 0)⟩m ≡
+ ∞
+xs
+(x′ −xs)Pm(x′, N|x0, 0) dx′
+=
+ ∞
+xs−m1N
+(x′ + m1N −xs)P0(x′, N|x0, 0) dx′,
+(15.6)
+where in the second integral, the shift xk →xk + m1k allowed us to remove the bias m,
+and therefore to substitute Pm by P0. To ﬁrst order in m, one then ﬁnds:
+⟨max(x(N) −xs, 0)⟩m ≃⟨max(x(N) −xs, 0)⟩0 + m1N
+ ∞
+xs
+P0(x′, N|x0, 0) dx′.
+(15.7)
+† In the following, we shall again stick to an additive model and discard interest rate effects, in order to focus on
+the main concepts.
+‡ The equation for optimal strategy when m ̸= 0 is given in Appendix E.
+
+278
+Options: the role of drift and correlations
+Hence, grouping together Eqs. (15.5) and (15.7), one ﬁnally obtains the price of the option
+in the presence of a non-zero average return as:
+Cm = C0 −mT
+Dτ
+∞
+
+n=3
+cn,1
+(n −1)!
+∂n−3
+∂xn−3
+0
+P0(xs, N|x0, 0).
+(15.8)
+Quite remarkably, the correction terms are zero in the Gaussian case, since all the cumulants
+cn,1 are zero for n ≥3. In fact, in the Gaussian case, this property holds to all orders in m
+(cf. Section 16.2), and is the ‘second miracle’ of the Black-Scholes theory. However, for
+non-Gaussian ﬂuctuations, one ﬁnds that a non-zero return should in principle affect the
+price of the options. Using again Eq. (14.23), one can rewrite Eq. (15.8) in a simpler form as:
+Cm = C0 + mT [P −φ∗],
+(15.9)
+where P is the probability that the option is exercised, and φ∗the optimal strategy, both
+calculated at t = 0. From Fig. 14.3 one sees that in the presence of ‘fat tails’, a positive
+average return makes out-of-the-money options less expensive (P < φ∗), whereas in-the-
+money options should be more expensive (P > φ∗). Again, the Gaussian model (for which
+P = φ∗) is misleading:† the independence of the option price with respect to the market
+‘trend’ only holds for Gaussian processes, and is no longer valid in the presence of ‘jumps’.
+Note however that the correction is usually numerically quite small: for x0 = 100, m = 10%
+per year, T = 100 days, and |P −φ∗| ∼0.02, one ﬁnds that the price change is of the order
+of 0.05 points, to be compared to C ≈4 points (1% correction).
+15.1.2 ‘Risk neutral’ probability and martingales
+It is interesting to notice that the result, Eq. (15.8), can alternatively be rewritten in a
+suggestive form as:
+Cm =
+ ∞
+xs
+(x −xs)Q(x, N|x0, 0) dx,
+(15.10)
+with an ‘effective probability’ (called risk neutral probability, or pricing kernel in the
+mathematical literature) Q deﬁned as:
+Q(x, N|x0, 0) = P0(x, N|x0, 0) −m1
+Dτ
+∞
+
+n=3
+cn,N
+(n −1)!
+∂n−1
+∂xn−1
+0
+P0(x, N|x0, 0).
+(15.11)
+By inspection, one sees that Q satisﬁes the following equations:
+
+Q(x, N|x0, 0) dx ≡1,
+(15.12)
+
+(x −x0)Q(x, N|x0, 0) dx ≡0.
+(15.13)
+† The fact that the optimal strategy  is equal to the probability P of exercising the option also holds in the
+Black–Scholes model, up to small σ 2 correction terms.
+
+15.2 Drift risk and delta-hedged options
+279
+Note that the second equation means that the evolution of x under the ‘probability’ Q is
+unbiased, i.e. ⟨x⟩|Q = x0. This is the deﬁnition of a martingale process (see, e.g. Baxter &
+Rennie (1996), Musiela & Rutkowski (1997)). Equation (15.10), with the very same Q,
+actually holds for an arbitrary pay-off function Y(xN), replacing max(xN −xs, 0) in the
+above equation. Using Eq. (14.23), Eq. (15.11) can also be written in a more compact way as:
+Q(x, N|x0, 0) = P0(x, N|x0, 0) −m1
+Dτ (x −x0)P0(x, N|x0, 0)
++m1N ∂P0(x, N|x0, 0)
+∂x0
+.
+(15.14)
+Note however that Eq. (15.10) is rather formal, since nothing ensures that Q(x, N|x0, 0) is
+everywhere positive, except in the Gaussian case where Q(x, N|x0, 0) = P0(x, N|x0, 0).
+In fact, one can construct cases where Q(x, N|x0, 0) becomes negative for some values of
+x; correspondingly, the fair-price of some options can be negative. This happens when m
+is quite large, and for very far out-of-the money options, i.e. in rather unrealistic situations.
+Nevertheless, a negative price calls for more comments, which we defer until the next
+section.
+15.2 Drift risk and delta-hedged options
+15.2.1 Hedging the drift risk
+We have shown above that for non-Gaussian processes, the price of an optimally hedged
+option (in the context of variance minimization) depends on the drift m of the underlying,
+see Eq. (15.9). This formula could be trusted if the value of the drift was perfectly known.
+Unfortunately, however, this is never the case. The drift itself is an unknown, random
+quantity. Eq. (15.9) shows that the optimal hedging of an option leads to an exposure of
+the writer of the option to the drift of the underlying. Since Cm is chosen such as to make
+the wealth balance vanish on average in the presence of a known drift m, any deviation δm
+from this expected drift will lead to a residual bias given by:
+δW = −(δm)T [P −φ∗] = −(δm)T [ −φ∗].
+(15.15)
+Since δm is unknown, this induces an extra source of risk, which we may call a drift risk,
+equal to:
+δmR2 = σ 2
+mT 2[ −φ∗]2,
+(15.16)
+where σ 2
+m measures the uncertainty on the drift. This extra source of risk adds to the residual
+risk R∗2 computed in the previous chapter.
+If one chooses a hedging strategy φ intermediate between  and φ∗, the total extra risk
+will therefore be given by:
+δR2 = σ 2
+mT 2 [ −φ]2 + DT [φ∗−φ]2,
+(15.17)
+
+280
+Options: the role of drift and correlations
+where the second term comes from the quadratic error around the optimal hedge φ∗. The
+optimal strategy φ∗∗in the presence of drift risk is thus given by:
+φ∗∗= σ 2
+mT 2 + DT φ∗
+σ 2mT 2 + DT
+.
+(15.18)
+This formula shows thatiftheuncertaintyonthedriftiszero,oneshouldchooseφ∗∗= φ∗,
+as expected. On the other hand, when the uncertainty on the drift is strong, the optimal
+strategy will depart from φ∗such as to minimize the drift risk, (15.16), and approach the
+Black-Scholes -hedge. Note that for long maturity options, the drift risk becomes the
+dominant factor. As we show below, when the hedge is chosen to be the -hedge, one ﬁnds
+that the option price indeed becomes independent of the drift, and is given by the average
+pay-off over the so-called ‘risk neutral’ distribution of price changes.
+The conclusion of this section is that although non -hedging schemes are interesting
+as these can sometimes substantially reduce the extreme risks and the hedging costs, one
+must bear in mind that these alternative strategies lead to a residual exposure to the drift of
+the underlying. This risk becomes the dominant one for long maturity options.
+15.2.2 The price of delta-hedged options
+Suppose that we choose to hedge the option `a la Black-Scholes, i.e., imposing φ =  =
+∂C/∂x. The fair price of the option must be the solution of the following self-consistent
+equation:
+C(x0, xs, N) =
+
+Y(x′ −xs)Pm(x′, N|x0, 0) dx′
+−m1
+N−1
+
+k=0
+ ∂C(x, xs, N −k)
+∂x
+Pm(x, k|x0, 0) dx,
+(15.19)
+with Y representing the (arbitrary) pay-off of the option.
+This equation can be solved by making the following ansatz for C:
+C(x, xs, N −k) =
+
+(x′ −xs, N −k)Pm(x′, N|x, k) dx′
+(15.20)
+where  is an unknown kernel which we try to determine. Using the fact that the option
+price only depends on the price difference between the strike price and the present price
+of the underlying, this gives:
+
+(x′ −xs, N)Pm(x′, N|x0, 0) dx′ =
+
+Y(x′ −xs)Pm(x′, N|x0, 0) dx′
++ m1
+N−1
+
+k=0
+
+Pm(x, k|x0, 0) × ∂
+∂xs
+
+(x′ −xs, N −k)Pm(x′, N|x, k) dx′ dx.
+(15.21)
+Now, using the Chapman–Kolmogorov equation:
+
+Pm(x′, N|x, k)Pm(x, k|x0, 0) dx = Pm(x′, N|x0, 0),
+(15.22)
+
+15.2 Drift risk and delta-hedged options
+281
+one obtains, after a few manipulations, the following equation for  (after changing
+k →N −k):
+(x′ −xs, N) + m1
+N
+
+k=1
+∂(x′ −xs, k)
+∂x′
+= Y(x′ −xs).
+(15.23)
+The solution to this equation is (x′ −xs, k) = Y(x′ −xs −m1k). Indeed, if this is the
+case, one has:
+∂(x′ −xs, k)
+∂x′
+≡−1
+m1
+∂(x′ −xs, k)
+∂k
+(15.24)
+and therefore:
+Y(x′ −xs −m1N) −
+N
+
+k=1
+∂Y(x′ −xs −m1k)
+∂k
+≃Y(x′ −xs)
+(15.25)
+where the last equality holds in the small τ, large N limit, when the sum over k can be
+approximated by an integral.†
+Therefore, the price of the option is given by:
+C =
+
+Y(x′ −xs −m1N)Pm(x′, N|x0, 0) dx′.
+(15.26)
+Now, using the fact that Pm(x′, N|x0, 0) ≡P0(x′ −m1N, N|x0, 0), and changing variable
+from x′ →x′ −m1N, one ﬁnally ﬁnds:
+C =
+
+Y(x′ −xs)P0(x′, N|x0, 0) dx′,
+(15.27)
+thereby showing that the pricing kernel Q deﬁned in Eq. (15.10) is equal to P0, and thus
+independent of m, whenever the chosen hedge is the .
+Therefore, the -hedge has the virtue of hedging against drift risk. The price of the
+option is given by the average pay-off over the ‘detrended’ probability distribution.
+Note that, interestingly, the equality Q = P0 holds independently of the particular pay-
+off function Y, which gives to Q a general status. We shall actually show in the next section
+that the same result also holds for path dependent options.
+Furthermore, since the pricing kernel Q is now positive everywhere, the negative option
+price paradox disappears. This means that if the seller of the option was 100% conﬁdent
+about the value of the average future return, he could afford to sell strongly out of the money
+options at a zero price and still make money on average. However, in these conditions, the
+drift risk would become the major source of risk, and his strategy should get closer to the
+, so that the fair-price of the option becomes positive again.
+† The resulting error is of the order of m2τ/D, which is extremely small in practice for τ = 1 day.
+
+282
+Options: the role of drift and correlations
+15.2.3 A general option pricing formula
+Let us reformulate the above calculation in terms of an ‘instantaneous’ wealth balance,
+assuming -hedging.† Between time k and k + 1, the wealth of the writer of the option
+changes by:
+δWk = φkδxk −(Ck+1 −Ck) = ∂Ck
+∂xk
+δxk −(Ck+1 −Ck).
+(15.28)
+(We have set the interest rate to zero.) Now, write δxk = mk + ξk, where mk is the (possibly
+time and price dependent) conditional drift at time k and ξk a random variable of zero
+conditional mean. This means that conditional to all present information, one decomposes
+the next price change into a known part mk and a random, unbiased part ξk.
+If both mk and the time between k and k + 1 are sufﬁciently small, one can write:
+Ck+1(xk+1) ≈Ck+1(xk + ξk) + mk
+∂Ck
+∂xk
+.
+(15.29)
+Injecting this last expression in Eq. (15.28) and setting the conditional average of δWk to
+zero leads to:
+⟨δWk⟩k = 0 = −⟨Ck+1(xk + ξk)⟩k + Ck(xk).
+(15.30)
+This leads to the fundamental equation for option pricing in the general case:
+Ck(xk) = ⟨Ck+1(xk + ξk)⟩k,
+(15.31)
+where ⟨· · ·⟩k means averaging over ξk. This equation holds for any type of options (possibly
+path dependent), and for any model of price ﬂuctuations, provided one uses the -hedge.
+To ﬁrst order in the drift, this equation tells us that the price of the option today is the
+average of tomorrow’s price over the distribution of ‘detrended’ price returns, ξk, where the
+local drift is set to zero. In more technical terms, Eq. (15.31) states that the option price is
+a martingale (i.e. a stochastic process such that the average future value is equal to today’s
+value), over the ‘detrended’ stochastic process where the local average conditional return
+is set to zero.
+One therefore sees that although the probability distribution to be used to price option is
+not exactly the ‘true’ one, it is in practice very close to it, because the conditional drift mk
+is usually very small. In particular, it shares with it the same tails and volatility ﬂuctuations.
+This contrasts with what is sometimes thought by those educated within the strict mathe-
+matical ﬁnance orthodoxy: that the pricing kernel Q has nothing to do whatsoever with the
+true, historical probability distribution.
+Other pricing kernels Q have been proposed in the literature. An interesting one, based
+on the theory of optimal gambling, suggests to choose the following distribution of
+† The following presentation was suggested to us by Andrew Matacz.
+
+15.3 Pricing and hedging in the presence of temporal correlations (∗)
+283
+returns:
+Q(η) =
+P(η)
+1 + λ∗η ,
+(15.32)
+where λ∗> 0 obeys the following equation:
+ ∞
+−∞
+η
+1 + λ∗η P(η) dη = 0.
+(15.33)
+Then, by construction, Q(η) > 0, and
+
+ηQ(η)dη = 0. The only property that one needs
+to check in order to interpret Q(η) as a probability distribution is that
+
+Q(η)dη = 1,
+which follows from:
+ ∞
+−∞
+(1 + λ∗η)Q(η) dη ≡
+ ∞
+−∞
+P(η) dη = 1,
+(15.34)
+and the fact that
+
+ηQ(η)dη = 0. Therefore, Q(η) has again a zero conditional mean.
+See Aurell et al. (2000).
+15.3 Pricing and hedging in the presence of temporal correlations (∗)
+15.3.1 A general model of correlations
+Let us now suppose that the price increments are correlated in time. The model for correlated
+price increments we will consider is the following. We ﬁrst deﬁne an auxiliary set of
+uncorrelated iid random variables {ξk}, distributed according to an arbitrary probability
+distribution P(ξ). The joint distribution is then given by
+P({ξk}) =
+
+k
+P0(ξk).
+(15.35)
+We will assume that P0(ξ) = P0(−ξ), and deﬁne D1 = Dτ as the variance of the ξk. We
+now construct the set of correlated price increments {δxk} by writing
+δxk =
+
+ℓ
+Mk,ℓξℓ+ m1,
+(15.36)
+with
+Mk,ℓ= δk,ℓ+
+1
+2D1
+ck−ℓ.
+(15.37)
+The correlation coefﬁcients ck are assumed to satisfy
+c0 = 0;
+c−k = ck.
+(15.38)
+In the sequel, we assume that both the ck’s and m1 are small, and will work only to ﬁrst
+order in both m1 and c.
+Because ⟨ξ⟩= 0, m1 is the average unconditional drift of the price process. Moreover,
+to ﬁrst order in c, the coefﬁcients D1 and c denote, respectively, the unconditional local
+variance and correlation of the price increments. Note that because of the correlations, the
+
+284
+Options: the role of drift and correlations
+long-time volatility DN, given by:
+DN = N D1 +
+N−1
+
+k=1
+2(N −k)ck,
+(15.39)
+is different from the uncorrelated result, N D1. One can furthermore show that the condi-
+tional drift and variance mk and Dk are given by
+mk−1 = m1 +
+
+ℓ<k
+ck−ℓ
+ 1
+2D1
+δxℓ−1
+2
+∂log P0
+∂δxℓ
+
+,
+(15.40)
+Dk = D1.
+(15.41)
+15.3.2 Derivative pricing with small correlations
+Applying the general mean-variance pricing procedure to the above correlated process, one
+can derive the following formula for an arbitrary pay-off Y, in the limit of small correlations:
+C = ⟨Y⟩0 + m1
+N
+
+k=1
+⟨F (δxk) Y⟩0 +
+1
+2D1
+N
+
+k=1
+
+ℓ<k
+ck−ℓ⟨F(δxk)δxℓY⟩0 ,
+(15.42)
+where
+F(u) = −∂log P0
+∂u
+−1
+D1
+u,
+(15.43)
+and the notation ⟨. . .⟩0 means that we are averaging over the uncorrelated process P0, and
+not the ‘correlated’ (historical) price increment distribution.
+Let us ﬁrst consider the purely Gaussian case, where log P0(u) = −u2/2D1 −
+1/2 log(2π D1). This leads to F(u) ≡0. Therefore, all corrections brought about by the
+drift and correlations strictly vanish, and the price can be calculated by assuming that the
+process is correlation-free. The fact that the drift disappears was already shown in Sec-
+tion 15.2.2 above, and we see that this result can be extended to the conditional drift. (As
+will be clear in the next chapter, this can also be understood directly within the Ito continuous
+time framework.)
+In other words, the price of the option is given by the Black–Scholes price, with a
+volatility given by the small scale volatility D1 (that corresponds to the hedging time scale),
+and not with the volatility corresponding to the terminal distribution, DN/N. When price
+increments are correlated (anticorrelated), D1 is smaller (larger) than DN/N, and the price
+of the contract is lower (higher) than the objective average pay-off. This is due to the fact that
+the hedging strategy is on average making (or losing) money because of the correlations.
+A rise of the price of the underlying leads to an increase of the hedge, which is followed
+(on average) by a further increase of the price. The opposite is true in the presence of
+anticorrelations.
+For an uncorrelated non-Gaussian process, the effect of a non-zero drift m does not
+vanish in general, a situation already discussed in details above. The same is true with
+correlations: the correction no longer disappears and one cannot in general price the option
+
+15.4 Conclusion
+285
+by considering a process with the same statistics of price increments but no correlations.†
+Note that the correction term involves all δxℓwith ℓ< 0. This means that, in the presence
+of correlations, the price of the option does not only depend on the current price of the
+underlying, but also on all past price increments.
+15.3.3 The case of delta-hedging
+Let us conclude this section by discussing other possible hedging schemes. Instead of
+choosing the optimal hedge that minimizes the variance, one can follow the (sub–optimal)
+Black–Scholes -hedge. As emphasized above, this leads in general to a very small risk
+increase, and has the advantage of removing the exposure to the drift m. One might therefore
+expect that -hedging also allows one to get rid of the correlations. However, the following
+calculation shows that this is not the case.
+Up to ﬁrst order in c, the price of the contract is given by
+C = ⟨Y⟩−
+N−1
+
+k=0
+⟨mkφBS,k⟩
+(15.44)
+= ⟨Y⟩+
+N−1
+
+k=0
+	
+mk
+∂log P0
+∂δxk+1
+Y
+
+(15.45)
+= ⟨Y⟩0 + 1
+2
+N
+
+k=1
+
+ℓ<k
+ck−ℓ
+	
+F(δxk)∂log P0
+∂δxℓ
+Y
+
+0
+.
+(15.46)
+Note that, in this case, the drift m indeed disappears to ﬁrst order even if F(u) is not zero; the
+correlations, on the other hand, do affect the option price even within a -hedging scheme
+(except in the Gaussian case).
+15.4 Conclusion
+15.4.1 Is the price of an option unique?
+As we shall see in the next chapter, the use of Ito’s differential calculus rule immediately
+leads to the two main results of Black and Scholes, namely: the existence of a riskless
+hedging strategy, and the fact that the value of the average trend disappears from the ﬁnal
+expressions. These two results are however not valid as soon as the hypothesis underlying
+Ito’s stochastic calculus are violated (continuous-time, Gaussian statistics). The approach
+based on the global wealth balance, presented in the above sections, is by far less elegant
+but much more general. It allows one to understand the very peculiar nature of the limit
+considered by Black and Scholes.
+Aswehavealreadydiscussed,theexistenceofanon-zeroresidualrisk(andmoreprecisely
+of a negatively skewed distribution of the optimized wealth balance) necessarily means that
+the bid and ask prices of an option will be different, because the market makers will try to
+† This conclusion however depends on the particular form of the above model of correlations. See Cornalba et al.
+(2002) for details.
+
+286
+Options: the role of drift and correlations
+compensate for part of this risk. On the other hand, if the average return m is not zero, the
+fair price of the option explicitly depends on the optimal strategy φ∗, and thus of the chosen
+measure of risk. For example, as was the case for portfolios (see Chapter 12), the optimal
+strategy corresponding to a minimal variance of the ﬁnal result is different from the one
+corresponding to a minimum value-at-risk.
+The price of an option therefore depends on the operator, on his deﬁnition of risk
+and on his ability to hedge this risk. In the Black–Scholes model, the price is uniquely
+determined since all deﬁnitions of risk are equivalent (and are all zero!).
+This property is often presented as a major advantage of the continuous time Gaussian
+models. Nevertheless, it is clear that it is precisely the existence of an ambiguity in the
+price that justiﬁes the very existence of option markets.† A market can only exist if some
+uncertainty remains. In this respect, it is interesting to note that new markets continually
+open (for example: weather derivatives), where more and more sources of uncertainty
+become tradable. Option markets correspond to a risk transfer: buying or selling a call
+are not identical operations (recall the skew in the ﬁnal wealth distribution – Fig. 14.1
+and the discussion of Section 14.3.3), except in the Black–Scholes world where options
+would actually be useless, since they would be equivalent to holding a certain number of
+the underlying asset (given by the ). This is actually at the heart of ‘portfolio insurance’
+which substitutes the  hedge strategy to real put options.
+15.4.2 Should one always optimally hedge?
+The question of hedging is in fact related to the previous one, since the price of the option
+depends on the chosen hedge. It is also ambiguous because the optimal hedge depends
+both on the very deﬁnition of risk, and on the identiﬁcation of the different sources of
+risk. We have seen above that when the drift is unknown, the sub-optimal -hedge may be
+preferable to the optimal variance hedge. The case of anticorrelated underlying ﬂuctuations
+is also quite interesting. Take for example a mean reverting model, where price changes are
+Gaussian, but follow an Ornstein-Uhlenbeck process (see Section 4.3.1). We have seen in
+Section 15.3.2 that for Gaussian correlated increments, the price of the option is given by
+the average pay-off using the uncorrelated price distribution (see also Section 16.2.2). As
+we noted, this price is higher than the ‘true’ average pay-off of the option, because the
+hedging strategy loses money on average, due to the anti-correlations. When the maturity
+of the option tends to inﬁnity the problem becomes acute since the price of the option (given
+† This ambiguity is related to the residual risk, which, as discussed above, comes both from the presence of price
+‘jumps’, and from the very uncertainty on the parameters describing the distribution of price changes (‘volatility
+risk’).
+
+15.6 Appendix E
+287
+by the standard Black–Scholes formula) tends to inﬁnity, while the ‘true’ payoff of the option
+is bounded, since the price itself is bounded. Nobody would agree to pay an inﬁnite amount
+of money for an option with a limited pay-off just because the writer of the option has to
+face inﬁnite hedging costs! As the rehedging time τ increases, the residual risk seen by the
+writer of the option increases but the option price (which depends on the volatility measured
+on the time between rehedging) decreases. The sum of the fair-price plus a risk premium
+therefore reaches a minimum as a function of τ, and this leads to an acceptable trade-off
+between the risk taken by the writer and the price that an investor will agree to pay to cover
+the hedging costs of the writer. Again, the real price of an option cannot be determined
+without considering the risk issue.
+In fact, the presence of anti-correlations in the price process play a very similar role to
+transaction costs, that we will discuss in more details in Section 17.1.4. In a similar way, as
+the rehedging time τ increases, the residual risk increases but the hedging costs decrease.
+The writer of the option cannot expect to transfer his transaction costs to the option buyer,
+and will have to choose a reasonable risk target.
+15.5 Summary
+r The drift only inﬂuences the price of an option because of the difference between the
+chosen hedging strategy and the -hedge. The drift has therefore no inﬂuence on the
+option price for Gaussian increments since the -hedge is in this case the optimal
+hedge, but is relevant in general for non-Gaussian increments.
+r Conversely, the -hedge removes any exposure to drift risk, which can become an
+important source of risk for long maturity options.
+r Most importantly for applications, the price of a -hedged option is equal to its
+(actualized) average pay-off, over the ‘detrended’ distribution of returns, where any
+conditional drift is subtracted.
+r In the presence of temporal correlations that lead to a non zero conditional drift, the
+price of the option is given, in the Gaussian case, by the average pay-off as if the
+process was uncorrelated, but with a volatility computed on the rehedging time scale.
+r The price of an option is not unique; it is the price at which two investors with
+different risk constraints and different perceptions of future volatility agree to
+trade.
+15.6 Appendix E: optimal strategy in the presence of a bias
+We give here, without giving the details of the computation, the general equation satisﬁed
+by the optimal hedging strategy in the presence of a non-zero average return m, when the
+price ﬂuctuations are arbitrary but uncorrelated. Assuming that ⟨δxkδxℓ⟩−m2
+1 = Dτδk,ℓ,
+and introducing the unbiased variables χk ≡xk −m1k, one gets for the optimal strategy
+
+288
+Options: the role of drift and correlations
+φ∗
+k (χ) the following (involved) integral equation:
+Dτφ∗
+k (χ) −
+ ∞
+χs
+(χ′ −χs)χ′ −χ
+N −k P0(χ′, N|χ, k) dχ′ =
+−m1
+ ∞
+χs
+(χ′ −χs)[P0(χ′, N|χ0, 0) −P0(χ′, N|χ, k)] dχ′
++
+N−1
+
+ℓ=k+1
+ χ′ −χ
+ℓ−k + m1
+
+φ∗
+ℓ(χ′)P0(χ′, ℓ|χ, k) dχ′
++
+k−1
+
+ℓ=0
+ χ −χ′
+k −ℓ+ m1
+
+φ∗
+ℓ(χ′) P0(χ′, ℓ|χ0, 0)P0(χ, k|χ′, ℓ)
+P0(χ, k|χ0, 0)
+dχ′−m1φ∗
+
+,
+(15.47)
+with χs = xs −m1N and
+φ∗≡
+N−1
+
+k=0
+
+φ∗
+k (χ′)P0(χ′, k|χ0, 0) dχ′.
+(15.48)
+In the limit m1 = 0, the right-hand side vanishes and one recovers the optimal strategy
+determined above. For small m, Eq. (15.47) is a convenient starting point for a perturbative
+expansion in m1.
+Using Eq. (15.47), one can establish a simple relation for φ∗, which ﬁxes the correction
+to the ‘Bachelier price’ coming from the hedge: C = ⟨max(xN −xs, 0)⟩−m1φ∗.
+φ∗=
+N−1
+
+k=0
+ ∞
+χs
+(χ′ −χs)χ′ −χ
+N −k P0(χ′, N|χ, k)P0(χ, k|χ0, 0) dχ′
+−m1
+N−1
+
+ℓ=k+1
+ χ′ −χ
+ℓ−k φ∗
+ℓ(χ′)P0(χ′, ℓ|χ0, 0) dχ′.
+(15.49)
+Replacing φ∗
+ℓ(χ′) by its corresponding equation m1 = 0, one obtains the correct value of
+φ∗to order m1, and thus the value of C to order m2
+1 included.
+r Further reading
+M. Baxter, A. Rennie, Financial Calculus, An Introduction to Derivative Pricing, Cambridge
+University Press, Cambridge, 1996.
+J. C. Hull, Futures, Options and Other Derivatives, Prentice Hall, Upper Saddle River, NJ, 1997.
+D. Lamberton, B. Lapeyre, Introduction au calcul stochastique appliqu´e `a la ﬁnance, Ellipses, Paris,
+1991.
+M. Musiela, M. Rutkowski, Martingale Methods in Financial Modelling, Springer, New York, 1997.
+P. Wilmott, Derivatives, The Theory and Practice of Financial Engineering, John Wiley, 1998.
+P. Wilmott, Paul Wilmott Introduces Quantitative Finance, John Wiley, 2001.
+
+15.6 Appendix E
+289
+r Specialized papers
+E. Aurell, S. Simdyankin, Pricing risky options simply, International Journal of Theoretical and
+Applied Finance, 1, 1 (1998).
+E. Aurell, R. Baviera, O. Hammarlid, M. Serva, A. Vulpiani, Growth optimal investment and pricing
+of derivatives, Int. Jour. Theo. Appl. Fin., 3, 1 (2000).
+L. Cornalba, J.-P. Bouchaud, M. Potters, Option pricing and Hedging with temporal correlations,
+International Journal of Theoretical and Applied Finance, 5, 307 (2002).
+M. Schweizer, Risky options simpliﬁed, International Journal of Theoretical and Applied Finance, 2,
+59 (1999).

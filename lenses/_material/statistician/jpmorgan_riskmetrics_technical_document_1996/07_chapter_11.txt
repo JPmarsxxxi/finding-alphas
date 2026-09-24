@@ -1,0 +1,810 @@
+ 
+217
+Part V:  Backtesting
+Chapter 11.
+Performance assessment
+ 
+11.1  Sample portfolio
+219
+11.2  Assessing the RiskMetrics model
+220
+11.3  Summary
+223
+
+ 
+218
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+219
+Part V:  Backtesting
+Chapter 11.
+Performance assessment
+ 
+Peter Zangari
+Morgan Guaranty Trust Company
+Risk Management Research
+(1-212) 648-8641
+ 
+zangari_peter@jpmorgan.com
+ 
+In this chapter we present a process for assessing the accuracy of the RiskMetrics model. We 
+would like to make clear that the purpose of this section is not to offer a review of the quantitative 
+measures for VaR model comparison. There is a growing literature on such measures and we refer 
+the reader to Crnkovic and Drachman (1996) for the latest developments in that area. Instead, we 
+present simple calculations that may prove useful for determining the appropriateness of the 
+RiskMetrics model. 
+ 
+11.1  Sample portfolio
+ 
+We describe an approach for assessing the RiskMetrics model by analyzing a portfolio consisting 
+of 215 cashﬂows that include foreign exchange (22), money market deposits (22), zero coupon 
+government bonds (121), equities (12) and commodities (33). Using daily prices for the period 
+April 4, 1990 through March 26, 1996 (a total of 1001 observations), we construct 1-day VaR fore-
+casts over the most recent 801 days of the sample period. We then compare these forecasts to their 
+respective realized proﬁt/loss (P/L) which are represented by 1-day returns.
+Chart 11.1 shows the typical presentation of 1-day RiskMetrics VaR forecasts (90% two-tail conﬁ-
+dence interval) along with the daily P/L of the portfolio.
+ 
+Chart 11.1
+ 
+One-day Proﬁt/Loss and VaR estimates
+ 
+VaR bands are given by 
+ 
++/−
+ 
+ 1.65
+ 
+In Chart 11.1 the black line represents the portfolio return 
+constructed from the 215 individual 
+returns at time 
+ 
+t
+ 
+. The time 
+ 
+t
+ 
+ portfolio return is deﬁned as follows:
+[11.1]
+where 
+ represents the log return of the 
+ 
+i
+ 
+th underlying cashﬂow. The Value-at-Risk bands are 
+based on the portfolio’s standard deviation. The formula for the portfolio’s standard deviation, 
+ is:
+σ
+100
+200
+300
+400
+500
+600
+700
+800
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1.0
+P/L
++1.65σ
+-1.65σ
+Observations
+rp t,
+rp t,
+1
+215
+--------
+
+
+
+ri t,
+i
+1
+=
+215
+∑
+=
+ri t,
+σp t t
+1
+–
+,
+
+ 
+220
+Chapter 11.  Performance assessment
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+[11.2]
+where 
+ is the variance of the 
+ 
+i
+ 
+th return series made for time 
+ 
+t
+ 
+ and 
+ is the correla-
+tion between the 
+ 
+i
+ 
+th and 
+ 
+j
+ 
+th returns for time 
+ 
+t
+ 
+.
+ 
+11.2  Assessing the RiskMetrics model
+ 
+The ﬁrst measure of model performance is a simple count the number of times that the VaR esti-
+mates “underpredict” future losses (gains). Recall that in RiskMetrics each day it is assumed that 
+there is a 5% chance that the observed loss exceeds the VaR forecast.
+ 
+1
+ 
+ For the sake of generality, 
+let’s deﬁne a random variable 
+ 
+X
+ 
+(
+ 
+t
+ 
+) on any day 
+ 
+t
+ 
+ such that 
+ 
+X
+ 
+(
+ 
+t
+ 
+) = 1 if a particular day’s observed loss 
+is greater than its corresponding VaR forecast and 
+ 
+X
+ 
+(
+ 
+t
+ 
+)=0 otherwise. We can write the distribution 
+of 
+ 
+X
+ 
+(
+ 
+t
+ 
+) as follows
+[11.3]
+Now, suppose we observe 
+ 
+X
+ 
+(
+ 
+t
+ 
+) for a total of 
+ 
+T
+ 
+ days, 
+ 
+t 
+ 
+= 1,2,...,
+ 
+T
+ 
+, and we assume that the 
+ 
+X
+ 
+(
+ 
+t
+ 
+)’s are 
+independent over time. In other words, whether a VaR forecast is violated on a particular day is 
+independent of what happened on other days. The random variable 
+ 
+X
+ 
+(
+ 
+t
+ 
+) is said to follow a Ber-
+noulli distribution whose expected value is 0.05.The total number of VaR violations over the time 
+period 
+ 
+T
+ 
+ is given by
+[11.4]
+The expected value of 
+, i.e., the expected number of VaR violations over 
+ 
+T
+ 
+ days, is 
+ 
+T
+ 
+ times 
+0.05. For example, if we observe 
+ 
+T 
+ 
+= 20 days of VaR forecasts, then the expected number of VaR 
+violations is 20 x 0.05 = 1; hence one would expect to observe one VaR violation every 20 days. 
+What is convenient about modelling VaR violations according to Eq. [11.3] is that the probability 
+of observing a VaR violation over 
+ 
+T
+ 
+ days is same as the probability of observing a VaR violation at 
+any point in time, 
+ 
+t
+ 
+. Therefore, we are able to use VaR forecasts constructed over time to assess the 
+appropriateness of the RiskMetrics model for this portfolio of 215 cashﬂows. 
+Table 11.1 reports the observed percent of VaR violations for the upper and lower tails of our sam-
+ple portfolio. For each day the lower and upper VaR limits are deﬁned as 
+ and 
+ 
+,
+ 
+ respectively.
+ 
+ 
+ 
+A more straightforward approach to derive the preceding results is to apply the maintained 
+assumptions of the RiskMetrics model. Recall that it is assumed that the return distribution of sim-
+ple portfolios (i.e., those without nonlinear risk) is conditionally normal. In other words, the real-
+ 
+1
+ 
+The focus of this section is on losses. However, the following methodology can also apply to gains.
+ 
+Table 11.1
+ 
+Realized percentages of VaR violations
+ 
+True probability of VaR violations = 5%
+ 
+Prob (Loss < 
+ 
+−
+ 
+1.65
+ 
+)
+ 
+Prob (Proﬁt > 1.65
+ 
+)
+ 
+5.74%
+5.87%
+σP t t
+1
+–
+,
+1
+215
+--------
+
+
+
+2
+σi t t
+1
+–
+,
+2
+2
+1
+215
+--------
+
+
+
+
+j
+i
+>∑
+2
+ρij t t
+1
+–
+,
+σi t t
+1
+–
+,
+σ
+j t t
+1
+–
+,
+i
+1
+=
+215
+∑
++
+i
+1
+=
+215
+∑
+=
+σi t t
+1
+–
+,
+2
+ρij t t
+1
+–
+,
+f
+X t( ) 0.05
+(
+)
+0.05
+X t( ) 1
+0.05
+–
+(
+)
+1
+X t( )
+–
+   X(t)=0,1
+0                            otherwise 
+
+
+
+=
+XT
+X t( )
+t
+1
+=
+T
+∑
+=
+XT
+1.65
+–
+σt t
+1
+–
+1.65σt t
+1
+–
+σt t
+1
+–
+σt t
+1
+–
+
+ 
+Sec. 11.2  Assessing the RiskMetrics model
+221
+Part V:  Backtesting
+ 
+ized return (P/L) divided by the standard deviation forecast used to construct the VaR estimate is 
+assumed to be normally distributed with mean 0 and variance 1. Chart 11.2 presents a histogram of 
+standardized portfolio returns. We place arrow bars to signify the area where we expect to observe 
+5% of the observations.
+ 
+Chart 11.2
+ 
+Histogram of standardized returns 
+ 
+Probability that 
+ < (>)
+ 
+−
+ 
+1.65 (1.65) = 5%
+ 
+ A priori, the RiskMetrics model predicts that 5% of the standardized returns fall below (above)
+ 
+−
+ 
+1.65 (1.65). In addition to this prediction, it is possible to derive the expected value (average) of 
+a return 
+ 
+given
+ 
+ that return violates a VaR forecast. For the lower tail, this expected value is deﬁned 
+as follows:
+[11.5]
+where 
+It follows from the symmetry of the normal density function that the expected value for upper-tail 
+returns is 
+.
+Table 11.2 reports these realized expected values for our sample portfolio.  
+ 
+Table 11.2
+ 
+Realized “tail return” averages
+ 
+Conditional mean tail forecasts of standardized returns
+ 
+−
+ 
+1.741
+1.828
+rt σt t
+1
+–
+⁄
+(
+)
+rt σt t
+1
+–
+⁄
+(
+)
+-4.37
+-3.21
+-2.04
+-0.87
+0.30
+1.47
+2.64
+3.52
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+Standarized return
+Frequency
+5%
+5%
+E
+rt σt t
+1
+–
+⁄
+(
+)
+rt σt t
+1
+–
+⁄
+(
+)
+1.65
+–
+<
+[
+]
+φ
+1.65
+–
+(
+)
+Φ
+1.65
+–
+(
+)
+------------------------
+
+
+
+
+–
+2.63
+–
+=
+=
+φ
+1.65
+–
+(
+)
+the standard normal density function evaluated at -1.65
+=
+Φ
+1.65
+–
+(
+)
+the standard normal distribution function evaluated at -1.65
+=
+E
+rt σt t
+1
+–
+⁄
+(
+)
+rt σt t
+1
+–
+⁄
+(
+)
+1.65σ
+>
+t t
+1
+–
+2.63
+=
+E
+rt σt t
+1
+–
+⁄
+(
+)
+rt σt t
+1
+–
+⁄
+(
+)
+1.65
+–
+<
+(
+)
+[
+]
+2.63
+–
+=
+E
+rt σt t
+1
+–
+⁄
+(
+)
+rt σt t
+1
+–
+⁄
+(
+)
+1.65
+>
+[
+]
+2.63
+=
+
+222
+Chapter 11.  Performance assessment
+RiskMetrics —Technical Document
+Fourth Edition
+To get a better understanding of the size of the returns that violate the VaR forecasts, Charts 11.3 
+and 11.4 plot the observed standardized returns (black circles) that fall in the lower (< −1.65) and 
+upper (> 1.65) tails of the standard normal distribution. The horizontal line in each chart represents 
+the average value predicted by the conditional normal distribution. 
+Chart 11.3
+Standardized lower-tail returns
+Chart 11.4
+Standardized upper-tail returns
+Both charts show that the returns that violate the VaR forecasts rarely exceed the expected value 
+predicted by the normal distribution. In fact, we observe about 3 violations out of (approximately) 
+46/47 tail returns for the upper/lower tails. This is approximately 6.5% of the observations that fall 
+in a particular tail. Note that the normal probability model prediction is 8.5%.2
+2 We derive this number from Prob (X < −2.63 | X < −1.65) = Prob (X < −2.63) / Prob ( X < −1.65).
+rt σt t
+1
+–
+⁄
+1.65
+–
+<
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+•
+-4.5
+-4.0
+-3.5
+-3.0
+-2.5
+-2.0
+-1.5
+-1.0
+-0.5
+0.0
+0
+5
+10
+15
+20
+25
+30
+35
+40
+45
+50
+-2.63%
+Standarized return
+t
+rt σt t
+1
+–
+⁄
+1.65
+>
+•
+••
+•
+••••
+••
+••••
+•
+•
+••••
+•
+••
+•
+•
+•
+••
+•
+•
+•••
+•
+•••
+•
+••
+•
+•
+•
+•
+••
+•
+0
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+3.5
+4.0
+0
+5
+10
+15
+20
+25
+30
+35
+40
+45
+50
+2.63%
+Standarized return
+t
+
+Sec. 11.3  Summary
+223
+Part V:  Backtesting
+11.3  Summary
+In this chapter we presented a brief process by which risk managers may assess the performance of 
+the RiskMetrics model. We applied these statistics to a sample portfolio that consists of 215 cash-
+ﬂows covering foreign exchange, ﬁxed income, commodities and equities. Speciﬁcally, 1-day VaR 
+forecasts were constructed for an 801-day sample period and for each day the forecast was mea-
+sured against the portfolio’s realized P/L. It was found that overall the RiskMetrics model per-
+forms reasonably well.
+
+224
+Chapter 11.  Performance assessment
+RiskMetrics —Technical Document
+Fourth Edition
+
+ 
+225
+Appendices
+
+ 
+226
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition

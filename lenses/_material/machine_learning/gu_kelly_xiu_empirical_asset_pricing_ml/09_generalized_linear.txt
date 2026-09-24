@@ -1,0 +1,60 @@
+Intuitively, PCR seeks the K linear combinations of Z that most faithfully mimic the full predictor
+set. The objective illustrates that the choice of components is not based on the forecasting objective
+at all. Instead, the emphasis of PCR is on ﬁnding components that retain the most possible common
+variation within the predictor set. The well known solution for (11) computes ΩK via singular value
+decomposition of Z, and therefore the PCR algorithm is extremely eﬃcient from a computational
+standpoint.
+In contrast to PCR, the PLS objective seeks K linear combinations of Z that have maximal
+predictive association with the forecast target. The weights used to construct jth PLS component
+solve
+wj = arg max
+w
+Cov2(R, Zw),
+s.t.
+w′w = 1,
+Cov(Zw, Zwl) = 0,
+l = 1, 2, . . . , j −1.
+(12)
+This objective highlights the main distinction between PCR and PLS. PLS is willing to sacriﬁce how
+accurately ZΩK approximates Z in order to ﬁnd components with more potent return predictability.
+The problem in (12) can be eﬃciently solved using a number of similar routines, the most prominent
+being the SIMPLS algorithm of de Jong (1993).
+Finally, given a solution for ΩK, θK is estimated in both PCR and PLS via OLS regression of
+R on ZΩK. For both models, K is a hyperparameter that can be determined adaptively from the
+validation sample.
+2.5
+Generalized Linear
+Linear models are popular in practice, in part because they can be thought of as a ﬁrst-order approxi-
+mation to the data generating process.13 When the “true” model is complex and nonlinear, restricting
+the functional form to be linear introduces approximation error due to model misspeciﬁcation. Let
+g⋆(zi,t) denote the true model and g(zi,t; θ) the functional form speciﬁed by the econometrician. And
+let g(zi,t;bθ) and bri,t+1 denote the ﬁtted model and its ensuing return forecast. We can decompose a
+model’s forecast error as:
+ri,t+1 −bri,t+1 =
+g⋆(zi,t) −g(zi,t; θ)
+|
+{z
+}
+approximation error
++
+g(zi,t; θ) −g(zi,t;bθ)
+|
+{z
+}
+estimation error
++
+ϵi,t+1
+| {z }
+intrinsic error
+.
+Intrinsic error is irreducible; it is the genuinely unpredictable component of returns associated with
+news arrival and other sources of randomness in ﬁnancial markets. Estimation error, which arises
+due to sampling variation, is determined by the data. It is potentially reducible by adding new
+observations, though this may not be under the econometrician’s control.
+Approximation error
+is directly controlled by the econometrician, and is potentially reducible by incorporating more
+ﬂexible speciﬁcations that improve the model’s ability to approximate the true model. But additional
+ﬂexibility raises the risk of overﬁtting and destabilizing the model out-of-sample. In this and the
+following subsections, we introduce nonparametric models of g(·) with increasing degrees of ﬂexibility,
+13See White (1980) for a discussion of limitations of linear models as ﬁrst-order approximations.
+14

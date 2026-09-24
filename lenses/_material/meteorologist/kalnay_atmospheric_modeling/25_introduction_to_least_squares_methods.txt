@@ -1,0 +1,123 @@
+142
+5 Data assimilation
+Although this method is not generally used for large-scale assimilation, some
+groups use it for assimilating small-scale observations (e.g., radar observations) when
+there are no available statistics to perform a statistical interpolation.
+5.3
+Introduction to least squares methods
+We have described in Section 5.2 several empirical methods for data assimilation.
+In this section we present methods that are based on statistical estimation theory.
+According to Talagrand (1997):
+Assimilation of meteorological or oceanographical observations can be
+described as the process through which all the available information is used in
+order to estimate as accurately as possible the state of the atmospheric or oceanic
+ﬂow. The available information essentially consists of the observations proper,
+and of the physical laws that govern the evolution of the ﬂow. The latter are
+available in practice under the form of a numerical model. The existing
+assimilation algorithms can be described as either sequential or variational.
+5.3.1
+Least squares method
+Inthissectionwegive“babyexamples”ofbothsequentialandvariationalapproaches.
+The methodology and results derived from this simple case carry over to multivariate
+OI, Kalman ﬁltering, and 3D-Var and 4D-Var assimilation.
+The best estimate of the state of the atmosphere (analysis) is obtained, as indicated
+by Talagrand (1997), from combining prior information about the atmosphere (back-
+ground or ﬁrst guess) with observations, but in order to combine them optimally we
+also need statistical information about the errors in these “pieces of information.” A
+classic example of determining the best estimate of the true value of a scalar (e.g., the
+true temperature Tt) given two independent observations (or pieces of information),
+T1 and T2, serves as an introduction to statistical estimation:
+T1 = Tt + ε1
+T2 = Tt + ε2
+%
+(5.3.1)
+The observations have errors εi that we don’t know. Let E() represent the expected
+value, i.e., the average that one would obtain if making many similar measurements.
+We assume that the instruments that measure T1 and T2 are unbiased: E(T1 −Tt) =
+E(T2 −Tt) = 0, or equivalently,
+E(ε1) = E(ε2) = 0
+(5.3.2)
+and that we know the variances of the observational errors:
+E
+	
+ε2
+1
+
+= σ 2
+1
+E
+	
+ε2
+2
+
+= σ 2
+2
+(5.3.3)
+
+5.3 Introduction to least squares methods
+143
+We also assume that the errors of the two measurements are uncorrelated:
+E(ε1ε2) = 0
+(5.3.4)
+Equations (5.3.2), (5.3.3) and (5.3.4) represent the statistical information that we
+need about the actual observations. We try to estimate Tt from a linear combination
+of the two observations since they represent all the information that we have about
+the true value of T :
+Ta = a1T1 + a2T2
+(5.3.5)
+The “analysis” Ta should be unbiased:
+E(Ta) = E(Tt)
+(5.3.6)
+which implies
+a1 + a2 = 1
+(5.3.7)
+Ta will be the best estimate of Tt if the coefﬁcients are chosen to minimize the mean
+squared error of Ta:
+σ 2
+a = E[(Ta −Tt)2] = E[(a1(T1 −Tt) + a2(T2 −Tt))2]
+(5.3.8)
+subject to the constraint (5.3.7). Substituting a2 = 1 −a1, the minimization of σ 2
+a
+with respect to a1 gives
+a1 =
+1/σ 2
+1
+1/σ 2
+1 + 1/σ 2
+2
+a2 =
+1/σ 2
+2
+1/σ 2
+1 + 1/σ 2
+2
+(5.3.9)
+or
+a1 =
+σ 2
+2
+σ 2
+1 + σ 2
+2
+a2 =
+σ 2
+1
+σ 2
+1 + σ 2
+2
+(5.3.10)
+i.e., the weights of the observations are proportional to the “precision” or accuracy of
+the measurements (deﬁned as the inverse of the variances of the observational errors).
+Moreover, substituting the coefﬁcients (5.3.10) in (5.3.8), we obtain a relationship
+between the analysis variance and the observational variances:
+1
+σ 2a
+=
+1
+σ12 + 1
+σ22
+(5.3.11)
+i.e., if the coefficients are optimal, and the statistics of the errors are exact, then the
+“precision” of the analysis (deﬁned as the inverse of the variance) is the sum of the
+precisions of the measurements.
+Exercise 5.3.1: Derive equations (5.3.9), (5.3.10), and (5.3.11).

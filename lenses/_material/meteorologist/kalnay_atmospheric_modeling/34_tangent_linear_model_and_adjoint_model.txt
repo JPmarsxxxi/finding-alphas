@@ -1,0 +1,1560 @@
+6.3 Tangent linear and adjoint models, singular and Lyapunov vectors
+213
+and latitude. By keeping only two Fourier components in latitude and three in lon-
+gitude, and choosing appropriate values for the model parameters, he was able to
+ﬁnd a model able to reproduce baroclinic instability and nonlinear wave interactions
+with just 28 variables. In this fundamental paper, Lorenz introduced for the ﬁrst time
+(without using their current names) the concepts of the tangent linear model, adjoint
+model, singular vectors, and Lyapunov vectors for the low-order atmospheric model,
+and their consequences for ensemble forecasting. He also pointed out that the pre-
+dictability of the model is not constant with time: it depends on the stability of the
+evolving atmospheric ﬂow (the basic trajectory or reference state). In the following
+introduction to these subjects we follow Lorenz (1965), Szunyogh et al. (1997) and
+Pu et al. (1997b).
+6.3.1
+Tangent linear model and adjoint model
+Consider a nonlinear model. Once it has been discretized in space using, for example,
+ﬁnite differences or a spectral expansion leading to n independent variables (or
+degrees of freedom), the model can be written as a set of n nonlinear coupled ordinary
+differential equations:
+dx
+dt = F(x)
+x =
+
+
+x1
+...
+xn
+
+
+F =
+
+
+F1
+...
+Fn
+
+
+(6.3.1)
+This is the model in differential form. Once we choose a time-difference scheme
+(e.g., Crank–Nicholson, see Table 3.2.1), it becomes a set of nonlinear-coupled dif-
+ference equations. Typically, an atmospheric model consists of one such system of
+difference equations which, for example, using a two-time level Crank–Nicholson
+scheme would be of the form
+xn+1 = xn + tF
+xn + xn+1
+2
+
+(6.3.2)
+A numerical solution of (6.3.1) starting from an initial time t0 can be readily
+obtained by integrating the model numerically using (6.3.2) between t0 and a ﬁnal
+time t (i.e., “running the model”). This gives us a nonlinear model solution that
+depends only on the initial conditions:
+x(t) = M[x(t0)]
+(6.3.3)
+where M is the time integration of the numerical scheme from the initial condition
+to time t. A small perturbation y(t) can be added to the basic model integration x(t):
+M[x(t0) + y(t0)] = M[x(t0)] + ∂M
+∂x y(t0) + O[y(t0)2]
+= x(t) + y(t) + O[y(t0)2]
+(6.3.4)
+
+214
+6 Atmospheric predictability and ensemble forecasting
+At any given time, the linear evolution of the small perturbation y(t) will be given by
+dy
+dt = Jy
+(6.3.5)
+where J = ∂F/∂x is the Jacobian of F.
+This system of linear ordinary differential equations is the tangent linear model
+in differential form. Its solution between t0 and t can be obtained by integrat-
+ing (6.3.5) in time using the same time difference scheme used in the nonlinear
+model (6.3.3):
+y(t) = L(t0, t)y(t0)
+(6.3.6)
+Here L(t0, t) = ∂M/∂x is an (n × n) matrix known as the resolvent or propagator
+of the tangent linear model: it propagates an initial perturbation at time t0 into the
+ﬁnal perturbation at time t. Because it is linearized over the ﬂow from t0 to t, L
+depends on the basic trajectory x(t) (the solution of the nonlinear model), but it
+does not depend on the perturbation y. (The original nonlinear model is autonomous
+since F(x) depends on x(t) but not explicitly on time, but the linear tangent model is
+nonautonomous). Lorenz (1965) introduced the concept of the tangent linear model
+of an atmospheric model, but he actually obtained it directly from (6.3.4), neglecting
+terms quadratic or higher order in the perturbation y:
+M[x(t0)] + L(t0, t)y(t0) = x(t) + y(t) ≈M[x(t0) + y(t0)]
+(6.3.7)
+He did so by creating as initial perturbations a “sphere” of small perturbations of
+size ε along the n unit basis vectors yi(t0) = εei and applying (6.3.7) to each of
+these perturbations. With this choice of initial perturbations, subtracting (6.3.3) he
+obtained the matrix that deﬁnes the tangent linear model:
+L(t0, t)[εe1, . . . , εen] = εL(t0, t) = [y1(t), . . . , yn(t)]
+(6.3.8)
+The Euclidean norm of a vector is the inner product of the vector with itself:
+∥y∥2 = yT y = ⟨y, y⟩
+(6.3.9)
+The Euclidean norm of y(t) is therefore related to the initial perturbation by
+∥y(t)∥2 = (Ly(t0))T Ly(t0) = ⟨Ly(t0), Ly(t0)⟩= ⟨LT Ly(t0), y(t0)⟩
+(6.3.10)
+The adjoint of an operator K is deﬁned by the property ⟨x, Ky⟩≡⟨KT x, y⟩. In this
+case of a model with real variables, the adjoint of the tangent linear model L(t0, t) is
+simply the transpose of the tangent linear model.
+Now assume that we separate the interval (t0, t) into two successive time intervals.
+For example, if t0 < t1 < t,
+L(t0, t) = L(t1, t)L(t0, t1)
+(6.3.11)
+
+6.3 Tangent linear and adjoint models, singular and Lyapunov vectors
+215
+Since the adjoint of the tangent linear model is the transpose of the TLM, the
+property of the transpose of a product is also valid:
+LT (t0, t) = LT (t0, t1)LT (t1, t)
+(6.3.12)
+Equation (6.3.11) shows that the tangent linear model can be cast as a product of
+the tangent linear model matrices corresponding to short integrations, or even single
+time steps. Equation (6.3.12) shows that the adjoint of the model can also be separated
+into single time steps, but they are executed backwards in time, starting from the last
+time step at t, and ending with the ﬁrst time step at t0. For low-order models the
+tangent linear model and its adjoint can be constructed by repeated integrations of
+the nonlinear model for small perturbations, as done by Lorenz (1965), equation (3.7),
+and by Molteni and Palmer (1993) with a global quasi-geostrophic model.
+For large NWP models this approach is too time consuming, and instead it is
+customary to develop the linear tangent and adjoint codes from the nonlinear model
+code following some rules discussed in Appendix B. An example of a FORTRAN
+code for a nonlinear model, and the corresponding tangent linear model and adjoint
+models are also given in Appendix B.
+6.3.2
+Singular vectors
+Recall that for a given basic trajectory and an interval (t0, t1) the tangent linear model
+is a matrix that when applied to a small initial perturbation y(t0) produces the ﬁnal
+perturbation y(t1):
+y(t1) = L(t0, t1)y(t0)
+(6.3.13)
+Singular value decomposition theory (e.g., Golub and Van Loan, 1996) indicates
+that for any matrix L there exist two orthogonal matrices U, V such that
+UTLV = S
+(6.3.14)
+where
+S =
+
+
+σ1
+0 · · · 0
+0
+σ2 · · · 0
+...
+...
+...
+0
+0 · · · σn
+
+
+and
+UUT = I
+VVT = I
+(6.3.15)
+S is a diagonal matrix whose elements are the singular values of L.
+If we left multiply (6.3.14) by U, we obtain
+LV = US
+i.e., L(v1, . . . , vn) = (σ1u1, . . . , σnun)
+(6.3.16)
+
+216
+6 Atmospheric predictability and ensemble forecasting
+where vi are the columns of V and ui the columns of U. This implies that
+Lvi = σiui
+(6.3.17)
+Equation (6.3.17) deﬁnes the vis as the right singular vectors of L, hereafter
+referred to as initial singular vectors, since they are indeed valid at the beginning of
+the optimization interval over which L is deﬁned.
+We now right multiply (6.3.14) by VT and obtain:
+UT L = SVT
+(6.3.18)
+Transposing (6.3.18), we obtain
+LT U = VS
+i.e.,
+LT (u1, . . . , un) = (σ1v1, . . . , σnvn)
+(6.3.19)
+so that
+LT ui = σivi
+(6.3.20)
+The uis are the left singular vectors of L and will be referred to as ﬁnal (or evolved)
+singular vectors, since they correspond to the end of the interval of optimization.
+From (6.3.17) and (6.3.20) we obtain
+LT Lvi = σiLT ui = σ 2
+i vi
+(6.3.21)
+Therefore the initial singular vectors can be obtained as the eigenvectors of LT L,
+a normal matrix whose eigenvalues are the squares of the singular values. Since U, V
+are orthogonal matrices, the vectors vi and ui that form them constitute orthonormal
+bases, and any vector can be written in the following form:
+y(t0) =
+n
+
+i=1
+⟨y0, vi⟩vi
+(6.3.22a)
+y(t1) =
+n
+
+i=1
+⟨y1, ui⟩ui
+(6.3.22b)
+where ⟨x, y⟩is the inner product of two vectors x, y. Therefore, using (6.3.22a) and
+(6.3.17)
+y(t1) = L(t0, t1)y(t0) =
+n
+
+i=1
+⟨y0,vi⟩σiui
+(6.3.23)
+If we now take the inner product of (6.3.23) with ui we obtain
+⟨y(t1), ui⟩= σi⟨y(t0), vi⟩
+(6.3.24)
+This indicates that by applying the tangent linear model L each initial vector vi
+component will be stretched by an amount equal to the singular value σi(or contracted
+if σi < 1), and the direction will be rotated to that of the evolved vector ui. Similarly
+
+6.3 Tangent linear and adjoint models, singular and Lyapunov vectors
+217
+applying the adjoint of the tangent linear model, LT , each ﬁnal vector ui will be
+stretchedbyanamountequaltothesingularvalue σi androtatedtotheinitialvectorvi.
+Exercise 6.3.1: Use (6.3.20) and (6.3.22b) to show that ⟨y(t0), vi⟩= σi⟨y(t1), ui⟩.
+If we consider all the perturbations y(t0) of size 1, from (6.3.24) we obtain that
+for each of them
+n
+
+i=1
+⟨y(t), ui⟩
+σi
+=
+n
+
+i=1
+⟨y(t0), vi⟩= ∥y(t0)∥2 = 1
+(6.3.25)
+so that an initial sphere of radius 1 becomes a hyperellipsoid of semiaxes σi. The ﬁrst
+initial singular vector v1 is also called an “optimal vector” since it gives the direction
+in phase space (i.e., the shape in physical space) of the perturbation that will attain
+maximum growth σ1 in the interval (t0, t1) (Fig. 6.3.1).
+Note that applying L is the same as running the tangent linear model forward in
+time, from t0 to t1. Applying LT is like running the adjoint model backwards, from
+t1 to t0. From (6.3.21) we see that if we apply the adjoint model to a sphere of ﬁnal
+perturbations of size 1 (expanded on the basis formed by the evolved or left singular
+vectors), they also become stretched and rotated into a hyperellipsoid of semiaxes in
+the directions of the vi with length σi (Fig. 6.3.2).
+Therefore, if we apply LT L (i.e., run the tangent linear model forward in time,
+and then the adjoint backwards in time, the ﬁrst initial singular vector will grow by a
+factor σ 2
+1 (see Fig. 6.3.3), and the other initial singular vectors will grow or decay by
+their corresponding singular value squared σ 2
+i . In other words, the (initial) singular
+vectors vi are the eigenvectors of LT L with singular values σ 2
+i . Conversely, if we
+apply the adjoint model ﬁrst (integrate the adjoint model backwards from the ﬁnal
+to the initial time), followed by the tangent linear model (integrate forward to the
+ﬁnal time), the ﬁnal singular vectors ui will grow both backward and forward, by a
+v1
+v2
+1u1
+2u2
+L
+Figure 6.3.1: Schematic of
+the application of the
+tangent linear model to a
+sphere of perturbations of
+size 1 for a given interval
+(t0, t1).
+LT
+2v2
+1v1
+u2
+u2
+Figure 6.3.2: Schematic of
+the application of the
+adjoint of the tangent linear
+model to a sphere of
+perturbations of size 1 at the
+ﬁnal time.
+
+218
+6 Atmospheric predictability and ensemble forecasting
+L 
+L  L 
+T
+v1
+1u1
+1
+2 v1
+Figure 6.3.3: Schematic of
+the application of the
+tangent linear model
+forward in time followed by
+the adjoint of the tangent
+linear model to a sphere of
+perturbations of size 1 at the
+initial time.
+u1
+1v1
+LT
+LLT
+1
+2u1
+Figure 6.3.4: Schematic of
+the application of the
+adjoint of the tangent linear
+model backward in time
+followed by the tangent
+linear model forward to a
+sphere of perturbations of
+size 1 at the ﬁnal time.
+total factor also equal to σ 2
+i (Figure 6.3.4). In other words, the ﬁnal singular vectors
+are the eigenvectors of LLT , and again they have eigenvalues equal to the square of
+the singular values of L. Alternatively, once the initial singular vectors are obtained
+using, for example, the Lanczos algorithm, the ﬁnal singular vectors can be derived
+by integrating the tangent linear model ((6.3.17)).
+If we apply LT L repeatedly over the same interval (t0, t), we obtain the leading
+initial singular vector, or ﬁrst optimal vector. Additional leading singular vectors can
+be obtained by a generalization of the power method (Lanczos algorithm, Golub and
+Van Loan, 1996), which requires running the tangent linear model and its adjoint
+about three times the number of singular vectors required. For example, to get the
+leading 30 singular vectors optimized for t1 −t0 = 36 h, the ECMWF performed
+100 iterations, equivalent to running the tangent linear model for about 300 days
+(Molteni et al., 1996).
+It is important to note that the adjoint model and the singular vectors are deﬁned
+with respect to a given norm. So far we have used an Euclidean norm in which the
+weight matrix that deﬁnes the inner product is the identity matrix:
+∥y∥2 = yT y = ⟨y, y⟩
+(6.3.26)
+The leading (initial) singular vectors are the vectors of equal size (initial norm
+equal to one ∥y(t0)∥2 = y(t0)T y(t0) = ⟨y(t0), y(t0)⟩= 1), that grow fastest during the
+
+6.3 Tangent linear and adjoint models, singular and Lyapunov vectors
+219
+optimization period (t0, t1), i.e., the initial vectors that maximize the norm at the ﬁnal
+time:
+J(y(t0)) ≡∥y(t1)∥2 = [Ly(t0)]T Ly(t0) = ⟨LT Ly(t0), y(t0)⟩
+(6.3.27)
+If we deﬁne a norm using any other weight matrix W applied to y, then the
+requirement that the initial perturbations be of equal size implies:
+∥y(t0)∥2 = (Wy(t0))T Wy(t0) = y(t0)T WT Wy(t0) = 1
+(6.3.28)
+We can use a different norm to deﬁne the size of the perturbation to be maximized
+at the ﬁnal time than the norm W used for the initial time (6.3.28). For example
+the ﬁnal norm could be a projection operator P at the end of the interval. Then the
+function that we want to maximize is, instead of (6.3.27):
+J(y(t0)) = [PLy(t0)]T PLy(t0) = y(t0)T LT PT PLy(t0)
+(6.3.29)
+subject to the strong constraint (6.3.28).
+From the calculus of variations, the maximum of (6.3.29) subject to the strong
+constraint (6.3.28) can be obtained by the unconstrained maximum of another
+function:
+K(y(t0)) = J(y(t0)) + λ[1 −y(t0)T WT Wy(t0)]
+= y(t0)T LT PT PLy(t0) + λ[1 −y(t0)T WT Wy(t0)]
+(6.3.30)
+where the λ are the Lagrange multipliers multiplying the square brackets (equal to
+zero due to the constraint (6.3.28)).
+The unconstrained minimization of K is obtained by computing its gradient with
+respecttothecontrolvariabley(to)andmakingitequaltozero.FromRemark5.4.1(d),
+we can compute this gradient as:
+∇y(t0)K = LT PT PLy(t0) −λWT Wy(t0) = 0
+(6.3.31)
+It is convenient, given the constraint (6.3.28), to change variables:
+Wy(t0) = ˆy(t0)
+or
+y(t0) = W−1ˆy(t0)
+(6.3.32)
+Then, (6.3.31) becomes
+(W−1)T LT PT PLW−1ˆy(t0) = λˆy(t0)
+(6.3.33)
+subject to the constraint
+ˆyT (t0)ˆy(t0) = 1
+(6.3.34)
+Therefore, the transformed vectors ˆy(t0) are the eigenvectors of the matrix
+(W−1)T LT PT PLW−1 in (6.3.33), with eigenvalues equal to the Lagrange multi-
+pliers λi. After the leading eigenvectors ˆy(t0) are obtained (using, for example, the
+Lanczos algorithm), the variables are transformed back to y(t0) using (6.3.32). The
+
+220
+6 Atmospheric predictability and ensemble forecasting
+eigenvalues of this problem are the square of the singular values of the tangent linear
+model: λi = σ 2
+i .
+This allows great generality (as well as arbitrariness4) in the choice of initial norm
+and ﬁnal projection operator. Errico and Vukicevic (1992), showed that the singular
+vectors are very sensitive to both the choice of norm and the length of the optimization
+interval (the interval from t0 to t1). In another example, Palmer et al. (1998) tested
+different weight matrices W deﬁning the initial norm. They used “streamfunction,”
+“enstrophy,” “kinetic energy,” and “total energy” norms, which measured, as the
+“initial size” the square of the perturbation streamfunction, vorticity, wind speed and
+weighted temperature, wind and surface pressure, respectively. They found that the
+use of different initial norms resulted in extremely different initial singular vectors,
+and concluded that the total energy was the norm of choice for ensemble forecasting.
+In 1995, ECMWF included in their ensemble system a projection operator P that
+measures only the growth of perturbations north of 30◦N, i.e., a matrix that multiplies
+variables that correspond to latitudes greater than or equal to 30◦N by the number 1,
+and by 0 otherwise) (Buizza and Palmer, 1995). One could use any other pair of initial
+W and ﬁnal P weights (norms) to answer the related question of forecast sensitivity.
+An example of a forecast sensitivity problem is: “What is the optimal (minimum size)
+initial perturbation (measured by the square of the change in surface pressure over
+the states of Oklahoma and Texas) that produces the maximum ﬁnal change after a
+1-day forecast (measured by the change in vorticity between surface and 500 hPa
+over the eastern USA)?” ECMWF has been routinely carrying out experiments to
+ﬁnd out “What is the change in the initial conditions from 3 days ago that would lead
+to the best veriﬁcation of today’s analysis?” (see Errico (1997), Rabier et al. (1996),
+Pu et al. (1997a,b) for more details).
+6.3.3
+Lyapunov vectors
+As we saw in Section 6.2, if we start a set of perturbations on a sphere of very small
+size, it will evolve into an ellipsoid. The growth of the axis of the hyperellipsoid after
+a ﬁnite interval s is given by the singular values σi(t0 + s). The (global) Lyapunov
+exponents describe the linear long-term growth of the hyperellipsoid:
+λi = lim
+s→∞
+1
+s ln[σi(t0 + s)]
+(6.3.35)
+4 Jon Ahlquist (2000, pers. communication) showed, given a linear operator L, a set of arbitrary
+vectors xi, and a set of arbitrary nonnegative numbers σi arranged in decreasing order, how to
+construct an inner product and a norm such that the σiand the xi are ith singular values and
+singular vectors of L. He pointed out that “Because anything not in the null space can be a
+singular vector, even the leading singular vector, one cannot assign a physical meaning to a
+singular vector simply because it is a singular vector. Any physical meaning must come from an
+additional aspect of the problem. Said in another way, nature evolves from initial conditions
+without knowing which inner products and norms the user wants to use.”
+
+6.3 Tangent linear and adjoint models, singular and Lyapunov vectors
+221
+In other words, the Lyapunov exponents describe the long-term average exponential
+rate of stretching or contraction in the attractor. (We call the Lyapunov exponents
+“global”todistinguishthemfromtheﬁnitetimeor“local”Lyapunovexponentswhich
+are useful in predictability applications.) There are as many Lyapunov exponents as
+the dimension of the model (number of independent variables or degrees of freedom).
+If the model has at least one λigreater than zero, then the system can be called chaotic,
+i.e., there is exponential separation of trajectories. In other words, there is at least one
+direction of the ellipsoid that continues to be stretched, and therefore two trajectories
+willdivergeintimeandeventuallybecomecompletelydifferent.Conversely,asystem
+with all negative Lyapunov exponents is stable, and will remain predictable at all
+times. The ﬁrst Lyapunov exponent can be estimated by running the tangent linear
+model for a long time starting from any randomly chosen initial perturbation y(t0).
+During a long integration the growth rate of any random perturbation will converge
+to the ﬁrst Lyapunov exponent:
+λ1 = lim
+s→∞
+1
+s ln
+∥y(t0 + s)∥
+∥y(t0)∥
+
+(6.3.36)
+which is independent of the norm. In practice, the ﬁrst Lyapunov exponent is ob-
+tained by running the tangent linear model for a long period from random initial
+conditions, and renormalizing the perturbation vector periodically in order to avoid
+computational overﬂow.
+When we are dealing with atmospheric predictions, we are not really interested in
+the global growth properties, which correspond to the atmosphere’s attractor (clima-
+tology), i.e., relevant average properties over many decades. Instead, in predictability
+problems we are interested in the growth rate of perturbations at a given time and
+space: we need to know the local stability properties in space and time, which are
+related to our ability to make skillful forecasts. We can deﬁne the leading local
+Lyapunov vector (LLV) at a certain time t, as the vector towards which all random
+perturbations y(t −s) started a long time s before t will converge (Fig. 6.3.5).
+l1(t) = lim
+s→∞L(t −s, t)y(t −s)
+(6.3.37)
+Once a perturbation has converged to the leading LLV l1(t), the leading local Lya-
+punov exponent can be computed from the rate of change of its norm. In practice,
+the local leading Lyapunov exponent, also known as ﬁnite time Lyapunov exponent,
+can be estimated over a ﬁnite period τ:
+l1 ≈1
+τ ln
+∥l1(t + τ)∥
+∥l1(t)∥
+
+(6.3.38)
+The argument of the logarithm is deﬁned as the ampliﬁcation rate A(t, τ).
+TheﬁrstLLVisindependentofthedeﬁnitionofnorm,andrepresentsthedirection
+in which maximum sustainable growth (or minimum decay) can occur in a system
+without external forcing. In fact, after a ﬁnite transition period T takes place, every
+
+222
+6 Atmospheric predictability and ensemble forecasting
+Trajectory
+Random initial
+perturbations
+Leading LLV
+Figure 6.3.5: Schematic of how all perturbations will converge towards the leading
+LLV.
+initial perturbation will turn in the direction of the LLV at every point of the trajectory.
+This also includes the ﬁnal singular vectors ui for a sufﬁciently long optimization
+interval.
+Trevisan and Legnani (1995) introduced the notion of the leading LLV. Additional
+LLVs can be obtained by Gramm–Schmidt orthogonalization, and this would seem
+to indicate that they are norm-dependent. However, Trevisan and Pancotti (1998)
+showed that it is also possible, at least in theory, to deﬁne additional LLVs (denoted
+characteristic vectors by Legras and Vautard, 1996) without the use of norms. The
+LLVs are therefore a fundamental characteristic of dynamical systems. It should be
+noted that regrettably, at this time, there is not a universally accepted nomenclature
+for LLVs. Legras and Vautard (1996) call the LLVs “backward Lyapunov vectors”,
+since they were started an inﬁnitely long time in the past. Unfortunately, this name
+is extremely confusing, since they represent forward evolution rather than backward
+evolution as this name would imply. The LLVs are also the ﬁnal singular vectors
+optimized for an inﬁnitely long time, i.e., the eigenvectors (valid at time t) of L(t −
+T, t)LT (t −T, t) for T →∞. Similarly, Legras and Vautard deﬁne as “forward
+Lyapunov vectors” the initial singular vectors obtained from a very long backward
+integration with the adjoint of the model, i.e., they are the eigenvectors (valid at
+time t) of LT (t, t + T )L(t, t + T ) for very large T .
+Legras and Vautard (1996) showed (as did Trevisan and Pancotti (1998)) that
+a complete set of LLVs (which they denote characteristic Lyapunov vectors) can
+be deﬁned from the intersection of the subspaces spanned by the “forward” and
+“backward” Lyapunov vectors. The (characteristic) LLVs are therefore independent
+of the norm, and grow in time with a rate given by the local Lyapunov exponents. As
+such, they are a fundamental characteristic of dynamical systems.
+Several authors have shown that the leading (ﬁrst few) LLVs of low-dimensional
+dynamical systems span the attractor, i.e., they are parallel to the hypersurface in
+phase space that the dynamical system visits again and again (“realistic solutions”).
+
+6.3 Tangent linear and adjoint models, singular and Lyapunov vectors
+223
+Leading singular vectors, on the other hand, have very different properties. They can
+grow much faster than the leading LLVs, but are initially off the attractor: they point
+to areas in the phase space where solutions do not naturally occur (e.g., Legras and
+Vautard, 1996, Trevisan and Legnani, 1995, Trevisan and Pancotti, 1998, Pires et al.,
+1996), see also next section.
+For ensemble forecasting, Ehrendorfer and Tribbia (1997) showed that if V is the
+initial analysis error covariance (which unfortunately we don’t know and can only
+estimate), then the initial singular vectors deﬁned with the norm W = V−1/2 evolve
+into the eigenvectors of the evolved error covariance matrix. This implies that the
+leading singular vectors, deﬁned using the initial error covariance, are optimal in
+describing the forecast errors at the end of the optimization period. The initial error
+covariance norm yields singular vectors quite different from those derived using the
+energy norm. Barkmeijer et al. (1998) used the ECMWF estimated 3D-Var error
+covariance as the initial norm (instead of the total energy norm) and obtained initial
+perturbations with structures closer to the bred vectors (i.e., leading LLVs) used at
+NCEP (see Section 6.5.1).
+6.3.4
+Simple examples of singular vectors and eigenvectors
+In order to get a more intuitive feeling of the relationship between singular vectors
+and Lyapunov vectors, we consider a simple linear model in two dimensions:
+ x1(t + T )
+x2(t + T )
+
+= MT [x(t)] =
+ 2x1(t) + 3x2(t) + 7
+0.5x2(t) −4
+
+(6.3.39)
+We compute the two-dimensional tangent linear model, constant in time:
+L =
+
+
+∂M1
+∂x1
+∂M1
+∂x2
+∂M2
+∂x1
+∂M2
+∂x2
+
+=
+
+2
+3
+0
+0.5
+
+(6.3.40)
+The propagation or evolution of any perturbation (difference between two solutions)
+over a time interval (t, t + T) is given by
+δx(t + T ) = Lδx(t)
+(6.3.41)
+Note that the translation terms in (6.3.39) do not affect the perturbations. The eigen-
+vectors of L (which for this simple constant tangent linear model are also the
+Lyapunov vectors) are proportional to
+l1 =
+ 1
+0
+
+l2 =
+−2
+1
+
+
+224
+6 Atmospheric predictability and ensemble forecasting
+corresponding to the eigenvalues λ1 = 2, λ2 = 0.5, respectively, which in this case
+are the two Lyapunov numbers (their logarithms are the Lyapunov exponents). If we
+normalize them, so that they have unit length, the Lyapunov vectors are
+l1 =
+ 1
+0
+
+l2 =
+−0.89
+0.45
+
+(6.3.42)
+The Lyapunov vectors are not orthogonal, they are separated by an angle of 153.4◦
+(Fig. 6.3.6(a)). We will see that because they are not orthogonal it is possible to
+ﬁnd linear combinations of the Lyapunov vectors that grow faster than the leading
+Lyapunov vector. We will also see that the leading Lyapunov vector is the attractor
+of the system, since repeated applications of L to any perturbation makes it evolve
+towards l1.
+t=0
+v1
+l2
+l1
+v2
+t=T
+u1=Lv1
+0.5l2
+2l1
+u2=Lv2
+t=2T
+Lu1
+Lu2
+4l1
+(a)
+(b)
+(c)
+Figure 6.3.6: Schematic of the evolution of the two nonorthogonal Lyapunov vectors
+(thin arrows l1 and l2), and the corresponding two initial singular vectors (thick
+arrows v1(0)and v2(0)), optimized for the interval (0, T ), for the tangent linear model
+L =
+ 2
+3
+0
+0.5
+
+with eigenvalues 2 and 0.5. (a) Time t = 0, showing the initial singular vectors v1(0)
+and v2(0), as well as the Lyapunov vectors l1 and l2. (b) Time t = T, evolved singular
+vectors, u1(T ) = Lv1(0), u2(T ) = Lv2(0) at the end of the optimization period; the
+Lyapunov vectors have grown by factors of 2 and 0.5 respectively, whereas the
+leading singular vector has grown by 3.63. The second evolved singular vector has
+grown by 0.275, and is still orthogonal to the ﬁrst singular vector. (c) Time t = 2T .
+Beyond the optimization period T , the evolved singular vectors u1(t + 2T ) =
+Lu1(t + T ), u2(2T ) = Lu2(T ) are not orthogonal and they approach the leading
+Lyapunov vector with similar growth rates.
+
+6.3 Tangent linear and adjoint models, singular and Lyapunov vectors
+225
+Applying ﬁrst L and then its transpose LT we obtain the symmetric matrix
+LT L =
+ 4
+6
+6
+9.25
+
+(6.3.43)
+whose eigenvectors are the initial singular vectors, and whose eigenvalues are the
+squares of the singular values. The initial singular vectors (eigenvectors of LT L) are
+v1 =
+ 0.55
+0.84
+
+v2 =
+ 0.84
+−0.55
+
+(6.3.44)
+with eigenvalues σ 2
+1 = 13.17, σ 2
+2 = 0.076. As indicated before, the singular values
+of L are the square roots of the eigenvalues of LT L, i.e., σ1 = 3.63, σ2 = 0.275.
+Note that this implies that during the optimization period (0, T ) the leading singular
+vector grows almost twice as fast as the leading Lyapunov vector (3.63 vs. 2). The
+angle that the leading initial singular vector has with respect to the leading Lyapunov
+vector is 56.82◦, whereas the second initial singular vector is perpendicular to the
+ﬁrst one (Fig.6.3.6(a)).
+The ﬁnal or evolved SVs at the end of the optimization period (0, T ) are the eigen-
+vectors of
+LLT =
+ 13
+1.5
+1.5
+0.25
+
+(6.3.45)
+and after normalization, they are
+u1 =
+ 0.99
+0.12
+
+u2 =
+ 0.12
+−0.99
+
+(6.3.46)
+Note again that the operators LT L and LLT are quite different, and the ﬁnal
+singular vectors are different from the initial singular vectors, but they have the same
+singular values σ 2
+1 = 13.17, σ 2
+2 = 0.076.
+Alternatively, the evolved singular vectors at the end of the optimization period can
+alsobeobtainedbyapplyingLtotheinitialsingularvectors,whichiscomputationally
+inexpensive. In this case,
+u1(T ) = Lv1(0) =
+ 3.6
+0.42
+
+u2(T ) = Lv2(0) =
+ 0.03
+−0.27
+
+which is the same as (6.3.46) but without normalization.
+TheﬁnalleadingsingularvectorhasstronglyrotatedtowardstheleadingLyapunov
+vector: at the end of the optimization period the angle between the leading singular
+vector and the leading Lyapunov vector is only 6.6◦(Fig. 6.3.6(b)), and because the
+singular vectors have been optimized for this period, the ﬁnal singular vectors are
+still orthogonal.
+
+226
+6 Atmospheric predictability and ensemble forecasting
+To obtain the evolution of the singular vectors beyond the optimization period (0,
+T ) we apply L again to the evolved singular vector valid at t = T and obtain
+u1(t + 2T ) = Lu1(t + T ) =
+ 3.6
+0.42
+
+u2(2T ) = Lu2(T ) =
+ 0.03
+−0.27
+
+During the interval (T , 2T ) the leading singular vector grows by a factor of just 2.33,
+which is not very different from the growth rate of the leading Lyapunov vector. At
+the end of this second period (Fig. 6.3.6(c)) the angle with the leading Lyapunov
+vector is only 1.41◦. The angle of the second evolved singular vector at time T , after
+applying the linear tangent model L and the leading Lyapunov vector is also quite
+small (10.24o), and because it was further away from the attractor, the second singular
+vector (whose original, transient, singular value was 0.5), grows by a factor of 2.79.
+This example shows how quickly all perturbations, including all singular vectors,
+evolve towards the leading Lyapunov vector, which is the attractor of the system. It is
+particularly noteworthy that during the optimization period (0, T ), the ﬁrst singular
+vector grows very fast as it rotates towards the attractor, but once it gets close to the
+leading Lyapunov vector, its growth returns to the normal leading Lyapunov vector’s
+growth.
+Let us now choose as the tangent linear model another matrix
+L =
+ 2
+30
+0
+0.5
+
+with the same eigenvalues 2 and 0.5, i.e., with eigenvectors (Lyapunov vectors) that
+still grow at a rate of 2/T and 0.5/T respectively. However, now the angle between
+the ﬁrst and the second Lyapunov vector is 177◦, i.e. the Lyapunov vectors are almost
+antiparallel. In this case, the ﬁrst singular vector grows by a factor of over 30 during
+the optimization period, but beyond the optimization period it essentially continues
+evolving like the leading Lyapunov vector.
+These results do not depend on the fact that one Lyapunov vector grows and the
+other decays. As a third example, we choose
+L =
+ 2
+3
+0
+1.5
+
+with two Lyapunov vectors growing with rates 2/T and 1.5/T . The Lyapunov vectors
+arealmostparallel,withanangleof170◦,andtheleadingsingularvectorgrowsduring
+the optimization period by a factor of 3.83. Applying the tangent linear model again
+to the evolved singular vectors we obtain that at time 2T the leading singular vector
+has grown by a factor of 2.9 and its angle with respect to the leading Lyapunov
+vector is 1◦. Because it is not decaying, the second Lyapunov vector is also part of
+the attractor, but only those perturbations that are exactly parallel to it will remain
+parallel, all others will move towards the ﬁrst Lyapunov vector.
+
+6.4 Ensemble forecasting: early studies
+227
+These examples illustrate the fact that the fast growth of the singular vectors during
+the optimization period depends on the lack of orthogonality between Lyapunov
+vectors. A very fast “supergrowth” of singular vectors is associated with the presence
+of almost parallel Lyapunov vectors, and it takes place when the initial singular
+vector, which is not in the attractor, rotates back towards the attractor. At the end of
+the optimization period, the leading singular vector tends to be much closer to the
+attractor, more parallel to the leading Lyapunov vector. The second (trailing) singular
+vector is also moving towards the leading Lyapunov vector.
+Finally, we point out that this introductory discussion is appropriate for relatively
+low-dimensional systems. For extremely high-dimensional systems like the atmo-
+sphere, there may be multiple sets of Lyapunov exponents corresponding to different
+types of instabilities. For example, as pointed out by Toth and Kalnay (1993), con-
+vective instabilities have very fast growth but small amplitudes, whereas baroclinic
+instabilities have slower growth but much larger amplitudes, and each of these can
+lead to different types of Lyapunov vectors. If we are interested in the predictability
+characteristics associated with baroclinic instabilities, then the analysis of growth
+rates of inﬁnitesimally small Lyapunov vectors over inﬁnitely long times may not be
+appropriate for the problem (Lorenz, 1996). In that case, it may be better to consider
+the ﬁnite amplitude, ﬁnite time extension of Lyapunov vectors introduced by Toth
+and Kalnay (1993, 1997) as bred vectors. Bred vectors are discussed in Section 6.5.1,
+and their relationship to Lyapunov vectors in Kalnay et al. (2002).
+6.4
+Ensemble forecasting: early studies
+We saw in previous sections that Lorenz (1963a,b,1965) showed that the forecast skill
+of atmospheric models depends not only on the accuracy of the initial conditions and
+on the realism of the model (as it was generally believed at the time), but also on the
+instabilities of the ﬂow itself. He demonstrated that any nonlinear dynamical system
+with instabilities, like the atmosphere, has a ﬁnite limit of predictability. The growth
+of errors due to instabilities implies that the smallest imperfection in the forecast
+model or the tiniest error in the initial conditions, will inevitably lead to a total loss of
+skill in the weather forecasts after a ﬁnite forecast length. Lorenz estimated this limit
+of weather predictability as about two weeks. With his simple model he also pointed
+out that predictability is strongly dependent on the evolution of the atmosphere itself:
+some days the forecasts can remain accurate for a week or longer, and on other days
+the forecast skill may break down after only 3 days. This discovery made inevitable
+the realization that NWP needs to account for the stochastic nature of the evolution
+of the atmosphere (Fig. 6.4.1). As previously discussed, Lorenz (1965) studied the
+error growth of a complete “ensemble” of perturbed forecasts, with the ensemble
+size equal to the dimension of the phase space (one perturbation for each of the
+28 model variables). In this paper he introduced for the ﬁrst time concepts related
+
+228
+6 Atmospheric predictability and ensemble forecasting
+Time
+Deterministic
+Stochastic
+A
+B
+Figure 6.4.1: Schematic of ensemble prediction, with individual trajectories drawn
+for forecasts starting from a representative set of perturbed initial conditions within a
+circle representing the uncertainty of the initial conditions (ideally the analysis error
+covariance) and ending within the range of possible solutions. For the shorter range,
+the forecasts are close to each other, and they may be considered deterministic, but
+beyond a certain time, the equally probable forecasts are so different that they must
+be considered stochastic. The transition time is of the order of 2–3 days for the
+prediction of large-scale ﬂow, but can be as short as a few hours for mesoscale
+phenomena like the prediction of individual storms. The transition time is shorter for
+strongly nonlinear parameters: even for large-scale ﬂow, precipitation forecasts show
+signiﬁcant divergence faster than the 500-hPa ﬁelds. The forecasts may be clustered
+into subsets A and B. (Adapted from Tracton and Kalnay, 1993.)
+to singular vectors and LLVs discussed in the previous section. This was followed by
+several early approaches to the problem of accounting for the variable predictability
+of the atmosphere reviewed in this section.
+6.4.1
+Stochastic-dynamic forecasting
+Historically, the ﬁrst forecasting method to explicitly acknowledge the uncertainty
+of atmospheric model predictions was developed by Epstein (1969), who introduced
+the idea of stochastic-dynamic forecasting. He derived a continuity equation for the
+probabilitydensity ϕ(X; t) ofamodelsolution X ofadynamical model ˙X = G(X(t)),
+where the model has dimension D:
+∂ϕ
+∂t + ∇D · ( ˙Xϕ) = 0
+(6.4.1)
+This equation indicates that in an ensemble of forecast solutions, “no member of
+the ensemble may be created or destroyed”. An ensemble starting from an inﬁ-
+nite number of perturbed integrations spanning the analysis uncertainty gives the
+“true” probability distribution (with all its moments), but even for a simple low-order
+model, the integration of (6.4.1) is far too expensive. Therefore Epstein introduced an
+approximation to predict only the ﬁrst and second moments of the probability distri-
+bution (expected means and covariances) rather than the full probability distribution.
+
+6.4 Ensemble forecasting: early studies
+229
+Epstein assumed that the model equations are of the form
+˙xi =
+
+j,k
+aijkx jxk −
+
+j
+bijx j + ci
+(6.4.2)
+The forecast equations for the expected ﬁrst and second moments are
+˙µi = E(˙xi)
+˙ρij = E(xi ˙x j + ˙xix j)
+
+
+
+(6.4.3)
+The covariances ρij are related to the second order moments by σi j = E[(xi −
+µi)(x j −µ j)]. Substituting (6.4.2) into (6.4.3) gives rise to forecast equations
+for ˙µ and ˙σ that contain triple moments (xix jxk). As done in turbulence mod-
+els with a second order closure for the triple products (Chapter 4), Epstein in-
+troduced a closure assumption for the third order moments around the mean
+τijk = E[(xi −µi)(x j −µ j)(xk −µk)]. He assumed that #kla jklτikl + aiklτ jkl = 0,
+which then gives a closed set of equations for the means and covariances:
+˙µi =
+
+jk
+aijk(σjk + µ jµk) −
+
+j
+bijµ j + ci
+˙σi j =
+
+kl
+a jkl(µkσil + µlσik) + aikl(µkσ jl + µlσ jk)
+−
+
+k
+(bikσ jk+b jkσik)
+
+
+
+(6.4.4)
+Epstein tested these “approximate” stochastic equations for a Lorenz three-variable
+model. The “true” probability distribution was computed from a Monte Carlo ensem-
+ble of 500 members, and the comparison indicated good agreement, at least for several
+simulated days. Note that in his case, the number of ensemble members was much
+larger than the number of degrees of freedom of the model, a situation that would be
+impossible to replicate with current models with millions of degrees of freedom. In
+his paper, Epstein also introduced the idea of using stochastic-dynamic forecasting
+in the analysis cycle, with the background forecast and error covariance provided
+by stochastic-dynamic forecasts combined with observations that also contain errors
+(cf. Sections 5.3–5.5).
+Unfortunately, although the stochastic-dynamic forecasting method was intro-
+duced as a shortcut to an “inﬁnite” Monte Carlo ensemble, in a model with N degrees
+of freedom, it requires N(N + 1)/2 + N forecast equations, equivalent to making
+about (N+ 3)/2 model forecasts. Although this was practical with a three-variable
+model, it is completely unfeasible for a modern model, with millions of degrees of
+freedom.
+6.4.2
+Monte Carlo forecasting
+In 1974, Leith proposed the idea of performing ensemble forecasting with a limited
+number m of ensemble members instead of the conventional single (deterministic)
+
+230
+6 Atmospheric predictability and ensemble forecasting
+control forecast. He also proposed performing an “optimal estimation” of the ver-
+iﬁcation using linear regression on the dynamical forecasts, with optimal weights
+determined from forecast error covariances (cf. Sections 5.3–5.5). Since forecasts
+lose their skill at longer lead times, and individual forecasts eventually are further
+away from the veriﬁcation than the climatology (cf. eqs. (6.4.5) and (6.4.6)), optimal
+estimation of the veriﬁcation is equivalent to tempering (i.e., hedging the forecast
+towards climatology).
+He cast his analysis using, instead of model variables, their deviationu with respect
+to climatology (also known as forecast anomalies). The true state of the atmosphere
+is denoted u0, and ˆu then denotes an unbiased estimate of u0, whose expected value
+(average over many forecasts, represented by the angle brackets) is equal to zero:
+⟨ˆu⟩= 0.
+We can compute the expected error covariance of a climatological forecast (i.e.,
+a forecast of zero anomaly):
+⟨(0 −u0)(0 −u0)T ⟩= ⟨u0uT
+0 ⟩= U
+(6.4.5)
+A single (deterministic) forecast ˆu, on the other hand, has, on average, an error
+covariance given by
+⟨(ˆu −u0)(ˆu −u0)T ⟩= ⟨ˆuˆuT + u0uT
+0 −ˆuuT
+0 −u0 ˆuT ⟩−→
+t→∞2U
+(6.4.6)
+This limit occurs because the last two terms in the second angle brackets go to zero
+as the forecasts become decorrelated with the true atmosphere at long lead times,
+and we assume that the model covariance is also unbiased. This indicates that for
+long lead times an individual deterministic forecast has twice the error covariance
+of a climatological forecast. Therefore, a “regressed” forecast, tempered towards
+climatology, must be better than a single deterministic forecast (in a least square
+error sense), with an error covariance that asymptotes to U, and not 2U.
+A regressed forecast ˆu0 = ˆuA is obtained by linear regression, minimizing the
+square of the regressed error εT ε = ⟨(u0 −ˆuA)T (u0 −ˆuA)⟩with respect to the ele-
+ments of the matrix of constant regression coefﬁcients A. As we did in the derivation
+of the optimal weight matrix for the observational increments in Section 5.4, we make
+use of the linear regression formulas: if the linear prediction equation is ˆy = xA, then
+the error is given by ε = y −xA. The matrix of the derivatives of the (scalar) squared
+error εT ε with respect to each element of A is given by ∂εT ε/∂A = −2xT (y −xA) =
+0, which gives the normal equation xT y = xT xA, or A = (xT x)−1(xT y). Applying
+this to the regressed forecast we obtain ⟨ˆuT (u0 −ˆuA)⟩= 0, or
+A = ⟨ˆuT ˆu⟩−1⟨ˆuT u0⟩
+(6.4.7)
+Estimating the required forecast statistics in (6.4.7) involves considerable work.
+The size of the regression matrix is usually large compared to the size of the sample
+available to estimate it, and in order to reduce the number of parameters to be
+
+6.4 Ensemble forecasting: early studies
+231
+estimated additional approximations are needed (e.g., by parameterizing error
+growth, Hoffman and Kalnay, 1983).
+Now, instead of regression let’s consider an ensemble of m forecasts computed
+from perturbations ri to the initial best estimate (analysis) ˆu. Ideally, the perturbations
+should be chosen so that their outer product is a good estimate of the initial error co-
+variance (i.e., the analysis error covariance ⟨rrT ⟩= Pa, as suggested in Fig. 6.4.1). In
+practice, however, the analysis error covariance can only be approximately estimated
+(e.g., Barkmeijer et al., 1998).
+If u = (1/m)#m
+i=1ui is the average of an ensemble of m forecasts, then its error
+covariance evolves like
+⟨(u −u0)(u −u0)T ⟩= ⟨uuT + u0uT
+0 −uuT
+0 −u0uT ⟩−→
+t→∞
+
+1 + 1
+m
+
+U
+(6.4.8)
+since the last two terms in the second angle brackets go to zero at long time leads,
+and the ﬁrst one evolves like
+⟨uuT ⟩= 1
+m
+m
+
+i=1
+ui
+1
+m
+m
+
+j=1
+uT
+j −→
+t→∞
+m
+m2 U
+(6.4.9)
+Equation (6.4.8) shows that averaging a Monte Carlo ensemble of forecasts ap-
+proximates the tempering of the forecasts towards climatology, without the need to
+perform regression. It suggests that such tempering may be substantially achieved
+with a relatively small number of ensemble members (compare (6.4.8) with (6.4.5)
+and (6.4.6)). Leith (1974) used an analytical turbulence model to test this hypothe-
+sis, and concluded that a Monte Carlo forecasting procedure represents a practical,
+computable approximation to the stochastic-dynamic forecasts proposed by Epstein
+(1969). He suggested that adequate accuracy would be obtained for the best estimate
+of the forecast (i.e., the ensemble mean) with sample sizes as small as 8, but that
+the estimation of forecast errors may require a larger number of ensemble mem-
+bers. Monte Carlo forecasting is thus a feasible approach for ensemble forecasting,
+requiring only a deﬁnition of the initial perturbations and m forecasts.
+6.4.3
+Lagged average forecasting
+In 1983, Hoffman and Kalnay proposed lagged average forecasting (LAF) as an al-
+ternative to Monte Carlo forecasting, in which the forecasts initialized at the current
+initial time, t = 0, as well as at previous times, t = −τ, −2τ, . . . , −(N −1)τ are
+combined to form an ensemble (see Fig. 6.4.2). In an operational set up, τ is typically
+6, 12 or 24 hours, so that the forecasts are already available, and the perturbations
+are generated automatically from the forecast errors. Since the ensemble comprises
+forecasts of different “age”, Hoffman and Kalnay (1983) weighted them according
+to their expected error, which they estimated by parameterizing the observed error
+
+232
+6 Atmospheric predictability and ensemble forecasting
+X
+t
+t f
+0
+t
+tf
+-3τ
+0
+-τ
+-2τ
+X
+(b)
+(a)
+Figure 6.4.2: Schematic time evolutions of Monte Carlo forecasts (a) and lagged
+average forecasts (b). The abscissa is forecast time t, and the ordinate is the value of
+a forecast variable X. The crosses represent analyses obtained at time intervals τ, and
+the dots, randomly perturbed initial conditions; tf is a particular forecast time. The
+initial “perturbation” for the lagged average forecast is the previous forecasts’ error
+at the initial time. (Adapted from Hoffman and Kalnay, 1983.)
+covariance growth. They compared the lagged average forecasting and Monte Carlo
+forecasting methods within a simulation system, using a primitive equations model
+as “nature”, and a quasi-geostrophic model to perform the “forecasts”. In this way
+they allowed for model errors, unlike the previous “identical twin” experiments
+that assumed a perfect model. They “observed” the required variables and intro-
+duced random “observation errors” every 6 hours and performed many ensemble
+forecast experiments separated by 50 days of integration. They compared the re-
+sults of single forecasts (ordinary dynamical forecasts), Monte Carlo forecasting,
+lagged average forecasting and tempered ordinary dynamical forecasts, as well as
+persistence-climatology forecast (the most skillful baseline forecast).
+Hoffman and Kalnay looked at the error growth of individual forecasts (Fig. 6.4.3).
+Note in this ﬁgure that the individual forecast errors grow slowly and then at a certain
+timethereisarapiderrorgrowthuntilnonlinearsaturationtakesplace(onlytheperiod
+
+6.4 Ensemble forecasting: early studies
+233
+1.41
+1.25
+1.00
+0.75
+0.50
+0.25
+0.00
+D
+0
+5
+10
+15
+20
+25
+30
+Forecast time (days)
+Figure 6.4.3: Time evolution of D, the individual forecast errors scaled by the
+climatological forecast error, plotted only during the period the forecast error crossed
+D = 0.5. Also plotted are two measures of average forecast error. (Adapted from
+Hoffman and Kalnay, 1983.)
+of rapid growth is plotted). Note also that the forecast errors saturate around
+√
+2 of
+the climatological variability, as indicated by (6.4.6).
+In these simulated forecasts, like in real weather forecasts, the forecast skill ex-
+hibits a lot of day-to-day variability. The rapid growth takes place at a time that varies
+from a minimum of 5 days to a maximum of 20 days. Hoffman and Kalnay tested
+the ability of the ensemble to predict the time at which the forecast error crossed
+50% of the climatological standard deviation. They used as the predictor the spread
+of the ensembles (standard deviation with respect to their mean). They found that
+the lagged average forecasting ensemble average forecast was only slightly better
+than the Monte Carlo forecasting, but the advantage of lagged average forecasting
+in predicting forecast skill was much more apparent, with the correlation between
+predicted and observed time of crossing the 50% level being 0.68 for Monte Carlo
+forecasting and 0.79 for lagged average forecasting.
+The advantages of lagged average forecasting over Monte Carlo forecasting are
+probably due to the fact that lagged average forecasting perturbations in the initial
+conditions were not randomly chosen errors like in Monte Carlo forecasting but
+included dynamical inﬂuences and therefore contained “errors of the day”. This is
+
+234
+6 Atmospheric predictability and ensemble forecasting
+because the perturbations are generated from actual forecast errors and therefore they
+are inﬂuenced by the evolution of the underlying background large-scale ﬂow.
+Lagged average forecasting has been frequently used for experimental ensemble
+forecasting, both for medium-range and climate prediction. However, the statistics
+required to estimate the weights of the members of the lagged average forecasting
+ensemble according to their “age” are very hard to obtain, so that except for the
+study by Dalcher et al. (1988), all the lagged average forecasting members have
+been generally given equal weight. The advantages of lagged average forecasting
+are: (a) some of the forecasts are already available in operational centers; (b) it is
+very simple to perform and does not require special generation of perturbations; and
+(c) the perturbations contain “errors of the day” (Lyapunov vectors). Lagged average
+forecasting has also major disadvantages: (a) a large LAF ensemble would have to
+include excessively “old” forecasts; (b) without the use of optimal weights, the lagged
+average forecasting ensemble average may be tainted by the older forecasts.
+Ebisuzaki and Kalnay (1991) introduced a variant of lagged average forecasting
+denoted scaled lagged average forecasting (SLAF) that reduces these two disad-
+vantages. The perturbations are obtained by computing the forecast error of fore-
+casts started at t = −jτ, j = 1, . . . , N −1, and multiplying these errors by ±1/j.
+This assumes that the errors grow approximately linearly with time during the ﬁrst
+2–3 days, and that the perturbations can be subtracted from and not just added to
+the analysis. The advantages of scaled lagged average forecasting are: (a) the ini-
+tial perturbations of the ensemble members are all of approximately the same size
+(this can be enforced using a more sophisticated rescaling than linear growth), and
+(b) their number is doubled with respect to lagged average forecasting, so that only
+shorter-range forecasts are needed to create scaled lagged average forecasting. In
+practice, it has been observed that pairs of initial perturbations with opposite sign,
+as used in scaled lagged average forecasting, yield better ensemble forecasts, pre-
+sumably because the Lyapunov vectors within the analysis errors can have either
+sign, whereas lagged average forecasting tends to maintain a single sign in the error.
+Experiments with the NCEP global model showed that scaled lagged average fore-
+casting ensembles were better than lagged average forecasting ensembles (Ebisuzaki
+and Kalnay, 1991). This method is also easier to implement in regional ensemble
+forecasts, since it generates boundary condition perturbations consistent with the
+interior perturbations (Hou et al., 2001).
+6.5
+Operational ensemble forecasting methods
+Figure 6.5.1(a) shows the elements of a typical ensemble forecasting system: (1) the
+control forecast (labeled C) starts from the analysis (denoted by a cross), i.e., from
+the best estimate of the initial state of the atmosphere; (2) two perturbed ensemble
+forecasts (labeled P+ and P−) with initial perturbations added and subtracted from
+
+6.5 Operational ensemble forecasting methods
+235
+C
+A
+T
+P−
+P+
+(a)
+A
+C
+P−
+P+
+T
+(b)
+Figure 6.5.1:(a) Schematic of the components of a typical ensemble: (1) the control
+forecast (labeled C) which starts from the analysis (denoted by a cross), which is the
+best estimate of the true initial state of the atmosphere; (2) two perturbed ensemble
+forecasts (labeled P+ and P−) with initial perturbations added and subtracted from
+the control; (3) the ensemble average denoted A; and (4) the “true” evolution of the
+atmosphere labeled T. This is a “good” ensemble since the “truth” appears as a
+plausible member of the ensemble. Note that because of nonlinear saturation, the
+error of the ensemble member initially further away from the truth (in this case P+)
+tends to grow more slowly than the error of the member initially closer to the truth.
+This results in a nonlinear ﬁltering of the errors: the average of the ensemble
+members tends to be closer to the truth than the control forecast (Toth and Kalnay,
+1997, also compare with Fig. 1.7.1). (b) Schematic of a “bad” ensemble in which the
+forecast errors are dominated by system errors (such as model deﬁciencies). In this
+case, the ensemble is not useful for forecasting, but it helps to identify the fact that
+forecast errors are probably due to the presence of systematic errors, rather than to
+the chaotic growth of errors in the initial conditions.
+
+236
+6 Atmospheric predictability and ensemble forecasting
+the control; (3) the ensemble average labeled A, and (4) the true evolution of the
+atmosphere (not known in real time), labeled T. This is an example of a “good”
+ensemble since the true evolution appears to be a plausible member of the ensemble.
+Figure 6.5.1(b) shows an example of a “bad” ensemble, in which the forecast errors
+are dominated by problems in the forecasting system (such as model deﬁciencies)
+rather than the chaotic growth of initial errors. In this case, the true evolution is
+quite different from the members of the ensemble, but the ensemble is still useful in
+identifying the presence of a deﬁciency in the forecasting system, which, with a single
+forecast, could not be distinguished from the growth of errors in the initial conditions.
+Ensemble forecasting has essentially three basic goals. The ﬁrst is to improve the
+forecast by ensemble averaging. The improvement is a result of the tendency of the
+ensemble average to ﬁlter out the components of the forecast that are uncertain (where
+the members of the ensemble differ from each other) and to retain those components
+that show agreement among the members of the ensemble. The ﬁltering can take place
+only during the nonlinear evolution of the perturbations: if the perturbations are added
+to and subtracted from the analysis, the ensemble average forecast is equal to the
+control while the perturbations remain linear. The improvement of the ensemble av-
+erage with respect to the control, shown schematically in Fig 6.5.1(a), is noticeable in
+Fig. 1.7.1 after a few days of forecasts with the NCEP global ensemble. The second
+goal is to provide an indication of the reliability of the forecast: if the ensemble
+forecasts are quite different from each other, it is clear that at least some of them are
+wrong, whereas if there is good agreement among the forecasts, there is more reason
+to be conﬁdent about the forecast (cf. e.g., Fig. 1.7.2(a) and (b)). The quantitative
+relationship between the ensemble spread and the forecast error (or conversely, be-
+tween the forecast agreement and the forecast skill) has yet to be ﬁrmly established,
+but is now routinely taken into consideration by human forecasters. The third goal of
+ensemble forecasting is to provide a quantitative basis for probabilistic forecasting.
+In the example in Fig. 6.4.1, one could claim that the ensemble indicates a 40%
+probability of cluster A and 60% for cluster B.
+An ensemble forecasting system requires the deﬁnition of the initial amplitude
+and the horizontal and vertical structure of the perturbations. Typically, the initial
+amplitude is chosen to be close to the estimated analysis error. The amplitude of the
+analysis uncertainty depends on the distribution of the observations. Its statistical
+distribution can be estimated from the analysis error covariance (Chapter 5), which
+depends on the accuracy of the statistical assumptions, or empirically, from the rms
+differences between independent analysis cycles (Fig. 6.5.2).
+Ensemble forecasting methods differ mostly in the way the initial perturbations are
+generated, and can be classiﬁed into essentially two classes: those that have random
+initial perturbations, and those where the perturbations depend on the dynamics of
+the underlying ﬂow. In the ﬁrst class, which we can denote Monte Carlo forecasting,
+the initial perturbations are chosen to be “realistic”, i.e., they have horizontal and
+vertical structures statistically similar to forecast errors, and amplitudes compatible
+
+6.5 Operational ensemble forecasting methods
+237
+60N
+30N
+E0
+30S
+60S
+0
+60E
+120E
+180
+120W
+60W
+0
+1.5
+1.6
+1.8
+1.9
+1.7
+1.1
+1.1
+1.1
+1.1
+1.2
+1.2
+1.2
+1.2
+1.3
+1.2
+1.3
+1.3
+1.3
+1.4
+1.5
+1
+1
+0.9
+1.5
+1.6
+1.5
+1.5
+1.4
+1.4
+1.3
+1.6
+1.6
+1.5
+1.3
+1.8
+1.8
+1.9
+1.7
+1.7
+1
+1.4
+1.2
+1.3
+1.6
+1.7
+1.5
+0
+1.7
+Figure 6.5.2: Estimation of the 500-hPa geopotential height analysis uncertainty
+obtained from running two independent analysis cycles, computing their rms
+difference, and using a ﬁlter to retain the planetary scales. The units are arbitrary.
+Note the minima over and downstream of rawinsonde-rich land regions and the
+maxima over the oceans (Courtesy I. Szunyogh, University of Maryland.)
+with the estimated analysis uncertainty. In the Monte Carlo ensembles, the amplitudes
+are realistic but the perturbations themselves are chosen randomly, without regard to
+the “dynamics of the day”. For example, Errico and Baumhefner (1987) and Mullen
+and Baumhefner (1994) developed a Monte Carlo method that results in realistic
+perturbations compatible with the average estimated analysis error. However, by
+construction, this type of Monte Carlo forecast does not include ﬁnite-size “growing
+errors of the day” which are almost certainly present in the analysis. The experiments
+of Hollingsworth (1980), Hoffman and Kalnay (1983), and Kalnay and Toth (1996)
+suggest that random initial perturbations do not grow as fast as the real analysis
+errors, even if they are in quasi-geostrophic balance. A second class of methods which
+includes errors of the day has been developed, tested, and implemented at several
+operational centers. The ﬁrst two methods of this class implemented operationally
+are known as “breeding” and “singular vector” (or optimal perturbations) methods. In
+contrast to Monte Carlo forecasting, they are characterized by including in the initial
+perturbations growing errors that depend on the evolving underlying atmospheric
+ﬂow. Two other methods in this class that are also very promising are based on
+ensembles of data assimilations, and ensembles based on operational systems from
+different centers, combining different models and data assimilations.
+6.5.1
+Breeding
+Ensemble experiments performed at NCEP during 1991 showed that initial ensemble
+perturbations based on lagged average forecasting, scaled lagged average forecasting
+
+238
+6 Atmospheric predictability and ensemble forecasting
+and on the forecast differences between forecasts verifying at the same initial time,
+grew much faster than Monte Carlo perturbations with the same overall size and
+statistical distribution (Kalnay and Toth, 1996). It was apparent that the differences
+in the growth rate were due to the fact that the ﬁrst group included perturbations
+that, by construction, “knew” about the evolving underlying dynamics. Toth and
+Kalnay (1993, 1996, 1997) created a special operational cycle designed to “breed”
+fast growing “errors of the day” (Fig. 6.5.3(a)). Given an evolving atmospheric ﬂow
+(either a series of atmospheric analyses, or a long model run), a breeding cycle is
+started by introducing a random initial perturbation (“random seed”) with a given
+initial size (measured with any norm, such as the rms of the geopotential height or the
+kinetic energy). It should be noted that the random seed is introduced only once. The
+same nonlinear model is integrated from the control and from the perturbed initial
+conditions.Fromthenon,atﬁxedtimeintervals(e.g.,every6hoursorevery24hours),
+the control forecast is subtracted from the perturbed forecast. The difference is scaled
+down so that it has the same amplitude (deﬁned using the same arbitrary norm) as
+the initial perturbation, and then added to the corresponding new analysis or model
+state. It was found that beyond an initial transient period of 3–4 days after random
+perturbations were introduced, the perturbations generated in the breeding cycle
+(denoted bred vectors), acquired a large growth rate, faster than the growth rate
+for Monte Carlo forecasting or even scaled lagged average forecasting and forecast
+differences.
+Toth and Kalnay (1993, 1997) also found that (after the transient period of
+3–4 days) the shape or structure of the perturbation bred vectors did not depend
+on either the norm used for the rescaling or the length of the scaling period. The bred
+vectors did depend on the initial random seed in the sense that regional bred vector
+perturbations would have the same shape but different signs, and that in many areas
+two or more “competing bred vectors” appeared in cycles originated from different
+random seeds. The breeding method is a nonlinear generalization of the method used
+to construct Lyapunov vectors (performing two nonlinear integrations and obtaining
+the approximately linear perturbation from their difference). Since the bred vectors
+are related to Lyapunov vectors localized in both space and time, it is not surpris-
+ing that they share their lack of dependence on the norm or on the scaling period.
+Toth and Kalnay (1993) have argued that breeding is similar to the analysis cycle. In
+the analysis cycle (represented schematically in Fig. 6.5.3(b)) errors are evolved in
+time through the forecast used as background, and they are only partially corrected
+through the use of noisy data. Therefore, Toth and Kalnay argued that the analysis
+errors should project strongly on bred vectors. Corazza et al. (2002) compared bred
+vectors and background errors for a quasi-geostrophic model data assimilation sys-
+tem developed by Morss et al. (2001) Plate 1 shows a typical comparison, depicting
+that in fact there is a strong resemblance between the structure of the errors of the
+forecast used as a ﬁrst guess and the bred vectors valid at the same time (Corazza et al.,
+2002). Since the analysis errors are dominated by the background errors, especially
+
+6.5 Operational ensemble forecasting methods
+239
+Time
+Initial random
+perturbation
+Bred vectors ~
+LLVs
+Unperturbed control forecast
+Forecast
+values
+(a)
+Time
+True atmosphere
+Analysis and
+forecasts
+Observations with errors
+Analysis
+(b)
+Figure 6.5.3:(a) Schematic of a breeding cycle run on an unperturbed (control)
+model integration. The initial growth after introducing a random initial perturbation
+is usually very small, but with time, the perturbation is more dominated by growing
+errors. The initial transient with slow growth lasts about 3–5 days. The difference of
+the complete perturbed (dashed line) and control (full line) forecasts is scaled back
+periodically (e.g., every 6 or every 24 hours) to the initial amplitude. The rescaling is
+done by dividing all the forecast differences by the same observed growth (typically
+about 1.5/day for mid-latitudes). In operational NWP, the unperturbed model
+integration is substituted by short-range control forecasts started from consecutive
+analysis ﬁelds. The breeding cycle is a nonlinear, ﬁnite-time, ﬁnite-amplitude
+generalization of the method used to obtain the leading Lyapunov vector. (Adapted
+from Kalnay and Toth, 1996.) (b) Schematic of the 6-h analysis cycle. Indicated on
+the vertical axis are differences between the true state of the atmosphere (or its
+observational measurements, burdened with observational errors). The difference
+between the forecast and the true atmosphere (or the observations) increases with
+time in the 6-h forecast because of the presence of growing errors in the analysis.
+(Adapted from Kalnay and Toth, 1996.)
+
+240
+6 Atmospheric predictability and ensemble forecasting
+Time
+Perturbation
+Bred vectors
+Day n
+Day n+1
+Day n+2
+16-day forecasts
+x
+x
+x
+Figure 6.5.4: Schematic of a self-breeding pair of ensemble forecasts used at NCEP.
+Every day, the 1-day forecast from the negative perturbation is subtracted from the
+1-day forecast from the positive perturbation. This difference is divided by 2, and
+then scaled down (by dividing all variables by the 1-day growth), so that difference is
+of the same size as the initial perturbation. The scaled difference is then added and
+subtracted from the new analysis, generating the initial conditions for the new pair of
+forecasts. This self-breeding is part of the extended ensemble forecast system, and
+does not require computer resources to generate initial perturbations beyond running
+the ensemble forecasts. (Adapted from Toth and Kalnay, 1997.)
+when they are large, this resemblance indicates that the forecast and analysis errors
+do indeed project strongly on the bred vectors.
+Figure 6.5.4 shows a schematic of how breeding cycles are self-propagated from
+the ensemble forecasts. The bred perturbations are deﬁned every day from the dif-
+ference between the one-day positive and the negative perturbation forecasts divided
+by 2, they are scaled down by their growth during that day, and added and subtracted
+to the new analysis valid at the time. This provides the initial positive and negative
+perturbations for the ensemble forecasts at no additional cost beyond that of com-
+puting the ensemble forecasts. Separate breeding cycles differ only in the choice of
+random initial perturbations (performed only once). It has been found empirically
+that for the atmosphere the ﬁnite amplitude bred vectors do not converge to a single
+“leading bred vector” (Kalnay et al., 2002).
+Figures 6.5.5(a) and (b) show two out of ﬁve operational bred perturbations cor-
+responding to 5 March 2000 at 00UTC. Figure 6.5.5(c) presents an estimate of the
+effective local dimension of the subspace of the ﬁve perturbations using the bred vec-
+tor dimension deﬁned in Patil et al. (2001).5 Only the areas where the local dimension
+has collapsed from the original ﬁve independent directions (shapes or structure of the
+5 The local bred vector dimension is obtained as ψ(σ1, . . . , σk) =
+	
+#k
+i=1σi
+
+2/#k
+i=1σ 2
+i , where σi
+are the singular values corresponding to the k bred vectors within a region of about 106 m by
+106 m, and it deﬁnes the effective local dimensionality. For example, if four out of ﬁve bred
+vectors lie along one direction, and one lies along a second direction, the bred vector dimension
+would be ψ(
+√
+4, 1, 0, 0, 0) = 1.8, less than 2 because one direction is more dominant than the
+other in representing the original data (Patil et al., 2001).
+
+6.5 Operational ensemble forecasting methods
+241
+(a) 
+(b) 
+(c) 
+Figure 6.5.5: Examples of bred vectors (500-hPa geopotential height ﬁeld
+differences, without plotting the zero contour) from the NCEP operational ensemble
+system valid at 5 March 2000: (a) bred vector 1; (b) bred vector 5. Note that over large
+parts of the eastern Paciﬁc Ocean and western North America, the two perturbations
+have shapes that are very similar but of opposite signs and/or different amplitudes. In
+other areas the shape of the perturbations is quite different. (c) The bred-vector-local
+dimension of the ﬁve perturbations subspace (Patil et al., 2001). Only dimensions
+less than or equal to 3 are contoured with a contour interval 0.25. In these areas the
+ﬁve independent bred vectors have aligned themselves into a locally low-dimensional
+subspace with an effective dimension less than or equal to 3. (Courtesy of D. J. Patil.)
+bred vectors) to three or less are contoured. Note that these are the areas where the
+independently bred vectors aligned themselves into a smaller subspace. The collapse
+of the perturbations into fewer dimensions is what one could expect if there are locally
+growing dominant Lyapunov vectors expressing the regional dominant instability of
+the underlying atmospheric ﬂow. These low-dimensional areas are organized into
+horizontal and vertical structures and have a lifetime of 4–7 days, similar to those of
+baroclinic developments (Patil et al., 2002).
+The breeding ensemble forecasting system was introduced operationally in
+December 1992 at NCEP, with two pairs of bred vectors (Tracton and Kalnay, 1993).
+
+242
+6 Atmospheric predictability and ensemble forecasting
+In 1994, seven pairs of self-breeding cycles replaced the original four perturbed
+forecasts. In addition, a regional rescaling was introduced that allowed larger per-
+turbation amplitudes over ocean than over land proportionally to the estimate of the
+analysis uncertainty, Fig. 6.5.2 (Toth and Kalnay, 1997).
+Toth and Kalnay (1993) found that when the initial amplitude was chosen to be
+within the range of estimated analysis errors (i.e., between 1 m and 15 m for the 500-
+hPa geopotential height) the bred vectors developed faster in strong baroclinic areas.
+Their horizontal scale was that of short baroclinic waves, and their hemispherical
+average growth rate was about 1.5/day (similar to the estimated growth of analysis
+errors). However, if the initial amplitude was chosen to be much smaller than the es-
+timated analysis errors (10 cm or less), then a different type of bred vector appeared,
+associated with convective instabilities, which grew much faster than baroclinic insta-
+bilities (at a rate of more than 5/day). The faster instabilities saturated at amplitudes
+much smaller than the analysis error range (Fig. 6.5.6). Toth and Kalnay (1993)
+suggested that the use of nonlinear perturbations in breeding has the advantage of
+ﬁltering Lyapunov vectors associated with fast growing but energetically irrelevant
+instabilities, like convection. This was conﬁrmed by Lorenz (1996), who performed
+experiments with a low-order model containing large amplitude but slowly grow-
+ing modes coupled with fast growing modes with very small amplitudes. Lorenz
+found that the use of breeding using ﬁnite amplitudes yielded the Lyapunov vectors
+of the large amplitude, slowly growing vectors, as desired, whereas for very small
+Amplitude
+(% of climate
+variance)
+1
+10
+100
+1 hour
+1 day 
+1 week
+Baroclinic modes
+Convective modes
+Analysis errors
+Figure 6.5.6: Schematic of the time evolution of the rms amplitude of high-energy
+baroclinic modes and low-energy convective modes. Note that although initially
+growing much faster than the baroclinic modes, convective modes saturate at a
+substantially lower level. These modes are therefore insigniﬁcant in the
+analysis/ensemble perturbation problem, since the errors in the analysis (dashed
+line) are much larger than the convective saturation level. (Adapted from Toth and
+Kalnay, 1993.)
+
+6.5 Operational ensemble forecasting methods
+243
+amplitudes the Lyapunov vectors of the fast system were recovered. In a complex
+system like the atmosphere, with multiple-scale instabilities, using breeding may
+thus be more appropriate than using Lyapunov vectors, which, in a model including
+all atmospheric instabilities, would yield vectors associated with Brownian motion,
+which are the fastest, though clearly irrelevant, instabilities present in the system
+(Kalnay et al., 2002). The nonlinear saturation of irrelevant fast growing modes is
+an advantage that suggests the use of breeding for other problems. For example, for
+seasonal and interannual forecasting using a coupled ocean–atmosphere system, the
+slower growing (but very large energy amplitude) coupled ENSO instabilities could
+perhaps be captured, while eliminating through nonlinear saturation the irrelevant
+details of weather perturbations (Cai et al., 2002).
+Figure 1.7.2 shows two examples of one of the ways information on ensemble
+forecastsarepresentedtotheusers,the“spaghettiplots”,orplotsshowingonecontour
+line for each forecast. In one case, a 5-day forecast verifying on 15 November 1995,
+the agreement in intensity and location of the contours indicated to the forecasters
+that this was a very predictable snowstorm (see also the book cover). In the second
+case, a 2.5-day forecast verifying on 21 October 1995, the ensemble members show
+unusually strong divergence in the location of a winter storm, warning the human
+forecasters that this situation is intrinsically unpredictable. Note that although the
+ensemble forecasts show a wide divergence in the location of the storm, this is also
+a case in which, in perturbation space, there is very low dimensionality, since the
+perturbations align themselves along the same basic shape (the perturbations for the
+winter storm are a one-parameter family so that the local dimension is about 1).
+The second example shows the potential value of ensembles in a new area of
+research: targeted observations. In cases like this in which the ensemble indicates a
+region of large uncertainty in the short-term forecasts, it should be possible to ﬁnd
+the area that originated this region of uncertainty in time to launch new observations
+for the next analysis cycle, and thus decrease signiﬁcantly the forecast error. Finding
+the area where the observations should be launched can be done through several
+approaches. They are the adjoint sensitivity approach, the use of singular vectors
+(Rabier et al., 1996, Langland et al., 1999, Pu et al., 1998, and others), the use of
+the quasiinverse of the tangent linear model (Pu et al., 1998), and ensemble-based
+singular value decomposition (Bishop and Toth, 1999). These methods were tested
+during FASTEX (Jan–Feb 1997 in the Atlantic) and NORPEX (winter of 1997–1998
+in the North Atlantic (Langland et al., 1999, Pu and Kalnay, 1999)). The experience in
+the North Paciﬁc has been so successful that targeted observations are now performed
+operationally over the Gulf of Alaska every winter (Szunyogh et al., 2000).
+Plate 2 shows another example of how the massive amount of information con-
+tained in the ensemble forecast can be conveyed to the forecasters. It shows a proba-
+bilistic presentation of a 1-day and a 7-day forecast of precipitation above a threshold
+of 5 mm in 24 h. The probabilities are simply computed as a percentage of the en-
+semble members with accumulated precipitation at least as large as the indicated

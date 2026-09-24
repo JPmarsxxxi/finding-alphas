@@ -1,0 +1,284 @@
+CHAPTER8
+Dynamics of the Volatility Surface
+I
+n Chapter 7, we saw that all stochastic volatility models have essentially
+the same implications for the shape of the volatility surface. At ﬁrst it might
+seem that it would be hard to differentiate between models. That would
+certainly be the case if we were to conﬁne our attention to the shape of the
+volatility surface today. However, if instead we were to study the dynamics
+of the volatility skew—in particular, how the observed volatility skew
+depends on the overall level of volatility, we would be able to differentiate
+between models.
+DYNAMICS OF THE VOLATILITY SKEW
+UNDER STOCHASTIC VOLATILITY
+Empirical studies of the dynamics of the volatility skew show that
+∂
+∂kσ(k, t)
+is approximately independent of volatility level over time. Translating this
+into a statement about the implied variance skew, we get
+∂
+∂k σBS(k, t)2 = 2 σBS(k, t) ∂
+∂k σBS(k, t) ∼
+
+v(k, t).
+Comparing this with equation (7.11), we see that this in turn implies that
+β(v) ∼√v. Referring back to the deﬁnition of β(v) (7.1), we conclude that v
+is approximately lognormal in contrast to the square root process assumed
+by Heston. This makes intuitive sense given that we would expect volatility
+to be more volatile if the volatility level is high than if the volatility level
+itself is low.
+Does it matter whether we model variance as a square root process or
+as lognormal? In certain cases it does. After all, we are using our model
+to hedge and the hedge should approximately generate the correct payoff
+at the boundary. If the payoff that we are hedging depends (directly or
+indirectly) on the volatility skew, and our assumption is that the variance
+101
+
+102
+THE VOLATILITY SURFACE
+skew is independent of the volatility level, we could end up losing a lot of
+money if that’s not how the market actually behaves.
+Is any stochastic volatility model better than none at all? The answer
+here has to be yes because, whereas having the wrong stochastic volatility
+model will cause the hedger to generate a payoff corresponding to a skew
+that may be off by a factor of 1.5 if volatility doubles, having only a local
+volatility model will cause the hedger to generate a payoff that corresponds
+to almost no forward skew at all. We now show this.
+DYNAMICS OF THE VOLATILITY SKEW
+UNDER LOCAL VOLATILITY
+Empirically, the slope of the volatility skew decreases with time to expi-
+ration. From the above, in the case of mean-reverting stochastic volatility,
+the term structure of the BS implied variance skew will look something like
+equation (7.11). In particular, the slope of the volatility skew decays over
+time according to the time behavior of the coefﬁcient
+1
+λ′T
+
+
+1 −
+
+1 −e−λ′T
+λ′T
+
+
+
+Recall from Chapter 1 the formula (1.10) for local volatility in terms of
+implied volatility:
+vloc =
+∂w
+∂T
+1 −k
+w
+∂w
+∂k + 1
+4
+
+−1
+4 −1
+w + k2
+w
+2  ∂w
+∂k
+2 + 1
+2
+∂2w
+∂k2
+Differentiating with respect to x and considering only the leading term in
+∂w
+∂k (which is small for large T), we ﬁnd
+∂vloc
+∂k
+≈∂
+∂T
+∂w
+∂k + 1
+w
+∂w
+∂T
+∂w
+∂k
+That is, the local variance skew
+∂vloc
+∂k
+decays with the BS implied total
+variance skew ∂w
+∂k .
+To get the forward volatility surface from the local volatility surface
+in a local volatility model, we integrate over the local volatilities from
+the (forward) valuation date to the expiration of the option along the
+most probable path joining the current stock price to the strike price using
+the trick presented in Chapter 3. It is obvious that the forward implied
+
+Dynamics of the Volatility Surface
+103
+volatility surface is substantially ﬂatter than today’s because the forward
+local volatility skews are all ﬂatter.
+Contrast this with a stochastic volatility model where implied volatility
+skews are approximately time-homogeneous. In other words, local volatility
+models imply that future BS implied volatility surfaces will be ﬂat (relative
+to today’s) and stochastic volatility models imply that future BS implied
+volatility surfaces will look like today’s.
+STOCHASTIC IMPLIED VOLATILITY MODELS
+Many authors including Brace, Goldys, Klebaner, and Womersley (2001),
+Cont and da Fonseca (2002), Ledoit, Santa-Clara, and Yan (2002) and
+Sch¨onbucher (1999) have looked at models that allow the entire implied
+volatility surface to diffuse. It turns out that if the underlying price process
+is assumed continuous (with no jumps), the statics and dynamics of the
+implied volatility surface are highly constrained.
+In particular, nondiscounted option prices are risk-neutral expectations
+of future cashﬂows and as such must be martingales. Changes in the call
+price reﬂect changes in the underlying and changes in implied volatility.
+Imposing the martingale constraint
+E[dCt] = 0
+gives a tight relationship between the various sensitivities and many results
+such as equation (7.3) follow immediately from this.
+More recently, Durrleman (2005) showed how to extract the dynamics
+of instantaneous variance from the dynamics of the observed implied
+volatility surface in the limit of very short expirations and very close to
+at-the-money. Conversely, given a stochastic volatility model, he showed
+how to deduce the shape of the implied volatility surface in that same
+neighborhood. However, to get these impressive results, one has to assume
+continuity of the underlying price process but as we have seen earlier, jumps
+in the underlying are needed to explain the shape of the implied volatility
+surface. Moreover, as noted by Cont, da Fonseca, and Durrleman (2002)
+and as observed by any option trader, there appear to be jumps in the
+implied volatility surface too.
+DIGITAL OPTIONS AND DIGITAL CLIQUETS
+Applying our insights to the valuation of actual derivative contracts, we
+choose to study digital options because their valuation involves the volatility
+skew directly.
+
+104
+THE VOLATILITY SURFACE
+Valuing Digital Options
+A digital (call) option D(K, T) pays 1 if the stock price ST at expiration T is
+greater than the strike price K and zero otherwise. It may be valued as the
+limit of a call spread as the spread between the strikes is reduced to zero.
+D(K, T) = −∂C(K, T)
+∂K
+(8.1)
+where C(K, T) represents the price of a European call option with strike K
+expiring at time T.
+To see that its price is very sensitive to the volatility skew, we rewrite the
+European call price in equation (8.1) in terms of its Black-Scholes implied
+volatility σBS(K, T).
+D(K, T) = −∂
+∂KCBS (K, T, σBS(K, T))
+= −∂CBS
+∂K −∂CBS
+∂σBS
+∂σBS
+∂K
+To get an idea of the impact of the skew in practice, consider our usual
+idealized market with zero interest rate and dividends and a one-year digital
+option struck at-the-money. Suppose further that at-the-money volatility is
+25% and the volatility skew (typical of SPX for example) is 3% per 10%
+change in strike. Its value is given by
+D(1, 1) = −∂CBS
+∂K −∂CBS
+∂σBS
+∂σBS
+∂K
+= N
+
+−σ
+2
+
+−vega × skew
+= N
+
+−σ
+2
+
++
+1
+√
+2π
+e−
+d2
+1
+2 × 0.3
+≈N
+
+−σ
+2
+
++ 0.4 × 0.3
+If we had ignored the skew contribution, we would have got the price of the
+digital option wrong by 12% of notional!
+Digital Cliquets
+Here is part of a deﬁnition of the word cliquet from the Dictionary of
+Financial Risk Management (Gastineau and Kritzman 1999):
+
+Dynamics of the Volatility Surface
+105
+2001
+2002
+2003
+2004
+2005
+800
+900
+1000
+1100
+1200
+1300
+1400
+1500
+SPX Index
+FIGURE 8.1
+Illustration of a cliquet payoff. This hypothetical SPX cliquet resets
+at-the-money every year on October 31. The thick solid lines represent nonzero
+cliquet payoffs. The payoff of a 5-year European option struck at the October 31,
+2000, SPX level of 1429.40 would have been zero.
+The French like the sound of ‘‘cliquet’’ and seem prepared to
+apply the term to any remotely appropriate option structure.
+(1) Originally a periodic reset option with multiple payouts or
+a ratchet option (from vilbrequin `a cliquet—ratchet brace). Also
+called Ratchet Option . . .
+Since the word is originally French, here is an elegant deﬁnition
+of the ‘‘Effet-cliquet’’ from the French Web site http://lexique-ﬁnancier.
+actuﬁnance.fr:
+M´ecanisme qui permet de ﬁger une performance mˆeme si l’actif
+correspondant baisse par la suite.∗
+The payoff of a hypothetical cliquet contract is shown in Figure 8.1.
+For our purposes, a cliquet is just a series of options whose strikes are set
+on a sequence of future dates. In particular, a digital cliquet is a sequence of
+∗Mechanism that permits a proﬁt to be locked in even if the underlying subsequently
+declines.
+
+106
+THE VOLATILITY SURFACE
+digital options whose strikes will be set (usually) at the prevailing stock price
+on the relevant reset date. Denoting the set of reset dates by {t1, t2, . . . , tn},
+the digital cliquet pays Coupon × θ
+
+Sti −Sti−1
+
+at ti where θ(.) represents
+the Heaviside function.
+One can see immediately that the package consisting of a zero coupon
+bond together with a digital cliquet makes a very natural product for a
+risk-averse retail investor—he or she typically gets an above-market coupon
+if the underlying stock index is up for the period (usually a year) and a
+below-market coupon (usually zero) if the underlying stock index is down.
+Not surprisingly, this product was and is very popular and as a result, many
+equity derivatives dealers have digital cliquets on their books.
+From the foregoing, the price of a digital cliquet may vary very sub-
+stantially depending on the modeling assumptions made by the seller. Those
+sellers using local volatility models will certainly value a digital cliquet at
+a lower price than sellers using a stochastic volatility (or more practically,
+those guessing that the forward skew should look like today’s). Perversely
+then, those sellers using an inadequate model will almost certainly win
+the deal and end up short a portfolio of misvalued forward-starting digi-
+tal options. Or even worse, a dealer could have an appropriate valuation
+approach but be pushed internally by the salespeople to match (mistaken)
+competitors’ lower prices.
+How wrong could the price of the digital cliquet be? Consider the
+example of a (not unrealistic) ﬁve-year deal that has a 6% coupon annually
+if the underlying exceeds the prior annual setting and zero otherwise.
+Neglecting the ﬁrst coupon (because we suppose that all dealers can price a
+digital which sets today), the error could be up to 12% of the sum of the
+remaining coupons (48%) or 5.76% of Notional. A pricing error of this
+magnitude is a big multiple of the typical margin on such a trade and would
+cause the dealer a substantial loss.

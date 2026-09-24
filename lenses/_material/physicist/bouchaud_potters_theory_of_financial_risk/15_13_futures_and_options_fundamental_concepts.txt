@@ -1,0 +1,1454 @@
+13
+Futures and options: fundamental concepts
+Les personnes non averties sont sujettes `a se laisser induire en erreur.†
+(Lord Raglan, ‘Le tabou de l’inceste’, quoted by Boris Vian in L’automne `a
+P´ekin.)
+13.1 Introduction
+13.1.1 Aim of the chapter
+The aim of this chapter is to introduce the general theory of derivative pricing in a simple
+and intuitive, but rather unconventional, way. The usual presentation, which can be found
+in all the available books on the subject,‡ relies on particular models where it is possible to
+construct riskless hedging strategies, which replicate exactly the corresponding derivative
+product.§ Since the risk is strictly zero, there is no ambiguity in the price of the derivative:
+it is equal to the cost of the hedging strategy. In the general case, however, these ‘perfect’
+strategies do not exist. Not surprisingly for the layman, zero risk is the exception rather
+than the rule. Correspondingly, a suitable theory must include risk as an essential feature,
+which one would like to minimize. The following chapters thus aim at developing simple
+methods to obtain optimal strategies, residual risks, and prices of derivative products, which
+take into account in an adequate way the peculiar statistical nature of ﬁnancial markets, that
+have been described in Chapters 6, 7, 8.
+13.1.2 Strategies in uncertain conditions
+A derivative product is an asset the value of which depends on the price history of another
+asset, the ‘underlying’. The best known examples, on which the following chapters will
+focus in detail, are futures and options. For example, one could sell a contract (called a
+‘digital’ option) which pays $1 whenever the price of – say – gold exceeds some given
+value at a time T in the future, and zero otherwise. This is a derivative. Obviously, one can
+† Unwarned people may easily be fooled.
+‡ See e.g. Hull (1997), Wilmott (1998), Baxter & Rennie (1996) and Chapter 16.
+§ A hedging strategy is a trading strategy allowing one to reduce, and sometimes eliminate, the risk.
+
+13.1 Introduction
+227
+invent a great number of such contracts, with different rules – some of them will be detailed
+in Chapter 17.
+Now, the obvious question that the seller of such a derivative asks himself is: how much
+money will I make, or lose, when the contract has expired?
+Since the answer is by deﬁnition uncertain, a more precise question is: what is
+the probability distribution P(W) of the wealth balance W for the seller of the
+contract?
+The more heavily skewed towards the positive side, the better for the seller of the contract.
+The interesting point is that the seller can craft, to some extent, the distribution P(W),
+such as to reach a shape which is optimal given his risk constraints. For example, if he raises
+the price of the contract (and is still able to sell it), the distribution will obviously shift to
+the right, but without changing shape (see Fig. 13.1). Less trivially, the seller can follow
+certain trading strategies that also narrow the distribution, or reduce the weight of the left
+tail (Fig. 13.1). The optimal strategy will depend on the shape one wishes to achieve, as we
+shall illustrate in the following.
+From a general point of view, the shape of P(W) can be characterized by its different
+moments. The average of P(W) is obviously the expected gain (or loss) from selling the
+∆W
+P(∆W)
+Initial
+Shifted
+Narrowed
+Skewed
+Fig. 13.1. Chiseling distributions: Generic form of the distribution of the wealth balance P(W)
+associated to a certain ﬁnancial operation, such as writing an option. By increasing the price of the
+option, the seller can shift P(W) to the right. By hedging the option, the seller can narrow
+P(W), and sometimes even affect its skewness.
+
+228
+Futures and options: fundamental concepts
+contract. The variance of P(W) is the simplest measure of the uncertainty of the ﬁnal
+wealth of the seller, and is therefore often taken as a measure of risk. If this deﬁnition
+of risk is deemed suitable, the hedging strategy should be such that the variance of the
+wealth balance is minimum. On the other hand, one if often worried about tail events, in
+particular the left tail. In this case, measures that include the third cumulant (skewness)
+or the fourth cumulant (kurtosis) of the wealth balance could be more adapted, or criteria
+based on value-at-risk or expected shortfall (see Section 10.3.3). The main idea to remember
+is that in general, the problem of derivative pricing and hedging has no unique solution,
+because the ‘optimal shape’ of the distribution of W will very much depend on one’s
+perception of risk. The perception of risk of the buyer and the seller of the contract are in
+general different: this in fact makes the trade possible.
+In a sense, ﬁnance is the art of chiseling probability distributions. Only in very special
+cases will the solution be unique: when a perfect strategy exists, such that P(W) can be
+made inﬁnitely sharp around a certain value, in which case the risk is zero according to all
+possible deﬁnitions. In this case, the only possible price for the contract is such that the
+average of P(W) is also zero, otherwise a riskless proﬁt (called an arbitrage opportunity)
+would follow, either for the seller if the contract is overpriced, or for the buyer if the contract
+is underpriced. These special zero risk situations will appear below, in the context of futures
+contracts, or in the case of options within the Black-Scholes model.
+13.1.3 Trading strategies and efﬁcient markets
+In the previous chapters, we have insisted on the fact that if the detailed prediction of future
+market moves is probably impossible, its statistical description is a reasonable and useful
+idea,atleastasaﬁrstapproximation.Thisapproachonlyreliesonacertaindegreeofstability
+(in time) in the way markets behave and the prices evolve. A reasonable hypothesis is that
+the statistical ‘texture’ of the markets (i.e. the shape of the probability distributions) is stable
+over time, but that the parameters which ﬁx the amplitude of the ﬂuctuations can be time
+dependent – see Chapter 7 and Section 13.3.4. Let us thus assume that one can determine
+(using a statistical analysis of past time series) the probability density P(x, t|x0, t0), which
+gives the probability that the price of the asset X is equal to x (to within dx) at time t,
+knowing that at a previous time t0, the price was equal to x0. As in previous chapters, we
+shall denote as ⟨O⟩the average (over the ‘historical’ probability distribution) of a certain
+observable O:
+⟨O(x, t)⟩≡
+
+P(x, t|x0, 0)O(x, t) dx.
+(13.1)
+As we have shown in Section 6.2.2, the price ﬂuctuations are somewhat correlated for
+small time intervals (a few minutes), but become rapidly uncorrelated (but not necessarily
+independent!) on longer time scales. In the following, we shall choose as our elementary
+time scale τ an interval a few times larger than the correlation time – say τ = 30 minute
+on liquid markets. We shall thus assume that the correlations of price increments on two
+
+13.1 Introduction
+229
+different intervals of size τ are negligible.† When correlations are small, the information on
+future movements based on the study of past ﬂuctuations is weak. In this case, no systematic
+trading strategy can be more proﬁtable (on the long run) than holding the market index – of
+course, one can temporarily ‘beat’ the market through sheer luck. This property corresponds
+to the efﬁcient market hypothesis.‡
+It is interesting to translate this property into more formal terms. Let us suppose that
+at time tn = nτ, an investor has a portfolio containing, in particular, a quantity φn(xn)
+of the asset X, quantity which can depend on the price of the asset xn = x(tn) at time
+tn (this strategy could actually depend on the price of the asset for all previous times:
+φn(xn, xn−1, xn−2, . . .)). Between tn and tn+1, the price of X varies by δxn. This generates
+a proﬁt (or a loss) for the investor equal to φn(xn)δxn. Note that the change of wealth is
+not equal to δ(φx) = φδx + xδφ, since the second term only corresponds to converting
+some stocks in cash, or vice versa, but not to a real change of wealth. The wealth difference
+between time t = 0 and time tN = T = Nτ, due to the trading of asset X is, for zero interest
+rates, equal to:
+WX =
+N−1
+
+n=0
+φn(xn)δxn.
+(13.2)
+Now, we assume that price returns are random variables following a multiplicative model:
+δxk
+xk
+≡ηk = m + ϵkσk,
+(13.3)
+where ϵk are iid random variables of zero mean and unit variance, and σk corresponds to the
+local volatility of the ﬂuctuations, which can be correlated in time and also, possibly, with
+the random variables ϵ j with j < k (see Chapter 8). The point however here is that the ϵk
+are unpredictable from the knowledge of any past information. Since the trading strategy
+φn(xn) can only be chosen before the price actually changes, the absence of correlations
+means that the average value of WX (with respect to the historical probability distribution)
+reads:
+⟨WX⟩=
+N−1
+
+n=0
+⟨φn(xn)δxn⟩≡mτ
+N−1
+
+n=0
+⟨xnφn(xn)⟩,
+(13.4)
+where m is the average return of the asset X, deﬁned in (13.3).
+The above equation (13.4) thus means that the average value of the proﬁt is ﬁxed by
+the average return of the asset, weighted by the level of investment across the considered
+period.
+† The presence of small correlations on larger time scales is however difﬁcult to exclude, in particular on the scale
+of several years, which might reﬂect economic cycles for example. Note also that the ‘volatility’ ﬂuctuations
+exhibit long-range correlations – cf. Section 7.2.2.
+‡ The existence of successful systematic hedge funds, which have consistently produced returns higher than the
+average for several years, suggests that some sort of ‘hidden’ correlations do exist, at least on certain markets.
+But if they exist these correlations must be small and therefore are not relevant for our concern, at least in a ﬁrst
+approximation.
+
+230
+Futures and options: fundamental concepts
+Trading in the presence of temporal correlations
+It is interesting to investigate the case where correlations are not zero. For simplicity,
+we shall assume an additive model where the ﬂuctuations δxn are stationary Gaussian
+variables of zero mean (m1 = 0). The correlation function is then given by ⟨δxnδxk⟩≡
+Cnk. The C−1
+nk ’s are the elements of the matrix inverse of C. If one knows the sequence
+of past increments δx0, . . . , δxn−1, the distribution of the next δxn conditioned to such
+an observation is simply given by:
+P(δxn) = N exp −C−1
+nn
+2 [δxn −mn]2,
+(13.5)
+mn ≡−
+n−1
+i=0 C−1
+in δxi
+C−1
+nn
+,
+(13.6)
+where N is a normalization factor, and mn the mean of δxn conditioned to the past,
+which is non-zero precisely because some correlations are present.† A simple strategy
+which exploits these correlations is to choose:
+φn(xn, xn−1, . . .) = sign(mn),
+(13.7)
+which means that one buys (resp. sells) one stock if the expected next increment is
+positive (resp. negative). The average proﬁt is then obviously given by ⟨|mn|⟩> 0. We
+further assume that the correlations are short ranged, such that only C−1
+nn and C−1
+nn−1 are
+non-zero. The unit time interval is then the above correlation time τ. If this strategy is
+used during the time T = Nτ, the average proﬁt is given by:
+⟨WX⟩= Na⟨|δx|⟩where a ≡
+
+C−1
+nn−1
+C−1
+nn
+ ,
+(13.8)
+(a does not depend on n for a stationary process). With typical values, τ = 30 min,
+⟨|δx|⟩≈10−3 x0, and a of about 0.1 (cf. Section 6.2.2), the average proﬁt would reach
+50% annual!‡ Hence, the presence of correlations (even rather weak) allows in prin-
+ciple one to make rather substantial gains. However, one should remember that some
+transaction costs are always present in some form or other (see Section 5.3.6). Since
+our assumption is that the correlation time is equal to τ, it means that the frequency
+with which our trader has to ‘ﬂip’ his strategy (i.e. φ →−φ) is τ −1. One should thus
+subtract from Eq. (13.8) a term on the order of −Nνx0, where ν represents the frac-
+tional cost of a transaction. A very small value of the order of 10−4 is thus enough to
+cancel completely the proﬁt resulting from the observed correlations on the markets.
+Interestingly enough, the ‘basis point’ (10−4) is precisely the order of magnitude of the
+friction faced by traders with the most direct access to the markets. More generally,
+transaction costs allow the existence of correlations, and thus of ‘theoretical’ inefﬁcien-
+cies of the markets. The strength of the ‘allowed’ correlations on a certain time T is
+on the order of the transaction costs ν divided by the volatility of the asset on the scale
+of T .
+† The notation mn has already been used in Chapter 1 with a different meaning. Note also that a general formula
+exists for the distribution of δxn+k for all k ≥0, and can be found in books on optimal ﬁlter theory, see references.
+‡ A strategy that allows one to generate consistent abnormal returns with zero or minimal risk is called an arbitrage
+opportunity.
+
+13.2 Futures and forwards
+231
+At this stage, it would appear that devising a ‘theory’ for trading is useless: in the absence
+of correlations, speculating on stock markets is tantamount to playing the roulette (the zero
+playing the role of transaction costs!). In fact, as will be discussed in the present chapter, the
+existence of riskless assets such as bonds, which yield a known return, and the emergence
+of more complex ﬁnancial products such as futures contracts or options, demand an adapted
+theory for pricing and hedging. This theory turns out to be predictive, even in the complete
+absence of temporal correlations.
+13.2 Futures and forwards
+13.2.1 Setting the stage
+Before turning to the rather complex case of options, we shall ﬁrst focus on the very simple
+case of forward contracts, which allows us to deﬁne a certain number of notions (such as
+arbitrage and hedging) and notations. A forward, or futures contract F amounts to buying
+or selling today an asset X (the ‘underlying’) with payment and delivery at a date T = Nτ
+in the future (see Section 5.2.6). What is the price F of this contract, knowing that it must
+be paid at the date of expiry?† The naive answer that ﬁrst comes to mind is a ‘fair game’
+condition: the price must be adjusted such that, on average, the two parties involved in the
+contract fall even on the day of expiry. For example, taking the point of view of the writer
+of the contract (who sells the forward), the wealth balance associated with the forward
+reads:
+WF = F −x(T ).
+(13.9)
+This actually assumes that the writer has not considered the possibility of simultaneously
+trading the underlying stock X to reduce his risk, which of course he should do, see
+below.
+Under this assumption, the fair game condition amounts to set ⟨WF⟩= 0, which gives
+for the forward price:
+FB = ⟨x(T )⟩≡
+
+x P(x, T |x0, 0) dx,
+(13.10)
+if the price of X is x0 at time t = 0. This price, that can we shall call the ‘Bachelier’ price,
+is not satisfactory since the seller takes the risk that the price at expiry x(T ) ends up far
+above ⟨x(T )⟩, which could prompt him to increase his price above FB.
+Actually, the Bachelier price FB is not related to the market price for a simple reason: the
+seller of the contract can suppress his risk completely if he buys now the underlying asset
+X at price x0 and waits for the expiry date. However, this strategy is costly: the amount
+of cash frozen during that period does not yield the riskless interest rate. The cost of the
+strategy is thus x0erT , where r is the interest rate per unit time. From the view point of the
+buyer, it would certainly be absurd to pay more than x0erT , which is the cost of borrowing
+† Note that if the contract was to be paid now, its price would be exactly equal to that of the underlying asset
+(barring the risk of delivery default and neglecting cost and beneﬁts of ownership such as dividends).
+
+232
+Futures and options: fundamental concepts
+the cash needed to pay the asset right away. The only viable price for the forward contract is
+thus F = x0erT ̸= FB, and is, in this particular case, completely unrelated to the potential
+moves of the asset X!
+An elementary argument thus allows one to know the price of the forward contract and to
+follow a perfect hedging strategy: buy a quantity φ = 1 of the underlying asset during the
+whole life of the contract. The aim of next paragraph is to establish this rather trivial result,
+which has not required any maths, in a much more sophisticated way. The importance of
+this procedure is that one needs to learn how to write down a proper wealth balance in order
+to price more complex derivative products such as options, on which we shall focus in the
+next sections.
+13.2.2 Global ﬁnancial balance
+Let us write a general ﬁnancial balance which takes into account the trading strategy of the
+the underlying asset X. The difﬁculty lies in the fact that the amount φnxn which is invested
+in the asset X rather than in bonds is effectively costly: one ‘misses’ the risk-free interest
+rate. Furthermore, this loss cumulates in time. It is not a priori obvious how to write down
+the correct balance. Suppose that only two assets have to be considered: the risky asset X,
+and a bond B. The whole capital Wn at time tn = nτ is shared between these two assets:
+Wn ≡φnxn + Bn.
+(13.11)
+The time evolution of Wn is due both to the change of price of the asset X, and to the fact
+that the bond yields a known return through the interest rate r:
+Wn+1 −Wn = φn(xn+1 −xn) + Bnρ,
+ρ = rτ.
+(13.12)
+On the other hand, the amount of capital in bonds evolves both mechanically, through the
+effect of the interest rate (+Bnρ), but also because the quantity of stock does change in
+time (φn →φn+1), and causes a ﬂow of money from bonds to stock or vice versa. Hence:
+Bn+1 −Bn = Bnρ −xn+1(φn+1 −φn).
+(13.13)
+Note that Eq. (13.11) is obviously compatible with the following two equations. The solution
+of the second equation reads:
+Bn = (1 + ρ)n B0 −
+n
+
+k=1
+xk(φk −φk−1)(1 + ρ)n−k.
+(13.14)
+Plugging this result in Eq. (13.11), and renaming k −1 →k in the second part of the sum,
+one ﬁnally ends up with the following central result for Wn:
+
+13.2 Futures and forwards
+233
+Wn = W0(1 + ρ)n +
+n−1
+
+k=0
+ψn
+k (xk+1 −xk −ρxk),
+(13.15)
+with ψn
+k ≡φk(1 + ρ)n−k−1.
+This last expression has an intuitive meaning: the gain or loss incurred between time k
+and k + 1 must include the cost of the hedging strategy −ρxk; furthermore, this gain or
+loss must be forwarded up to time n through interest rate effects, hence the extra factor
+(1 + ρ)n−k−1. Another useful way to write and understand Eq. (13.15) is to introduce the
+discounted prices ˜xk ≡xk(1 + ρ)−k. One then has:
+Wn = (1 + ρ)n
+
+W0 +
+n−1
+
+k=0
+φk(˜xk+1 −˜xk)
+
+.
+(13.16)
+The effect of interest rates can be thought of as an erosion of the value of the money itself.
+The discounted prices ˜xk are therefore the ‘true’ prices, and the difference ˜xk+1 −˜xk the
+‘true’ change of wealth. The overall factor (1 + ρ)n then converts this true wealth into the
+current value of the money.
+The global balance associated with the forward contract contains two further terms: the
+price of the forward F that one wishes to determine, and the price of the underlying asset
+at the delivery date. Hence, ﬁnally:
+WN = F −xN + (1 + ρ)N
+
+W0 +
+N−1
+
+k=0
+φk(˜xk+1 −˜xk)
+
+.
+(13.17)
+Since by identity ˜xN = N−1
+k=0 (˜xk+1 −˜xk) + x0, this last expression can also be written as:
+WN = F + (1 + ρ)N
+
+W0 −x0 +
+N−1
+
+k=0
+(φk −1)(˜xk+1 −˜xk)
+
+.
+(13.18)
+13.2.3 Riskless hedge
+In this last formula, all the randomness, the uncertainty on the future evolution of the prices,
+only appears in the last term. But if one chooses φk to be identically equal to one, then the
+global balance is completely independent of the evolution of the stock price. The ﬁnal result
+is not random, and reads:
+WN = F + (1 + ρ)N(W0 −x0).
+(13.19)
+Now, the wealth of the writer of the forward contract at time T = Nτ cannot be, with
+certitude, greater (or less) than the one he would have had if the contract had not been
+signed, i.e. W0(1 + ρ)N. If this was the case, one of the two parties would be losing money
+in a totally predictable fashion (since Eq. (13.19) does not contain any unknown term).
+
+234
+Futures and options: fundamental concepts
+Since any reasonable participant is reluctant to give away his money with no hope of return,
+one concludes that the forward price is indeed given by:
+F = x0(1 + ρ)N ≈x0erT ̸= FB,
+(13.20)
+which does not rely on any statistical information on the price of X!
+Dividends
+In the case of a stock that pays a constant dividend rate δ = dτ per interval of time τ,
+the global wealth balance is obviously changed into:
+WN = F −xN + W0(1 + ρ)N +
+N−1
+
+k=0
+ψ N
+k (xk+1 −xk + (δ −ρ)xk).
+(13.21)
+It is easy to redo the above calculations in this case. One ﬁnds that the riskless strategy
+is now to hold:
+φk ≡(1 + ρ −δ)N−k−1
+(1 + ρ)N−k−1
+(13.22)
+stocks. The wealth balance breaks even if the price of the forward is set to:
+F = x0(1 + ρ −δ)N ≈x0e(r−d)T ,
+(13.23)
+which again could have been obtained using a simple no arbitrage argument of the type
+presented below.
+Variable interest rates
+In reality, the interest rate is not constant in time but rather also varies randomly. More
+precisely, as explained in Chapter 19, at any instant of time the whole interest rate curve
+for different maturities is known, but evolves with time. The generalization of the global
+balance, as given by formula Eq. (13.17), depends on the maturity of the bonds included
+in the portfolio, and thus on the whole interest rate curve. Assuming that only short-term
+bonds are included, yielding the (time-dependent) ‘spot’ rate ρk, one has:
+WN = F −xN + W0
+N−1
+
+k=0
+(1 + ρk)
++
+N−1
+
+k=0
+ψ N
+k (xk+1 −xk −ρkxk),
+(13.24)
+with: ψ N
+k ≡φk
+N−1
+ℓ=k+1(1 + ρℓ). It is again quite obvious that holding a quantity φk ≡1
+of the underlying asset leads to zero risk in the sense that the ﬂuctuations of X disappear.
+However,theabovestrategyisnotimmunetointerestraterisk.Theinterestingcomplexity
+of interest rate problems (such as the pricing and hedging of interest rate derivatives)
+comes from the fact that one may choose bonds of arbitrary maturity to construct the
+
+13.2 Futures and forwards
+235
+hedging strategy. In the present case, one may take a bond of maturity equal to that of
+the forward. In this case, risk disappears entirely, and the price of the forward reads:
+F =
+x0
+B(0, T ),
+(13.25)
+where B(0, T ) stands for the value, at time 0, of the bond maturing at time T = Nτ.
+13.2.4 Conclusion: global balance and arbitrage
+From the simple example of forward contracts, one should bear in mind the following
+points, which are the key concepts underlying the derivative pricing theory as presented
+in this book. After writing down the complete ﬁnancial balance, taking into account the
+trading of all assets used to cover the risk, it is quite natural (at least from the view point
+of the writer of the contract) to determine the trading strategy for all the hedging assets
+so as to minimize the risk associated to the contract (see the discussion in Section 13.1.2).
+After doing so, a reference price is obtained by demanding that the global balance is
+zero on average, corresponding to a fair price from the point of view of both parties. In
+certain cases (such as the forward contracts described above), the minimum risk is zero
+and the true market price cannot differ from the fair price, or else arbitrage would be
+possible. On the example of forward contracts, the price, Eq. (13.20), indeed corresponds
+to the absence of arbitrage opportunities (AAO), that is, of riskless proﬁt. Suppose for
+example that the price of the forward is below F = x0(1 + ρ)N. One can then sell the
+underlying asset now at price x0 and simultaneously buy the forward at a price F′ < F,
+that must be paid for on the delivery date. The cash x0 is used to buy bonds with a yield
+rate ρ. On the expiry date, the forward contract is used to buy back the stock and close
+the position. The wealth of the trader is then x0(1 + ρ)N −F′, which is positive under
+our assumption – and furthermore fully determined at time zero: there is proﬁt, but no risk.
+Similarly, a price F′ > F would also lead to an opportunity of arbitrage. More generally,
+if the hedging strategy is perfect, this means that the ﬁnal wealth is known in advance.
+Thus, increasing the price as compared to the fair price leads to a riskless proﬁt for the
+seller of the contract, and vice versa. This AAO principle is at the heart of most derivative
+pricing theories currently used. Unfortunately, this principle cannot be used in the general
+case, where the minimal risk is non-zero, or when transaction costs are present (and absorb
+the potential proﬁt, see the discussion in Section 13.1.3 above). When the risk is non-
+zero, there exists a fundamental ambiguity in the price, since one should expect that a risk
+premium is added to the fair price (for example, as a bid-ask spread). This risk premium
+depends both on the risk-averseness of the market maker, but also on the liquidity of
+the derivative market: if the price asked by one market maker is too high, less greedy
+market makers will make the deal. However, this mechanism does not operate for ‘over-
+the-counter’ operations (OTC, that is between two individual parties, as opposed to through
+an organized market). We shall come back to this important discussion in Section 15.4.1
+below.
+
+236
+Futures and options: fundamental concepts
+Let us emphasize that the proper accounting of all ﬁnancial elements in the wealth
+balance is crucial to obtain the correct fair price.
+For example, we have seen above that if one forgets the term corresponding to the
+trading of the underlying stock, one ends up with the intuitive, but wrong, Bachelier price,
+Eq. (13.10).
+13.3 Options: deﬁnition and valuation
+13.3.1 Setting the stage
+As mentioned in Section 5.2.6, a buy option (or ‘call’ option) is an insurance policy, protect-
+ing the owner against the potential increase of the price of a given asset, which he will need
+to buy in the future. The call option provides to its owner the certainty of not paying the
+asset more than a certain price. Symmetrically, a ‘put’ option protects against drawdowns,
+by insuring to the owner a minimum value for his stock.
+More precisely, in the case of a so-called ‘European’ option,† the contract is such that at
+a given date in the future (the ‘expiry date’ or ‘maturity’) t = T , the owner of the option
+will not pay the asset more than xs (the ‘exercise price’, or ‘strike’ price). Knowing that the
+price of the underlying asset is x0 now (i.e. at t = 0), what is the price (or ‘premium’) C of
+the call? What is the optimal hedging strategy that the writer of the option should follow in
+order to minimize his risk?
+The very ﬁrst scientiﬁc theory of option pricing dates back to Bachelier in 1900. His
+proposal was, following a fair game argument, that the option price should equal the av-
+erage value of the pay-off of the contract at expiry. Bachelier calculated this average by
+assuming the price increments δxn to be independent Gaussian random variables, which
+leads to the formula, Eq. (13.43) below. However, Bachelier did not discuss the possibility
+of hedging, and therefore did not include in his wealth balance the term corresponding to
+the trading strategy that we have discussed in the previous section. As we have seen, this
+is precisely the term responsible for the difference between the forward ‘Bachelier price’
+FB (cf. Eq. (13.10)) and the true price, Eq. (13.20). The problem of the optimal trading
+strategy must thus, in principle, be solved before one can ﬁx the price of the option.‡ This
+is the problem that was solved by Black and Scholes in 1973, when they showed that for a
+continuous-time Gaussian process, there exists a perfect strategy, in the sense that the risk
+associated to writing an option is strictly zero, as is the case for forward contracts. The
+determination of this perfect hedging strategy allows one to ﬁx completely the price of the
+option using an AAO argument. Unfortunately, as repeatedly discussed below, this ideal
+† Many other types of options exist: ‘American’, ‘Asian’, ‘Lookback’, ‘Digitals’, etc. (Nelken (1996)). We will
+discuss some of them in Chapter 17.
+‡ In practice, however, the inﬂuence of the trading strategy on the price (but not on the risk!) is quite small, see
+below.
+
+13.3 Options: deﬁnition and valuation
+237
+strategy only exists in a continuous-time, Gaussian world,† that is, if the market correlation
+time was inﬁnitely short, and if no discontinuities in the market price were allowed – both
+assumptions rather remote from reality. The hedging strategy cannot, in general, be perfect.
+However, an optimal hedging strategy can always be found, for which the risk is minimal
+(cf. Section 14.2). This optimal strategy thus allows one to calculate the fair price of the
+option and the associated residual risk. One should nevertheless bear in mind that, as empha-
+sized in Sections 13.2.4 and 14.6, there is no such thing as a unique option price whenever
+the risk is non-zero.
+Let us now discuss these ideas more precisely. Following the method and notations
+introduced in the previous section, we write the global wealth balance for the writer of an
+option between time t = 0 and t = T as:
+WN = [W0 + C](1 + ρ)N −max(xN −xs, 0)
++
+N−1
+
+k=0
+ψ N
+k (xk+1 −xk −ρxk),
+(13.26)
+which reﬂects the fact that:
+r The premium C is paid immediately (i.e. at time t = 0).
+r The writer of the option incurs a loss xN −xs only if the option is exercised (xN > xs).
+r The hedging strategy requires that the writer convert a certain amount of bonds into the
+underlying asset, as was discussed before Eq. (13.17).
+A crucial difference with forward contracts comes from the non-linear nature of the
+pay-off, which is equal, in the case of a European option, to Y(xN) ≡max(xN −xs, 0).
+This must be contrasted with the forward pay-off, which is linear (and equal to xN). It is
+ultimately the non-linearity of the pay-off which, combined with the non-Gaussian nature
+of the ﬂuctuations, leads to a non-zero residual risk.
+An equation for the call price C is obtained by requiring that the excess return due to
+writing the option, W = WN −W0(1 + ρ)N, is zero on average:
+(1 + ρ)NC =
+	
+⟨max(xN −xs, 0)⟩−
+N−1
+
+k=0
+⟨ψ N
+k (xk+1 −xk −ρxk)⟩
+
+.
+(13.27)
+This price therefore depends, in principle, on the strategy ψ N
+k = φN
+k (1 + ρ)N−k−1. This
+price corresponds to the fair price, to which a risk premium will in general be added (for
+example in the form of a bid-ask spread).
+In the rather common case where the underlying asset is not a stock but a forward on
+the stock, the hedging strategy is less costly since only a small fraction f of the value of
+the stock is required as a deposit. In the case where f = 0, the wealth balance appears to
+† A property also shared by a discrete binomial evolution of prices, where at each time step, the price increment
+δx can only take two values, see Chapter 16. However, the risk is non-zero as soon as the number of possible
+price changes exceeds two.
+
+238
+Futures and options: fundamental concepts
+take a simpler form, since the interest rate is not lost while trading the underlying forward
+contract:
+C = (1 + ρ)−N
+	
+⟨max(FN −xs, 0)⟩−
+N−1
+
+k=0
+⟨φk(Fk+1 −Fk)⟩
+
+.
+(13.28)
+However, one can check that if one expresses the price of the forward in terms of the
+underlying stock, Eqs. (13.27) and (13.28) are actually identical. (Note in particular that
+FN = xN.)
+13.3.2 Orders of magnitude
+Let us suppose that the maturity of the option is such that non-Gaussian ‘tail’ effects can
+be neglected (this might in some cases correspond to quite long time scales), so that the
+distribution of the terminal price x(T ) can be approximated by a Gaussian of mean mT and
+variance DT = σ 2x2
+0T .† If the average trend is small compared to the RMS
+√
+DT , a direct
+calculation for ‘at-the-money’ options gives:‡
+⟨max(x(T ) −xs, 0)⟩=
+ ∞
+xs
+x −xs
+√
+2π DT
+exp
+
+−(x −x0 −mT )2
+2DT
+
+dx
+≃
+
+DT
+2π + mT
+2
++ O
+
+m4T 3
+D
+
+.
+(13.29)
+Taking T = 100 days, a daily volatility of σ = 1%, an annual return of m = 5%, and a
+stock such that x0 = 100 points, one gets:
+
+DT
+2π ≈4 points
+mT
+2
+≈0.67 points.
+(13.30)
+In fact, the effect of a non-zero average return of the stock is much less than the above
+estimation would suggest. The reason is that one must also take into account the last term of
+the balance equation, Eq. (13.27), which comes from the hedging strategy. This term corrects
+thepricebyanamount−⟨φ⟩mT .Now,asweshallseelater,theoptimalstrategyforanat-the-
+money option is to hold, on average ⟨φ⟩= 1
+2 stock per option. Hence, this term precisely
+compensates the increase (equal to mT/2) of the average pay-off, ⟨max(x(T ) −xs, 0)⟩. This
+strange compensation is actually exact in the Black–Scholes model (where the price of the
+option turns out to be completely independent of the value of m) but only approximate in
+more general cases. However, it is a very good ﬁrst approximation to neglect the dependence
+of the option price in the average return of the stock: we shall come back to this important
+point in detail in Section 15.1.
+The interest rate appears in two different places in the balance equation, Eq. (13.27): in
+front of the call premium C, and in the cost of the trading strategy. For ρ = rτ corresponding
+† We again neglect the difference between Gaussian and log-normal statistics in the following order of magnitude
+estimate.
+‡ A call option is called at-the-money if the strike price is equal to the current price of the underlying stock
+(xs = x0), out-of-the-money if xs > x0 and in-the-money if xs < x0.
+
+13.3 Options: deﬁnition and valuation
+239
+to 5% per year, the factor (1 + ρ)N corrects the option price by a very small amount, which,
+for T = 100 days, is equal to 0.06 points. However, the cost of the trading strategy is
+not negligible. Its order of magnitude is ∼⟨φ⟩x0rT ; in the above numerical example, it
+corresponds to a price increase of 2
+3 of a point (16% of the option price), see Section 17.1.
+13.3.3 Quantitative analysis – option price
+We shall assume in the following that the price increments can be written as in Eq. (13.3):
+xk+1 −xk = ρxk + δxk,
+(13.31)
+with δxk = σkϵkxk. The above order of magnitude estimate suggests that the inﬂuence of
+a non-zero mean value of δxk leads to small corrections in comparison with the potential
+ﬂuctuations of the stock price. We shall thus temporarily set ⟨ϵk⟩= 0 to simplify the fol-
+lowing discussion, and come back to the corrections brought about by a non-zero value of
+the average return in Chapter 15.
+As already discussed above, the hedging strategy ψk must obviously be determined
+before the next random change of price δxk. Since ϵk is assumed to be independent of all
+past information, one has:
+⟨ψkδxk⟩= ⟨ψkσkxk⟩⟨ϵk⟩= 0
+(⟨ϵk⟩= 0).
+(13.32)
+In this case, the hedging strategy disappears from the price of the option, which is given
+by the following ‘Bachelier’-like formula, generalized to the case where the increments are
+not necessarily Gaussian:
+C = (1 + ρ)−N⟨max(xN −xs, 0)⟩
+≡(1 + ρ)−N
+ ∞
+xs
+(x −xs)P(x, N|x0, 0) dx.
+(13.33)
+In order to use Eq. (13.33) concretely, one needs to specify a model for price increments.
+The Black-Scholes model
+We ﬁrst recover the classical model of Black and Scholes, by assuming that the relative
+returns ηk = δxk/xk are iid random variables with a constant volatility σk = σ1. If one knows
+(from empirical observation) the distribution P1(ηk) of returns over the elementary time
+scale τ, one can easily reconstruct (using the independence of the returns) the distribution
+P(x, N|x0, 0) needed to compute C. After changing variables to x →x0(1 + ρ)Ney, the
+formula, Eq. (13.33), is transformed into:
+C = x0
+ ∞
+ys
+(ey −eys)PN(y) dy,
+(13.34)
+where ys ≡log(xs/x0[1 + ρ]N) and PN(y) ≡P(y, N|0, 0). Note that ys involves the ratio
+ofthestrikepricetotheforwardpriceoftheunderlyingasset, x0[1 + ρ]N –seethediscussion
+in Section 17.1.
+
+240
+Futures and options: fundamental concepts
+Setting xk = x0(1 + ρ)keyk, the evolution of the yk’s is given by:
+yk+1 −yk ≃
+ηk
+1 + ρ −η2
+k
+2
+y0 = 0,
+(13.35)
+where third-order terms (η3, η2ρ, . . .) have been neglected. The distribution of the quantity
+yN = N−1
+k=0 [(ηk/(1 + ρ)) −(η2
+k/2)] is then obtained, in Fourier space, as:
+ˆP N(z) = [ ˜P1(z)]N,
+(13.36)
+where we have deﬁned, in the right-hand side, a modiﬁed Fourier transform:
+˜P1(z) =
+
+P1(η) exp
+
+iz
+
+η
+1 + ρ −η2
+2
+
+dη.
+(13.37)
+The Black and Scholes limit
+We can now examine the Black–Scholes limit, where P1(η) is a Gaussian of zero mean and
+RMS equal to σ1 = σ√τ. Using the above Eqs. (13.36) and (13.37) one ﬁnds, for N large:†
+PN(y) =
+1
+
+2π Nσ 2
+1
+exp
+
+−
+
+y + Nσ 2
+1 /2
+2
+2Nσ 2
+1
+
+.
+(13.38)
+The Black–Scholes model also corresponds to the limit where the elementary time interval
+τ goes to zero, in which case one has N = T/τ →∞. This limit is of course not realistic
+since any transaction takes at least a few seconds and, more signiﬁcantly, that some correla-
+tions are seen to persist over at least several minutes. Notwithstanding, if one takes the math-
+ematical limit where τ →0, with N = T/τ →∞but keeping the product Nσ 2
+1 = T σ 2
+ﬁnite, one constructs the continuous-time log-normal process, or ‘geometrical Brownian
+motion’. In this limit, using the above form for PN(y) and (1 + ρ)N →erT , one obtains the
+celebrated Black–Scholes formula:
+CBS(x0, xs, T ) = x0
+ ∞
+ys
+(ey −eys)
+√
+2πσ 2T
+exp
+
+−(y + σ 2T/2)2
+2σ 2T
+
+dy
+= x0PG>
+ y−
+σ
+√
+T
+
+−xse−rT PG>
+ y+
+σ
+√
+T
+
+,
+(13.39)
+where ys = log(xs/x0) −rT , y± = log(xs/x0) −rT ± σ 2T/2 and PG>(u) is the cumula-
+tive normal distribution deﬁned by Eq. (2.36). The way CBS varies with the four parameters
+x0, xs, T and σ is quite intuitive, and discussed at length in all the books which deal with
+options. The derivatives of the price with respect to these parameters are now called the
+† In fact, the variance of PN(y) is equal to Nσ 2
+1 /(1 + ρ)2, but we neglect this small correction which disappears
+in the limit τ →0.
+
+13.3 Options: deﬁnition and valuation
+241
+Greeks, because they are denoted by Greek letters (see Section 16.1.6 below). For example,
+the larger the price of the stock x0, the more probable it is to reach the strike price at expiry,
+and the more expensive the option. Hence the so-called ‘Delta’ of the option ( = ∂C/∂x0)
+is positive. As we shall show below, this quantity is actually directly related to the optimal
+hedging strategy. The variation of the hedging strategy  with the price of the underlying is
+noted  (Gamma) and is deﬁned as:  = ∂/∂x0. Similarly, the dependence in maturity
+T and volatility σ (which in fact only appear through the combination σ
+√
+T if rT is very
+small) leads to the deﬁnition of two further ‘Greeks’: Theta  = −∂C/∂T = ∂C/∂t < 0
+and ‘Vega’ V = ∂C/∂σ > 0. In this limit, V = −2T/σ. The signs reﬂect the fact that if
+the call premium is an increasing function of the volatility on the scale of the maturity of
+the option, σ
+√
+T .
+Bachelier’s Gaussian limit
+Suppose now that the price process is additive rather than multiplicative. This means that
+the increments δxk themselves, rather than the relative increments, should be considered as
+independent random variables. (In other words, we consider as case where σkxk in Eq. (13.3)
+is a constant.) Using the change of variable xk = (1 + ρ)k ˜xk in Eq. (13.31), one ﬁnds that
+xN can be written as:
+xN = x0(1 + ρ)N +
+N−1
+
+k=0
+δxk(1 + ρ)N−k−1.
+(13.40)
+When N islarge,thedifference xN −x0(1 + ρ)N becomes,accordingtotheCLT,aGaussian
+variable of mean zero (if the ϵk have zero mean) and of variance equal to:
+c2(T ) = Dτ
+N−1
+
+ℓ=0
+(1 + ρ)2ℓ≃DT [1 + ρ(N −1) + O(ρ2N 2)]
+(13.41)
+where Dτ is the variance of the individual increments, related to the volatility through:
+D ≡σ 2x2
+0. The price, Eq. (13.33), then takes the following form:
+CG(x0, xs, T ) = e−rT
+ ∞
+xs
+x −xs
+√2πc2(T ) exp
+
+−(x −x0erT )2
+2c2(T )
+
+dx.
+(13.42)
+The price formula written down by Bachelier corresponds to the limit of short maturity
+options, where all interest rate effects can be neglected. In this limit, the above equation
+simpliﬁes to:
+CG(x0, xs, T ) ≃
+ ∞
+xs
+x −xs
+√
+2π DT
+exp
+
+−(x −x0)2
+2DT
+
+dx.
+(13.43)
+This equation can also be derived directly from the Black–Scholes price, Eq. (13.39), in the
+small maturity limit, where relative price variations are small: xN/x0 −1 ≪1, allowing
+one to write y = log(x/x0) ≃(x −x0)/x0. As emphasized in Section 1.7, this is the limit
+where the Gaussian and log-normal distributions become very similar.
+
+242
+Futures and options: fundamental concepts
+80
+90
+100
+110
+120
+xs
+0
+5
+10
+15
+20
+25
+CG
+CG
+x0-xs
+80
+90
+100
+110
+120
+xs
+-0.4
+-0.3
+-0.2
+-0.1
+0.0
+(CG-CBS)/CG
+Fig. 13.2. Price of a call of maturity T = 100 days as a function of the strike price xs, in the
+Bachelier model. The underlying stock is worth 100, and the daily volatility is 1%. The interest rate
+is taken to be zero. Inset: relative difference between the the log-normal, Black–Scholes price CBS
+and the Gaussian, Bachelier price (CG), for the same values of the parameters.
+The dependence of CG(x0, xs, T ) as a function of xs is shown in Figure 13.2, where the
+numerical value of the relative difference between the Black–Scholes and Bachelier price
+is also plotted.
+In a more general additive model, when N is ﬁnite, one can reconstruct the full distribution
+P(x, N|x0, 0) from the elementary distribution P1(δx) using the convolution rule (slightly
+modiﬁed to take into account the extra factors (1 + ρ)N−k−1 in Eq. (13.40)). When N
+is large, the Gaussian approximation P(x, N|x0, 0) = PG(x, N|x0(1 + ρ)N, 0) becomes
+accurate, according to the CLT discussed in Chapter 2.
+As far as interest rate effects are concerned, it is interesting to note that both formulae,
+Eqs. (13.39) and (13.42), can be written as e−rT times a function of x0erT , that is of the
+forward price F0. This is quite natural, since an option on a stock and on a forward must
+have the same price, since they have the same pay-off at expiry. As will be discussed in
+Section 17.1, this is a rather general property, not related to any particular model for price
+ﬂuctuations.
+13.3.4 Real option prices, volatility smile and ‘implied’ kurtosis
+Stationary distributions and the smile curve
+We shall now come back to the case where the distribution of the price increments δxk is
+arbitrary, for example a truncated Levy distribution, or a Student distribution. For simplicity,
+we set the interest rate ρ to zero (a non-zero interest rate can readily be taken into account
+
+13.3 Options: deﬁnition and valuation
+243
+-10
+-5
+0
+5
+10
+xs-x0
+10
+15
+20
+25
+30
+Σ(xs,T)
+Fig. 13.3. ‘Implied volatility’  as used by the market to account for non-Gaussian effects. The
+larger the difference between xs and x0, the larger the value of : the curve has the shape of a smile.
+The function plotted here is a simple parabola, which is obtained theoretically by including the
+effect of a non-zero kurtosis κ1, but a zero skewness, of the elementary price increments. Note that
+for at-the-money options (xs = x0), the implied volatility is smaller than the true volatility.
+by discounting the price of the call on the forward contract), and assume that the maturity
+is such that an additive model for price changes is suitable. The price difference is then
+the sum of N = T/τ iid random variables, to which the discussion of the CLT presented
+in Chapter 2 applies directly. For large N, the terminal price distribution P(x, N|x0, 0)
+becomes Gaussian, while for N ﬁnite, ‘fat tail’ effects are important and the deviations
+from the CLT are noticeable. In particular, short maturity options or out-of-the-money
+options, or options on very ‘jagged’ assets, are not adequately priced by the Black–Scholes
+formula.
+In practice, the market corrects for this difference empirically, by introducing in the
+Black–Scholes formula an ad hoc ‘implied’ volatility , different from the ‘true’, historical
+volatility of the underlying asset. Furthermore, the value of the implied volatility needed
+to price options of different strike prices xs and/or maturities T properly is not constant,
+but rather depends both on T and xs. This deﬁnes a ‘volatility surface’ (xs, T ). It is
+usually observed that the larger the difference between xs and x0, the larger the implied
+volatility: this is the so-called ‘smile effect’ (Fig. 13.3). On the other hand, the longer the
+maturity T , the better the Gaussian approximation; the smile thus tends to ﬂatten out with
+maturity.
+It is important to understand how traders on option markets use the Black–Scholes for-
+mula. Rather than viewing it as a predictive theory for option prices given an observed
+(historical) volatility, the Black–Scholes formula allows the trader to translate back and
+forth between market prices (driven by supply and demand) and an abstract parameter
+called the implied volatility. In itself this transformation (between prices and volatilities)
+does not add any new information. However, this approach is useful in practice, since the
+implied volatility varies much less than option prices themselves as a function of maturity
+and moneyness. The Black–Scholes formula is thus viewed as a zero-th order approxima-
+tion that takes into account the gross features of option prices, the traders then correcting for
+
+244
+Futures and options: fundamental concepts
+other effects by adjusting the implied volatility. This view is quite common in experimental
+sciences where an a priori constant parameter of an approximate theory is made into a
+varying effective parameter to describe more subtle effects.
+However, the use of the Black–Scholes formula (which assumes a constant volatility)
+with an ad hoc variable volatility is not very satisfactory from a theoretical point of view.
+Furthermore, this practice requires the manipulation of a whole volatility surface (xs, T ),
+which can deform in time – this is not particularly convenient.
+A simple cumulant expansion allows one to understand the origin and the shape of the
+volatility smile.† Let us assume that the maturity T = Nτ is sufﬁciently large so that only
+the skewness and kurtosis of P1(δx) must be taken into account to measure the difference
+with a Gaussian distribution. As shown below, the formula Eq. (13.34) reads, when the
+skewness is zero:
+Cκ(x0, xs, T ) = κ1τ
+24T
+
+DT
+2π exp
+
+−(xs −x0)2
+2DT
+ (xs −x0)2
+DT
+−1
+
+,
+(13.44)
+where D ≡σ 2x2
+0 and Cκ = Cκ −Cκ=0.
+One can indeed transform the formula
+C =
+ ∞
+xs
+(x′ −xs)P(x′, T |x0, 0) dx′,
+(13.45)
+through an integration by parts
+C =
+ ∞
+xs
+P>(x′, T |x0, 0) dx′.
+(13.46)
+After changing variables x′ →x′ −x0, and using Eq. (2.37) of Section 2.3.3, one gets:
+C = CG +
+√
+DT
+√
+N
+ ∞
+us
+1
+√
+2π
+Q1(u)e−u2/2 du
++
+√
+DT
+N
+ ∞
+us
+1
+√
+2π
+Q2(u)e−u2/2 du + · · ·
+(13.47)
+where us ≡(xs −x0)/
+√
+DT . Now, noticing that:
+Q1(u)e−u2/2 = λ3
+6
+d2
+du2 e−u2/2,
+(13.48)
+and
+Q2(u)e−u2/2 = −λ4
+24
+d3
+du3 e−u2/2 −λ2
+3
+72
+d5
+du5 e−u2/2,
+(13.49)
+† The idea of a cumulant expansion for option prices was pioneered by Jarrow & Rudd (1982). The present results
+have been obtained in Potters et al. (1997) in the context of an additive model, and very similar results for the
+multiplicative model can be found in Backus et al. (1997). More recently, similar results have also been recovered
+in a very different language in Fouque et al. (2000), in the framework of a stochastic volatility model with short
+range correlations. As discussed in Section 7.1.4, a stochastic volatility gives rise to a non zero kurtosis decaying
+as 1/N, which is indeed the small expansion parameter of Fouque et al. (2001).
+
+13.3 Options: deﬁnition and valuation
+245
+the integrations over u are readily performed, yielding:
+C = CG +
+√
+DT e−u2s /2
+√
+2π
+
+−λ3
+6
+√
+N
+us +
+λ4
+24N
+
+u2
+s −1
+
++
+λ2
+3
+72N
+
+u4
+s −6u2
+s + 3
+
++ · · ·
+
+,
+(13.50)
+which indeed coincides with Eq. (13.44) for λ3 = 0. In the practical case λ2
+3 ≪λ4, and
+we will neglect the last term in this equation.
+Notethatwereferheretoadditive(ratherthanmultiplicative)priceincrements:theBlack–
+Scholes volatility smile is often asymmetrical merely because of the use of a skewed log-
+normal distribution to describe a nearly symmetrical process (see the extensive discussion
+in Chapter 8).
+On the other hand, a simple calculation shows that the variation of Cκ=0(x0, xs, T ) (as
+given by Eq. (13.43)) when the volatility changes by a small quantity δD = 2σ x2
+0δσ is
+given by:
+δCκ=0(x0, xs, T ) = δσ x0
+
+T
+2π exp
+
+−(xs −x0)2
+2DT
+
+.
+(13.51)
+The effect of a non-zero skewness and kurtosis can thus be reproduced (to ﬁrst or-
+der) by a Gaussian pricing formula, but at the expense of using an effective volatility
+(xs, T ) = σ + δσ given by:
+(xs, T ) = σ
+
+1 −ς(T )
+6
+M + κ(T )
+24 (M2 −1)
+
+,
+(13.52)
+where M = (xs −x0)/
+√
+DT is the rescaled moneyness, ς(T ) and κ(T ) are the skewness
+and kurtosis of the price increments on the scale of the maturity of the option.† This very
+simple formula, plotted in Figure 13.3, allows one to understand intuitively the shape and
+amplitude of the smile. For example, for κ(T ) = 1 (typical of one month options), the
+kurtosis correction to the volatility is on the order of δσ/σ ≈33% for strongly out-of-the-
+money options such that M = 3. Note that the effect of the kurtosis is to reduce the implied
+at-the-money volatility in comparison with its true value. The effect of the skewness is to
+make the smile asymmetric around the strike price xs: for a negative skewness, the smile
+remains a parabola, but centered around a shifted strike price xs →xs −2ς(T )σ
+√
+T /κ(T ).
+When the skew is negative and large, the smile looks very much, around the money, like a
+straight line of negative slope. This shape is indeed observed for option on stock indices,
+for which the historical skew is indeed large (see Chapter 8).
+† A similar formula, obtained in the context of the multiplicative (log-normal) Brownian motion was obtained in
+Backus et al. (1997), in the limit where the volatility σ is small. In this limit, one indeed expect the multiplicative
+and additive models to coincide.
+
+246
+Futures and options: fundamental concepts
+0
+100
+200
+300
+400
+500
+Theoretical price
+0
+100
+200
+300
+400
+500
+Market price
+Fig. 13.4. Comparison between theoretical and observed option prices. Each point corresponds to an
+option on the Bund (traded on the LIFFE in London), with different strike prices and maturities. The
+x coordinate of each point is the theoretical price of the option (determined using the empirical
+terminal price distribution), while the y coordinate is the market price of the option. If the theory is
+good, one should observe a cloud of points concentrated around the line y = x. The line
+corresponds to a linear regression, and gives y = 0.998x + 0.02 (in basis points units).
+Figure 13.4 shows some ‘experimental’ data, concerning options on the Bund (futures)
+contract – for which a weakly non-Gaussian model is satisfactory. The associated option
+market is, furthermore, very liquid; this tends to reduce the width of the bid-ask spread, and
+thus, probably to decrease the difference between the market price and a theoretical ‘fair’
+price. This is not the case for OTC options, when the overhead charged by the ﬁnancial
+institution writing the option can in some case be very large, cf. Section 14.1 below. In
+Figure 13.4, each point corresponds to an option of a certain maturity and strike price. The
+coordinates of these points are the theoretical price, Eq. (13.34), along the x axis (calculated
+using the historical distribution of the Bund), and the observed market price along the y
+axis. If the theory is good, one should observe a cloud of points concentrated around the
+line y = x. Figure 13.4 includes points from the ﬁrst half of 1995, which was rather ‘calm’,
+in the sense that the volatility remained roughly constant during that period (see Fig. 13.5).
+Correspondingly, the assumption that the process is stationary is reasonable.
+The agreement between theoretical and observed prices is however much less convincing
+if one uses data from 1994, when the volatility of interest rate markets has been high. The
+following subsection aims at describing these discrepancies in greater detail.
+Non-stationarity and ‘implied’ kurtosis
+As discussed in details in Chapter 7, a more precise analysis reveals that the scale of the
+ﬂuctuations of the underlying asset (here the Bund contract) itself varies noticeably around
+
+13.3 Options: deﬁnition and valuation
+247
+93
+94
+95
+96
+t
+0
+1
+2
+3
+4
+σ(t)  (arb. units)
+fluctuations of the underlying
+options prices
+Fig. 13.5. Time dependence of the volatility σ, obtained from the analysis of the high frequency
+(intra-day) ﬂuctuations of the underlying asset (here the Bund), or from the implied volatility of
+at-the-money options. More precisely, the historical determination of σ comes from the daily
+average of the absolute value of the 5-min price increments. The two curves are then smoothed over
+5 days. These two determinations are strongly correlated, showing that the option price mostly
+reﬂects the instantaneous volatility of the underlying asset itself.
+its mean value; these ‘scale ﬂuctuations’ are furthermore correlated with the option prices.
+More precisely, one postulates that the distribution of price increments δx has a constant
+shape, but a width σk which is time dependent (cf. Chapter 7 and Eq. (13.3)).
+Figure 13.5 shows the evolution of the volatility σ (ﬁltered over 5 days in the past) as a
+function of time and compares it to the implied volatility (xs = x0) extracted from at-the-
+money options during the same period. One thus observes that the option prices are rather
+well tracked by adjusting the factor σk through a short-term estimate of the volatility of the
+underlying asset. This means that the option prices primarily reﬂects the short term average
+volatility of the underlying asset itself, rather than an ‘anticipated’ average volatility on the
+life time of the option. More precisely, the short term average volatility is found empirically
+to be on average a better predictor of future realized volatilities than the implied volatility.
+Of course, in some market conditions, the volatility is expected to rise or fall because of –
+say – political events, an effect that cannot be captured by the analysis of the past time
+series.
+It is interesting to notice that the mere existence of volatility ﬂuctuations leads to a non-
+zero kurtosis κN of the asset ﬂuctuations (see Section 7.1). This kurtosis has an anomalous
+time dependence (cf. Eq. (7.15)), in agreement with the direct observation of the volatility
+ﬂuctuations. On the other hand, an ‘implied kurtosis’ can be extracted from the market price
+of options, using Eq. (13.52) as a ﬁt to the empirical smile, see Figure 13.6. Remarkably
+
+248
+Futures and options: fundamental concepts
+-4.0
+-2.0
+0.0
+2.0
+4.0
+xs-x0
+3.0
+4.0
+5.0
+6.0
+7.0
+Σ(xs,T )
+Fig. 13.6. Implied Black–Scholes volatility and ﬁtted parabolic smile. The circles correspond to all
+quoted prices on 26th April, 1995, on options of 1-month maturity. The error bars correspond to an
+error on the price of ±1 basis point. The curvature of the parabola allows one to extract the implied
+kurtosis κ(T ) using Eq. (13.52).
+enough, this implied kurtosis is in close correspondence with the historical kurtosis – note
+that Figure 13.7 does not require any further adjustable parameter.
+As a conclusion of this section, it seems that market operators have empirically
+corrected the Black–Scholes formula to account for two distinct, but related effects:
+r The presence of market jumps, implying fat tailed distributions (κ > 0) of short-term
+price increments. This effect is responsible for the volatility smile (and also, as we
+shall discuss next, for the fact that options are risky).
+r The fact that the volatility is not constant, but ﬂuctuates in time, leading to an
+anomalously slow decay of the kurtosis (slower than 1/N) and, correspondingly,
+to a non-trivial deformation of the smile with maturity.
+It is interesting to note that, through trial and errors, the market as a whole has evolved to
+allow for such non-trivial statistical features – at least on most actively traded markets. This
+might be called ‘market efﬁciency’; but contrarily to stock markets where it is difﬁcult to
+judge whether the stock price is or is not the ‘true’ price (which might be an empty concept),
+option markets offer a remarkable testing ground for this idea (the fact that options have a
+ﬁnite life time allows one to judge ex post if their price is fair on average). Option markets
+
+13.3 Options: deﬁnition and valuation
+249
+10
+30
+100
+300
+N
+0.1
+1
+10
+κN
+Historical κT (future)
+Implied κimp (option)
+Fit Eq. (7.15), exp. g(l) 
+Fit Eq. (7.15), power-law g(l)
+Fig. 13.7. Plot (in log–log coordinates) of the average implied kurtosis κimp (determined by ﬁtting
+the implied volatility for a ﬁxed maturity by a parabola) and of the empirical kurtosis κN (determined
+directly from the historical movements of the Bund contract), as a function of the reduced time scale
+N = T/τ, τ = 30 min. All transactions of options on the Bund future from 1993 to 1995 were
+analysed along with 5 minute tick data of the Bund future for the same period. We show for
+comparison a ﬁt with κN ≈N −0.42 (dark line), as suggested by the results of Section 7.1.4. A ﬁt with
+an exponentially decaying volatility correlation function is however also acceptable (dashed line).
+offers a nice example of adaptation of a population (the option traders) to a complex and
+hostile environment, which has taken place in only a few decades!
+13.3.5 The case of an inﬁnite kurtosis
+Since there is some evidence that the kurtosis might not always be ﬁnite for ﬁnancial time
+series, the above cumulant expansion might be problematic. It is interesting to consider
+a particular case where the kurtosis of the terminal distribution is inﬁnite and where an
+explicit formula for the price of options can be written down. It turns out that when the
+distribution of price changes obeys a Student distribution with µ = 3 (i.e. with the value of
+the tail exponent in agreement with recent studies, see Chapter 6), a very simple formula
+for option prices can be obtained.
+Suppose that the price change x = xT −x0 between now t = 0 and maturity t = T is
+distributed according to:
+P(x) = 2
+π
+(DT )3/2
+(DT + x2)2 ,
+(13.53)
+where DT is the variance of the price difference on the time scale T .
+
+250
+Futures and options: fundamental concepts
+The price of a European option, for zero interest rates, is given by:
+C(x0, xs, T ) =
+ ∞
+xs
+(x −xs)P(x −x0) dx.
+(13.54)
+It turns out that the above integral can be computed exactly and leads to a rather simple result
+(see Eq. 1.40). Introducing the rescaled moneyness of the option M = (xs −x0)/
+√
+DT ,
+the option price reads:
+C(x0, xs, T ) =
+√
+DT
+2π
+(2 −πM + 2M arctan M) .
+(13.55)
+At the money (M = 0), the price of the option is equal to
+√
+DT /π, which is smaller than
+the Gaussian price √DT/2π. The ‘implied volatility’ is therefore reduced, compared to
+the true volatility, by a factor √2/π = 0.798. This reduction of the at-the-money volatility
+was already noted above in the context of a cumulant expansion.
+For deep out-of-the-money calls, the above formula can be expanded as:
+C(x0, xs, T ) ≃
+√
+DT
+3πM2 + . . . ;
+(13.56)
+where the slow M−2 decay reﬂects that of the Student distribution above. Finally, for deep
+in-the-money calls, one ﬁnds:
+C(x0, xs, T ) ≃(x0 −xs) +
+√
+DT
+π
++
+(13.57)
+Another way to present the results is to draw the implied volatility (M) such that a
+Gaussian formula with such an implied volatility exactly reproduces Eq. (13.55) above. The
+shape of the smile in this case is shown in Fig. (13.8). Note that for large moneyness, the
+smile becomes approximately linear.
+-4
+-2
+0
+2
+4
+Rescaled moneyness
+0.8
+1.0
+1.2
+1.4
+1.6
+1.8
+2.0
+Σ/σ
+Fig. 13.8. Shape of the smile for an inﬁnite kurtosis case, here a Student distribution with µ = 3.
+
+13.4 Summary
+251
+An explicit formula for the price of the option can actually be obtained for all integer
+values of µ (see e.g. Eq. (1.41)).
+13.4 Summary
+r The problem of derivative pricing and hedging consist in controlling and ‘chiseling’
+the distribution of proﬁts and losses associated to the writing of a contract. Both
+the average value and the shape of this distribution are affected by the price of the
+contract and the hedging strategy. The variance of this distribution can be taken as a
+simple indicator of risk, although other indicators, based on tail events, can also be
+considered.
+r The fair price of a contract is such that the average proﬁt, including the cost of the
+hedging strategy, is zero. When the risk can be made zero, the fair price is such
+that there are no arbitrage opportunities. When the risk is non zero, the price of the
+contract may reﬂect a risk premium, which can be large in an asymmetric market
+where buyers and sellers of the contract have different perceptions of risk.
+r In the case of futures contract, a perfect hedging strategy exists. This uniquely ﬁxes
+the price of futures as x0erT, when x0 is the current price of the underlying and T the
+maturity.
+r In the case of options, the fair-price is, when the mean return of the underlying is equal
+to the risk free rate, the average of the ﬁnal pay-off of the option over the distribution
+of price histories. For a Gaussian process, one ﬁnds the Bachelier formula (for the
+additive case) and the Black-Scholes formula (for the multiplicative case). In the case
+of non-Gaussian markets, corrections to these formula appear. These can be encoded
+in a modiﬁed (‘implied’) value of the volatility used in the Black-Scholes formula,
+which becomes both strike and maturity dependent.
+r Part of the information contained in this implied volatility surface used by market
+participants can be explained by an adequate statistical model of the underlying asset
+ﬂuctuations. In particular, in weakly non-Gaussian markets, important parameters
+are the time-dependent skewness and kurtosis, see Eq. (13.52), that give respectively
+the skewness and curvature of the smile. The anomalous maturity dependence of the
+kurtosis encodes the fact that the volatility itself has long range correlations.
+r Further reading
+L. Bachelier, Th´eorie de la Sp´eculation, Gabay, Paris, 1995.
+M. Baxter, A. Rennie, Financial Calculus, An Introduction to Derivative Pricing, Cambridge
+University Press, Cambridge, 1996.
+J. P. Fouque, G. Papanicolaou, R. Sircar, Derivatives in Financial Markets with Stochastic Volatility,
+Cambridge University Press, 2000.
+J. C. Hull, Futures, Options and Other Derivatives, Prentice Hall, Upper Saddle River, NJ, 1997.
+M. Musiela, M. Rutkowski, Martingale Methods in Financial Modelling, Springer, New York, 1997.
+
+252
+Futures and options: fundamental concepts
+D. Lamberton, B. Lapeyre, Introduction au calcul stochastique appliqu´e `a la ﬁnance, Ellipses, Paris,
+1991.
+M. Musiela, M. Rutkowski, Martingale Methods in Financial Modelling, Springer, New York, 1997.
+I. Nelken (ed.), The Handbook of Exotic Options, Irwin, Chicago, IL, 1996.
+P. Wilmott, J. N. Dewynne, S. D. Howison, Option Pricing: Mathematical Models and Computation,
+Oxford Financial Press, Oxford, 1993.
+P. Wilmott, Derivatives, The theory and practice of ﬁnancial engineering, John Wiley, 1998.
+P. Wilmott, Paul Wilmott Introduces Quantitative Finance, John Wiley, 2001.
+r Specialized papers: some classics
+F. Black, M. Scholes, The pricing of options and corporate liabilities, Journal of Political Economy,
+3, 637 (1973).
+J. C. Cox, S. A. Ross, M. Rubinstein, Option pricing: a simpliﬁed approach, Journal of Financial
+Economics, 7, 229 (1979).
+R. C. Merton, Theory of rational option pricing, Bell Journal of Economics and Management Science,
+4, 141 (1973).
+r Specialized papers: alternative models
+L. Borland, Option pricing formulas based on a non-Gaussian stock price model, Physical Review
+Letters, 89, 09870 (2002); Quantitative Finance, 2, 415 (2002).
+P. Carr, H. Geman, D. Madan, M. Yor, The ﬁne structure of asset returns: an empirical investigation,
+forthcoming, Journal of Business (2000).
+E. Derman, I. Kani,Stochasticimpliedtrees:arbitrage pricing with stochastic term and strike structure
+of volatility, Int. Jour. Theo. Appl. Fin., 1, 61 (1998).
+E. Eberlein, U. Keller, Option pricing with hyperbolic distributions, Bernoulli, 1, 281 (1995).
+J.-P. Fouque, G. Papanicolaou, K. R. Sircar, Mean-reverting stochastic volatility, Int. Jour. Theo.
+Appl. Fin., 3, 101 (2000).
+S. L. Heston, A closed-form solution for options with stochastic volatility with applications to bond
+and currency options, Review of Financial Studies, 6, 327 (1993).
+J. K. Hoogland, C. D. D. Newmann, Local scale invariance and contingent claim pricing I, Int. Jour.
+Theo. Appl. Fin., 4, 1 (2001).
+J. K. Hoogland, C. D. D. Newmann, Local scale invariance and contingent claim pricing II, Int. Jour.
+Theo. Appl. Fin., 4, 23 (2001).
+J. C. Hull, A. White, The pricing of options on assets with stochastic volatility, Journal of Finance,
+XLII, 281 (1987).
+J. C. Hull, A. White, An analysis of the bias in option pricing caused by stochastic volatility, Advances
+in Futures and Option Research, 3, 29 (1988).
+R. W. Lee, Implied and local volatilities under stochastic volatility, Int. Jour. Theo. Appl. Fin., 4, 45
+(2001).
+A. Matacz, Financial Modelling and Option Theory with the Truncated Levy Process, Int. Jour. Theo.
+Appl. Fin., 3, 703 (2000).
+r Specialized papers: cumulant expansion and smiles
+D. Backus, S. Foresi, K. Lai, L. Wu, Accounting for biases in Black-Scholes, Working paper of NYU
+Stern School of Business, 1997.
+C. J. Corrado, T. Su, Skewness and kurtosis in S&P500 index returns implied by option prices, Journal
+of Financial Research, XIX, 175 (1996).
+
+13.4 Summary
+253
+R. Cont, J. da Fonseca, Dynamics of implied volatility surfaces, Quantitative Finance, 2, 45 (2002),
+and references therein.
+J. C. Jackwerth, M. Rubinstein, Recovering probability distributions from option prices, Journal of
+Finance, 51, 1611.
+R. Jarrow, A. Rudd, Approximate option valuation for arbitrary stochastic processes, Journal of
+Financial Economics, 10, 347 (1982).
+B. Pochart, J.-P. Bouchaud, The skewed multifractal random walk with applications to option smiles,
+Quantitative Finance, 2, 303 (2002).
+M. Potters, R. Cont, J.-P. Bouchaud, Financial markets as adaptative ecosystems, Europhysics Letters,
+41, 239 (1998).

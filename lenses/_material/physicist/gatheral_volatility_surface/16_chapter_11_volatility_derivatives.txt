@@ -1,0 +1,1859 @@
+CHAPTER11
+Volatility Derivatives
+I
+n this ﬁnal chapter, we will investigate the pricing and hedging of claims
+that have realized volatility or variance (quadratic variation) as underlying.
+Although one might expect these recently developed instruments to be the
+most exotic and hard to price and hedge of all, it turns out that in some
+respects they are among the safest and easiest. Certainly some of the most
+elegant and robust constructions so far are to be found in this chapter.
+SPANNING GENERALIZED EUROPEAN PAYOFFS
+As usual, we assume that European options with all possible strikes and
+expirations are traded. In the spirit of the paper by Carr and Madan
+(1998), we now show that any twice-differentiable payoff at time T may
+be statically hedged using a portfolio of European options expiring at
+time T.
+From Breeden and Litzenberger (1978), we know that we may write the
+pdf of the stock price ST at time T as
+p(ST, T; St, t) = ∂2 ˜C(St, K, t, T)
+∂K2
+
+K=ST
+= ∂2 ˜P(St, K, t, T)
+∂K2
+
+K=ST
+where ˜C and ˜P represent undiscounted call and put prices respectively.
+Then the value of a claim with a generalized payoff g(ST) at time T is
+given by
+E
+
+g(ST)
+ St
+
+=
+ ∞
+0
+dK p(K, T; St, t) g(K)
+=
+ F
+0
+dK ∂2 ˜P
+∂K2 g(K) +
+ ∞
+F
+dK ∂2 ˜C
+∂K2 g(K)
+133
+
+134
+THE VOLATILITY SURFACE
+where F represents the time-T forward price of the stock. Integrating by
+parts twice and using the put-call parity relation ˜C(K) −˜P(K) = F −K give
+E
+
+g(ST)
+ St
+
+= ∂˜P
+∂K g(K)
+
+F
+0
+−
+ F
+0
+dK ∂˜P
+∂K g′(K) + ∂˜C
+∂K g(K)
+
+∞
+F
+−
+ ∞
+F
+dK ∂˜C
+∂K g′(K)
+= g(F) −
+ F
+0
+dK ∂˜P
+∂K g′(K) −
+ ∞
+F
+dK ∂˜C
+∂K g′(K)
+= g(F) −˜P(K)g′(K)
+
+F
+0 +
+ F
+0
+dK ˜P(K) g′′(K)
+−˜C(K)g′(K)
+
+∞
+F +
+ ∞
+F
+dK ˜C(K) g′′(K)
+= g(F) +
+ F
+0
+dK ˜P(K) g′′(K) +
+ ∞
+F
+dK ˜C(K) g′′(K)
+(11.1)
+By letting t →T in equation (11.1), we see that any European-style twice-
+differentiable payoff may be replicated using a portfolio of European options
+with strikes from 0 to ∞with the weight of each option equal to the second
+derivative of the payoff at the strike price of the option. This portfolio of
+European options is a static hedge because the weight of an option with a
+particular strike depends only on the strike price and the form of the payoff
+function and not on time or the level of the stock price. Note further that
+equation (11.1) is completely model independent.
+Example: European Options
+By using Dirac delta functions, we can extend the previous result to payoffs
+that are not twice-differentiable. Consider, for example, the portfolio of
+options required to hedge a single call option with payoff (ST −L)+. In this
+case g′′(K) = δ(K −L) and equation (11.1) give
+E
+
+(ST −L)+
+= (F −L)+ +
+ F
+0
+dK ˜P(K) δ(K −L)
++
+ ∞
+F
+dK ˜C(K) δ(K −L)
+
+Volatility Derivatives
+135
+=
+ (F −L) + ˜P(L)
+if
+L < F
+˜C(L)
+if
+L ≥F
+= ˜C(L)
+with the last step following from put-call parity as before. In other words,
+the replicating portfolio for a European option is just the option itself.
+Example: Amortizing Options
+A useful variation on the payoff of the standard European option is given
+by the amortizing option with strike L with payoff
+g(ST) = (ST −L)+
+ST
+Such options look particularly attractive when the volatility of the underlying
+stock is very high and the price of a standard European option is prohibitive.
+The payoff is effectively that of a European option whose notional amount
+declines as the option goes in-the-money. Then
+g′′(K) =
+
+−2L
+ST3 θ(ST −L) + δ(ST −L)
+ST
+
+ST=K
+Without loss of generality (but to make things easier), suppose L > F. Then
+substituting into equation (11.1) gives
+E
+(ST −L)+
+ST
+
+=
+ ∞
+F
+dK ˜C(K) g′′(K)
+=
+˜C(L)
+L
+−2L
+ ∞
+L
+dK
+K3 ˜C(K)
+and we see that an amortizing call option struck at L is equivalent to a
+European call option struck at L minus an inﬁnite strip of European call
+options with strikes from L to ∞.
+The Log Contract
+Now consider a contract whose payoff at time T is log(ST/F). Then g′′(K) =
+−1/ST2
+ST=K and it follows from equation (11.1) that
+E
+
+log
+	ST
+F
+
+
+= −
+ F
+0
+dK
+K2 ˜P(K) −
+ ∞
+F
+dK
+K2 ˜C(K)
+
+136
+THE VOLATILITY SURFACE
+Rewriting this equation in terms of the log-strike variable k := log (K/F),
+we get the promising-looking expression
+E
+
+log
+	ST
+F
+
+
+= −
+ 0
+−∞
+dk p(k) −
+ ∞
+0
+dk c(k)
+(11.2)
+with
+c(y) :=
+˜C(Fey)
+Fey
+; p(y) :=
+˜P(Fey)
+Fey
+representing option prices expressed in terms of percentage of the strike
+price.
+VARIANCE AND VOLATILITY SWAPS
+We now revert to our usual assumption of zero interest rates and dividends.
+In this case, F = S0 and applying Itˆo’s lemma path by path
+log
+	ST
+F
+
+= log
+	ST
+S0
+
+=
+ T
+0
+d log (St)
+=
+ T
+0
+dSt
+St
+−
+ T
+0
+σSt
+2
+2 dt
+(11.3)
+The second term on the rhs of equation (11.3) is immediately recognizable
+as half the total variance (or quadratic variation) WT := ⟨x⟩T over the
+period {0, T}. The ﬁrst term on the rhs represents the payoff of a hedging
+strategy which involves maintaining a constant dollar amount in stock (if
+the stock price increases, sell stock; if the stock price decreases, buy stock so
+as to maintain a constant dollar value of stock). Since the log payoff on the
+lhs can be hedged using a portfolio of European options as noted earlier,
+it follows that the total variance WT may be replicated in a completely
+model-independent way so long as the stock price process is a diffusion. In
+particular, volatility may be stochastic or deterministic and equation (11.3)
+still applies.
+
+Volatility Derivatives
+137
+Now taking the risk-neutral expectation of (11.3) and comparing with
+equation (11.2), we obtain
+E
+ T
+0
+σ 2
+Stdt
+
+= −2 E
+
+log
+	ST
+F
+
+
+= 2
+ 0
+−∞
+dk p(k) +
+ ∞
+0
+dk c(k)
+
+(11.4)
+We see explicitly that, as originally noted by Dupire (1992) and then by
+Derman, Kamal, Kani, and Zou (1996), the fair value of total variance is
+given by the value of an inﬁnite strip of European options in a completely
+model independent way so long as the underlying process is a diffusion.
+Variance Swaps
+Although trading in variance and volatility swaps really only began in the
+late 1990s, there is already a signiﬁcant literature describing these contracts
+and the practicalities of hedging them including articles by Chriss and
+Morokoff (1999) and Demeterﬁ, Derman, Kamal, and Zou (1999).
+In fact, a variance swap is not really a swap at all but a forward contract
+on the realized annualized variance. The payoff at time T is
+N × A ×
+
+1
+N
+N
+
+i=1
+
+log
+	 Si
+Si−1
+
+2
+−
+ 1
+N log
+	SN
+S0
+
+2
+−N × Kvar
+where N is the notional amount of the swap, A is the annualization factor
+and Kvar is the strike price. Annualized variance may or may not be deﬁned
+as mean-adjusted in practice so the corresponding drift term in the above
+payoff may or may not appear.
+From a theoretical perspective, the beauty of a variance swap is that
+it may be replicated perfectly assuming a diffusion process for the stock
+price as shown in the previous section. From a practical perspective, market
+operators may express views on volatility using variance swaps without
+having to delta hedge.
+Variance swaps took off as a product in the aftermath of the LTCM
+meltdown in late 1998 when implied stock index volatility levels rose to
+unprecedented levels. Hedge funds took advantage of this by paying variance
+in swaps (selling the realized volatility at high implied levels). The key to
+their willingness to pay on a variance swap rather than sell options was that
+a variance swap is a pure play on realized volatility—no labor-intensive
+
+138
+THE VOLATILITY SURFACE
+delta hedging or other path dependency is involved. Dealers were happy
+to buy vega at these high levels because they were structurally short vega
+(in the aggregate) through sales of guaranteed equity-linked investments to
+retail investors and were getting badly hurt by high implied volatility levels.
+Variance Swaps in the Heston Model
+Recall that in the Heston model, instantaneous variance v follows the
+process:
+dv(t) = −λ(vt −v)dt + η √vt dZ
+It follows that the expectation of the total variance WT is given by
+E [WT] = E
+ T
+0
+vt dt
+
+=
+ T
+0
+ˆvt dt
+= 1 −e−λT
+λ
+(v −v) + vT
+The expected annualized variance is given by
+1
+T E [WT] = 1 −e−λT
+λT
+(v −v) + v
+We see that the expected variance in the Heston model depends only on v, v
+and λ. It does not depend on the volatility of volatility η. Since the value of
+a variance swap depends only on the prices of European options, it cannot
+depend on the speciﬁc dynamics assumed (local or stochastic volatility, for
+example).
+Dependence on Skew and Curvature
+We know that the implied volatility of an at-the-money forward option in
+the Heston model is lower than the square root of the expected variance
+(just think of the shape of the implied distribution of the ﬁnal stock price
+in Heston). In practice, we start with a strip of European options of a given
+expiration and we would like to know how we should expect the price of a
+variance swap to relate to the at-the-money-forward implied volatility, the
+volatility skew and the volatility curvature (smile).
+
+Volatility Derivatives
+139
+It turns out that there is a very elegant exact expression for the fair
+value of variance. Deﬁne
+z(k) = d2 = −
+k
+σBS(k)
+√
+T
++ σBS(k)
+√
+T
+2
+Intuitively, z measures the log-moneyness of an option in implied standard
+deviations. Then
+E[WT] =
+ ∞
+−∞
+dz N′(z) σ 2
+BS(z)T
+(11.5)
+To see this formula is plausible, it is obviously correct when there is no
+volatility skew. We now proceed to prove it.
+Proof of Equation (11.5)∗
+As usual, the undiscounted European call option
+price is given by
+C = F
+
+N
+	
+−k
+√w +
+√w
+2
+
+−ekN
+	
+−k
+√w −
+√w
+2
+
+
+where k := log(K/F) is the log-strike.
+Differentiating wrt the strike K we obtain
+∂C
+∂K = 1
+K
+∂C
+∂k = −N
+	
+−k
+√w −
+√w
+2
+
++ N′
+	
+−k
+√w −
+√w
+2
+
+ ∂√w
+∂k
+Then with the notation
+d1 = −k
+√w +
+√w
+2 ; d2 = −k
+√w −
+√w
+2
+and differentiating again wrt K, we obtain
+∂2C
+∂K2 = 1
+K
+∂
+∂k
+
+−N
+	
+−k
+√w −
+√w
+2
+
++ N′
+	
+−k
+√w −
+√w
+2
+
+ ∂√w
+∂k
+
+= N′ 
+d2
+
+K
+
+−∂d2
+∂k
+	
+1 + d2
+∂√w
+∂k
+
++ ∂2√w
+∂k2
+
+= N′ 
+d2
+
+K
+
+1
+√w
+
+d1d2
+	∂√w
+∂k
+
+2
+−2k
+√w
+∂√w
+∂k
++ 1
+
++ ∂2√w
+∂k2
+
+∗This particularly neat proof is due to Chiyan Luo.
+
+140
+THE VOLATILITY SURFACE
+As discussed earlier, the fair value of a variance swap under diffusion
+may be obtained by valuing a contract that pays 2 log (ST/F) at maturity T.
+Brute-force calculation leads to
+2E
+
+log ST
+F
+
+= 2
+ ∞
+0
+dK log
+	K
+F
+
+ ∂2C
+∂K2
+= 2
+ ∞
+−∞
+dk k N′ 
+d2
+ 
+−∂d2
+∂k
+	
+1 + d2
+∂√w
+∂k
+
++ ∂2√w
+∂k2
+
+= 2
+ ∞
+−∞
+dk N′ 
+d2
+ 
+−k∂d2
+∂k −∂√w
+∂k
+
+=
+ ∞
+−∞
+dk N′ 
+d2
+ ∂d2
+∂k w
+which recovers equation (11.5) as required.
+⊓⊔
+Now consider the following simple parameterization of the BS implied
+variance skew:
+σ 2
+BS(z) = σ 2
+0 + α z + β z2
+Substituting into equation (11.5) and integrating, we obtain
+E[WT] = σ 2
+0 T + βT
+We see that skew makes no contribution to this expression, only the
+curvature contributes. The intuition for this is simply that increasing the
+skew does not change the average level of volatility, but increasing the
+curvature β increases the prices of puts and calls in equation (11.2) and
+always increases the fair value of variance.
+The Effect of Jumps
+Let xt denote the return of a compound Poisson process so that
+xT =
+NT
+
+i
+yi
+with the yi iid and NT a Poisson process with mean λ T. Deﬁne the quadratic
+variation as
+⟨x⟩T =
+NT
+
+i
+yi
+2
+
+Volatility Derivatives
+141
+Then
+E [⟨x⟩T] = E [NT] E
+yi
+2
+= λ T
+ T
+0
+y2 µ(y) dy
+Also
+E [xT] = λ T
+ T
+0
+y µ(y) dy
+and
+E
+
+xT2
+= λ T
+ T
+0
+y2 µ(y) dy + (λ T)2
+ T
+0
+y µ(y) dy
+2
+So
+E [⟨x⟩T] = E
+
+xT2
+−E [xT]2 = Var [xT]
+That is, expected quadratic variation is just the variance of the terminal
+distribution for compound Poisson processes! We know this result is correct
+for Black-Scholes with constant volatility, but obviously it’s not true in
+general (for example in the Heston model).
+We can express the ﬁrst two moments of the ﬁnal distribution in terms
+of strips of European options using equation (11.1) as follows:
+E [xT] = E
+
+log(ST/F)
+
+= −
+ 0
+−∞
+dk p(k) −
+ ∞
+0
+dk c(k)
+E
+
+xT2
+= E
+
+log2(ST/F)
+
+= −
+ 0
+−∞
+dk 2 k p(k) −
+ ∞
+0
+dk 2 k c(k)
+So, for a compound Poisson process, if we know European option prices,
+we may compute expected quadratic variation (i.e., compute the value of a
+variance swap) by computing the variance of the terminal distribution.
+On the other hand, if the underlying process is a diffusion, we may
+compute expected quadratic variation using equation (11.4) in terms of the
+log-strip
+E [⟨x⟩T] = −2 E [xT] = 2
+ 0
+−∞
+dk p(k) +
+ ∞
+0
+dk c(k)
+
+So, if the underlying process is compound Poisson, we have one way
+of computing E [⟨x⟩T] and if the underlying process is a diffusion we have
+
+142
+THE VOLATILITY SURFACE
+another. In reality, we’re not sure what the underlying process is so we
+would like to know how much difference the choice of underlying process
+makes.
+To compute this, we ﬁrst note that from the deﬁnition of characteristic
+function,
+E
+
+log (ST/F)
+
+= −i
+∂
+∂uφT(u)
+
+u=0
+Also note that if jumps are independent of the continuous process as they
+are in both the Merton and SVJ models, the characteristic function may be
+written as the product of a continuous part and a jump part
+φT(u) = φC
+T(u) φJ
+T(u)
+where the superscripts C and J refer to the continuous and jump parts
+respectively. From the L´evy-Khintchine representation of Chapter 5,
+−i
+∂
+∂u φJ
+T(u)
+
+u=0
+= λ T
+ T
+0
+
+1 + y −ey
+µ(y) dy
+On the other hand, we already showed above that
+E
+
+⟨xJ⟩T
+
+= λ T
+ T
+0
+y2 µ(y) dy
+It follows that the difference between the fair value of a variance swap and
+the value of the log-strip is given by
+E [⟨x⟩T] + 2 E [xT] = 2 λ T
+ T
+0
+
+1 + y + y2/2 −ey
+µ(y) dy
+Noting that the expression 1 + y + y2/2 is just the ﬁrst three terms in
+the Taylor expansion of ey, we conclude that the error introduced by valuing
+a variance swap using the log-strip of equation (11.4) is of the order of the
+jump-size cubed. If there are no jumps of course, the log-strip values the
+variance swap correctly.
+
+Volatility Derivatives
+143
+Example: Lognormally Distributed Jumps with Mean α and Standard
+Deviation δ In this case
+E [⟨x⟩T] + 2 E [xT] = λT
+
+α2 + δ2
++ 2λT
+
+1 + α −eα+δ2/2
+= −1
+3λTα
+
+α2 + 3δ2
++ higher order terms
+Putting α = −0.09, δ = 0.14 and λ = 0.61, from Bakshi, Cao, and Chen
+(1997), we get an error of only 0.00122427 per year on a 1-year variance
+swap, which at 20% volatility corresponds to 0.30% in volatility terms.
+Volatility Swaps
+Realized volatility 
+T is the square root of realized variance VT := ⟨x⟩T/T
+and we know that the expectation of the square root of a random variable
+is less than (or equal to) the square root of the expectation. The difference
+between √VT and 
+T is known as the convexity adjustment.
+Figure 11.1 shows how the payoff of a variance swap compares with
+the payoff of a volatility swap.
+Intuitively the magnitude of the convexity adjustment must depend on
+the volatility of realized volatility. Note that volatility does not have to be
+stochastic for realized volatility to be volatile; realized volatility 
+T varies
+according to the path of the stock price even in a local volatility model.
+In general, there is no replicating portfolio for a volatility swap and the
+magnitude of the convexity adjustment is model dependent. We will now
+compute the convexity adjustment in the Heston model.
+0.15
+0.2
+0.25
+0.3
+0.35
+0.4
+T
+0.2
+0.15
+0.1
+0.05
+0.05
+0.1
+Payoff
+FIGURE 11.1
+Payoff of a variance swap (dashed line) and volatility swap (solid
+line) as a function of realized volatility 
+T. Both swaps are struck at 30% volatility.
+
+144
+THE VOLATILITY SURFACE
+Convexity Adjustment in the Heston Model
+To proceed, we use the following trick:
+E
+
+WT
+
+=
+1
+2√π
+ ∞
+0
+1 −E
+
+e−ψWT
+ψ3/2
+dψ
+(11.6)
+We recognize that
+E
+
+e−ψWT
+
+= E
+
+exp
+
+−ψ
+ T
+0
+vt dt
+
+is formally identical to the expression for the value of a bond in the CIR
+model. Then from Cox, Ingersoll, and Ross (1985), we ﬁnd that the Laplace
+transform of the total variance WT =
+ T
+0 vt dt is given by
+E
+
+e−ψWT
+
+= A e−ψvB
+where
+A =
+
+2φ e(φ+λ)T/2
+(φ + λ)(eφT −1) + 2φ
+2λv/η2
+B =
+2 (eφT −1)
+(φ + λ)(eφT −1) + 2φ
+with φ =
+
+λ2 + 2ψη2.
+With some tedious algebra, we may verify that
+E [WT] = −∂
+∂ψ E
+
+e−ψWT
+
+ψ=0
+= 1 −e−λT
+λ
+(v −v) + vT
+as we found earlier by direct integration of the Heston SDE.
+Computing the integral in equation (11.6) numerically using the Heston-
+Nandi parameters (v = 0.04, v = 0.04, λ = 10.0, η = 1.0) of Chapter 4, we
+get the graph of the convexity adjustment as a function of time to expiration
+shown in Figure 11.2.
+
+Volatility Derivatives
+145
+1
+2
+3
+4
+5
+t
+0.002
+0.004
+0.006
+0.008
+0.01
+Convexity Adjustment
+FIGURE 11.2
+Annualized Heston convexity adjustment as a function of T with
+Heston-Nandi parameters.
+1
+2
+3
+4
+5
+t
+0.002
+0.004
+0.006
+0.008
+0.01
+0.012
+0.014
+Convexity Adjustment
+FIGURE 11.3
+Annualized Heston convexity adjustment as a function of T with
+Bakshi, Cao, and Chen parameters.
+Using Bakshi, Cao and Chen (1997) parameters (v = 0.04, v = 0.04, λ =
+1.15, η = 0.39), we get the graph of the convexity adjustment as a function
+of time to expiration shown in Figure 11.3.
+To get intuition for what is going on here, compute the limit of the
+variance of VT as T →∞with v = v using
+
+146
+THE VOLATILITY SURFACE
+var [WT] = E
+
+WT2
+−{E [WT]}2
+=
+∂2
+∂ψ2 E
+
+e−ψWT
+
+ψ=0
+−
+
+∂
+∂ψ E
+
+e−ψWT
+
+ψ=0
+2
+= vT η2
+λ2 + O(T0)
+Then, as T →∞, the standard deviation of annualized variance has the
+leading order behavior
+
+v/T η/λ. The convexity adjustment should be of
+the order of the standard deviation of annualized volatility over the life of
+the contract. From the last result, we expect this to scale as η/λ. Comparing
+Bakshi, Cao and Chen (BCC) parameters with Heston-Nandi parameters,
+we deduce that the convexity adjustment should be roughly 3.39 times
+greater with BCC parameters and that’s what we see in the graphs.
+VALUING VOLATILITY DERIVATIVES
+Suppose the underlying process is a diffusion and that there is zero corre-
+lation between moves in the underlying and moves in volatility. With these
+assumptions, Carr and Lee (2005) show that any volatility derivative whose
+payoff is a function of the quadratic variation ⟨x⟩T may in principle be
+valued in terms of European options with expiration T. Friz and Gatheral
+(2005) present a practical algorithm for doing this. We now proceed to
+follow their reasoning.
+Fair Value of the Power Payoff
+Recall from equation (11.1) that generalized payoffs may be spanned
+according to
+E [g(ST)] = g(F) +
+ F
+0
+dK ˜P(K, T) g′′(K)
++
+ ∞
+F
+dK ˜C(K, T) g′′(K)
+(11.7)
+where ˜C and ˜P represent undiscounted call and put prices respectively and
+F represents the time-T forward price of the stock. With the substitution
+
+Volatility Derivatives
+147
+g(ST) = Sp
+T, we obtain the replicating portfolio for a power payoff:
+E
+
+Sp
+T
+
+= Fp + p (p −1)
+ F
+0
+dK ˜P(K, T) Kp−2
++ p (p −1)
+ ∞
+F
+dK ˜C(K, T) Kp−2
+Deﬁne the log-strike k := log(K/F). Then
+E
+
+Sp
+T
+
+= Fp
+
+1 + p (p −1)
+ 0
+−∞
+dk ˆp(k) ep k
++ p (p −1)
+ ∞
+0
+dk ˆc(k) ep k
+
+(11.8)
+where ˆp(k) and ˆc(k) denote the prices of puts and calls respectively in terms
+of percentage of strike.
+If there is zero correlation between moves in the underlying and volatility
+moves, put-call symmetry holds, so that ˆp(k) = e−k ˆc(−k). We can then
+rewrite equation (11.8) as
+E
+
+Sp
+T
+
+= Fp
+
+1 + 2 p (p −1)
+ ∞
+0
+dk ek/2 ˆc(k) cosh (p −1/2) k
+
+The Laplace Transform of Quadratic Variation under Zero Correlation
+Under their assumptions of diffusion and zero correlation between spot
+moves and volatility moves, Carr and Lee (2005) derive an expression
+for the Laplace transform (moment generating function) of the quadratic
+variation WT := ⟨x⟩T in terms of the fair value (11.8) of the power payoff.
+Since we know the replicating strip for the power payoff, it follows that we
+know the replicating strip for quadratic variation.
+Following Carr and Lee, note that conditional on a particular realiza-
+tion of the volatility process (volatility path), under their zero-correlation
+assumption, the log-stock price
+xT =
+ T
+0
+σt dWt −1
+2 ⟨x⟩T
+is normally distributed with mean −⟨x⟩T/2 and variance ⟨x⟩T. It follows
+that
+E
+
+ep xT
+= E
+
+e(p2/2−p/2) ⟨x⟩T
+
+=: E
+
+eλ ⟨x⟩T
+
+148
+THE VOLATILITY SURFACE
+with λ = p2/2 −p/2. Inverting this, we obtain the moment generating
+function as
+E
+
+eλ⟨x⟩T 
+= E
+
+ep(λ)xT
+
+with p(λ) = 1/2 ±
+
+1/4 + 2 λ.
+From equation (11.8), we then have that
+E
+
+eλ⟨x⟩T 
+= 1 + p(λ) (p(λ) −1)
+ 0
+−∞
+dk ˆp(k) ep(λ) k
++
+ ∞
+0
+dk ˆc(k) ep(λ) k
+
+(11.9)
+or alternatively
+E
+
+eλ⟨x⟩T 
+= 1 + 2 p(λ) (p(λ) −1)
+ ∞
+0
+dk ek/2 ˆc(k) cosh (p(λ) −1/2) k
+Noting that p(λ) (p(λ) −1) = 2 λ, we may simplify further to obtain
+E
+
+eλ⟨x⟩T 
+= 1 + 4 λ
+ ∞
+0
+dk ek/2 ˆc(k) cosh (p(λ) −1/2) k
+(11.10)
+The fair value of an exponential quadratic-variation (realized volatility)
+payoff follows immediately from equation (11.10). By taking derivatives,
+the fair value of any positive integral power of quadratic variation also
+follows. As a check, consider the fair value of the ﬁrst power of quadratic
+variation—expected realized total variance. We have
+E [⟨x⟩T ] = ∂
+∂λ E
+
+eλ⟨x⟩T 
+λ=0
+= ∂
+∂λ
+
+1 + 4 λ
+ ∞
+0
+dk ek/2 ˆc(k) cosh (p(λ) −1/2) k
+
+λ=0
+= 4
+ ∞
+0
+dk ek/2 ˆc(k) cosh (p(0) −1/2) k
+= 4
+ ∞
+0
+dk ek/2 ˆc(k) cosh k/2
+
+Volatility Derivatives
+149
+= 2
+ ∞
+0
+dk ˆc(k)
+
+1 + ek
+= 2
+ ∞
+0
+dk ˆc(k) +
+ 0
+−∞
+dk ˆp(k)
+
+which agrees exactly with our earlier result (11.4).
+In principle, since we have an explicit expression for the moment
+generating function (mgf) of realized variance, we know its entire terminal
+(time T) pseudo-probability distribution and we may compute the fair value
+of any European-style claim on realized variance—knowing only market
+prices of European options! Unfortunately, the analogue of the replicating
+option strip for variance swaps doesn’t exist for generic volatility derivatives.
+Friz and Gatheral (2005) show that although it’s easy to write down a formal
+expression, the weights of the options in the strip are undeﬁned.
+The Fair Value of Volatility under Zero Correlation
+After the variance swap, the next simplest claim to analyze is the volatil-
+ity swap. Friz and Gatheral (2005) show that under the zero-correlation
+assumption,
+E
+
+⟨x⟩T
+
+=
+√
+2 π ˆc(0) +
+
+2
+π
+ ∞
+0
+dk ek/2 I1
+	k
+2
+
+ˆc(k)
+(11.11)
+where In(·) represents a modiﬁed Bessel function of the ﬁrst kind.
+That the at-the-money option should have a delta-function weight
+should come as no surprise as we are already familiar with the extremely
+accurate approximation
+ˆc(0) ≈σBS
+√
+T
+√
+2 π
+(11.12)
+for at-the-money forward European options.
+To see just how dominant the contribution of the at-the-money forward
+European option is, consider a 1-year ﬂat volatility smile with σBS(k, 1) =
+0.2, ∀k. The ﬁrst term in (11.11) evaluates to 0.1997 and the continuous
+strip of options with Bessel function weights to 0.0003. The total must of
+course give 0.2, which is the fair value of volatility when the volatility smile
+is ﬂat (no convexity adjustment).
+The formula (11.11) was originally derived from direct integration.
+Peter Friz subsequently provided the following more enlightening derivation
+
+150
+THE VOLATILITY SURFACE
+of the weights by imposing that in the ﬂat-smile Black-Scholes case where
+σBS(k) = σ ∀k, the value of the volatility swap should equal the implied
+volatility σ.
+Proof
+In the ﬂat smile case (without loss of generality we choose τ = 1),
+we may write
+ ∞
+0
+dk
+π
+2 F′ 
+k/2
+
++
+√
+2π δ
+
+k
+ 
+ek/2 cBS(k; σ) = σ
+(11.13)
+for some F to be found with F(0) = 1. From integration by parts, we ﬁnd
+that
+ ∞
+0
+dk
+π
+2 F′ 
+k/2
+
++
+√
+2 π δ
+
+k
+
+ek/2cBS(k; σ)
+= −
+√
+2π
+ ∞
+0
+dk F
+
+k/2
+ ∂
+∂k
+
+ek/2cBS(k; σ)
+
+Then differentiating each side of (11.13) with respect to σ we obtain
+−
+√
+2π
+ ∞
+0
+dk F
+
+k/2
+ ∂
+∂k
+
+ek/2 ∂
+∂σ cBS(k; σ)
+
+= 1
+(11.14)
+for every choice of σ. That is, the vega of the option strip must be 1 no
+matter what the implied volatility is.
+By taking explicit derivatives of the Black-Scholes formula, recalling
+our deﬁnition cBS(k; σ) := exp(−k) CBS(k, σ), we obtain
+∂
+∂k
+
+ek/2 ∂
+∂σ cBS(k; σ)
+
+= −
+1
+√
+2 π
+k
+σ 2 exp
+	
+−k2
+2 σ 2
+
+e−σ 2/8
+With v := σ 2, substitution into (11.14) and rearranging give
+ ∞
+0
+dk F
+
+k/2
+ k
+v exp
+	
+−k2
+2 v
+
+= ev/8
+Now expand F(k) in powers of k as
+F(k) =
+∞
+
+m=0
+αm km
+
+Volatility Derivatives
+151
+and integrate term-by-term to obtain
+∞
+
+m=0
+αm
+v
+2
+m/2 m
+2
+
+! =
+∞
+
+n=0
+ v
+8
+n 1
+n!
+Equating powers of v and solving for αm leads to
+F
+
+k
+
+=
+∞
+
+m=0
+
+k2/4
+m
+(m!)2 .
+which we recognize this as the Bessel function I0(k). Finally we recall that
+the option weights in the options strip (11.13) are given by F′(k/2) and
+note that
+I1(k) = ∂kI0(k)
+to complete the proof.
+⊓⊔
+Replication of Volatility Swaps
+Even though we can express the fair value
+of volatility as the value of a weighted strip of European options (in the zero
+correlation case), the volatility replication strategy differs fundamentally
+from the variance replication strategy. In the variance case, we trade a strip
+of options at inception and thereafter rebalance daily only in the underlying
+and then only to maintain a constant dollar amount of the underlying in the
+hedge portfolio. In contrast, in the volatility case we have to continuously
+maintain a position in the at-the-money option: Each day, we sell the entire
+position, which is no longer at-the-money, and buy a new one. Unlike the
+variance strategy, this strategy is clearly not practical—the option bid-offer
+would kill the hedger.
+Despite the fact that the zero-correlation assumption is completely
+unrealistic, at least in equity markets, the Carr-Lee result is tantalizing. For
+example, we’d like to know how tightly the prices of European options
+(which are assumed to be known) constrain the fair value of a volatility
+derivative.
+A Simple Lognormal Model
+Assume that log
+√⟨x⟩T
+
+is normally distributed with mean µ and variance
+s2. Then log (⟨x⟩T) is also normally distributed with mean 2 µ and variance
+4 s2. Volatility and variance swap values are given by respectively
+E[
+
+⟨x⟩T] = eµ+s2/2; E [⟨x⟩T] = e2µ+2s2
+
+152
+THE VOLATILITY SURFACE
+Solving for µ and s2 gives
+s2 = 2 log
+
+
+
+E [⟨X⟩T]
+E
+
+⟨X⟩T
+
+
+; µ = log
+
+
+E
+
+⟨X⟩T
+2
+
+E [⟨X⟩T]
+
+
+and the convexity adjustment is given by
+
+E [⟨X⟩T] −E
+
+⟨X⟩T
+
+=
+
+es2/2 −1
+
+E
+
+⟨X⟩T
+
+Incidentally, this simple lognormal assumption seems very reasonable; the
+empirical distribution of implied volatility changes looks lognormal and as
+noted in Chapter 8, the dynamics of the volatility skew are consistent with
+approximately lognormal volatility dynamics.
+It follows that calls on variance may be valued using a Black-Scholes
+style formula:
+E [⟨x⟩T −K]+ = e2µ+2s2N(˜d1) −K N(˜d2)
+(11.15)
+with
+˜d1 = −1
+2 log K + µ + 2s2
+s
+˜d2 = −1
+2 log K + µ
+s
+.
+In this simple lognormal model, the variance and volatility swap values
+(or equivalently the variance swap value plus the convexity adjustment) are
+all that is required to ﬁx the values of all options on variance. Moreover, at
+least for the major equity indexes, there is a tight market in variance swaps
+and a somewhat less liquid market in the convexity adjustment.
+A Heston Example
+Suppose the true dynamics of the underlying were Heston
+(recall that lognormal volatility is a much more realistic assumption) with
+BCC parameters
+λ = 1.15, ρ = 0, σ 2
+0 = σ 2 = 0.04, η = 0.39.
+We showed earlier how to compute the value of a volatility swap in
+terms of the Heston parameters. We can also easily compute the values of
+calls on variance in terms of the Heston parameters. Given the values of
+
+Volatility Derivatives
+153
+the variance and the volatility swap, we can also apply equation (11.15) to
+value the same calls on variance. How big is the error from applying the
+simple variance call formula?
+In Figure 11.4, we compare prices of variance calls obtained from
+the approximate formula with those obtained from a direct numerical
+integration using the closed-form Heston characteristic function of realized
+variance.
+Obviously, the two approaches must agree at zero strike because then we
+have just a variance swap. It’s not clear how big the valuation error really is
+away from zero strike. To get a better sense for the error, in Figure 11.5, we
+compare the density we get by inverting the Heston characteristic function
+numerically and the approximate lognormal density with mean 2 µ and
+variance 4 s2.
+We see that agreement is pretty close. And if agreement is so close in
+the Heston case where we believe the dynamics to be unrealistic, how much
+better should the agreement be when the underlying volatility dynamics are
+lognormal (the more realistic case)?
+We conclude that the values of T-maturity volatility derivatives are in
+practice tightly constrained by the prices of expiration-T European options.
+To make the argument even more explicit, we ﬁt our preferred stochastic
+volatility model (lognormal let’s say) to the prices of European options,
+we set the correlation ρ to zero (this does not affect the value of volatility
+derivatives), compute the value of the volatility swap using (11.11) and
+apply our lognormal variance call option formula (11.15), conﬁdent that
+0.05
+0.1
+0.15
+0.2
+K
+0.01
+0.02
+0.03
+0.04
+Variance Call
+FIGURE 11.4
+Value of 1-year variance call versus variance strike K with the BCC
+parameters. The solid line is a numerical Heston solution; the dashed line comes
+from our lognormal approximation.
+
+154
+THE VOLATILITY SURFACE
+5
+4
+3
+2
+1
+log K
+0.1
+0.2
+0.3
+0.4
+0.5
+density
+FIGURE 11.5
+The pdf of the log of 1-year quadratic variation with BCC
+parameters. The solid line comes from an exact numerical Heston computation; the
+dashed line comes from our lognormal approximation.
+the result will be robust to the speciﬁc parameters. The only constraint is
+that the ﬁt to expiration-T European prices should be good.
+Options on Volatility: More on Model Independence
+We have argued so far that given the prices of European options of all
+strikes and expirations, the values of options on variance should be tightly
+constrained. The extent to which this is true and even how this claim should
+be precisely stated are as yet unresolved questions.
+Elegant work by Bruno Dupire (Dupire 2005) shows how a mode-
+independent lower bound for calls on realized variance may be obtained
+by considering the delta hedging of a portfolio of European call options.
+The idea is to hedge in business time deﬁned as the timescale of realized
+quadratic variation; the options are rehedged each time quadratic variation
+increases by a given amount. Unlike conventional delta hedging in (atomic)
+clock time, assuming no jumps, this hedging strategy guarantees proﬁts on
+a short option position if realized volatility is below implied volatility (the
+volatility implied by the initial sale price). Conversely, the hedged option
+position is guaranteed to lose if realized volatility is higher than implied
+at inception. Losses are insured against by buying an option on quadratic
+variation. The hedger ends up short a portfolio of European options and
+long an option on realized variance with only positive payoffs. This portfolio
+must be worth at least zero, and a model-independent, lower bound on the
+price of an option on variance follows. In the same work, Dupire shows
+
+Volatility Derivatives
+155
+how solutions to the Skorokhod embedding problem can generate effective
+upper and lower bounds on the price of an option on variance constrained
+by known prices of European options.∗
+Returning to the lower bound, it has been conjectured† that the min-
+imum possible value of an option on variance is the one generated from
+a local volatility model ﬁtted to the volatility surface. Clearly options on
+variance have value even in a local volatility model because realized variance
+depends on the realized path of the stock price from inception to expiration.
+Given that local variance is a risk-neutral conditional expectation of instan-
+taneous variance, it seems obvious that any other model would generate
+extra ﬂuctuations of the local volatility surface relative to its initial state.
+Between these model-independent upper and lower bounds, it seems
+reasonable to suppose that the fair value of an option on variance is closest
+to that given by a stochastic volatility model. We have spent much of this
+book arguing that local volatility models have unrealistic dynamics, so it’s
+easy to reject the lower bound as representing fair value. On the other
+hand, the upper bound could represent some wild dynamics of the volatility
+surface. In practice, volatility surfaces are very well behaved. For example,
+Cont and da Fonseca (2002) do principal components analysis on time
+series of volatility surfaces and ﬁnd that nearly all of the variance can be
+explained by three modes of ﬂuctuation, which we may term volatility level,
+skew, and curvature. According to Cont and Fonseca, a staggering 94%
+of the variance of SPX volatility surface is explained by the ﬁrst principal
+component which by inspection is roughly a change in level (i.e., a change
+in instantaneous volatility in our context).
+Forde (2006) makes further progress by generalizing the Carr-Lee result
+to local-stochastic volatility models of the type
+dS = σ(S) √v dZ
+where σ(S) is some deterministic function of S (a local volatility function)
+and v is stochastic but independent of Z. He shows how given a local
+volatility function σ(S), the law of quadratic variation can be recovered
+from the smile at a single expiration by considering the prices of certain
+eigenfunction contracts. Such local stochastic volatility models are now
+standard in the foreign exchange markets where tight bid-ask spreads on
+claims such as one-touch options exclude plain stochastic volatility models.
+As mentioned earlier in Chapter 9, bid-ask spreads on one-touch equity
+options are not yet tight (to say the least) so the same pressure to add a
+∗Strictly speaking, the upper bound has only the status of a conjecture.
+†It seems that Bruno Dupire is close to a formal proof.
+
+156
+THE VOLATILITY SURFACE
+local volatility component is not felt. In addition, the at-the-money volatility
+skew in equity markets is in general much more pronounced than in FX
+markets. This fact combined with empirical observations of volatility surface
+dynamics leads equity derivative modelers to generate skew from nonzero
+correlation between stock returns and volatility changes rather than from
+an explicit local volatility function.
+LISTED QUADRATIC-VARIATION BASED SECURITIES
+The VIX Index
+In 2004, the CBOE listed futures on the VIX—an implied volatility index.
+Originally, the VIX computation was designed to mimic the implied volatil-
+ity of an at-the-money 1-month option on the OEX index. It did this by
+averaging volatilities from eight options (puts and calls from the closest to
+ATM strikes in the nearest and next to nearest months). To facilitate trading
+in the VIX, the deﬁnition of the index was changed. Here is an excerpt from
+the FAQ section on the CBOE website:
+‘‘How is VIX being changed? Three important changes are being
+made to update and improve VIX: 1. The New VIX is calcu-
+lated using a wide range of strike prices in order to incorporate
+information from the volatility skew. The original VIX used only
+at-the-money options. 2. The New VIX uses a newly developed
+formula to derive expected volatility directly from the prices of
+a weighted strip of options. The original VIX extracted implied
+volatility from an option-pricing model. 3. The New VIX uses
+options on the S&P 500 Index, which is the primary U.S. stock
+market benchmark. The original VIX was based on S&P 100 Index
+(OEX) option prices.
+Why is the CBOE making changes to the VIX? CBOE is
+changing VIX to provide a more precise and robust measure of
+expected market volatility and to create a viable underlying index
+for tradable volatility products.
+The New VIX calculation reﬂects the way ﬁnancial the-
+orists, risk managers and volatility traders think about—and
+trade—volatility. As such, the New VIX calculation more closely
+conforms to industry practice than the original VIX methodology.
+It is simpler, yet it yields a more robust measure of expected volatil-
+ity. The New VIX is more robust because it pools information from
+option prices over a wide range of strike prices thereby capturing
+the whole volatility skew, rather than just the volatility implied by
+
+Volatility Derivatives
+157
+at-the-money options. The New VIX is simpler because it uses a
+formula that derives the market expectation of volatility directly
+from index option prices rather than an algorithm that involves
+backing implied volatilities out of an option-pricing model. The
+changes also increase the practical appeal of VIX. As noted previ-
+ously, the New VIX is calculated using options on the S&P 500
+index, the widely recognized benchmark for U.S. equities, and the
+reference point for the performance of many stock funds, with
+over $800 billion in indexed assets. In addition, the S&P 500 is
+the domestic index most often used in over-the-counter volatility
+trading. This powerful calculation supplies a script for replicating
+the New VIX with a static portfolio of S&P 500 options. This
+critical fact lays the foundation for tradable products based on the
+New VIX, critical because it facilitates hedging and arbitrage of
+VIX derivatives. CBOE has announced plans to list VIX futures
+and options in Q4 2003, pending regulatory approval. These will
+be the ﬁrst of an entire family of volatility products.
+This explanation is intriguing. To see what the CBOE means, consider
+the VIX deﬁnition (converted to our notation) as speciﬁed in the CBOE
+white paper (CBOE 2003):
+VIX2 = 2
+T
+
+i
+Ki
+K2
+i
+Qi(Ki) −1
+T
+ F
+K0
+−1
+2
+(11.16)
+where Qi is the price of the out-of-the-money option with strike Ki and K0
+is the highest strike below the forward price F.
+We recognize the VIX formula (11.16) as a straightforward discretiza-
+tion of equation (11.4) making clear the reason why the CBOE implies that
+the new index permits replication of volatility.
+To see this, we start with the log-strip formula (11.4) for valuing
+variance. Rewriting it in terms of strikes rather than log-strikes, and noting
+from CBOE (2003) that K0 is deﬁned to be the ﬁrst strike below the index
+level F, we obtain (with obvious notation)
+VIX2 T
+2
+=
+ F
+0
+dK
+K2 P(K) +
+ ∞
+F
+dK
+K2 C(K)
+=
+ K0
+0
+dK
+K2 P(K) +
+ ∞
+K0
+dK
+K2 C(K) +
+ F
+K0
+dK
+K2 (P(K) −C(K))
+=:
+ ∞
+0
+dK
+K2 Q(K) +
+ F
+K0
+dK
+K2 (K −F)
+
+158
+THE VOLATILITY SURFACE
+≈
+ ∞
+0
+dK
+K2 Q(K) + 1
+K2
+0
+ F
+K0
+dK (K −F)
+=
+ ∞
+0
+dK
+K2 Q(K) −1
+K2
+0
+(K0 −F)2
+2
+One possible discretization of this last expression is
+VIX2 = 2
+T
+
+i
+Ki
+K2
+i
+Qi(Ki) −1
+T
+ F
+K0
+−1
+2
+as in the VIX speciﬁcation (11.16).
+VXB Futures
+Volume on VXB futures (the VXB index is deﬁned to be 10 times the VIX)
+has been negligible. For example, as of December 8, 2004, the December
+VXB future had been trading an average of 155 contracts per day. At the
+then price of 132.30, that corresponds to roughly $2 million of notional per
+day. In contrast, Dec04 SPX futures were trading around 50,000 contracts
+corresponding to around $15 billion of notional per day.
+As a practical indication of how the replicating strip (11.4) is associated
+with expected variance, settlement is on the Wednesday before the third
+Friday based on the opening prices of options expiring in the following
+month, the third Friday being the day on which the payoffs of SPX options
+are set.
+A Subtlety
+VXB futures settle based on the square root of the value of the
+replicating strip (i.e., on volatility rather than variance) so there must be a
+convexity adjustment. However, this isn’t exactly the same as the convexity
+adjustment
+
+E[WT] −E[
+
+WT]
+that we computed earlier.
+As of the valuation date, the convexity adjustment relevant to the VXB
+futures contract is given by
+#
+E[Wt,T] −E
+#
+Et[Wt,T]
+
+
+Volatility Derivatives
+159
+where t is the settlement date, T is the expiration date of options in the strip
+and the expectation is computed as of some valuation date prior to t.
+As before, we can easily compute E[Wt,T] from strips of options expiring
+at times t and T respectively but we need a model to compute E
+
+Et[Wt,T]
+
+.
+One obvious question is where the market prices this convexity adjust-
+ment. As of December 8, 2004, the spot VXB was at 132.30. Computing
+the expected forward variances E[Wt,T] from market prices of options we
+obtain the empirical convexity adjustments shown in Table 11.1.
+The next question is what the VXB futures are worth theoretically.
+VXB Convexity Adjustment in the Heston Model
+To compute the VXB con-
+vexity adjustment in the Heston model, we ﬁrst note that expected 1-month
+expected total variance Wt,T given the instantaneous variance vt is
+f(v) = E[Wt,T] = (v −v) 1 −e−λ τ
+λ
++ v τ
+with τ = T −t.
+Then
+E
+
+Wt,T
+
+=
+ ∞
+0
+q(v|v0)
+#
+f(v) dv
+(11.17)
+where q(v|v0) is the pdf of instantaneous variance v given the initial
+variance v0.
+Computing the integral in equation (11.17) numerically using Heston
+parameters from a ﬁt to December 8, 2004, data, we get the graph of
+the convexity adjustment as a function of time to expiration shown in
+Figure 11.6.
+We see that for the two futures maturities listed in Table 11.1, the Heston
+convexity adjustments were respectively around 7.4 and 8.6 points—not so
+different from the empirically observed numbers.
+TABLE 11.1
+Empirical VXB convexity adjustments as of December 8, 2004.
+Expiry
+VXB Price
+Fwd Variance
+Convexity Adjustment
+Spot
+132.30
+132.30
+0.00
+Jan-05
+144.20
+149.09
+4.89
+Feb-05
+153.30
+159.63
+6.33
+
+160
+THE VOLATILITY SURFACE
+0.25
+0.5
+0.75
+1
+1.25
+1.5
+t
+2
+4
+6
+8
+10
+12
+14
+VXB Adjustment
+FIGURE 11.6
+Annualized Heston VXB convexity adjustment as a function of t with
+Heston parameters from December 8, 2004, SPX ﬁt.
+Dupire’s Method for Valuing VXB Futures
+Recall that roughly speaking, at
+maturity T1, a VXB future pays
+#
+ET1[⟨x⟩T1,T2] =: Y
+where ⟨x⟩T1,T2 = ⟨x⟩T2 −⟨x⟩T1 between times T1 and T2. Also, by deﬁnition,
+Et[Y]2 = Et[Y2] −Vart[Y]
+Dupire (2005) notes that the convexity adjustment is given precisely by the
+variance of VXB futures themselves. Since VXB futures trade, the variance
+Vart[Y] may be estimated historically from the time series of futures prices.
+The fair value of the VIX future is then given by
+Et[Y] =
+
+Et[Y2] −Vart[Y]
+Knock-on Beneﬁts
+Although VXB futures contracts haven’t been very successful by usual
+futures standards, they have contributed to stimulating the OTC market to
+very substantially tighten spreads. Now SPX variance swaps can be traded
+from six months to ﬁve years with bid-offer spreads of as little as 0.5 vol.
+points. Single-stock variance swaps are also now actively quoted; for the
+top 50 U.S. single stock names, bid-offer spreads are around 2.5 vol. points
+at the time of writing.
+
+Volatility Derivatives
+161
+SUMMARY
+Although volatility derivatives are a relatively recent innovation, they are
+already widely traded, not least because from a practical perspective, valu-
+ation is well understood. We saw that although the standard variance swap
+valuation approach assumes diffusion, the existence of reasonably sized
+jumps wouldn’t change the valuation by much. We also saw that although
+the relationship between the valuation of options on variance and European
+option prices is currently only partially understood, it’s pretty clear from
+a practical perspective how to value them. From a theoretical perspective,
+there are surely further connections to be made between the valuation of
+volatility derivatives and the dynamics of the underlying process.

@@ -1,0 +1,1473 @@
+C H A P T E R 6
+Money
+Management
+“Everybody’s got a plan until they get hit”
+—Mike Tyson
+M
+ike Tyson once said, “Everybody’s got a plan until they get hit.”
+While it is not true that a good money management system can turn
+any trading method into a proﬁtable one, it is certainly possible to
+ruin even the best value trades with poor money management. Edge esti-
+mation and capture are difﬁcult and both involve subjective judgment. So it
+is probably understandable that traders focus so heavily on these aspects.
+But money management and trade sizing is just as essential for success. In
+this chapter we look at the various methods we can use to size trades and
+the risk/reward characteristics that each choice implies.
+AD HOC SCHEMES
+Consider the equity curves given in Figures 6.1 and 6.2. It seems obvious
+that the trader in the ﬁrst ﬁgure is in some sense better. He has made a
+lot more money in the same period of time, albeit while displaying more
+variance.
+Actually, in this instance the trades that the traders made were identi-
+cal. All the difference in their equity curve was due to the sizing strategy.
+Both traders were playing a game in which they ﬂipped a coin and received
+a dollar if they were correct and paid a dollar if they were wrong. Each
+101
+
+102
+VOLATILITY TRADING
+0
+1,000
+2,000
+3,000
+4,000
+5,000
+6,000
+7,000
+8,000
+1
+101
+201
+301
+401
+501
+601
+701
+801
+901
+1,001
+Number of  Trades
+Cumulative P/L
+FIGURE 6.1
+Equity Curve for a Trader Betting 5 Percent of his Bankroll on Each
+Trade
+won 550 bets out of 1,000. But the ﬁrst trader ﬁnished with $5,207 and the
+second only accumulated $620. Trade sizing is clearly an important issue.
+The simplest method is to size according to feel. The trade size is ad-
+justed on an ad hoc basis depending on how good the trader thinks the
+individual bet is. This is a terrible idea. This isn’t really so very different to
+picking trades based on feel. Our entire methodology is based on the idea
+that we can systematically approach the trading process, and to size our
+trades according to hunches goes completely against this. It will let us fall
+victim to our moods and psychological biases: precisely what we are trying
+to avoid.
+0
+100
+200
+300
+400
+500
+600
+700
+1,001
+901
+801
+701
+601
+501
+401
+301
+201
+101
+1
+Number of Trades
+Cumulative P/L
+FIGURE 6.2
+Equity Curve for a Trader Betting $5 on Each Trade
+
+Money Management
+103
+The next step is to trade the same amount every time. For example, we
+might choose to always trade 100 options or 1,000 vega. This is known as
+a ﬁxed trade size system. Any system that can ﬁnd value will be proﬁtable
+(over the long run) with such a sizing scheme. In back-testing this is often
+the sizing scheme used, as it most clearly shows the proﬁtability of the
+underlying method.
+Or we could choose to trade a constant percentage of our bankroll at
+each opportunity. This is known as a ﬁxed fraction sizing system.
+Our coin toss example was for just one group of 1,000 bets. Figures 6.3a
+through c show the results for another three trials. We can see two things.
+First, even though in all cases we have the same mathematical edge (a
+55 percent chance of winning an even money bet) the results vary wildly.
+Second, the choice of bet size makes a huge difference. Proportional bet-
+ting sometimes results in vastly greater ﬁnal wealth and can never go to
+zero (at least in the idealized case we consider here where we have in-
+ﬁnitely divisible currency units), but looks to be a lot more volatile in its
+results than ﬁxed betting.
+This numerical experiment has clearly shown that the choice of a stak-
+ing plan is important. In addition to the two schemes just mentioned, there
+are a number of others we could dream up, such as betting so that all suc-
+cessful bets would win the same amount, increasing bets (either by abso-
+lute size or relative size) after a win, or adopting a similar strategy where
+we increase bet size after a loss. With all these schemes there will be pa-
+rameters we need to choose, such as what percentage of our bankroll to
+start betting with. How can we decide between all the alternatives? A pos-
+sible solution to this problem was found by John Kelly (Kelly 1956).
+THE KELLY CRITERION
+Consider a general situation such that when we win we gain w percent, and
+when we lose we lose l percent. Our bankroll is initially W0. Each bet is a
+set fraction, f, of the bankroll.
+So after a win our bankroll is
+W0 (1 + f w)
+(6.1)
+Or we can say that the gain factor is (1 + fw). Similarly, a loss would leave
+us with
+W0 (1 −f w)
+(6.2)
+So the gain factor here is (1 −f l). More simply, each time we win we mul-
+tiply by (1 + fw) and when we lose we multiply by (1 −f l). So for n wins
+
+104
+VOLATILITY TRADING
+0
+1000
+2000
+3000
+4000
+5000
+6000
+7000
+8000
+1
+101
+201
+301
+401
+501
+601
+701
+801
+901 1001
+Number of Trades
+Cumulative P/L
+% bets
+$ bets
+(a)
+0
+50
+100
+150
+200
+250
+300
+1
+101
+201
+301
+401
+501
+601
+701
+801
+901 1001
+Number of Trades
+Cumulative P/L
+% bets
+$ bets
+(b)
+0
+2000
+4000
+6000
+8000
+10000
+12000
+14000
+16000
+1
+101
+201
+301
+401
+501
+601
+701
+801
+901 1001
+Number of Trades
+Cumulative P/L
+% bets
+$ bets
+(c)
+FIGURE 6.3
+Three More Comparative Equity Curves for the Same Process
+
+Money Management
+105
+and m losses the gain factor is
+G( f ) = (1 + f w)n (1 −fl)m
+(6.3)
+Or per trade we get
+G( f )
+1
+n+m ≡g ( f ) = (1 + f w)p (1 −fl)q
+(6.4)
+where
+p = n/(n + m) is the probability of a win
+q = m/(n + m) is the probability of a loss
+It would be a mistake to choose f to maximize G. On any ﬁnite num-
+ber of bets, our expected return would be maximized by betting our entire
+bankroll each time. Sadly, this also gives us a 100 percent chance of go-
+ing bankrupt, as eventually we are bound to lose. This strategy takes no
+account of risk.
+We actually want to maximize our risk-adjusted return or utility. This
+involves choosing a particular utility function again. Generally the log util-
+ity function is chosen (we could choose any one of a number of utility
+functions but the log function can be shown to do better in the long run
+than any other). In this case we will not be maximizing expected wealth but
+we will be maximizing typical wealth. This distinction is important. The
+average value would be heavily distorted by the unlikely case where the
+trader wins every trade. This won’t be of great consolation to the traders
+who have gone bankrupt. By maximizing the logarithm of expected wealth
+we eliminate the possibility of bankruptcy.
+So we take the log of the gain function and ﬁnd the optimal f by differ-
+entiating with respect to x and then setting this equal to zero. This gives
+f = (pw −ql)
+wl
+(6.5)
+(So in our initial simple example the Kelly fraction would have been 0.1.)
+Our expected bankroll after N bets would be given by
+W = W0(1 + pln (1 + f w) + q ln (1 −fl))N
+(6.6)
+Figure 6.4 shows the expected bankroll for 10 bets as a function of bet
+size where wins pay twice as much as the losses and we win 45 percent of
+bets. The Kelly ratio in this case is 0.175, which corresponds to the peak
+of the curve. Betting more than twice Kelly turns the growth rate negative
+and our bankroll becomes more depleted as we bet bigger.
+
+106
+VOLATILITY TRADING
+–0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+1.4
+1.6
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1
+Bet Size
+Bankroll
+FIGURE 6.4
+Expected Bankroll for 10 Bets as a Function of Bet Size
+The Excel spreadsheet “Trade Sizing.xls” shows portfolio growth for
+various ﬁxed-proportion bets as well as the optimal bet size derived from
+the Kelly criterion. Playing around with a few betting sessions by hitting
+the F9 key to recalculate the sheet and looking at the graph showing total
+wealth should make several points abundantly clear.
+r The Kelly fraction generally ﬁnishes with more wealth than any other
+chosen proportional scheme.
+r The swings in our equity become uncomfortably large when betting the
+Kelly fraction.
+r Betting more than Kelly is worse than betting less.
+This last point is worth emphasizing. Betting more than Kelly results in
+higher volatility and lower returns. This can be seen in Figure 6.5, where
+we show one realization of a P/L curve for the coin-tossing game when
+using half Kelly, full Kelly, and twice Kelly bet sizes.
+At this point let’s just assume that the Kelly strategy is sufﬁciently
+intriguing to make it worthwhile considering a more realistic situation,
+one that is closer to those we might encounter when trading ﬁnancial
+instruments.
+We need to generalize the situation to deal with a continuous outcome.
+Imagine trading a situation where the outcome of a bet or trade is known
+to have a certain distribution. This would be the typical situation facing
+a trader: The distribution can be estimated either from historical trade re-
+sults or from more theoretical considerations. We do still insist at this point
+
+Money Management
+107
+8000
+10000
+12000
+14000
+16000
+Kelly
+half Kelly
+0
+2000
+4000
+6000
+901 1001
+801
+701
+601
+501
+401
+301
+201
+101
+1
+Cumulative P/L
+Number of Trades
+"twice Kelly"
+FIGURE 6.5
+Relative Volatility of a P/L Path Generated by Trading at Various Mul-
+tiples of the Kelly Ratio
+that the trades be independent and identically distributed. Again we bet a
+fraction, f, of our wealth at the start of each period so that
+Wn = Wn−1 + f Wn−1g (Xn)
+(6.7)
+where Xn is the random variable giving the result of the nth trade and it has
+the payoff g(Xn).
+After a sequence of n trades our bankroll will be
+Wn = W0
+n
+
+i=1
+[1 + fg (Xi)]
+(6.8)
+Now we take logarithms as before:
+ln (Wn) = W0
+n
+
+i=1
+ln [1 + fg (Xi)]
+(6.9)
+So
+E [ln (Wn)] = nW0E [ln [(1 + fg (Xn))]]
+(6.10)
+= nW0
+
+ln [()] 1 + fg (x) (x) dx
+(6.11)
+where (x) is the distribution function that describes the results of the
+trades.
+
+108
+VOLATILITY TRADING
+If we maximize over the bankroll fraction, f, we ﬁnd that the optimal
+value is the one that satisﬁes
+ g(x)(x) dx
+1 + fg(x)
+= E
+
+g (x)
+1 + fg(x)
+
+= 0
+(6.12)
+This equation is quite general—it applies to all distributions. It is some-
+times incorrectly stated that the Kelly criterion only applies to trades with
+binary outcomes. This is untrue. However, in the case of binary events,
+certain simpliﬁcations can be made. These approximations do indeed have
+limited applicability. In general this equation is too unwieldy to use di-
+rectly, but if we consider the case where our edge per trade is small we can
+make things simpler (and, sadly, this case usually is fairly representative of
+reality). In this situation we know that f will be small and we can expand
+equation (6.12) in a power series, then truncate after leading order to get
+0 ≈
+
+g(x)(x) [1 −fg(x) + · · ·] dx
+=
+
+g(x)(x) dx −f
+
+g2(x)(x) dx + · · ·
+(6.13)
+But the ﬁrst term is just the expected payoff for a unit bet and the
+second term is the variance of the payoff, g(x). So in the limit of small edge
+we obtain
+f = r
+σ 2
+(6.14)
+This is certainly simple enough to use. To estimate our trading size we
+need only the expected return of the trade and its variance, no matter how
+complicated the actual trade is. Actually, the return here should generally
+be interpreted as the return over the risk-free rate. Many derivations ne-
+glect to mention this. (Those aimed at gamblers probably neglect it as it is
+difﬁcult to earn interest while sitting at a blackjack table, and bookmakers
+tend not to pay interest either.)
+The expected growth rate for someone trading at a fraction, f, of the
+Kelly ratio is given by
+GR =
+
+f −f 2
+2
+ r2
+σ 2
+(6.15)
+which is maximized for f = 1: trading at the full Kelly ratio when the growth
+rate is
+GRmax = r2
+2σ 2
+(6.16)
+
+Money Management
+109
+And we see that the growth rate is zero for f = 0, the case where
+we don’t trade at all; and for f = 2, when we drastically overbet. As the
+growth rate is symmetric around f = 1 we can see it is better to bet more
+conservatively and hence to underestimate our edge (or, equivalently, to
+overestimate our variance) as we will obtain the same growth for f =
+1 – x and f = 1 + x.
+If we are trading according to the Kelly criterion, the probability that
+we reach a bankroll B × W > W0 before we dip to A × W < W0 is given by
+P(A, B) =
+1 −A1−2
+f
+B1−2
+f −A1−2
+f
+(6.17)
+It is interesting that the edge and variance of the trade don’t appear
+here. Having a better trade just speeds up the process. If A = 0.5 and
+B = 2 we get P(A,B) = 2/3. Conversely, this means that when betting at
+full Kelly you have a one-third chance of having your bankroll halve before
+it doubles! As we saw in our earlier simulations, Kelly sizing is exceedingly
+volatile. To deal with these extreme drawdowns it is reasonably common
+for Kelly devotees to trade at a fraction of the Kelly ratio. Table 6.1 shows
+how the probability of halving before doubling can be changed by using a
+fractional Kelly ratio.
+Reducing drawdowns by trading at a fraction of the Kelly ratio is not a
+free lunch. By trading smaller we dramatically increase the time needed to
+reach our upside goal. The expected exit time is given by
+E [T] =
+1
+GR log
+ BP(A,B)
+AP(A,B)−1
+
+(6.18)
+This is the mean time before we reach our goal (B.W0) or are stopped out
+(at A.W0).
+We now have some sort of intuition about our prospective proﬁt and
+loss distribution when using Kelly. We have the expected growth rate, a
+TABLE 6.1
+Probability of Doubling before Halving as a Function
+of the Kelly Fraction That We Are Trading
+Fraction of Kelly
+Probability (A,B)
+1.0
+0.667
+0.8
+0.739
+0.6
+0.834
+0.4
+0.941
+0.2
+0.998
+
+110
+VOLATILITY TRADING
+measure of dispersion (the drawdown probability), and the expected time
+to reach our goals. But it is actually possible to calculate the entire proba-
+bility distribution of our future bankroll. A nice paper by Chapman (2007)
+shows how the bankroll spreads through time. For convenience we take
+the initial bankroll to be 1. He shows the probability distribution evolves
+as
+P(x, f, t) = exp
+
+1 −1
+f
+
+t
+
+1
+√
+2πt
+exp
+
+−
+	
+log x +
+	
+3
+2 −1
+f
+
+t
+
+2
+2t
+
+(6.19)
+Figure 6.6 is worth examining carefully. It shows the evolution through
+time of the PDF of the bankroll when trading at the Kelly fraction. We see
+that over time the bankroll relaxes and diffuses away from its initial value.
+We can also see that when betting at the full Kelly ratio, our distribution of
+outcomes is highly skewed (this should have already been evident from the
+earlier discussions of drawdowns but some more visual evidence can em-
+phasize the point). The peak of the probability distribution function (PDF)
+is less than 1. We know that in the long run the Kelly strategy comprehen-
+sively dominates other strategies, but we also know that the result of any
+one series of trades is volatile and may be poor in the short run (before the
+growth rate has had a chance to overwhelm the volatility)—and the long
+run may take quite some time to arrive.
+0.4
+0.5
+0.6
+t = 0.5
+t = 1
+0
+0.1
+0.2
+0.3
+6
+5
+4
+3
+2
+1
+0
+Probability Distribution
+Bankroll
+t = 2
+t = 3
+FIGURE 6.6
+The Evolution through Time of the PDF of the Bankroll When Trading
+at the Kelly Fraction
+
+Money Management
+111
+0.25
+0.3
+0.35
+0.4
+t = 0.5
+t = 1
+0
+0.05
+0.1
+0.15
+0.2
+6
+5
+4
+3
+2
+1
+0
+Probability Distribution
+Bankroll
+t = 2
+t = 3
+FIGURE 6.7
+The Evolution through Time of the PDF of the Bankroll When Trading
+at Half of the Kelly Fraction
+Figure 6.7 shows how trading at a reduced Kelly fraction (in this case
+half-Kelly) substantially shifts the peak of the PDF to the right while still
+maintaining the skewness that makes large wins possible.
+Conversely, Figure 6.8 shows that trading higher than Kelly (twice
+Kelly in this instance) means that the PDF is pulled toward zero as time
+passes.
+0.6
+0.7
+0.8
+0.9
+1
+t = 0.5
+t = 1
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+6
+5
+4
+3
+2
+1
+0
+Probability Distribution
+Bankroll
+t = 2
+t = 3
+FIGURE 6.8
+The Evolution through Time of the PDF of the Bankroll When Trading
+at Twice the Kelly Fraction
+
+112
+VOLATILITY TRADING
+Sizing bets/trades according to the Kelly criterion is a controversial
+topic (see Poundstone 2005 for a very readable account). Most of the dis-
+cussion centers around the idea that maximizing the logarithm of expected
+wealth isn’t really what a sensible investor would want—in other words,
+the utility function is speciﬁed incorrectly. The anti-Kelly group includes
+Nobel Prize winners (Samuelson 1979), ﬁnance professionals (Brown
+2002), and sports gamblers (Miller, www.professionalgambler.com). How-
+ever, the other side of the argument also boasts some impressive names,
+including Ed Thorpe (Thorpe 1984, 1997) Claude Shannon (inventor of in-
+formation theory), David Shaw (founder of D. E. Shaw), and William Miller
+(manager of the Legg Mason Value Trust, the only SEC-regulated mutual
+fund to outperform the S&P 500 for 10 consecutive years). As the method
+is dependent on a utility function, it isn’t too surprising that people dis-
+agree. But instead of getting into arguments over what other people’s risk
+preferences should be, let’s simply look at its good and bad points.
+Good Points
+r Maximizing the expected value of the logarithm of wealth asymptot-
+ically maximizes the rate of growth, so the Kelly strategy eventually
+outperforms all others.
+r The Kelly strategy has zero risk of ruin.
+r On average we will always be ahead of any other strategy.
+r The strategy is myopic, in the sense that we only ever need to consider
+our current opportunities and bankroll, not subsequent situations. This
+is not the case for progression type methodologies where current trade
+sizes are a function of previous trade sizes. Myopia is very useful when
+deciding if a strategy is practically useable.
+r Trading a fraction of the Kelly amount allows us to easily tune our
+desired level of risk at the expense of lower expected returns.
+Bad Points
+r When betting a fraction of wealth, a loss followed by a win still leaves
+us behind.
+r The amount bet becomes extremely large in situations where we have
+a large amount of edge—in other words, when the probability of a win
+is high or the risk is very low.
+r Probability estimation becomes crucial. Overinvesting based on over-
+estimation of success likelihood will lead to disaster.
+r The total amount of money invested is far larger than the winnings.
+r Due to the strategy’s very volatile outcomes, it is possible to have ses-
+sions with very poor outcomes even though the long-term expectations
+are high.
+r The time necessary for the long run to dominate can be very long
+indeed.
+
+Money Management
+113
+r Sometimes it isn’t obvious what bankroll is. It certainly isn’t haircut.
+The haircut is the amount we need to post at our clearing ﬁrm, but it
+certainly is not the amount you are able to lose. Generally it is better
+to think of bankroll as the amount you can lose before the strategy is
+abandoned. But sometimes this isn’t clear, either. This was studied by
+Leib (1995), who pointed out that amateur blackjack players should
+bet much more aggressively than professionals, as the amateurs could
+replenish their bankrolls from their other income. This concept also
+applies to traders who can switch jobs.
+We all know we need to be patient when trading. This is often axiomat-
+ically stated as a virtue. We tend to say reﬂexively that we possess patience
+because we are so acutely aware that it is necessary for a good trader, but
+how patient do we need to be to reap the beneﬁts of the Kelly strategy?
+An example from Browne (2000) shows that waiting for the long
+run can be more tedious than we might reasonably expect. He considers
+an investor who has a choice between a stock with an annual return of
+15 percent and a volatility of 30 percent, and an interest bearing account
+that pays 7 percent. The Kelly criterion (equation 6.14) has us invest 89
+percent of our wealth [0.15 −0.07/(0.3)2] in the stock and put the remain-
+der in the bank. Before we will have a 95 percent probability of beating
+the all-cash portfolio by 10 percent we have to wait 157 years. Even worse,
+in order to have a 95 percent probability of beating the all-stock portfolio
+by 10 percent we have to wait 10,286 years. Even the expected times to
+outperform these benchmarks is 2.8 years and 184 years.1 Patience is
+indeed necessary.
+ALTERNATIVES TO THE KELLY CRITERION
+So is what Kelly does really what a trader wants? As always, the answer is,
+“It depends.” What externally imposed constraints does he face? In a per-
+sonal account where no one else can stop him out due to a drawdown, a
+trader may be happy to use Kelly and tune the volatility by trading a fraction
+of the full Kelly ratio. Similarly, when we are making an enormous number
+of trades in a short period we may accept a Kelly-based sizing method, as
+we can be more conﬁdent that the long run will arrive soon enough to over-
+whelm any variance effects. But when trading in an institutional setting or
+when being backed by someone else, the Kelly criterion is probably not re-
+ally aligned with the interest of the trader. Here a trader isn’t as interested
+1The expected time for Kelly to outperform another strategy with a trading fraction
+f ’ by ε percent is given by
+2
+σ 2( f −f ′)2 ln (1 + ε).
+
+114
+VOLATILITY TRADING
+in optimal long-term growth as he is in a better chance of making a proﬁt.
+He will trade maximal long-term potential for more certain short-term
+proﬁts.
+We said earlier that Kelly was expected to outperform other strate-
+gies, so what can the trader do that is better? He can gain a more certain
+short-term proﬁt by giving up the impossibility of ever going broke. (When
+trading according to Kelly or any fractional money management scheme we
+can never go broke. However, this is really a theoretical point because most
+traders will get ﬁred as quickly for turning in a 90 percent drawdown as a
+100 percent drawdown.) To see the general principle behind this trade-off
+we now look at Oscar’s system, a progressive betting system ﬁrst devised
+by a craps player in the 1950s (Wilson 1965).
+A progressive betting system can never turn a negative edge into a pos-
+itive edge. There is no magic. But the sizing algorithm can change certain
+aspects of the payout schedule. We have already seen this. The fractional
+Kelly system traded lower returns for smaller drawdowns. Oscar wanted
+something entirely different. He just wanted every weekend he spent in
+Las Vegas to end with a small win. So he devised a progression that works
+exceedingly well in the short run.
+There are two general types of betting progressions: positive progres-
+sions and negative progressions. With a positive progression, the general
+idea is that you raise your bets after wins. This means that your bigger bets
+are primarily funded by prior proﬁts. The Kelly scheme is an example of a
+positive progression.
+With a negative progression, the general theory is that you raise your
+bets after losses. This attempt to get back to even more quickly is more
+dangerous, since an untimely run of losses can bankrupt you very quickly.
+However, these schemes are seductive in that they allow you to win after
+a session in which you’ve lost more bets than you’ve won. Since your bets
+after losses are bigger bets, you don’t have to win so many of them to come
+back. The other result is that you lose so many consecutive bets that you
+go broke.
+Many attempts have been made to combine the best features of these
+systems. Oscar’s system was one. Oscar wanted to win just one unit. Each
+session started with a one unit bet. If it won he stopped. If he lost, the next
+bet was the same size (so we take more risk than with Kelly because our
+bets as a percentage of our bankroll grow as we lose). After a win, the next
+bet would be one unit higher than the last. No bet would ever be so large
+that it would take us over the target.
+This system has been analyzed in detail, ﬁrst by Wilson and then
+more extensively by Ethier (1996). The probability of success is shown in
+Table 6.2.
+The problem is that in the rare instances that things go badly, they go
+horrendously badly. According to Wilson, in the 1960s Julian Braun ran a
+
+Money Management
+115
+TABLE 6.2
+The Probability of Reaching a Proﬁt Target of One Unit before
+Having to Quit When Using Oscar’s System, as a Function of the Win
+Probability for a Single Trial, p, and the House Limit M
+M
+p = 9/19
+p = 244/495
+p = 1/2
+50
+0.99078112
+0.99620367
+0.99734697
+100
+0.99464246
+0.99841219
+0.99904342
+150
+0.99587158
+0.99902785
+0.99947577
+200
+0.99646866
+0.99930553
+0.99965833
+250
+0.99681764
+0.99946077
+0.99975501
+300
+0.99704404
+0.99955895
+0.99981337
+350
+0.99720107
+0.99962624
+0.99985174
+computer simulation of Oscar’s system. He assumed the house had a bet-
+ting limit of 500 units and that the probability of success for each bet was
+244/495 (consistent with craps). In 280,000 trials there were 66 disasters
+where the gambler bumped up against the house limit. Those situations lost
+an average of 13,000 units. So the laws of mathematics can’t be cheated, but
+we can choose to push the disasters into the future rather than experience
+them continuously. To a certain degree, you can choose when to take your
+(inevitable) losses.
+The situation for traders is different. Here we have a positive expec-
+tation. But we would still like to perform a similar trick to Oscar and
+somewhat smooth our stream of proﬁts. We would also like to reduce our
+dependency on the long run. This was the problem addressed by Browne
+(1999, 2000). Speciﬁcally he found the dynamic strategy that maximized the
+probability of reaching a given wealth level in a speciﬁed time. He shows
+that the optimal fraction to invest with time T left to reach the goal B when
+current wealth is W, is given by
+f ∗=
+1
+σ
+√
+T
+B exp (−rT)
+W
+n
+
+N−1
+W exp (rT)
+B
+
+(6.20)
+where
+n(x) =
+1
+√
+2π
+exp
+−x2
+2
+
+(6.21a)
+N (x) =
+x
+
+=∞
+n(z) dz
+(6.21b)
+r is the interest rate.
+Browne shows that this sizing strategy is equivalent to the hedging
+strategy of a binary call. This argument is insightful and should help
+
+116
+VOLATILITY TRADING
+option traders get a feel for the behavior of the strategy. It may also help us
+think of ideas for generalizing the argument to more realistic scenarios, for
+example where we have a stop placed on our bankroll as well as a target
+on the upside.
+If we have a stock that evolves according to our normal model of ge-
+ometric Brownian motion (GBM), the value of an option that pays B if we
+are above the strike, K, at time T, is given by
+C = B exp (−r (T −t)) N
+
+ln
+ S
+K
+
++
+
+r −1
+2σ 2
+(T −t)
+σ√T −t
+
+(6.22)
+(Haug 2007b). The delta of this option is given by
+ = B exp (−r (T −t)) n
+
+ln
+ S
+K
+
++
+
+r −1
+2σ 2
+(T −t)
+σ√T −t
+
+1
+Sσ√T −t
+(6.23)
+Here  is the number of shares in the hedging portfolio, so at any time
+the value of the hedge is given by S. If we were actually short the option,
+our aim would be to hedge it so that we maximized the probability that
+we could pay off the claim at expiry. Or, at any given time, our wealth is
+given by the expression in equation (6.22) and we need to maximize the
+probability that our terminal wealth is given by B. The optimal policy in
+such a case is given by equation (6.20), here with wealth x = C(t,S). Making
+this substitution we obtain
+f ∗= S
+(6.24)
+So this strategy is indeed equivalent to the hedging strategy of the dig-
+ital call where we consider the stock price to be our wealth, W. Figures 6.9
+and 6.10 show the difference between this dynamic sizing strategy and the
+constant Kelly strategy. This assumes that we are trading a stock with a
+drift of 22 percent, an annualized volatility of 45 percent, and there is also
+a risk-free rate of 8 percent. In this case the Kelly ratio is 0.6914. Our goal is
+to make 50 percent in a session of 100 trading days (not completely unrea-
+sonable, but very optimistic given the drift and volatility of the underlying).
+We can see that initially the Browne strategy is much more aggressive. We
+know that our goal requires us to take signiﬁcant risk. Initially we trade at
+a leverage of 1.8, three times the leverage of the Kelly strategy. But as we
+get closer to our goal we signiﬁcantly dial down the risk. In practice we
+would continually monitor our goals and make adjustments (this process
+is discussed in Chapter 7).
+
+Money Management
+117
+60
+80
+100
+120
+140
+160
+180
+1
+7
+13
+19
+25
+31
+37
+43
+49
+55
+61
+67
+73
+79
+85
+91
+97
+Trading Days
+Wealth
+Kelly
+Browne
+FIGURE 6.9
+The Wealth Accumulated When Following the Browne and Kelly
+Strategies
+Browne also shows that the expected time for this strategy to beat any
+other is given by
+T =
+
+N−1(1 −α) −N−1
+1
+1−ε
+
+σ( f −f ′)
+2
+(6.25)
+So now we can compare this strategy to Kelly’s results given earlier.
+The results are shown in Table 6.3.
+0
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+1.4
+1.6
+1.8
+2
+1
+6
+11
+16
+21
+31
+36
+41
+46
+51
+56
+61
+66
+71
+76
+81
+86
+91
+96
+Trading Days
+Browne Ratio and Goal Likelihood
+Browne ratio
+Prob of Success
+FIGURE 6.10
+The Browne Ratio and the Probability of Reaching the Goal
+
+118
+VOLATILITY TRADING
+TABLE 6.3
+Time Needed for Browne’s Strategy to Beat Competing Strategies by
+10 Percent
+Bankruptcy Probability
+Time to Beat Cash
+Time to Beat Stock
+by 10% (years)
+by 10% (years)
+0.05
+1.3
+85
+0.01
+14
+900
+0.001
+43
+2,780
+0.0001
+73
+4,774
+These numbers are far better than for the Kelly strategy. Recall that for
+Kelly to beat the stock by 10 percent (at the 95 percent conﬁdence level)
+would take 10,286 years. Granted, trading using the Kelly criterion would
+leave us with no chance of bankruptcy, but the signiﬁcant improvement in
+the expected time to perform may well make this small risk worthwhile.
+As we can see, according to the criteria of expected time to dominate,
+this method is far better than Kelly. It is also riskier. Speciﬁcally, we expect
+to achieve our goal with probability V, and go bankrupt with probability 1
+−V, where V is given by
+V = N
+
+N−1
+W exp (rT)
+B
+
++ µ −r
+σ
+√
+T
+
+(6.26)
+where
+µ is the expected drift of the asset.
+V is also shown earlier in Figure 6.10.
+As we said earlier, when utility functions are involved we need to de-
+cide what exactly we mean by successful.
+TRADE SIZING IN A CONTINUOUSLY
+CHANGING SETTING
+The situations examined so far have been static. Either we have had an
+opportunity to place a single trade/bet and see how it fares, or we have
+had the opportunity to invest in an asset with ﬁxed drift and volatility. A
+more realistic situation is one where the parameters we are interested in
+are changing. In particular we saw in Chapter 3 that implied volatility is a
+mean-reverting process. What are the implications of this for trade sizing?
+
+Money Management
+119
+Consider a very simple example. Imagine we again have a chance to
+place a bet that will win 55 percent of the time and pay even money. We
+know the Kelly ratio here is 0.1 so we bet 10 percent of our bankroll. Now,
+before the bet is settled, the odds change so that we are paid 1.2 times as
+much for a win as we lose if we are wrong. Under these conditions the
+Kelly ratio is 0.175 so we would opt to increase our bet as the conditions
+are now much more favorable to us. Essentially we now have a position at
+an average payoff of between 1 and 1.2, but when the second bet is placed
+we had to take into account that our bankroll was smaller as a result of
+placing the ﬁrst bet.
+We will see that trading a mean-reverting process is similar. As the de-
+viations from fair value get larger we will do more of the trade. This leads to
+the rule of thumb: When in trouble, double. But this is true only to a point.
+In a continuous trading setting, as we get better and better prices we will
+be losing money on the position we have already established. Eventually
+these losses will have depleted our bankroll to the point where we actu-
+ally want to have a smaller position. This is consistent with how market
+makers are told to size their trades when they have things pushed against
+them. The old rule would have a market maker sell 100 at his ﬁrst level,
+then back up and sell 200 at the next level, back up again, and sell 300 at
+the next level. But if things get pushed further from fair value he would
+start to buy the position back. This isn’t necessarily because his estimate
+of what is fair might have changed (although by this point it probably will
+have done so), but because he has lost money and the short 600 lot position
+is too large a function of his new account size.
+We will set up a simple model that captures the basic features of what
+we are trading, and try to generalize the Kelly argument. The simplest
+mean-reverting model is the single-parameter Ornstein-Uhlenbeck process,
+governed completely by its speed of reversion, µ. Also let’s assume for sim-
+plicity that we have normalized the underlying, S, so it has a mean of zero
+and a standard deviation of 1.
+dS = −µSdt +
+
+2µdZ
+(6.27)
+As with GBM, these asset paths look very noisy, and just looking at
+them would be a very bad way to estimate the true reversion speed. Ac-
+tually, visual inspection wouldn’t even be enough to see that these were
+mean-reverting. For example, the three paths shown in Figures 6.11a, b,
+and c all simulate ﬁve years of daily prices with a reversion speed of 100
+percent.
+The optimal asset allocation for such a process has been studied
+(Boguslavsky and Boguslavskaya 2004; Liu and Longstaff 2004). They
+
+120
+VOLATILITY TRADING
+−1.5
+−1
+−0.5
+0
+0.5
+1
+1.5
+2
+2.5
+3
+(a)
+−2
+−1.5
+−1
+−0.5
+0
+0.5
+1
+1.5
+(b)
+−2
+−1
+−1.5
+0.5
+0
+2
+1.5
+1
+2.5
+3
+3.5
+(c)
+FIGURE 6.11
+Three Diﬀerent Instances of an Asset Path Generated by the Same
+Mean-Reverting Process
+showed that if we try to generalize the Kelly approach and maximize the ex-
+pected value of the logarithm of wealth, the solution is that we should hold
+−W × σ/2
+(6.28)
+in the asset.
+So if we are risking $100 and the price of the asset is 1.8 standard de-
+viations from its mean (i.e., σ = 1.8), then we will have a short position of
+100 × 1.8/2 = 90. In practical terms this means we should have on a position
+such that if the spread goes back to the mean we should make $90.
+
+Money Management
+121
+−2.0000
+−1.5000
+−1.0000
+−0.5000
+0.0000
+0.5000
+1.0000
+1.5000
+937
+859
+781
+703
+625
+547
+469
+391
+313
+235
+157
+79
+1
+Time (Days)
+Price
+1015109311711249
+FIGURE 6.12
+The Mean-Reverting Asset Price
+Figures 6.12 and 6.13 show the results of a trading session where we
+size our trades according to this rule.
+There are a number of important things to note about this deceptively
+simple result:
+r Wealth is equally as important as the attractiveness of the trade (σ and
+W are interchangeable in the result).
+r The maximum position is at σ =
+√
+2. Beyond this the effect of losing
+wealth dominates. The trades are now better but our bankroll is now
+also smaller.
+r At deviations smaller than
+√
+2, we add to trades as they go against us.
+Here the extra edge in the trade dominates the fact that we are losing
+money on our position.
+r This result is independent of the reversion speed. High reversion rates
+are good, but only because we get to do more trades in the same period
+of time.
+0.00
+100.00
+200.00
+300.00
+400.00
+500.00
+600.00
+700.00
+925
+848
+771
+694
+617
+540
+463
+386
+309
+232
+155
+78
+1
+Time (Days)
+Wealth
+1002 1079 1156 1233
+FIGURE 6.13
+The Wealth Generated by Trading According to Equation (6.28)
+
+122
+VOLATILITY TRADING
+–4
+–3
+–2
+–1
+0
+1
+2
+3
+4
+5
+6
+1
+45
+89
+133
+177
+221
+265
+309
+353
+397
+441
+485
+529
+573
+617
+661
+705
+749
+793
+837
+881
+925
+969
+1013
+1057
+1101
+1145
+1189
+Time (Days)
+Price
+1233
+FIGURE 6.14
+The Mean-Reverting Asset Price Where Distribution Is Logistic
+Rather than Normal
+As with all strategies that maximize the expectation of the logarithm of
+wealth, this is a very aggressive money management scheme. To some ex-
+tent this can be partially managed by careful choice of W0 (where we will
+apply partial instead of full Kelly). But a further danger exists here. We have
+assumed that the process is governed by an Ornstein-Uhlenbeck process
+with normal innovations. The real processes we deal with in ﬁnance will
+generally have fatter tails than implied by the normal distribution. Things
+will not work so well in this case. Figures 6.14 and 6.15 show the results of
+a trading session where the distribution is logistic rather than normal. The
+important difference between this example and that of Figures 6.12 and
+6.13 is that here we have an excess kurtosis of 9. The results are clearly
+affected for the worse.
+There doesn’t seem to be any published work on optimal positioning
+for these types of processes, but some intuition can be gained by running
+0.00
+20.00
+40.00
+60.00
+80.00
+100.00
+120.00
+140.00
+160.00
+1
+47
+93
+139
+185
+231
+277
+323
+369
+415
+461
+507
+553
+599
+645
+691
+737
+783
+829
+875
+921
+967
+1013
+1059
+1105
+1151
+1197
+1243
+Time (Days)
+Wealth
+FIGURE 6.15
+The Wealth Generated by Trading According to Equation (6.28)
+Where Distribution Is Logistic Rather than Normal
+
+Money Management
+123
+some trials with the accompanying spreadsheet, “Mean Reversion Simu-
+lator.xls.” Fat-tailed distributions also have thin middles. So in addition to
+the larger proportion of large moves we can also expect more small moves.
+This would seem to suggest modifying the strategy by trading more ag-
+gressively when entering, looking for small moves, and then exiting more
+quickly when things move against us. Simulations seem to support this.
+It is important to emphasize the dangerous game we are playing here.
+This theory shows that when trading a mean-reverting process we should
+(at ﬁrst) add to our position as it goes against us. This clearly can be dan-
+gerous. The danger has nothing to do with such unsupported rules as “Only
+losers add to losers.” In fact, the theory shows that the optimal trading rule
+in this instance is to add to losers. Further, this rule can be enunciated,
+tested, and modiﬁed in a way that vague general assertions cannot.
+The real danger is that the system may fundamentally change so that
+the mean we will eventually revert to is totally different to the one we
+started with. This is why we need to fundamentally evaluate why the ini-
+tial trade has gone against us. Imagine we are short a stock at 20 percent
+volatility because we think the fair value is 13 percent. If it gets choppy be-
+cause a few large orders enter the market on an otherwise slow day and im-
+plied volatility rises to 22 percent, we are probably justiﬁed in selling more.
+However, consider the example of Interoil Corporation (IOC). At 2:00
+P.M. EST on June 26, 2007, huge sell orders hit the market and drove the
+stock price down from $40.20 to $26.50. There was no news about the com-
+pany on any of the major newswires. July implied volatility jumped from
+about 94 percent to 120 percent. In this case a fundamental revaluation of
+the company had occurred. We had no news or analysis to consider, and
+huge volume was being transacted (6 million shares in an hour in a stock
+with an average daily volume of 600,000). In this case, to sell more volatility
+would be foolhardy and irresponsible. So each case needs to be considered
+in context.
+This is obviously an area where experience of a particular market can
+be an asset. But there is a good way to use experience and a bad way. The
+good way is to use your knowledge defensively. You should actively look
+for things that are out of place with what you have seen in the past and then
+be extra cautious. The bad way is to overﬁt to past data. If you have never
+seen deviations as large before, that doesn’t necessarily mean that this is
+the best trade you have ever done. It could well mean your past experience
+is now irrelevant.
+Selling a rising market and buying a falling market is the replication
+strategy for a short option. In Chapter 2 we saw that forecast volatility
+is generally below implied volatility. Part of the reason for this was that
+in selling implied volatility we were selling insurance against events that
+have never occurred before. That is also the case when scaling into any
+
+124
+VOLATILITY TRADING
+mean-reverting asset. You have to be very aware of this and be prepared to
+stop scaling in, even when it can look better than it ever has before.
+A Simple Approximation
+In practice it will generally be difﬁcult, or even impossible, to maintain the
+perfect level of positioning. Illiquidity, transaction costs, noncontinuous
+trading, position limits, and order entry restrictions mean that at best we
+will need to use equation (6.28) as a guide. It might also be helpful to have a
+discrete rule to guide us in putting on the ﬁrst portion of the position. Let’s
+try a simple argument for maximizing our total proﬁt given, that we have
+to choose one point for entering the trade.
+In this toy model we assume that the deviations of the asset price from
+its mean value are normally distributed and independent. So at any time
+we just draw a number from a normal distribution to ﬁnd the deviation,
+and this is independent of the previous values. For a normally distributed
+process, the probability at any time that we have deviated by more than S
+from the mean is just the integral of the process. This is equal to 1 −N(S),
+where N(.) is the cumulative normal distribution function. So in T time
+steps we can expect to have T[1 −N(S)] times, where the asset price has a
+deviation greater than or equal to S. The normal distribution is symmetric
+so we have an equal number of times where the spread is less than or equal
+to −S. So in T time steps, we will have traded 2T[1 −N(S)] times. Each of
+these gives a proﬁt of S. So the total proﬁt is given by
+2TS[1 −N(S)]
+(6.29)
+To ﬁnd the maximum of this function with respect to S, we differenti-
+ate and set the result equal to zero. This gives the result
+Smax = 0.75σ
+(6.30)
+Figure 6.16 shows the shape of the theoretical distribution of the P/L
+as a function of the entry level.
+How different will trading a real process be? A true ﬁnancial process
+will differ from this ideal in three important ways.
+1. The distribution will have fat tails.
+2. There will be different behavior associated with declines and increases
+(for example, the VIX is mean-reverting but is prone to have larger
+moves up than down).
+3. The standard deviation of the process will not be constant.
+
+Money Management
+125
+3.5
+3
+2.5
+2
+1.5
+1
+0.5
+0
+P/L
+SDs
+60
+80
+100
+120
+0
+20
+40
+FIGURE 6.16
+The Shape of the P/L Distribution as a Function of Entry Level
+But rather than use a more complex model, we will now look at trad-
+ing a mean-reverting product with various entry levels and see how the P/L
+varies in practice. We look at a trading simulation on the spreadsheet “VIX
+entry test.xls.” We know this is a mean-reverting process. Here we follow
+a simple Bollinger band rule. We buy or sell the VIX after it has deviated
+by a certain amount from its moving average. As can be seen, the deviation
+from the simple moving average is somewhat normal looking but clearly
+is fat-tailed and skewed. We could address the skewness issue by having
+different bands for buying and selling, but that is not the point of this ex-
+ercise. This is not meant to be a realistic trading idea. It is just intended
+to show that equation (6.29) has some applicability to a situation that we
+know does not follow the necessary simplifying assumptions.
+We can see in Figure 6.17 that the peak of the P/L function is very
+close to the theoretical point of 0.75 standard deviations. So aggressively
+scalping can produce more proﬁts. But note that the left-hand end of the
+0
+20
+40
+60
+80
+100
+120
+140
+3.5
+3
+2.5
+2
+1.5
+1
+0.5
+0
+SDs
+P/L
+FIGURE 6.17
+The Shape of the P/L Distribution for the VIX Trade
+
+126
+VOLATILITY TRADING
+curve tails off much faster, so it is probably safer to err on the side of
+caution and trade slightly less often than optimal.
+SUMMARY
+Sizing trades correctly is very important. It is quite possible to turn a sensi-
+ble trading idea into a losing operation by poor sizing decisions. There is no
+magic about the process. While ﬁnancial markets often produce outcomes
+that are not easy to reconcile with the standard sizing models, understand-
+ing the assumptions and result of these models can show us what we need
+to bear in mind.
+r Before you can choose a money management scheme you must be very
+clear what you are trying to accomplish. Your monetary goals, time
+constraints, and maximum tolerable drawdowns need to be fully spec-
+iﬁed in advance.
+r When there is more edge, trade bigger.
+r When there is more variance or uncertainty, trade smaller.
+r The Kelly scheme will eventually overwhelm all others.
+r The Browne scheme is useful for hitting speciﬁc targets.
+r When trading volatility we have to be prepared to do more as a trade
+initially goes against us.
+r Adding arbitrary price-based stops to a trading system is a poor idea.
+We should exit our trades when we are wrong. Having volatility move
+against us may not indicate that we are wrong at all.
+r A good rule of thumb is that a trade should be big enough that the
+proﬁts mean something, but not so big that the losses are catastrophic.
+If this optimum size can’t be found, the trade probably doesn’t have
+enough edge to begin with.

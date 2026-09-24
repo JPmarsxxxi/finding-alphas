@@ -1,0 +1,1244 @@
+15
+
+Volatility selling (on equity indices)
+
+• Selling volatility using equity index options is the purest
+example of selling lottery tickets that pay off (to the buyer) in bad
+times. Such strategies deserve high risk premia because large
+losses (spiking volatility) tend to coincide with market crashes.
+Understanding this strategy is important even if one does not
+trade it. Many investors do trade related strategies, such as carry.
+• The strategy’s high SR over 20 years between the 1987 and
+2008 crashes also reflects a peso problem—the absence of that
+rare large-loss event from the sample. A proximate reason for the
+strategy’s long-run success is the persistent pattern that implied
+volatilities of index options tend to exceed realized volatilities by
+2% to 4%.
+• For single-stock options, the average gap between implied
+and realized volatilities is nearer to zero. This contrast is
+suggestive of a correlation risk premium rather than a variance
+(volatility) risk premium. Correlation trading—selling volatility
+on an equity index and buying volatility on its single-stock
+constituents—has been historically profitable but loses money
+when realized correlations spike up.
+• In addition, covered-call-writing strategies, which are in
+the category of volatility selling strategies, have been profitable in
+the past but their performance partly reflects long equity market
+exposure and not just volatility risk exposure.
+• The theoretical sign of skewness preferences can be
+debated but the market pricing of options across strike prices
+suggests that most investors prefer positive skewness: protective,
+out-of-the-money index puts (“crash protectors”) and speculative
+OTM calls on single-stock options (“lottery tickets”) are
+especially expensive.
+• As always, both rational and irrational explanations are
+possible for any observed regularities.
+
+...
+15.1 INTRODUCTION
+
+The last dynamic strategy style I describe is volatility selling (see cube).
+Volatility 
+selling 
+is 
+a 
+form 
+of 
+offering 
+financial 
+insurance 
+(tail 
+risk
+insurance) that warrants some long-run compensation. In particular, selling
+volatility on equity indices provided historically attractive payoffs for two
+decades from the crash of October 1987 until the fall of 2008—with high
+but misleading long-run Sharpe ratios. Selling volatility on other asset
+classes has also earned reasonably consistent profits, whereas it is less clear
+that selling volatility on individual equities is rewarded:
+
+• Index volatility selling is the archetype of “selling lottery tickets
+whose 
+payoffs 
+tend 
+to 
+materialize 
+during 
+bad 
+times.” 
+Negative
+skewness (losses are rare but large) and the timing of losses justify a
+positive risk premium and explain why the Sharpe ratio overstates the
+attractiveness of such strategies.
+• Volatility selling is obviously risky but can be a valid business
+strategy for investors who can really afford to provide such insurance.
+Most investors do not directly trade this archetype but they do trade its
+close cousins that come in many guises. Credit and FX carry strategies,
+various hedge fund strategies, the insurance business, and even the
+equity risk premium (based on rare-disaster motivation or simply on
+the limited liability feature in equities) are all related to volatility
+selling.
+• While relatively few investors trade options, the simplicity and
+nonlinear payoffs of options can make them more informative about
+investor expectations and preferences than the prices of more bundled
+linear assets. We can especially learn about the pricing of higher
+moment risks (volatility, skew, kurtosis/fat tails/jumps, correlation) in
+option markets and try to extrapolate this knowledge to the pricing of
+other asset markets (see also Chapter 19).
+• This chapter is a bit more technical than most of the rest of the
+book, while cutting corners in the eyes of some experts. Readers can
+also skip this chapter without loss of continuity.
+Trading options vs. trading volatility
+
+Options are the classic example of derivatives with nonlinear payoffs
+(compared with the underlying asset), while futures are the classic example
+of derivatives with linear payoffs. Only capturing the upside (buying calls)
+or protecting from downside (buying puts) sounds appealing but these
+benefits come with a cost: you pay a premium that you can fully lose and
+that—in a large proportion of cases (depending on the strike price)—you
+actually expect to lose. In long option positions, buyers’ losses materialize
+through the time decay of the paid option premium, akin to a negative carry.
+If “nothing happens” over the life of the option, it expires worthless. This
+cost may be offset by capital gains if “something happens” and the option
+ends in the money, and the option buyer can pocket the difference between
+the market price and strike price, minus the purchase price of the option:
+• If investors buy only calls or puts, directional exposure is
+typically more important than volatility exposure. The payoff profile is
+asymmetric.
+• A straddle position—long both at-the-money (ATM) calls and
+puts—has 
+no 
+directional 
+bias 
+and 
+a 
+symmetric 
+payoff 
+profile. 
+A
+straddle is a type of long-volatility position, but it is not a pure bet on
+high volatility if it is bought and held. It will be profitable if the price
+of the underlying asset makes a large shift in either direction, but it can
+lose money despite high interim volatility if the underlying price ends
+near its starting level. A buy-and-hold straddle is a bet on a large price
+move—not on high volatility; in options jargon, gamma risk rather
+than vega risk.
+• Purer volatility or variance exposure (i.e., exposure to vega risk)
+can be achieved via trading delta-hedged straddles or variance swaps.
+Both 
+approaches 
+capture 
+the 
+difference 
+between 
+implied
+volatility/variance (IV) and realized volatility/variance (RV) over the
+life of the contract.
+
+I assume that the reader is familiar with basic option-pricing terminology.
+Here is a recap on option pricing using the replication argument: in the
+classic 
+Black–Scholes–Merton 
+(BSM) 
+world 
+[1] 
+option 
+traders 
+can
+continuously delta-hedge the market-directional (delta) risk of their options
+by trading offsetting amounts of the underlying security, and thus create a
+synthetic risk-free asset. No-arbitrage arguments imply that the option
+should be priced so that the expected return of the delta-hedged option
+position equals the risk-free rate. This is the reason that derivative pricing is
+consistent with risk-neutral probabilities even when real-world investors
+may be risk averse. Specifically, risk-neutral pricing of a derivative off its
+underlying asset does not require assuming that real-world investors are risk
+neutral. Risk aversion does not matter if positions could be hedged. A
+standalone position in an equity option should earn a risk premium for its
+equity market risk, say based on its CAPM beta (positive for calls, negative
+for puts). But for the delta-hedged position, the betas of the option and the
+stock just offset each other, leaving a zero premium for a zero-beta position.
+This observation, together with assuming a particular asset-pricing model,
+allows analysts to switch between (i) real-world pricing where expected
+cash flows are discounted with an appropriate discount rate that includes a
+risk premium (which may be hard to define and measure) and (ii) risk-
+neutral pricing where expected cash flows are discounted with the riskless
+rate.
+
+Delta hedging involves offsetting a call option’s delta through dynamic
+stock trading in a way that eliminates directional exposure. Delta hedging a
+sold (short) option position is a “buy-high, sell-low” strategy that will be
+more costly the longer the absolute distance that the stock price moves
+during 
+the 
+life 
+of 
+the 
+option 
+(between 
+discrete 
+hedge 
+rebalancings).
+Consequently, short option positions benefit from lower realized volatility.
+Under 
+idealized 
+BSM 
+conditions, 
+a 
+delta-hedged 
+short 
+at-the-money
+straddle’s 
+return 
+reflects 
+the 
+difference 
+between 
+contracted 
+implied
+volatility and realized volatility over the option’s life. In reality, market
+price moves are not continuous, hedging is costly and done discretely, and
+volatility is not constant—all of which make delta hedging imperfect.
+Therefore, delta hedging does not capture pure volatility risk as cleanly as
+variance swaps do.
+
+A variance swap is a contract that pays the difference between the
+subsequent realized swap rate (based on actual variance) and the contracted
+or fixed swap rate (mainly based on the market’s expectation of variance at
+the time the swap is entered into). A sold variance swap is profitable if
+future realized variance turns out lower than the contracted variance swap
+rate. By construction, variance swaps are not subject to various unintended
+risks to which delta-hedged straddles are exposed—gamma risk between
+discrete rebalancings, the possibility of jumps (model risk), and the impact
+of market frictions such as illiquidity and trading costs. Variance swaps
+have become popular in recent years but are not yet available for all assets.
+
+Interpreting implied volatilities
+
+It is interesting for a book on expected returns that the famous Black–
+Scholes option-pricing formula does not contain expected returns. Under
+BSM assumptions, options deserve no risk premium beyond their equity
+market beta exposure, and delta-hedged positions deserve no premium, full
+stop. When BSM assumptions fail, however, the option may need to offer a
+(volatility) 
+risk 
+premium 
+beyond 
+that 
+earned 
+by 
+its 
+relation 
+to 
+the
+underlying. Delta-risky positions do warrant a risk premium proportional to
+their delta (and equity market beta, if the CAPM holds).
+
+The 
+cross-sectional 
+implication 
+of 
+BSM 
+assumptions 
+(constant
+volatilities, no market frictions, etc.) is that all options across all strike
+prices should have the same implied volatility. Thus, real-world deviations
+from BSM assumptions should explain observed smile effects and other
+apparent 
+violations 
+of 
+no-arbitrage 
+pricing. 
+(The 
+smile 
+refers 
+to 
+the
+appearance of a plot of implied volatility on the y-axis against strike prices
+or option moneyness on the x-axis, where moneyness is the degree to which
+an option is in the money.)
+
+The BSM analysis taught investors to infer implied parameters such as
+implied volatility from market prices, always given a particular model or set
+of assumptions. In the risk-neutral world, implied volatility reflects the
+market’s volatility expectations. In the real world, this implied parameter
+may also reflect some risk premia in addition to volatility expectations.
+
+Thus, analogous to the way a term spread reflects the market’s rate
+expectations plus required bond risk premia, implied volatilities also reflect
+the market’s volatility expectations plus some volatility-related risk premia.
+Any decomposition requires a specified model and empirical estimation,
+and any resulting estimates are noisy. As a convenient simplification, it is
+common to interpret excess implied volatility over realized volatility as a
+volatility risk premium. Empirically, this approximation works well, at least
+for assessing historical average premia. If we recognize the time-varying
+nature of the volatility premium, careful estimation of the two components
+becomes important, preferably using more robust “model-free” approaches.
+
+By market convention, implied volatilities are often quoted based on the
+B-S formula and reflect its underlying assumptions. Unequal B-S implied
+volatilities across strike prices (smile or smirk) may be interpreted as
+market recognition of prevalent non-normalities and other deviations from
+B-S assumptions. A symmetric volatility smile could be explained by fat
+tails 
+in 
+the 
+real-world 
+asset 
+return 
+distribution; 
+while 
+an 
+asymmetric
+skew/smirk could be explained by greater downside volatility (the market’s
+greater propensity to jump downwards rather than upwards). Since the 1987
+equity market crash, the skew for equity index options has been so extreme
+that investor preferences likely have contributed to it. Either a rational risk
+premium (such as portfolio insurance preferences leading to greater risk
+aversion after down markets) or investors’ irrational crash fears could
+explain 
+the 
+excess 
+of 
+skew 
+implied 
+in 
+index 
+option 
+prices 
+over 
+that
+observed in realized market returns.
+
+...
+15.2 HISTORICAL PERFORMANCE OF VOLATILITY-
+TRADING STRATEGIES
+
+Covered-call-writing vs. volatility/variance-selling strategies
+
+Perhaps the most popular option strategy is covered call writing (CCW):
+holding a stock or a stock index and writing a call against it. Effectively, the
+call writer sacrifices some upside exposure in exchange for receiving option
+premium income, while maintaining the downside (except, of course, for
+the cushion from the premium income). For CCW using ATM calls on the
+S&P 500 index (where the overall position has a beta near 0.5), roughly half
+of the strategy’s long-run return is related to directional risk (the equity risk
+premium) and half to the fact that implied volatility is typically higher than
+realized volatility (the volatility risk premium). Between 1994 and 2005,
+each component earned 24 bp per month, the latter component reflecting
+the 2% average IV–RV gap (see Figelman, 2008). For out-of-the-money
+(OTM) options written, the equity beta component is higher (more upside
+exposure is kept) and the volatility component is lower. There is some
+evidence that the strategy is more profitable if OTM options are used,
+perhaps due to a better capture of the equity premium and more expensive
+options. The strategy is more profitable if very-short-dated options are used
+(wider IV–RV gap, on average) and is likely to be less profitable if covered
+call writing is done on individual stocks (narrower IV–RV gap, on average).
+
+CCW strategies performed extremely well during the long bull market
+since the 1980s, resulting in various products offered to institutional and
+retail investors. Figure 15.1 and Table 15.1 analyze the performance and
+risk statistics of various strategies. The BXM and BXY indices, produced
+by the Chicago Board of Exchange, simulate CCW strategies using ATM
+and 
+OTM 
+call 
+options. 
+BXM 
+and 
+BXY 
+look 
+especially 
+attractive 
+in
+historical Sharpe ratio terms (having a higher return and lower volatility
+than the S&P 500), partly because they truncate the right tail and make
+return distribution more negatively skewed. Another benchmark index,
+PUT (launched in 2007), simulates collateralized index put selling, again
+effectively giving up the upside on the equity index in exchange for
+receiving 
+an 
+option 
+premium. 
+Historically, 
+these 
+benchmark 
+indices
+outperformed the S&P 500 on a volatility-adjusted basis, but their tail risk
+exposures became evident only in 2008.
+
+CCW strategies are hardly diversifiers away from equity indices—their
+correlations are very high, indeed nearly perfect for down moves. CCW
+return volatility is mainly driven by equity returns (directional exposure),
+especially if done with OTM options. Absolute return seekers who look for
+less correlated return sources should prefer variance swaps that largely
+avoid directional exposure. Variance swap returns are mainly driven by the
+difference between implied and realized volatilities (squared). However,
+even 
+though 
+variance 
+swaps 
+are 
+designed 
+to 
+be 
+mathematically 
+delta
+neutral, they exhibit empirical market directionality (a mild positive equity
+market beta) because falling equity markets tend to coincide with rising
+volatility. As noted above, delta-hedged straddles were the best (but noisy)
+way to buy or sell volatility until variance swap contracts were created and
+their OTC markets became liquid.
+
+Traditionally, 
+CCW 
+has 
+been 
+more 
+common 
+than 
+variance 
+selling.
+However, in 2005–2007, several sell-side firms offered their customers
+structured products that were short volatility or variance, often simply by
+selling one-month or 3-month variance swaps on the S&P 500. Excess
+return for such a product is proportional to the difference between squared
+implied 
+volatility 
+and 
+squared 
+realized 
+volatility 
+over 
+the 
+life 
+of 
+the
+contract. Backtested results were extremely impressive until 2007 but the
+losses in autumn 2008 were dramatic—and traumatic, prompting many
+investors to leave these strategies. The Merrill Lynch volatility arbitrage
+strategy, shown below, lost 12 years’ gradually earned excess returns in less
+than 
+two months. (All 
+index 
+volatility-selling 
+strategies plummeted in
+autumn 2008, but leverage made the losses of this index exceptionally
+high.) Although implied volatilities were high, realized volatilities exceeded
+them, reaching levels only seen during the 1987 crash. Indeed, volatility-
+selling 
+strategies 
+have 
+suffered 
+serious 
+losses 
+mainly 
+on 
+these 
+two
+occasions, but these losses have been extremely large and concentrated in
+the worst possible times.
+
+Figure 
+15.1. 
+Cumulative 
+excess 
+returns 
+of 
+S&P 
+index 
+option-trading
+strategies, 1986–2009.
+
+Sources: Bloomberg, Chicago Board of Exchange, Bank of America Merrill
+Lynch.
+
+Table 15.1. Performance and risk statistics of S&P and index option-trading
+strategies, 1989–2009
+
+Sources: Bloomberg, Chicago Board of Exchange, Bank of America Merrill
+Lynch.
+
+Table 15.1 (based on weekly data) illustrates how 2008 “revealed” the
+riskiness of various option-trading strategies, while at the same time long-
+run performance statistics became less appealing. The downfall was even
+worse for the “pure” volatility arbitrage strategy than for covered-option-
+writing strategies. Over 1989–2009, the latter still display higher returns
+and Sharpe ratios than a simple long-equities strategy (first column), but
+this 
+advantage 
+comes 
+with 
+less 
+appealing 
+tail 
+risk 
+or 
+higher 
+moment
+exposures: more negative skewness and higher kurtosis. The covered-PUT-
+writing strategy comes with the best performance statistics and worst risk
+statistics.
+
+A pioneering empirical study by Coval–Shumway (2001) shows that
+selling ATM straddles on equity index options offered a 3% weekly return
+in their sample. Even with 19% weekly volatility, the annualized SR was
+1.2. 
+There 
+are 
+four 
+reasons 
+for 
+hugely 
+positive 
+(negative) 
+returns 
+to
+volatility selling (buying):
+• 
+high 
+leverage 
+and 
+high 
+volatility 
+(typically 
+higher 
+annual
+volatility than annual return; in many weeks, option buyers lost 100%,
+but sometimes they made 10 times their outlay or more);
+• beta risk and high non-obvious risks (double-digit betas but also
+correlation risk);
+• a benign sample;
+• high trading costs (bid–ask spreads are near 5% for an ATM
+straddle).
+
+A more recent study by Broadie–Chernov–Johannes (2009) uses a longer
+sample 
+period 
+(1987–2005, 
+including 
+the 
+1987 
+crash) 
+and 
+documents
+massive negative average returns for being long equity index puts. Average
+monthly return is—30% for ATM puts and —45% to—57% for OTM puts.
+Buying these options, you can expect to lose half your outlay every month.
+(These high percentages are on admittedly low initial outlays that imply
+levered exposure to an underlying asset.) The study argues that these large
+losses are not necessarily due to mispricing. Given high volatilities, annual
+Sharpe ratios are near—1, and many further arguments (see below) can
+make the real-world performance of such a strategy unappealing.
+
+The proximate reason for the success of volatility-selling strategies is the
+pervasive gap between implied and realized volatilities (see Figure 15.2).
+The sign of the gap does occasionally flip, but the one-year average has
+almost always been positive and the 24-year average is near 4% (20% vs.
+16%). Similarly consistent gaps exist for other major equity indices but not
+for single stocks.
+Figure 15.2. Implied and (subsequent) realized volatilities on the S&P 500,
+1986–2009.
+
+Sources: Bloomberg, own calculations.
+
+...
+15.3 TWEAKS/REFINEMENTS
+
+Certain types of volatility exposures appear better rewarded than others. I
+introduce correlation and skewness premia and return to these topics later in
+this chapter and in Chapter 19.
+
+Correlation 
+premium. 
+Equity 
+index 
+option 
+selling 
+is 
+much 
+more
+profitable than individual equity option selling. The implied volatilities of
+equity indices trade consistently at a premium over realized volatilities, but
+the same is not true for single-stock options. This difference may be
+explained by the correlation risk premium. Traders may hedge index option
+sales with purchases of single-stock options in the same index basket. The
+resulting correlation or dispersion trades have attractive historical returns
+but they suffer when correlation across stocks rises—typically during crises
+and in volatile bear markets.
+
+For readers unfamiliar with correlation trading, basic statistics may give
+helpful intuition. Recall that market volatility reflects weighted average
+volatility across stocks and the weighted average correlation between them.
+We can infer higher implied correlation when index option volatility rises
+faster than the average volatility of single-stock options constituting the
+index.
+
+Given that a dispersion trading strategy can hedge away delta and vega
+risks (equity and volatility risks) and has a reasonably symmetric return
+distribution, correlation risk seems to be the main explanation for the
+richness of equity index options and thus the profitability of option selling.
+The correlation premium could be motivated by deterioration of investment
+opportunities 
+when 
+diversification 
+becomes 
+harder 
+or 
+by 
+timevarying
+disagreement 
+among 
+investors. 
+Buraschi–Kosowski–Trojani 
+(2010)
+document a higher SR for correlation selling than for variance selling
+(roughly 3 vs. 1.5) over a 13-year sample period, which includes the
+autumn 2008 crisis, as well as smaller losses during crises. SRs may be
+overstated as they are based on estimated synthetic variance and correlation
+swap prices or mid-market quotes, which may differ from traded market
+prices. Also, Driessen–Maenhout–Vilkov (2009) report a higher SR (“only”
+0.73) for the correlation strategy than for index volatility selling, as well as
+better 
+skew 
+and 
+kurtosis 
+characteristics. 
+Limits-to-arbitrage 
+arguments
+(trading costs, margin requirements, etc.) may prevent most investors from
+exploiting the correlation premium.
+
+Skewness premium. OTM index put options have a larger gap between
+implied 
+and 
+realized 
+volatilities 
+than 
+ATM 
+options, 
+they 
+appear
+systematically expensive compared with various fair value metrics, and
+their historical average returns are particularly negative. Option traders
+already recognized in the 1970s that implied volatilities across strike prices
+exhibit a smile pattern—higher volatilities for OTM puts and calls than for
+ATM options. After the 1987 crash, a highly asymmetric smirk or skew
+replaced a symmetric smile for index options.
+
+Single-stock option pricing provides further hints of lottery seeking. Ni
+(2006) estimates that OTM calls on individual equity options have had large
+negative average returns over 1996–2005: around—30% per month based
+on mid-market (average of bid and ask) prices. They also underperformed
+calls with lower strike prices by a similar amount. High transaction costs
+and noisy price data on single-stock options may undermine these results,
+however.
+
+Other types of refinements include timing volatility positions based on
+the size of ex ante opportunities and/or hedging volatility positions via
+selective long–short strategies. Timing overlays on volatility selling could
+include simple rules that have been effective in the past—say, do not sell
+volatility if current implied volatility is well below the “normal” (past
+average) implied, recent realized, or predicted volatility, where predicted
+volatility is based on a GARCH-type model or other forecasting model.
+Hedging may involve long–short strategies that sell volatility in markets
+where it is rich and buy volatility in markets where it is cheap.
+
+It is not clear whether volatility selling is profitable for all single stocks,
+because many studies show no consistently positive IV–RV gap, unlike the
+situation that prevails with index options. However, Cao–Han (2009) show
+that covered call writing on high-volatility stocks earned a 2% higher
+monthly return (between 1996 and 2006) than covered call writing on low-
+volatility stocks. Moreover, delta-hedged long option positions tend to have
+negative 
+average 
+returns 
+that 
+are 
+monotonically 
+lower 
+the 
+higher 
+the
+volatility 
+of 
+the 
+underlying 
+stock. 
+This 
+evidence 
+is 
+consistent 
+with 
+a
+volatility risk premium that is proportional to the level of asset volatility.
+Option selling is thus more profitable on more volatile stocks (which tend
+to be less liquid and more costly to trade), on stocks with a large IV–RV
+gap 
+(expensive 
+options), 
+on 
+stocks 
+with 
+large 
+end-user 
+demand, 
+and
+especially 
+profitable 
+on 
+past 
+loser 
+stocks, 
+while 
+exposure 
+to 
+market
+volatility risk is not important.
+
+...
+15.4 THE REASONS VOLATILITY SELLING IS
+PROFITABLE
+
+Should we expect to make money by option selling or option buying?
+
+Taking a step back, it is not clear a priori whether systematic option buying
+or option selling is a better strategy. The answer depends on the empirical
+pricing of options—“Are they actuarially fair prices?” or “Do they provide
+an edge to buyers or sellers?”—and ultimately on investor preferences. The
+intuitive idea that volatility sellers provide insurance and should receive
+some compensation seems correct. Returns on volatility-selling strategies
+exhibit negative skew and high kurtosis (fat tails), as frequent small gains
+are interspersed with rare large losses. Extensions of mean variance analysis
+to higher moments typically suggest that natural investor preferences are to
+like high average returns and positive skewness (first and third moments of
+return distribution) and to dislike high volatilities and kurtosis (second and
+fourth moments). Skewness preference and kurtosis aversion may thus
+make long options “expensive” and volatility selling generally profitable.
+Even 
+without 
+such 
+preferences, 
+finance 
+theory 
+suggests 
+that 
+volatility
+selling should carry a positive risk premium if its losses tend to coincide
+with equity market losses and other bad times.
+
+A tendency for volatility selling to be profitable does not make it always
+profitable. Competitive forces will limit any systematic richness of options.
+Speculators will be attracted by the excess profitability of protection selling
+and yield-seeking investors will do more covered call writing. Moreover,
+Taleb (2004) argues for an opposite skewness preference bias that may have
+become more relevant as delegated fund managers control a larger share of
+global wealth. The case of liking negative skewness is more plausible for
+delegated managers whose performance-based compensation may induce
+them to seek volatility. Less scrupulous managers may also prefer a high
+probability of positive returns so that they can accumulate large fees before
+a 
+rare 
+disaster 
+materializes, 
+especially 
+since 
+overstated 
+smoothness 
+of
+returns can boost the Sharpe ratio and attract larger AUM until the blowup
+occurs.
+
+Main challenges and main explanations
+
+The three best historical trading opportunities and thus the three main
+empirical challenges for theories to explain are (i) profits from index
+volatility selling or dispersion trading, (ii) richness of OTM index puts, and
+(iii) 
+richness 
+of 
+OTM 
+calls 
+on 
+single 
+stocks. 
+Here 
+are 
+some 
+rational
+explanations and alternatives for each challenge:
+
+(i) The persistent significant average difference between implied and
+realized 
+volatilities 
+(or 
+variances), 
+often 
+defined 
+as 
+a 
+volatility 
+risk
+premium, may reflect a combination of
+• compensation for systematic risk (volatility risk, and maybe also
+jump, skew, or correlation risk);
+• price pressures from investor supply and/or demand;
+• 
+biased 
+forecasts 
+of 
+realized 
+volatility 
+(a 
+peso 
+problem, 
+an
+unrepresentative 
+sample 
+period, 
+or 
+learning 
+amidst 
+structural
+uncertainty).
+
+Carr–Wu (2009) make the case for a systematic variance risk premium.
+They regress single-stock return variances on S&P 500 index variance to
+estimate variance betas and find that stocks with higher variance betas are
+associated with higher variance risk premia (a wider gap between implied
+and realized variances). Apparently, investors are willing to accept some
+losses in exchange for hedging away market volatility spikes. The variance
+risk premium may reflect (1) the empirical linkage between stock return and
+variance and/or (2) stochastic volatility as a distinct risk factor. Stock
+market variance tends to be higher during down markets; thus long (short)
+variance positions have a negative (positive) stock market beta. Because
+this beta risk can explain empirically only a small portion of observed
+profits 
+from 
+variance 
+selling 
+(variance 
+risk 
+premia), 
+an 
+independent
+variance risk factor seems to be the key contributor. This evidence is
+relatively weak; stronger evidence for a volatility premium comes from the
+finding 
+that 
+volatility 
+selling 
+is 
+more 
+profitable 
+for 
+stocks 
+with 
+high
+volatility.
+
+However, 
+the 
+contrasting 
+profitability 
+of 
+volatility 
+selling 
+in 
+index
+options (very profitable) and in single-stock options (unprofitable) argues
+against a simple variance risk premium. Stated differently, the presence of a
+significantly positive gap between implied and realized volatilities for index
+options, and the absence thereof for single stocks, suggests that it is
+correlation risk rather than volatility risk that is priced. Other evidence in
+Chapter 19 about the ambiguous relation between expected returns and
+volatilities points to the same explanation.
+
+From a theoretical perspective, the tendency for a strategy of selling
+volatility and/or correlation risk to lose money in bad times suggests that
+these risk premia should be negative (so that selling these risks is profitable
+in the long run).
+
+(ii) In modeling terminology, the smirk in implied volatilities (higher
+Black–Scholes 
+implied 
+volatilities 
+for 
+OTM 
+puts 
+and 
+lower 
+implied
+volatilities for ITM puts than for ATM puts) corresponds to skewed risk-
+neutral distribution for index returns, in contrast to relatively symmetric
+realized return distribution. This finding suggests that a greater real-world
+frequency of downward jumps, or higher downside volatility due to higher
+downside correlations across stocks, is not the primary reason for option-
+pricing asymmetries. Main alternative explanations are analogous to those
+above:
+• A risk premium for volatility, correlation, and/or skew exposure
+may 
+reflect 
+investor 
+demand 
+for 
+downside 
+protection. 
+So-called
+portfolio insurance preferences imply greater risk aversion after down
+moves (wealth-dependent risk aversion), while crash-o-phobia refers
+to aversion specifically to crashes.
+• Supply–demand imbalance due to an exaggerated need for
+downside 
+protection 
+may 
+also 
+have 
+less 
+rational 
+causes, 
+such 
+as
+investors overestimating the likelihood of low-probability events or
+liking lottery tickets.
+• A peso problem may be a partial explanation. No crashes of the
+magnitude of that of October 1987 have occurred since but the market
+has assigned a small probability to such an event. Some observers
+view this as an irrationally high crash expectation but one can also
+argue 
+that 
+realized 
+outcomes 
+between 
+1988 
+and 
+2007 
+were
+unrepresentatively benign. (A crash then occurred in 2008 that was
+roughly on the same scale as that of 1987 when monthly returns, rather
+than 
+daily 
+returns, 
+are 
+considered.) 
+Was 
+market 
+pricing 
+due 
+to
+irrational 
+memory 
+or 
+rational 
+learning? 
+Benzoni–Collin-Dufresne–
+Goldstein (2010) present a model that uses jumps and learning to
+explain the persistent richness of OTM index puts after the 1987 crash.
+
+(iii) The richness of OTM calls on single stocks looks like a story of
+lottery 
+ticket 
+preferences. 
+Ni 
+(2006) 
+estimates 
+large 
+negative 
+average
+returns for a strategy of buying these calls, and finds that the strategy
+underperforms when compared with a strategy of buying lower strike calls.
+She 
+argues 
+that 
+mispricing 
+due 
+to 
+skewness 
+preferences 
+is 
+the 
+likely
+explanation. An equity premium explanation has the wrong sign (OTM
+calls have high equity betas that should imply high ex ante equity premia)
+and a peso problem explanation can be countered by the fact that the equity
+market trend was benign during the study’s sample decade and the fact that
+there 
+were 
+more 
+upside 
+surprises 
+than 
+during 
+previous 
+decades. 
+The
+findings are consistent with skew-seeking investors overpricing OTM calls
+that 
+resemble 
+lottery 
+tickets. 
+When 
+calls 
+are 
+sorted 
+each 
+month 
+into
+quintiles based on strike prices, skewness rises monotonically with strike
+price. When calls are sorted based on expected idiosyncratic skewness, the
+high-skew quintile has large negative returns (—21% per month) while
+quintiles 1–3 earn mildly positive returns.
+
+Assessing irrational and rational explanations
+
+Irrational explanations rely on (1) the demand from irrational investors
+(end-users) distorting option prices and (2) the inability of rational risk-
+neutral arbitrageurs or market-makers to offset these distortions. In contrast
+to the ideal BSM world, in the real world market-makers cannot perfectly
+hedge 
+their 
+option 
+positions. 
+Noncontinuous 
+pricing, 
+jumps, 
+stochastic
+volatility, and trading costs as well as capital constraints make market-
+makers sensitive to unhedgeable option risks and cause them to require
+compensation for bearing them. Since market-maker actions no longer
+offset end-user demand biases, it is important to assess what those biases
+are. New academic studies document many demand regularities that are
+consistent with observed pricing regularities:
+• End-users tend to be net long index options and net short single-
+stock options. This pattern partly explains the richness of equity index
+options.
+• End-users are most active in single-stock OTM calls and index
+OTM puts. Perhaps not surprisingly, both option types are shown to
+produce especially low future returns. Single-stock calls may be used
+both in covered call writing and in speculative trading. Index puts are
+primarily used as protection vehicles.
+• End-user demand for index options exhibits a more pronounced
+skew than their demand for single-stock options. This is consistent
+with the exceptional richness of OTM index puts.
+• 
+More 
+generally, 
+there 
+is 
+a 
+positive 
+cross-sectional 
+relation
+between option demand and option richness.
+• Only a small portion of option market activity is related to
+volatility 
+trading. 
+Rather, 
+options 
+are 
+used 
+as 
+a 
+means 
+to 
+take
+directional positions—say, by facilitating short selling or leverage—or
+as a source of additional income.
+• 
+Poor 
+institutional 
+investor 
+sentiment 
+coincides 
+with 
+more
+negative skew for index options, consistent with greater protection
+demand. 
+In 
+contrast, 
+good 
+sentiment 
+among 
+individual 
+investors
+coincides with higher demand for single-stock call options, especially
+lottery-like OTM options, making them more expensive.
+
+Analysis 
+of 
+end-user 
+demand 
+does 
+not 
+reveal 
+their 
+motivations 
+or
+rationality. Most studies conclude that irrational mispricing contributes
+importantly 
+to observed option 
+market regularities. 
+The rational camp
+responds that risk stories can explain a surprisingly large part of observed
+returns without resorting to irrationality—and that various market frictions
+can make exploiting any remaining opportunities difficult.
+
+Specifically, Broadie–Chernov–Johannes (2009) argue that options are
+often thought to be mispriced because the performance metrics that are used
+(Sharpe 
+ratios 
+and 
+CAPM 
+alphas) 
+are 
+ill-suited 
+for 
+option 
+analysis,
+especially over short samples. After documenting the huge challenge for
+rational models—massively negative average returns for long index puts,
+losses of 30% per month, or worse, as noted earlier—they proceed to show
+that 
+standard 
+option-pricing 
+models 
+can 
+largely 
+explain 
+these 
+average
+returns. OTM puts are especially highly levered positions on the underlying
+index; during a period of high realized equity premium, OTM puts with
+large 
+negative 
+betas 
+can 
+be 
+expected 
+to 
+have 
+large 
+negative 
+returns.
+(Annualized returns are on the order of hundreds of percent, but so are
+annual volatilities.) Option returns are also sensitive to volatility: lower
+volatility 
+reduces 
+expected 
+put 
+returns 
+(makes 
+them 
+more 
+negative).
+Because this relation is nonlinear (concave), time-varying volatility further
+reduces expected put returns. These patterns, combined with the difficulty
+of estimating expected option returns (sampling uncertainty is exaggerated
+for nonlinear payoff distributions), imply that extremely negative average
+returns for OTM puts are not statistically different from those generated by
+the simple B-S model. Low average returns on ATM straddles (consisting
+of long position in both an ATM call and ATM put)—roughly —15% per
+month—are more challenging to explain because these positions have zero
+equity market betas, so their returns cannot be explained by their levered
+directional exposure. Authors need to go beyond the B-S model (or a
+stochastic volatility model without risk premia) to explain ATM straddle
+returns. Incorporating a jump risk premium and estimation risk can generate
+double-digit 
+negative 
+expected 
+returns 
+and 
+thus 
+explain 
+ATM 
+option
+evidence without mispricing. Beyond these explanations, there are wide
+bid–ask spreads and other market frictions to consider.
+
+...
+15.5 OTHER ASSETS
+
+Volatility selling appears to be profitable outside equity markets, but not as
+profitable (or risky) as with equity index options. Trolle–Schwartz (2008)
+study variance risk premia for energy commodities. Between 1996 and
+2006 average implied volatility exceeded average realized volatility by 4%
+for crude oil and by 3% for natural gas. The SRs from shorting estimated
+variance swaps were 0.59 for oil and 0.35 for natural gas (compared with
+1.02 for the equity index). Duarte–Longstaff–Yu (2007) document SRs
+ranging between 0.0 and 0.8 for strategies that short interest rate volatility.
+
+...
+15.6 NOTES
+
+[1] I will credit Black–Scholes (B-S) and Black–Scholes–Merton (BSM)
+interchangeably because Robert Merton’s role as one of the fathers of
+modern 
+option 
+pricing 
+is 
+well 
+known. 
+Separately, 
+I 
+will 
+not 
+make 
+a
+distinction 
+between 
+variance 
+selling 
+and 
+volatility 
+selling, 
+or 
+between
+volatility premia and variance premia. Volatility typically refers to standard
+deviation (of returns). Variance is the square of volatility, and thus large
+market moves have an even greater impact on variance trading.
+
+Source notes. There are many good textbooks on options and trader books
+on 
+volatility. 
+Practitioners 
+with 
+some 
+background 
+may 
+like 
+the 
+book
+Volatility as an Asset Class (Nelken, 2008). On the performance of covered
+call writing, see Hill et al. (2006), Figelman (2008), and Cao–Han (2009).
+On 
+other 
+volatility 
+trading, 
+see 
+Coval–Shumway 
+(2001), 
+Bondarenko
+(2007), and Carr–Wu (2009).
+
+On explaining strategy profitability, see Han (2008), Lemmon–Ni (2008),
+Broadie–Chernov–Johannes (2009), Garleanu–Pedersen–Poteshman (2009),
+and 
+Benzoni–Collin-Dufresne–Goldstein 
+(2010). 
+On 
+refinements, 
+see
+Foresi–Wu 
+(2005), 
+Ni 
+(2006), 
+Deng 
+(2007), 
+Buraschi–Trojani–Vedolin
+(2009), 
+Driessen–Maenhout–Vilkov 
+(2009), 
+Buraschi–Kosowski–Trojani
+(2010). On volatility trading profits in other asset classes, see Duarte–
+Longstaff–Yu (2007) and Trolle–Schwartz (2008).
+
+...

@@ -1,0 +1,902 @@
+1 Introduction
+1.1 Motivation
+To a greater extent than other mathematical disciplines, statistics is a product
+of its time. If Francis Galton, Karl Pearson, Ronald Fisher, and Jerzy Neyman
+had had access to computers, they may have created an entirely different
+ﬁeld. Classical statistics relies on simplistic assumptions (linearity, indepen-
+dence), in-sample analysis, analytical solutions, and asymptotic properties
+partly because its founders had access to limited computing power. Today,
+many of these legacy methods continue to be taught at university courses and
+in professional certiﬁcation programs, even though computational methods,
+such as cross-validation, ensemble estimators, regularization, bootstrapping,
+and Monte Carlo, deliver demonstrably better solutions. In the words of
+Efron and Hastie (2016, 53),
+two words explain the classic preference for parametric models: mathema-
+tical tractability. In a world of sliderules and slow mechanical arithmetic,
+mathematical formulation, by necessity, becomes the computational tool of
+choice. Our new computation-rich environment has unplugged the mathe-
+matical bottleneck, giving us a more realistic, ﬂexible, and far-reaching body
+of statistical techniques.
+Financial problems pose a particular challenge to those legacy methods,
+because economic systems exhibit a degree of complexity that is beyond the
+grasp of classical statistical tools (López de Prado 2019b). As a consequence,
+machine learning (ML) plays an increasingly important role in ﬁnance. Only a
+few years ago, it was rare to ﬁnd ML applications outside short-term price
+prediction, trade execution, and setting of credit ratings. Today, it is hard to ﬁnd
+a use case where ML is not being deployed in some form. This trend is unlikely
+to change, as larger data sets, greater computing power, and more efﬁcient
+algorithms all conspire to unleash a golden age of ﬁnancial ML. The ML
+revolution creates opportunities for dynamic ﬁrms and challenges for anti-
+quated asset managers. Firms that resist this revolution will likely share
+Kodak’s fate. One motivation of this Element is to demonstrate how modern
+statistical tools help address many of the deﬁciencies of classical techniques in
+the context of asset management.
+Most ML algorithms were originally devised for cross-sectional data sets. This
+limits their direct applicability to ﬁnancial problems, where modeling the time
+series properties of data sets is essential. My previous book, Advances in Financial
+Machine Learning (AFML; López de Prado 2018a), addressed the challenge of
+modeling the time series properties of ﬁnancial data sets with ML algorithms, from
+the perspective of an academic who also happens to be a practitioner.
+1
+Elements in Quantitative Finance
+
+Machine Learning for Asset Managers is concerned with answering a differ-
+ent challenge: how can we use ML to build better ﬁnancial theories? This is not
+a philosophical or rhetorical question. Whatever edge you aspire to gain in
+ﬁnance, it can only be justiﬁed in terms of someone else making a systematic
+mistake from which you beneﬁt.1 Without a testable theory that explains your
+edge, the odds are that you do not have an edge at all. A historical simulation of
+an investment strategy’s performance (backtest) is not a theory; it is a (likely
+unrealistic) simulation of a past that never happened (you did not deploy that
+strategy years ago; that is why you are backtesting it!). Only a theory can pin
+down the clear cause–effect mechanism that allows you to extract proﬁts against
+the collective wisdom of the crowds – a testable theory that explains factual
+evidence as well as counterfactual cases (x implies y, and the absence of y
+implies the absence of x). Asset managers should focus their efforts on research-
+ing theories, not backtesting trading rules. ML is a powerful tool for building
+ﬁnancial theories, and the main goal of this Element is to introduce you to
+essential techniques that you will need in your endeavor.
+1.2 Theory Matters
+A black swan is typically deﬁned as an extreme event that has not been observed
+before. Someone once told me that quantitative investment strategies are use-
+less. Puzzled, I asked why. He replied, “Because the future is ﬁlled with black
+swans, and since historical data sets by deﬁnition cannot contain never-seen-
+before events, ML algorithms cannot be trained to predict them.” I counter-
+argued that, in many cases, black swans have been predicted.
+Let me explain this apparent paradox with an anecdote. Back in the year
+2010, I was head of high-frequency futures at a large US hedge fund. On May 6,
+we were running our liquidity provision algorithms as usual, when around 12:30
+ET, many of them started to ﬂatten their positions automatically. We did not
+interfere or override the systems, so within minutes, our market exposure
+became very small. This system behavior had never happened to us before.
+My team and I were conducting a forensic analysis of what had caused the
+systems to shut themselves down when, at around 14:30 ET, we saw the S&P
+500 plunge, within minutes, almost 10% relative to the open. Shortly after, the
+systems started to buy aggressively, proﬁting from a 5% rally into the market
+close. The press dubbed this black swan the “ﬂash crash.” We were twice
+surprised by this episode: ﬁrst, we could not understand how our systems
+1 This is also true in the context of factor investing, where the systematic mistake can be explained
+in terms of behavioral bias, mismatched investment horizons, risk tolerance, regulatory con-
+straints, and other variables informing investors’ decisions.
+2
+Machine Learning for Asset Managers
+
+predicted an event that we, the developers, did not anticipate; second, we could
+not understand why our systems started to buy shortly after the market bottomed.
+About ﬁve months later, an ofﬁcial investigation found that the crash was
+likely caused by an order to sell 75,000 E-mini S&P 500 futures contracts at a
+high participation rate (CFTC 2010). That large order contributed to a persistent
+imbalance in the order ﬂow, making it very difﬁcult for market makers to ﬂip
+their inventory without incurring losses. This toxic order ﬂow triggered stop-out
+limits across market makers, who ceased to provide liquidity. Market makers
+became aggressive liquidity takers, and without anyone remaining on the bid,
+the market inevitably collapsed (Easley et al. 2011).
+We could not have forecasted the ﬂash crash by watching CNBC or reading the
+Wall Street Journal. To most observers, the ﬂash crash was indeed an unpredictable
+black swan. However, the underlying causes of the ﬂash crash are very common.
+Order ﬂow is almost never perfectly balanced. In fact, imbalanced order ﬂow is the
+norm, with various degrees of persistency (e.g., measured in terms of serial correla-
+tion). Our systems had been trained to reduce positions under extreme conditions of
+order ﬂow imbalance. In doing so, they were trained to avoid the conditions that
+shortly after caused the black swan. Once the market collapsed, our systems
+recognized that the opportunity to buy at a 10% discount offset previous concerns
+fromextremeorderﬂowimbalance,andtheytooklongpositionsuntiltheclose.This
+experience illustrates the two most important lessons contained in this Element.
+1.2.1 Lesson 1: You Need a Theory
+Contrary to popular belief, backtesting is not a research tool. Backtests can never
+prove that a strategy is a true positive, and they may only provide evidence that a
+strategy is a false positive. Never develop a strategy solely through backtests.
+Strategies must be supported by theory, not historical simulations. Your theories
+must be general enough to explain particular cases, even if those cases are black
+swans. The existence of black holes was predicted by the theory of general relativity
+more than ﬁve decades before the ﬁrst black hole was observed. In the above story,
+our market microstructure theory (which later on became known as the VPIN
+theory; see Easley et al. 2011b) helped us predict and proﬁt from a black swan. Not
+only that, but our theoretical work also contributed to the market’s bounce back (my
+colleagues used to joke that we helped put the “ﬂash” into the “ﬂash crash”). This
+Element contains some of the tools you need to discover your own theories.
+1.2.2 Lesson 2: ML Helps Discover Theories
+Consider the following approach to discovering new ﬁnancial theories. First,
+you apply ML tools to uncover the hidden variables involved in a complex
+3
+Elements in Quantitative Finance
+
+phenomenon. These are the ingredients that the theory must incorporate in
+order to make successful forecasts. The ML tools have identiﬁed these
+ingredients; however, they do not directly inform you about the exact equation
+that binds the ingredients together. Second, we formulate a theory that con-
+nects these ingredients through a structural statement. This structural
+statement is essentially a system of equations that hypothesizes a particular
+cause–effect mechanism. Third, the theory has a wide range of testable
+implications that go beyond the observations predicted by the ML tools in
+the ﬁrst step.2 A successful theory will predict events out-of-sample.
+Moreover, it will explain not only positives (x causes y) but also negatives
+(the absence of y is due to the absence of x).
+In the above discovery process, ML plays the key role of decoupling the
+search for variables from the search for speciﬁcation. Economic theories are
+often criticized for being based on “facts with unknown truth value” (Romer
+2016) and “generally phony” assumptions (Solow 2010). Considering the
+complexity of modern ﬁnancial systems, it is unlikely that a researcher will be
+able to uncover the ingredients of a theory by visual inspection of the data or by
+running a few regressions. Classical statistical methods do not allow this
+decoupling of the two searches.
+Once the theory has been tested, it stands on its own feet. In this way, the
+theory, not the ML algorithm, makes the predictions. In the above anecdote, the
+theory, not an online forecast produced by an autonomous ML algorithm, shut
+the position down. The forecast was theoretically sound, and it was not based on
+some undeﬁned pattern. It is true that the theory could not have been discovered
+without the help of ML techniques, but once the theory was discovered, the ML
+algorithm played no role in the decision to close the positions two hours prior to
+the ﬂash crash. The most insightful use of ML in ﬁnance is for discovering
+theories. You may use ML successfully for making ﬁnancial forecasts; however,
+that is not necessarily the best scientiﬁc use of this technology (particularly if
+your goal is to develop high-capacity investment strategies).
+1.3 How Scientists Use ML
+An ML algorithm learns complex patterns in a high-dimensional space with
+little human guidance on model speciﬁcation. That ML models need not be
+speciﬁed by the researcher has led many to, erroneously, conclude that ML must
+2 A theory can be tested with more powerful tools than backtests. For instance, we could investigate
+which market makers lost money during the ﬂash crash. Did they monitor for order ﬂow
+imbalance? Did market makers that monitor for order ﬂow imbalance fare better? Can we ﬁnd
+evidence of their earlier retreat in the FIX messages of that day? A historical simulation of a
+trading rule cannot give us this level of insight.
+4
+Machine Learning for Asset Managers
+
+be a black box. In that view, ML is merely an “oracle,”3 a prediction machine
+from which no understanding can be extracted. The black box view of ML is a
+misconception. It is fueled by popular industrial applications of ML, where the
+search for better predictions outweighs the need for theoretical understanding.
+A review of recent scientiﬁc breakthroughs reveals radically different uses of
+ML in science, including the following:
+1 Existence: ML has been deployed to evaluate the plausibility of a theory
+across all scientiﬁc ﬁelds, even beyond the empirical sciences. Notably, ML
+algorithms have helped make mathematical discoveries. ML algorithms
+cannot prove a theorem, however they can point to the existence of an
+undiscovered theorem, which can then be conjectured and eventually proved.
+In other words, if something can be predicted, there is hope that a mechanism
+can be uncovered (Gryak et al., forthcoming).
+2 Importance: ML algorithms can determine the relative informational con-
+tent of explanatory variables (features, in ML parlance) for explanatory and/
+or predictive purposes (Liu 2004). For example, the mean-decrease accuracy
+(MDA) method follows these steps: (1) Fit a ML algorithm on a particular
+data set; (2) derive the out-of-sample cross-validated accuracy; (3) repeat
+step (2) after shufﬂing the time series of individual features or combinations
+of features; (4) compute the decay in accuracy between (2) and (3). Shufﬂing
+the time series of an important feature will cause a signiﬁcant decay in
+accuracy. Thus, although MDA does not uncover the underlying mechanism,
+it discovers the variables that should be part of the theory.
+3 Causation: ML algorithms are often utilized to evaluate causal inference
+following these steps: (1) Fit a ML algorithm on historical data to predict
+outcomes, absent of an effect. This model is nontheoretical, and it is purely
+driven by data (like an oracle); (2) collect observations of outcomes under the
+presence of the effect; (3) use the ML algorithm ﬁt in (1) to predict the
+observation collected in (2). The prediction error can be largely attributed to
+the effect, and a theory of causation can be proposed (Varian 2014; Athey
+2015).
+4 Reductionist: ML techniques are essential for the visualization of large,
+high-dimensional, complex data sets. For example, manifold learning algo-
+rithms can cluster a large number of observations into a reduced subset of
+peer groups, whose differentiating properties can then be analyzed (Schlecht
+et al. 2008).
+3 Here we use a common deﬁnition of oracle in complexity theory: a black box that is able to
+produce a solution for any instance of a given computational problem.
+5
+Elements in Quantitative Finance
+
+5 Retriever: ML is used to scan through big data in search of patterns that
+humans failed to recognize. For instance, every night ML algorithms are fed
+millions of images in search of supernovae. Once they ﬁnd one image with a
+high probability of containing a supernova, expensive telescopes can be
+pointed to a particular region in the universe, where humans will scrutinize
+the data (Lochner et al. 2016). A second example is outlier detection. Finding
+outliers is a prediction problem rather than an explanation problem. A ML
+algorithm can detect an anomalous observation, based on the complex
+structure it has found in the data, even if that structure is not explained to
+us (Hodge and Austin 2004).
+Rather than replacing theories, ML plays the critical role of helping scientists
+form theories based on rich empirical evidence. Likewise, ML opens the
+opportunity for economists to apply powerful data science tools toward the
+development of sound theories.
+1.4 Two Types of Overﬁtting
+The dark side of ML’s ﬂexibility is that, in inexperienced hands, these algo-
+rithms can easily overﬁt the data. The primary symptom of overﬁtting is a
+divergence between a model’s in-sample and out-of-sample performance
+(known as the generalization error). We can distinguish between two types of
+overﬁtting: the overﬁtting that occurs on the train set, and the overﬁtting that
+occurs on the test set. Figure 1.1 summarizes how ML deals with both kinds of
+overﬁtting.
+1.4.1 Train Set Overﬁtting
+Train set overﬁtting results from choosing a speciﬁcation that is so ﬂexible that
+it explains not only the signal, but also the noise. The problem with confounding
+signal with noise is that noise is, by deﬁnition, unpredictable. An overﬁt model
+will produce wrong predictions with an unwarranted conﬁdence, which in turn
+will lead to poor performance out-of-sample (or even in a pseudo-out-of-
+sample, like in a backtest).
+ML researchers are keenly aware of this problem, which they address in three
+complementary ways. The ﬁrst approach to correct for train set overﬁtting is
+evaluating the generalization error, through resampling techniques (such as
+cross-validation) and Monte Carlo methods. Appendix A describes these
+techniques and methods in greater detail. The second approach to reduce train
+set overﬁtting is regularization methods, which prevent model complexity
+unless it can be justiﬁed in terms of greater explanatory power. Model
+6
+Machine Learning for Asset Managers
+
+Overfitting
+Training set
+Generalization
+error
+(synthetic dataset)
+Ensemble
+methods
+Regularization
+Testing set
+(backtest
+overfitting)
+Generalization
+error
+(synthetic dataset)
+Report all trials
+(number,
+variance)
+Resampling
+(...)
+Monte Carlo
+(...)
+Number of
+variables
+(LASSO)
+Structure
+(early stopping,
+drop-out)
+Deflated
+Sharpe
+Ratio / FWER
+Resampling
+(CPCV)
+Monte Carlo
+Figure 1.1 Solutions to two kinds of overﬁtting.
+
+parsimony can be enforced by limiting the number of parameters (e.g., LASSO)
+or restricting the model’s structure (e.g., early stopping). The third approach to
+address train set overﬁtting is ensemble techniques, which reduce the variance
+of the error by combining the forecasts of a collection of estimators. For
+example, we can control the risk of overﬁtting a random forest on a train set
+in at least three ways: (1) cross-validating the forecasts; (2) limiting the depth of
+each tree; and (3) adding more trees.
+In summary, a backtest may hint at the occurrence of train set overﬁtting,
+which can be remedied using the above approaches. Unfortunately, backtests
+are powerless against the second type of overﬁtting, as explained next.
+1.4.2 Test Set Overﬁtting
+Imagine that a friend claims to have a technique to predict the winning ticket at
+the next lottery. His technique is not exact, so he must buy more than one
+ticket. Of course, if he buys all of the tickets, it is no surprise that he will win.
+How many tickets would you allow him to buy before concluding that his
+method is useless? To evaluate the accuracy of his technique, you should
+adjust for the fact that he has bought multiple tickets. Likewise, researchers
+running multiple statistical tests on the same data set are more likely to make a
+false discovery. By applying the same test on the same data set multiple times,
+it is guaranteed that eventually a researcher will make a false discovery. This
+selection bias comes from ﬁtting the model to perform well on the test set, not
+the train set.
+Another example of test set overﬁtting occurs when a researcher backtests a
+strategy and she tweaks it until the output achieves a target performance. That
+backtest–tweak–backtest cycle is a futile exercise that will inevitably end with
+an overﬁt strategy (a false positive). Instead, the researcher should have spent
+her time investigating how the research process misled her into backtesting a
+false strategy. In other words, a poorly performing backtest is an opportunity to
+ﬁx the research process, not an opportunity to ﬁx a particular investment
+strategy.
+Most published discoveries in ﬁnance are likely false, due to test set over-
+ﬁtting. ML did not cause the current crisis in ﬁnancial research (Harvey et al.
+2016). That crisis was caused by the widespread misuse of classical statistical
+methods in ﬁnance, and p-hacking in particular. ML can help deal with the
+problem of test set overﬁtting, in three ways. First, we can keep track of how
+many independent tests a researcher has run, to evaluate the probability that at
+least one of the outcomes is a false discovery (known as familywise error rate, or
+FWER). The deﬂated Sharpe ratio (Bailey and López de Prado 2014) follows
+8
+Machine Learning for Asset Managers
+
+a similar approach in the context of backtesting, as explained in Section 8. It
+is the equivalent to controlling for the number of lottery tickets that your
+friend bought. Second, while it is easy to overﬁt a model to one test set, it is
+hard to overﬁt a model to thousands of test sets for each security. Those
+thousands of test sets can be generated by resampling combinatorial splits of
+train and test sets. This is the approached followed by the combinatorial
+purged cross-validation method, or CPCV (AFML, chapter 12). Third, we
+can use historical series to estimate the underlying data-generating process,
+and sample synthetic data sets that match the statistical properties observed in
+history. Monte Carlo methods are particularly powerful at producing syn-
+thetic data sets that match the statistical properties of a historical series. The
+conclusions from these tests are conditional to the representativeness of the
+estimated data-generating process (AFML, chapter 13). The main advantage
+of this approach is that those conclusions are not connected to a particular
+(observed) realization of the data-generating process but to an entire distri-
+bution of random realizations. Following with our example, this is equivalent
+to replicating the lottery game and repeating it many times, so that we can rule
+luck out.
+In summary, there are multiple practical solutions to the problem of train set and
+test set overﬁtting. These solutions are neither infallible nor incompatible, and my
+advice is that you apply all of them. At the same time, I must insist that no backtest
+can replace a theory, for at least two reasons: (1) backtests cannot simulate black
+swans – only theories have the breadth and depth needed to consider the never-
+before-seen occurrences; (2) backtests may insinuate that a strategy is proﬁtable,
+but they do not tell us why. They are not a controlled experiment. Only a theory
+can state the cause–effect mechanism, and formulate a wide range of predictions
+and implications that can be independently tested for facts and counterfacts. Some
+of these implications may even be testable outside the realm of investing. For
+example, the VPIN theory predicted that market makers would suffer stop-outs
+under persistent order ﬂow imbalance. Beyond testing whether order ﬂow imbal-
+ance causes a reduction in liquidity, researchers can also test whether market
+makers suffered losses during the ﬂash crash (hint: they did). This latter test can be
+conducted by reviewing ﬁnancial statements, independently from the evidence
+contained in exchange records of prices and quotes.
+1.5 Outline
+This Element offers asset managers a step-by-step guide to building ﬁnancial
+theories with the help of ML methods. To that objective, each section uses what
+we have learned in the previous ones. Each section (except for this introduction)
+9
+Elements in Quantitative Finance
+
+contains an empirical analysis, where the methods explained are put to the test
+in Monte Carlo experiments.
+The ﬁrst step in building a theory is to collect data that illustrate how some
+variables relate to each other. In ﬁnancial settings, those data often take the
+form of a covariance matrix. We use covariance matrices to run regressions,
+optimize portfolios, manage risks, search for linkages, etc. However, ﬁnancial
+covariance matrices are notoriously noisy. A relatively small percentage of
+the information they contain is signal, which is systematically suppressed by
+arbitrage forces. Section 2 explains how to denoise a covariance matrix
+without giving up the little signal it contains. Most of the discussion centers
+on random matrix theory, but at the core of the solution sits an ML technique:
+the kernel density estimator.
+Many research questions involve the notion of similarity or distance.
+For example, we may be interested in understanding how closely related
+two variables are. Denoised covariance matrices can be very useful
+for deriving distance metrics from linear relationships. Modeling nonlinear
+relationships requires more advanced concepts. Section 3 provides an infor-
+mation-theoretic framework for extracting complex signals from noisy data.
+In particular, it allows us to deﬁne distance metrics with minimal assumptions
+regarding the underlying variables that characterize the metric space. These
+distance metrics can be thought of as a nonlinear generalization of the notion
+of correlation.
+One of the applications of distance matrices is to study whether some
+variables are more closely related among themselves than to the rest, hence
+forming clusters. Clustering has a wide range of applications across ﬁnance,
+like in asset class taxonomy, portfolio construction, dimensionality reduction,
+or modeling networks of agents. A general problem in clustering is ﬁnding
+the optimal number of clusters. Section 4 introduces the ONC algorithm,
+which provides a general solution to this problem. Various use cases for this
+algorithm are presented throughout this Element.
+Clustering is an unsupervised learning problem. Before we can delve into
+supervised learning problems, we need to assess ways of labeling ﬁnancial data.
+The effectiveness of a supervised ML algorithm greatly depends on the kind of
+problem we attempt to solve. For example, it may be harder to forecast
+tomorrow’s S&P 500 return than the sign of its next 5% move. Different
+features are appropriate for different types of labels. Researchers should
+consider carefully what labeling method they apply on their data. Section 5
+discusses the merits of various alternatives.
+AFML warned readers that backtesting is not a research tool. Feature impor-
+tance is. A backtest cannot help us develop an economic or ﬁnancial theory.
+10
+Machine Learning for Asset Managers
+
+In order to do that, we need a deeper understanding of what variables are
+involved in a phenomenon. Section 6 studies ML tools for evaluating the
+importance of explanatory variables, and explains how these tools defeat
+many of the caveats of classical methods, such as the p-value. A particular
+concern is how to overcome p-value’s lack of robustness under multicollinear-
+ity. To tackle this problem, we must apply what we learned in all prior sections,
+including denoising (Section 2), distance metrics (Section 3), clustering
+(Section 4), and labeling (Section 5).
+Once you have a ﬁnancial theory, you can use your discovery to develop an
+investment strategy. Designing that strategy will require making some invest-
+ment decisions under uncertainty. To that purpose, mean-variance portfolio
+optimization methods are universally known and used, even though they are
+notorious for their instability. Historically, this instability has been addressed in
+a number of ways, such as introducing strong constraints, adding priors, shrink-
+ing the covariance matrix, and other robust optimization techniques. Many asset
+managers are familiar with instability caused by noise in the covariance matrix.
+Fewer asset managers realize that certain data structures (types of signal) are
+also a source of instability for mean-variance solutions. Section 7 explains why
+signal can be a source of instability, and how ML methods can help correct it.
+Finally, a ﬁnancial ML book would not be complete without a detailed
+treatment of how to evaluate the probability that your discovery is false, as a
+result of test set overﬁtting. Section 8 explains the dangers of backtest over-
+ﬁtting, and provides several practical solutions to the problem of selection bias
+under multiple testing.
+1.6 Audience
+If, like most asset managers, you routinely compute covariance matrices, use
+correlations, search for low-dimensional representations of high-dimensional
+spaces, build predictive models, compute p-values, solve mean-variance opti-
+mizations, or apply the same test multiple times on a given data set, you need to
+read this Element. In it, you will learn that ﬁnancial covariance matrices are
+noisy and that they need to be cleaned before running regressions or computing
+optimal portfolios (Section 2). You will learn that correlations measure a very
+narrow deﬁnition of codependency and that various information-theoretic
+metrics are more insightful (Section 3). You will learn intuitive ways of redu-
+cing the dimensionality of a space, which do not involve a change of basis.
+Unlike PCA, ML-based dimensionality reduction methods provide intuitive
+results (Section 4). Rather than aiming for implausible ﬁxed-horizon predic-
+tions, you will learn alternative ways of posing ﬁnancial prediction problems
+that can be solved with higher accuracy (Section 5). You will learn modern
+11
+Elements in Quantitative Finance
+
+alternatives to the classical p-values (Section 6). You will learn how to
+address the instability problem that plagues mean-variance investment port-
+folios (Section 7). And you will learn how to evaluate the probability that
+your discovery is false as a result of multiple testing (Section 8). If you work
+in the asset management industry or in academic ﬁnance, this Element is
+for you.
+1.7 Five Popular Misconceptions about Financial ML
+Financial ML is a new technology. As it is often the case with new technologies,
+its introduction has inspired a number of misconceptions. Below is a selection
+of the most popular.
+1.7.1 ML Is the Holy Grail versus ML Is Useless
+The amount of hype and counterhype surrounding ML deﬁes logic. Hype
+creates a set of expectations that may not be fulﬁlled for the foreseeable future.
+Counterhype attempts to convince audiences that there is nothing special about
+ML and that classical statistical methods already produce the results that ML-
+enthusiasts claim.
+ML critics sometimes argue that “caveat X in linear regression is no big
+deal,” where X can either mean model misspeciﬁcation, multicollinearity,
+missing regressors, nonlinear interaction effects, etc. In reality, any of these
+violations of classical assumptions will lead to accepting uninformed vari-
+ables (a false positive) and/or rejecting informative variables (a false nega-
+tive). For an example, see Section 6.
+Another common error is to believe that the central limit theorem some-
+how justiﬁes the use of linear regression models everywhere. The argument
+goes like this: with enough observations, Normality prevails, and linear
+models provide a good ﬁt to the asymptotic correlation structure. This
+“CLT Hail Mary pass” is an undergrad fantasy: yes, the sample mean con-
+verges in distribution to a Gaussian, but not the sample itself! And that
+converge only occurs if the observations are independent and identically
+distributed. It takes a few lines of code to demonstrate that a misspeciﬁed
+regression will perform poorly, whether we feed it thousands or billions of
+observations.
+Both extremes (hype and counterhype) prevent investors from recognizing
+the real and differentiated value that ML delivers today. ML is modern statistics,
+and it helps overcome many of the caveats of classical techniques that have
+preoccupied asset managers for decades. See López de Prado (2019c) for
+multiple examples of current applications of ML in ﬁnance.
+12
+Machine Learning for Asset Managers
+
+1.7.2 ML Is a Black Box
+This is perhaps the most widespread myth surrounding ML. Every research
+laboratory in the world uses ML to some extent, so clearly ML is compatible
+with the scientiﬁc method. Not only is ML not a black box, but as Section 6
+explains, ML-based research tools can be more insightful than traditional
+statistical methods (including econometrics). ML models can be interpreted
+through a number of procedures, such as PDP, ICE, ALE, Friedman’s H-stat,
+MDI, MDA, global surrogate, LIME, and Shapley values, among others. See
+Molnar (2019) for a detailed treatment of ML interpretability.
+Whether someone applies ML as a black box or as a white-box is a matter of
+personal choice. The same is true of many other technical subjects. I personally
+do not care much about how my car works, and I must confess that I have never
+lifted the hood to take a peek at the engine (my thing is math, not mechanics).
+So, my car remains a black box to me. I do not blame the engineers who
+designed my car for my lack of curiosity, and I am aware that the mechanics
+who work at my garage see my car as a white box. Likewise, the assertion that
+ML is a black box reveals how some people have chosen to apply ML, and it is
+not a universal truth.
+1.7.3 Finance Has Insuﬃcient Data for ML
+It is true that a few ML algorithms, particularly in the context of price predic-
+tion, require a lot of data. That is why a researcher must choose the right
+algorithm for a particular job. On the other hand, ML critics who wield this
+argument seem to ignore that many ML applications in ﬁnance do not require
+any historical data at all. Examples include risk analysis, portfolio construction,
+outlier detection, feature importance, and bet-sizing methods. Each section in
+this Element demonstrates the mathematical properties of ML without relying
+on any historical series. For instance, Section 7 evaluates the accuracy of an
+ML-based portfolio construction algorithm via Monte Carlo experiments.
+Conclusions drawn from millions of Monte Carlo simulations teach us some-
+thing about the general mathematical properties of a particular approach. The
+anecdotal evidence derived from a handful of historical simulations is no match
+to evaluating a wide range of scenarios.
+Other ﬁnancial ML applications, like sentiment analysis, deep hedging, credit
+ratings, execution, and private commercial data sets, enjoy an abundance of
+data. Finally, in some settings, researchers can conduct randomized controlled
+experiments, where they can generate their own data and establish precise
+cause–effect mechanisms. For example, we may reword a news article and
+compare ML’s sentiment extraction with a human’s conclusion, controlling for
+13
+Elements in Quantitative Finance
+
+various changes. Likewise, we may experiment with the market’s reaction to
+alternative implementations of an execution algorithm under comparable
+conditions.
+1.7.4 The Signal-to-Noise Ratio Is Too Low in Finance
+There is no question that ﬁnancial data sets exhibit lower signal-to-noise ratio
+than those used by other ML applications (a point that we will demonstrate in
+Section 2). Because the signal-to-noise ratio is so low in ﬁnance, data alone are
+not good enough for relying on black box predictions. That does not mean that
+ML cannot be used in ﬁnance. It means that we must use ML differently, hence
+the notion of ﬁnancial ML as a distinct subject of study. Financial ML is not the
+mere application of standard ML to ﬁnancial data sets. Financial ML comprises
+ML techniques specially designed to tackle the speciﬁc challenges faced by
+ﬁnancial researchers, just as econometrics is not merely the application of
+standard statistical techniques to economic data sets.
+The goal of ﬁnancial ML ought to be to assist researchers in the discovery of
+new economic theories. The theories so discovered, and not the ML algorithms,
+will produce forecasts. This is no different than the way scientists utilize ML
+across all ﬁelds of research.
+1.7.5 The Risk of Overﬁtting Is Too High in Finance
+Section 1.4 debunked this myth. In knowledgeable hands, ML algorithms
+overﬁt less than classical methods. I concede, however, that in nonexpert
+hands ML algorithms can cause more harm than good.
+1.8 The Future of Financial Research
+The International Data Corporation has estimated that 80% of all available data
+are unstructured (IDC 2014). Many of the new data sets available to researchers
+are high-dimensional, sparse, or nonnumeric. As a result of the complexities of
+these new data sets, there is a limit to how much researchers can learn using
+regression models and other linear algebraic or geometric approaches. Even
+with older data sets, traditional quantitative techniques may fail to capture
+potentially complex (e.g., nonlinear and interactive) associations among vari-
+ables, and these techniques are extremely sensitive to the multicollinearity
+problem that pervades ﬁnancial data sets (López de Prado 2019b).
+Economics and ﬁnance have much to beneﬁt from the adoption of ML
+methods. As of November 26, 2018, the Web of Science4 lists 13,772 journal
+4 www.webofknowledge.com.
+14
+Machine Learning for Asset Managers
+
+articles on subjects in the intersection of “Economics” and “Statistics &
+Probability.” Among those publications, only eighty-nine articles (0.65%)
+contain any of the following terms: classiﬁer, clustering, neural network, or
+machine learning. To put it in perspective, out of the 40,283 articles in the
+intersection of “Biology” and “Statistics & Probability,” a total of 4,049
+(10.05%) contained any of those terms, and out of the 4,994 articles in the
+intersection of “Chemistry, Analytical” and “Statistics & Probability,” a total of
+766 (15.34%) contained any of those terms.
+The econometric canon predates the dawn of digital computing. Most econo-
+metric models were devised for estimation by hand and are a product of their time.
+In the words of Robert Tibshirani, “people use certain methods because that is how
+it all started and that’s what they are used to. It’s hard to change it.”5 Students in the
+twenty-ﬁrst century should not be overexposed to legacy technologies. Moreover,
+the most successful quantitative investment ﬁrms in history rely primarily on ML,
+not econometrics, and the current predominance of econometrics in graduate
+studies prepares students for academic careers, not for jobs in the industry.
+This does not mean that econometrics has outlived its usability. Researchers
+asked to decide between econometrics and ML are presented with a false
+choice. ML and econometrics complement each other, because they have
+different strengths. For example, ML can be particularly helpful at suggesting
+to researchers the ingredients of a theory (see Section 6), and econometrics can
+be useful at testing a theory that is well grounded on empirical observation. In
+fact, sometimes we may want to apply both paradigms at the same time, like in
+semiparametric methods. For example, a regression could combine observable
+explanatory variables with control variables that are contributed by an ML
+algorithm (Mullainathan and Spiess 2017). Such approach would address the
+bias associated with omitted regressors (Clarke 2005).
+1.9 Frequently Asked Questions
+Over the past few years, attendees at seminars have asked me all sorts of
+interesting questions. In this section I have tried to provide a short answer to
+some of the most common questions. I have also added a couple of questions
+that I am still hoping that someone will ask one day.
+In Simple Terms, What Is ML?
+Broadly speaking, ML refers to the set of algorithms that learn complex patterns
+in a high-dimensional space without being speciﬁcally directed. Let us break
+5 https://qz.com/1206229/this-is-the-best-book-for-learning-modern-statistics-its-free/.
+15
+Elements in Quantitative Finance
+
+that deﬁnition into its three components. First, ML learns without being speci-
+ﬁcally directed, because researchers impose very little structure on the data.
+Instead, the algorithm derives that structure from the data. Second, ML learns
+complex patterns, because the structure identiﬁed by the algorithm may not be
+representable as a ﬁnite set of equations. Third, ML learns in a high-dimensional
+space, because solutions often involve a large number of variables, and the
+interactions between them.
+For example, we can train an ML algorithm to recognize human faces by
+showing it examples. We do not deﬁne what a face is, hence the algorithm learns
+without our direction. The problem is never posed in terms of equations, and in
+fact the problem may not be expressible in terms of equations. And the algo-
+rithm uses an extremely large number of variables to perform this task, includ-
+ing the individual pixels and the interaction between the pixels.
+In recent years, ML has become an increasingly useful research tool through-
+out all ﬁelds of scientiﬁc research. Examples include drug development, gen-
+ome research, new materials, and high-energy physics. Consumer products and
+industrial services have quickly incorporated these technologies, and some of
+the most valuable companies in the world produce ML-based products and
+services.
+How Is ML Diﬀerent from Econometric Regressions?
+Researchers use traditional regressions to ﬁt a predeﬁned functional form to
+a set of variables. Regressions are extremely useful when we have a high
+degree of conviction regarding that functional form and all the interaction
+effects that bind the variables together. Going back to the eighteenth
+century, mathematicians developed tools that ﬁt those functional forms
+using estimators with desirable properties, subject to certain assumptions
+on the data.
+Starting in the 1950s, researchers realized that there was a different way to
+conduct empirical analyses, with the help of computers. Rather than imposing a
+functional form, particularly when that form is unknown ex ante, they would
+allow algorithms to ﬁgure out variable dependencies from the data. And rather
+than making strong assumptions on the data, the algorithms would conduct
+experiments that evaluate the mathematical properties of out-of-sample predic-
+tions. This relaxation in terms of functional form and data assumptions, com-
+bined with the use of powerful computers, opened the door to analyzing
+complex data sets, including highly nonlinear, hierarchical, and noncontinuous
+interaction effects.
+Consider the following example: a researcher wishes to estimate the survival
+probability of a passenger on the Titanic, based on a number of variables, such
+16
+Machine Learning for Asset Managers
+
+as gender, ticket class, and age. A typical regression approach would be to ﬁt a
+logit model to a binary variable, where 1 means survivor and 0 means
+deceased, using gender, ticket class, and age as regressors. It turns out that,
+even though these regressors are correct, a logit (or probit) model fails to
+make good predictions. The reason is that logit models do not recognize that
+this data set embeds a hierarchical (treelike) structure, with complex interac-
+tions. For example, adult males in second class died at a much higher rate than
+each of these attributes taken independently. In contrast, a simple “classiﬁca-
+tion tree” algorithm performs substantially better, because we allow the
+algorithm to ﬁnd that hierarchical structure (and associated complex interac-
+tions) for us.
+As it turns out, hierarchical structures are omnipresent in economics and
+ﬁnance (Simon 1962). Think of sector classiﬁcations, credit ratings, asset
+classes, economic linkages, trade networks, clusters of regional economies,
+etc. When confronted with these kinds of problems, ML tools can complement
+and overcome the limitations of econometrics or similar traditional statistical
+methods.
+How Is ML Diﬀerent from Big Data?
+The term big data refers to data sets that are so large and/or complex that
+traditional statistical techniques fail to extract and model the information
+contained in them. It is estimated that 90% of all recorded data have been
+created over the past two years, and 80% of the data is unstructured (i.e., not
+directly amenable to traditional statistical techniques).
+In recent years, the quantity and granularity of economic data have
+improved dramatically. The good news is that the sudden explosion of admin-
+istrative, private sector, and micro-level data sets offers an unparalleled
+insight into the inner workings of the economy. The bad news is that these
+data sets pose multiple challenges to the study of economics. (1) Some of
+the most interesting data sets are unstructured. They can also be nonnumerical
+and noncategorical, like news articles, voice recordings, or satellite images.
+(2) These data sets are high-dimensional (e.g., credit card transactions.)
+The number of variables involved often greatly exceeds the number of obser-
+vations, making it very difﬁcult to apply linear algebra solutions. (3) Many of
+these data sets are extremely sparse. For instance, samples may contain a large
+proportion of zeros, where standard notions such as correlation do not work
+well. (4) Embedded within these data sets is critical information regarding
+networks of agents, incentives, and aggregate behavior of groups of people.
+ML techniques are designed for analyzing big data, which is why they are
+often cited together.
+17
+Elements in Quantitative Finance
+
+How Is the Asset Management Industry Using ML?
+Perhaps the most popular application of ML in asset management is price
+prediction. But there are plenty of equally important applications, like hedging,
+portfolio construction, detection of outliers and structural breaks, credit ratings,
+sentiment analysis, market making, bet sizing, securities taxonomy, and many
+others. These are real-life applications that transcend the hype often associated
+with expectations of price prediction.
+For example, factor investing ﬁrms use ML to redeﬁne value. A few years
+ago, price-to-earnings ratios may have provided a good ranking for value, but
+that is not the case nowadays. Today, the notion of value is much more
+nuanced. Modern asset managers use ML to identify the traits of value, and
+how those traits interact with momentum, quality, size, etc. Meta-labeling
+(Section 5.5) is another hot topic that can help asset managers size and time
+their factor bets.
+High-frequency trading ﬁrms have utilized ML for years to analyze
+real-time exchange feeds, in search for footprints left by informed traders.
+They can utilize this information to make short-term price predictions or to
+make decisions on the aggressiveness or passiveness in order execution.
+Credit rating agencies are also strong adopters of ML, as these algorithms
+have demonstrated their ability to replicate the ratings generated by credit
+analysts. Outlier detection is another important application, since ﬁnancial
+models can be very sensitive to the presence of even a small number of
+outliers. ML models can help improve investment performance by ﬁnding
+the proper size of a position, leaving the buy-or-sell decision to traditional or
+fundamental models.
+And Quantitative Investors Speciﬁcally?
+All of the above applications, and many more, are relevant to quantitative
+investors. It is a great time to be a quant. Data are more abundant than ever,
+and computers are ﬁnally delivering the power needed to make effective use of
+ML. I am particularly excited about real-time prediction of macroeconomic
+statistics, following the example of MIT’s Billion Prices Project (Cavallo and
+Rigobon 2016). ML can be specially helpful at uncovering relationships that
+until now remained hidden, even in traditional data sets. For instance, the
+economic relationships between companies may not be effectively described
+by traditional sector-group-industry classiﬁcations, such as GICS.6 A network
+approach, where companies are related according to a variety of factors, is likely
+6 www.msci.com/gics.
+18
+Machine Learning for Asset Managers
+
+to offer a richer and more accurate representation of the dynamics, strengths,
+and vulnerabilities of speciﬁc segments of the stock or credit markets (Cohen
+and Frazzini 2008).
+What Are Some of the Ways That ML Can Be Applied
+to Investor Portfolios?
+Portfolio construction is an extremely promising area for ML (Section 7). For
+many decades, the asset management industry has relied on variations and
+reﬁnements of Markowitz’s efﬁcient frontier to build investment portfolios. It
+is known that many of these solutions are optimal in-sample, however, they can
+perform poorly out-of-sample due to the computational instabilities involved in
+convex optimization. Numerous classical approaches have attempted, with
+mixed success, to address these computational instabilities. ML algorithms
+have shown the potential to produce robust portfolios that perform well out-
+of-sample, thanks to their ability to recognize sparse hierarchical relationships
+that traditional methods miss (López de Prado 2016).
+What Are the Risks? Is There Anything That Investors Should
+Be Aware of or Look Out For?
+Finance is not a plug-and-play subject as it relates to ML. Modeling ﬁnancial
+series is harder than driving cars or recognizing faces. The reason is, the signal-
+to-noise ratio in ﬁnancial data is extremely low, as a result of arbitrage forces
+and nonstationary systems. The computational power and functional ﬂexibility
+of ML ensures that it will always ﬁnd a pattern in the data, even if that pattern is
+a ﬂuke rather than the result of a persistent phenomenon. An “oracle” approach
+to ﬁnancial ML, where algorithms are developed to form predictions divorced
+from all economic theory, is likely to yield false discoveries. I have never heard
+a scientist say “Forget about theory, I have this oracle that can answer anything,
+so let’s all stop thinking, and let’s just believe blindly whatever comes out.”
+It is important for investors to recognize that ML is not a substitute for
+economic theory, but rather a powerful tool for building modern economic
+theories. We need ML to develop better ﬁnancial theories, and we need ﬁnancial
+theories to restrict ML’s propensity to overﬁt. Without this theory–ML inter-
+play, investors are placing their trust on high-tech horoscopes.
+How Do You Expect ML to Impact the Asset Management
+Industry in the Next Decade?
+Today, the amount of ML used by farmers is staggering: self-driving tractors,
+drones scanning for irregular patches of land, sensors feeding cattle and
+19
+Elements in Quantitative Finance
+
+administering nutrients as needed, genetically engineered crops, satellite images
+for estimating yields, etc. Similarly, I think in ten years we will look back, and ML
+will be an important aspect of asset management. And just like in the farming
+industry, although this transformation may not happen overnight, it is clear that
+there is only one direction forward.
+Economic data sets will only get bigger, and computers will only get more
+powerful. Most asset managers will fail either by not evolving or by rushing into
+the unknown without fully recognizing the dangers involved in the “oracle”
+approach. Only a few asset managers will succeed by evolving in a thoughtful
+and responsible manner.
+How Do You Expect ML to Impact Financial Academia
+in the Next Decade?
+Imagine if physicists had to produce theories in a universe where the
+fundamental laws of nature are in a constant ﬂux; where publications
+have an impact on the very phenomenon under study; where experimen-
+tation is virtually impossible; where data are costly, the signal is dim, and
+the system under study is incredibly complex . . . I feel utmost admiration
+for how much ﬁnancial academics have achieved in the face of paramount
+adversity.
+ML has a lot to offer to the academic profession. First, ML provides the
+power and ﬂexibility needed to ﬁnd dim signals in the sea of noise caused by
+arbitrage forces. Second, ML allows academics to decouple the research
+process into two stages: (1) search for important variables irrespective of
+functional form, and (2) search for a functional form that binds those vari-
+ables. López de Prado (2019b) demonstrates how even small speciﬁcation
+errors mislead researchers into rejecting important variables. It is hard to
+overstate the relevance of decoupling the speciﬁcation search from the vari-
+ables search. Third, ML offers the possibility of conducting simulations on
+synthetic data. This is as close as ﬁnance will ever get to experimentation, in
+the absence of laboratories. We live an exciting time to do academic research
+on ﬁnancial systems, and I expect tremendous breakthroughs as more ﬁnan-
+cial researchers embrace ML.
+Isn’t Financial ML All about Price Prediction?
+One of the greatest misunderstandings I perceive from reading the press is the
+notion that ML’s main (if not only) objective is price prediction. Asset pricing is
+undoubtedly a very worthy endeavor, however its importance is often over-
+stated. Having an edge at price prediction is just one necessary, however entirely
+20
+Machine Learning for Asset Managers
+
+insufﬁcient, condition to be successful in today’s highly competitive market.
+Other areas that are equally important are data processing, portfolio construc-
+tion, risk management, monitoring for structural breaks, bet sizing, and
+detection of false investment strategies, just to cite a few.
+Consider the players at the World Series of Poker. The cards are shufﬂed
+and distributed randomly. These players obviously cannot predict what cards
+will be handed to players with any meaningful accuracy. And yet, the same
+handful of players ends up in top positions year after year. One reason is, bet
+sizing is more important than card prediction. When a player receives a good
+hand, he evaluates the probability that another player may hold a strong hand
+too, and bets strategically. Likewise, investors may not be able to predict
+prices, however they may recognize when an out-of-the-normal price has
+printed, and bet accordingly. I am not saying that bet sizing is the key to
+successful investing. I am merely stating that bet sizing is at least as important
+as price prediction, and that portfolio construction is arguably even more
+important.
+Why Don’t You Discuss a Wide Range of ML Algorithms?
+The purpose of this Element is not to introduce the reader to the vast popula-
+tion of ML algorithms used today in ﬁnance. There are two reasons for that.
+First, there are lengthy textbooks dedicated to the systematic exposition of
+those algorithms, and another one is hardly needed. Excellent references
+include James et al. (2013), Hastie et al. (2016), and Efron and Hastie
+(2016). Second, ﬁnancial data sets have speciﬁc nuisances, and the success
+or failure of a project rests on understanding them. Once we have engineered
+the features and posed the problem correctly, choosing an algorithm plays a
+relatively secondary role.
+Allow me to illustrate the second point with an example. Compare an
+algorithm that forecasted a change of 1, but received a realized change of 3,
+with another algorithm that forecasted a change of −1, but received a realized
+change of 1. In both cases, the forecast error is 2. In many industrial applica-
+tions, we would be indifferent between both errors. That is not the case in
+ﬁnance. In the ﬁrst instance, an investor makes one-third of the predicted
+proﬁt, whereas in the second instance the investor suffers a loss equal to the
+predicted proﬁt. Failing to predict the size is an opportunity loss, but failing to
+predict the sign is an actual loss. Investors penalize actual losses much more
+than opportunity losses. Predicting the sign of an outcome is often more
+important than predicting its size, and a reason for favoring classiﬁers over
+regression methods in ﬁnance. In addition, it is common in ﬁnance to ﬁnd that
+the sign and size of an outcome depend on different features, so jointly
+21
+Elements in Quantitative Finance
+
+forecasting the sign and size of an outcome with a unique set of features can
+lead to subpar results.7 ML experts who transition into ﬁnance from other
+ﬁelds often make fundamental mistakes, like posing problems incorrectly, as
+explained in López de Prado (2018b). Financial ML is a subject in its own
+right, and the discussion of generic ML algorithms is not the heart of the
+matter.
+Why Don’t You Discuss a Speciﬁc Investment Strategy,
+Like Many Other Books Do?
+There are plenty of books in the market that provide recipes for
+implementing someone else’s investment strategy. Those cookbooks
+show us how to prepare someone else’s cake. This Element is different.
+I want to show you how you can use ML to discover new economic and
+ﬁnancial theories that are relevant to you, on which you can base your
+proprietary investment strategies. Your investment strategies are just the
+particular implementation of the theories that ﬁrst you must discover
+independently. You cannot bake someone else’s cake and expect to retain
+it for yourself.
+1.10 Conclusions
+The purpose of this Element is to introduce ML tools that are useful for
+discovering economic and ﬁnancial theories. Successful investment strategies
+are speciﬁc implementations of general theories. An investment strategy that
+lacks a theoretical justiﬁcation is likely to be false. Hence, a researcher should
+concentrate her efforts on developing a theory, rather than of backtesting
+potential strategies.
+ML is not a black box, and it does not necessarily overﬁt. ML tools
+complement rather than replace the classical statistical methods. Some
+of ML’s strengths include (1) Focus on out-of-sample predictability over
+variance adjudication; (2) usage of computational methods to avoid
+relying on (potentially unrealistic) assumptions; (3) ability to “learn”
+complex speciﬁcations, including nonlinear, hierarchical, and noncontin-
+uous interaction effects in a high-dimensional space; and (4) ability to
+disentangle the variable search from the speciﬁcation search, in a manner
+robust to multicollinearity and other substitution effects.
+7 See López de Prado (2018a) for a discussion of meta-labeling algorithms, where the sign and size
+decision is made by independent algorithms.
+22
+Machine Learning for Asset Managers
+
+1.11 Exercises
+1 Can quantitative methods be used to predict events that never happened
+before? How could quantitative methods predict a black swan?
+2 Why is theory particularly important in ﬁnance and economics? What is the
+best use of ML in ﬁnance?
+3 What are popular misconceptions about ﬁnancial ML? Are ﬁnancial data sets
+large enough for ML applications?
+4 How does ML control for overﬁtting? Is the signal-to-noise ratio too low in
+ﬁnance for allowing the use of ML?
+5 Describe a quantitative approach in ﬁnance that combines classical and ML
+methods. How is ML different from a large regression? Describe ﬁve appli-
+cations of ﬁnancial ML.
+23
+Elements in Quantitative Finance

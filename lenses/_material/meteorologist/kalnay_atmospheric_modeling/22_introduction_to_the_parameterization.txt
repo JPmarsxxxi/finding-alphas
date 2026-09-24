@@ -1,0 +1,420 @@
+4
+Introduction to the parameterization
+of subgrid-scale physical processes
+4.1
+Introduction
+In Chapter 2 we derived the equations that govern the evolution of the atmosphere,
+and in Chapter 3 we discussed the numerical discretizations that allow the numerical
+integration of those equations on a computer. The discretization of the continuous
+governing equation is limited by the model resolution, i.e., by the size of the smallest
+resolvable scale. We have seen that in a ﬁnite difference scheme, the smallest scales
+of motion that can be (poorly) resolved are those which have a wavelength of two grid
+sizes. In spectral models, the motion of the smallest wave present in the solution is
+more accurately computed, but for these and for any type of numerical discretization
+there is always a minimum resolvable scale. Current climate models typically have
+a horizontal resolution of the order of several hundred kilometers, global weather
+forecast models have resolutions of 50–100 km, and regional mesoscale models of
+10–50 km. Storm-scale models have even higher resolution, with grid sizes of the
+order of 1–10 km. In the vertical direction, model resolution and vertical extent have
+also been increased substantially, with current models having typically between 10
+and 50 vertical levels, and extending from the surface to the stratosphere or even
+the mesosphere. As computer power continues to increase, so does the resolution of
+atmospheric models.
+Despite the continued increase of horizontal and vertical resolution, it is obvious
+that there are many important processes and scales of motion in the atmosphere that
+cannot be explicitly resolved with present or future models. They include turbulent
+motions with scales ranging from a few centimeters to the size of the model grid,
+as well as processes that occur at a molecular scale, like condensation, evaporation,
+127
+
+128
+4 Introduction to the parameterization of subgrid-scale physical processes
+friction and radiation. We refer to all the processes that cannot be resolved explicitly
+as “subgrid-scale processes”. An example of an important process that takes place at a
+subgrid scale is the turbulent mixing in the planetary boundary layer. During the day-
+time, the solar heating at the earth’s surface not only warms the soil but also causes the
+plants to transpire and soil moisture to evaporate, thus transporting moisture into the
+atmosphere. Surface heating leads to turbulent motion that is on the scale of a few me-
+ters to a few hundred meters. With a horizontal grid size of 10–100 km, models cannot
+resolve these motions. Yet the transport of the heat and moisture into the boundary
+layer is very crucial to the development of afternoon thunderstorms and a host of
+other phenomena that are important to the resolvable atmospheric ﬁelds. Another no-
+table example is tropical cumulus convection. The cumulus clouds in the tropics are
+known to be extremely important to the global energy balance, yet each cloud typi-
+cally occupies only a few kilometers of space horizontally and vertically (Pan, 1999).
+Although these processes occur at small scales, they depend on, and in turn, affect
+the larger-scale ﬁelds and processes that are explicitly resolved by a numerical model.
+For example, condensation of water vapor on a subgrid scale occurs if the resolved-
+scale humidity ﬁeld is sufﬁciently high, and, in turn, condensation releases latent heat
+that warms the grid-scale temperature ﬁeld. For this reason, it is not possible to ignore
+the effect of the subgrid processes on the resolvable-scale ﬁelds without degrading
+the quality of the forecast. To reproduce the interaction of the grid and subgrid-
+scale processes, the subgrid-scale phenomena are “parameterized”, i.e., their effect
+is formulated in terms of the resolved ﬁelds. Fig. 4.1.1, adapted from Arakawa (1997),
+indicates schematically the resolved processes (usually referred to as the “dynamics
+of the model”), and the processes that must be parameterized (“the model physics”),
+DYNAMICAL
+PROCESSES
+Hydrological
+processes
+Cloud
+processes
+Boundary layer
+processes
+Radiation and
+chemical processes
+OCEAN AND LAND PROCESSES
+Precipitation
+Figure 4.1.1: Physical
+processes in the atmosphere
+and their interactions. The
+dynamical processes for
+resolvable scales, in bold,
+are explicitly computed by
+the model “dynamics”
+(discussed in Chapters 2 and
+3). The other subgrid-scale
+processes are parameterized
+in terms of the
+resolved-scale ﬁelds.
+(Adapted from Arakawa,
+1997.)
+
+4.2 Subgrid-scale processes and Reynolds averaging
+129
+and their interactions. Arakawa (1997) points out that some subgrid-scale processes
+can be interpreted as adjustment processes. For example, the atmosphere adjusts to
+the surface conditions through boundary layer adjustment processes, which are very
+efﬁcient if the planetary boundary layer is unstable. Radiative ﬂuxes occur because
+temperaturetendstoadjusttowardsradiativeequilibrium.Convectiveprocessesoccur
+in the presence of an unstable stratiﬁcation and adjust the ﬁeld towards a more
+neutrally stable state. Because radiative equilibrium is convectively unstable for the
+lower troposphere, radiative–convective adjustment is a dominant process controlling
+the vertical thermal structure of the troposphere.
+The details of the parameterizations have a profound effect on the model forecast,
+especially at longer time scales, and are the subject of very intense research. In this
+chapter we provide only a very elementary introduction to model parameterizations.
+A short but inspiring introduction is presented in Arakawa (1997). An overview
+of different subgrid processes, and their parameterizations in atmospheric models
+appears in Haltiner and Williams (1980), and a more recent review, including ocean
+and land models, is available in Climate system modeling edited by Trenberth (1992).
+Stull(1988)andGarrart(1994)aretextsontheatmosphericboundarylayerprocesses.
+Emanuel and Raymond (1993) edited a volume including detailed discussions of
+a number of cumulus parameterizations. Pan (1999) discusses the philosophy that
+guides modelers in the development of parameterizations. Randall (2000) has edited a
+book honoring Akio Arakawa on the occasion of his retirement, which includes many
+review papers on areas related to physical parameterizations (as well as numerical
+modeling).
+4.2
+Subgrid-scale processes and Reynolds averaging
+Consider the prognostic equation for water vapor written in ﬂux form in z-coordinates
+(Section 2.5):
+∂ρq
+∂t
+= −∂ρuq
+∂x
+−∂ρvq
+∂y
+−∂ρwq
+∂z
++ ρE −ρC
+(4.2.1)
+In the real atmosphere, both u and q contain scales that are resolved by the grid of
+the model, and smaller, subgrid scales. We write then
+u = u + u′
+q = q + q′
+%
+(4.2.2)
+where the overbar represents the spatial average over a grid, and the primes, the
+subgrid-scale perturbation. We can neglect the subgrid-scale variations of ρ. By
+deﬁnition, the grid-box average of all quantities linear in the perturbations is zero,
+e.g.,q′ = 0, u′q = 0. Also, averaging a grid-average quantity does not change it, e.g.,
+uq = uq. These are the rules for Reynolds averaging, a method originally developed
+
+130
+4 Introduction to the parameterization of subgrid-scale physical processes
+by Reynolds in 1895 for use in time averages, but that we apply to grid-box averages.
+We can substitute (4.2.2) in the moisture equation (4.2.1), take a grid average, and
+obtain:
+∂ρq
+∂t
+= −∂ρuq
+∂x
+−∂ρvq
+∂y
+−∂ρwq
+∂z
+−∂ρu′q′
+∂x
+−∂ρv′q′
+∂y
+−∂ρw′q′
+∂z
++ ρE −ρC
+(4.2.3)
+The ﬁrst three terms of the right-hand side are the grid-scale (resolved) advection
+terms, whose numerical discretization we have studied in the Chapter 3. They are
+included in the “dynamical processes” box of Fig. 4.1.1. The next three terms are the
+divergences of the eddy ﬂuxes of moisture or turbulent moisture transports. The last
+two terms (evaporation and condensation) are subgrid-scale processes that occur at
+a molecular scale and that we still need to parameterize. Both the molecular-scale
+processes and eddy ﬂuxes that occur at scales much larger than molecular, but smaller
+than the grid resolution, are denoted collectively as “subgrid-scale processes”. As
+indicated in the introduction, the impact of at least some of these physical processes
+on the larger scales explicitly represented in the model must be included. Without the
+parameterization of at least the most important subgrid-scale processes, the model
+integrations cease to be realistic in a very short period, from a day or two for large-
+scale ﬂow, to less than an hour for storm-scale simulations.
+There are several choices for the parameterization of the effect of turbulent trans-
+port terms in terms of the resolved scales. Consider, for example, the vertical turbulent
+ﬂux of moisture (which, because of the strong vertical gradients, especially in the
+planetary boundary layer, is by far the dominant component of the eddy ﬂuxes). We
+can choose to:
+(a) Neglect the vertical turbulent ﬂux, assuming that, in the boundary layer, the
+grid-scale ﬁeld is well mixed:
+−ρw′q′ = 0
+(4.2.4)
+This is known as a “zeroth order” closure, in which only the average
+properties are sought. An example is the bulk parameterization of the mixed
+boundary layer (Deardorff, 1972), in which the potential temperature, water
+vapor, and wind are assumed to be well mixed, and only the depth of the layer
+is forecast.
+(b) Parameterize the vertical ﬂux as a “turbulent diffusion process” in terms of q
+and the other grid-scale variables (this is a ﬁrst order closure, and is the most
+commonly used):
+−ρw′q′ = K ∂q
+∂z
+(4.2.5)
+This represents the effect of turbulent mixing due to parcels moving up or
+down, bringing with them the moisture from their original level, and mixing
+
+4.2 Subgrid-scale processes and Reynolds averaging
+131
+with the environment at the new level. The main problem in “K-theory”, as
+this approach is also known, is to ﬁnd a suitable formulation of the eddy
+diffusivity K, which also depends on the grid-average ﬁelds and the stability
+of the ﬂow.
+(c) Obtain a prognostic equation for w′q′ by multiplying the vertical equation of
+motion by ρq and adding it to (4.2.1) multiplied by w. We obtain an equation
+with many terms like
+∂ρwq
+∂t
+= −∂ρuwq
+∂x
+−· · ·
+(4.2.6)
+We can then take its Reynolds average and subtract it from (4.2.6), and derive
+a prognostic equation for the turbulent ﬂuxes ∂ρw′q′/∂t = · · · −∂ρw′w′q′/
+∂z · · ·. This equation can be included as an additional model equation. Since
+it contains triple products of turbulent terms, these terms, in turn, have to be
+parameterized in terms of the double products:
+−ρw′w′q′ = K ′ ∂ρw′q′
+∂z
+(4.2.7)
+This is a second order closure. Second order closure models have many
+additional prognostic equations (for all the products of turbulent variables)
+but are an alternative to high-resolution models to obtain an estimate of
+turbulent transports (e.g., Moeng and Wyngaard, 1989). Mellor and Yamada
+(1974, 1982) show how to construct a hierarchy of closures for vertical ﬂuxes
+and provide simplifying assumptions.
+If an important physical process that occurs in the real atmosphere on a scale unre-
+solved by the model is not parameterized, it may still appear in the model integration
+“aliased” into the resolved scales. For example, primitive equation model integrations
+will be ruined by dry convective instability if it is not parameterized. In the real at-
+mosphere, if the potential temperature decreases with height, the unstable convective
+circulation that takes place occurs at very small horizontal scales, of the same order
+as the depth of the unstable layer, typically 1 km or less. Since this cannot be resolved
+with horizontal grids of the order of 10–100 km, models with unstable layers develop
+an unrealistic appearance of “vertical noodles”, with narrow columns moving up and
+down side by side. In order to handle this problem, Manabe et al. (1965) developed
+the dry convective adjustment, a simple parameterization of dry convection still used
+in most present-day models. In this parameterization, when the grid-scale atmosphere
+lapse rate exceeds the dry adiabatic lapse rate %d = g/C p ≈10 K/km, the unstable
+atmospheric column is instantaneously adjusted to an adiabatic or very slightly stable
+proﬁle, while keeping constant the layer total enthalpy. Moist (cumulus) convection
+that occurs when there is grid-scale saturation and the temperature gradient exceeds
+the moist adiabatic lapse rate also results in a “wet noodles” circulation. This led
+to the moist convective adjustment, the ﬁrst parameterization of cumulus convection
+(Manabe et al., 1965), adjusting to a moist adiabatic proﬁle. The moist convective
+
+132
+4 Introduction to the parameterization of subgrid-scale physical processes
+adjustment was not found to be a sufﬁciently realistic cumulus parameterization,
+and has since been replaced by other convective parameterizations by Kuo, 1974,
+Arakawa and Schubert, 1974, Betts and Miller, 1986, Kain and Fritsch, 1990. See
+the volume edited by Emanuel and Raymond (1993) for a detailed review of cumu-
+lus parameterizations, and some updates in Randall (2000). Cumulus convection is
+one of the most important parameterizations in determining the characteristics of the
+model climatology (e.g., Miyakoda and Sirutis, 1977).
+When a process occurs at scales not much smaller than the grid size, it presents
+an additional difﬁculty: the resolved scales and the unresolved scales to be pa-
+rameterized are not well separated. An example of a process only marginally re-
+solved in present-day models, which therefore appears aliased into the shortest
+waves present in the solution, is the sea-breeze circulation. A model with a grid
+size of 50–100 km (or more) cannot resolve the real sea-breeze circulation that takes
+place, for example, over a distance of the order of 1–20 km in the Florida penin-
+sula on summer days. Therefore, in the model, the sea-breeze coastal circulation
+becomes distorted into a 2x circulation, and because the scales are not well sep-
+arated, its effects on the large scales are difﬁcult to parameterize. Similar effects
+are observed near heated mountain slopes when they are not properly resolved. The
+same problem of lack of scale separation complicates cumulus convection param-
+eterization in models with a resolution of the order of 10 km, which is close to
+the horizontal scale of the convection, but not high enough to resolve convection
+explicitly.
+4.3
+Overview of model parameterizations
+In a typical hydrostatic model on pressure coordinates, the governing equations
+(Chapter 2), including subgrid-scale processes, denoted with a tilde, are written as:
+dv
+dt = −∇pφ −f k × v −g ∂˜τ
+∂p
+(4.3.1)
+for the two horizontal equations of motion, including the effect of eddy ﬂuxes of
+momentum,
+∂φ
+∂p = −α
+(4.3.2)
+the hydrostatic equation,
+∇p · v + ∂ω
+∂p = 0
+(4.3.3)
+
+4.3 Overview of model parameterizations
+133
+the continuity equation,
+∂ps
+∂t + v · ∇ps = −
+∞
+
+0
+∇p · vdp
+(4.3.4)
+the rate of change of the surface pressure,
+p α = RT
+(4.3.5)
+the equation of state,
+C p
+T
+θ
+dθ
+dt = ˜Q = ˜Qrad −g ∂˜Fθ
+∂p + L( ˜C −˜E)
+(4.3.6)
+and the ﬁrst law of thermodynamics, which includes radiative heating and cooling,
+sensible heat ﬂuxes and condensation and evaporation, and
+dq
+dt = ˜E −˜C −g ∂˜Fq
+∂p
+(4.3.7)
+the conservation equation for water vapor. Condensation takes place when the grid
+average value oversaturates (stable or grid-scale condensation), or when there is
+moist convective instability and cumulus convection. The condensed water falls
+as precipitation, and may evaporate if the layers below are not saturated. Addi-
+tional conservation equations can be written for cloud and rain water in models
+with prognostic (rather than diagnostic) clouds, and for other substances such as
+ozone.
+In these equations the quantities with an overbar are the grid-averaged quantities
+computed by the model dynamics, and the terms with the tilde represent the terms
+that are parameterized. In a typical model, the vertical eddy ﬂux of momentum
+˜τ = ρw′u′ i + ρw′v′ j (also known as eddy stress) of sensible heat ˜FT = ρC pw′T ′
+and of moisture ˜Fq = ρw′q′ may be represented using K-theory in the boundary
+layer and neglected in the free atmosphere above the boundary layer (using K = 0
+or a very small value). The vertical derivatives of the turbulent ﬂuxes that appear in
+the right-hand sides of (4.3.1), (4.3.6), and (4.3.7) introduce a requirement for lower
+boundary conditions for the surface ﬂuxes of heat, moisture, and momentum. These
+surface ﬂuxes are computed using a bulk parameterization based on the Monin–
+Obukhov (1954) similarity theory. This theory concludes that the proﬁles of wind
+and temperature in the turbulent surface layer can be described by a set of equations
+that depends only on a few parameters, including the surface roughness length z0. The
+hypothesis of similarity, based on many observational studies, suggests that the ﬂuxes
+of momentum and heat are nearly constant with height in the surface layer (of depth
+10–100 m, which is much thinner than the planetary boundary layer). The ﬂuxes
+in the surface or constant ﬂux layer are usually represented with bulk aerodynamic
+
+134
+4 Introduction to the parameterization of subgrid-scale physical processes
+formulas:
+τ = −ρCD|v|v
+Fθ = −ρCH|v|C p(θ −θS)
+Fq = −ρCE|v|β(q −qS)
+
+
+
+(4.3.8)
+Here, v, θ, q are the velocity, potential temperature, and mixing ratio in the surface
+layer, respectively, and the variables with an S subscript are the corresponding values
+at the underlying ocean or land surface (vS = 0). CD, CH, and CE are transfer coef-
+ﬁcients (CD is known as “drag coefﬁcient”) and they depend on the stability of the
+surface layer (measured by the bulk Richardson number RiB = gz
+
+(θ −θS)/θ
+
+/v2,
+the height z and the surface roughness length). They are nondimensional and have
+typical values of the order of 10−3 for stable conditions and 10−2 for unstable con-
+ditions (Louis, 1979). β is a coefﬁcient representing the degree of saturation of the
+underlying surface (1 for oceans, 0–1 for land depending on the degree of saturation
+in the soil moisture content). The surface layer values are either obtained through the
+use of a thin (order 10 m) prognostic layer or diagnosed.
+The radiative heating in (4.3.6) is determined from the vertical divergence of the
+upward and downward ﬂuxes of short- and long-wave radiation, obtained using the
+radiative transfer equation. See Kiehl (1992) for a review of the parameterization of
+radiation. The interaction between clouds and radiation is very complex, and is a
+major area of research. Early models speciﬁed clouds climatologically (Manabe et al.,
+1965). In the 1980s the cloud cover was speciﬁed diagnostically, based on relative
+humidity (Slingo, 1987, Campana, 1994). More recently, cloud and rain water were
+predicted using budget equations and cloud cover was deduced from the amount of
+cloud water (e.g., Zhao et al., 1997). The cloud properties are also important: rather
+than plane slabs, as generally assumed, clouds have a fractal structure, which effec-
+tively reduces their albedo and increases atmospheric absorption of solar radiation
+(Cahalan et al., 1994).
+An important area of research is the effect of subgrid-scale mountains. Wallace
+et al. (1983) proposed representing the blocking effect of subgrid-scale hills and
+valleys by increasing the effective height of mountains above its grid average by a
+factor of order one times the standard deviation of the subgrid-scale orography. This
+approach has been denoted “envelope orography”. Similarly, Mesinger et al. (1988)
+chose a method essentially that deﬁnes the grid mountain height by the tallest peaks
+(“silhouette orography”). Lott and Miller (1997) formulated a new parameterization
+using developments in the nonlinear theory of stratiﬁed ﬂows around obstacles, pay-
+ing special attention to the parameterization of the blocked ﬂow when the effective
+height of the subgrid-scale orography is high enough. They showed that this method
+can duplicate the results using envelope orography. In addition to its blocking effect,
+under stable conditions, small-scale orography generates internal gravity waves that
+propagate upwards, increase their amplitude, and eventually break at upper levels,
+depositing their low-level momentum (Lilly and Kennedy, 1973). The net result is
+
+4.3 Overview of model parameterizations
+135
+a deceleration due to surface orography at upper levels. Modelers have introduced
+a gravity-wave parameterization following Palmer et al. (1986), McFarlane (1987),
+and Lindzen (1988). Kim and Arakawa (1995) developed a parameterization of the
+drag due to gravity waves.
+Other areas of research in the parameterization of subgrid processes are related
+to the fact that the underlying surfaces (ocean and land) have their own evolution
+and therefore provide a “longer memory” to the forecast model which cannot be
+represented diagnostically. Equation (4.3.8) indicates that over ocean it is necessary
+to know the surface stress τ and the SST. Short-range forecasts are performed with
+observed SSTs, under the assumption that they do not change signiﬁcantly with time,
+but this is clearly not a reasonable assumption for medium-range or longer forecasts
+(e.g., Pe˜na et al., 2002).
+For seasonal and interannual predictions, the SST is predicted using an ocean
+model coupled to the atmospheric model (Jiet al., 1994, Trenberth, 1992). In addition,
+the surface ﬂuxes over the ocean depend on the surface waves, which are driven by the
+wind. Currently most models use the Charnock (1955) parameterization relating an
+effective roughness length to the surface stress. In an iterative procedure the stress and
+the roughness length are obtained and bulk-aerodynamical formulas used to deduce
+the sensible and latent heat ﬂuxes. However, in reality, ocean waves have a memory
+of their previous interactions with the atmosphere: swell (“old sea”) is smoother than
+“new sea” where waves are driven by sudden changes in the wind, and, in turn, this
+affects the surface stress and the ﬂuxes of heat and moisture. To take this effect into
+account, it is necessary to couple atmospheric models with ocean wave models.
+Over land, similarly, the surface ﬂuxes of heat and moisture are strongly depen-
+dent on the vegetation and soil moisture. Older models followed Manabe et al. (1965)
+by representing the effect of available soil moisture with a simple 15-cm “bucket”
+model, whose content was reduced by evaporation and increased by precipitation,
+with overﬂow representing river runoff. The surface temperature was obtained diag-
+nostically assuming zero heat capacity for the land. Current models include coupling
+the atmospheric model with multilevel soil models with prognostic equations for the
+soil temperature and moisture, and include the very important controlling effect of
+plants on evapotranspiration (see reviews by Sellers (1992), Dickinson (1992), Pan
+(1990)).

@@ -1,0 +1,744 @@
+4
+Analysis of empirical data
+Les lois g´en´erales de la nature sont un ensemble d’exceptions non exceptionnelles, et,
+par cons´equent, sans aucun int´erˆet; l’exception exceptionnelle seule ayant un int´erˆet.†
+(Alfred Jarry)
+4.1 Estimating probability distributions
+4.1.1 Cumulative distribution and densities – rank histogram
+Imagine that one observes a series of N realizations of the random iid variable X,
+{x1, x2, . . . , xN}, drawn from an unknown source of which one would like to determine
+either its distribution density or its cumulative distribution. To determine the distribution
+density using empirical data, one has to choose a certain width w for the bins to con-
+struct frequency histograms. Another possibility is to smooth the data using, for example,
+a Gaussian with a certain width w. More precisely, an estimate of the probability density
+P(x) can be obtained by computing:
+P(x) =
+1
+N
+√
+2πw2
+N
+
+k=1
+exp
+
+−(xk −x)2
+2w2
+
+.
+(4.1)
+(Note that by construction
+
+P(x)dx = 1.) Even when the width w is carefully chosen,
+part of the information is lost. It is furthermore difﬁcult to characterize the tails of the
+distribution, corresponding to rare events, since most bins in this region are empty – one
+should in principle choose a position dependent bin width w(x) to account for the rarefaction
+of events in the tails.
+On the other hand, the construction of the cumulative distribution does not require to
+choose a bin width. The trick is to order the observed data according to their values, for
+example in decreasing order. The value xk of the kth variable (out of N) is then such that:
+P>(xk) =
+k
+N + 1.
+(4.2)
+† The laws of nature are a collection of non exceptional exceptions, and therefore devoid of interest. Only
+exceptional exceptions are genuinely interesting.
+
+56
+Analysis of empirical data
+This result comes from the following observation: if one were to draw an (N + 1)th random
+variable from the same distribution, this new variable would have a probability 1/(N + 1)
+of being the largest, a probability 1/(N + 1) of being the second largest, and so forth. In
+other words, there is an a priori equal probability 1/(N + 1) that it would fall within any of
+the N + 1 intervals deﬁned by the previously drawn variables. The probability that it would
+fall above the kth one, xk is therefore equal to the number of intervals beyond xk, which
+is equal to k, times 1/N + 1. This is also equal, by deﬁnition, to P>(xk), hence Eq. (4.2).
+Unfortunately in this construction, we do not have an empirical value for P>(x) when x
+is not one of the N observed points, we must therefore interpolate the distribution on the
+intermediate points.
+Another approach is to make the hypothesis that the observed values were equally prob-
+able and that the unobserved values have zero probability, hence
+P(x) = 1
+N
+N
+
+k=1
+δ(xk −x),
+(4.3)
+which can be though as the limit w →0 of Eq. (4.1). In this construction P>(x) is ill-deﬁned
+for the points {xk} and is piecewise constant everywhere else,
+P>(x) = k
+N
+for
+xk < x < xk+1.
+(4.4)
+Yet another, slightly different way to state this is to notice that, for large N, the most probable
+value ∗[k] of xk is such that P>(∗[k]) = k/N: see also the discussion in Section 2.1,
+and Eq. (2.12).
+Since the rare event part of the distribution is of particular interest, it is convenient to
+choose a logarithmic scale for the probabilities. Furthermore, in order to check visually
+the symmetry of the probability distributions, we have in the following systematically used
+P<(−δx) for the negative increments, and P>(δx) for positive δx.
+4.1.2 Kolmogorov–Smirnov test
+Once the empirical cumulative distribution is determined, one usually tries to ﬁnd a math-
+ematical distribution which reproduces as accurately as possible the empirical data. An
+interesting measure of the goodness of the ﬁt is provided by the Kolmogorov-Smirnov
+test. Let P>,e(x) be the empirical distribution obtained using the second rank ordering
+technique above, Eq. (4.4). This function jumps by an amount 1/N every time a data point
+is encountered, and is constant otherwise. Now, let P>,th(x) be the theoretical cumulative
+distribution to be tested. Kolmogorov and Smirnov deﬁne the distance D between the two
+distributions as the maximum value of their absolute difference:
+D = max
+x
+|P>,th(x) −P>,e(x)|.
+(4.5)
+Since P>,th(x) is monotone, this maximum is reached for a value of x = xk belonging to
+the data set. Imagine that the data points are indeed chosen according to the theoretical
+
+4.1 Estimating probability distributions
+57
+distribution P>,th(x). The distance D is then a random quantity that depends on the actual
+series of xk, but the distribution of D is exactly known when N is large and is, remarkably,
+totally independent of the shape of P>,th(x)! The cumulative distribution of D is given by:
+P>(D) = QK S(
+√
+N D)
+QK S(u) = 2
+∞
+
+n=1
+(−1)n−1 exp(−2n2u2).
+(4.6)
+This formula means that if P>,th(x) is the correct distribution, then the distance D between
+the empirical cumulative distribution and the theoretical distribution should decay for large
+N as u/
+√
+N, where the random variable u has a known distribution, QK S. In practice,
+one computes from the data the quantity D from which one deduces, using Eq. (4.6), the
+probability P>(D). If this number is found to be small, say 0.01, then the hypothesis that
+the two distributions are the same is very unlikely: the hypothesis can be rejected with 99%
+conﬁdence.
+Note that one can also compare two empirical distributions using the Kolmogorov-
+Smirnov test, without knowing the true distribution of any of them. This is very interesting
+for ﬁnancial applications. One can ask whether the distribution of returns in a given period
+of time (say during the year 1999) is or is not the same as the distribution of returns the
+following year (2000). In this case, one constructs the distance D as:
+D = max
+x
+|P>,e1(x) −P>,e2(x)|,
+(4.7)
+where the index 1, 2 refers to the two samples, of sizes N1 and N2. The cumulative distri-
+bution of D is now given by:
+P>(D) = QK S
+
+N1N2
+N1 + N2
+D
+
+.
+(4.8)
+The Kolmogorov-Smirnov test is interesting because it gives universal answers, inde-
+pendent of the shape of the tested distributions. However, this test, as any other, has its
+weaknesses. In particular, it is clear that by construction, |P>,th(x) −P>,e(x)| is zero for
+x →±∞since in these cases, both quantities tend to 0 or 1. Therefore, the value of x that
+maximizes this difference is generically around the median, and the Kolmogorov-Smirnov
+test is not very sensitive to the quality of the ﬁt in the tails – a potentially crucial region. It
+is thus interesting to look for other goodness of ﬁt criteria.
+4.1.3 Maximum likelihood
+Suppose that Pλ(x) denotes a family of probability distribution parametrized by one or
+several parameters, collectively noted λ. The a priori probability to observe the particular
+series {x1, x2, . . . , xN} chosen according to Pλ(x) is proportional to:
+Pλ(x1)Pλ(x2) . . . Pλ(xN).
+(4.9)
+
+58
+Analysis of empirical data
+The most likely value λ∗of λ is such that this a priori probability is maximized. Taking for
+example:
+r Pλ(x) to be a Gaussian distribution of mean m and variance σ 2, one ﬁnds that the most
+likely values of m and σ 2 are, respectively, the empirical mean and variance of the data
+points. Indeed, the likelihood reads:
+Pλ(x1)Pλ(x2) . . . Pλ(xN) = e−N
+2 log(2πσ 2)−
+1
+2σ2
+N
+k=1(xk−m)2.
+(4.10)
+Maximizing the term in the exponential with respect to m and σ 2, one ﬁnds:
+N
+
+i=1
+(xk −m) = 0
+and
+N
+σ 2 −1
+σ 4
+N
+
+i=1
+(xk −m)2 = 0,
+(4.11)
+which leads to the announced result.
+r Pλ(x) to be a power-law distribution:
+Pλ(x) = µxµ
+0
+x1+µ
+x > x0,
+(4.12)
+(with x0 known), one has:
+Pλ(x1)Pλ(x2) . . . Pλ(xN) = eN log µ+Nµ log x0−(1+µ) N
+k=1 log xk.
+(4.13)
+The equation ﬁxing µ∗is thus, in this case:
+N
+µ∗+ N log x0 −
+N
+
+k=1
+log xk = 0 ⇒µ∗=
+N
+N
+k=1 log(xk/x0)
+.
+(4.14)
+In the above example, if x0 is unknown, its most likely value is simply given by: x0 =
+min{x1, x2, . . . , xN}. A related topic is the so-called Hill estimator for power-law tails. If
+one assumes that the random variable that one observes has power-law tails beyond a certain
+(unknown) value x0, one can use the maximum likelihood estimator of µ = µ∗given above
+using only the points exceeding the value x0. This means that one only uses the rank ordered
+points xk with k ≤k∗such that xk∗+1 > x0, and obtains:
+µ∗(k∗) =
+k∗
+k∗
+k=1 log(xk/xk∗)
+.
+(4.15)
+This quantity, plotted as a function of k∗, should reveal a plateau region for k∗≫1, corre-
+sponding to the power-law regime of the distribution. We show in Figure 4.1 the quantity
+µ∗(k∗) for the Student distribution with µ = 3, using 1000 points. This estimator indeed
+wanders (with rather large oscillations) around the value µ = 3 before going astray when
+one reaches the core of the Student distribution, where the asymptotic power-law ceases
+to hold. A nicer looking estimate is obtained by averaging the previous estimator over a
+certain range of k∗.
+
+4.1 Estimating probability distributions
+59
+0
+2
+4
+6
+0
+ xk*
+2
+3
+4
+ µ
+Positive tail
+Negative tail
+10
+8
+Fig. 4.1. Hill estimator µ∗(k∗) as a function of xk∗for a 1000 point sample of a µ = 3 Student
+distribution. The two curves corresponds to the left and right tail. Note that for small x one leaves
+the tail region. The plain horizontal line is the expected value µ = 3.
+4.1.4 Relative likelihood
+When the most likely value of the parameter is determined, one can assess the likelihood
+of the proposed distribution Pλ∗(x), equal to 	N
+i=1(Pλ∗(xi)dx), or more interestingly the
+log-likelihood per point L (up to an additive constant involving dx):
+L = 1
+N
+N
+
+k=1
+log Pλ∗(xk).
+(4.16)
+This quantity is, for large N, equal to:
+L =
+
+P(x) log Pλ∗(x)dx,
+(4.17)
+where P(x) is the ‘true’ probability. If Pλ∗(x) is indeed a good approximation to P(x), then
+the log likelihood per point is precisely minus the entropy of Pλ∗(x). Note that the log-
+likelihood per point of the optimal Gaussian distribution is always equal to LG = −1.419
+(for σ = 1), independently of P – see Eq. (2.28).
+However, the log-likelihood per point has no intrinsic meaning, due to the additive con-
+stant that we swept under the rug above. In particular, a mere change of variables y = f (x)
+changes the value of L. On the other hand, the difference of log-likelihood for two com-
+peting distributions for the same data set is meaningful and invariant under a change of
+variable. If these two distributions are a priori equally likely, then the probability that the
+data is drawn from the distribution P∗
+1 rather than from P∗
+2 is equal to exp N(L1 −L2).
+
+60
+Analysis of empirical data
+4.1.5 A general caveat
+Although of genuine interest, statistical tests, such as the Kolmogorov-Smirnov
+test or the maximum likelihood method discussed above, usually provide a single
+number as a measure of the goodness of ﬁt. This is in general dangerous since it
+does not give much information about where the ﬁt is good, and where it is not so
+good.
+As mentioned above, a theoretical distribution can pass the Kolmogorov-Smirnov test
+but be very bad in the tails. This is why the quality of a ﬁt should always be assessed using
+a joint graphical representation of the data and of the theoretical ﬁt, using different ways of
+plotting the data (log-log, linear-log, etc.) to emphasize different parts of the distribution.
+This procedure, although not systematic, allows one to spot obvious errors and to track
+systematic effects, and is often of great pragmatic value. For example, one can always ﬁt
+the distribution of ﬁnancial returns using L´evy stable distributions. The maximum likelihood
+method willprovide a setofoptimalparameters, andindeedL´evystabledistributionsusually
+provide a good ﬁt in the core region of empirical distributions. However, graphing the data
+in log-log coordinates soon reveals that the essence of L´evy stable distributions, namely
+the power-law tails with an exponent µ < 2, accounts very badly for the empirical tails. It
+is rather surprising that the use of graphical representation is so rarely used in econometric
+literature, where tables of numbers, giving the results of statistical tests, are preferred.
+This state of matters strongly contrasts with what happens in physics, where a graphical
+assessment of a theory is often considered to be most relevant, and helps in discussing the
+limitations of a given model.
+4.2 Empirical moments: estimation and error
+4.2.1 Empirical mean
+Consider the empirical mean of the series of iid random variables {x1, x2, . . . , xN}, given by
+me = 
+k xk/N. The standard error on me, noted me, deﬁned by the standard deviation
+of me, is easy to compute. One ﬁnds:
+me =
+σ
+√
+N
+,
+(4.18)
+where σ is the theoretical variance of the random variable X. As is well known, the error on
+the mean goes to zero as the square root of the system size. This assumes that the variables
+are independent. Correlations slow down the convergence to the true mean, sometimes by
+changing N into a reduced number of effectively independent random variables, sometimes
+by even changing the power 1/2 into a smaller power.
+
+4.2 Empirical moments: estimation and error
+61
+4.2.2 Empirical variance and MAD
+Similarly, the error on the empirical variance (σ 2
+e ) can be computed as its standard devi-
+ation across different samples. One ﬁnds, for large N:
+
+
+
+σ 2
+e
+2 = ⟨x4⟩−⟨x2⟩2
+N
+= σ 2
+N (2 + κ),
+(4.19)
+where κ is the kurtosis of P(x). Therefore, provided κ is ﬁnite, the relative error on the
+variance (and hence on the standard deviation) also decays as 1/
+√
+N. When the kurtosis is
+inﬁnite, the above formula is meaningless: another measure of the error, such as the width
+of the variance distribution, must be used. Note that from the above formula, the error on
+the standard deviation is given by:
+σe
+σ
+=
+1
+2
+√
+N
+√
+2 + κ ≈
+1
+√
+2N
+
+1 + 1
+4κ
+
+,
+(4.20)
+where the last expression holds for small κ. It is interesting to compare the above result on
+the variance error to that on the mean absolute deviation Eabs. The mean square error on
+this quantity reads:
+[Eabs,e]2 = 1
+N
+
+σ 2 −E2
+abs
+
+.
+(4.21)
+In order to make sense of this formula and compare it to the error on the standard deviation
+computed just above, we will use the small kurtosis expansion explained in Section 2.3.3,
+according to which Eabs = ⟨|x|⟩= √2/π(1 −κ/24)σ. Plugging in this expression, we ﬁnd
+that the relative error on the MAD reads:
+Eabs,e
+Eabs
+=
+
+π −2
+2N
+
+1 +
+π
+24(π −2)κ
+
+.
+(4.22)
+One therefore ﬁnds that the relative error on the MAD in the Gaussian case (κ = 0) is 7%
+larger than that on the standard deviation, but the latter grows faster with the kurtosis than
+the MAD, which is less sensitive to tail events and therefore a more robust estimator in the
+presence of tail events.
+4.2.3 Empirical kurtosis
+One can similarly estimate the error on the kurtosis. Not surprisingly, this error can be
+expressed in terms of the eighth moment of the distribution (!). Even in the best case, when
+X is a Gaussian variable, the error on the empirical kurtosis is as large as √96/N.
+4.2.4 Error on the volatility
+Suppose that one observes the time series of a random variable X obtained by summing iid
+random increments δX. The total number of increments is N. The variable X is observed on a
+certain coarse time resolution M (say one day for ﬁnancial applications), so that the statistics
+
+62
+Analysis of empirical data
+of the coarse grained increments x(k+1)M −xkM can be studied using N/M different values.
+The volatility of the process on scale M is the standard deviation of these increments.
+Therefore, using the above results, the error on the volatility on scale M using N/M data
+points, is √2 + κM/2√N/M, where κM is the kurtosis on scale M. This formula suggests
+at ﬁrst sight that the volatility would be more precisely determined if N/M was increased,
+i.e. if the process was observed at higher frequencies. However, since the increments are
+iid, the kurtosis κM on scale M is κ1/M. Therefore, the error on the volatility as a function
+of the observation scale M ﬁnally reads:
+σe
+σe
+=
+1
+2
+√
+N
+
+2M + κ1.
+(4.23)
+Hence, the error on the volatility can be indeed made very small for a Gaussian process for
+which κ1 = 0, by going to higher and higher frequencies (M →1). In the continuous time
+limit, one can in principle determine the volatility of the process with arbitrary precision.
+This is yet another aspect of the Ito formula. However, in the case of a kurtic process, the
+precision saturates and high frequency data does not add much as soon as M ≤κ1.
+4.3 Correlograms and variograms
+4.3.1 Variogram
+Consider a certain stationary process {x1, x2, . . . , xN}. A natural question to ask is: how ‘far’
+does the process typically escape from itself between times k and k + ℓ? This propensity
+to move can be quantiﬁed by the variance of the difference xk+ℓ−xk:
+V(ℓ) ≡⟨(xk+ℓ−xk)2⟩,
+(4.24)
+which is called in this context the variogram of the process. Empirically, this quantity is
+simply obtained by computing the variance of the difference of all data points separated by
+a time lag ℓ. If the process is a random walk, the variogram V(ℓ) grows linearly with ℓ, with
+a coefﬁcient which is the square volatility of the increments. If the series {x1, x2, . . . , xN}
+is made of iid random variables, the variogram is independent of ℓ(as soon as ℓ̸= 0), and
+equal to twice the variance of these variables. An interesting intermediate situation is that
+of mean reverting processes, such that xk+1 = αxk + ξk, where α ≤1 and ξk are iid random
+variables of variance σ 2. For α = 1, this is a random walk, whereas for α = 0, the x’s
+are themselves iid random variables, identical to the ξ’s. Suppose that x0 = 0; the explicit
+solution of the above recursion relation is xk = k−1
+k′=0 αk−1−k′ξk′, from which the variogram
+is easily computed. In the limit k →∞where the process becomes stationary, one ﬁnds:
+V(ℓ) = 2σ 2 1 −αℓ
+1 −α2 .
+(4.25)
+The limit α = 1 must be taken carefully to recover the random walk result σ 2ℓ. Setting
+α = 1 −ϵ in the above expression, one ﬁnds, for ϵ ≪1:
+V(ℓ) = σ 2
+ϵ (1 −e−ϵℓ).
+(4.26)
+
+4.3 Correlograms and variograms
+63
+0
+20
+40
+60
+80
+100
+0
+0.5
+1
+v( )
+σ
+2l
+σ
+2/ε
+0
+20
+40
+60
+80
+100
+l
+-1
+0
+1
+2
+x
+v( )
+2
+σ
+2l
+σ
+2/ε
+Fig. 4.2. Variogram of the Ornstein-Uhlenbeck process (top). The dotted line shows the short time
+linear behaviour, where the process is similar to a random walk with independent increments. The
+dashed line indicates the long term asymptotic value corresponding to independent random numbers.
+The bottom graph shows a realization of this process with the same correlation time (20 steps).
+This is the variogram of a so-called Ornstein-Uhlenbeck process. When ℓis much smaller
+than the correlation time 1/ϵ, one ﬁnds, as expected, the random walk result V(ℓ) = σ 2ℓ,
+whereas for ℓ≫1/ϵ, the variogram saturates at σ 2/ϵ (Fig. 4.2). On very large time scales,
+the variogram is therefore ﬂat.
+4.3.2 Correlogram
+A related, well known quantity is the correlation function of the variables xk. If the average
+value ⟨x⟩of xk is well deﬁned, the correlation function (or correlogram) is deﬁned as:
+C(ℓ) = ⟨xk+ℓxk⟩−⟨x⟩2.
+(4.27)
+Simple manipulations then show that:
+V(ℓ) = 2 (C(0) −C(ℓ)) .
+(4.28)
+However, in many cases, the average value of x is undeﬁned (for example in the case of a
+random walk), or difﬁcult to measure because when the correlation time is large, it is hard
+to know whether the process diffuses away to inﬁnity or remains bounded (this is the case,
+for example, of the time series of volatility of ﬁnancial assets). In these cases, it is much
+better to use the variogram to characterize the ﬂuctuations of the process, since this quantity
+does not require the knowledge of ⟨x⟩. Another caveat concerning the empirical correlation
+function when the correlation time is somewhat large is the following. From the data, one
+
+64
+Analysis of empirical data
+computes C(ℓ) as:
+Ce(ℓ) =
+1
+N −ℓ
+N−ℓ
+
+k=1
+˜xk ˜xk+ℓ
+(4.29)
+with
+˜xk = xk −1
+N
+N
+
+k=1
+˜xk.
+(4.30)
+From this deﬁnition, one ﬁnds the following exact sum rule:
+N
+
+ℓ=0
+
+1 −ℓ
+N
+
+Ce(ℓ) = 0
+(4.31)
+Assume now that the true correlation time ℓ0 is large compared to one and not very small
+compared to the total sample size N. The theoretical value of the left hand side should
+be of the order of σ 2ℓ0. The above sum rule can only be satisﬁed in this case by having
+an empirical correlation function slightly negative when ℓis a fraction of N, whereas the
+true correlation function should still be positive if ℓ0 is large. Therefore, spurious anti-
+correlations are generated in this procedure.
+4.3.3 Hurst exponent
+Another interesting way to characterize the temporal development of the ﬂuctuations is to
+study a quantity of direct relevance in ﬁnancial applications, that measures the average span
+of the ﬂuctuations. Following Hurst, one can deﬁne the average distance between the ‘high’
+and the ‘low’ in a window of size t = ℓτ:†
+H(ℓ) = ⟨max(xk)k=n+1,n+ℓ−min(xk)k=n+1,n+ℓ⟩n.
+(4.32)
+The Hurst exponent H is deﬁned from H(ℓ) ∝ℓH. In the case where the increments δX are
+Gaussian, one ﬁnds that H ≡1
+2 (for large ℓ). In the case of a TLD distribution of increments
+of index 1 < µ < 2, one ﬁnds (see the discussion in Section 2.3.6):
+H(ℓ) ∝Aℓ
+1
+µ
+(ℓ≪N ∗);
+H(ℓ) ∝
+√
+Dτℓ
+(ℓ≫N ∗).
+(4.33)
+The Hurst exponent therefore evolves from an anomalously high value H = 1/µ to the
+‘normal’ value H = 1
+2 as ℓincreases.
+Finally, for a fractional Brownian motion (deﬁned in Section 2.5), one ﬁnds that
+H = 1 −ν/2. In this case, the variogram also grows as V(ℓ) ∝ℓ1−ν/2.
+4.3.4 Correlations across different time zones
+An effect that can be very important for risk management is the existence of non triv-
+ial correlations between different time zones. For example, there is a signiﬁcant positive
+† Note however that H(ℓ) is different form the ‘R/S statistics’ considered by Hurst. The difference lies in an
+ℓ-dependent normalization, which in some cases can change the scaling with ℓ.
+
+4.3 Correlograms and variograms
+65
+Table 4.1. Same day variance and covariance (in %2 per
+day). Data from July 1, 1999 to June 30, 2002.
+S&P 500
+FTSE 100
+Nikkei 225
+S&P 500
+1.62
+0.64
+0.23
+FTSE 100
+1.40
+0.33
+Nikkei 225
+2.31
+Table 4.2. Covariance between t and t + 1 day (in %2
+per day). Data from July 1, 1999 to June 30, 2002.
+Numbers in boldface are statistically signiﬁcant.
+S&P 500
+FTSE 100
+Nikkei 225
+S&P 500 (t + 1)
+0.01
+0.02
+−0.06
+FTSE 100 (t + 1)
+0.42
+−0.01
+−0.10
+Nikkei 225 (t + 1)
+0.67
+0.54
+−0.06
+correlation between the U.S. market on day t and the European and Japanese markets on
+day t + 1, as shown in Table 4.2. This correlation can be strong: in the case of the Nikkei
+and the S&P 500, it is stronger between consecutive days than for the same (calendar)
+day. After a market closes, other world markets continue trading, taking into account (and
+generating) new information. For the closed market, this new information is only reﬂected
+in the opening price of the next day, generating a correlation between the returns of “late”
+markets and next day returns of “early” markets. On the other hand, the serial correlations
+of a (single time-zone) index with itself is very small. In the case of the S&P 500, one ﬁnds
+ρ(t, t + 1) = 0.006 for the period considered, with a standard error on this number of 0.03.
+Due to these correlations across time zones, multi-time zone indices such as the MSCI
+world index can have signiﬁcant serial correlations. On the same period, these correlations
+are found to be as large as 0.18 between two consecutive days.
+These correlations are also important when one estimates the risk of a portfolio. The
+relevant quantities are not so much the daily variances and covariances but rather the
+variances and covariances of longer time scale (month, year). These can be estimated using
+daily data:
+x ≡
+N
+
+k=1
+δxk
+y ≡
+N
+
+k=1
+δyk
+(4.34)
+⟨xy⟩=
+N
+
+k,ℓ=1
+⟨δxkδyℓ⟩
+= N ⟨δx0δy0⟩+ (N −1) (⟨δx0δy1⟩+ ⟨δx1δy0⟩) + . . .
+≈N (⟨δx0δy0⟩+ ⟨δx0δy1⟩+ ⟨δx1δy0⟩) .
+
+66
+Analysis of empirical data
+One sees that the correlations between assets is increased by the presence of this time zone
+effect. To correctly account for correlations between assets in different time-zones, one
+should add to the daily covariance (⟨δx0δy0⟩) the sum of the one-day-lagged covariances
+(⟨δx0δy1⟩+ ⟨δx1δy0⟩). This modiﬁed covariance can then be used to compute properly
+annualized variances. The same formula should also be used to compute the variance of a
+multi-time zone index or portfolio. In this case the two cross terms are equal and one should
+add 2 ⟨δx0δx1⟩to the daily variance (⟨δx0δx0⟩). Failing to use formula (4.34) can greatly
+underestimate the annualized standard deviation of a world index or portfolio. In the case of
+the MSCI world index, the above formula leads to a annualized volatility of 17.6%, instead
+of 15.1% when neglecting the ‘retarded’ term.
+4.4 Data with heterogeneous volatilities
+Let us end this chapter on empirical data analysis by commenting on the problem of data
+sets with different volatilities, that very frequently occurs in ﬁnancial analysis. Suppose
+for example that one studies the time series of different stocks, each one with a different
+volatility σi, with the expectation that the returns of these different stocks have the same
+distribution, up to a rescaling factor. In other words, one assumes that the return ηi(k) of
+stock i at time k can be written as:
+ηi(k) = σiξi(k),
+(4.35)
+where σi is the volatility of stock i and ξi(k) are random variables of unit variance, with a
+common distribution for all i’s that one would like to determine. A similar situation would
+be that of a single asset when its volatility changes over time.
+The naive way to proceed would be to rescale the empirical return ηi(k) by the empirical
+volatility of stock i, i.e. to deﬁne scaled returns as:
+ˆξi(k) =
+√
+Nηi(k)
+N
+k′=1(ηi(k′))2
+,
+(4.36)
+where N is the common size of the time series and we have assumed that the empirical
+mean can be neglected. This deﬁnition however leads to a systematic underestimation of
+the tails of the distribution of the ξ’s, which is obvious from the above deﬁnition, since even
+when one of the ηi(k) is very large, ˆξi(k) is bounded by
+√
+N, because the same large ηi(k)
+also contributes to the empirical variance.
+A trick to get rid of this effect is to remove the contribution of ηi(k) itself form the
+variance, and to deﬁne new rescaled variables as:†
+˜ξi(k) =
+√
+N −1ηi(k)
+N
+k′=1,k′̸=k(ηi(k′))2
+.
+(4.37)
+† This trick is due to Martin Meyer, and was used in V. Plerou et al. (1999) to determine the distribution of returns
+of a large pool of stocks.
+
+4.5 Summary
+67
+1
+10
+100
+k
+1
+10
+xk
+excluded
+included
+exact distribution
+Fig. 4.3. Rank histogram of µ = 3 Student variables, rescaled naively as in (4.36), or following the
+trick (4.37). The naive rescaling severely truncates the true tails, which are correctly captured using
+the ˜ξ variables.
+This trick is illustrated in Figure 4.3, where M = 400 samples of N = 100 random variables
+are drawn according to a µ = 3 Student distribution. The rank histogram of the naively
+scaled variables ˆξi(k) bends down for high ranks, and saturates around
+√
+N = 10, whereas
+the rank histogram of the ˜ξi(k) does indeed perfectly follow the expected behaviour of
+the µ = 3 tail. Note however that the variance of ˜ξi(k) is positively biased by an amount
+proportional to 1/N.
+4.5 Summary
+r This chapter offers guidelines useful for analyzing ﬁnancial data: how to ﬁt a proba-
+bility distribution, determine an empirical variance, or a correlation function.
+r The relative error on the mean, MAD, RMS, skewness and kurtosis of a distribution
+decreases like 1/
+√
+N (whenever higher moments of the distribution exist), but the
+prefactor can be quite large for high empirical moments (variance, fourth moment),
+especially when the true distribution is non-Gaussian.
+r An important point is made in Section 4.1.5: although of genuine interest, statis-
+tical tests usually provide only a single measure of the goodness of ﬁt. This is
+generally dangerous, as it does not give much information about where the ﬁt is
+good, and where it is not so good. Representing the data graphically allows one to
+spot obvious errors and to track systematic effects, and is often of great pragmatic
+value.
+
+68
+Analysis of empirical data
+r Further reading
+W. T. Vetterling, S. A. Teukolsky, W. H. Press, B. P. Flannery, Numerical recipes in C: the art of
+scientiﬁc computing, Cambridge University Press, 1993.
+r Specialized papers
+B. Hill, A simple general approach to inference about the tail of a distribution, Ann. Stat. 3, 1163
+(1975).
+V. Plerou, P. Gopikrishnan, L. A. Amaral, M. Meyer, H. E. Stanley, Scaling of the distribution of price
+ﬂuctuations of individual companies, Phys. Rev., E 60, 6519 (1999).

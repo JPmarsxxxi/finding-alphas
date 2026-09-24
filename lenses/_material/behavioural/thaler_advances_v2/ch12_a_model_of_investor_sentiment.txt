@@ -1,0 +1,3506 @@
+Chapter 12
+A MODEL OF INVESTOR SENTIMENT
+Nicholas Barberis, Andrei Shleifer, and 
+Robert W. Vishny
+1. Introduction
+Recent empirical research in ﬁnance has identiﬁed two families of pervasive
+regularities: underreaction and overreaction. The underreaction evidence
+shows that over horizons of perhaps 1−12 months, security prices underre-
+act to news.1 As a consequence, news is incorporated only slowly into
+prices, which tend to exhibit positive autocorrelations over these horizons.
+A related way to make this point is to say that current good news has power
+in predicting positive returns in the future. The overreaction evidence shows
+that over longer horizons of perhaps 3−5 years, security prices overreact to
+consistent patterns of news pointing in the same direction. That is, securities
+that have had a long record of good news tend to become overpriced and
+have low average returns afterwards.2 Put differently, securities with strings
+of good performance, however measured, receive extremely high valuations,
+and these valuations, on average, return to the mean.3
+The evidence presents a challenge to the efﬁcient markets theory because
+it suggests that in a variety of markets sophisticated investors can earn supe-
+rior returns by taking advantage of underreaction and overreaction without
+bearing extra risk. The most notable recent attempt to explain the evi-
+dence from the efﬁcient markets viewpoint is Fama and French (1996).
+We are grateful to the NSF for ﬁnancial support, and to Oliver Blanchard, Alon Brav, John
+Campbell (a referee for the Journal of Financial Economics), John Cochrane, Edward Glaeser,
+J. B. Heaton, Danny Kahneman, David Laibson, Owen Lamont, Drazen Prelec, Jay Ritter (a
+referee), Ken Singleton, Dick Thaler, an anonymous referee, and the editor, Bill Schwert, for
+comments.
+1 Some of the work in this area, discussed in more detail in section 2, includes Cutler et al.
+(1991), Bernard and Thomas (1989), Jegadeesh and Titman (1993), and Chan et al. (1997).
+2 Some of the work in this area, discussed in more detail in Section 2, includes Cutler et al.
+(1991), De Bondt and Thaler (1985), Chopra et al. (1992), Fama and French (1992), Lakon-
+ishok et al. (1994), and La Porta (1996).
+3 There is also some evidence of nonzero return autocorrelations at very short horizons
+such as a day (Lehmann, 1990). We do not believe that it is essential for a behavioral model to
+confront this evidence because it can be plausibly explained by market microstructure consid-
+erations, such as the ﬂuctuation of recorded prices between the bid and the ask.
+
+The authors believe that their three-factor model can account for the over-
+reaction evidence, but not for the continuation of short-term returns (un-
+derreaction). This evidence also presents a challenge to behavioral ﬁnance
+theory because early models do not successfully explain the facts.4 The
+challenge is to explain how investors might form beliefs that lead to both
+underreaction and overreaction.
+In this chapter, we propose a parsimonious model of investor sentiment—
+of how investors form beliefs—that is consistent with the available statisti-
+cal evidence. The model is also consistent with experimental evidence on
+both the failures of individual judgment under uncertainty and the trading
+patterns of investors in experimental situations. In particular, our speciﬁca-
+tion is consistent with the results of Tversky and Kahneman (1974) on the
+important behavioral heuristic known as representativeness, or the ten-
+dency of experimental subjects to view events as typical or representative of
+some speciﬁc class and to ignore the laws of probability in the process. In
+the stock market, for example, investors might classify some stocks as
+growth stocks based on a history of consistent earnings growth, ignoring
+the likelihood that there are very few companies that just keep growing.
+Our model also relates to another phenomenon documented in psychology,
+namely conservatism, deﬁned as the slow updating of models in the face of
+new evidence (Edwards 1968). The underreaction evidence in particular is
+consistent with conservatism.
+Our model is that of one investor and one asset. This investor should be
+viewed as one whose beliefs reﬂect “consensus forecasts” even when differ-
+ent investors hold different expectations. The beliefs of this representative
+investor affect prices and returns.
+We do not explain in the model why arbitrage fails to eliminate the mis-
+pricing. For the purposes of this chapter, we rely on earlier work showing
+why deviations from efﬁcient prices can persist (De Long et al. 1990a,
+Shleifer and Vishny 1997). According to this work, an important reason
+why arbitrage is limited is that movements in investor sentiment are in part
+unpredictable, and therefore arbitrageurs betting against mispricing run the
+risk, at least in the short run, that investor sentiment becomes more ex-
+treme and prices move even further away from fundamental value. As a
+consequence of such “noise trader risk,” arbitrage positions can lose money
+in the short run. When arbitrageurs are risk-averse, leveraged, or manage
+other people’s money and run the risk of losing funds under management
+when performance is poor, the risk of deepening mispricing reduces the size
+of the positions they take. Hence, arbitrage fails to eliminate the mispricing
+424
+BARBERIS, SHLEIFER, VISHNY
+4 The model of De Long et al. (1990a) generates negative autocorrelation in returns, and
+that of De Long et al. (1990b) generates positive autocorrelation. Cutler et al. (1991) combine
+elements of the two De Long et al. models in an attempt to explain some of the autocorrela-
+tion evidence. These models focus exclusively on prices and hence do not confront the crucial
+earnings evidence discussed in section 2.
+
+completely and investor sentiment affects security prices in equilibrium. In
+the model below, investor sentiment is indeed in part unpredictable, and
+therefore, if arbitrageurs were introduced into the model, arbitrage would
+be limited.5
+While these earlier papers argue that mispricing can persist, they say little
+about the nature of the mispricing that might be observed. For that, we
+need a model of how people form expectations. The current work provides
+one such model.
+In our model, the earnings of the asset follow a random walk. However,
+the investor does not know that. Rather, he believes that the behavior of a
+given ﬁrm’s earnings moves between two “states” or “regimes.” In the ﬁrst
+state, earnings are mean-reverting. In the second state, they trend, that is,
+are likely to rise further after an increase. The transition probabilities be-
+tween the two regimes, as well as the statistical properties of the earnings
+process in each one of them, are ﬁxed in the investor’s mind. In particular,
+in any given period, the ﬁrm’s earnings are more likely to stay in a given
+regime than to switch. Each period, the investor observes earnings, and
+uses this information to update his beliefs about which state he is in. In his
+updating, the investor is Bayesian, although his model of the earnings pro-
+cess is inaccurate. Speciﬁcally, when a positive earnings surprise is fol-
+lowed by another positive surprise, the investor raises the likelihood that
+he is in the trending regime, whereas when a positive surprise is followed
+by a negative surprise, the investor raises the likelihood that he is in the
+mean-reverting regime. We solve this model and show that, for a plausible
+range of parameter values, it generates the empirical predictions observed
+in the data.
+Daniel et al. (1998) also construct a model of investor sentiment aimed at
+reconciling the empirical ﬁndings of overreaction and underreaction. They,
+too, use concepts from psychology to support their framework, although
+the underpinnings of their model are overconﬁdence and self-attribution,
+which are not the same as the psychological ideas we use. It is quite possi-
+ble that both the phenomena that they describe, and those driving our
+model, play a role in generating the empirical evidence.
+Section 2 summarizes the empirical ﬁndings that we try to explain. Sec-
+tion 3 discusses the psychological evidence that motivates our approach.
+Section 4 presents the model. Section 5 solves it and outlines its implica-
+tions for the data. Section 6 concludes.
+A MODEL OF INVESTOR SENTIMENT
+425
+5 The empirical implications of our model are derived from the assumptions about investor
+psychology or sentiment, rather than from those about the behavior of arbitrageurs. Other
+models in behavioral ﬁnance yield empirical implications that follow from limited arbitrage
+alone, without speciﬁc assumptions about the form of investor sentiment. For example, lim-
+ited arbitrage in closed-end funds predicts average underpricing of such funds regardless of the
+exact form of investor sentiment that these funds are subject to (see De Long et al. 1990a; Lee
+et al. 1991).
+
+2. The Evidence
+In this section, we summarize the statistical evidence of underreaction and
+overreaction in security returns. We devote only minor attention to the be-
+havior of aggregate stock and bond returns because these data generally do
+not provide enough information to reject the hypothesis of efﬁcient mar-
+kets. Most of the anomalous evidence that our model tries to explain comes
+from the cross-section of stock returns. Much of this evidence is from the
+United States, although some recent research has found similar patterns in
+other markets.
+2.1. Statistical Evidence of Underreaction
+Before presenting the empirical ﬁndings, we ﬁrst explain what we mean by
+underreaction to news announcements. Suppose that in each time period,
+the investor hears news about a particular company. We denote the news he
+hears in period t as zt. This news can be either good or bad, that is, zt = G
+or zt = B. By underreaction we mean that the average return on the com-
+pany’s stock in the period following an announcement of good news is
+higher than the average return in the period following bad news:
+E(rt+1zt = G) > E(rt+1zt = B).
+In other words, the stock underreacts to the good news, a mistake that is
+corrected in the following period, giving a higher return at that time. In this
+chapter, the good news consists of an earnings announcement that is higher
+than expected although, as we discuss below, there is considerable evidence
+of underreaction to other types of news as well.
+Empirical analysis of aggregate time series has produced some evidence of
+underreaction. Cutler et al. (1991) examine autocorrelations in excess re-
+turns on various indexes over different horizons. They look at returns on
+stocks, bonds, and foreign exchange in different markets over the period
+1960 to 1988 and generally, though not uniformly, ﬁnd positive autocorrela-
+tions in excess index returns over horizons of between one month and one
+year. For example, the average one-month autocorrelation in excess stock
+returns across the world is around 0.1 (and is also around 0.1 in the United
+States alone), and that in excess bond returns is around 0.2 (and around
+zero in the United States). Many of these autocorrelations are statistically
+signiﬁcant. This autocorrelation evidence is consistent with the underreac-
+tion hypothesis, which states that stock prices incorporate information
+slowly, leading to trends in returns over short horizons.
+More convincing support for the underreaction hypothesis comes from
+the studies of the cross-section of stock returns in the United States, which
+look at the actual news events as well as the predictability of returns. Bernard
+426
+BARBERIS, SHLEIFER, VISHNY
+
+(1992) surveys one class of such studies, which deals with the underreac-
+tion of stock prices to announcements of company earnings.
+The ﬁndings of these studies are roughly as follows. Suppose we sort
+stocks into groups (say deciles) based on how much of a surprise is con-
+tained in their earnings announcement. One naive way to measure an
+earnings surprise is to look at standardized unexpected earnings (SUE), de-
+ﬁned as the difference between a company’s earnings in a given quarter
+and its earnings during the quarter a year before, scaled by the standard
+deviation of the company’s earnings. Another way to measure an earnings
+surprise is by the stock price reaction to an earnings announcement. A
+general (and unsurprising) ﬁnding is that stocks with positive earnings sur-
+prises also earn relatively high returns in the period prior to the earnings
+announcement, as information about earnings is incorporated into prices.
+A much more surprising ﬁnding is that stocks with higher earnings sur-
+prises also earn higher returns in the period after portfolio formation: the
+market underreacts to the earnings announcement in revising a company’s
+stock price. For example, over the sixty trading days after portfolio forma-
+tion, stocks with the highest SUE earn a cumulative risk-adjusted return
+that is 4.2 percent higher than the return on stocks with the lowest SUE
+(see Bernard 1992). Thus, stale information, namely the SUE or the past
+earnings announcement return, has predictive power for future risk-
+adjusted returns. Or, put differently, information about earnings is only
+slowly incorporated into stock prices.
+Bernard also summarizes some evidence on the actual properties of the
+time series of earnings, and provides an interpretation for his ﬁndings. The
+relevant series is changes in a company’s earnings in a given quarter rela-
+tive to the same calendar quarter in the previous year. Over the period
+1974 to 1986, using a sample of 2,626 ﬁrms, Bernard and Thomas (1990)
+ﬁnd that these series exhibit an autocorrelation of about 0.34 at a lag of
+one quarter, 0.19 at two quarters, 0.06 at three quarters, and −0.24 at
+four quarters. That is, earnings changes exhibit a slight trend at one-, two-,
+and three-quarter horizons and a slight reversal after a year. In interpreting
+the evidence, Bernard conjectures that market participants do not recog-
+nize the positive autocorrelations in earnings changes, and in fact believe
+that earnings follow a random walk. This belief causes them to underreact
+to earnings announcements. Our model in section 3 uses a related idea for
+generating underreaction: We suppose that earnings follow a random walk
+but that investors typically assume that earnings are mean-reverting. The
+key idea that generates underreaction, which Bernard’s and our analyses
+share, is that investors typically (but not always) believe that earnings are
+more stationary than they really are. As we show below, this idea has ﬁrm
+foundations in psychology.
+Further evidence of underreaction comes from Jegadeesh and Titman
+(1993), who examine a cross-section of U.S. stock returns and ﬁnd reliable
+A MODEL OF INVESTOR SENTIMENT
+427
+
+evidence that over a six-month horizon, stock returns are positively auto-
+correlated. Similarly to the earnings drift evidence, they interpret their ﬁnd-
+ing of the “momentum” in stock returns as pointing to underreaction to
+information and slow incorporation of information into prices.6 More re-
+cent work by Rouwenhorst (1997) documents the presence of momentum in
+international equity markets. Chan et al. (1997) integrate the earnings drift
+evidence with the momentum evidence. They use three measures of earn-
+ings surprise: SUE, stock price reaction to the earnings announcement, and
+changes in analysts’ forecasts of earnings. The authors ﬁnd that all these
+measures, as well as the past return, help predict subsequent stock returns
+at horizons of six months and one year. That is, stocks with a positive earn-
+ings surprise, as well as stocks with high past returns, tend to subsequently
+outperform stocks with a negative earnings surprise and poor returns. Like
+the other authors, Chan, Jegadeesh, and Lakonishok conclude that in-
+vestors underreact to news and incorporate information into prices slowly.
+In addition to the evidence of stock price underreaction to earnings an-
+nouncements and the related evidence of momentum in stock prices, there
+is also a body of closely related evidence on stock price drift following
+many other announcements and events. For example, Ikenberry et al. (1995)
+ﬁnd that stock prices rise on the announcement of share repurchases but
+then continue to drift in the same direction over the next few years. Michaely
+et al. (1995) ﬁnd similar evidence of drift following dividend initiations and
+omissions, while Ikenberry et al. (1996) document such a drift following
+stock splits. Finally, Loughran and Ritter (1995), and Spiess and Afﬂeck-
+Graves (1995) ﬁnd evidence of a drift following seasoned equity offerings.
+Daniel et al. (1998) and Fama (1998) summarize a large number of event
+studies showing this type of underreaction to news events, which a theory
+of investor sentiment should presumably come to grips with.
+2.2. Statistical Evidence of Overreaction
+Analogous to the deﬁnition of underreaction at the start of the previous
+subsection, we now deﬁne overreaction as occurring when the average re-
+turn following not one but a series of announcements of good news is
+lower than the average return following a series of bad news announce-
+ments. Using the same notation as before,
+E(rt+1zt = G, zt−1 = G, . . . , zt−j = G)
+< E(rt+1zt = B, zt−1 = B, . . . , zt−j = B),
+where j is at least one and probably rather higher. The idea here is simply
+that after a series of announcements of good news, the investor becomes
+overly optimistic that future news announcements will also be good and
+428
+BARBERIS, SHLEIFER, VISHNY
+6 Early evidence on momentum is also contained in De Bondt and Thaler (1985).
+
+hence overreacts, sending the stock price to unduly high levels. Subsequent
+news announcements are likely to contradict his optimism, leading to lower
+returns.
+Empirical studies of predictability of aggregate index returns over long
+horizons are extremely numerous. Early papers include Fama and French
+(1988), and Poterba and Summers (1988); Cutler et al. (1991) examine
+some of this evidence for a variety of markets. The thrust of the evidence is
+that, over horizons of three–ﬁve years, there is a relatively slight negative
+autocorrelation in stock returns in many markets. Moreover, over similar
+horizons, some measures of stock valuation, such as the dividend yield,
+have predictive power for returns in a similar direction: a low dividend
+yield or high past return tend to predict a low subsequent return (Campbell
+and Shiller 1988).
+As before, the more convincing evidence comes from the cross-section of
+stock returns. In an early important paper, De Bondt and Thaler (1985) dis-
+cover from looking at U.S. data dating back to 1933 that portfolios of
+stocks with extremely poor returns over the previous ﬁve years dramatically
+outperform portfolios of stocks with extremely high returns, even after mak-
+ing the standard risk adjustments. De Bondt and Thaler’s ﬁndings are cor-
+roborated by later work (e.g., Chopra et al. 1992). In the case of earnings,
+Zarowin (1989) ﬁnds that ﬁrms that have had a sequence of bad earnings
+realizations subsequently outperform ﬁrms with a sequence of good earn-
+ings. This evidence suggests that stocks with a consistent record of good
+news, and hence extremely high past returns, are overvalued, and that an in-
+vestor can therefore earn abnormal returns by betting against this overreac-
+tion to consistent patterns of news. Similarly, stocks with a consistent record
+of bad news become undervalued and subsequently earn superior returns.
+Subsequent work has changed the focus from past returns to other mea-
+sures of valuation, such as the ratio of market value to book value of assets
+(De Bondt and Thaler 1987, Fama and French 1992), market value to cash
+ﬂow (Lakonishok et al. 1994), and other accounting measures. All this evi-
+dence points in the same direction. Stocks with very high valuations relative
+to their assets or earnings (glamour stocks), which tend to be stocks of com-
+panies with extremely high earnings growth over the previous several years,
+earn relatively low risk-adjusted returns in the future, whereas stocks with
+low valuations (value stocks) earn relatively high returns. For example,
+Lakonishok et al. ﬁnd spreads of 8–10 percent per year between returns of
+the extreme value and glamour deciles. Again, this evidence points to over-
+reaction to a prolonged record of extreme performance, whether good or
+bad: the prices of stocks with such extreme performance tend to be too ex-
+treme relative to what these stocks are worth and relative to what the subse-
+quent returns actually deliver. Recent research extends the evidence on value
+stocks to other markets, including those in Europe, Japan, and emerging
+markets (Fama and French 1998, Haugen and Baker 1996).
+A MODEL OF INVESTOR SENTIMENT
+429
+
+The economic interpretation of this evidence has proved more controver-
+sial, since some authors, particularly Fama and French (1992, 1996), argue
+that glamour stocks are in fact less risky, and value stocks more risky, once
+risk is properly measured. In a direct attempt to distinguish risk and overre-
+action, La Porta (1996) sorts stocks on the basis of long-term growth rate
+forecasts made by professional analysts, and ﬁnds evidence that analysts
+are excessively bullish about the stocks they are most optimistic about and
+excessively bearish about the stocks they are most pessimistic about. In par-
+ticular, stocks with the highest growth forecasts earn much lower future re-
+turns than stocks with the lowest growth forecasts. Moreover, on average,
+stocks with high growth forecasts earn negative returns when they subse-
+quently announce earnings and stocks with low growth forecasts earn high
+returns. All this evidence points to overreaction not just by analysts but
+more importantly in prices as well: in an efﬁcient market, stocks with opti-
+mistic growth forecasts should not earn low returns.
+Finally, La Porta et al. (1997) ﬁnd direct evidence of overreaction in
+glamour and value stocks deﬁned using accounting variables. Speciﬁcally,
+glamour stocks earn negative returns on the days of their future earnings
+announcements, and value stocks earn positive returns. The market learns
+when earnings are announced that its valuations have been too extreme.
+In sum, the cross-sectional overreaction evidence, like the cross-sectional
+underreaction evidence, presents rather reliable regularities. These regulari-
+ties taken in their entirety are difﬁcult to reconcile with the efﬁcient markets
+hypothesis. More important for this work, the two regularities challenge
+behavioral ﬁnance to provide a model of how investors form beliefs that
+can account for the empirical evidence.
+3. Some Psychological Evidence
+The model we present below is motivated by two important phenomena
+documented by psychologists: conservatism and the representativeness
+heuristic. In this subsection, we brieﬂy describe this psychological evidence
+as well as a recent attempt to integrate it (Grifﬁn and Tversky 1992).
+Several psychologists, including Edwards (1968), have identiﬁed a phe-
+nomenon known as conservatism. Conservatism states that individuals are
+slow to change their beliefs in the face of new evidence. Edwards bench-
+marks a subject’s reaction to new evidence against that of an idealized ra-
+tional Bayesian in experiments in which the true normative value of a
+piece of evidence is well defined. In his experiments, individuals update
+their posteriors in the right direction, but by too little in magnitude rela-
+tive to the rational Bayesian benchmark. This finding of conservatism is
+actually more pronounced the more objectively useful is the new evi-
+dence. In Edwards’s own words: “It turns out that opinion change is very
+430
+BARBERIS, SHLEIFER, VISHNY
+
+orderly, and usually proportional to numbers calculated from the Bayes
+Theorem—but it is insufficient in amount. A conventional first approxi-
+mation to the data would say that it takes anywhere from two to five ob-
+servations to do one observation’s worth of work in inducing a subject to
+change his opinions” (p. 359).
+Conservatism is extremely suggestive of the underreaction evidence de-
+scribed above. Individuals subject to conservatism might disregard the full
+information content of an earnings (or some other public) announcement,
+perhaps because they believe that this number contains a large temporary
+component, and still cling at least partially to their prior estimates of earn-
+ings. As a consequence, they might adjust their valuation of shares only
+partially in response to the announcement. Edwards would describe such
+behavior in Bayesian terms as a failure to properly aggregate the informa-
+tion in the new earnings number with investors’ own prior information to
+form a new posterior earnings estimate. In particular, individuals tend to
+underweight useful statistical evidence relative to the less useful evidence
+used to form their priors. Alternatively, they might be characterized as
+being overconﬁdent about their prior information.
+A second important phenomenon documented by psychologists is the
+representativeness heuristic (Tversky and Kahneman 1974): “A person
+who follows this heuristic evaluates the probability of an uncertain event,
+or a sample, by the degree to which it is (1) similar in its essential proper-
+ties to the parent population, and, (2) reﬂects the salient features of the
+process by which it is generated” (p. 33). For example, if a detailed de-
+scription of an individual’s personality matches up well with the subject’s
+experiences with people of a particular profession, the subject tends to sig-
+niﬁcantly overestimate the actual probability that the given individual be-
+longs to that profession. In overweighting the representative description,
+the subject underweights the statistical base-rate evidence of the small frac-
+tion of the population belonging to that profession.
+An important manifestation of the representativeness heuristic, discussed
+in detail by Tversky and Kahneman, is that people think they see patterns in
+truly random sequences. This aspect of the representativeness heuristic is
+suggestive of the overreaction evidence described above. When a company
+has a consistent history of earnings growth over several years, accompanied
+as it may be by salient and enthusiastic descriptions of its products and man-
+agement, investors might conclude that the past history is representative of an
+underlying earnings growth potential. While a consistent pattern of high
+growth may be nothing more than a random draw for a few lucky ﬁrms, in-
+vestors see “order among chaos” and infer from the in-sample growth path
+that the ﬁrm belongs to a small and distinct population of ﬁrms whose earn-
+ings just keep growing. As a consequence, investors using the representative-
+ness heuristic might disregard the reality that a history of high earnings
+growth is unlikely to repeat itself; they will overvalue the company, and be
+A MODEL OF INVESTOR SENTIMENT
+431
+
+disappointed in the future when the forecasted earnings growth fails to ma-
+terialize. This, of course, is what overreaction is all about.
+In a recent study, Grifﬁn and Tversky (1992) attempt to reconcile conser-
+vatism with representativeness. In their framework, people update their
+beliefs based on the “strength” and the “weight” of new evidence. Strength
+refers to such aspects of the evidence as salience and extremity, whereas
+weight refers to statistical informativeness, such as sample size.7 According
+to Grifﬁn and Tversky, in revising their forecasts, people focus too much on
+the strength of the evidence, and too little on its weight, relative to a rational
+Bayesian. In the Grifﬁn–Tversky framework, conservatism like that docu-
+mented by Edwards would occur in the face of evidence that has high weight
+but low strength: People are unimpressed by the low strength and react
+mildly to the evidence, even though its weight calls for a larger reaction. On
+the other hand, when the evidence has high strength but low weight, over-
+reaction occurs in a manner consistent with representativeness. Indeed, rep-
+resentativeness can be thought of as excessive attention to the strength of
+particularly salient evidence, in spite of its relatively low weight.
+In the context at hand, Grifﬁn and Tversky’s theory suggests that individ-
+uals might underweight the information contained in isolated quarterly
+earnings announcements, since a single earnings number seems like a weakly
+informative blip exhibiting no particular pattern or strength on its own. In
+doing so, they ignore the substantial weight that the latest earnings news
+has for forecasting the level of earnings, particularly when earnings are close
+to a random walk. At the same time, individuals might overweight consistent
+multiyear patterns of noticeably high or low earnings growth. Such data can
+be very salient, or have high strength, yet their weight in forecasting earnings
+growth rates can be quite low.
+Unfortunately, the psychological evidence does not tell us quantitatively
+what kind of information is strong and salient (and hence is overreacted to)
+and what kind of information is low in weight (and hence is underreacted
+to). For example, it does not tell us how long a sequence of earnings in-
+creases is required for its strength to cause signiﬁcant overpricing. Nor does
+the evidence tell us the magnitude of the reaction (relative to a true
+Bayesian) to information that has high strength and weight, or low strength
+and weight. For these reasons, it would be inappropriate for us to say that
+our model is derived from the psychological evidence, as opposed to just
+being motivated by it.
+There are also some stock trading experiments that are consistent with the
+psychological evidence as well as with the model presented below. An-
+dreassen and Kraus (1990) show subjects (who are university undergraduates
+432
+BARBERIS, SHLEIFER, VISHNY
+7 To illustrate these concepts, Grifﬁn and Tversky use the example of a recommendation
+letter. The “strength” of the letter refers to how positive and warm its content is; “weight” on
+the other hand, measures the credibility and stature of the letter-writer.
+
+untrained in ﬁnance) a time series of stock prices and ask them to trade at the
+prevailing price. After the subjects trade, the next realization of price ap-
+pears, and they can trade again. Trades do not affect prices: subjects trade
+with a time series rather than with each other. Stock prices are rescaled real
+stock prices taken from the ﬁnancial press, and sometimes modiﬁed by the
+introduction of trends.
+Andreassen and Kraus’s basic ﬁndings are as follows. Subjects generally
+“track prices,” that is, sell when prices rise and buy when prices fall, even
+when the series they are offered is a random walk. This is the fairly univer-
+sal mode of behavior, which is consistent with underreaction to news in
+markets. However, when subjects are given a series of data with an ostensi-
+ble trend, they reduce tracking, that is, they trade less in response to price
+movements. It is not clear from Andreassen and Kraus’s results whether
+subjects actually switch from bucking trends to chasing them, although
+their ﬁndings certainly suggest it.
+De Bondt (1993) nicely complements Andreassen and Kraus’s ﬁndings.
+Using a combination of classroom experiments and investor surveys, De
+Bondt ﬁnds strong evidence that people extrapolate past trends. In one
+case, he asks subjects to forecast future stock price levels after showing
+them past stock prices over unnamed periods. He also analyzes a sample of
+regular forecasts of the Dow Jones Index from a survey of members of the
+American Association of Individual Investors. In both cases, the forecasted
+change in price level is higher following a series of previous price increases
+than following price decreases, suggesting that investors indeed chase
+trends once they think they see them.
+4. A Model of Investor Sentiment
+4.1. Informal Description of the Model
+The model we present in this section attempts to capture the empirical evi-
+dence summarized in section 2 using the ideas from psychology discussed in
+section 3. We consider a model with a representative, risk-neutral investor
+with discount rate δ. We can think of this investor’s beliefs as reﬂecting the
+“consensus,” even if different investors have different beliefs. There is only
+one security, which pays out 100 percent of its earnings as dividends; in this
+context, the equilibrium price of the security is equal to the net present
+value of future earnings, as forecasted by the representative investor. In
+contrast to models with heterogeneous agents, there is no information in
+prices over and above the information already contained in earnings.
+Given the assumptions of risk-neutrality and a constant discount rate, re-
+turns are unpredictable if the investor knows the correct process followed
+by the earnings stream, a fact ﬁrst established by Samuelson (1965). If our
+model is to generate the kind of predictability in returns documented in the
+A MODEL OF INVESTOR SENTIMENT
+433
+
+empirical studies discussed in section 2, the investor must be using the
+wrong model to form expectations.
+We suppose that the earnings stream follows a random walk. This assump-
+tion is not entirely accurate, as we discussed above, since earnings growth
+rates at one- to three-quarter horizons are slightly positively autocorrelated
+(Bernard and Thomas 1990). We make our assumption for concreteness, and
+it is not at all essential for generating the results. What is essential is that
+investors sometimes believe that earnings are more stationary than they really
+are—the idea stressed by Bernard and captured within our model below. This
+relative misperception is the key to underreaction.
+The investor in our model does not realize that earnings follow a random
+walk. He thinks that the world moves between two “states” or “regimes”
+and that there is a different model governing earnings in each regime. When
+the world is in regime 1, Model 1 determines earnings; in regime 2, it is
+Model 2 that determines them. Neither of the two models is a random walk.
+Rather, under Model 1, earnings are mean-reverting; in Model 2, they trend.
+For simplicity, we specify these models as Markov processes: that is, in each
+model the change in earnings in period t depends only on the change in
+earnings in period t −1. The only difference between the two models lies in
+the transition probabilities. Under Model 1, earnings shocks are likely to be
+reversed in the following period, so that a positive shock to earnings is more
+likely to be followed in the next period by a negative shock than by another
+positive shock. Under Model 2, shocks are more likely to be followed by an-
+other shock of the same sign.
+The idea that the investor believes that the world is governed by one of
+the two incorrect models is a crude way of capturing the psychological phe-
+nomena of the previous section. Model 1 generates effects identical to those
+predicted by conservatism. An investor using Model 1 to forecast earnings
+reacts too little to an individual earnings announcement, as would an in-
+vestor exhibiting conservatism. From the perspective of Grifﬁn and Tversky
+(1992), there is insufﬁcient reaction to individual earnings announcements
+because they are low in strength. In fact, these announcements have ex-
+tremely high weight when earnings follow a random walk, but investors are
+insensitive to this aspect of the evidence.
+In contrast, the investor who believes in Model 2 behaves as if he is
+subject to the representativeness heuristic. After a string of positive or
+negative earnings changes, the investor uses Model 2 to forecast future
+earnings, extrapolating past performance too far into the future. This
+captures the way that representativeness might lead investors to associate
+past earnings growth too strongly with future earnings growth. In the lan-
+guage of Griffin and Tversky, investors overreact to the information in a
+string of positive or negative earnings changes since it is of high strength;
+they ignore the fact that it has low weight when earnings simply follow a
+random walk.
+434
+BARBERIS, SHLEIFER, VISHNY
+
+The investor also believes that there is an underlying regime-switching
+process that determines which regime the world is in at any time. We specify
+this underlying process as a Markov process as well, so that whether the
+current regime is Model 1 or Model 2 depends only on what the regime was
+last period. We focus attention on cases in which regime switches are rela-
+tively rare. That is, if Model 1 determines the change in earnings in period t,
+it is likely that it determines earnings in period t +1 also. The same applies to
+Model 2. With some small probability, though, the regime changes, and the
+other model begins generating earnings. For reasons that will become appar-
+ent, we often require the regime-switching probabilities to be such that the
+investor thinks that the world is in the mean-reverting regime of Model 1
+more often than he believes it to be in the trending regime of Model 2.
+The transition probabilities associated with Models 1 and 2 and with the
+underlying regime-switching process are ﬁxed in the investor’s mind. In
+order to value the security, the investor needs to forecast future earnings. To
+do this, he uses the earnings stream he has observed to update his beliefs
+about which regime is generating earnings. Once this is done, he uses the
+regime-switching model to forecast future earnings. The investor updates in
+a Bayesian fashion even though his model of earnings is incorrect. For in-
+stance, if he observes two consecutive earnings shocks of the same sign, he
+believes more strongly that he is in the trending earnings regime of Model 2.
+If the earnings shock this period is of the opposite sign to last period’s earn-
+ings shock, he puts more weight on Model 1, the mean-reverting regime.
+Our model differs from more typical models of learning. In our frame-
+work, the investor never changes the model he is using to forecast earnings,
+but rather uses the same regime-switching model, with the same regimes
+and transition probabilities throughout. Even after observing a very long
+stream of earnings data, he does not change his model to something more
+like a random walk, the true earnings process. His only task is to ﬁgure out
+which of the two regimes of his model is currently generating earnings. This
+is the only sense in which he is learning from the data.8
+We now provide some preliminary intuition for how investor behavior of
+the kind described above, coupled with the true random walk process for
+earnings, can generate the empirical phenomena discussed in section 2. In
+particular, we show how our framework can lead to both underreaction to
+earnings announcements and long-run overreaction.
+In our model, a natural way of capturing overreaction is to say that the av-
+erage realized return following a string of positive shocks to earnings is lower
+than the average realized return following a string of negative shocks to earn-
+ings. Indeed, after our investor sees a series of positive earnings shocks, he
+A MODEL OF INVESTOR SENTIMENT
+435
+8 From a mathematical perspective, the investor would eventually learn the true random
+walk model for earnings if it were included in the support of his prior; from the viewpoint of
+psychology, though, there is much evidence that people learn slowly and ﬁnd it difﬁcult to
+shake off pervasive biases such as conservatism and representativeness.
+
+puts a high probability on the event that Model 2 is generating current earn-
+ings. Since he believes regime switches to be rare, this means that Model 2 is
+also likely to generate earnings in the next period. The investor therefore ex-
+pects the shock to earnings next period to be positive again. Earnings, how-
+ever, follow a random walk: next period’s earnings are equally likely to go up
+or down. If they go up, the return will not be large, as the investor is expect-
+ing exactly that, namely a rise in earnings. If they fall, however, the return is
+large and negative as the investor is taken by surprise by the negative an-
+nouncement.9 The average realized return after a string of positive shocks is
+therefore negative; symmetrically, the average return after a string of negative
+earnings shocks is positive. The difference between the average returns in the
+two cases is negative, consistent with the empirically observed overreaction.
+Now we turn to underreaction. Following our discussion in section 2, we
+can think of underreaction as the fact that the average realized return fol-
+lowing a positive shock to earnings is greater than the average realized re-
+turn following a negative shock to earnings. Underreaction obtains in our
+model as long as the investor places more weight on Model 1 than on Model
+2, on average. Consider the realized return following a positive earnings
+shock. Since, by assumption, the investor on average believes Model 1, he
+on average believes that this positive earnings shock will be partly reversed
+in the next period. In reality, however, a positive shock is as likely to be fol-
+lowed by a positive as by a negative shock. If the shock is negative, the real-
+ized return is not large, since this is the earnings realization that was expected
+by the investor. If the shock is positive, the realized return is large and posi-
+tive, since this shock is unexpected. Similarly, the average realized return fol-
+lowing a negative earnings shock is negative, and hence the difference in the
+average realized returns is indeed positive, consistent with the evidence of
+post-earnings announcement drift and short-term momentum.
+The empirical studies discussed in section 2 indicate that underreaction
+may be a broader phenomenon than simply the delayed reaction to earn-
+ings documented by Bernard and Thomas (1989). Although our model is
+formulated in terms of earnings news, delayed reaction to announcements
+about dividends and share repurchases can be understood just as easily in
+our framework. In the same way that the investor displays conservatism
+when adjusting his beliefs in the face of a new earnings announcement, so
+he may also underweight the information in the announcement of a divi-
+dend cut or a share repurchase.
+The mechanism for expectation formation that we propose here is re-
+lated to that used by Barsky and De Long (1993) in an attempt to explain
+Shiller’s (1981) ﬁnding of excess volatility in the price/dividend ratio. They
+436
+BARBERIS, SHLEIFER, VISHNY
+9 A referee for the Journal of Financial Economics has pointed out to us that this is exactly
+the empirical ﬁnding of Dreman and Berry (1995). They ﬁnd that glamour stocks earn small
+positive event returns on positive earnings surprises and large negative event returns on nega-
+tive earnings surprises. The converse holds for value stocks.
+
+suppose that investors view the growth rate of dividends as a parameter
+that is not only unknown but also changing over time. The optimal esti-
+mate of the parameter closely resembles a distributed lag on past one-
+period dividend growth rates, with declining weights. If dividends rise
+steadily over several periods, the investor’s estimate of the current dividend
+growth rate also rises, leading him to forecast higher dividends in the future
+as well. Analogously, in our model, a series of positive shocks to earnings
+leads the investor to raise the probability that earnings changes are cur-
+rently being generated by the trending regime 2, leading him to make more
+bullish predictions for future earnings.
+4.2. A Formal Model
+We now present a mathematical model of the investor behavior described
+above, and in section 5, we check that the intuition can be formalized. Sup-
+pose that earnings at time t are Nt = Nt−1 + yt, where yt is the shock to
+earnings at time t, which can take one of two values, + y or −y. Assume that
+all earnings are paid out as dividends. The investor believes that the value
+of yt is determined by one of two models, Model 1 or Model 2, depending
+on the “state” or “regime” of the economy. Models 1 and 2 have the same
+structure: they are both Markov processes, in the sense that the value taken
+by yt depends only on the value taken by yt−1. The essential difference be-
+tween the two processes lies in the transition probabilities. To be precise,
+the transition matrices for the two models are:
+Model 1
+yt+1 = y
+yt+1 = −y
+Model 2
+yt+1 = y
+yt+1 = −y
+yt = y
+πL
+1 −πL
+yt = y
+πH
+1 −πH
+yt = −y
+1 −πL
+πL
+yt = −y
+1 −πH
+πH
+The key is that πL is small and πH is large. We shall think of πL as falling
+between zero and 0.5, with πH falling between 0.5 and one. In other words,
+under Model 1 a positive shock is likely to be reversed; under Model 2, a
+positive shock is more likely to be followed by another positive shock.
+The investor is convinced that he knows the parameters πL and πH; he is
+also sure that he is right about the underlying process controlling the switch-
+ing from one regime to another, or equivalently from Models 1 to 2. It, too,
+is Markov, so that the state of the world today depends only on the state of
+the world in the previous period. The transition matrix is
+st+1 = 1
+st+1 = 2
+st = 1
+1 −λ1
+λ1
+st = 2
+λ2
+1 −λ2
+The state of the world at time t is written st. If st = 1, we are in the ﬁrst
+regime and the earnings shock in period t, yt, is generated by Model 1;
+A MODEL OF INVESTOR SENTIMENT
+437
+
+similarly if st = 2, we are in the second regime and the earnings shock is
+generated by Model 2. The parameters λ1 and λ2 determine the probabili-
+ties of transition from one state to another. We focus particularly on small
+λ1 and λ2, which means that transitions from one state to another occur
+rarely. In particular, we assume that λ1 + λ2 < 1. We also think of λ1 as
+being smaller than λ2. Since the unconditional probability of being in state
+1 is λ2/(λ1 + λ2), this implies that the investor thinks of Model 1 as being
+more likely than Model 2, on average. Our results do not depend, however,
+on λ1 being smaller than λ2. The effects that we document can also obtain
+if λ1 > λ2.
+In order to value the security, the investor needs to forecast earnings into
+the future. Since the model he is using dictates that earnings at any time are
+generated by one of two regimes, the investor sees his task as trying to un-
+derstand which of the two regimes is currently governing earnings. He ob-
+serves earnings each period and uses that information to make as good a
+guess as possible about which regime he is in. In particular, at time t, having
+observed the earnings shock yt, he calculates qt, the probability that yt was
+generated by Model 1, using the new data to update his estimate from the
+previous period, qt−1. Formally, qt = Pr(st = 1yt, yt−1, qt−1). We suppose
+that the updating follows Bayes Rule, so that
+In particular, if the shock to earnings in period t + 1, yt+1, is the same as the
+shock in period t, yt, the investor updates qt+1 from qt using
+and we show in the appendix that in this case, qt+1 < qt. In other words, the
+investor puts more weight on Model 2 if he sees two consecutive shocks of
+the same sign. Similarly, if the shock in period t + 1 has the opposite sign to
+that in period t,
+and in this case, qt+1 > qt and the weight on Model 1 increases.
+To aid intuition about how the model works, we present a simple exam-
+ple shown in table 12.1. Suppose that in period 0, the shock to earnings y0
+is positive and the probability assigned to Model 1 by the investor, that is,
+q0, is 0.5. For a randomly generated earnings stream over the next 20 peri-
+ods, the table below presents the investor’s belief qt that the time t shock to
+earnings is generated by Model 1. The particular parameter values chosen
+ 
+q
+q
+q
+q
+q
+q
+q
+t
+t
+t
+t
+t
+t
+t
++
+=
+−
++
+−
+−
+−
++
+−
+−
++
++
+−
+−
+−
+1
+1
+2
+1
+2
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+((
+)
+(
+))(
+)
+((
+)
+(
+))(
+)
+(
+(
+)(
+))(
+) ,
+L
+L
+2
+H
+λ
+λ
+π
+λ
+λ
+π
+λ
+λ
+π
+ 
+q
+q
+q
+q
+q
+q
+q
+t
+t
+t
+t
+t
+t
+t
++
+=
+−
++
+−
+−
++
+−
++
++
+−
+−
+1
+1
+2
+1
+2
+1
+1
+1
+1
+1
+1
+1
+((
+)
+(
+))
+((
+)
+(
+))
+(
+(
+)(
+))
+,
+L
+L
+2
+H
+λ
+λ
+π
+λ
+λ
+π
+λ
+λ
+π
+ 
+q
+q
+q
+s
+y
+q
+q
+s
+y
+q
+q
+s
+y
+t
+t
+t
+t
+t
+t
+t
+t
+t
+t
+t
+t
++
++
++
++
+=
+−
++
+−
+=
+−
++
+−
+=
++
++
+−
+−
+=
+1
+1
+2
+1
+1
+2
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+2
+((
+)
+(
+))
+(
+,
+)
+((
+)
+(
+))
+(
+,
+)
+(
+(
+)(
+))
+(
+,
+)
+.
+1
+1
+2
+1
+λ
+λ
+λ
+λ
+λ
+λ
+Pr y
+Pr y
+Pr y
+t+
+t+
+t+
+438
+BARBERIS, SHLEIFER, VISHNY
+
+here are 
+and λ1 = 0.1 < 0.3 = λ2. Note again that the earn-
+ings stream is generated using the true process for earnings, a random walk.
+In periods 0–4, positive shocks to earnings alternate with negative shocks.
+Since Model 1 stipulates that earnings shocks are likely to be reversed in the
+following period, we observe an increase in qt, the probability that Model 1
+is generating the earnings shock at time t, rising to a high of 0.94 in period 4.
+From periods 10 to 14, we observe ﬁve successive positive shocks; since this
+is behavior typical of that speciﬁed by Model 2, qt falls through period 14 to
+a low of 0.36. One feature that is evident in the above example is that qt rises
+if the earnings shock in period t has the opposite sign from that in period t −1
+and falls if the shock in period t has the same sign as that in period t −1.
+5. Model Solution and Empirical Implications
+5.1. Basic Results
+We now analyze the implications of our model for prices. Since our model
+has a representative agent, the price of the security is simply the value of the
+security as perceived by the investor. In other words
+Note that the expectations in this expression are the expectations of the in-
+vestor who does not realize that the true process for earnings is a random
+walk. Indeed, if the investor did realize this, the series above would be sim-
+ple enough to evaluate since under a random walk, Et(Nt+j) = Nt, and price
+equals Nt/δ. In our model, price deviates from this correct value because the
+investor does not use the random walk model to forecast earnings, but rather
+P
+E
+N
+N
+t
+t
+t
+t
+=
++
++
++
++ ⋅⋅⋅
+
+
+
+
+
+
++
++
+1
+2
+2
+1
+1
+δ
+δ
+(
+)
+.
+π
+π
+L
+H,
+=
+<
+=
+1
+3
+3
+4
+A MODEL OF INVESTOR SENTIMENT
+439
+Table 12.1
+t
+yt
+qt
+t
+yt
+qt
+0
+y
+0.50
+1
+−y
+0.80
+11
+y
+0.74
+2
+y
+0.90
+12
+y
+0.56
+3
+−y
+0.93
+13
+y
+0.44
+4
+y
+0.94
+14
+y
+0.36
+5
+y
+0.74
+15
+−y
+0.74
+6
+−y
+0.89
+16
+y
+0.89
+7
+−y
+0.69
+17
+y
+0.69
+8
+y
+0.87
+18
+−y
+0.87
+9
+−y
+0.92
+19
+y
+0.92
+10
+y
+0.94
+20
+y
+0.72
+
+some combination of Models 1 and 2, neither of which is a random walk.
+The following proposition, proved in the appendix, summarizes the behavior
+of prices in this context, and shows that they depend on the state variables in
+a particularly simple way.
+Proposition 1. If the investor believes that earnings are generated by the
+regime-switching model described in section 4, then prices satisfy
+where p1 and p2 are constants that depend on πL, πH, λ1, and λ2.
+The full expressions for p1 and p2 are given in the appendix.10
+The formula for Pt has a very simple interpretation. The ﬁrst term, Nt/δ, is
+the price that would obtain if the investor used the true random walk process
+to forecast earnings. The second term, yt(p1 −p2qt), gives the deviation of
+price from this fundamental value. Later in this section we look at the range
+of values of πL, πH, λ1, and λ2 that allow the price function in Proposition 1
+to exhibit both underreaction and overreaction to earnings news. In fact,
+Proposition 2 below gives sufﬁcient conditions on p1 and p2 to ensure that
+this is the case. For the next few paragraphs, in the run-up to Proposition 2,
+we forsake mathematical rigor in order to build intuition for those conditions.
+First, note that if the price function Pt is to exhibit underreaction to earn-
+ings news, on average, then p1 cannot be too large in relation to p2. Suppose
+the latest earnings shock yt is a positive one. Underreaction means that, on
+average, the stock price does not react sufﬁciently to this shock, leaving the
+price below fundamental value. This means that, on average, y(p1 −p2qt),
+the deviation from fundamental value, must be negative. If qavg denotes an
+average value of qt, this implies that we must have p1 < p2qavg. This is the
+sense in which p1 cannot be too large in relation to p2.
+On the other hand, if Pt is also to display overreaction to sequences of sim-
+ilar earnings news, then p1 cannot be too small in relation to p2. Suppose that
+the investor has just observed a series of good earnings shocks. Overreaction
+would require that price now be above fundamental value. Moreover, we
+know that after a series of shocks of the same sign, qt is normally low, indicat-
+ing a low weight on Model 1 and a high weight on Model 2. If we write qlow
+to represent a typical low value of qt, overreaction then requires that y(p1 −
+p2qlow) be positive, or that p1 > p2qlow. This is the sense in which p1 cannot be
+too small in relation to p2. Putting the two conditions together, we obtain
+p2qlow < p1 < p2qavg.
+P
+N
+y p
+p q
+t
+t
+t
+t
+=
++
+−
+δ
+(
+),
+1
+2
+440
+BARBERIS, SHLEIFER, VISHNY
+10 It is difﬁcult to prove general results about p1 and p2, although numerical computations
+show that p1 and p2 are both positive over most of the range of values of πL, πH, λ1, and λ2 we
+are interested in.
+
+In Proposition 2, we provide sufﬁcient conditions on p1 and p2 for prices
+to exhibit both underreaction and overreaction, and their form is very sim-
+ilar to what we have just obtained. In fact, the argument in Proposition 2 is
+essentially the one we have just made, although some effort is required to
+make the reasoning rigorous.
+Before stating the proposition, we repeat the deﬁnitions of overreaction
+and underreaction that were presented in section 2. Overreaction can be
+thought of as meaning that the expected return following a sufﬁciently
+large number of positive shocks should be lower than the expected return
+following the same number of successive negative shocks. In other words,
+there exists some number J ≥1, such that for all j ≥J,
+Et(Pt+1 −Ptyt = yt−1 = . . . = yt−j = y)
+−Et(Pt+1 −Ptyt = yt−1 = . . . = yt−j = −y) < 0.
+Underreaction means that the expected return following a positive shock
+should exceed the expected return following a negative shock. In other words,
+Et(Pt+1 −Ptyt = +y) −Et(Pt+1 −Ptyt = −y) > 0.
+Proposition 2 below provides sufﬁcient conditions on πL, πH, λ1, and λ2
+for these two inequalities to hold.11
+Proposition 2. If the underlying parameters πL, πH, λ1, and λ2 satisfy
+p2 < p1 <
+p2,
+p2 ≥0,
+then the price function in Proposition 1 exhibits both underreaction
+and overreaction to earnings;
+and
+are positive constants that
+depend on πL, πH, λ1, and λ2 (the full expressions are given in the
+Appendix).
+We now examine the range of values of the fundamental parameters πH,
+πL, λ1, and λ2 for which the sufﬁcient conditions for both underreaction and
+overreaction are satisﬁed. Since the conditions in Proposition 2 are some-
+what involved, we evaluate them numerically for a large range of values of
+the four underlying parameters. Figure 12.1 illustrates one such exercise. We
+ k
+k
+ k
+ k
+A MODEL OF INVESTOR SENTIMENT
+441
+11 For the purposes of Proposition 2, we have made two simpliﬁcations in our mathematical
+formulation of under- and overreaction. First, we examine the absolute price change Pt+1 −Pt
+rather than the return. Second, the good news is presumed here to be the event yt = +y, i.e., a
+positive change in earnings, rather than better-than-expected earnings. Since the expected
+change in earnings Et(yt+1) always lies between −y and +y, a positive earnings change is in fact
+a positive surprise. Therefore, the results are qualitatively the same in the two cases. In the
+simulations in section 5.2, we calculate returns in the usual way, and condition on earnings
+surprises as well as raw earnings changes.
+
+start by ﬁxing λ1 = 0.1 and λ2 = 0.3. These numbers are small to ensure that
+regime switches do not occur very often and λ2 > λ1 to represent the in-
+vestor’s belief that the world is in the Model 1 regime more often than in the
+Model 2 regime.
+Now that λ1 and λ2 have been ﬁxed, we want to know the range of val-
+ues of πL and πH for which the conditions for underreaction and overreac-
+tion both hold. Given the way the model is set up, πL and πH are restricted
+to the ranges 0 < πL < 0.5 and 0.5 < πH < 1. We evaluate the conditions in
+Proposition 2 for pairs of (πL, πH) where πL ranges from zero to 0.5 at in-
+tervals of 0.01 and πH ranges from 0.5 to one, again at intervals of 0.01.
+The graph at the left of ﬁgure 12.1 marks with shading all the pairs for
+which the sufﬁcient conditions hold. We see that underreaction and overre-
+action hold for a wide range of values. On the other hand, it is not a trivial
+result: There are many parameter values for which at least one of the two
+phenomena does not hold.
+The graph shows that the sufﬁcient conditions do not hold if both πL and
+πH are near the high end of their feasible ranges, or if both πL and πH are near
+the low end of their ranges. The reason for this is the following. Suppose
+both πL and πH are high. This means that whatever the regime, the investor
+believes that shocks are relatively likely to be followed by another shock of
+the same sign. The consequence of this is that overreaction certainly obtains,
+although underreaction might not. Following a positive shock, the investor
+on average expects another positive shock and since the true process is a ran-
+dom walk, returns are negative, on average. Hence the average return follow-
+ing a positive shock is lower than that following a negative shock, which is a
+characterization of overreaction rather than of underreaction.
+442
+BARBERIS, SHLEIFER, VISHNY
+πL
+Allowable region for πL and πH
+πH
+0
+0.2
+0.1
+0.3
+1.0
+0.8
+0.9
+0.7
+0.5
+0.6
+0.4
+πL
+OVERREACTION only
+πH
+0
+0.2
+0.1
+0.3
+1.0
+0.8
+0.9
+0.7
+0.5
+0.6
+0.4
+πL
+UNDERREACTION only
+πH
+0
+0.2
+0.1
+0.3
+1.0
+0.8
+0.9
+0.7
+0.5
+0.6
+0.4
+Figure 12.1. Shaded area in graph at left marks the [πL, πH] pairs which satisfy the
+sufﬁcient conditions for both underreaction and overreaction, when λ1 = 0.1 and
+λ2 = 0.3. Graph in middle (at right) shows the [πL, πH] pairs that satisfy the condi-
+tion for overreaction (underreaction) only. πL (πH) is the probability, in the mean-
+reverting (trending) regime, that next period’s earnings shock will be of the same
+sign as last period’s earnings shock. λ1 and λ2 govern the transition probabilities be-
+tween regimes.
+
+On the other hand, if πL and πH are both at the low end, the investor be-
+lieves that shocks are relatively likely to be reversed, regardless of the
+regime: this leads to underreaction, but overreaction might not hold.
+To confirm this intuition, we also show in figure 12.1 the ranges of (πL,
+πH) pairs for which only underreaction or only overreaction holds. The
+graph in the middle shows the parameter values for which only overreac-
+tion obtains, while the graph to its right shows the values for which only
+underreaction holds. The intersection of the two regions is the original
+one shown in the graph at left. These figures confirm the intuition that if
+πL and πH are on the high side, overreaction obtains, but underreaction
+might not.
+Figure 12.2 presents ranges of (πL, πH) pairs that generate both underre-
+action and overreaction for a number of other values of λ1 and λ2. In all
+cases, there are nontrivial ranges of (πL, πH) pairs for which the sufﬁcient
+conditions hold.
+A MODEL OF INVESTOR SENTIMENT
+443
+π π
+  
+ 
+ 
+  
+ 
+ 
+ 
+ 	
+ 
+π π
+  
+ 
+ 
+  
+ 
+ 
+ 
+ 	
+ 
+π π
+  
+ 
+ 
+  
+ 
+ 
+ 
+ 	
+ 
+π π
+  
+ 
+ 
+  
+ 
+ 
+ 
+ 	
+ 
+Figure 12.2. Shaded area shows the [πL, πH] pairs which satisfy the sufﬁcient condi-
+tions for both underreaction and overreaction for a variety of different values of λ1
+and λ2. πL (πH) is the probability, in the mean-reverting (trending) regime, that next
+period’s earnings shock will be of the same sign as last period’s earnings shock. λ1
+and λ2 govern the transition probabilities between regimes.
+
+5.2. Some Simulation Experiments
+One way of evaluating our framework is to try to replicate the empirical
+ﬁndings of the papers discussed in section 2 using artiﬁcial data sets of
+earnings and prices simulated from our model. First, we ﬁx parameter val-
+ues, setting the regime-switching parameters to λ1 = 0.1 and λ2 = 0.3. To
+guide our choice of πL and πH, we refer to ﬁgure 12.1. Setting 
+and
+places us ﬁrmly in the region for which prices should exhibit both
+underreaction and overreaction.
+Our aim is to simulate earnings, prices, and returns for a large number of
+ﬁrms over time. Accordingly, we choose an initial level of earnings N1 and
+use the true random walk model to simulate 2000 independent earnings se-
+quences, each one starting at N1. Each sequence represents a different ﬁrm
+and contains six earnings realizations. We think of a period in our model as
+corresponding roughly to a year, so that our simulated data set covers six
+years. For the parameter values chosen, we can then apply the formula de-
+rived in section 5.1 to calculate prices and returns.
+One feature of the random walk model we use for earnings is that it im-
+poses a constant volatility for the earnings shock yt, rather than making
+this volatility proportional to the level of earnings Nt. While this makes our
+model tractable enough to calculate the price function in closed form, it
+also allows earnings, and hence prices, to turn negative. In our simulations,
+we choose the absolute value of the earnings change y to be small relative
+to the initial earnings level N1 so as to avoid generating negative earnings.
+Since this choice has the effect of reducing the volatility of returns in our
+simulated samples, we pay more attention to the sign of the numbers we
+present than to their absolute magnitudes.
+This aspect of our model also motivates us to set the sample length at a
+relatively short six years. For any given initial level of earnings, the longer
+the sample length, the greater is the chance of earnings turning negative in
+the sample. We therefore choose the shortest sample that still allows us to
+condition on earnings and price histories of the length typical in empirical
+analyses.
+A natural starting point is to use the simulated data to calculate returns
+following particular realizations of earnings. For each n-year period in
+the sample, where n can range from one to four, we form two portfolios.
+One portfolio consists of all the firms with positive earnings changes in
+each of the n years, and the other of all the firms with negative earnings
+changes in each of the n years. We calculate the difference between the re-
+turns on these two portfolios in the year after formation. We repeat this
+procedure for all the n-year periods in the sample and calculate the time
+series mean of the difference in the two portfolio returns, which we call
+rn
++ −rn
+−.
+π H = 3
+4
+π L = 1
+3
+444
+BARBERIS, SHLEIFER, VISHNY
+
+The calculation of rn
++ −rn
+−for the case of n = 1 essentially replicates the
+empirical analysis in studies such as that of Bernard and Thomas (1989).
+This quantity should therefore be positive, matching our definition of un-
+derreaction to news. Furthermore, to match our deﬁnition of overreaction,
+we need the average return in periods following a long series of consecu-
+tive positive earnings shocks to be lower than the average return follow-
+ing a similarly long series of negative shocks. Therefore, we hope to see
+rn
++ −rn
+−decline as n grows, or as we condition on a progressively longer
+string of earnings shocks of the same sign, indicating a transition from
+underreaction to overreaction. Table 12.2 reports the results.
+The results display the pattern we expect. The average return following a
+positive earnings shock is greater than the average return following a nega-
+tive shock, consistent with underreaction. As the number of shocks of the
+same sign increases, the difference in average returns turns negative, consis-
+tent with overreaction.
+While the magnitudes of the numbers in the table are quite reasonable,
+their absolute values are smaller than those found in the empirical literature.
+This is a direct consequence of the low volatility of earnings changes that we
+impose to prevent earnings from turning negative in our simulations. More-
+over, we report only point estimates and do not try to address the issue of
+statistical signiﬁcance. Doing so would require more structure than we have
+imposed so far, such as assumptions about the cross-sectional covariance
+properties of earnings changes.
+An alternative computation to the one reported in the table above would
+condition not on raw earnings but on the size of the surprise in the earnings
+announcement, measured relative to the investor’s forecast. We have tried
+this calculation as well, and obtained very similar results.
+Some of the studies discussed in section 2, such as Jegadeesh and Titman
+(1993), and De Bondt and Thaler (1985), calculate returns conditional not
+on previous earnings realizations but on previous realizations of returns.
+We now attempt to replicate these studies.
+For each n-year period in our simulated sample, where n again ranges from
+one to four, we group the 2,000 ﬁrms into deciles based on their cumulative
+A MODEL OF INVESTOR SENTIMENT
+445
+Table 12.2
+Earnings Sort
+r
+1
++ −r
+1
+−
+0.0391
+r
+2
++ −r
+2
+−
+0.0131
+r
+3
++ −r
+3
+−
+−0.0072
+r
+4
++ −r
+4
+−
+−0.0309
+
+return over the n years, and compute the difference between the return of
+the best- and the worst-performing deciles for the year after portfolio forma-
+tion. We repeat this for all the n-year periods in our sample, and compute
+the time series mean of the difference in the two portfolio returns, rn
+W −rn
+L.
+We hope to ﬁnd that rn
+W −rn
+L decreases with n, with r1
+W −r1
+L positive just 
+as in Jegadeesh and Titman and r4
+W −r4
+L negative as in De Bondt and Thaler.
+The results, shown in table 12.3, are precisely these.
+Finally, we can also use our simulated data to try to replicate one more
+widely reported empirical ﬁnding, namely the predictive power of earnings/
+price (E/P) ratios for the cross-section of returns. Each year, we group the
+2000 stocks into deciles based on their E/P ratio and compute the difference
+between the return on the highest E/P decile and the return on the lowest
+E/P decile in the year after formation. We repeat this for each of the years in
+our sample and compute the time series mean of the difference in the two
+portfolio returns, which we call rhi
+E/P −rlo
+E/P. We ﬁnd this statistic to be large
+and positive, matching the empirical fact:
+E/P sort
+rhi
+E/P −rlo
+E/P
+0.0435
+Note that this difference in average returns cannot be the result of a risk
+premium, since in our model the representative investor is assumed to be
+risk neutral.
+5.3. The Event Studies Revisited
+We have already discussed the direct relationship between the concept of
+conservatism, the speciﬁcation of regime 1 in our model, and the pervasive
+evidence of underreaction in event studies. We believe that regime 1 is con-
+sistent with the almost universal ﬁnding across different information events
+that stock prices tend to drift in the same direction as the event announce-
+ment return for a period of six months to ﬁve years, with the length of the
+time period dependent on the type of event.
+446
+BARBERIS, SHLEIFER, VISHNY
+Table 12.3
+Returns Sort
+r
+1
+W −r
+1
+L
+0.0280
+r
+2
+W −r
+2
+L
+0.0102
+r
+3
+W −r
+3
+L
+−0.0094
+r
+4
+W −r
+4
+L
+−0.0181
+
+An important question is whether our full model, and not just regime 1, is
+consistent with all of the event study evidence. Michaely et al. (1995) ﬁnd
+that stock prices of dividend-cutting ﬁrms decline on the announcement of
+the cut but then continue falling for some time afterwards. This ﬁnding is
+consistent with our regime 1 in that it involves underreaction to the new and
+useful information contained in the cut. But we also know that dividend
+cuts generally occur after a string of bad earnings news. Hence, if a long
+string of bad earnings news pushes investors towards believing in regime 2,
+another piece of bad news such as a dividend cut would perhaps cause an
+overreaction rather than an underreaction in our model.12
+While this certainly is one interpretation of our model, an alternative
+way of thinking about dividend announcements is consistent with both our
+model and the evidence. Speciﬁcally, our model only predicts an overreac-
+tion when the new information is part of a long string of similar numbers,
+such as earnings or sales ﬁgures. An isolated information event such as a
+dividend cut, an insider sale of stock, or a primary stock issue by the ﬁrm
+does not constitute part of the string, even though it could superﬁcially be
+classiﬁed as good news or bad news like the earnings numbers that pre-
+ceded it. Investors need not simply classify all information events, whatever
+their nature, as either good or bad news and then claim to see a trend on
+this basis. Instead, they may form forecasts of earnings or sales using the time
+series for those variables and extrapolate past trends too far into the future.
+Under this interpretation, our model is consistent with an overreaction to a
+long string of bad earnings news and the underweighting of informative
+bad news of a different type which arrives shortly afterwards.
+A related empirical ﬁnding is that even for extreme growth stocks that
+have had several consecutive years of positive earnings news, there is un-
+derreaction to quarterly earnings surprises. Our model cannot account for
+this evidence since it would predict overreaction in this case. To explain this
+evidence, our model needs to be extended. One possible way to extend the
+model is to allow investors to estimate the level and the growth rate of
+earnings separately. Indeed, in reality, investors might use annual earnings
+numbers over ﬁve to seven years to estimate the growth rate but higher fre-
+quency quarterly earnings announcements (perhaps combined with other
+information) to estimate earnings levels. Suppose, for example, that earn-
+ings have been growing rapidly over ﬁve years, so that an investor using the
+representativeness heuristic makes an overly optimistic forecast of the fu-
+ture growth rate. Suppose then that a very positive earnings number is an-
+nounced. Holding the estimated long-run growth rate of earnings constant,
+A MODEL OF INVESTOR SENTIMENT
+447
+12 Another study that presents a similar puzzle is by Ikenberry et al. (1996). They ﬁnd that
+the positive price reaction to the announcement of a stock split is followed by a substantial
+drift in the same direction over the next few years. However, the split is also often preceded by
+a persistent run-up in the stock price, suggesting an overreaction that should ultimately be re-
+versed.
+
+investors might still underreact to the quarterly earnings announcement
+given the high weight this number has for predicting the level of earnings
+when earnings follow a random walk. That is, if such a model is con-
+tructed, it can predict underreaction to earnings news in glamour stocks.
+Such a model could therefore account for more of the available evidence
+than our simple model.
+6. Conclusion
+We have presented a parsimonious model of investor sentiment, or of how
+investors form expectations of future earnings. The model we propose is
+motivated by a variety of psychological evidence, and in particular by the
+idea of Grifﬁn and Tversky (1992) that, in making forecasts, people pay too
+much attention to the strength of the evidence they are presented with and
+too little attention to its statistical weight. We have supposed that corporate
+announcements such as those of earnings represent information that is of
+low strength but signiﬁcant statistical weight. This assumption has yielded
+the prediction that stock prices underreact to earnings announcements and
+similar events. We have further assumed that consistent patterns of news,
+such as series of good earnings announcements, represent information that
+is of high strength and low weight. This assumption has yielded a prediction
+that stock prices overreact to consistent patterns of good or bad news.
+Our chapter makes reasonable, and empirically supportable, assump-
+tions about the strength and weight of different pieces of evidence and de-
+rives empirical implications from these assumptions. However, to push this
+research further, it is important to develop an priori way of classifying
+events by their strength and weight, and to make further predictions based
+on such a classiﬁcation. The Grifﬁn and Tversky theory predicts most im-
+portantly that, holding the weight of information constant, news with more
+strength would generate a bigger reaction from investors. If news can be
+classiﬁed on a priori grounds, this prediction is testable.
+Speciﬁcally, the theory predicts that, holding the weight of information
+constant, one-time strong news events should generate an overreaction. We
+have not discussed any evidence bearing on this prediction in this work.
+However, there does appear to be some evidence consistent with this pre-
+diction. For example, stock prices bounced back strongly in the few weeks
+after the crash of 1987. One interpretation of the crash is that investors
+overreacted to the news of panic selling by other investors even though
+there was little fundamental news about security values. Thus the crash was
+a high-strength, low-weight news event which, according to the theory,
+should have caused an overreaction. Stein (1989) relatedly ﬁnds that long-
+term option prices overreact to innovations in volatility, another poten-
+tially high-strength, low-weight event, since volatility tends to be highly
+448
+BARBERIS, SHLEIFER, VISHNY
+
+mean-reverting. And Klibanoff et al. (1998) ﬁnd that the price of a closed-
+end country fund reacts more strongly to news about its fundamentals
+when the country whose stocks the fund holds appears on the front page of
+the newspaper. That is, increasing the strength of the news, holding the
+weight constant, increases the price reaction. All these are bits of informa-
+tion consistent with the broader implications of the theory. A real test,
+however, must await a better and more objective way of estimating the
+strength of news announcements.
+A MODEL OF INVESTOR SENTIMENT
+449
+
+Appendix A
+Proposition 1. If the investor believes that earnings are generated 
+by the regime-switching model described in section 4, then prices
+satisfy
+where p1 and p2 are given by the following expressions:
+where
+Proof of Proposition 1: The price will simply equal the value as gauged
+by the uninformed investors which we can calculate from the pres-
+ent value formula:
+Since
+Et(Nt+1) = Nt + Et(yt+1),
+Et(Nt+2) = Nt + Et(yt+1) + Et(yt+2), and so on,
+we have
+P
+N
+y
+y
+y
+t
+t
+t
+t
+t
+t
+t
+t
+=
++
++
++
++
++
++ ⋅⋅⋅
+
+
+
+
+
+
++
++
++
+1
+1
+1
+1
+2
+3
+2
+δ
+δ
+δ
+E (
+)
+E (
+)
+E (
+)
+(
+)
+.
+P
+E
+N
+N
+t
+t
+t
+t
+=
++
++
++
++ ⋅⋅⋅
+
+
+
+
+
+
++
++
+1
+2
+2
+1
+1
+δ
+δ
+(
+)
+.
+ 
+Q =
+−
+−
+−
+−
+−
+−
+−
+−
+−
+−
+−
+−
+−
+−
+−
+(
+)
+(
+)(
+)
+(
+)
+(
+)(
+)
+(
+)
+(
+)
+(
+)
+(
+)
+(
+)(
+)
+(
+)
+(
+)(
+L
+L
+L
+L
+L
+L
+L
+L
+H
+H
+H
+H
+H
+H
+H
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+2
+2
+1
+1
+2
+2
+1
+1
+2
+2
+1
+1
+2
+λ π
+λ
+π
+λ π
+λ
+π
+λ
+π
+λ π
+λ
+π
+λ π
+λ π
+λ
+π
+λ π
+λ
+π
+λ
+π
+λ π
+λ
+π )
+(
+)
+.
+H
+1
+2
+−
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+λ π
+ 
+′ =
+−
+−
+′ =
+′ =
+−
+γ
+γ
+γ
+0
+1
+2
+1
+1 1
+1
+0 0 1 0
+1 0
+1 0
+( ,
+, ,
+),
+( , , , ),
+( , ,
+, ),
+ 
+p
+I
+Q
+Q
+p
+I
+Q
+Q
+1
+0
+1
+1
+2
+0
+1
+2
+1
+1
+1
+1
+1
+1
+=
+′
++
++
+−
+= −
+′
++
++
+−
+−
+−
+δ γ
+δ
+δ
+γ
+δ γ
+δ
+δ
+γ
+(
+(
+)[ (
+)
+]
+),
+(
+(
+)[ (
+)
+]
+),
+P
+N
+y p
+p q
+t
+t
+t
+t
+=
++
+−
+δ
+(
+),
+1
+2
+450
+BARBERIS, SHLEIFER, VISHNY
+
+So the key is to calculate Et(yt+j). Deﬁne
+where
+where Φt is the investor’s information set at time t consisting of the
+observed earnings series (y0, y1, . . . , yt), which can be summarized
+as (yt, qt).
+Note that
+The key insight is that
+qt+j = Qqt+j−1,
+where Q is the transpose of the transition matrix for the states
+(st +j, yt+j), i.e.,
+where, for example,
+Pr(st+j = 2, yt+j = ytst+j−1 = 1, yt+j−1 = yt) = λ1πH.
+Therefore,
+ 
+q
+Q q
+Q
+q
+q
+t
+j
+j
+t
+j
+t
+t
++ =
+=
+−
+
+
+
+
+
+
+
+
+
+
+
+
+0
+1
+0
+.
+ 
+′ =
+−
+−
+−
+−
+−
+−
+−
+−
+−
+−
+−
+−
+Q
+( )
+( )
+( )
+( )
+( )
+(
+)
+(
+)(
+)
+(
+)
+( )
+(
+)(
+)
+(
+)
+(
+)
+( )
+(
+)
+(
+)
+(
+)(
+)
+L
+L
+H
+H
+L
+L
+H
+H
+L
+L
+H
+H
+1
+2
+3
+4
+1
+1
+1
+1
+1
+2
+1
+1
+1
+1
+3
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+2
+2
+2
+2
+λ π
+λ
+π
+λ π
+λ
+π
+λ
+π
+λ π
+λ
+π
+λ π
+λ π
+λ
+π
+λ π
+λ
+π
+( )
+(
+)
+(
+)(
+)
+(
+)
+L
+L
+H
+H
+4
+1
+1
+1
+1
+2
+2
+2
+2
+λ
+π
+λ π
+λ
+π
+λ π
+−
+−
+−
+−
+Pr(
+)
+( , , , ).
+y
+y
+q
+q
+q
+t
+j
+t
+t
+t
+j
+t
+j
+t
+j
++
++
++
++
+=
+=
++
+=
+′
+′ =
+Φ
+1
+3
+1 0 1 0
+γ
+γ
+q
+s
+y
+y
+q
+s
+y
+y
+q
+s
+y
+y
+q
+s
+y
+y
+t
+j
+t
+j
+t
+j
+t
+t
+t
+j
+t
+j
+t
+j
+t
+t
+t
+j
+t
+j
+t
+j
+t
+t
+t
+j
+t
+j
+t
+j
+t
+t
+1
+2
+3
+4
+1
+1
+2
+2
++
++
++
++
++
++
++
++
++
++
++
++
+=
+=
+=
+=
+=
+= −
+=
+=
+=
+=
+=
+= −
+Pr(
+,
+),
+Pr(
+,
+),
+Pr(
+,
+),
+Pr(
+,
+),
+
+
+
+
+Φ
+Φ
+Φ
+Φ
+q
+q
+q
+q
+q
+t
+j
+t
+j
+t
+j
+t
+j
+t
+j
++
++
++
++
++
+=
+′
+(
+,
+,
+,
+) ,
+1
+2
+3
+4
+A MODEL OF INVESTOR SENTIMENT
+451
+
+(Note the distinction between qt and qt). Hence,
+and
+Substituting this into the original formula for price gives
+Proposition 2. Suppose the underlying parameters πL, πH, λ1, and λ2
+satisfy
+where
+where q–
+e and q–e are bounds on the unconditional mean of the ran-
+dom variable qt. Then the conditions for both underreaction and
+overreaction given in section 5.1. are satisﬁed. (Functions and vari-
+ables not yet introduced will be deﬁned in the proof.)
+k
+q
+q
+k
+q
+c
+c q
+c
+q q
+q q
+q
+q
+c
+q
+q
+q
+q
+q
+q
+c
+q
+c
+e
+e
+e
+=
++
+=
++
++
+=
+−
+−
+=
+−
+−
+=
+<
+≥
+
+
+
+1
+2
+1
+2
+1
+2
+1
+2
+2
+2
+0
+0
+∆
+∆
+∆
+∆
+∆
+( ),
+(
+*),
+( )
+( )
+,
+( )
+( )
+,
+*
+if
+,
+if
+,
+kp
+p
+kp
+p
+2
+1
+2
+2
+0
+<
+<
+≥
+,
+,
+p
+I
+Q
+Q
+p
+I
+Q
+Q
+1
+0
+1
+1
+2
+0
+1
+2
+0
+1
+2
+1
+1
+1
+1
+1
+1
+1
+1 1
+1
+0 0 1 0
+1 0
+1 0
+=
+′
++
++
+−
+= −
+′
++
++
+−
+′ =
+−
+−
+′ =
+′ =
+−
+−
+−
+δ γ
+δ
+δ
+γ
+δ γ
+δ
+δ
+γ
+γ
+γ
+γ
+(
+(
+)[ (
+)
+]
+),
+(
+(
+)[ (
+)
+]
+),
+( ,
+, ,
+),
+( , , , ),
+( , ,
+, ).
+E (
+)
+(
+)
+(
+)(
+)
+( , , , ).
+t
+t j
+t
+t
+j
+t
+t
+j
+t
+y
+y
+Q q
+y
+Q q
++
+=
+′
++ −
+′
+′ =
+Φ
+γ
+γ
+γ
+0 1 0 1
+Pr(
+)
+y
+y
+Q q
+t j
+t
+t
+j
+t
++ =
+=
+′
+Φ
+γ
+452
+BARBERIS, SHLEIFER, VISHNY
+
+Proof of Proposition 2: Before we enter the main argument of the
+proof, we present a short discussion of the behavior of qt, the prob-
+ability assigned by the investor at time t to being in regime 1. Sup-
+pose that the earnings shock at time t + 1 is of the opposite sign to
+the shock in period t. Let the function ∆–(qt) denote the increase in
+the probability assigned to being in regime 1, that is,
+Similarly, the function ∆–(q) measures the size of the fall in qt if the
+period t + 1 earnings shock should be the same sign as that in period
+t, as follows:
+By checking the sign of the second derivative, it is easy to see that
+both ∆–(q) and ∆–(q) are concave. More important, though, is the sign
+of these functions over the interval [0, 1]. Under the conditions
+πL < πH and λ1 + λ2 < 1, it is not hard to show that ∆–(q) ≥0 over an
+interval [0, q–], and that ∆–(q) ≥0 over [q–, 1], where q– and q– satisfy
+0 < q– < q– < 1.
+The implication of this is that over the range [q–, q–], the following
+is true: if the time t earnings shock has the same sign as the time
+t + 1 earnings shock, then qt+1 < qt, or the probability assigned to
+regime 2 rises. If the shocks are of different signs, however, then
+qt+1 > qt, and regime 1 will be seen as more likely.
+Note that if qt ∈ [q–, q–], then qτ ∈[q–, q–] for ∀τ > t. In other
+words, the investor’s belief will always remain within this interval. If
+the investor sees a very long series of earnings shocks, all of which
+have the same sign, qt will fall every period, tending towards a limit
+of q–. From the updating formulas, this means that q– satisﬁes
+Similarly, suppose that positive shocks alternate with negative
+ones for a long period of time. In this situation, qt will rise every pe-
+riod, tending to the upper limit q–, which satisﬁes
+q
+q
+q
+q
+q
+q
+q
+=
+−
++
+−
+−
+−
++
+−
+−
++
++
+−
+−
+−
+((
+)
+(
+))(
+)
+((
+)
+(
+))(
+)
+(
+(
+)(
+))(
+) .
+L
+L
+H
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+2
+1
+2
+1
+2
+λ
+λ
+π
+λ
+λ
+π
+λ
+λ
+π
+ 
+q
+q
+q
+q
+q
+q
+q
+=
+−
++
+−
+−
++
+−
++
++
+−
+−
+((
+)
+(
+))
+((
+)
+(
+))
+(
+(
+)(
+))
+.
+L
+L
+H
+1
+1
+1
+1
+1
+1
+1
+2
+1
+2
+1
+2
+λ
+λ
+π
+λ
+λ
+π
+λ
+λ
+π
+∆( )
+((
+)
+(
+))
+((
+)
+(
+))
+((
+(
+)(
+))
+.
+,
+L
+L
+H
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+t
+t
+y
+y
+q
+q
+t
+t
+t
+=
+−
+=
+−
+−
++
+−
+−
++
+−
++
++
+−
+−
++
+=
+=
++
+1
+1
+2
+1
+2
+1
+2
+1
+1
+1
+1
+1
+1
+1
+
+λ
+λ
+π
+λ
+λ
+π
+λ
+λ
+π
+ 
+∆( )
+((
+)
+(
+))(
+)
+((
+)
+(
+))(
+)
+((
+(
+)(
+))(
+)
+.
+,
+L
+L
+H
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+t
+t y
+y
+q
+q
+t
+t
+t
+=
+−
+=
+−
++
+−
+−
+−
++
+−
+−
++
++
+−
+−
+−
+−
++
+=−
+=
++
+1
+1
+2
+1
+2
+1
+2
+1
+1
+1
+1
+1
+1
+1
+1
+1
+1
+
+λ
+λ
+π
+λ
+λ
+π
+λ
+λ
+π
+A MODEL OF INVESTOR SENTIMENT
+453
+
+In the case of the parameters used for the table in section 4.2.,
+q– = 0.28 and q– = 0.95.
+There is no loss of generality in restricting the support of qt to the
+interval [q–, q–]. Certainly, an investor can have prior beliefs that lie
+outside this interval, but with probability one, qt will eventually be-
+long to this interval, and will then stay within the interval forever.
+We are now ready to begin the main argument of the proof. Un-
+derreaction means that the expected return following a positive
+shock should exceed the expected return following a negative shock.
+In other words,
+Et(Pt+1 −Ptyt = +y) −Et(Pt+1 −Ptyt = −y) > 0.
+Overreaction means that the expected return following a series of
+positive shocks is smaller than the expected return following a series
+of negative shocks. In other words, there exists some number J ≥1,
+such that for all j ≥J,
+Et(Pt+1 −Ptyt = yt−1 = . . . = yt−j = y)
+−Et(Pt+1 −Ptyt = yt−1 = . . . = yt−j = −y) < 0.
+Proposition 2 provides sufﬁcient conditions on p1 and p2 so that
+these two inequalities hold. A useful function for the purposes of
+our analysis is
+f(q) = Et(Pt+1 −Ptyt = +y, qt = q) −Et(Pt+1 −Ptyt = −y, qt = q).
+The function f(q) is the difference between the expected return 
+following a positive shock and that following a negative shock,
+where we also condition on qt equaling a specific value q. It is sim-
+ple enough to write down an explicit expression for this function.
+Since
+we ﬁnd
+ 
+E (
+,
+)
+( )
+(
+)
+( )
+( )
+(
+)
+( ( )
+( ))
+t
+t
+t
+t
+t
+P
+P y
+y q
+q
+y
+yp
+q
+y
+y p
+p q
+yp
+q
+yp
+q
+y p q
+p
+yp
+q
+q
++ −
+= +
+=
+=
++
+
+
+
+
++
+−
+−
+−
+−
++
+
+
+
+
+=
+−
++
++
+1
+2
+1
+2
+2
+2
+2
+1
+1
+2
+2
+1
+2
+1
+2
+2
+2
+
+δ
+δ
+∆
+∆
+∆
+∆
+∆
+P
+P
+y
+y
+y
+p
+p q
+y p q
+q
+y
+y p q
+q
+t
+t
+t
+t
+t
+t
+t
+t
+t
+t
+t
+t
+t
++
++
++
++
++
++
+−
+=
++
+−
+−
+−
+−
+−
+−
+−
+1
+1
+1
+1
+2
+2
+1
+1
+2
+1
+δ
+(
+)(
+)
+(
+)
+(
+)
+(
+),
+454
+BARBERIS, SHLEIFER, VISHNY
+
+Further, it is easily checked that
+Et(Pt+1 −Ptyt = +y, qt = q) = −Et(Pt+1 −Ptyt = −y, qt = q)
+and hence that
+f(q) = 2y(p2q −p1) + yp2(∆–(q) + ∆–(q)).
+First, we show that a sufﬁcient condition for overreaction is f(q–) < 0.
+If this condition holds, it implies
+Et(Pt+1 −Ptyt = +y, qt = q–) < Et(Pt+1 −Ptyt = −y, qt = q–).
+Now as j →∞,
+Et(Pt+1 −Ptyt = yt−1 = . . . = yt−j = y) →Et(Pt+1 −Ptyt = +y, qt = q–)
+and
+Et(Pt+1 −Ptyt = yt−1 = . . . = yt−j = −y)
+→Et(Pt+1 −Ptyt = −y, qt = q–).
+Therefore, for ∀j ≥J sufﬁciently large, it must be true that
+Et(Pt+1 −Ptyt = yt−1 = . . . = yt−j = y)
+< Et(Pt+1 −Ptyt = yt−1 = . . . = yt−j = −y),
+which is nothing other than our original deﬁnition of overreaction.
+Rewriting the condition f(q–) < 0 as
+2y(p2q– −p1) + yp2(∆–(q–) + ∆–(q–)) < 0,
+we obtain
+(A.1)
+which is one of the sufﬁcient conditions given in the proposition.
+We now turn to a sufﬁcient condition for underreaction. The deﬁni-
+tion of underreaction can also be succinctly stated in terms of f(q) as
+Eq(f(q)) > 0,
+where Eq denotes an expectation taken over the unconditional distri-
+bution of q. Rewriting this, we obtain:
+2yp2E(q) −2yp1 + yp2Eq(∆–(q) + ∆–(q)) > 0,
+and hence,
+(A.2)
+p
+p
+q
+q
+q
+q
+1
+2
+2
+<
++
++
+
+
+
+
+
+
+E( )
+E ( ( )
+( ))
+.
+∆
+∆
+p
+p
+q
+q
+1
+2
+2
+>
++
+
+
+
+
+∆( )
+A MODEL OF INVESTOR SENTIMENT
+455
+
+Unfortunately, we are not yet ﬁnished because we do not have closed
+form formulas for the expectations in this expression. To provide
+sufﬁcient conditions, we need to bound these quantities. In the re-
+mainder of the proof, we construct a number k– where
+This makes p1 < p2k– a sufﬁcient condition for (A.2). Of course, this
+assumes that p2 ≥0, and so we impose this as an additional con-
+straint to be satisﬁed. In practice, we ﬁnd that for the ranges of πL,
+πH, λ1, and λ2 allowed by the model, p2 is always positive. However,
+we do not attempt a proof of this.
+The ﬁrst step in bounding the expression 
+is to bound E(q). To do this, note that
+Consider the function g(q) deﬁned on [q–, q–]. The idea is to bound
+this function above and below over this interval by straight lines,
+parallel to the line passing through the endpoints of g(q), namely (q–,
+g(q–)) and (q–, g(q–)). In other words, suppose that we bound g(q)
+above by g–(q) = a + bq. The slope of this line is
+and a will be such that
+Given that
+Eq(g(q) −q) = 0,
+we must have
+Eq(g–(q) −q) ≥0
+or
+E(
+)
+E( )
+,
+a
+bq
+q
+q
+a
+b
++
+−
+≥
+≤
+−
+0
+1
+inf (
+( ))
+.
+[ , ]
+q
+q q a
+bq
+g q
+∈
++
+−
+= 0
+b
+g q
+g q
+q
+q
+q
+q
+q
+q
+q
+q
+=
+−
+−
+=
+−
+−
++
+−
+<
+( )
+( )
+(
+)
+( ( )
+( ))
+,
+1
+2
+1
+∆
+∆
+ 
+E(
+)
+E(
+)
+E (E(
+))
+E ( (
+(
+))
+(
+(
+)))
+E ( ( )).
+q
+q
+q
+q
+q
+q
+q
+q
+g q
+t
+t
+q
+t
+t
+q
+t
+t
+t
+t
+q
+t
+t
+=
+=
+=
++
++
+−
+=
++
++
+1
+1
+1
+2
+1
+2
+
+∆
+∆
+E( )
+E ( ( )
+( ))
+q
+q
+q
+q
++
++
+1
+2
+∆
+∆
+k
+q
+q
+q
+q
+<
++
++
+E( )
+E ( ( )
+( ))
+.
+∆
+∆
+2
+456
+BARBERIS, SHLEIFER, VISHNY
+
+since b < 1. This gives us an upper bound on E(q), which we will call
+q–e. A similar argument produces a lower bound q–e.
+The ﬁnal step before completing the argument is to note that since ∆–(q)
+and ∆–(q) are both concave, ∆– (q) + ∆–(q) is also concave, so that
+where
+Therefore,
+where
+This completes the proof of the proposition.
+q
+q
+c
+q
+c
+e
+e
+*
+if
+,
+if
+.
+=
+<
+≥
+
+
+
+2
+2
+0
+0
+E( )
+E( ( )
+( ))
+E(
+)
+(
+*),
+q
+q
+q
+q
+c
+c q
+q
+c
+c q
+e
+e
++
++
+≥
++
++
+≥
++
++
+1
+2
+1
+2
+1
+2
+1
+2
+1
+2
+∆
+∆
+c
+q q
+q q
+q
+q
+c
+q
+q
+q
+q
+1
+2
+=
+−
+−
+=
+−
+−
+∆
+∆
+∆
+∆
+( )
+( )
+,
+( )
+( )
+.
+(
+)( )
+( )
+( ),
+∆
+∆
+∆
+∆
++
+>
+−
+−
+
+
+
+
++
+−
+−
+
+
+
+
+=
++
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+q
+c
+c q
+1
+2
+A MODEL OF INVESTOR SENTIMENT
+457
+
+References
+Andreassen, P., S. Kraus, 1990. Judgmental extrapolation and the salience of
+change, Journal of Forecasting 9, 347–72.
+Barsky, R., J.B. De Long, 1993. Why does the stock market ﬂuctuate?, Quarterly
+Journal of Economics 108, 291–311.
+Bernard, V., 1992. Stock price reactions to earnings announcements, In Thaler, R.
+(ed.), Advances in Behavioral Finance, Russell Sage Foundation, 303–40.
+Bernard, V., J. Thomas, 1989. Post-earnings announcement drift: delayed price re-
+sponse or risk premium? Journal of Accounting Research, (Suppl.) 27, 1–36.
+———, 1990, Evidence that stock prices do not fully reﬂect the implications of cur-
+rent earnings for future earnings, Journal of Accounting and Economics 13,
+305–41.
+Campbell, J. Y., R. Shiller, 1988, Stock prices, earnings, and expected dividends,
+Journal of Finance 43, 661–76.
+Chan, L., N. Jegadeesh, J. Lakonishok, 1997, Momentum strategies. Journal of Fi-
+nance 51, 1681–1713.
+Chopra, N., J. Lakonishok, J. Ritter, 1992, Measuring abnormal performance: do
+stocks overreact? Journal of Financial Economics 31, 235–68.
+Cutler, D., J. Poterba, L. Summers, 1991, Speculative dynamics, Review of Eco-
+nomic Studies 58, 529–46.
+Daniel, K., D. Hirshleifer, A. Subrahmanyam, 1998, A theory of overconﬁdence,
+self-attribution, and security market under- and over-reactions, Journal of Fi-
+nance 53.
+De Bondt, W., 1993, Betting on trends: intuitive forecasts of ﬁnancial risk and re-
+turn, International Journal of Forecasting 9, 355–71.
+De Bondt, W., R. Thaler, 1985, Does the stock market overreact?, Journal of Fi-
+nance 40, 793–808.
+———, 1987, Further evidence of investor overreaction and stock market seasonal-
+ity, Journal of Finance 42, 557–81.
+De Long, J. B., A. Shleifer, L. Summers, R. Waldmann, 1990a, Noise trader risk in
+ﬁnancial markets. Journal of Political Economy 98, 703–38.
+———, 1990b, Positive feedback investment strategies and destabilizing rational
+speculation, Journal of Finance 45, 375–95.
+Dreman, D., M. Berry, 1995, Overreaction, underreaction, and the low-P/E effect,
+Financial Analysts Journal 51, 21–30.
+Edwards, W., 1968, Conservatism in human information processing, in B. Klein-
+mutz, (ed.), Formal Representation of Human Judgment. Wiley, 17–52.
+Fama, E., 1998. Market efﬁciency, long-term returns, and behavioral ﬁnance. Jour-
+nal of Financial Economics 49, 283–306.
+Fama, E., K. French, 1988. Permanent and temporary components of stock prices.
+Journal of Political Economy 96, 246–73.
+———, 1992, The cross-section of expected stock returns, Journal of Finance 47,
+427–65.
+———, 1996, Multifactor explanations of asset pricing anomalies, Journal of Fi-
+nance 51, 55–84.
+———, 1998, Value versus growth: the international evidence, Journal of Finance 53.
+458
+BARBERIS, SHLEIFER, VISHNY
+
+Grifﬁn, D., A. Tversky, 1992, The weighing of evidence and the determinants of
+conﬁdence. Cognitive Psychology 24, 411–35.
+Haugen, R., N. Baker, 1996, Commonality in the determinants of expected stock
+returns. Journal of Financial Economics 41, 401–39.
+Ikenberry, D., J. Lakonishok, T. Vermaelen, 1995, Market underreaction to open
+market share repurchases. Journal of Financial Economics 39, 181–208.
+Ikenberry, D., G. Rankine, E. Stice, 1996, What do stock splits really signal? Jour-
+nal of Financial and Quantitative Analysis 31, 357–75.
+Jegadeesh, N., S. Titman, 1993, Returns to buying winners and selling losers: impli-
+cations for stock market efﬁciency. Journal of Finance 48, 65–91.
+Klibanoff, P., O. Lamont, T. Wizman, 1998, Investor reaction to salient news in
+closed-end country funds. Journal of Finance 53, 673–700.
+Lakonishok, J., A. Shleifer, R. Vishny, 1994, Contrarian investment, extrapolation,
+and risk. Journal of Finance 49, 1541–78.
+La Porta, R., 1996, Expectations and the cross-section of returns, Journal of Fi-
+nance 51, 1715–42.
+La Porta, R., J. Lakonishok, A. Shleifer, R. Vishny, 1997, Good news for value
+stocks: further evidence on market efﬁciency, Journal of Finance 52, 859–74.
+Lee, C., A. Shleifer, R. Thaler, 1991, Investor sentiment and the closed-end fund
+puzzle, Journal of Finance 46, 75–110.
+Lehmann, B., 1990, Fads, martingales, and market efﬁciency. Quarterly Journal of
+Economics 105, 1–28.
+Loughran, T., J. Ritter, 1995, The new issues puzzle, Journal of Finance 50, 23–51.
+Michaely, R., R. Thaler, K. Womack, 1995, Price reactions to dividend initiations
+and omissions: overreaction or drift?, Journal of Finance 50, 573–608.
+Poterba, J., L. Summers, 1988, Mean-reversion in stock prices: evidence and impli-
+cations, Journal of Financial Economics 22, 27–59.
+Rouwenhorst, G., 1997, International momentum strategies. Journal of Finance 53,
+267–84.
+Samuelson, P., 1965, Proof that properly anticipated prices ﬂuctuate randomly, In-
+dustrial Management Review 6, 41–49.
+Shiller, R., 1981, Do stock prices move too much to be justiﬁed by subsequent
+changes in dividends?, American Economic Review 71, 421–36.
+Shleifer, A., R. Vishny, 1997, The limits of arbitrage. Journal of Finance 52, 35–55.
+Spiess, K., J. Afﬂeck-Graves, 1995, Underperformance in long-run stock returns fol-
+lowing seasoned equity offerings, Journal of Financial Economics 38, 243–67.
+Stein, J., 1989, Overreactions in the options market, Journal of Finance 44,
+1011–23.
+Tversky, A., D. Kahneman, 1974, Judgment under uncertainty: heuristics and bi-
+ases, Science 185, 1124–1131.
+Zarowin, P., 1989. Does the stock market overreact to corporate earnings informa-
+tion? Journal of Finance 44, 1385–1400.
+A MODEL OF INVESTOR SENTIMENT
+459

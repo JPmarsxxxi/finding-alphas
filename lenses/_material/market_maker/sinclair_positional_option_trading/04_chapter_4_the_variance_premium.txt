@@ -1,0 +1,1596 @@
+CHAPTER 4
+The Variance Premium
+In finance, everything that is agreeable is unsound and everything that is
+sound is disagreeable.
+—Winston Churchill
+The variance premium (also known as the volatility premium) is the tendency
+for implied volatility to be higher than subsequently realized volatility.
+This is not a recent phenomenon. In his 1906 book The Put and Call, Leonard
+Higgins writes how traders on the London Stock Exchange first determine a
+statistical fair value for options, then “add to the ‘average value’ of the put
+and call an amount which will give a fair margin of profit.” That is, a variance
+premium was added.
+The variance premium exists in equity indices, the VIX, bonds, commodities,
+currencies, and many stocks. It is probably the most important factor to be
+aware of when trading options. Even traders who are not trying to directly
+monetize the effect need to know of it and understand it. It is the tide that long
+option positions need to overcome to be profitable. Even traders who only use
+options to trade directionally need to take this into account. Even if
+directional predictions are correct, it is very hard to make money if one is
+consistently paying too much for options (see Chapters Six and Seven for
+more discussion of this point).
+This effect can be monetized in many ways. The size and persistence of the
+variance premium is so strong that the precise details of a strategy often aren't
+very important. Practically any strategy that sells implied volatility has a
+significant head start on being profitable if the premium is there.
+In this chapter we will discuss the characteristics of the variance premium in
+various products; look at the relationships among the variance premium,
+correlation, and skewness; and give some possible reasons for the existence of
+the effect.
+Aside: The Implied Variance Premium
+The variance premium refers to the difference between implied volatility,
+which can be defined by either BSM implied volatilities or variance swaps,
+and subsequent realized volatility. There is a related phenomenon that occurs
+entirely in the implied space. Being short VIX futures is generally a profitable
+strategy (although not a wildly successful one). Figure 4.1 shows the results
+of always being short the VIX front month future from June 2015 to October
+2019.
+The VIX itself doesn't decay in the same way (refer to Figure 4.2). This is
+really a term-structure effect in the futures.
+FIGURE 4.1 Profit from selling 1 front-month VIX future.
+FIGURE 4.2 The VIX index from June 2015 to October 2019.
+According to the rational expectations hypothesis, the VIX futures curve
+should be an unbiased predictor of where the VIX index will be on the
+expiration date. The narrowing of the basis as time approaches the expiration
+date should be more dependent on the cash index moving toward the future's
+price.
+The theory of rational expectations has been tested on many different
+commodity futures and it is generally a poor description of price movements.
+Futures tend to move toward the cash. Alternatively, the cash VIX is a better
+predictor of future VIX levels than the futures are.
+It is probably not surprising that this also occurs in the VIX. VIX futures are
+unusual. Generally, futures are priced by first assuming that they are
+forwards, then constructing an arbitrage-free portfolio of the underlying and
+the future. However, the VIX index cannot be traded so this method is not
+useful for pricing VIX futures. Given that VIX futures are not constrained by
+tight, no-arbitrage bounds, there is even more room for inefficiencies.
+On its own this doesn't mean short positions have to be profitable. But the
+VIX term structure is usually in contango (from the time VIX futures were
+listed in 2006 to the start of 2019, the term structure has been in contango
+81% of the time). This means that the futures are above the cash and tend to
+decline toward it. The best discussion of this effect is in Simon and
+Campasano (2014). Selling a future only when the previous day's prices were
+in contango considerably improves this strategy. Figure 4.3 shows the results
+of being short the VIX front-month future from June 2015 to October 2019,
+when the term structure is in contango.
+FIGURE 4.3 Profit from selling 1 front-month VIX future when the term
+structure is in contango.
+Variance Premium in Equity Indices
+Figure 4.4 shows the VIX and the subsequent 30-day realized volatility of the
+S&P 500 from 1990 to the end of 2018.
+On average the VIX was four volatility points higher than the realized
+volatility and the premium is positive 85% of the time. Figure 4.5 shows the
+premium in volatility points. Figure 4.6 shows the distribution of the daily
+premia and Table 4.1 gives the summary statistics.
+FIGURE 
+4.4 
+The 
+VIX 
+and 
+the 
+subsequent 
+30-day 
+realized 
+S&P 
+500
+volatility.
+FIGURE 
+4.5 
+The 
+S&P 
+500 
+variance 
+premium 
+(VIX 
+minus 
+realized
+volatility).
+FIGURE 4.6 The S&P 500 variance premium distribution.
+TABLE 4.1 Summary Statistics for the S&P 500 Variance Premium
+Mean
+4.08
+Standard
+deviation
+5.96
+Skewness
+−2.33
+Maximum
+
+31.21
+Minimum
+−53.3
+4
+Median
+4.63
+90th percentile
+9.62
+10th percentile
+−1.45
+The Dow Jones 30, NASDAQ 100, and Russell 2000 indices have similar
+variance premia. The summary statistics for these are given in Table 4.2.
+TABLE 4.2 Summary Statistics for the Dow Jones, NASDAQ 100, and
+Russell 2000 Variance Premia
+Index
+Dow Jones (from
+1998)
+NASDAQ 100 (from
+2001)
+Russell 2000
+(from 2004)
+Mean
+3.50
+3.41
+3.24
+Standard
+deviation
+6.18
+6.99
+6.58
+Skewness
+−2.03
+−2.02
+−2.72
+Maximum
+28.90
+26.48
+27.28
+Minimum
+−49.42
+−53.79
+−46.08
+Median
+4.22
+3.91
+4.05
+90th percentile
+9.46
+10.37
+9.10
+10th percentile
+−2.60
+−3.11
+−2.81
+The variance premium varies considerably with the market volatility. Table
+4.3 shows the variance premium statistics for the five VIX quintiles. Here, as
+in Figure 4.6, the premium is expressed in volatility points.
+So, broadly speaking, the typical size of the variance premium (measured by
+either mean or median) increases with volatility levels. The variability of the
+variance premium also increases with volatility. When trading the variance
+premiums with options, a mid-level VIX is probably the best environment.
+Low-volatility regimes give lower returns as a percentage of margin and
+require more frequent hedging due to the higher gamma. High-volatility
+regimes have good average returns but a bad risk profile.
+TABLE 4.3 Summary Statistics for the VIX Sorted by Quintiles
+VIX
+<13.0
+2
+13.02
+<VIX<15.8
+9
+15.89
+<VIX<19.4
+2
+19.42
+<VIX<24.1
+5
+VIX
+>24.1
+5
+Mean
+2.61
+3.37
+4.35
+4.19
+5.87
+Standard
+deviation
+3.54
+3.60
+4.58
+6.53
+9.06
+Skewness
+−2.36
+−1.67
+−2.23
+−2.21
+−2.46
+Maximum
+8.33
+10.17
+13.84
+14.82
+
+31.21
+VIX
+<13.0
+2
+13.02
+<VIX<15.8
+9
+15.89
+<VIX<19.4
+2
+19.42
+<VIX<24.1
+5
+VIX
+>24.1
+5
+Minimum
+−17.5
+4
+−16.84
+−27.95
+−37.66
+−53.3
+4
+Median
+3.25
+4.05
+5.25
+5.44
+7.23
+90th percentile
+5.16
+7.21
+8.73
+10.45
+
+13.81
+10th percentile
+−0.81
+−0.80
+−0.74
+−3.15
+−2.80
+There is also more direct evidence of the premium. Short positions in delta-
+neutral equity index option positions (straddles, strangles, butterflies, and
+condors) have been profitable, as have short positions in variance swaps.
+Sharpe ratios vary between 0.4 and 1.0 depending on details of the
+implementation. The effect has been studied in many countries and time
+periods (see, for example, Driessen and Maenhout, 2006; Londono, 2011).
+The CBOE publishes two separate short option volatility indices: CNDR and
+BFLY. CNDR tracks the performance of a strategy that sells a 1-month SPX
+iron condor (short the 20-delta strangle and long the 5-delta strangle). BFLY
+tracks a short iron butterfly. The hypothetical performance of these strategies
+is shown in Figures 4.7 and 4.8.
+It is worth discussing why neither of these indices has been particularly
+successful since 2008.
+The variance premium was virtually the same before the end of 2008 (median
+of 4.63 points) and since (median of 4.61). However, the median VIX level
+dropped from 18.3 to 16.3, and after the chaos of 2009, the median VIX
+dropped further to only 15.4. The lower volatility level gives options higher
+gamma, which drastically increases the effects of path dependency and drift.
+The second reason is the effect of skew. Although lower ATM volatility
+usually means all other options will also trade at lower volatilities, the relative
+implied volatility of teeny puts tends to increase. So as volatility decreased,
+the prices of the 5-delta puts increased relative to the premium from selling
+the options closer to the ATM. This effect is illustrated by the CBOE SKEW
+index having an average value of 116.2 in the earlier period and 125.7
+afterwards. These strategies were paying more for their put hedges. And these
+teeny puts are always the most options with the highest variance premium.
+Unless buying them for a hedge they are the ultimate sucker bets. Refer to
+Hodges et al. (2003) for a study of this fact.
+FIGURE 4.7 Performance of the CNDR index.
+FIGURE 4.8 Performance of the BFLY index.
+So, although the variance premium is a strong and consistent phenomenon,
+attention needs to be paid to the capture strategy. This will be discussed
+further in Chapter Six.
+The Implied Skewness Premium
+A large part of the index variance premium is due to the OTM (out-of-the-
+money) puts being overpriced. Intuitively this should be the case, because
+much of the value of a variance swap is driven by the value of the OTM puts.
+And it is well known that index put options are overpriced (see, for example,
+Bondarenko, 2003).
+The implied volatility curve predicts very high negative skewness in realized
+returns. Although many pricing models can reproduce such a curve, their
+parameters are not consistent with the absence of substantial negative
+skewness in stock index returns. To misquote Samuelson, option markets
+predict nine out of the past five market corrections. Also, the predictions are
+reactive, with the implied skew being steepest after crashes.
+Kozhan et al. (2011) examined the profitability of selling skew swaps. The
+skew swap is a model-free skewness contract whose payoff is equal to the
+difference between realized skew and implied skew. As with variance swaps,
+the skew swap can be replicated from a portfolio of vanilla options. Using this
+contract enables the researchers to investigate the risk premium implicit in
+implied skew without having to worry about the misspecification of any
+specific option pricing model.
+They show that for S&P 500 options (from 1996 to 2009) about half of the
+excess return from selling out-of-the-money puts is due to the correlation
+between returns and volatility: the realized skewness.
+The Implied Correlation Premium
+Selling index volatility and buying component volatility is a short correlation
+position. All the index components dropping is the same as correlations
+rising. Short correlation is also short implied volatility.
+This strategy has Sharpe ratios comparable to selling index variance swaps.
+Although the returns are lower, the variance is also considerably reduced
+(Driessen et al., 2009). Dispersion trading suffers during market turmoil when
+the correlations increase, that is, the same periods when selling index variance
+suffers.
+Commodities
+The variance premium probably exists in commodities. Prokopczuk and
+Simen (2014) used option prices to construct synthetic variance swaps and
+found significantly negative variance risk premia in nearly all commodity
+markets. They examined 21 commodity markets between 1989 and 2011 and
+found that 18 of the commodities had statistically significant returns to short
+variance swaps. Table 4.4 summarizes the results for the 60-day swaps (a
+premium of 10% would mean the 60-day implied variance was 10% above
+the 60-day realized variance).
+The correlation of variance premia for commodities in the same sector was
+positive but small. And the correlation across sectors was also small enough
+to make harvesting the premium in commodities a good diversifier. The
+correlations are shown in Tables 4.5 and 4.6.
+TABLE 
+4.4 The 
+Size 
+and 
+Significance 
+of 
+the Variance 
+Premium 
+in
+Commodity Options
+Commodit
+y
+Variance Premium
+(%)
+T-
+Score
+Crude oil
+3.4
+6
+Heating oil
+3
+7
+Natural gas
+10.2
+9
+Corn
+2.3
+8
+Cotton
+−0.6
+−11
+Beans
+0.8
+2
+Bean meal
+0
+0
+Bean oil
+1
+4
+Sugar
+2.6
+6
+Wheat
+0.7
+3
+Hogs
+1.2
+3
+Cattle
+1
+11
+Commodit
+y
+Variance Premium
+(%)
+T-
+Score
+Copper
+2.4
+4
+Gold
+1
+4
+Silver
+0.2
+1
+Cocoa
+3
+8
+Coffee
+1.7
+1
+Oats
+6.2
+8
+OJ
+2.3
+3
+Rice
+3
+8
+Lumber
+3.5
+10
+Trading options on commodities requires some fundamental knowledge. An
+equity option trader can trade any equity, often without even knowing more
+than the ticker symbol. This is largely because the movement of equities is
+almost random and the effect of any real fundamental knowledge is small
+(indices are even more ignorance driven: the best situation for a statistically
+driven trader). But people actually know things about commodities. There are
+different crops, pipeline bottlenecks, storage squeezes, and weather effects.
+There is no guarantee that a good wheat trader can become a good corn trader.
+Different things affect different commodities.
+TABLE 
+4.5 
+The 
+Correlation 
+of 
+the 
+Variance 
+Premium 
+Within
+Commodity Sectors
+Sector
+Correlation of 60-day
+VP
+Energy
+33.4%
+Grains
+24.2%
+Livestoc
+k
+31.4%
+Metals
+30.1%
+Tropicals
+5.7%
+Wood
+N/A
+TABLE 
+4.6 
+The 
+Correlation 
+of 
+the 
+Variance 
+Premium 
+Between
+Commodity Sectors
+Energy Grains
+Livestoc
+k
+Metals
+S&P
+500
+T-
+bonds
+Tropical
+s
+Woo
+d
+Energy
+
+100% 
+
+Grains
+
+9.0%
+
+100% 
+
+Livestoc
+k
+13.2% 14.9% 100% 
+Metals
+22.1% 14.5% 6.5%
+
+100% 
+
+S&P 500 26.5% 2.0% 16.4% 30.7%
+
+100% 
+
+T-bonds
+20.2% 16.0% 5.3% 23.1% 39.3%
+100% 
+
+Tropical
+s
+8.9% 24.7% 11.3% 11.6% 5.9% 0.3%
+
+100% 
+Wood
+7.3% 0.9% 7.8% 3.9% 9.5% 6.5% 11.7%
+100
+%
+We can see this in the variance premia measured by Prokopczuk and Simen
+(2104). Traders who have fundamental insight might know why the corn
+premium is so much greater than that of wheat and why the premium in silver
+options is so different from that in gold options.
+Bonds
+Choi et. al (2017) looked at bond options from 1990 to 2012. They found that
+1-month variance swaps on US 5-year notes, 10-year bonds, and 30-year
+bonds are overpriced by about 20% (18.7% for the 5-year, 27.6% for the 10-
+year, and 21.2% for the 30-year). The Sharpe ratio for a strategy that sells all
+these swaps is about 2. Selling 1-month ATM straddles was also profitable,
+although less so.
+Most bond uncertainty (and hence most of the variance premium) is clustered
+around the release of macroeconomic data. Jones et al. (1998) showed that
+from 1979 to 1995 about 90% of excess returns to Treasury bonds accrued on
+days with either an employment or PPI announcement. Interestingly,
+Andersson et al. (2009) showed that German government bonds reacted far
+more strongly to US data releases than German ones. German unemployment
+releases had almost no effect at all, leading them to conclude that the number
+was widely leaked.
+The VIX
+There is also a variance premium in VIX options. Hogan (2011) used VIX
+options to construct synthetic VIX variance swaps and showed that these had
+a premium to the realized variance of the VIX futures that was similar in size
+to the premium in equity indices. Kaeck (2017) found similar results using
+data from 2006 to 2014.
+Currencies
+Lo and Zhang (2005) found direct evidence of a variance premium in OTC
+currency options. They found that a strategy of selling straddles was
+profitable for options on USD versus GBP, YEN, CHF, and the euro for terms
+between 1 month and 1 year. They also found that the variance premium
+increased as options got closer to expiration.
+Londono and Zhou (2017) reported significant positive variance premia for
+variance swaps on USD/GBP, USD/Yen, and USD/euro at 1-, 3-, and 6-month
+durations. However, the variance premia for some currencies, notably NZD
+and AUD, was large and negative. As the antipodean currencies are generally
+seen as “safe havens,” this suggests some linkage between the priced variance
+risk and real-world political and macroeconomic risk perceptions.
+Equities
+The results of selling options on equities are not clear-cut. First, because we
+know that implied correlation accounts for a portion of the index variance
+premium, we would expect the returns to selling stock volatility to be lower
+than selling index volatility. This is true. Also, as with commodities, there are
+specific fundamental factors that affect the variance premia in stock options.
+This is examined in more depth in Chapter Five.
+TABLE 4.7 The Average Return to a Short 1-Month Variance Swap for
+Stock Options in Different Industries
+Industry
+Average
+Return
+T-
+statistic
+Utilities
+31.25%
+10.39
+Nondurable consumer
+goods
+17.71%
+7.89
+Other
+9.83%
+3.71
+Durable consumer goods
+8.56%
+3.36
+Energy
+8.56%
+3.55
+Manufacturing
+8.05%
+3.29
+Retail
+4.68%
+1.93
+Health care
+3.27%
+1.39
+Telecommunications
+−1.40%
+−0.48
+Technology
+−7.66%
+−2.97
+Di Pietro and Vainberg (2006) show how size and book-to-market firm
+characteristics are linked to the expensiveness of equity options. They find
+that options on small stocks are more expensive than options on large stocks
+and that options on value stocks are more expensive than options on growth
+stocks.
+This was partially corroborated by Vilkov (2008). He did not find a robust
+size effect but found that value stocks had more of a variance premium than
+growth stocks. He also found that illiquid stock had high variance premia
+(this won't be practically useful because these stocks will also have illiquid
+options). He also looked at the variance premia of various industry sectors (as
+defined by French). These results are shown in Table 4.7.
+Anyone thinking of trading a portfolio of equity options should probably
+study the interrelationships among these various factor exposures. I'm not
+aware of any published work on this.
+Reasons for the Variance Premium
+There are many reasons for the existence of the variance premium. This
+means it is likely to persist, because it is doubtful that all of these reasons
+would disappear at the same time, even if they all vary across different market
+and economic regimes.
+Insurance
+The most compelling reason for a variance premium is that people are willing
+to pay for insurance. The most obvious insurance buyers are those who are
+long stocks and buy puts for downside protection. This demand is a major
+driver of the implied skew and the resulting skew premium. However, there
+are also investors who will buy calls to insure against missing out on large
+rallies. Obviously, for every option buyer there is also a seller, but the
+customer demand sets the price. Hedgers are prepared to pay for insurance.
+The sellers take on the risk and also demand an extra premium. The variance
+premium is reflective of a risk premium, but it is also a mispriced risk
+premium.
+Jump Risk
+If underlying prices were continuous, options could be perfectly replicated.
+This would make their existence redundant. However, underlying prices can
+jump and options give protection against these jumps in a way that a dynamic
+hedging scheme cannot, making them more attractive to buyers (hedgers or
+speculators). The non-redundancy of options can be seen as both a cause and
+consequence of the variance premium.
+Trading Restrictions
+Many retail traders have restrictions placed on them by their brokers. It is
+common for them to be forbidden from selling naked options. This means that
+an entire class of speculators can only be long volatility, thus driving the
+variance premium higher.
+Market-Maker Inventory Risk
+Contrary to popular belief, bookies do not try to completely balance their risk.
+They often speculate on a team to win. Similarly, option market-makers
+usually have speculative views on the markets and use the income from
+market-making operations to smooth the losses from these positions. There
+are far fewer market-makers now than there were 10 years ago. Increasing
+automation means fewer people are needed. On the floor, a trader could cover
+two or three stocks but now it is routine for a single trader to trade hundreds
+of stocks. But the overall profits to the community are still enormous. Spreads
+have narrowed, but this has been compensated for by increasing volumes. As
+long as a market-maker can stay in business, she will eventually be
+successful.
+The best trading opportunities for liquidity providers are in times of turmoil.
+Spreads widen. Volume soars. Customers are not as price sensitive as usual.
+So, it is imperative that market-makers can trade aggressively in these
+situations. And this can only happen if they aren't stuck with a loss from the
+move. Ideally, they will have a nice profit and can trade freely and with no
+restrictions. This means that they are almost always long teeny options. A
+standard risk-management heuristic for market-makers is always to be net
+long options. They are aware that options are overpriced, but they need them
+as insurance. Not inventory insurance: business insurance.
+Path Dependency of Returns
+Grosshans and Zeisberger (2018) show that investors also care about exactly
+how their returns are realized. They performed surveys that asked people to
+imagine that they had six stocks. Three made 10% and three lost 10%. But
+each of the three had different paths: up-down, a linear path, or down-up.
+These are shown stylistically in Figures 4.9 and 4.10.
+FIGURE 4.9 The three different positive return paths.
+FIGURE 4.10 The three different negative return paths.
+For both winners and losers, the participants were happiest when prices first
+declined and then rose. People were even slightly disappointed when stocks
+rose and then fell but were still winners! People are happiest when they feel
+that they have recovered from adversity, snatching victory from the jaws of
+defeat.
+Although this is only survey data it gives another plausible reason for the
+variance premium.
+Think about a $100 stock and the $100 strike call and put. Assuming no
+interest rates and a volatility of 30%, both the 1-month call and put will each
+be worth $3.43. One trader sells the put, and another buys the call. Consider
+what happens if the stock jumps from $100 to $106.86 right before expiration.
+Each trader makes $3.43 at expiry, but the P/L evolves slightly differently
+over time for the buyer and seller. These return paths are shown in Figures
+4.11 and 4.12.
+The largest PL difference is $5.09 on the day before the jump.
+The long option maintains the ability to “snatch victory from the jaws of
+defeat.” People prefer this, so options will tend to be overpriced, hence the
+variance premium.
+This is really a gamma effect. The short put steadily collects theta, but the
+long call wins because of gamma. Redemption comes from the possibility of
+extreme price moves due to high gamma. This explains why the variance
+premium is greatest for short-dated options and also why it tends to be higher
+when volatility is low.
+FIGURE 4.11 The P/L for a short put, with a stock jump at expiration.
+FIGURE 4.12 The P/L for a long call, with a stock jump at expiration,
+The Problem of the Peso Problem
+It is possible that options are actually not overpriced. Perhaps volatility and
+the skew are fairly priced, and the apparent variance premium is due to the
+fact that the events option buyers are insuring against haven't occurred in our
+sample period but will at some point in the future.
+It is hard to see how an argument based on “just you wait” can ever be
+refuted. We certainly know that in the history we have, implied volatility has
+been overpriced. It is possible that someday an event will occur that is so
+large that all option-selling profits will be eradicated. It also seems unlikely.
+As with all trading decisions, we can either assume history will be an accurate
+guide to the future or it won't. “This time is different” is an appealing idea
+because it means we don't have to do any studying of how things have
+behaved in the past, but it is rarely true.
+Conclusion
+Implied volatility tends to be an upward-biased estimator of the future
+realized volatility. This is the most important empirical fact to a volatility
+trader. The effect applies to most underlying situations and has existed for as
+long as we have data to look at. There are a large number of economic,
+distributional, and psychological reasons for the variance premium. Although
+it could be diminished by the emergence of more institutions trying to capture
+it, I doubt that it will ever disappear completely.
+Summary
+Historically it has been profitable to be short options. There are
+persuasive arguments that suggest that this will continue.
+Floor trader sayings: “If in doubt, hands out” and “Whenever an option
+trades good market-makers will know if they want to buy or sell at that
+price, and if they are unsure they should sell.”
+...
+CHAPTER 5
+Finding Trades with Positive Expected
+Value
+In Volatility Trading I wrote, “There is no attempt here to give a list of
+trading rules. Sorry, but markets constantly evolve, and rules rapidly
+become obsolete. What do not become obsolete are general principles.
+These are what I attempt to provide. This approach isn't as easy to digest as
+a list of magic rules, but I do not claim markets are easy to beat, either.”
+This is still true.
+But I am going to give a list of edges. Edges aren't rules. And the difference
+is important. A rule is a defined way to monetize an edge, whereas the edge
+is an observed phenomenon that could potentially be profited from in many
+ways. Edges can persist.
+Aside: Crowding
+There is a common perception that crowded trades will have diminishing
+performance. Whether this is always true is unclear, and it was addressed in
+the context of factor investing by Baltas (2019).
+First, it is unclear what exactly is meant by crowded. Sometimes it is taken
+to mean the size of a particular subindustry (e.g., high-frequency trading
+firms), who are then exposed to the effects of a broad unwinding (such as
+the “quant meltdown” of August 2007 or the volatility ETN problems of
+February 2018). It can also relate to market capacity. Generally, the idea
+encapsulates a number of situations in which the unintentional coordinated
+actions of traders create feedback effects.
+Exactly how these feedback events unfold depends on the dynamics of the
+specific strategy. Baltas classifies strategies into either convergence or
+divergence strategies. Convergence strategies, such as value investing, have
+a natural target price. This creates a stabilizing effect. Crowding will help
+the realization of profits in convergence strategies.
+Divergence strategies, such as trend-following, have no anchoring price.
+The more these assets go up, the more are bought. This creates a
+destabilizing feedback effect. In the short term this will help profits, but it
+will eventually lead to a bubble and a subsequent crash.
+Baltas postulated that crowdedness could be quantified by looking for
+increases in co-movements of assets beyond their beta (an idea first stated
+by Cahan and Luo, 2013). For example, if all value stocks started more
+strongly moving together, this would be an indicator of a crowding increase
+in this factor.
+Baltas tested his convergence/divergence idea by using global equities data
+from September 2004 to May 2018, the constituents of the S&P GSCI
+Commodity Index from January 1999 to May 2018, and 26 currency pairs
+from January 2000 to May 2018. For the stocks, he studied the value, size,
+momentum, quality (return on assets), and low beta factors. For
+commodities he looked at momentum. And for currencies he examined
+momentum and value (defined by purchasing power parity). His thesis
+about how crowding affects various strategies was broadly confirmed. In
+the presence of a natural target, crowding stabilized markets. If there was no
+natural target value, crowding was a destabilizing factor.
+An important caveat to these results is that the presence of leverage can be
+overwhelming regardless of the specific trade dynamics. For example,
+LTCM employed an ostensibly mean-reverting strategy, trading the spread
+between off-the-run and on-the-run treasuries. They employed huge
+leverage, and so did their prime brokers who copied the trade. When the
+spread widened, traders were forced to deleverage. This pushed the spread
+further against them creating a destabilizing feedback loop. What should
+have been a stable trade was turned into an unstable one by excess leverage.
+An example of products being caught in a destabilizing feedback loop were
+the VIX ETN's in February 2018.
+On Friday, February 2, the S&P 500 dropped 2.1% and the VIX rallied
+28.5% from 13.47 to 17.31. This was a large move: at the time it was the
+34th largest in history. But Monday, February 5, was truly exceptional. The
+S&P 500 dropped 4.2%, but the VIX rallied 115.6%. This was the largest
+VIX move ever and nearly twice the previous record of 64% (and in that
+case the move was only from 11.15 to 18.31). As the VIX was only
+implying a daily move of about 1% the S&P 500 return was a genuinely
+large event. However, the response of the VIX was well out of line with an
+underling move of that size. A linear regression model linking the S&P 500
+returns to the VIX returns predicted that a 4.2% drop in the equity index
+would correspond to a 12.8% move in the VIX. The actual VIX increase
+was nine times the expected amount.
+On the next day the VIX had its largest range ever, with a low of 22.42 and
+a high of 50.3 (the 70th highest value recorded).
+I've seen nonpublic results for volatility fund returns in these few days
+ranging from up 25% to down 95%. And some of the losers were large
+funds. One operation with assets close to a billion dollars lost 89%. The
+median was a loss of about 30%. Some of these volatility funds lost money
+by being short index options but the option space losses appear to have been
+relatively benign compared to those experienced in the VIX ETNs.
+The first volatility ETN was VXX, which was listed in 2009. It was
+designed to match the returns of a (hypothetical) 30-day VIX future. In
+2010, XIV was launched with the stated aim of delivering the returns of a
+short position in the 30-day VIX future. These, and the other similar
+products that followed, proved immensely popular. First, they gave
+investors who were unable to trade futures a way to speculate on implied
+volatility. Second, their returns were relatively predictable. This is due to
+the contango effect in the VIX futures. To maintain a 30-day notional
+exposure, the manager of VXX must sell front month futures and buy
+second month futures. As about 80% of the time the second future trades at
+a premium to the first, this means that the VXX rebalancing process usually
+must sell low and buy high. Conversely XIV benefits from this effect. As a
+result, since its launch until the end of 2017, VXX had decayed from a split-
+adjusted price of 107090 to 27.92. XIV had increased from 9.56 to 134.44.
+Short volatility products had become more popular in 2016 and 2017
+because the realized volatility of the S&P 500 index was very low and the
+contango decay was very high. Open interest increased enormously and
+resulted in crowding in these products prior to the crash in February 2018.
+In VXX alone, short interest increased nearly 1300% from the end of 2013
+to the end of 2017.
+It is obvious that a 100% rally in the VIX 30-day future would drive XIV to
+zero; however, conditions for termination (named acceleration in the
+prospectus) didn't even require this. From the prospectus,
+“…an Acceleration Event includes any event that adversely affects our
+ability to hedge or our rights in connection with the ETNs, including, but
+not limited to, if the Intraday Indicative Value is equal to or less than
+20% of the prior day's Closing Indicative Value.”
+In this eventuality,
+“… you will receive a cash payment in an amount (the ‘Accelerated
+Redemption Amount’) equal to the Closing Indicative Value on the
+Accelerated Valuation Date.”
+It is important to stress that XIV is an ETN, not an ETF. An ETF owns the
+stocks, bonds, or commodities that make up the portfolio, whereas the ETN
+is merely a note that pays the return on the portfolio. Whether and how the
+issuers hedge their obligations is up to them. This means that there is no
+direct way to create an arbitrage between the ETN and its fair value. This
+led to severe dislocation between the fair value of XIV and its price on
+Monday afternoon. By the close, the one-month future had risen by 45%,
+yet XIV had only dropped by 15%. Directly after the stock market close the
+VIX futures spiked to an increase of 100% on the day, which triggered the
+acceleration event in XIV.
+This after-hours jump was not due to any nefarious manipulation. Around
+the close, ETNs rebalance their exposures to the VIX. So, on this day, short
+VIX ETNs needed to buy futures to reduce their exposure and long VIX
+ETNs needed to buy VIX to increase exposure. This severe buying pressure
+created a large imbalance and drove the price higher. Even if the actual
+product issuers were hedged with swaps, the counterparties to those
+agreements would have needed to hedge.
+Lessons
+It is never good to be so leveraged that you are forced to exit a trade.
+ETNs are more dangerous than ETFs.
+It is dangerous to be in a strategy or product that has to make trades
+and has no discretion in doing so.
+It is even more dangerous when other people know what you need to
+do and can push the market against you.
+“The day you say you have to do something, you're screwed. Because
+you are going to make a bad deal.”
+—Billy Beane, general manager of the Oakland As from Moneyball
+by Michael Lewis
+Trading Strategies
+I assign each edge a rating on a scale of one to three with three being the
+best. This is a subjective score based on the amount of empirical and
+theoretical support, the longevity of the effect, and the volatility of the
+associated trade results. I also suggest ways to implement each effect. These
+are also subjective.
+Confidence Level Three
+These strategies are based on effects that have been well documented over
+either many markets or time periods. They also have convincing theoretical
+bases. These can form the majority of a trader's strategy portfolio.
+Implied Volatility Term Structure as a Predictor 
+It is well known that
+the term structure of commodity futures is a predictor of future returns (see,
+for example, Erb and Harvey, 2006; Gorton and Rouwenhorst, 2006;
+Gorton et al., 2013). When a commodity has a term structure in contango
+(long-dated futures more expensive than short-dated futures), it is profitable
+to short the futures. And when futures are in backwardation (long-dated
+futures cheaper than short-dated futures), it is profitable to buy futures.
+Essentially, the cash price is a better predictor of futures prices than the
+futures are. The way convergence happens at expiration is that the futures
+move toward the cash price. This is not what is predicted by the rational
+expectations hypothesis. Rational expectations say that the futures prices
+are unbiased predictors of the future value of the cash price. If this was true,
+the basis would have no predictive power.
+The effect also exists for VIX futures. Simon and Campasano (2014)
+present evidence that the futures can be predicted by looking at the basis.
+That is, if the futures are trading over the index, VIX, the futures will tend
+to fall, and if the futures are trading below the index, they will tend to rise
+(see Chapter Four).
+The VIX term structure is usually in contango at low VIX levels and in
+backwardation when the VIX is high. This means the term-structure
+anomaly is often in conflict with the mean reversion of the VIX. Mean
+reversion would encourage you to buy futures at low VIX levels even in the
+presence of contango. However, it seems that the term structure is usually a
+stronger predictor of futures' returns. The exception would be when the VIX
+is at very high levels.
+This is probably why the term-structure effect fails to apply to the cross-
+section of equity option returns. Vasquez (2017) found that long straddle
+portfolios with high contango in the volatility term structure outperformed
+straddle portfolios with low contango or backwardation. My guess is that
+this is because the entire universe of stocks contained enough examples of
+extreme cases for mean reversion to dominate.
+This effect has existed in commodity futures for at least as long as we have
+had data to look at. This points to it being a mispriced risk premium.
+Keynes's (1930) theory of normal backwardation says that producers hold
+short futures positions to hedge against price drops. They are prepared to
+pay a premium for this insurance. However, you can also argue exactly the
+opposite side: consumers take long futures positions in order to hedge
+against unexpected future price rises. So, they should pay an insurance
+premium. The debate continues.
+Trading Strategy
+Sell VIX futures or index options when the term structure is in contango.
+Buy VIX futures or index options when the term structure is in
+backwardation.
+Options and Fundamental Factors
+It is now well accepted that certain factors predict future stock returns. This
+is the idea behind “smart beta.” Value stocks outperform growth stocks.
+Small-cap stocks outperform large-cap stocks. Low-beta stocks outperform
+high-beta stocks. High-momentum stocks outperform low-momentum
+stocks. High-quality stocks outperform low-quality stocks.
+Factor investing is not a new idea. Academic studies began with the
+development of the capital asset pricing model (CAPM) by Treynor (1962),
+Sharpe (1964), Lintner (1965), and Mossin (1966), which suggested that
+individual stock returns were driven by the broad market. Expanding this
+idea, the arbitrage pricing theory (APT) of Ross (1976) modeled stock
+returns as driven by many different factors. Unfortunately, the model did
+not say what these factors were, but nonetheless APT gave a solid
+theoretical underpinning to the idea of factor investing. Once a theoretical
+basis was established its implications could be tested and explored. This led
+to academics discovering a number of different investing factors or
+“anomalies” (so named because they didn't fit into the world of CAPM).
+What is less well known is that similar fundamental factors also predict
+volatility returns. The number of studies that relate factors to volatility is
+much smaller than the literature on smart beta stock returns and
+unfortunately researchers haven't studied exactly the same factors as each
+other.
+I did a study constructing option trading strategies based on P/E (the price-
+to-earnings ratio or the current stock price divided by the previous year's
+earnings per share), P/B (the price-to-book ratio or the current stock price
+divided by the previous year's balance sheet assets), RoA (the return on
+assets), RoE (the return on equity or the return on assets after all liabilities
+have been settled), market capitalization (the dollar value of the company's
+outstanding shares), D/E (the debt-to-equity ratio), and P/CF (the ratio of
+the stock price to the previous year's cash flow per share).
+The universe of stocks considered was the S&P 100 after excluding
+financial companies. Naive application of accounting metrics can give a
+misleading picture of financial companies because their business is based
+on providing loans. So, their “assets” are actually liabilities, which makes
+things confusing. The time period we looked at was from the start of 2000
+through to the end of 2012. On the Friday of each week I ranked all the
+stocks according to the valuation metrics and then formed an option
+portfolio based on this ranking by selling straddles on the top quartile of
+stocks and buying straddles on the bottom quartile. Specifically, we traded
+at the money straddles in the second monthly expiry. Each trade is done in a
+notional size of $10,000. For example, on a $100 stock we would trade one
+straddle (each straddle controls 100 shares and each share is worth $100).
+Correspondingly, we would trade two straddles on a $50 stock. Under
+standard strategy-based margin this sizing choice gives a margin of roughly
+$100,000. Portfolio margins would be considerably smaller. This portfolio
+is held for a week, then the process is repeated.
+P/E Straddle Trading Results
+Long options on low P/E stocks and short options on high P/E stocks
+Average weekly PL: $294
+Best week: $21,111
+Worst week: −$8,111
+Sharpe ratio: 1.03
+P/B Straddle Trading Results
+Long options on high P/B stocks and short options on low P/B stocks
+Average weekly PL: $48
+Best week: $12,094
+Worst week: −$7,246
+Sharpe ratio: 0.24
+Market Capitalization Trading Results
+Long options on high-cap stocks and short options on low-cap stocks
+Average weekly PL: $355
+Best week: $15,532
+Worst week: −$23,077
+Sharpe ratio: 1.17
+P/CF Straddle Trading Results
+Long options on low P/CF stocks and short options on high P/CF
+stocks
+Average weekly PL: $198
+Best week: $22,235
+Worst week: −$13,637
+Sharpe ratio: 0.71
+D/E Straddle Trading Results
+Long options on high D/E stocks and short options on low D/E stocks
+Average weekly PL: $338
+Best week: $25,382
+Worst week: −$5,292
+Sharpe ratio: 1.16
+RoE Straddle Trading Results
+Long options on high-RoE stocks and short options on low-RoE stocks
+Average weekly PL: $361
+Best week: $16,922
+Worst week: −$19,102
+Sharpe ratio: 1.20
+RoA Straddle Trading Results
+Long options on high-RoA stocks and short options on low-RoA
+stocks
+Average weekly PL: $220
+Best week: $16,539
+Worst week: −$21,702
+Sharpe ratio: 0.72
+The results of the P/B strategy are disappointing, but the others are good.
+The results can be summarized simply. Try to be long volatility (or options)
+in stocks with these characteristics:
+Low P/E
+Low P/CF
+High market cap
+High RoE
+High RoA
+High D/E
+These are classic indicators of “value” stocks apart from the high debt-to-
+equity ratio. This is a strange anomaly. High debt to equity (or high
+leverage) implies a higher risk of bankruptcy. This would clearly be a high-
+volatility event for the stock. However, these are all large companies that
+have presumably a very low chance of going bankrupt. Also, high leverage
+could imply that the bond market sees value in the company. Disentangling
+this conundrum would involve further work. Does the effect hold in smaller
+companies? Does it matter how the leverage reached current levels? It could
+well be that high leverage resulting from a declining stock price is very
+different from high leverage from new bond issuance. Does the
+creditworthiness of the debt matter more than the absolute size of the debt?
+We can combine our findings to construct a portfolio of options that is long
+“value” volatility and short “growth” volatility. To do this we first create a
+combined ranking consisting of one-sixth the P/E ranking plus one-sixth the
+P/CF ranking and so on. This portfolio has these results:
+Portfolio Straddle Trading Results
+Average weekly PL: $476
+Best week: $18,963
+Worst week: −$9,429
+Sharpe ratio: 1.44
+A similar study was done by Cao et al. (2015). They studied delta-hedged
+option returns for US equity options from 1996 to 2012. They found that
+long volatility positions profits increase with size, momentum, and
+company profitability and decrease with cash holding, analyst forecast
+dispersion, and new issuance. These option returns are independent of any
+associated underlying predictability.
+Their study showed the profitability of portfolios sorted into deciles. The
+long-short 10/90 portfolios had monthly returns of the order of 3% to 5%.
+(As usual this was calculated on the notional value of the positions. This
+makes sense for long positions but not for short positions, where a risk-
+based margin number would be a more appropriate denominator.) Sharpe
+ratios were between 0.6 and 2.0.
+There is a lot more work that could be done along these lines and this
+research raises a lot of questions. For example, how independent are these
+various measures of value when applied to option trading? Are these results
+independent of the results from time series analysis? How do these results
+change across industry groups?
+As always, the phenomena are more important than the particular
+implementation. The best way to trade this is probably to build a factor
+portfolio instead of doing single factor sorts. Alternatively, the fundamental
+factors could be used to directly forecast volatility. Trading options based
+on smart beta is still a new and unexplored idea, but it is probably a more
+promising avenue than trying to improve time series–based forecasts.
+Generally speaking, there are two views as to why factor returns exist: risk
+and investor behavior. The risk school of thought says that the return is
+simply reward for bearing some sort of risk. For instance, the equity market
+premium is a result of the greater uncertainty associated with owning stocks
+as opposed to bonds. This explanation fits well with mainstream economic
+theory but sometimes it is a little hard to figure out what exact risk is being
+compensated for. As an example of this, volatility is usually associated with
+risk, but historically low volatility stocks have outperformed high-volatility
+stocks. The behavioral explanation contends that investors systematically
+make decisions that cause these anomalies. Again, these arguments seem
+more persuasive in some cases than in others. Momentum, for example, has
+plausible behavioral roots but in other cases trying to identify a
+psychological reason for a factor seems like merely searching for a tidy
+explanation, rather than doing real science and following the data. These
+explanations are summarized in Table 5.1.
+Whether stock smart beta is inefficiency due to behavioral biases or risk
+premia is still being debated. And even if that dispute is resolved, the
+corresponding volatility effect will probably still be argued over. However,
+applying factor analysis to options trading is where I will be spending most
+of my future research efforts. It is a very new field so the risk and
+uncertainty is high, but I'm sure it is better to deal with this than to try to
+scratch another tiny improvement from a time-series method.
+TABLE 5.1 Postulated Risk and Behavioral Reasons for the Smart Beta
+Factors
+Factor
+Risk Explanation
+Behavioral Explanation
+Size
+Smaller firms are less able to
+weather bad periods and have
+less diversified businesses.
+Smaller firms are generally
+poorly covered by analysts,
+which leads to investor
+uncertainty.
+Value
+Cheap stocks tend to be those
+of the companies that perform
+worst in periods when the
+overall economy is suffering.
+Investors pay too much
+attention to recent stock
+performance and overly fear
+distressed situations.
+Momentu
+m
+Momentum can lead to bubbles
+and crashes.
+Underreaction: new
+information is not
+incorporated into prices
+instantaneously.
+Quality
+It is harder for a high-quality
+company to improve. It may
+High-quality firms may be
+“too good to be true.”
+Factor
+Risk Explanation
+Behavioral Explanation
+only have downside.
+Post-Earnings Announcement Drift (PEAD)
+Post-earnings announcement drift (PEAD) is the tendency for a stock to
+continue to move in the direction caused by an earnings surprise. The first
+study of this effect was by Beaver (1968), who showed that prices react to
+the information content in earnings reports. Ball and Brown (1968) found
+evidence that stock returns continue to drift in the same direction as
+unexpected earnings. That is, stock prices tend to increase (decrease) after
+earnings announcements with positive (negative) earnings surprises. This
+wasn't greatly shocking. What was unexpected was that the outperformance
+didn't happen abruptly but accumulated over three months. The stock prices
+did incorporate the news but did so slowly. In fact, the prices reacted so
+slowly that the effect was tradable. This effect is inconsistent with the
+concept of efficient markets, where the information contained in an
+earnings report should be quickly incorporated in prices, but even one of the
+inventors of EMH acknowledges the existence of the anomaly (Fama,
+1998).
+He wrote in the abstract, “Most long-term return anomalies tend to
+disappear with reasonable changes in technique” or when “alternative
+approaches are used to measure them” (p. 288), but concluded, “Which
+anomalies are above suspicion? The post-earnings announcement…has
+survived robustness checks, including extension to more recent data.” He
+has also written that PEAD is the only anomaly that is “above suspicion”
+(p. 304).
+Early research focused on the change in year-over-year earnings. But in the
+1980s the consensus of analyst forecasts became available. This enabled the
+magnitude of the earnings surprise to be defined as the percentage
+difference between the reported EPS and the consensus forecast. Sorting
+stocks on the basis of this surprise gave the same result. Further, it seems
+that the effect of the earnings report isn't limited to the headline EPS
+number. The momentum created by the earnings report is a follow-through
+of the initial price move based on the entire report, rather than being due to
+any single accounting number.
+Bernard and Thomas (1989, 1990) show that the drift is robust to risk
+adjustments, cannot be attributed to market frictions, and is not due to
+model misspecification, standard risk factors, or flaws in research design.
+These conclusions have been verified in many subsequent studies. PEAD
+seems more likely to be an inefficiency than a risk premium.
+There is some evidence that it is most pronounced in firms that report after
+their direct competitors and have earnings that outperform those firms by a
+surprising amount (Lee, 2017).
+The effect is remarkably robust. Long-short stock portfolios based on the
+size of the surprises have been shown to return 9% to 27% annually,
+depending on the sorting method (deciles, quartiles, etc.), the definition of
+surprise, and whether returns are raw or adjusted with respect to sector,
+beta, size, value, and momentum.
+Many studies (for example, Foster et al., 1984; Bernard and Thomas, 1989;
+Watts, 1978) have shown that the anomalous drift occurs over a period of
+months. Almost all of the drift occurs within 9 months for small firms and
+within 6 months for large firms. And a disproportionate amount of the
+return occurs within 5 days of the earnings announcement (13% for small
+companies, 18% for medium companies, and 20% for large companies).
+Unfortunately, what is not clear is why this anomaly exists.
+A number of behavioral explanations have been proposed. If the effect is
+predominantly caused by psychological biases, that would point to PEAD
+being an inefficiency rather than a risk premium. Some research (for
+example, Daniel et al., 1998) suggests that investor overconfidence causes
+investors to be anchored to the pre-earnings price and incorporate the new
+information only slowly.
+Another possibility is that investors don't have the time and resources to
+process the new information quickly. DellaVigna and Pollet (2009)
+postulate that this effect is even more pronounced on Fridays when investor
+attention is at its lowest. Although this seems like a reach or a post-hoc
+justification of data mining, a long-short portfolio of stocks announcing on
+Friday did outperform a portfolio based on stocks that announced on other
+days (9.76% over the subsequent 75 trading days versus 5.14%). Hirshleifer
+et al. (2009) also reason that information processing capacity is a reason for
+the anomaly. They show that a hedged portfolio constructed from stocks
+that announce on days with few other releases underperform a portfolio of
+stocks that announce on busy days (2.81% quarterly compared to 5.37%).
+Bartov et al. (2000) show that firms with high institutional ownership have
+lower PEAD. They suggest that this is because these supposedly more
+sophisticated investors are faster to absorb the new information. Similarly,
+Taylor (2011) shows that the anomaly is largest for stocks where retail
+traders trade against the direction of the initial price spike. Further, he also
+finds a positive correlation between PEAD size and transaction costs, which
+presumably are proportionally a lower deterrent to larger investors due to
+their more sophisticated execution methods and access to a wider range of
+liquidity sources.
+There are also explanations that ascribe PEAD to a risk factor. For this to be
+true firms with positive (negative) earnings surprises must become riskier
+(less risky) after the release. It is well accepted in classical finance that
+stocks with higher returns are riskier, and if we are looking for a rational
+expectation explanation we need to accept this as true. The harder thing to
+explain is why stocks become riskier immediately after the earnings report
+is published. Despite attempts to do this (Bernard and Thomas, 1989) no
+convincing supporting evidence has been discovered.
+In summary, the available evidence suggests that PEAD is an inefficiency,
+albeit a very persistent one.
+Trading Strategy
+Because implied volatility tends to be comparatively cheap after earnings
+releases (although this isn't enough to profit from delta-neutral volatility
+strategies; see Chung and Lewis, 2017), this is an effect that can be traded
+from the long side. For stocks with positive earnings surprises, being long a
+short-dated 40 delta/10 delta call spread is usually a cheap way to leverage
+PEAD. For bearish positions a 50 delta/20 delta put spread achieves the
+same effect while also selling one of the most expensive parts of the
+implied volatility curve.
+An alternative approach is to sell a covered call or put. Although the
+variance premium being collected won't be significant, this method is
+guaranteed to profit if any drift occurs at all.
+Confidence Level Two
+These strategies are not as promising as those of level three. They may be
+lacking in empirical evidence or theoretical justification. Or they could
+provide more limited opportunities in some way. Nonetheless, a trader can
+be reasonably confident when using these strategies.
+Trading Equity Options over Earnings
+Announcements
+The front-expiration implied volatility will almost always rise significantly
+in the weeks before a company's earnings release. After the release the
+implied volatility will collapse. This effect has been known since at least
+1979 (Patell and Wolfson, 1979).
+Buying options before the release is profitable (Chung and Lewis, 2017).
+And even in cases when the options do not increase in price, the rise in
+implied volatility gives a very cheap long position where the vega profits
+negate most of the time decay.
+I conducted a test of this effect in Sinclair (2013). Using data for 73 large
+cap stocks from Q1 2005 to Q3 2010, a strategy of buying front expiration,
+ATM straddles 10 trading days before the earnings release had these results:
+Forty-three percent of trades were profitable.
+Win size/loss size was 1.70.
+Results were skewed positively (skewness of 5.4) and fat-tailed
+(excess kurtosis of 76.6).
+Putting a $10,000 notional size bet on each trade led to the cumulative P/L
+curve of Figure 5.1.
+FIGURE 5.1 Results of the long straddle strategy.
+A far more comprehensive study was completed by Gao et al. (2017). They
+bought delta-neutral straddles three days before the earnings announcement.
+In the period 1996 through 2013, selling a day before the release gave a
+return of 1.9%, selling on the release day returned 2.60%, and holding for a
+day after earnings had a return of 1.98%. (All of these returns were
+calculated using mid-market prices.) These time periods are not entirely
+independent. Some companies on the earnings date report before the open
+and some after the close. So the second group includes both pre- and post-
+report companies. Notably, holding the straddle for a full day after earnings
+had a lower return than selling on the release date. This indicates that the
+return on the straddle is negative after earnings are announced.
+The authors don't present a separate study for the post-earnings period. But
+using my smaller sample, I directly tested a short volatility strategy. As
+close as possible before earnings, sell the front straddle and hope that the
+collapse in implied volatility compensates for the movement of the
+underlying.
+The results are as follows:
+Sixty-four percent of trades were profitable.
+Win size/loss size was 0.69.
+Results were skewed negatively (skewness of negative 5.4) and fat-
+tailed (excess kurtosis of 12.2).
+FIGURE 5.2 Results of the short straddle strategy.
+Putting a $10,000 notional size bet on each trade led to the P/L curve of
+Figure 5.2.
+There haven't been many published studies of this effect and the sample
+size of my study is very small, so it is dangerous to draw any conclusions
+about the profitability of subcategories of stocks. However, it seems that
+there is a small tendency for this strategy to fare poorly with high PE
+stocks. Studies have shown that such growth and value stocks do react to
+earnings differently and this effect might be related (He et al., 2010).
+However, the difference is so weak it can probably be ignored.
+There was no significant relationship was between profitability of the
+option strategies and industry or company size. However, there is a link
+between the dispersion of analyst estimates (defined as high estimate–low
+estimate)/average estimate) and profitability. Trading the effect on stocks
+with high dispersion is more profitable. High dispersion literally means that
+the analysts disagree about the unreleased earnings, a situation of
+uncertainty. The profitability of option trades with edge, either from the
+long or short side, is generally tied to uncertainty.
+Other signifiers of uncertainty are with higher historical volatilities, larger
+historical earnings surprises, and more volatile earnings surprises. The
+strategies also perform better in these cases. Gao et al. (2017) also found
+that the strategy was more profitable in stocks that were covered by fewer
+analysts.
+There are likely two reasons for this. High uncertainty leads to a greater
+increase in implied volatility, so we will be selling the options at a good
+price. But we also benefit from the uncertainty in the actual move of the
+stock price that happens due to the release. Stocks move when news comes
+out. News is something contrary to expectations. Uncertainty implies no
+coherent expectations. There can be no “surprise” if no one agrees on what
+to expect.
+The fact that pre-earnings long straddles are profitable makes it unlikely
+that this effect is due to a risk premium. Gao et al. (2017) postulate that one
+reason for the underestimation of uncertainty is the difficulty of extracting a
+signal from sparse, noisy past information. This seems plausible.
+Separating the effect into the pre-earnings implied volatility increase and
+the post-earnings implied volatility collapse and stock price adjustment
+makes finding possible explanations easier. The pre-earnings situation
+seems to be driven by similar factors to PEAD. That is, investors can
+process the information only from previous earnings results slowly and
+inefficiently. This is consistent with the link to analyst coverage and
+estimate dispersion. However, unlike the case of PEAD, there have been no
+further studies to test this idea. The profitability of the post-earnings
+straddle sales could be due to ambiguity aversion. But, again, this has not
+been independently verified or studied.
+The short side of this strategy hasn't done well recently (2016–2018). I
+think this is probably a temporary, variance-driven period of poor
+performance. Usually, selling options before situations of uncertainty is a
+good trade. I still think that is the case here. As any casino knows,
+sometimes the customers have to win. Otherwise they won't come back.
+Trading Strategy
+On the long side, buy the shortest-dated straddles that span the earnings
+date. Or, if the smile is relatively flat, strangles are a higher risk/higher
+reward play.
+On the short side, sell the shortest-dated straddles that span the earnings
+date. After the earnings release, either buy the straddle back (generally
+preferable if the trade is a winner), or, if the stock has a big move, hedge the
+losing leg as 100 delta. Over-hedging one side of the trade usually works
+due to PEAD, and the short-dated options not giving the stock enough time
+to reverse. Stocks in which the earnings number is outside of the most
+extreme estimates are most likely to not reverse.
+The Overnight Effect
+The index variance premium is realized overnight. Muravyev and Ni (2018)
+wrote a paper that studies this. Although it is very well known that returns
+to index options are negative (about −0.7% a day in terms of actual
+premium decay for the S&P), it turns out that all of this comes from
+overnight decay. Specifically, delta-hedged option returns are −1%
+overnight, and intraday returns are positive at 0.3% per day. The anomaly
+holds for options of all maturities and moneyness and also equity options.
+This can be partially explained by the fact that overnight returns are less
+volatile than intraday returns (since 2000 the S&P has had an annualized
+volatility of 10.4% overnight and 15.9% during the day). The effect is also
+consistent with the variance premium being a mispriced risk premium. The
+risk is much higher during the untraded (or illiquid) hours. We get paid for
+taking the risk of having a bet that we can't get out of or hedge if it goes
+against us.
+Trading Strategy
+Being short options overnight and flattening during the day is impractical
+due to transaction costs. Instead the best way to profit from this is to sell
+very short-term options that include as many overnight periods as possible.
+For example, instead of selling daily options on the morning of expiration,
+sell them the night before.
+FOMC and Volatility
+The most important news for an equity is the earnings release. The
+equivalent for the broad market is the monetary policy decision of the
+Federal Reserve Open Market Committee (FOMC). And, just as company
+earnings releases lead to predictable pre-event price drift and post-event
+volatility collapse, analogous phenomena occur in the broad market around
+the FOMC announcements.
+In “When No News Is Good News—The Decrease in Investor Fear after
+FOMC Announcements” Fernandez-Perez et al. (2017) show that the VIX
+and VIX-Futures drop significantly after the announcements of the meeting.
+From their abstract, “We find that the VIX and the VIX futures start to
+decline immediately after the FOMC announcement, and this decline
+persists for about 45 minutes after the announcement. The VIX declines by
+about 3% on announcement days, whereas the nearest term VIX futures
+contract declines about 1.4% around the announcement.”
+Similar results have been obtained by others. Nikkinen and Sahlström
+(2004) showed that the VIX index declined after FOMC announcements,
+CPI and PPI releases, and the Non-farm Payroll report. Chen and Clements
+(2007) and Vähämaa and Äijö (2011) replicated the results for the VIX.
+Gospodinov and Jamali (2012) found both implied and realized volatility
+dropped after the release and any initial market reaction. Fuss et al. (2011)
+showed that German equity implied volatility decreased after the release of
+GDP, CPI, and PPI data, and Shaikh and Padhi (2013) confirmed the effect
+in the Indian market.
+The stock earning's related volatility collapse has to be played with options.
+Implied volatility will reliably collapse following the news release, but this
+will generally be partially offset by an increase in realized volatility.
+Trading the FOMC-related implied volatility collapse with VIX futures
+avoids this problem. We can trade an implied effect with an implied
+contract and have no realized volatility exposure.
+Why does implied volatility collapse? Ederington and Lee (1996) argued
+that the release of prescheduled news can be viewed as the resolution of
+uncertainty, and an announcement reduces the degree of future uncertainty,
+and hence implied volatility, left in the market.
+This effect can be combined with a directional anomaly. Equity market
+returns have been about 30 times larger on announcement days than on
+normal days. Surprisingly most of these excess returns occur before the
+announcement (Lucca and Moench, 2011). Stocks tend to rally strongly in
+the day and a half before the announcement.
+It is difficult to think of a convincing risk-based reason for these returns.
+Although investors holding stocks over the announcement period are
+exposed to jump risk, the excess return occurs mainly before the
+announcement. So, it is possible to sell the stocks before the news and earn
+the return without taking this risk. Further, realized volatility is lower than
+usual before the release. Market risk is actually lower than normal in the
+period when the excess returns are generated.
+It seems more likely that this is a market-wide version of the pre-earnings
+drift seen in individual equities. As in that case, investors buy stocks
+because of an attention-grabbing event (see Barber and Odean, 2008;
+Lamont and Frazzini, 2007).
+Trading Strategy
+Buy S&P 500 futures two days before the FOMC release. Sell these before
+the announcement and at the same time sell VIX futures. Cover the short
+VIX futures 45 minutes after the announcement.
+The Weekend Effect
+Equity options decay more than expected over weekends. The variance
+premium is probably the most important effect in option trading. On
+average options are overpriced. But the premium doesn't accrue
+consistently: some periods are better than others. In particular, options lose
+more value over weekends than over other equivalent time periods.
+Market-makers have been arguing about this for a long time. One group
+said it was smart to sell options to “collect theta.” The other side said that
+idea was stupid because an edge could only exist when one side had an
+information disadvantage. Everyone had a calendar, so why would there be
+an edge purely due to the passing of time? The market would price the risk
+of holding options over the weekend correctly.
+The “smarter” traders were in the second group. They were wrong. The
+options market does not correctly price weekend decay. It is profitable to
+sell options over the weekend.
+Christopher Jones and Joshua Shemesh studied this issue (2017). They
+looked at the returns of long option portfolios on US equities from 1996 to
+2007 and found the average return over the weekend was negative (0.62%)
+while the returns for all other days were slightly positive (0.18% a day).
+Having established that weekend returns are significantly lower than those
+of other days, the authors went on to study other holidays, including long
+weekends. Their hypothesis was the effect was directly related to non-
+trading, which would imply lower returns would also be associated with
+other holidays, and the effect would be stronger over long weekends. This
+all seems to be true: returns on equity options are negative whenever the
+market is closed. It seems the effect exists because market-makers are not
+correctly adjusting the implied volatilities on Fridays to account for the
+upcoming weekend.
+This effect is significant. There is no general edge in selling many stock
+options (unlike index options, when being short is normally the way to
+lean), so this is a totally new effect, rather than a matter of just timing an
+entry. Also, the effect was consistent across years and was robust with
+respect to exactly how the portfolios were constructed.
+It seems likely that the same effect exists with index, bond, and commodity
+options, but this is untested.
+Trading Strategy
+On a Friday, sell the options that expire the next Monday. In general, time
+any short-volatility strategies to include as many non-trading periods as
+possible.
+Volatility of Volatility Risk Premia
+Options on products with high volatility of volatility tend to be overpriced.
+This is true both in the cross-section—options on stocks with high volatility
+of volatility are overpriced relative to options on stocks with low volatility
+of volatility—and in the time series—the VIX tends to decline (rise) after
+very high (low) values of the VVIX index.
+The first empirical study of this effect was done by Ruan (2017). Using data
+on US equity options from 1996 to 2016, he found that ranking stocks by
+the volatility of their implied ATM volatility showed that there was a strong
+and consistent negative relationship between delta-neutral long option
+positions and volatility of volatility.
+A similar study was independently carried out by Cao et al. (2018), who
+also studied US equity options. Again, using data from 1996 to 2016, they
+found that the delta-hedged returns of long option positions decreased in
+uncertainty of volatility. This was true whether they used implied volatility,
+time series volatility from daily returns (specifically EGARCH), or high-
+frequency volatility. Their results were robust with respect to idiosyncratic
+volatility, jumps, term structure, the implied–realized spread, liquidity,
+analyst coverage, and the Fama-French factors. They also showed that the
+effect was largely driven by volatility of positive volatility moves, and that
+volatility of negative volatility moves had a negligible effect.
+These studies leave little room to interpret this effect as anything other than
+a separate volatility of volatility premium. Ruan (2017) just states,
+“Investors indeed dislike uncertainty about volatility of individual stocks,
+so that they are willing to pay a high premium to hold options with high
+VOV [sic],” with no supporting argument. Cao et al. (2018) speculates that
+market-makers were charging a higher premium for options with high
+uncertainty of volatility, because those were more difficult to hedge. This
+might be a partial reason, but it doesn't take into account the time-series
+result that shows high volatility of volatility predicts a fall in subsequent
+implied volatility. This effect is independent of hedging issues.
+The relationship between high VVIX (the model-free implied volatility
+derived from VIX options) and subsequent lower VIX levels is very strong.
+Using VVIX data from 2007 through 2018, I calculated the rolling 1-year
+90th percentile of VVIX. Going forward, if the VVIX crossed above this
+level, I “sold” the VIX and “held” until VVIX reached its rolling 1-year
+median. This produced 31 hypothetical trades. The total “profit” was 108
+points. Twenty-seven trades were winners. “Buying” the 10th percentile
+was also “profitable,” making 62 points over 35 trades, 26 of which were
+winners. Clearly this particular idea cannot be implemented because the
+VIX is not a traded product, but I've included it to show that extreme VVIX
+is a strong predictor of the VIX (however, if we traded VIX futures, the idea
+is still profitable). No optimization was attempted. The idea also works if
+we use different look-back periods or moving averages instead of medians.
+This effect has been studied (far more rigorously) by others. Huang et al.
+(2018) showed that volatility of volatility significantly and negatively
+predicts delta-hedged long option payoffs. Park (2015) showed that high
+levels of VVIX raised the prices of S&P 500 puts and VIX calls and
+lowered their subsequent returns over the next three to four weeks (a similar
+time period to the average holding period in my simple test). He speculates
+that the effect is caused by either “risk premiums for a time-varying crash
+risk factor or uncertainty premiums for a time-varying uncertain belief in
+volatility.” Both of these are plausible but at this point there is no
+independent evidence for these causes.
+Trading Strategy
+When VVIX reaches extremely high (low) levels either sell (buy) VIX
+futures or sell (buy), and dynamically hedge, S&P 500 straddles.
+Confidence Level One
+The confidence-level-three strategies should form the core of a trading
+operation. But the ideas that I think are true but only give a confidence
+rating of one are also important. Trades based on market inefficiencies will
+be most profitable when the evidence for them is still underwhelming.
+Many inefficiencies will not survive long enough to reach my level three.
+So, although I wouldn't allocate a great deal of my portfolio to these ideas,
+they can still be very profitable.
+They also offer a way to deal with the desire to gamble. Many traders
+overtrade and need to always be involved in the market. Instead of denying
+this tendency, it is better to accept it and learn to accommodate this need by
+tinkering with small trades that still have expected edge. Level-one trades
+are perfect for this. This is like the idea of a “cheat meal” when dieting.
+Instead of trying to religiously stick to a diet it is better to accept that
+temptation exists and schedule regular times when you can eat garbage.
+Dieting increases cravings (Massey and Hill, 2012). There is solid
+psychological research that shows that dieters who include cheats do better
+than those who don't (do Vale et al., 2016). I expect that active traders are
+tempted to over-trade and that cheating helps them as well.
+Remember that cheats, whether in dieting or in trading, need to be kept
+small. If every meal is a cheat meal, you aren't on a diet. You will just get
+fat. And if every trade is a speculative one, you aren't a disciplined trader.
+You will just lose money.
+Earnings-Induced Reversals
+Earnings-induced reversals are the tendency of stocks that have drifted a lot
+before their earnings announcement to reverse the pre-announcement drift
+when the news breaks. This effect was first studied by So and Wang (2014).
+Using US equity data from 1996 through 2011, they created a trading
+strategy that shorted stocks with high market–adjusted returns in the period
+from four days before earnings through two days before earnings and went
+long those stocks with the worst pre-earnings market adjusted returns. (This
+seemingly odd time period was so that they could trade on the close of the
+day before earnings without using the trade price when choosing the
+portfolio. Obviously, a trader using intra-day data could use a different time
+period without “cheating.”) Liquidating the portfolio on the close after
+earnings they found this portfolio made 145 bps compared to the 22 bps
+earned by a similarly constructed portfolio during non-earnings periods.
+A similar study was done by Jansen and Nikiforov (2016). Simply fading
+stocks with large percentage moves in the week before earnings would have
+averaged 1.3% over 2-day periods.
+Jansen and Nikiforov (2016) speculate that the effect is due to investor
+overreaction in the pre-earnings period. Individual investors fear that they
+are missing information and trade in the direction of price changes, fueling
+the trend. After the announcement, the fear of being ignorant of information
+goes away and the pre-earning return is seen as excessive. This might be
+true. A similar effect is seen in sports gambling, when “steam chasers” bet
+on teams that have shortening odds on the suspicion that smart money is
+driving the price changes. But much more would need to be done before I
+am confident that this is an inefficiency. Currently the statistics are
+inarguable, but the reasons for them are close to a mystery.
+Trading Strategy
+I'm more confident in the collapse of implied volatility when earnings are
+released than I am of this reversal effect. So, when I trade both of these
+effects together I sell a straddle but shade the delta if I want to also bet on
+the reversal.
+Pre-Earnings Announcement Drift
+Pre-earnings announcement drift is the tendency of stocks to move in the
+direction of any earnings-related abnormal returns experienced by stocks in
+the same industry that reported earlier. This effect was first studied by
+Ramnath (2002), who investigated how information from the very first
+earnings announcer within each industry (the 30 industries identified by
+Fama and French, 1997) affects the prices of later announcers. He found
+that the earnings information for the earliest announcing firm within an
+industry predicts both the earnings surprise and the returns of other firms
+within the industry.
+This effect was later confirmed by Easton et al. (2010), who used not just
+the first reporter in each industry but also the effect of all the earlier
+announcing peers.
+The drift begins as the results from the early announcers are reported and
+continues up until the later announcing stock releases its earnings. The
+effect is above the industry beta, which measures the normal relationship
+between returns. If earlier reporting stocks all rally, we would expect later
+reporting stocks to also rally just due to industry exposure. Pre-
+announcement drift is a separate effect.
+Pre-earnings anomalies have not been studied nearly as much as post-
+earnings anomalies, so the evidence is comparatively weak, and it is not
+clear what causes the drift. As with PEAD, the pre-earnings move is
+plausibly due to underreaction to new information: here the earnings of the
+related companies. It could be that investor overconfidence causes them to
+be anchored to the pre-earnings price and incorporate the new information
+only slowly. A lot more study would be needed before we could be
+confident in this explanation. But there is no obvious risk factor that could
+explain the drift, so I would say, tentatively, that this is a market
+inefficiency.
+Trading Strategy
+As we also expect implied volatility to increase in the time leading to the
+earnings release, any long volatility directional strategy would be
+appropriate. For example, if we expect a rally, we could buy a call or call
+spread. My preference is for a 50 delta/20 delta, 1-month call spread. But
+tastes vary.
+Conclusion
+The idea that trading edges disappear as soon as they become public is an
+oversimplification. Markets vary in their ability to absorb new volume. A
+published edge will persist longer in the S&P 500 than in soybeans. Further,
+crowding affects different strategies in different ways. And risk premia will
+survive longer than inefficiencies.
+But unless noted, the edges listed in this chapter have been robust until now.
+It is quite possible that their size will diminish and even disappear but we
+have a fairly basic choice: go with the effect that has worked in the past and
+hope it continues or choose to do the thing that would have lost money in
+the past. Your choice.
+Summary
+It is worthwhile to search SSRN periodically to find new trading ideas.
+Many volatility trading edges involve selling options in situations of
+uncertainty. This can be viewed as an extra, situational variance
+premium.
+Because of the variance premium, long-volatility strategies are
+unlikely to have as much edge as those that involve selling options.
+...

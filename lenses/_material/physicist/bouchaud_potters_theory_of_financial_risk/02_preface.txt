@@ -1,0 +1,210 @@
+Preface
+Je vais maintenant commencer `a prendre toute la phynance. Apr`es quoi je tuerai tout le
+monde et je m’en irai.
+(A. Jarry, Ubu roi.)
+Scope of the book
+Finance is a rapidly expanding ﬁeld of science, with a rather unique link to applications.
+Correspondingly, recent years have witnessed the growing role of ﬁnancial engineering in
+market rooms. The possibility of easily accessing and processing huge quantities of data
+on ﬁnancial markets opens the path to new methodologies, where systematic comparison
+between theories and real data not only becomes possible, but mandatory. This perspective
+has spurred the interest of the statistical physics community, with the hope that methods and
+ideas developed in the past decades to deal with complex systems could also be relevant in
+ﬁnance. Many holders of PhDs in physics are now taking jobs in banks or other ﬁnancial
+institutions.
+The existing literature roughly falls into two categories: either rather abstract books from
+the mathematical ﬁnance community, which are very difﬁcult for people trained in natural
+sciences to read, or more professional books, where the scientiﬁc level is often quite poor.†
+Moreover, even in excellent books on the subject, such as the one by J. C. Hull, the point
+of view on derivatives is the traditional one of Black and Scholes, where the whole pricing
+methodology is based on the construction of riskless strategies. The idea of zero-risk is
+counter-intuitive and the reason for the existence of these riskless strategies in the Black–
+Scholes theory is buried in the premises of Ito’s stochastic differential rules.
+Recently, a handful of books written by physicists, including the present one,‡ have tried
+to ﬁll the gap by presenting the physicists’ way of approaching scientiﬁc problems. The
+difference lies in priorities: the emphasis is less on rigour than on pragmatism, and no
+† There are notable exceptions, such as the remarkable book by J. C. Hull, Futures, Options and Other Derivatives,
+Prentice Hall, 1997, or P. Wilmott, Derivatives, The theory and practice of ﬁnancial engineering, John Wiley,
+1998.
+‡ See ‘Further reading’ below.
+
+xvi
+Preface
+theoretical model can ever supersede empirical data. Physicists insist on a detailed compar-
+ison between ‘theory’ and ‘experiments’ (i.e. empirical results, whenever available), the art
+of approximations and the systematic use of intuition and simpliﬁed arguments.
+Indeed, it is our belief that a more intuitive understanding of standard mathematical
+theories is needed for a better training of scientists and ﬁnancial engineers in charge of
+ﬁnancial risks and derivative pricing. The models discussed in Theory of Financial Risk
+and Derivative Pricing aim at accounting for real markets statistics where the construction of
+riskless hedges is generally impossible and where the Black–Scholes model is inadequate.
+The mathematical framework required to deal with these models is however not more
+complicated, and has the advantage of making the issues at stake, in particular the problem
+of risk, more transparent.
+Much activity is presently devoted to create and develop new methods to measure and
+control ﬁnancial risks, to price derivatives and to devise decision aids for trading. We have
+ourselves been involved in the construction of risk control and option pricing softwares for
+major ﬁnancial institutions, and in the implementation of statistical arbitrage strategies for
+the company Capital Fund Management. This book has immensely beneﬁted from the
+constant interaction between theoretical models and practical issues. We hope that the
+content of this book can be useful to all quants concerned with ﬁnancial risk control and
+derivativepricing,bydiscussingatlengththeadvantagesandlimitationsofvariousstatistical
+models and methods.
+Finally, from a more academic perspective, the remarkable stability across markets and
+epochs of the anomalous statistical features (fat tails, volatility clustering) revealed by the
+analysis of ﬁnancial time series begs for a simple, generic explanation in terms of agent
+based models. This had led in the recent years to the development of the rich and interesting
+models which we discuss. Although still in their infancy, these models will become, we
+believe, increasingly important in the future as they might pave the way to more ambitious
+models of collective human activities.
+Style and organization of the book
+Despite our efforts to remain simple, certain sections are still quite technical. We have used a
+smaller font to develop the more advanced ideas, which are not crucial to the understanding
+of the main ideas. Whole sections marked by a star (∗) contain rather specialized material and
+can be skipped at ﬁrst reading. Conversely, crucial concepts and formulae are highlighted
+by ‘boxes’, either in the main text or in the summary section at the end of each chapter.
+Technical terms are set in boldface when they are ﬁrst deﬁned.
+We have tried to be as precise as possible, but are sometimes deliberately sloppy and non-
+rigorous. For example, the idea of probability is not axiomatized: its intuitive meaning is
+more than enough for the purpose of this book. The notation P(·) means the probability dis-
+tribution for the variable which appears between the parentheses, and not a well-determined
+function of a dummy variable. The notation x →∞does not necessarily mean that x tends
+to inﬁnity in a mathematical sense, but rather that x is ‘large’. Instead of trying to derive
+
+Preface
+xvii
+results which hold true in any circumstances, we often compare order of magnitudes of the
+different effects: small effects are neglected, or included perturbatively.†
+Finally, we have not tried to be comprehensive, and have left out a number of important
+aspects of theoretical ﬁnance. For example, the problem of interest rate derivatives (swaps,
+caps, swaptions. . . ) is not addressed. Correspondingly, we have not tried to give an ex-
+haustive list of references, but rather, at the end of each chapter, a selection of books and
+specialized papers that are directly related to the material presented in the chapter. One of
+us (J.-P. B.) has been for several years an editor of the International Journal of Theoretical
+and Applied Finance and of the more recent Quantitative Finance, which might explain a
+certain bias in the choice of the specialized papers. Most papers that are still in e-print form
+can be downloaded from http://arXiv.org/ using their reference number.
+This book is divided into twenty chapters. Chapters 1–4 deal with important results in
+probability theory and statistics (the central limit theorem and its limitations, the theory
+of extreme value statistics, the theory of stochastic processes, etc.). Chapter 5 presents
+some basic notions about ﬁnancial markets and ﬁnancial products. The statistical analysis
+of real data and empirical determination of statistical laws, are discussed in Chapters 6–8.
+Chapters 9–11 are concerned with the problems of inter-asset correlations (in particular in
+extreme market conditions) and the deﬁnition of risk, value-at-risk and expected shortfall.
+The theory of optimal portfolio, in particular in the case where the probability of extreme
+risks has to be minimized, is given in Chapter 12. The problem of forward contracts and
+options, their optimal hedge and the residual risk is discussed in detail in Chapters 13–15.
+The standard Black–Scholes point of view is given its share in Chapter 16. Some more
+advanced topics on options are introduced in Chapters 17 and 18 (such as exotic options,
+the role of transaction costs and Monte–Carlo methods). The problem of the yield curve, its
+theoretical description and some empirical properties are addressed in Chapter 19. Finally,
+a discussion of some of the recently proposed agent based models (in particular the now
+famous Minority Game) is given in Chapter 20. A short glossary of ﬁnancial terms, an index
+and a list of symbols are given at the end of the book, allowing one to ﬁnd easily where
+each symbol or word was used and deﬁned for the ﬁrst time.
+Comparison with the previous editions
+This book appeared in its ﬁrst edition in French, under the title: Th´eorie des Risques
+Financiers, Al´ea–Saclay–Eyrolles, Paris (1997). The second edition (or ﬁrst English edi-
+tion) was Theory of Financial Risks, Cambridge University Press (2000). Compared to this
+edition, the present version has been substantially reorganized and augmented – from ﬁve
+to twenty chapters, and from 220 pages to 400 pages. This results from the large amount
+of new material and ideas in the past four years, but also from the desire to make the book
+† a ≃b means that a is of order b, a ≪b means that a is smaller than, say, b/10. A computation neglecting terms
+of order (a/b)2 is therefore accurate to 1%. Such a precision is usually enough in the ﬁnancial context, where
+the uncertainty on the value of the parameters (such as the average return, the volatility, etc.), is often larger
+than 1%.
+
+xviii
+Preface
+more self-contained and more accessible: we have split the book in shorter chapters focus-
+ing on speciﬁc topics; each of them ends with a summary of the most important points.
+We have tried to give explicitly many useful formulas (probability distributions, etc.) or
+practical clues (for example: how to generate random variables with a given distribution, in
+Appendix F.)
+Most of the ﬁgures have been redrawn, often with updated data, and quite a number of
+new data analysis is presented. The discussion of many subtle points has been extended
+and, hopefully, clariﬁed. We also added ‘Derivative Pricing’ in the title, since almost half
+of the book covers this topic.
+More speciﬁcally, we have added the following important topics:
+r A speciﬁc chapter on stochastic processes, continuous time and Ito calculus, and path
+integrals (see Chapter 3).
+r A chapter discussing various aspects of data analysis and estimation techniques (see
+Chapter 4).
+r A chapter describing ﬁnancial products and ﬁnancial markets (see Chapter 5).
+r An extended description of non linear correlations in ﬁnancial data (volatility clustering
+and the leverage effect) and some speciﬁc mathematical models, such as the multifractal
+Bacry–Muzy–Delour model or the Heston model (see Chapters 7 and 8).
+r A detailed discussion of models of inter-asset correlations, multivariate statistics, clus-
+tering, extreme correlations and the notion of ‘variety’ (see Chapters 9 and 11).
+r A detailed discussion of the inﬂuence of drift and correlations in the dynamics of the
+underlying on the pricing of options (see Chapter 15).
+r A whole chapter on the Black-Scholes way, with an account of the standard formulae (see
+Chapter 16).
+r A new chapter on Monte-Carlo methods for pricing and hedging options (see Chapter 18).
+r A chapter on the theory of the yield curve, explaining in (hopefully) transparent terms
+the Vasicek and Heath–Jarrow–Morton models and comparing their predictions with
+empirical data. (See Chapter 19, which contains some material that was not previously
+published.)
+r A whole chapter on herding, feedback and agent based models, most notably the minority
+game (see Chapter 20).
+Many chapters now contain some new material that have never appeared in press before
+(in particular in Chapters 7, 9, 11 and 19). Several more minor topics have been included
+or developed, such as the theory of progressive dominance of extremes (Section 2.4), the
+anomalous time evolution of ‘hypercumulants’ (Section 7.2.1), the theory of optimal portfo-
+lios with non linear constraints (Section 12.2.2), the ‘worst ﬂuctuation’ method to estimate
+the value-at-risk of complex portfolios (Section 12.4) and the theory of value-at-risk hedging
+(Section 14.5).
+We hope that on the whole, this clariﬁed and extended edition will be of interest both to
+newcomers and to those already acquainted with the previous edition of our book.
+
+Preface
+xix
+Acknowledgements†
+This book owes much to discussions that we had with our colleagues and friends at Science
+and Finance/CFM: Jelle Boersma, Laurent Laloux, Andrew Matacz, and Philip Seager. We
+want to thank in particular Jean-Pierre Aguilar, who introduced us to the reality of ﬁnancial
+markets, suggested many improvements, and supported us during the many years that this
+project took to complete.
+We also had many fruitful exchanges over the years with Alain Arn´eodo, Erik Aurell,
+Marco Avellaneda, Elie Ayache, Belal Baaquie, Emmanuel Bacry, Fran¸cois Bardou, Martin
+Baxter, Lisa Borland, Damien Challet, Pierre Cizeau, Rama Cont, Lorenzo Cornalba,
+Michel Dacorogna, Michael Dempster, Nicole El Karoui, J. Doyne Farmer, Xavier Gabaix,
+Stefano Galluccio, Irene Giardina, Parameswaran Gopikrishnan, Philippe Henrotte, Giulia
+Iori, David Jeammet, Paul Jefferies, Neil Johnson, Hagen Kleinert, Imre Kondor, Jean-
+Michel Lasry, Thomas Lux, Rosario Mantegna,‡ Matteo Marsili, Marc M´ezard, Martin
+Meyer, Aubry Miens, Jeff Miller, Jean-Fran¸cois Muzy, Vivienne Plerou, Benoˆıt Pochart,
+Bernd Rosenow, Nicolas Sagna, Jos´e Scheinkman, Farhat Selmi, Dragan ˇSestovi´c, Jim
+Sethna, Didier Sornette, Gene Stanley, Dietrich Stauffer, Ray Streater, Nassim Taleb, Robert
+Tompkins, Johaness Vo¨ıt, Christian Walter, Mark Wexler, Paul Wilmott, Matthieu Wyart,
+Tom Wynter and Karol ˙Zyczkowski.
+We thank Claude Godr`eche, who was the editor for the French version of this book, and
+Simon Capelin, in charge of the two English editions at C.U.P., for their friendly advice
+and support, and Jos´e Scheinkman for kindly accepting to write a foreword. M. P. wishes to
+thank Karin Badt for not allowing any compromises in the search for higher truths. J.-P. B.
+wants to thank J. Hammann and all his colleagues from Saclay and elsewhere for providing
+such a free and stimulating scientiﬁc atmosphere, and Elisabeth Bouchaud for having shared
+so many far more important things.
+This book is dedicated to our families and children and, more particularly, to the memory
+of Paul Potters.
+Further reading
+r Econophysics and ‘phynance’
+J. Baschnagel, W. Paul, Stochastic Processes, From Physics to Finance, Springer-Verlag, 2000.
+J.-P. Bouchaud, K. Lauritsen, P. Alstrom (Edts), Proceedings of “Applications of Physics in Financial
+Analysis”, held in Dublin (1999), Int. J. Theo. Appl. Fin., 3, (2000).
+J.-P. Bouchaud, M. Marsili, B. Roehner, F. Slanina (Edts), Proceedings of the Prague Conference on
+Application of Physics to Economic Modelling, Physica A, 299, (2001).
+A. Bunde, H.-J. Schellnhuber, J. Kropp (Edts), The Science of Disaster, Springer-Verlag, 2002.
+J. D. Farmer, Physicists attempt to scale the ivory towers of ﬁnance, in Computing in Science and
+Engineering, November 1999, reprinted in Int. J. Theo. Appl. Fin., 3, 311 (2000).
+† Funding for this work was made available in part by market inefﬁciencies.
+‡ Who kindly gave us the permission to reproduce three of his graphs.
+
+xx
+Preface
+M. Levy, H. Levy, S. Solomon, Microscopic Simulation of Financial Markets, Academic Press,
+San Diego, 2000.
+R. Mantegna, H. E. Stanley, An Introduction to Econophysics, Cambridge University Press, Cam-
+bridge, 1999.
+B. Roehner, Patterns of Speculation: A Study in Observational Econophysics, Cambridge University
+Press, 2002.
+J. Vo¨ıt, The Statistical Mechanics of Financial Markets, Springer-Verlag, 2001.

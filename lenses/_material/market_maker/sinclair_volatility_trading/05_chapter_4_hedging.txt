@@ -1,0 +1,1104 @@
+C H A P T E R 4
+Hedging
+W
+e saw in Chapter 1 that the idea of hedging is central to the BSM
+framework. The concept of hedging was used in the derivation of
+the BSM equation and it is necessary to hedge to remove exposure
+to the return of the underlying. To isolate our volatility exposure we need
+to hedge. Professional option traders are well aware of this. However, the
+actual process of hedging causes confusion and is subject to several mis-
+conceptions.
+There is an old saying that any option trade can be proﬁtable if only it
+is hedged correctly. If hedging is thought of as part of the option trading
+process, and not as a completely unrelated trading strategy, this is sim-
+ply untrue. While it is possible that some traders have a special ability to
+trade the underlying, this is not even the point of hedging. Hedging is about
+mitigating risk so that we can proﬁt from our prediction of volatility. On av-
+erage, a trade will not make money unless we sell implied volatility higher
+than realized volatility or buy it lower. Due to the dispersion of trade out-
+comes around this outcome, enough trades that were based on an incorrect
+volatility prediction will be winners to keep some traders convinced that
+this is not true. That is okay. They are wrong—and in a zero sum game,
+having some participants mistaken about a fundamental aspect of trading
+can only help the rest of us.
+Even if a trader can proﬁtably trade both volatility and the direction
+of the underlying, he should not forget the fact that these are two separate
+strategies. Further, even the best directional traders will not always have
+a view on the underlying, while an option trader always needs a hedging
+plan. In this chapter we devise such a plan.
+63
+
+64
+VOLATILITY TRADING
+If we could trade the underlying in any size we wanted and without
+incurring any costs, we should do so and continuously adjust our stock
+position to remain delta-neutral. As we saw in Chapter 1, this would make
+our proﬁt a function of the difference between the implied volatility and the
+realized volatility. However, in the real world we can only trade in discrete
+size, and each trade costs us money in commissions and bid/ask spreads.
+This makes continuously adjusting delta impractical.
+There are proofs that rely on mathematical properties of GBM to show
+that the continuous replication demanded by the BSM model incurs inﬁnite
+transaction costs over any time period, no matter how small. But there
+is a further problem: When the underlying has a discrete bid/ask spread
+we can never actually have a ﬂat delta position anyway. Our gamma will
+cause us to have different deltas when valued against the bid or the offer.
+So in this case our delta will change even when the underlying isn’t going
+anywhere. Hedging this bid/ask bounce would incur costs while removing
+no risk.
+It is hard to overstate the importance of hedging cheaply and efﬁ-
+ciently. Replication risks due to imperfect hedging can easily exceed the
+anticipated proﬁts from the perceived implied volatility mispricing. Trans-
+action costs from hedging can be large. They are also easy to ignore, as they
+accumulate progressively over the lifetime of the trade and are not easily
+perceived by traders, who tend to become focused on short-term results.
+To see the extent of the issue, consider the following example. We are
+short one thousand vega of at-the-money options on a stock initially priced
+at $100 which have one year until expiry. Actual volatility is 40 percent
+and we sold the position at an implied volatility of 50 percent. Before any
+costs, we expect to make a proﬁt of $10,000 if we hold it until expiry. How-
+ever, the bid/ask spread in the underlying is $0.1. Table 4.1 shows the to-
+tal expected proﬁt for this position if we hedge to a delta-neutral position
+at various frequencies. (These numbers were the results of a Monte Carlo
+simulation of this situation, where we looked at the average result of 10,000
+realizations of this situation.)
+TABLE 4.1
+The Average Proﬁt Realized When Rebalancing
+Hedges at Diﬀerent Intervals (In a Perfect BSM World
+We Would Make $10,000)
+Hedge Frequency
+Average Realized Proﬁt
+Weekly hedge
+$9,791
+Daily hedge
+$9,220
+Twice daily
+$8,830
+Five times daily
+$7,952
+
+Hedging
+65
+AD HOC HEDGING METHODS
+Traders use a number of different methods for deciding when to rebalance
+their hedge. Long after option pricing was considered a science, hedging
+was still thought of as an art and as a result early hedging theories were
+somewhat ad hoc.
+Hedging at Regular Intervals
+One of the simplest hedging strategies is to hedge at ﬁxed time intervals.
+At the end of each time period we execute an underlying trade that sets
+our delta to zero (or as close to it as possible after allowing for discrete
+trading units). This practice is sometimes employed by large facilitation
+desks that may have option positions in several hundred underlyings.
+At the end of each day the delta for each underlying is ﬂattened. This is
+simple to understand and implement, but it is totally arbitrary in the choice
+of time interval. Obviously hedging more often decreases risk. Equally
+obviously hedging less often decreases costs. It should also be clear that a
+one-week option should be hedged differently to a one-year option. A day
+in the life of a one-week option is far more signiﬁcant than a day in the life
+of a one-year option.
+Hedging to a Delta Band
+This is a strategy commonly used by market makers or traders who trade
+only a few products. Here we choose a ﬁxed delta that we are able to tol-
+erate. When our delta exceeds this we hedge.
+We need to somehow choose the size of the band. Generally this is
+done by considering the dollar risk we are exposed to by an unhedgeable
+gap move in the underlying, such as an opening price jump. This could
+also depend on the sign of the gamma in the portfolio. We may decide to
+be looser in our hedging if we are long because an adverse move will be
+partially insured by the gamma. Having to make this choice isn’t necessarily
+a problem—we will see that such choices are inevitable. The problem is
+that the choice should be dependent on the option position rather than
+ﬁxed. This method relies on ad hoc adjustments to achieve this.
+Hedging Based on Underlying Price Changes
+When using this strategy the trader rebalances the delta after the underly-
+ing has moved by a certain amount. This is based on the sensible idea that
+the risk in the portfolio is due to underlying moves, so these should form
+
+66
+VOLATILITY TRADING
+the basis for rebalancing decisions. However, we are still left searching for
+a method that tells us how to choose the appropriate price change. Traders
+also need to decide whether to calibrate the method based on percentage
+changes, dollar changes, technical levels of importance, or implied or his-
+torical standard deviations.
+UTILITY-BASED METHODS
+We know that hedging is a trade-off between reducing risk and incurring
+costs. When economists deal with such compromises they often turn to
+the concept of utility. This gives us the necessary framework for deciding
+between different alternatives.
+Utility Theory
+Imagine you are given a choice between receiving a certain amount of
+money or taking a bet which has a 50 percent chance of winning $100 and
+a 50 percent chance of winning nothing. Clearly the bet has an expected
+value of $50. If you would rather receive a certain payoﬀof less than $50
+you are risk averse. If you would take $50 you are risk-neutral. If you would
+only accept more than $50 you are risk-seeking.
+The certain amount that you would settle for is the called the certainty
+equivalent. If we plot a graph of certainty equivalent as a function of the
+bet size we can visualize our utility function. For a risk-averse trader the
+utility curve will have downward curvature. This means that the utility of a
+given amount of money is greater than the amount of money itself. This
+can be seen in Figure 4.1. Conversely, the utility function for a risk-seeking
+Money
+Utility
+FIGURE 4.1
+The Utility Function for a Risk-Averse Trader
+
+Hedging
+67
+trader curves upwards. The utility of a given amount of money is less than
+the amount of money itself. Such a utility curve is shown in Figure 4.2.
+The two most important aspects of (sensible) utility functions for a
+trader are that they slope up because we prefer more money to less, and
+they curve downward because we become more risk-averse when larger
+amounts are involved.
+We can quantify our risk aversion by using the Arrow-Pratt absolute
+risk aversion, which is deﬁned by
+r = U ′′(W)
+U ′(W)
+(4.1)
+A commonly used utility function is the exponential utility function. It
+has the functional form
+U(W) = −exp(−γ W)
+(4.2)
+It is unique in having constant absolute risk aversion as r = γ is inde-
+pendent of the wealth, W .
+Let’s look at an example to see how we would ﬁnd our risk tolerance.
+We do this by asking questions about the certainty equivalents of risky
+outcomes that are normally distributed.
+Suppose the distribution of future wealth has a mean µ and a standard
+deviation σ. For example, µ = $10,000 and σ = $2,000.
+Money
+Utility
+FIGURE 4.2
+The Utility Function for a Risk-Seeking Trader
+(continued)
+
+68
+VOLATILITY TRADING
+So
+E [U] = E [−exp (−γ W)]
+(4.3)
+≈−exp
+
+−γ
+
+µ −1
+2γ σ 2
+
+(4.4)
+So the certainty equivalent, W0, is given by
+W0 = µ −1
+2γ σ 2
+(4.5)
+This can be inverted to give an expression for the risk aversion, λ.
+γ = 2(µ −W0)
+σ 2
+(4.6)
+Now suppose that the trader is indiﬀerent between this distribution of
+wealth and a certain outcome of $8,000; that is, W0 = $8,000. Here
+γ = 2(10, 000 −8, 000)
+2, 000 · 2, 000
+= 0.001
+We can go through this process for various wealth levels and vari-
+ous distributions. Quite a large amount of variability tends to be found.
+Real traders tend to exhibit little consistency in their risk appetites, either
+through time or as a function of the amount of the money at stake. Many be-
+havioral ﬁnance studies directly address this point (Kahneman and Tversky
+1979; Barberis et al. 2001).
+For this and other reasons, the use of utility functions in economics
+has been subject to criticism (Mirowski 1989; McCauley 2004). This needn’t
+overly concern us. As with our use of the BSM model, utility is just a frame-
+work for us to think within. While a trader may never speciﬁcally know his
+utility function and while his risk aversion may change, it isn’t unreason-
+able to state that he prefers more to less and is risk-averse. This is all we
+really need.
+Hodges and Neuberger (1989) recognized that as BSM really prices the
+replication strategy rather than the option directly, they could do the same
+thing but incorporating transaction costs. Actually, including transaction
+costs was ﬁrst done by Leland (1985) but, while his results led to pricing the
+option with a modiﬁed volatility to allow for the costs of hedging, we still
+need to continuously adjust the hedge. So this doesn’t address the practical
+problem of when best to hedge.
+The most important idea in Hodges and Neuberger’s paper is that there
+comes a point where the option trader is indifferent (in the utility sense)
+
+Hedging
+69
+to holding the risk associated with the mis-hedged option and the cost
+associated with hedging it. If we can specify our level of risk aversion,
+this strategy is optimal. They formulated the problem in terms of maximiz-
+ing the exponential utility function, but it was subsequently proved (Davis
+et al. 1993; Andersen and Damgaard 1999) that the results are basically in-
+dependent of the precise form of the utility function. As mentioned in the
+accompanying box on utility, we would be justiﬁed in being suspicious of
+any result that didn’t have this property.
+The mathematics required to formulate the problem are beyond the
+scope of this book. Sadly, the resulting valuation equation has no analytic
+solution and needs to be solved numerically. Even this is not easy. The
+required computations are prohibitively time consuming. There is no prac-
+tical way to use the Hodges-Neuberger (HN) methodology as a real-time
+hedging guide.
+But because it is the optimal solution, its properties are important to
+understand. Figures 4.3 and 4.4 show the hedging bandwidth for a long call
+position and a short call position. When our position’s delta moves out-
+side the band, we hedge to bring our delta back to the edge of the band.
+(This is only true if we assume that the counterparty in an option trade
+has no ability to predict the direction of the underlying. There is some evi-
+dence that option customers are partially informed. In this case we should
+immediately hedge the delta of any new option trade to the BSM delta.
+However, subsequent delta rehedging would follow the HN scheme and we
+would only hedge if we moved outside the bands. It probably wouldn’t be
+wise to overhedge the original trade to achieve the same directional risk
+as the counterparty, unless you had a very clear idea of the magnitude and
+duration of the customer’s directional trading ability. This would require
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1
+0
+0.2
+0.1
+0.3
+0.5
+0.7
+0.9
+0.4
+0.6
+0.8
+1
+Call Delta
+Bands
+FIGURE 4.3
+Optimal Hedging Bands for the Long Call Option as Functions of the
+BSM Delta (Dashed Line)
+
+70
+VOLATILITY TRADING
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1
+0
+0.2
+0.1
+0.3
+0.5
+0.7
+0.9
+0.4
+0.6
+0.8
+1
+Call Delta
+Bands
+FIGURE 4.4
+Optimal Hedging Bands for the Short Call Option as Functions of the
+BSM Delta (Dashed Line)
+extensive analysis.) The parameters chosen are not particularly realistic
+but have been chosen to exaggerate the properties of the solution. We
+chose the case of a one-year option with volatility of 0.3, transaction costs
+of 2 percent, zero interest and carry rates, and a risk aversion of one
+Several points are immediately obvious. First of all, the short and long
+positions need to be hedged differently. The band for the short position is
+narrower. So we hedge our short positions more defensively. We have time
+decay on our side so we take less chance with delta, whereas when we are
+hedging long positions we need to let our deltas run. Interestingly, this is
+in accordance with trader folklore.
+Another way to see why this should be so is to note that the hedger of
+a long position sees a different level of volatility to that seen by the hedger
+of a short position. As the underlying reaches a new high, a short gamma
+hedger will be inclined to buy. In doing so, he will make the high even
+higher by paying the offer. In contrast, a seller sells at the bid, slightly lower
+than the high. The cumulative effect of crossing bid/ask like this means that
+the long and short positions have different volatility levels to contend with.
+This was the central result of Leland’s. He showed that the adjusted
+volatility for a long option position was
+ˆσ = σ
+
+1 −λ
+σ
+
+8
+πt
+(4.7)
+where
+λ
+is the proportional transaction cost
+t is the time between rebalancing
+
+Hedging
+71
+For a short option position, the adjusted volatility is
+ˆσ = σ
+
+1 + λ
+σ
+
+8
+πt
+(4.8)
+While we do not explicitly use Leland’s results to determine our
+hedging strategy, these are very important results. Before doing any option
+trade, we need to be aware approximately how much edge will be eroded
+by cumulative delta hedging. This effect can be considerable, particularly
+for low-volatility, illiquid stocks. For example, if fair volatility is 10 percent
+and the bid/ask spread is 1 percent, an option that is rehedged daily would
+need to be sold at an implied volatility of over 15.9 percent to account
+for this.
+Additionally, the optimal delta band does not span the BSM delta. A
+perfectly hedged portfolio in the BSM world may need to be adjusted when
+transaction costs are present. This is also consistent with Leland’s obser-
+vation because if an out-of-the-money call sees a higher volatility, due to
+the dependency of the option’s delta on volatility, it acts like it has a higher
+delta. Similarly, an in-the-money option acts like it has a lower delta. This
+causes the hedging band to be centered around an S-shaped modiﬁed delta,
+rather than the BSM delta.
+The preceding analysis was done for European options but the general
+idea can be extended to cover American options. This is similar to the BSM
+model, where the partial differential equation is general but the methods
+used to solve it are dependent on the exact boundary conditions. This
+caveat also applies to the other models we look at. We can normally expect
+the results for American options to be similar to those obtained for Euro-
+pean options (in most cases Americans can be thought of as Europeans).
+Not evident from Figures 4.3 and 4.4, but the essential feature of the
+model, is that the width of the hedging band is dependent on the risk
+aversion. A large risk-aversion parameter means that the trader wants to
+accept little risk. So he wants tight hedging bands and will hedge often.
+Conversely, a trader with a small risk-aversion parameter will be prepared
+to hedge less frequently, accepting risk to reduce hedging costs. Neither of
+these choices is more correct than the other. As with all hedging methods,
+we need to decide how risk-averse we are. But given this choice, the HN
+formalism gives us the optimal balance between risk and reward.
+The Asymptotic Solution of Whalley and Wilmott
+If we assume that the transaction costs are small (relative to the value of
+the option in the BSM world), it is possible to derive some approximate
+solutions to the full problem. This was ﬁrst done by Whalley and Wilmott
+
+72
+VOLATILITY TRADING
+(1997). They show that the boundaries of the no-transaction regions are
+given by
+ = ∂V
+∂S ±
+3
+2
+exp (−r (T −t)) λS2
+γ
+ 1
+3
+(4.9)
+where λ is the proportional transaction cost—that is, transaction costs are
+of the form
+tc = λ |N| S
+(4.10)
+where N is the total number of shares traded
+Although the authors considered the case of hedging a short position in
+a European call option, the method is far more general: It can be applied to
+the hedging of general portfolios. The solution has a number of pleasingly
+sensible aspects. An example of the resulting hedging bands is shown in
+Figure 4.5. This was for the case of a one-year option with volatility of
+0.3, transaction costs of 2 percent, zero interest and carry rates, and a risk
+aversion of one.
+r As transaction costs decrease, the hedging bandwidth decreases. In-
+deed, as costs go to zero, the BSM delta is recovered.
+r As risk aversion increases, the hedging bandwidth decreases, as in the
+full HN theory.
+r The strategy can be reduced to an analytical formula, which makes
+implementing it in Excel feasible.
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1
+0
+0.2
+0.1
+0.3
+0.5
+0.7
+0.9
+0.4
+0.6
+0.8
+1
+Call Delta
+Bands
+FIGURE 4.5
+The Approximate Hedging Bands from the Whalley and Wilmott
+Asymptotic Method as Functions of the BSM Delta
+
+Hedging
+73
+r The method can also deal with transaction costs with different struc-
+tures. In particular it can handle transaction costs proportional to the
+number of shares, as opposed to being proportional to the value of
+the shares as in equation (4.10). Ticket charges and brokerage are ex-
+amples of such costs. And it is a matter of some debate whether the
+bid/ask spread (the dominant cost) should be modeled this way. We
+address this later in this chapter. The model can also accommodate
+the generally unrealistic situation where the costs are a single ﬁxed
+charge. This might be the case if there is a very high trade cost that is
+set irrespective of the size of the trade. This would possibly impact a
+retail customer but will not be relevant to even a semiprofessional.
+The Whalley and Wilmott (WW) method also has some unfortunate
+aspects:
+r The asymmetry of long and short gamma positions that came out of
+the full HN solution is lost. Only the magnitude of gamma is relevant to
+the asymptotic solution.
+r The hedging band is now centered on the BSM delta, losing another
+feature of the full HN solution.
+A problem can arise in practice. If a trader sees an underlying get
+choppy or start whipping around, it isn’t always obvious whether he should
+adjust the bid/ask spread or increase the volatility. To the trader these have
+the same primary impact: They both make hedging more difﬁcult. However,
+the effect in these models (HN and WW) is very different. For an at-the-
+money option, increasing the volatility will lower the gamma, which leads
+to a tighter hedging band. But increasing the bid/ask spread (the propor-
+tional transaction cost) leads to a wider hedging band. How do we deal
+with this important practical issue? The discrepancy is caused by the fact
+that these models explicitly incorporate risk aversion. Volatility is a traded
+quantity. It contains both risk and reward. When volatility is high these
+models tell us to fear the worst and hedge often. But the bid/ask spread is
+purely a cost. It has no rewarding aspects. If the bid/ask spread is wide, the
+models tell us to hold off hedging to avoid multiple whipsaw losses.1 The
+trader needs to consider this and think carefully about what aspect of the
+market is really changing. Volatility isn’t the same as transaction costs at
+all (even a perfect, frictionless market has volatility), but they can look the
+same at ﬁrst glance.
+1This helpful explanation is from Johnny at www.nuclearphynance.com.
+
+74
+VOLATILITY TRADING
+While not really feasible in many market situations, it is possible to
+separately statistically estimate transaction costs and volatility. Transac-
+tion costs can be estimated by keeping track of the difference between our
+execution price and the previous trade. It is completely a microstructure is-
+sue (although what constitutes microstructure can vary between traders;
+Fidelity will have a very different view of transaction costs than a market
+maker standing in the crude oil pit at the NYMEX).Volatility can be esti-
+mated by using a time period that includes a large number of trades of a
+size relevant to the particular trader.
+Just as with the BSM model, these hedging schemes should not be
+thought of as true models of reality. They just give a consistent and system-
+atic framework for dealing with the world. This particular issue emphasizes
+this fact.
+The Double Asymptotic Method of Zakamouline
+The two relatively simple transaction cost models are those of Leland and
+Whalley and Wilmott. They can both be viewed as special cases of the
+Hodges and Neuberger model: Leland describes how to replicate an op-
+tion in the presence of transaction costs when we are risk-neutral; Whalley
+and Wilmott incorporate risk aversion but insist on the costs being small.
+While these models are simple to apply and use, and will almost cer-
+tainly be an improvement over more ad hoc methods, they lose some of the
+appealing aspects of the full HN model. More crucially, careful numerical
+simulations show that the approximations can signiﬁcantly underperform
+the full strategy—in other words, for a given level of transaction costs, a
+portfolio hedged with the WW model will experience more variance than
+one hedged according to the HN model. (This isn’t really a criticism. It
+should be obvious that an approximation won’t perform as well as the full
+model.)
+Zakamouline (2006a, b, and c) examined the stylized facts of the nature
+of the utility-based hedging strategies (essentially the bullet points in the
+preceding section) and proposed a functional form for a hedging strategy
+that preserved the most important features; this was also proposed inde-
+pendently by Risher (2004). The hedging bands take the form
+ = ∂V (σm)
+∂S
+± (H1 + H0)
+(4.11)
+Immediately we can see that instead of being centered on the BSM
+delta, it is based on the BSM delta evaluated at the modiﬁed volatility, σ m.
+σ 2
+m = σ 2 (1 −K)
+(4.12)
+
+Hedging
+75
+H1 will be a gamma dependent term, similar in effect to that in the WW
+model. The exact numerical solution of the HN model shows that even for
+very far out-of-the-money options (with practically no gamma), the width
+of the hedging band does not go to zero. This feature is not captured by
+the WW model. This means that we need to introduce the H0 term. Za-
+kamouline postulated the functional form of the solution and then used
+numerical analysis to ﬁt the parameters. The results were
+H0 =
+λ
+γ Sσ 2T
+(4.13)
+H1 = 1.12λ0.31T0.05
+exp (−rT)
+σ
+0.25 ||
+γ
+0.5
+(4.14)
+K = −5.76 λ0.78
+T0.02
+exp (−rT)
+σ
+0.25 
+γ S2 ||0.15
+(4.15)
+An example of the resulting hedging bands is shown in Figures 4.6 and
+4.7. These were for the case of a one-year option with volatility of 0.3, trans-
+action costs of 2 percent, zero interest and carry rates, and a risk aversion
+of one.
+As can be seen from Figures 4.6 and 4.7, Zakamouline’s method gives
+results that look much closer to the HN result than those of WW. In
+particular the middle of the no-transaction region does not coincide
+with the BSM delta. This comes about from using a modiﬁed hedging
+volatility.
+−0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+Call Delta
+Bands
+FIGURE 4.6
+Approximate Long Call Hedging Bands from the Zakamouline
+Asymptotic Method as Functions of the BSM Delta
+
+76
+VOLATILITY TRADING
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1
+0
+0.2
+0.1
+0.3
+0.5
+0.7
+0.9
+0.4
+0.6
+0.8
+1
+Call Delta
+Bands
+FIGURE 4.7
+Approximate Short Call Hedging Bands from the Zakamouline
+Asymptotic Method as Functions of the BSM Delta
+Before we can compare the various strategies we need some sort of
+common benchmark. The strategies don’t all do the same thing. Some are
+based on time increments and some are based on price moves. For exam-
+ple, consider the regular time interval rebalancing method. First we choose
+a time period; then we perform a simulation and compute the risk and re-
+turn of the strategy. Then we vary the time interval and repeat the process.
+Eventually we will obtain an efﬁcient frontier for the strategy. We do this
+for each strategy and compare the frontiers. This lets us ﬁnd the best strat-
+egy (in return terms) for a given level of risk. For return we choose the
+replication error: the total effect of all of the transaction costs. For risk
+we choose the variance of the replication error. This means we evaluate
+risk in the familiar mean-variance framework, but other risk measures are
+certainly valid (refer to Chapter 7 for a discussion of the strengths and
+drawbacks of some of these measures).
+Simulations of this type were carried out by Zakamouline (2005, 2006b)
+and Martellini and Priaulet (2002). Zakamouline simulated the hedging
+of a short position in a one-year call option. The time hedging inter-
+vals varied from 1.25 (trading) days to 50 days. The parameters of the
+other models were chosen so that the ﬁnal results were all in a simi-
+lar part of the mean-variance surface. (This is similar to how a trader
+would use the models. He would calibrate a new hedging model by saying,
+“Currently my hedging strategy leaves me with X amount of risk. If I have
+the new model leave me with the same amount of risk, how much money
+do I save?”)
+Numerical simulations show that Zakamouline’s approximation clearly
+dominates the others. By this we mean that for a given level of risk, the
+
+Hedging
+77
+strategy costs the least to implement. Ideally we would like one strategy to
+dominate for all levels of risk. This doesn’t completely happen. The relative
+quality of the different strategies is dependent on the level of risk aversion
+and the level of transaction costs.
+A further consideration when choosing a hedging strategy is that not
+all are equally easy to implement. The Hodges-Neuberger scheme is at one
+extreme in that it is the optimal solution but practically impossible to use.
+The Zakamouline scheme is a better approximation to this ideal than is
+the Wilmott-Whalley method, but it is also more difﬁcult to use in practice
+as some trading software doesn’t easily facilitate its implementation (in
+particular, the change in delta with respect to volatility is not calculated by
+all systems).
+Another complication is that an option position will often have a
+gamma proﬁle that changes sign as a function of the underlying. For ex-
+ample, consider the long butterﬂy position consisting of long a 90 percent
+call, short two 100 percent calls and long one 110 percent call. This has the
+payoff shown in Figure 4.8.
+Imagine that we managed to somehow enter this position for zero cost.
+We are now in the fantastic situation of having a position that can only
+make money—but only if we do not continuously hedge it! If the underlying
+ﬂuctuates between the 90 percent and 110 percent strikes we will always
+be short gamma, and if we hedge the deltas that we accumulate, buying
+high and selling low, we can easily lose money. This example should tell
+us two very important things. First, the dynamic hedging strategy needs to
+take the global gamma proﬁle into account. Second, if we can cheaply work
+into a static hedge with other options, this is vastly preferable to dynamic
+hedging with the underlying.
+0
+0.5
+1
+1.5
+2
+2.5
+80
+85
+90
+95
+100
+105
+110
+115
+120
+Moneyness
+Profit/Initial Cost
+FIGURE 4.8
+The Payoﬀof a Butterﬂy Spread as a Function of Moneyness
+
+78
+VOLATILITY TRADING
+There is a more important point that needs to be made here. As we
+emphasize throughout this book, it is vital to ﬁgure out exactly what one
+is trying to achieve at any point in the trading process. Speciﬁcally, what
+is the point of hedging? Superﬁcially it is to remove exposure to the direc-
+tion of the underlying market. More generally it is to remove exposure to
+risks we do not wish to accept while keeping exposure to those we do. If
+we are market-making options, our edge comes from collecting the bid/ask
+spread. To keep as much of this as possible, we should hedge as much of
+our volatility exposure as we can by trading other options (preferably by
+collecting the spread on these as well). This is covered as a practical prob-
+lem in Baird (1992) and Taleb (1997) and in a more formal setting by Carr
+et al. (1998) and Hua and Wilmott (1999). However, if we explicitly set out
+to take a position on the spread between realized and implied volatilities,
+then this will generally not be possible. Dynamic hedging can still leave a
+lot of risks, but sometimes we actually want to take that risk on.
+This is not a problem to approach in too dogmatic a manner. It needs to
+be understood and mitigated to some degree and accepted to some degree.
+The basic ways to deal with the problem can be summarized as follows.
+r Inoculate your volatility bet from the effect of jumps by buying options
+in the wings if you are short at-the-money options. (If you are long
+options, you want exposure to jumps.)
+r Try to diversify jump risk across products.
+r Size each position to limit total losses.
+r Don’t base your evaluation of the worst thing that could happen on
+the worst thing that has happened in the past. If you are selling volatil-
+ity, part of your premium exists because you are selling insurance pre-
+mium for events that have never happened before.
+ESTIMATION OF TRANSACTION COSTS
+The ﬁxed components of trading costs for any underlying trade are triv-
+ial to ﬁgure out. They consist of any brokerage, exchange, and clearing
+fees. More difﬁcult are the proportional transaction costs, which are heav-
+ily dominated by the bid/ask spread. If we are trading small enough this
+will be equal to half the quoted bid/ask spread. This is likely to be the case
+for individual traders trading interest rate products or indexes. However,
+we will always reach a size where the market impact of the trade will sig-
+niﬁcantly alter the price we receive from the one that we saw quoted when
+we ﬁrst started to hedge.
+Generally, market depth looks something like that shown in Table 4.2
+and Figure 4.9, where there is something like a V-shaped distribution for
+
+Hedging
+79
+TABLE 4.2
+Market Depth for Merrill Lynch (MER) at 9:13 CST on
+August 24, 2007
+Bid Size
+Bid Price
+Oﬀer Price
+Oﬀer Size
+200
+75.42
+75.44
+200
+3,000
+75.4
+75.45
+500
+200
+75.38
+75.54
+500
+900
+75.31
+75.81
+10,000
+100
+75.27
+75.82
+900
+500
+75.12
+75.99
+1,300
+100
+75.00
+76.10
+1,000
+1,100
+74.5
+76.42
+900
+100
+73.66
+77.47
+100
+the cumulative size of bids and offers as a function of distance from the
+current price.
+But what we actually see at any time in the order book is unlikely to
+be the actual total share quantity that we could trade. For example, we see
+that if we went to the market to buy 1,000 Merrill Lynch shares we would
+be ﬁlled at an average of 75.475 (200 at 75.44, 500 at 75.45, and 300 at 75.54)
+but in reality we would often be ﬁlled better, for two reasons. First, we
+are only seeing resting limit orders in the book. If we were to split our
+order into smaller blocks and execute these separately, our buying would
+be likely to induce new selling orders to enter the market (in theory, that is
+0
+2,000
+4,000
+6,000
+8,000
+10,000
+12,000
+14,000
+16,000
+18,000
+73
+73.5
+74
+74.5
+75
+75.5
+76
+76.5
+77
+77.5
+78
+Cumulative Volume
+Price
+FIGURE 4.9
+The Cumulative Number of Shares Available as a Function of Price
+
+80
+VOLATILITY TRADING
+what a specialist is supposed to do). But of increasing relevance is the issue
+of dark liquidity.2 There are a number of algorithms, formerly the preserve
+of fairly sophisticated algorithmic trading hedge funds but now available to
+most institutional traders, that won’t show the entire trade to the market
+at once. A simple example is the iceberg order. Say we wanted to buy 1,000
+Merrill Lynch. An iceberg might buy the 700 offered up to 75.44 and then
+bid 75.44 on 100. If we are ﬁlled on this bid, the system automatically bids
+75.44 for another 100 until our total order is ﬁlled. This type of order is
+named iceberg because at any point we only see the tip of the order, most
+of it remaining hidden.
+So we need to estimate market impact transaction costs as a func-
+tion of order size. Just looking at the current market is not enough.
+Similar to the Heisenberg Uncertainty Principle in quantum physics, our
+interaction with the market changes the market. We need a fairly robust
+way of measuring the effect of this interaction. This problem is one that
+is still an active area of research in market microstructure, but we will
+present a simple yet powerful model that captures many aspects of the sit-
+uation, is easy to use, and is a good starting point for any further research.
+This form of market impact analysis was ﬁrst proposed at Merrill Lynch
+(Gatheral 2001).
+As is fairly obvious to anyone with any experience at all in markets,
+trades do not occur at constant intervals. To simplify the mathematics, let’s
+assume we can make a change of timescale so that they do occur at equal
+intervals (this transformation will never be knowable in reality, but con-
+ceptually we can make a change to this new time—trading time). Now the
+number of trades in any interval, Nt, is Poisson distributed with a con-
+stant parameter λ. So in this timescale the expected number of trades, λ,
+per trading time is constant. If the stock is busy, trading time ﬂows quickly.
+If the stock is quiet then trading time is slow. (The Poisson distribution is
+illustrated in Figure 4.10. Note that the distribution is only deﬁned for inte-
+ger values of k and the connective lines were only added to help visualize
+the shape.)
+The market impact, F(n), is deﬁned as the amount the log midprice of
+the underlying changes due to a trade of n shares. Or
+ ln S =
+Nt
+
+i=1
+sign(ni)F (|ni|)
+(4.16)
+2This originally referred to the internal crossing of trades by large ﬁnancial insti-
+tutions, but has since had its meaning extended to cover any trading that can’t be
+directly seen.
+
+Hedging
+81
+0
+0.02
+0.04
+0.06
+0.08
+0.1
+0.12
+0.14
+0.16
+0.18
+0.2
+0
+5
+10
+15
+20
+25
+k
+Probability Mass
+lambda = 5
+lambda = 10
+FIGURE 4.10
+Two Examples of the Poisson Distribution
+For a Poisson distribution with parameter λ, we have
+E [Nt] = Var [Nt] = λt
+(4.17)
+So
+Var [ ln S] = E [Nt] Var [F (ni)] + Var [Nt] E [F (ni)]2
+= λtE [F(n)t]2
+(4.18)
+A number of researchers have concluded that market impact scales as
+the square root of the trade size (Hasbrouck 1991; Madhavan and Smidt
+1991; BARRA 1997).
+F (n) = α√n
+(4.19)
+where α is some constant, the market impact parameter.
+Substituting this into equation (4.18) we obtain
+Var [ ln S] = α2λtE [ni] = α2µt
+(4.20)
+where µ is deﬁned as the number of shares traded per unit of trading time
+The time change to trading time was designed to make this quantity
+constant. So this equation also says that the variance of returns per unit of
+trading time is also constant. Now we imagine that we undo our original
+time shift. This means that both the volatility (σ t) and µt, the number of
+shares traded per unit of actual time, will be random variables. Eliminating
+
+82
+VOLATILITY TRADING
+the common factor of t (refer to equation 4.18) we obtain
+σ 2
+t = α2µt
+(4.21)
+This gives a straightforward relationship between volume and volatil-
+ity. This has been conﬁrmed in numerous studies (Clark 1973; Tauchen and
+Pitts 1983; Karpoff 1987), and few traders will dispute the relationship (al-
+though they will argue over whether volume causes volatility or vice versa).
+This model also leaves unsettled the dispute over whether trading time is
+measured in number of trades or in volume of shares. Here, the choices are
+equivalent.
+Equation (4.22) gives us a simple way to estimate the market impact.
+α =
+σt
+√µt
+(4.22)
+We know how to estimate the volatility. All we need to measure now is
+the volume of stock traded per unit of time.
+Strengths
+r The model is very simple to understand and estimate.
+r The model ﬁts our basic intuition: The more activity there is in a stock,
+the less our market impact will be.
+r We don’t need to deal with data at the level of individual transactions.
+r This model can be used as a framework in the same way that we use
+BSM and the hedging models in Chapter 1. We can tune it to each indi-
+vidual market by multiplying by a prefactor. For example, we might
+ﬁnd that DAX stocks are more slippery than FTSE stocks. (Merrill
+Lynch calculated a list of these prefactors. I don’t include these here
+because they are probably obsolete and they were estimated by asking
+Merrill Lynch traders. I think, but cannot prove, that they reﬂect the
+attitudes of individual traders as much as any fundamental aspect of
+each market. This is probably a place where the skill of a good, atten-
+tive trader can make a signiﬁcant difference to overall performance.)
+Weaknesses
+r The model does not allow for sales to produce a different market im-
+pact to buys.
+r The model doesn’t take account of the market maker’s inventory,
+which in practice has a large effect on the market impact of any partic-
+ular order.
+
+Hedging
+83
+AGGREGATION OF OPTIONS ON DIFFERENT
+UNDERLYINGS
+As we saw at the start of this chapter, the best way to reduce our hedging
+cost is to hedge less often. If we are trading options on a number of differ-
+ent underlyings, there is a chance that many of our delta risks will offset.
+If we are prepared to accept correlation risk instead, we can use this to
+avoid hedging by aggregating our deltas and hedging market and possibly
+sector risks in index products. Generally there is a trade-off here. An index
+position is not going to be as good a hedge against our single stock option
+positions as the stocks themselves would be, but we will save on trans-
+action costs because we will only need to hedge residual risk, not every
+individual risk.
+The process of aggregation is simple enough in principle. Consider the
+example where we have a stock A with price SA = 100, and an index I with
+price SI = 1,000. Also assume that the index has an exchange-traded fund
+(ETF) associated with it, so all of the trading units are comparable. Stock
+A has a beta relative to the index, β = 1.5. This means that if the index
+moves up 1 percent, A moves by 1.5 percent. If we are long 1,000 deltas of
+A (whether shares or through option deltas) and the index moves 1 percent,
+our proﬁt/loss ratio (P/L) is given by
+P/L = $0.01 × β × SA × 1,000 = $15 × SA = $1,500
+And for each unit of the index ETF we hold short, our loss will be
+P/L = −$0.01 × 1000 = $10
+So to be hedged we need to hold a short position of 150 ETFs. Equivalently,
+our delta in terms of the ETF is given by
+I = β SA
+SI
+A
+(4.23)
+To normalize gamma into ETF terms, write down the change in the option
+value as a Taylor expansion:
+dCA = AdSA + A
+2 dS 2
+A + · · ·
+(4.24)
+But
+dSA = β SA
+SI
+dSI
+
+84
+VOLATILITY TRADING
+So
+dCA = Aβ SA
+SI
+dSI + A
+2 β2
+ SA
+SI
+2
+dS 2
+I + · · ·
+(4.25)
+So the gamma term has to be
+I =
+
+β2 S 2
+A
+S 2
+I
+
+A
+(4.26)
+Vega can be normalized in the same way as delta, but to do this we
+need to know the volatility beta. This could be determined empirically by
+regressing changes in the stock’s implied volatility on changes in index
+volatility, but this is likely to give a very noisy and probably nonsensical
+result. An alternative would be to assume that changes in implied volatil-
+ity and realized volatility are correlated perfectly (not a great assumption
+but not the worst one to start with, either) and then use the result that the
+volatility beta is the same as beta. To see this, start from the deﬁnition of
+variance given by equation (2.1b).
+σ 2
+A = 1
+N
+
+ln
+
+SA (t)
+SA (t −1)
+2
+≈1
+N
+
+dS 2
+A
+= 1
+N
+ 
+β2dS 2
+I
+
+≈β2σ 2
+I
+(4.27)
+(Of course, if we deﬁned β to be the slope of the regression of logarith-
+mic returns of the stock to logarithmic returns of the index, this relation-
+ship would be exactly true instead of just a very good approximation.)
+This tells how we could normalize our option positions. It is more of a
+judgment call whether we should normalize them. It really comes down to
+weighing the beneﬁts from reduced hedging costs against the errors intro-
+duced by misestimation and the generally unstable nature of the beta fac-
+tors. Generally, estimating and forecasting beta is even more difﬁcult than
+forecasting volatility (as we have to effectively estimate two volatilities
+and a correlation). When trading options speculatively, we think that we
+have an edge in volatility prediction over the market. It probably isn’t wise
+to conﬂate this bet with a more difﬁcult one when trying to save hedging
+costs, but this trade-off is highly dependent on the particular situation. It is
+probably unwise not to aggregate the Greeks from bills, notes, and bonds,
+but whether to aggregate the risks from Microsoft (MSFT) and Google
+
+Hedging
+85
+(GOOG) into a NASDAQ book is more of a questionable call. Traders who
+are serious about going down this path may want to consider using one
+of the commercially developed factor models such as BARRA or APT to
+quantify their risks.
+The more conservative method would be to come up with hedging
+bands for each underlying, and then also to keep track of the entire po-
+sition’s risk in terms of an index or possibly several indexes. This can help
+protect us against the situation where the whole market moves against us
+but none of our individual positions has reached a point where it should be
+hedged.
+SUMMARY
+To trade volatility we need to continuously monitor, and periodically ad-
+just, our underlying position. Exactly how we choose to do this will have
+a huge effect on our overall proﬁtability. Most of the trading that an op-
+tion trader does is actually hedging, so it is important to understand the
+process.
+r Remember that hedging is designed to remove risk. If you are trying to
+trade the underlying directionally you are not hedging.
+r Successful hedging removes the most risk for the least cost.
+r The Hodges-Neuberger formalism solves this problem in theory but is
+too cumbersome to use in practice.
+r The approximation of Zakamouline is a very good working solution
+that retains most of the desirable features of the HN method.
+r The Whalley-Wilmott approximation is a good rough approximation
+that can be implemented within many commercially available pricing
+software solutions.
+r Further cost reduction can be achieved by aggregating option positions
+across many different underlyings and managing the residual risk.
+r Dynamic hedging cannot be relied upon. It must be combined with
+static hedging using other options. Only this can offset the risks as-
+sociated with jumps.
+

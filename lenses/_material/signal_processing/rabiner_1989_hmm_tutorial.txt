@@ -1,0 +1,5175 @@
+A Tutorial on Hidden Markov Models and
+Selected Applications in Speech Recognition
+SS
+LAWRENCE
+R. RABINER, FELLOW,
+IEEE
+Although initially introduced and studied in the late 1960s and
+In this case, with a good signal model, we can simulate the
+early 1970s, statistical methods of Markov source or hidden Markov
+source and learn as much as possible via simulations.
+modeling have become increasingly popular in the last several
+Finally,
+th
+t important
+hy
+si
+| models are
+years. There are two strong reasons why this has occurred. First the
+'Yy,
+the most Important
+reason why
+signal
+.
+:
+models are very rich in mathematical structure and hence can form
+important is that they often work extremely well in practice,
+the theoretical basis for use in a wide range of applications. Sec-
+and enable us to realize important practical systems—e.g.,
+ondthe models, \when appliedproperly, work very wellin practice
+prediction systems, recognition systems, identification sys-
+fully and methodically review the theoretical aspects of this type
+tems, etc., In a very efficient manner.
+.
+of statistical modeling and show how they have been applied to
+These are several possible choices for what type of signal
+selected problems in machine recognition of speech.
+model is used for characterizing the properties of a given
+signal. Broadly one can dichotomize the types of signal
+|.
+INTRODUCTION
+models into the class of deterministic models, and the class
+of statistical models. Deterministic models generally exploit
+Real-world processes generally produce observable out-
+some known specific properties of the signal, e.g., that the
+puts which can be characterized as signals. The signals can
+signal is a sine wave, or a sum of exponentials, etc. In these
+be discrete in nature (e.g., characters froma
+finite alphabet,
+cases, specification of the signal model is generally straight-
+quantized vectors from a codebook, etc.), or continuous in
+forward; all that is required is to determine (estimate) values
+nature (e.g., speech samples, temperature measurements,
+of the parameters of the signal model (e.g., amplitude, fre-
+music, etc.). The signal source can be stationary (i.e., its sta-
+quency, phase ofasine wave, amplitudes and rates of expo-
+tistical properties do not vary with time), or nonstationary
+nentials, etc.). The second broad class of signal models is
+(i.e., the signal properties vary over time). The signals can
+the set of statistical models in which one tries to charac-
+be pure (i.e., coming strictly from a single source), or can
+terize only the statistical properties of the signal. Examples
+be corrupted from other signal sources (e.g., noise) or by
+ofsuch statistical models include Gaussian processes, Pois-
+transmission distortions, reverberation, etc.
+son processes, Markov processes, and hidden Markov pro-
+A problem of fundamental interest is characterizing such
+cesses, among others. The underlying assumption of the
+real-world signals in terms of signal models. There are sev-
+statistical model is that the signal can be well characterized
+eral reasons why one is interested in applying signal models.
+as a parametric random process, and that the parameters
+First of all, a signal model can provide the basis for a the-
+of the stochastic process can be determined (estimated) in
+oretical description ofa signal processing system which can
+a precise, well-defined manner.
+be used to process the signal so as to provide a desired out-
+For the applications of interest, namely speech process-
+put. For example if we areinterested in enhancing
+a speech
+ing, both deterministic and stochastic signal models have
+signal corrupted by noise and transmission distortion, we
+had good success. In this paper we will concern ourselves
+can use the signal model to design a system which will opti-
+strictly with one type of stochastic signal model, namely the
+mally remove the noise and undo the transmission distor-
+hidden Markov model (HMM). (These models are referred
+tion. A second reason why signal models are important is
+to as Markov sources or probabilistic functions of Markov
+that they are potentially capable of letting us learn a great
+chains in the communications
+literature.) We will first
+deal about the signal source (i.e., the real-world process
+review the theory of Markov chains and then extend the
+which produced the signal) without having to have the
+ideas to the class of hidden Markov models using several
+source available. This property is especially important when
+simple examples. We will then focus our attention on the
+the cost of getting signals from the actual source is high.
+three fundamental problems’ for HMM design, namely:
+the
+Manuscript received January 15, 1988; revised October 4, 1988.
+‘The idea of characterizing the theoretical aspects of hidden
+The author is with AT&T Bell Laboratories, Murray Hill, NJ 07974-
+Markov modeling in terms of solving three fundamental problems
+2070, USA.
+is due to Jack Ferguson of IDA (Institute for Defense Analysis)
+who
+IEEE Log Number 8825949,
+introduced it in lectures and writing.
+0018-9219/89/0200-0257$01.00 © 1989 IEEE
+PROCEEDINGS OF THE IEEE, VOL. 77, NO. 2, FEBRUARY 1989
+257
+
+evaluation of the probability (or likelihood) of a sequence
+tion IX we summarize the ideas discussed throughout the
+of observations given a specific HMM; the determination
+paper.
+of a best sequence of model states; and the adjustment of
+model parameters so as to best account for the observed
+Il.
+Discrete MARKOv Processes?
+signal. We will show that once these three fundamental
+.
+.
+F
+.
+problems are solved, we can apply HMMs to selected prob-
+Consider a system which may be described at any time
+lems in speech recognition.
+as being in one of a set of N distinct states, Sy Sy Sy,
+Neither the theory of hidden Markov models nor its
+as illustrated in Fig.
+1 (where N = 5 for simplicity). At reg-
+applications to speech recognition is new. The basic theory
+was published in a series of classic papers by Baum and his
+O22
+colleagues [1]-[5] in the late 1960s and early 1970s and was
+implemented for speech processing applications by Baker
+on
+()
+[6] at CMU, andbyJelinek and his colleagues at IBM [7]-[13]
+() Cat
+wS2
+in the 1970s. However, widespread understanding and
+O32
+application of the theory of HMMs to speech processing
+SP
+S3
+has occurred only within the past several years. There are
+SSx) 33
+several reasons why this has been the case. First, the basic
+theory of hidden Markov models was published in math-
+a
+ematical journals which were not generally read by engi-
+iad
+neers working on problems in speech processing. The sec-
+ond reason was that the original applications of the theory
+shi
+to speech processing did not provide sufficient tutorial
+( )
+O45
+{ )
+material for most readers to understand the theory and to
+6.
+be able to apply it to their own research. As a result, several
+O55
+“4
+tutorial papers were written which provided a sufficient
+Fig. 1. A Markov chain with5 states (labeled S, to Ss) with
+level of detail for
+a number of research labs to begin work
+selected state transitions.
+using HMMs in individual speech processing applications
+[14]-[19]. This tutorial is intended to provide an overview
+ularly spaced discrete
+times, the system undergoes
+a change
+of the basic theory of HMMs (as originated by Baum and
+of state (possibly back to the same state) according to a set
+his colleagues), provide practical details on methods of
+of probabilities associated with the state. We denote the
+implementation of the theory, and describe a couple of
+time instants associated with state changes as t = 1, 2,
+selected applications of the theory to distinct problems in
++++, and we denote the actual state at time t as q,. A full
+speech recognition. The paper combines results from a
+probabilistic description of the above system would, in gen-
+number of original sources and hopefully provides a single
+eral, require specification of the current state (at time 0), as
+source for acquiring the background required to pursue
+well as all the predecessor states. For the special case of a
+further this fascinating area of research.
+discrete,
+first order, Markov chain,
+this
+probabilistic
+The organization of this paper is as follows. In Section II
+description is truncated to just the current and the pre-
+we review the theory of discrete Markov chains and show
+decessor state, i.e.,
+how the concept of hidden states, where the observation
+is a probabilistic function of the state, can be used effec-
+Plage = Silqr-1 = Sir Qr-2 = Ser 271]
+tively. We illustrate the theory with two simple examples,
+=
+=
+_
+:
+:
+:
+;
+= Pl = Silqr-1 = Sik
+(1)
+namely coin-tossing, and the classic balls-in-urns system.
+In Section Ill we discuss the three fundamental problems
+Furthermore
+we only consider those processes in which the
+of HMMs, and give several practical techniques for solving
+right-hand side of (1) is independent of time, thereby lead-
+these problems. In Section IV we discuss the various types
+ing to the set of state transition probabilities a, of the form
+of HMMs that have been studied including ergodic as well
+_
+_
+_
+.
+as left-right models. In this section we also discuss the var-
+ay = Pla = Sarr = Sh
+VS HSN
+@)
+ious model features including the form of the observation
+with the state transition coefficients having the properties
+density function, the state duration density, and the opti-
+a>0
+(Ga)
+mization criterion for choosing optimal HMM parameter
+a
+values. In Section
+V we discuss the issues that arise in imple-
+N
+menting HMMs including the topics of scaling, initial
+% ay = 1
+(Gb)
+parameter estimates, model size, model form, missing data,
+and multiple observation sequences. In Section VI we
+since they obey standard stochastic constraints.
+describe
+an isolated word speech recognizer, implemented
+The above stochastic process could be called an observ-
+with HMM ideas, and show how it performs as compared
+able Markov model since the output of the process is the
+to alternative implementations. In Section VII we extend
+set of states at each instant of time, where each state cor-
+the ideas presented in Section VI to the problem of recog-
+responds
+to a physical (observable) event. To set ideas, con-
+nizing a string of spoken words based on concatenating
+sider a simple 3-state Markov model of the weather. We
+individual HMMs of each word in the vocabulary. In Section
+assume that once a day (e.g., at noon), the weather is
+VIII we briefly outline how the ideas of HMM have been
+applied toa large vocabulary speech recognizer, and in Sec-
+24 good overview of discrete Markov processes is in {20, ch. 5].
+258
+PROCEEDINGS OF THE IEEE, VOL. 77, NO. 2, FEBRUARY 1989
+
+observed as being one of the following:
+A. Extension to Hidden Markov Models
+State 1: rain or (snow)
+So far we have considered Markov models in which each
+State 2: cloudy
+state corresponded to an observable (physical) event. This
+State 3: sunny.
+model is too restrictive to be applicable to many problems
+.
+.
+of interest. In this section we extend the concept of Markov
+We postulate that the weather on day tis characterized by
+models to include the case where the observation is a prob-
+a
+single one of the three states above, and that the matrix
+abilistic function of the state—i.e., the resulting model
+A of state transition probabilities is
+(whichis called a hidden Markov model) is adoubly embed-
+ded stochastic process with an underlying stochastic pro-
+0.4 03 03
+cess that is not observable (it is hidden), but can only be
+A= {aj} =|
+02 06 02].
+observed through another set of stochastic processes that
+produce the sequence of observations. To fix ideas, con-
+0.1
+0.1
+08
+sider the following model of some simple coin tossing
+Given that the weather on day 1 (t = 1) is sunny (state 3),
+experiments.
+;
+|
+we can ask the question:
+What is the probability (according
+Coin Toss Models: Assume the following scenario. You
+to the model) that the weather for the next 7 days will be
+are in a room with a barrier (e.g., a curtain) through which
+“sun-sun-rain-rain-sun-cloudy-sun
+- - -”? Stated more for-
+you cannot see what is happening. On the other side of the
+mally, we define the observation sequence O as O = {53,
+barrier is another person who is performing a coin (or mul-
+Ss, Ss, Si, Sx, Ss, Sz, Ss} Corresponding to t = 1, 2, --- , 8,
+tiple coin) tossing experiment. The other person will not tell
+and we wish to determine the probability of O, given the
+you anything about what he is doing exactly; he will only
+model. This probability can be expressed (and evaluated)
+tell you the result of each coin flip. Thus a sequence of hid-
+as
+den coin tossing experiments is performed, with the obser-
+vation sequence consisting
+of a series of heads and tails;
+P(O|Model) = PIS3, S3, S3, 51, S1, 53, Sz, S3|Model]
+e.g., a typical observation Sequence would be
+= P{S3]
+- P{S3|S3]
+- PLS3|S3]
+- PIS4|S3]
+O=0,0,0,:-: O;
++ P{Sq|Si]
++ P{S3|Si]
+- PlS2|$3]
+- PLS3|S2]
+=HKHKIITHITIH:-- HK
+_
+.
+.
+.
+.
+.
+.
+.
+where 3C stands for heads and3 stands for tails.
+m3"
+433°
+435°
+Aan © Ay”
+13°
+Asa”
+as
+Given the above scenario,
+the problemofinterestishow
+= 1
+- (0.8)(0.8)(0.1)
+(0.4) (0.3) (0.1)(0.2)
+do we build an HMM to explain (model) the observed
+= 1.536 x 10-4
+sequence of heads and tails. The first problem one faces is
+.
+deciding what the states in the model correspond to, and
+where we use the notation
+then deciding how many states should be in the model. One
+.
+ossible choice would be to assume that only a single biased
+m= Piqgi= Sl
+1sisN
+4)
+foin was being tossed. In this case we could model the sit-
+to denote the initial state probabilities.
+uation with a 2-state model where each state corresponds
+Another interesting question we can ask (and answer
+to a side of the coin (i.e., heads or tails). This model is
+using themodel)
+is: Given that themodel
+is in a known state,
+depicted in Fig. 2(a).? In this case the Markov model is
+what is the probability it stays in that state forexactly
+d days?
+observable, and the only issue for complete specification
+This probability can be evaluated as the probability of the
+of the model would be to decide on the best value for the
+observation sequence
+bias (i.e., the probability of, say, heads). Interestingly, an
+equivalent HMM to that of Fig. 2(a) would be a degenerate
+O= {Si Sir Sin “ty Si oy, # Si},
+1-state model, where the state corresponds to the single
+.
+oo
+.
+biased coin, and the unknown parameter is the bias of the
+given the model, which is
+coin.
+P(O|Model, q, = S) = (a;)7-"1 — aj) = pid).
+(5)
+A second form of HMM for explaining the observed
+.
+.
+.
+_
+.
+sequence of coin toss outcome is given in Fig. 2(b). In this
+The quantity pj(d) is the (discrete) probability density func-
+case there are 2 states in the model and each state corre-
+tion of duration din state i. This exponential duration den-
+sponds to a different, biased, coin being tossed. Each state
+sity is characteristic of the state duration in a Markov chain.
+is characterized by a probability distribution of heads and
+Based on pd), we can readily calculate the expected num-
+tails, and transitions between states are characterized by a
+ber of observations (duration) in a state, conditioned on
+state transition matrix. The physical mechanism which
+Starting in that state as
+accounts for how state transitions are selected could itself
+_
+2
+be a set of independent coin tosses, or some other prob-
+qd, = 2 dp(d)
+(6a)
+abilistic event.
+A third form of HMM for explaining the observed
+-
+-
+1
+sequence of coin toss outcomes is
+given in Fig. 2(c). This
+~ 2, day?" — ay) = 1- aj
+(6b)
+model corresponds to using 3 biased coins, and choosing
+.
+from among the three, based on some probabilistic event.
+Thus the expected number of consecutive days of sunny
+weather, according to the model, is 1/(0.2) = 5; for cloudy
++The model of Fig. 2(a) is
+a memoryless process and thus is a
+it is 2.5; for rain it is 1.67.
+degenerate case of
+a Markov model.
+RABINER: HIDDEN MARKOV MODELS
+259
+
+PCH)
+4-P(H)
+ee)
+ea
+cep
+{PH
+eo
+Ges
+wee
+Gunna
+® Gey
+O*HHTTHTHHTTH
+wcuos Pe TAILS
+S=11224244224...
+URN 1
+URN 2.
+URN
+P(RED)
+= = by(4)
+P(RED)
+== bal1)
+P(RED)
+= by(t)
+P(BLUE)
+= b,(2)
+P(BLUE)
+= ba(2)
+P(BLUE)
+= by(2)
+P(GREEN)
+= b,(3)
+P(GREEN)
+= ba(3)
+P(GREEN)
+= by(3)
+yy
+G22
+P(YELLOW) = by(4)
+P(YELLOW) = ba(4)
+P(YELLOW) = by(4)
+{ )
+1-044
+{ )
+:
+:
+:
+(b)
+eres
+O*HHTTHTHHTTH...
+P(ORANGE) = by(M)
+P(ORANGE) = b(M)
+P(ORANGE)= by(M)
+S$=21122212212...
+PCH) = Py
+PCH)
+= Pa
+PIT) =4-Py
+PIT) #1-Pp
+0» {GREEN, GREEN, BLUE, RED, YELLOW, RED, ......., BLUE}
+Fig. 3. An N-state urn and ball model which illustrates the
+a.
+a
+general case of a discrete symbol HMM.
+a
+22
+()
+“2
+_{)
+a
+1)
+according to the random selection process associated with
+Nv/
+O=HHTTHTHHTTH...
+the current urn, and the ball selection process is repeated.
+(©)
+Ors
+‘O25
+$231233142343...
+This entire process generates
+a finite observation sequence
+°.
+\>
+a
+of colors, which we would like to model as the observable
+34
+32
+%)
+output of an HMM.
+$
+It should be obvious that the simplest HMM that cor-
+38
+responds to the urn and ball process is one in which each
+STATE
+state corresponds to a specific urn, and for whicha (ball)
+pun ~ = 2
+color probability is defined for each state. The choice of
+PIT) "Py 1% 1-Py
+urns is dictated by the state transition matrix of the HMM.
+Fig. 2. Three possible Markov models which can account
+B. Elements ofanHMM
+for the results
+ofhidden coin tossing experiments. (a) 1-coin
+model. (b) 2-coins model. (c) 3-coins model.
+The above examples give us a pretty good idea of what
+an HMM is and how it can be applied to some simple sce-
+Given the choice among the three models shown in Fig.
+narios. We now formally define the elements of an HMM,
+2 for explaining the observed sequence of heads and tails,
+and
+explain
+how
+the
+model
+generates
+observation
+a natural question would be which model best matches the
+sequences.
+actual observations. It should be clear
+that the simple 1-coin
+An HMM is characterized by the following:
+model of Fig. 2(a) has only
+1unknown parameter; the 2-coin
+1) N, the number of states in the model. Although the
+model of Fig. 2(b) has 4 unknown parameters;
+and the 3-coin
+states are hidden, for many practical applications there is
+model of Fig. 2(c) has
+9 unknown parameters. Thus, with
+often some physical significance attached to the states or
+the greater degrees of freedom, the larger HMMs would
+to sets of states of the model. Hence, in the coin tossing
+seem to inherently be more capable of modeling a series
+experiments, each state corresponded to a distinct biased
+of coin tossing experiments
+than would equivalently smaller
+coin. In the urn and ball model, the states corresponded
+models. Although this is theoretically true, we will see later
+to the urns. Generally
+the states are interconnected in such
+in this paper that practical considerations impose some
+a way that any state can be reached from any other state
+strong limitations on the size of models that we can con-
+(e.g., an ergodic model); however, we will see later in this
+sider. Furthermore, it might just be the case that only a sin-
+paper that other possible interconnections of states are
+gle coin is being tossed. Then using the 3-coin model of Fig.
+often of interest. We denote the individual states as S = {5,,
+2(c) would be inappropriate, since the actual physical event
+Sz, +++, Sy}, and the state at time t as q.
+would not correspond to the model being used—i.e., we
+2) M, the number of distinct observation symbols per
+would be using an underspecified system.
+state, i.e., the discrete alphabet size. The observation sym-
+The Urnand Ball Model*: To extend the ideas of the HMM
+bols correspond to the physical output of the system being
+to a somewhat more complicated situation, consider the
+modeled. For the coin toss experiments the observation
+urn and ball system of Fig. 3. We assume that there are N
+symbols were simply heads or tails; for the ball and urn
+(large) glass urns in aroom. Within each urnthere
+arealarge
+model they were the colors of the balls selected from the
+number
+of colored balls. We assume there are M distinct
+urns. We denote the individual symbols as V = {vj, V2,
+colors
+of the balls.
+The physical process for obtaining obser-
+tt
+Mahe
+vations
+is as follows. A genie is in the room, and according
+3) The state transition probability distribution A = {a;}
+to some random process, he (or she) chooses an initial urn.
+where
+From this urn, a ball is chosen at random, and its color is
+_
+_
+_
+_
+recorded as the observation.
+The ball is then replaced
+in the
+ay = Pde = Sl = Sb
+TSG
+SN.
+a
+urn from which it was selected. A new urn is then selected
+For the special case where any state can reach any other
+state in a single step, we have a, > 0 for all i, j. For other
+‘The urn and ball model was introduced by Jack Ferguson, and
+types of HMMs, we would have aj = 0 for one or more (i,
+his colleagues, in lectures on HMM theory.
+j) pairs.
+260
+PROCEEDINGS OF THE IEEE, VOL. 77, NO. 2, FEBRUARY 1989
+
+4) The observation symbol probability distribution
+in
+Problem 1
+is the evaluation problem, namely given a
+state j,
+B = {b,(k)}, where
+model and
+a sequence of observations, how do we compute
+.
+the
+probability that the observed sequence was
+produced
+b(k) = Pleat tla = Sj,
+1s j=N
+bythe model. We can also view the problem as one of scor-
+1<k<M.
+(8)
+ing how well a given model matches a given observation
+eae
+oe
+ge
+sequence. The latter viewpoint is extremely
+useful. For
+5) The initial state distribution * = {7} where
+example, if we consider the case in which we are trying to
+a = Plqi = Sil,
+1<i<N.
+(9)
+choose among several competing models, the solution to
+Given appropriate values of N, M, A, B, and z, the HMM
+Problem cows us fo choose the model which best
+can be used as a generator to give an observation sequence
+Problem 2 is the one in which we attempt to uncover the
+O=0,0,:-- O;
+(10)
+hidden part of the model, i.e., to find the “correct’”’ state
+.
+.
+sequence. It should be clear that for all but the case of
+(where each observation O, is one of the symbols from V,
+degenerate models, there is no “correct” state sequence
+anes the number of observations in the sequence) as
+to be found. Hence for practical situations, we usually use
+.
+an optimality criterion to solve this problem as best as pos-
+1)
+Choose an initial state g, = S; according to the initial
+sible. Unfortunately, as we will see, there are several rea-
+state distribution 7.
+sonable optimality criteria that can be imposed, and hence
+2)
+Sett=1.
+the choice of criterion is a strong function of the intended
+3)
+Choose O, = v; according to the symbol probability
+use for the uncovered state sequence. Typical uses might
+distribution in state S;, i.e., bj(k).
+be to learn about the structure of the model, to find optimal
+4)
+Transit to a new state +1 = S according to the state
+state sequences for continuous speech recognition, or to
+transition probability distribution for state S,, i.e.,aj.
+get average statistics of individual states, etc.
+5)
+Set t= t+ 1; return to step 3)if t < T; otherwise ter-
+Problem3 is the one in which we attempt to optimize
+the
+minate the procedure.
+model parameters so as to best describe howa given obser-
+vation sequence comes about. The observation sequence
+The above procedure can be used as both a generator of
+used to adjust the model parameters is called a training
+observations, and as a model for how a given observation
+sequence since it is used to “train” the HMM. The training
+sequence was generated by an appropriate HMM.
+problem is the crucial one for most applications of HMMs,
+itcan be seen from the above discussion thata complete
+since it allows us to optimally adapt model parameters to
+specification of an HMM requires specification of two
+observed training data—i.e., to create best models for real
+model parameters (N and M), specification of observation
+phenomena.
+symbols, and the specification of the three Probability mea-
+To fix ideas, consider the following simple isolated word
+sures A, B, and x. For convenience, we use the compact
+speech recognizer. For each word ofa W word vocabulary,
+notation
+we want to design a separate N-state HMM. We represent
+d= (A,B, ®
+(11)
+the speech signal of a given word as a time sequence of
+coded spectral vectors. We assume that the coding is done
+to indicate the complete parameter set of the model.
+using a spectral codebook with M unique spectral vectors;
+hence each observation is the index of the spectral vector
+C. The Three Basic Problems for HMMs°
+closest (in some spectral sense) to the original speech sig-
+Given the form of HMM ofthe previoussection, there are
+nal. Thus, for each vocabulary word, we have a training
+three basic problems of interest that must be solved for the
+sequence
+consisting
+of
+a number
+of
+repetitions
+of
+model to be useful in real-world applications. These prob-
+sequences of codebook indices of the word (by one or more
+lems are the following:
+talkers). The first task is to build individual word models.
+This task is done by using the solution to Problem3to opti-
+Problem 1:
+Given the observation sequence O = O, O,
+mally estimate model parameters for each word model. To
++++ Or, and a model
+= (A, B, 7), how do
+develop an understanding of the physical meaning of the
+we efficiently compute P(O|d), the proba-
+model states, we use the solution to Problem 2 to segment
+bility of the observation sequence, given the
+each of the word training sequences into states, and then
+model?
+study the properties of the spectral vectors that lead to the
+Problem 2:
+Given the observation sequence O = O, O;
+observations occurring in each state. The goal here would
++++ O7,and the model }, how do we choose
+be to make refinements on the model (e.g., more states,
+a corresponding state sequence Q = qy qz
+different codebook size, etc.) so as to improve its capability
++++ grwhich is optimal in some meaningful
+of modeling the spoken word sequences. Finally, once the
+sense
+(i.e., best “explains” the observa-
+set of
+W HMMs has been designed and optimized and thor-
+tions)?
+oughly studied, recognition of an unknown word is per-
+Problem
+3: How do we adjust the model parameters \
+formed using the solution to Problem 1 to score each word
+= (A, B, x) to maximize P(O|A)?
+model based upon the given test observation sequence,
+and select the word whose model score is highest (i.e., the
+‘The material in this section and in Section III is based on the
+highest likelihood).
+ideas presented by Jack Ferguson of IDA in lectures at Bell Lab-
+In the next section we present formal mathematical solu-
+oratories.
+tions to each of the three fundamental problems
+forHMMs.
+RABINER: HIDDEN MARKOV MODELS
+261
+
+We shall see that the three problems are linked together
+computations!
+Clearly
+a more
+efficient
+procedure
+is
+tightly under our probabilistic framework.
+required to solve Problem 1. Fortunately such a procedure
+exists and is called the forward-backward procedure.
+Ill.
+SOLUTIONS TO THE THREE BASIC PROBLEMS OF HMMs
+The Forward-Backward Procedure [2], [3]°: Consider the
+A. Solution to Problem 1
+forward variable a,(i) defined as
+We wish to calculate the probability of the observation
+ali) = POs On = ++ On qe = SIN)
+(18)
+sequence, O = O, O,-
+-
+- O;, given the model ), i.e., P(O}A).
+i.e., the probability of the partial observation sequence, O,
+The most straightforward way of doing this is through
+O,-
+- - O;, (until time t) and state S; at time t, given the model
+enumerating every possible state sequence of length T (the
+d. We can solve for a,(i) inductively, as follows:
+number of observations). Consider one such fixed state
+1) Initialization:
+sequence
+.
+:
+afi) = mb{O),
+ITsisNn.
+(19)
+Q=
+ute
+(12)
+He
+v
+2) Induction:
+where q; is the initial state. The probability of the obser-
+N
+vation sequenceO for the state sequence of (12) is
+aya) = [D> ax(ay|b (O10,
+1<t<T-1
+T
+=
+P(O|Q, ») = pus POdd:
+(13a)
+1<j<N.
+(20)
+where we have assumed statistical independence of obser-
+3) Termination:
+vations. Thus we get
+5
+P(O|A) = 2 azli).
+(21)
+P(OIQ, 0) = ba(Or) + bglO3)
+«++ by»).
+(3b)
+I)
+= 24
+or
+The probability of such a state sequence Q can be written
+Step 1) initializes the forward probabilities as the joint prob-
+as
+ability of state S; and initial observation O,. The induction
+PQ) =
+cee
+14)
+step, which is the heart of the forward calculation, is illus-
+© Tataatan
+Aarsar
+(
+trated in Fig. 4(a). This figure shows how state S; can be
+The joint probability of O and Q, i.e., the probability that
+Oand Qoccur simultaneously, is simply the product of the
+above two terms, i.e.,
+Sy
+4;
+P(O, Q\A) = P(O|Q, d) P(Q, ».
+(15)
+Se
+Sai
+The probability of O (given the model)is obtained by sum-
+Sj
+ming this joint probability
+over allpossible state sequences
+.
+q giving
+(a)
+:
+P(O|A) = 2 P(O|Q, d) P(Q|d)
+(16)
+SHO
+Onj
+allQ
+t
+t+4
+=
+a
+Hq,Pq lO) Ag,q,4qAOr)
+ai)
+ayi)
+We
+a
+8 agy_.q;Pq)(Qn-
+(17)
+N
+The interpretation of the computation in the above equa-
+4
+tion is the following. Initially (at time t = 1) we are in state
+.
+f
+qi with probability 7,,, and generate the symbol O, (in this
+:
+state) with probability bg(O,). The clock changes from time
+w
+tto t + 1(t = 2) and we makea transition to state q, from
+&
+yi
+wi
+>
+state q, with probability a,,.,,and generate symbol O, with
+(bo) &
+XL
+probability b,,(O,). This process continues in this manner
+2
+LALK
+>
+until we make the list transition (at time 7) from state qr_
+YO’ YZ
+to state q; with probability ag, ,4, and generate symbol O;
+Vr Yr
+: N
+with probability bg(O;).
+1
+A little thought should convince the reader that the cal-
+{
+2
+3
+T
+culation of P(O|A), according to its direct definition (17)
+OBSERVATION,
+t
+involves on the order of 2T - N’calculations, since at every
+.
+.
+-
+=1,2,-++.,
+T, there are N
+possible states which can be
+Fig. 4.
+(a) Illustration of the sequence of Operations
+t
+rer
+a
+Te
+_
+pos
+required for the computation of the forward variable a, ,
+;(j).
+reached (i.e., there are N"
+possible state sequences), and
+(b) Implementation of the computation of a,(i) in terms of
+for each such state sequence about 2T calculations are
+a lattice of observations t, and states i.
+required for each term in the sum of (17). (To be precise,
+we need (27 — 1)N‘ multiplications, and N’ — 1 additions.)
+bees
+.
+This calculation is computationally unfeasible, even for
+b Strictly speaking, we only need the forwardPart of the forward-
+|
+fN and T: eg.,
+for N = 5 (states),
+T = 100
+ackward procedure to solve Problem 1. We will introduce the
+small values o
+eB.
+B
+backward part of the procedure in this section since it will be used
+(observations),
+there are on the order of2 - 100 - 5™= 107
+to help solve Problem 3.
+262
+PROCEEDINGS OF THE
+IEEE, VOL.
+77, NO. 2, FEBRUARY 1989
+
+reached at time t + 1 from the N possible states, 5;, 1 <
+i
+ai,
+Sy
+=/N, at time f. Since q,(/) is the probability of the joint event
+a,
+that O, O,
+- - - O, are observed, and the state at time tis S;,
+ie
+Se
+the product a,(i)a; is then the probability of the joint event
+S;
+ois
+that O, O,
+-
+-
++ O, are observed, and state Sj is reached at
+time t + 1 via state S; at time t. Summing this product over
+Giy
+:
+all the N possible states S;,1 < i < Nat time t results in the
+.
+probability of 5; at time t + 1 with all the accompanying pre-
+SN
+vious partial observations.
+Once this is doneand S,isknown,
+it is easy to see that @,,,(/) is obtained by accounting for
+t
+observation O, ,
+;in statej, i.e., by multiplying the summed
+t+
+quantity
+by the probability
+bj(O, , ;). The computation of (20)
+Bytid
+Brag
+is performed for all states j,
+1 < j < N, for a given t; the
+computation is then iterated fort = 1,2,:++,T—1. Finally,
+Fig. 5.
+Illustration of the sequence of operations required
+step 3) gives the desired calculation of P(O|A) as the sum
+for the computation of the backward variable 8,(i).
+of the terminal forward variables
+(i). This is the case since,
+by definition,
+observation sequence from time t + 1 on, you have to con-
+ay(i) = P(O; Op +++ Or, qr = S|N)
+(22)
+sider all possible states S; at timet + 1, accounting for the
+.
+,
+transition from S; to S; (the aj term), as well as the obser-
+and hence P(O|A) is just the sum of the aj(i)’s.
+vation O,,, in state
+j (the bj(O, ,,) term), and then account
+_ lf we examine the computation involved in the calcula-
+for the remaining partial observation sequence from state
+tion of a((j), 1st = 1,1 <j <N, we see that it requires
+j (the B,, (j) term). We will see later how the backward, as
+on the order of N T calculations, rather than 2TN’
+as
+well as the forward calculations are used extensively to help
+required bythe direct calculation. (Again, to be precise, we
+solve fundamental Problems 2 and 3 of HMMs.
+need N(N + 1)(T — 1) + N multiplications and N(N — 1)(T
+Again, the computation of 6,(i),
+1 < t< 7,1 <i<N,
+- 1) additions.) For N = 5, T = 100, we need about 3000
+requires on the order of N77calculations, and can be com-
+computations for the forward method, versus 10” com-
+puted in a lattice structure similar to that of Fig. 4(b).
+putations for the direct calculation, a savings of about 69
+orders of magnitude.
+B. Solution to Problem 2
+The forward probability calculation is, in effect, based
+upon the lattice (or trellis) structure shown in Fig. 4(b). The
+Unlike Problem 1 for which an exact solution can be given,
+key is that since there are only N states (nodes at each time
+there are several possible ways of solving Problem 2, namely
+slot in the lattice), all the possible state sequences will re-
+finding the “optimal” state sequence associated with the
+merge into these N nodes, no matter how long the obser-
+given observation sequence. Thedifficulty
+lies with the def-
+vation sequence. At time t = 1 (the first time slot in the lat-
+inition of the optimal state sequence; i.e., there are several
+tice), we need to calculate values of «,(i), 1 < i < N.Attimes
+possible optimality criteria. For example, one possible opti-
+t = 2,3,
+++, T, we only need to calculate values of «,(/),
+mality criterion is to choose the states g, which are indi-
+1 <j < N, where each calculation involves only N previous
+vidually most likely. This optimality criterion maximizes the
+valuesof ;_ ;(i) because
+each of the N grid pointsisreached
+expected number of correct individual states. To imple-
+from the same N grid points at the previous time slot.
+ment this solution to Problem 2, we define the variable
+Inasimilar manner,” wecan consider
+a backward variable
+yi) = P(q, = S|,
+(26)
+B,(i) defined as
+.
+i.e., the probability of being in state 5; at time t, given the
+Bui) = Pres Ora
++++ Orlqe = Si, ®)
+(23)
+observation sequence O, and themodel
+d. Equation (26) can
+i.e., the probability
+of the partial observation sequence from
+be expressed simply in terms of the forward-backward
+t + 1 to the end, given state $; at time t and the model \.
+variables, i.e.,
+Again we can solve for B,(i) inductively, as follows:
+.
+(i) B,(i)
+ai) B,li)
+1) Initialization:
+yi) = SA =
+(27)
+P(O|\) x
+BAi)=1,
+T5i5N,
+(24)
+& adi) Bali)
+2) Induction:
+since a,(i) accounts for the partial observation sequence O,
+N
+O, +++ O, and state S; at t, while B,(/) accounts for the
+Bi) = py ajb(Or+1) Bra ai),
+remainder of the observation sequence O,+;O,42°* + Oy,
+im
+given state S; at t. The normalization factor P(O|A) = IN,
+t=7T-1,T-2,--+,1,15i<5N.
+(25)
+a@,(i), Bi) makes ¥;,(i)
+a probability measure so that
+The initialization step 1) arbitrarily defines 8;(i) to be 1 for
+N
+all i, Step 2), which is illustrated in Fig. 5, shows that in order
+x yi) = 1.
+28)
+to have been in state S; at time t, and to account for the
+-
+Using +,(i), we can solve for the individually most likely
+7Again we remind the reader that the backward procedure will
+State qr at time t, as
+be used in the solution to Problem 3, and is not required for the
+q: = argmax [y,(i)],
+1<t<T.
+(29)
+solution of Problem 1.
+1SisN
+RABINER: HIDDEN MARKOV MODELS
+263
+
+Although (29) maximizes the expected number of correct
+It should be noted that the Viterbi algorithm
+is similar
+states (by choosing the most likely state for each 0), there
+(except for the backtracking step) in implementation to the
+could be some problems with the resulting state sequence.
+forward calculation of (19)-(21). The major difference is the
+For example, when the HMM has state transitions which
+maximization in (33a) over previous states which is used in
+have zero probabilty
+(a; = 0 for some iand j), the “optimal”
+place of the summing procedure in (20). It also should be
+state sequence may, in fact, not even bea valid state
+clear that a lattice (or trellis) structure efficiently imple-
+sequence. This is due to the fact that the solution of (29)
+ments the computation of the Viterbi procedure.
+simply determines the most likely state at every instant,
+without
+regard
+to
+the
+probability
+of occurrence
+of
+C. Solution to Problem 3 [1]-[5]
+sequences of states.
+.
+vege
+One possible solution to the above problem is to modify
+. The third, and by farthe most difficult: problem of HMMs
+the optimality criterion. For example, one could solve for
+is to determine a metho to adjust
+the model parameters
+the state sequence that maximizes
+the expected number of
+(A, B, =) to maximize the probability of the observation
+correct pairs of states (q;, 4:41), or triples of states (q,,
+pequence given the model. There sno known way to one.
++1 Gr+2), etc. Although these criteria might be reasonable
+lytically solve for the model which maximizes the proba-
+for some applications, the most widely used criterion is to
+bility of the observation sequence. In fact, given any finite
+find the single best state sequence (path), i.e., to maximize
+observation sequence as training data, there is no optimal
+P(Q|O, d) which is equivalent to maximizing P(Q, O|)). A
+wayofestimating
+themodel parameters. We can, however,
+formal technique
+for finding this single best state sequence
+choose » ~ A, B, 7) such that P(O|d) is locally maximized
+exists, based on dynamic programming methods, and is
+using an iterative procedure such as the Baum-Welch
+called the Viterbi algorithm.
+method (or equivalently
+the EM (expectation-modification)
+Viterbi Algorithm [21], [22]: To find the single best state‘
+Tethod [23), or using gradient techniques [14]. In this sec-
+sequence, Q = {q; q2 *** qr}, for the given observation
+tion we discuss
+one iterative procedure, based primarilyon
+sequence O = {O, OQ; --- 0; we need to define the
+the classic work of Baum and his colleagues, for choosing
+quantity
+'
+model parameters.
+In order to describe the procedure for reestimation (iter-
+6(i) =
+= =omax = Plqr qo +++ Ge = i, OF O2 +++ OAD
+ative update and improvement) of HMM parameters, we
+WF
+Nay
+first define &,(i,j),the probability of being in state S; at time
+(30)
+t, and state S; at time t + 1, given the model and the obser-
+vation sequence, i.e.
+i.e., 5,(/) is the best score (highest probability) along
+a single
+oy
+_
+_
+path, at time t, which accounts for the first t observations
+Eli, f) = Plage = Sir Qr+1 = SiO,
+(36)
+and ends in state S;. By induction we have
+The sequence of events leading to the conditions required
+.
+.
+by
+(36) is illustrated in Fig. 6. It should be clear, from the
+6r4.40/) = [max 5,(/)aj]
+- BO; +).
+(31)
+Y
+8
+i
+To actually retrieve the state sequence, we need to keep
+|
+|
+track of the argument which maximized (31), for each t and
+|
+|
+j. We do this via the array y,(j). The complete procedure
+Si
+1S)
+for finding the best state sequence can now be stated as
+1b,
+{4b )(Or44)1
+.
+follows:
+:
+|
+|
+:
+1) Initialization:
+:
+|
+|
+:
+|
+|
+6/) = 7jb(O),
+TSi5N
+(32a)
+.
+|
+|
+.
+atid
+|
+| Praatid
+Wilf) = 0.
+(32b)
+t-4
+t
+|
+j t+
+t+2
+|
+2) Recursion:
+Fig. 6.
+Illustration of the sequence of operations required
+6(j) = max [6,-,(i)a)b(O),
+2<t<T
+for the computation of the joint event that the system is in
+1sisn
+state S; at time
+t and state S| at timet + 1.
+1<j<N _—
+(33a)
+Yj) = argmax (6, (i) aj],
+2<t<T
+definitions of the forward and backward variables, that we
+1SisN
+can write &,(i, j) in the form
+1<j<=N.
+(33b)
+.
+.
+4 _ aeli) agb(Ora1) Bris)
+3) Termination:
+(34a)
+Ei) =“pop
+Pes max [r(i]
+ax (i) ab(Or+1) Beal)
+<
+= WON
+(37)
+Qi = argmax (57(i)].
+(34b)
+XD ayli) ajb\(O; +1) Braj)
+1Si5N
+i=1j=1
+4) Path (state sequence) backtracking:
+where the numerator term is just P(q, = Si, de+1 = Sj, O|N)
+and the division by P(O|A) gives the desired probability
+gh =veadlgta),
+t=T-1,7T-2,-++,1.
+(5)
+measure.
+264
+PROCEEDINGS OF THE IEEE, VOL. 77, NO.
+2, FEBRUARY 1989
+
+We have previously defined ,(i) as the probability of
+lihood estimate of the HMM. It should be pointed out that
+being in state S; at time t, given the observation sequence
+the forward-backward algorithm leads to local maxima
+and the model; hence we can relate y,(/)
+to &,(i,/)by sum-
+only, and that in most problems of interest, the optimi-
+ming over j, giving
+zation surface is very complex and has many local maxima.
+N
+The reestimation formulas of (40a)-(40c) can be derived
+yi) = D EG,p).
+(38)
+directly by maximizing (using standard constrained opti-
+i=
+mization techniques) Baum’s
+auxiliary function
+If we sum y,(/) over the time index
+t, we get a quantity
+which
+QA, ) = py P(QIO, ») log [P(O, Q|N]
+(41)
+can be interpreted as the expected (over time) number of
+_
+times that state 5; is visited, or equivalently, the expected
+over X. It has been proven by Baum and his colleagues [6],
+numberoftransitions made from state S; (ifwe exclude the
+[3] that maximization of Q(A, d) leads to increased likeli-
+time slot t = T from the summation). Similarly, summation
+hood, i.e.
+of &,(i,j)over t (from t = 1 to t = T — 1) can be interpreted
+max [Q(A, \)] = P(O|X) = P(O|A).
+(42)
+as the expected number of transitions from state 5; to state
+x
+Sj. That is
+Eventually the likelihood function converges to a critical
+T-1
+point.
+2 yi) = expected number of transitions from S;
+Notes on the Reestimation Procedure: The reestimation
+mo
+formulas can readily be interpreted as an implementation
+(39a)
+of the EM algorithm of statistics [23] in which the E (expec-
+T-1
+tation) step is the calculation of the auxiliary function Q(A,
+Dd &,i, j) = expected number of transitions from S$; to S,.
+», and the M (modification) step is the maximization over
+t=1
+A. Thus the Baum-Welch reestimation equations are essen-
+(39b)
+tially identical to the EM steps for this particular problem.
+.
+|
+An important aspect ofthe reestimation procedure
+is that
+Using the above formulas (and the concept of counting
+the stochastic constraints of the HMM parameters, namely
+event
+occurrences) we can give a method for reestimation
+N
+of the parameters of an HMM.A set of reasonable reesti-
+Va=1
+(43a)
+mation formulas for 2, A, and B are
+mam
+= = expected frequency (number of times) in state 5; at time (¢ = 1) = y,(/)
+(40a)
+_
+expected number of transitions from state 5; to state S;
+ay =
+expected number of transitions from state S;
+T-1
+2d Ei, j)
+atl
+(40b)
+T-1
+X yli)
+t=1
+Bik = expected number of times in statej and observing symbol v,
+,
+expected number of times in statej
+T
+x
+rf)
+=>.
+(40c)
+D yl)
+t=1
+If we define the current model as \ = (A, B, 1), and use TT
+that to compute the right-hand sides of (40a)-(40c), and we
+NL
+;
+define the reestimated model as \ = A, B, 7),asdetermined
+2% aj=1,
+15i5N
+(43b)
+from the left-hand sides of (40a)-(40c), then
+it has been
+proven by Baum and his colleagues [6], [3] that either 1) the
+Mo
+.
+initial model \ defines acritical point of the likelihood func-
+2 bw =1
+1s] 5N
+(43c)
+tion, in which case \ = A; or 2) model ) is more likely than
+model } in the sense that P(O|A) > P(OJN), i-e., we have
+are automatically satisfied at each iteration. By looking at
+found anew model) from which theobservation sequence
+the parameter estimation problem as a constrained opti-
+is more likely to have been produced.
+_
+mization of P(O|A) (subject to the constraints of (43)), the
+Based on the above procedure, if we iteratively use ) in
+techniques of Lagrange multipliers can be used to find the
+place of \ and repeat the reestimation calculation, we then
+values of 7, a, and bj(k) which maximize P (we use the nota-
+can improve the probability of
+O being observed from the
+tion P = P(O|)) as short-hand in this section). Based on set-
+model until some limiting point is reached. The final result
+ting up a standard Lagrange optimization using Lagrange
+of this reestimation procedure is called
+a maximum like-
+multipliers, it can readily
+be shown that Pis maximized when
+RABINER: HIDDEN MARKOV MODELS
+265
+
+the following conditions are met:
+TjoP
+4
+2
+On;
+™=
+(44a)
+vw
+kan ™* Om,
+4
+3
+oP
+aij day
+(a)
+ay =
+(44b)
+Da, ee
+(
+{
+)
+Kaa
+Bax
+1
+4
+oP.
+bik)
+b(k)
+(b)
+bk) =w
+op"
+(44c)
+& bi) db,{e)
+()
+( )
+Byappropriate manipulation of (44), the right-hand sides of
+() —
+{ )
+each equation can be readily converted to be identical to
+fe
+D6
+the right-hand sides of each part of (40a)-(40c), thereby
+2S
+showing that the reestimation formulas are indeed exactly
+R
+R
+correct at critical points of P. In facttheform of (44) is essen-
+t )
+{ )
+tially that of a reestimation formula in which the left-hand
+side is the reestimate and the right-hand side is computed
+)
+using the current values of the variables.
+Fig. 7. Illustration of 3 distinct types of HMMs. (a) A 4-state
+Finally, we note that since the entire problem can be set
+se eae tofcright model, left-rightmodel.
+(c) A 6state par-
+up as an optimization problem, standard gradient tech-
+niques can be used to solve for “optimal” values of the
+model parameters [14]. Such procedures have been tried
+HMMs
+is that the state transition coefficients have the prop-
+and have been shown to yield solutions comparable to those
+erty
+of the standard reestimation procedures.
+aj=0,
+j<i
+(45)
+IV.
+Types of HMMs
+i.e., no transitions are allowed to states whose indices are
+.
+.
+.
+lower than the current state. Furthermore, the initial state
+Until now, we have only considered the special case of
+probabilities have the property
+ergodic or fully connected HMMs in which every state of
+.
+the model could be reached (in a single step) from every
+0, i#1
+other state of the model. (Strictly speaking, an ergodic
+ms 5 j=1
+(46)
+model has the property that every state can be reached from
+every other state in a finite number of steps.) As shown in
+since the state sequence must begin in state 1 (and end in
+Fig. 7(a), for an N = 4 state model, this type of model has
+state N). Often, with left-right models, additional con-
+the property that every a, coefficient is positive. Hence for
+straints are placed on the state transition coefficients to
+the example of Fig. 7a we have
+make sure that large changes in state indices do not occur;
+hence a constraint of the form
+ay ay ay ay
+a,j = 0,
+j>it+a
+(47)
+ann
+a
+am
+a
+is often used. In particular, for the example of Fig. 7(b), the
+21
+22
+23
+24
+:
+:
+.
+A=
+.
+value of A is 2, i.e., no jumps of more than 2 states are
+431
+432
+233
+3g
+allowed. The form of the state transition matrix for the
+example of Fig. 7(b) is thus
+ay
+442
+243
+Fag
+For someapplications, in particular those to be discussed
+an
+ap a3 0
+later in this paper, other types of HMMs have been found
+to account
+for observed properties
+of the signal being mod-
+A=
+0
+ay a3
+ars
+eled better than the standard ergodic model. One such
+0
+0
+ay ay
+|
+model is shown in Fig. 7(b). This model is called a left-right
+model or a Bakis model [11], [10] because the underlying
+0
+0
+0
+agg
+state sequence associated with the model has the
+propert
+that as time increases the state index increases (orStays the
+Itshould be clear that, forthe last stateina left-right model,
+same), i.e., the states proceed from left to right. Clearly the
+that the state transition coefficients are specified as
+left-right
+type of HMM has the desirable property that it can
+ayy = 1
+(48a)
+readily model signals whose properties change over time—
+e.g., speech. The fundamental property of all left-right
+ay =0,
+I< N.
+(48b)
+266
+PROCEEDINGS OF THE
+IEEE, VOL. 77, NO. 2, FEBRUARY 1989
+
+Although we have dichotomized HMMs into ergodic and
+u
+.
+left-right models, there are many possible variations and
+_
+> Wi ) +O,
+combinations possible. By way of example, Fig. 7(c) shows
+Bik =
+(53)
+across-coupled connection of twoparallel left-right HMMs.
+x yj, k)
+Strictly speaking, this model is a left-right model (it obeys
+wt
+all the a, constraints); however, it can be seen that it has
+T
+.
+,
+certain flexibility not present ina strict left-right model (i.e.,
+=
+Ps dds kK)» (Or — WjOr — Hx)
+one without parallel paths).
+Op. =
+(64)
+It should be clear that the imposition of the constraints
+DX yj, k)
+of the left-right model, or those of the constrained jump
+mt
+model, essentially have no effect on the reestimation pro-
+where prime denotes vector transpose and where ¥;(j, k)
+cedure. This 's the case because any HMM parameter set
+is the probability of being in statej at time t with the kth
+to zero initially, will remain at zero throughout the rees-
+mixture component accounting for O,, i.e.,
+timation procedure (see (44)).
+.
+aj) BU)
+Ce TUOe Bier Ux)
+A. Continuous Observation Densities in HMMs [24]-[26]
+ah, KY = |OO |
+All of our discussion, to this point, has considered only
+Pp ai) BM)
+Ps CmBUOe, Hime Um)
+the case when the observations were characterized as dis-
+crete symbols chosen froma finite alphabet,
+and therefore
+(The term ¥,(j, k) generalizes to y,(j) of (26) in the case of
+we could use adiscrete probability density within each state
+a simple mixture, or a discrete density.) The reestimation
+of this model. The problem with this approach, at least for
+formula
+for aj is identical to the one used for discrete obser-
+some applications, is that the observations are continuous
+vation densities (i.e., (40b)). The interpretation of (52)-(54)
+signals (or vectors). Although it is possible to quantize such
+is fairly straightforward. The reestimation formula for cx is
+continuous signals via codebooks, etc., there might be seri-
+the ratio between the expected number
+of times the system
+ous
+degradation associated with such quantization. Hence
+is in state j using the kth mixture component, and the
+it would be advantageous to be abletouse HMMs with con-
+expected number of times the system is in statej.Similarly,
+tinuous
+observation densities.
+the reestimation formula for the mean vector p, weights
+In order to use a continuous observation density, some
+each numerator term of (52) by the observation, thereby
+restrictions have to be placed on the form of the model
+giving the expected value of the portion of the observation
+probability density function (pdf) to insure that the param-
+vector accounted
+for by the kth mixture component. A sim-
+eters of the pdf can be reestimated in a consistent
+way.The
+ilar interpretation can be given for the reestimation term
+most general representation of the pdf, for which a rees-
+for the covariance matrix Uj.
+timation procedure has been formulated [24]-[26], is a finite
+mixture of the form
+B. Autoregressive HMMS [27], [28]
+ss
+.
+Although
+the general formulation of continuous densit
+b(O)
+= Ps Cm UO, Bim Ujml =
+1S f= N
+(49)
+HMMs is applicable to a wide range of problems, there i,
+where Oisthe
+vector beingmodeled,cj,is the mixture coef-
+one other very interesting class ofHMMs that is particularly
+ficient for the mth mixture in statejand 9U is any log-con-
+applicable to speech processing. This is the class of auto-
+cave or elliptically symmetric density [24] (e.g., Gaussian),
+regressive HMMs [27], [28]. For this class, the observation
+with mean vector ptm and covariance matrix Ujm for the mth
+vectors are drawn from an autoregression process.
+mixture component in state j. Usually a Gaussian density
+To be more specific, consider the observation vector °
+is used for SU. The mixture gains Cjm satisfy the stochastic
+with components
+(xp, X1, Xz, * * * ,Xx—1)- Since the basis prob-
+constraint
+ability density function for the observation vector is Gauss-
+M
+ian autoregressive (or order p), then the components of O
+zy Gm=1,
+1<7<N
+(50a)
+are related by
+m=
+Cim = 0,
+1<jsN,1sm=<M
+(50b)
+0,= -E a, +e,
+(55)
+so that the pdf is properly normalized, i.e.,
+m
+o
+where e;, k = 0,1,2, > ++ ,K — 1 are Gaussian, independent,
+\
+bx) dx = 1,
+Tsj<Nn.
+(51)
+identically distributed random variables
+with zero mean and
+°
+variance o”, and a;,i = 1,2,°--
+, Pp, are the autoregression
+The pdf of (49) can be used to approximate, arbitrarily
+or predictor coefficients. It can be shown that for large K,
+closely, any finite, continuous density function. Hence it
+the density function for O is approximately
+can be applied to a wide range of problems.
+It can be shown [24]-[26] that the reestimation formulas
+#0) = (2x0)-*? exp {-1 40, |
+66)
+for the coefficients of the mixture density, i.e., Cjms Bjkr aNd
+20°
+Uj, are of the form
+;
+where
+;
+Pp
+= Pom4)
+(52)
+6(O, a) = £,(0) r(0) + 2 = ri) ri)
+(57a)
+2 2 Wi
+a’ = (1, ay a,
++>, al
+(57b)
+RABINER: HIDDEN MARKOV MODELS
+267
+
+pai
+j. The new autocorrection vectors of the autoregression
+ri) = Pa Anan+j
+(a = 1,11 <p
+(7c)
+coefficients
+can then be calculated using (57c), thereby
+clos-
+kei-t
+ing the reestimation loop.
+i) = Pa XnXn +i
+Osi=p.
+(57d)
+C. Variants on HMM Structures—Null Transitions and Tied
+In the above equations it can be recognized that r(i) is the
+States
+autocorrelation of the observation samples, and r,(i) is the
+Throughout this paper we have considered HMMs in
+autocorrelation of the autoregressive coefficients.
+which the observations were associated with states of the
+The total (frame) prediction residual a can be written as
+model. It is also possible to consider models in which the
+k
+observations
+are associated with the arcs of the model. This
+a= é > rer = Ko?
+(58)
+type of HMM has been used extensively in the IBM con-
+i=d
+tinuous speech recognizer [13]. It has been found useful,
+where o’ is the variance persample
+of the error signal. Con-
+for this type of model, to allow transitions which produce
+sider the normalized observation vector
+no output—i.e.,
+jumps from one state toanother
+which pro-
+duce no observation [13]. Such transitions are called null
+6= O_O
+(59)
+transitions and are designated by a dashed line with the
+va
+VKo®
+symbol ¢ used to denote the null output.
+coe
+.
+Fig. 8 illustrates 3 examples (from speech
+processin,
+where each sample x; is divided by VKo", i.e., each sample
+tasks where null arcs have been successfully utilized. The
+is normalized by the sample variance. Then f(O) can bewrit-
+ten as
+~Ki2
+(6) = ()
+exp (-§ 60, a).
+(60)
+(a) PPO 8 aoe$0.
+K
+2
+1
+2
+3
+N
+>
+SA >
+—
+ad
+In practice, the factor K (in front of the exponential of (60))
+$
+¢
+¢
+is replaced by an effective frame length K which represents
+b
+$
+the effective length of each data vector. Thus if consecutive
+t
+“two”
+data vectors are overlapped by 3 to 1, then we would use
+()
+K = KI3 in (60), so that the contribution of each sample of
+Ss>-73
+u
+signal to the overall density is counted exactly once.
+¢
+The way in which we use Gaussian autoregressive density
+%
+in HMMs is straightforward. We assume a mixture density
+oN
+of the form
+“0
+M
+(©
+6<a©
+b(O) = ay CimDjm(O)
+(61)
+LD)
+where each bjm(O) is the density defined by (60) with auto-
+4
+regression vector aj, (or equivalently by autocorrelation
+Fig. 8.
+Examples of networks incorporating null transi-
+VectOr Faj,), 1-8,
+tions. (a) Left-right model. (b) Finite state network. (c) Gram-
+mar network.
+Qn ~Ki2
+K
+Djm(O)
+= (=)
+exp {-§ 5(O, am
+(62)
+example of part (a) corresponds to an HMM (a left-right
+A reestimation formula for the sequence autocorrelation,
+model) with a large number of states in which it is possible
+(i) of (57d), for the jth state, kth mixture, component has
+to omit transitions between any pair of states. Hence it is
+been derived, and is of the form
+possible to generate observation sequences with as few as
+T
+1 observation and still account for a path which begins in
+= i, kK)
+state 1 and ends in state N.
+Tie =a —___
+(63a)
+The example of Fig. 8(b) is a finite state network (FSN) rep-
+yj, k)
+resentation of a word in terms of linguistic unit models (i.e.,
+t=4
+the sound on each arc is itself an HMM). For this model the
+where ¥;(j, k) is defined as the probability of being in state
+null transition gives
+a compact and efficient way of describ-
+j at time t and using mixture component k, i.e.,
+ing alternate
+word pronunciations
+(i.e., symbol delections).
+Finally the FSN of Fig. 8(c) shows how the ability to insert
+ydj, k) =
+af) Bi)
+Cb»)
+(63b)
+a null transition into a grammar network allows a relatively
+N
+;
+|
+M
+.
+simple network to generate arbitrarily long word (digit)
+2% a(f) Bj)
+Pa Cn jl)
+sequences. In the example shown in Fig. 8(c), the null tran-
+sition allows the network to generate arbitrary sequences
+It can be seen that 7, is a weighted sum (by probability of
+of digits of arbitrary length by returning to the initial state
+occurrence) of the normalized autocorrelations of the
+after each individual digit is produced.
+frames in the observation sequence. From Fz, one can solve
+Another interesting variation in the HMM structure is the
+a set of normal equations
+to obtain the corresponding auto-
+concept of parameter tieing [13]. Basically the idea is to set
+regressive coefficient vector aj, for the kth mixture of state
+up an equivalence relation between HMM parameters in
+268
+PROCEEDINGS OF THE IEEE, VOL. 77, NO. 2, FEBRUARY 1989
+
+different states. In this manner the number of independent
+transition is made only after the appropriate number of
+parameters in the model is reduced and the parameter esti-
+observations have occurred in the state (as specified by the
+mation becomes somewhat simpler. Parameter tieing is
+duration density).
+used in cases where the observation density (for example)
+Based on the simple model of Fig. 9(b), the sequence of
+is known to be the same in 2 or more states. Such cases
+events of the variable duration HMM is as follows:
+occur often in characterizing speech sounds. The tech-
+1)
+Aninitial state, q, = Sj, is chosen according to the ini-
+nique is especially appropriate in the case where there is
+.
+we
+.
+im
+.
+:
+tial state distribution 7;.
+insufficient training data to estimate, reliably, a large num-
+.
+.
+.
+we
+:
+2) A duration d, is chosen according to the state dura-
+ber of model parameters. For such cases it is appropriate
+.
+f
+.
+.
+tion density p,4,(d,). (For expedience and ease of
+to tie model parameters so as to reduce the number of
+.
+.
+.
+.
+.
+-
+-
+A
+implementation the duration density p,(d) is trun-
+parameters (i.e., size of the model) thereby making the
+-
+.
+qv
+naar
+.
+.
+cated at a maximum duration value D.)
+parameter estimation problem somewhat simpler.
+We will
+3) Observati
+O, 0): ++ O,, ate chosen
+according to
+discuss this method later in this paper.
+servations
+©)
+G2
+on
+ace
+8
+the joint observation density, by(O, O, --- Og,).
+D. Inclusion of Explicit State Duration Density in HMMs°®
+Generally weassume independent of observationsso
+29}, [30]
+that bg(O, O,
++ + Og,) = HfL1 bg(Op.
+’
+4)
+Thenext state, q2 = S;, is chosen according to the state
+Perhaps the major weakness of conventional HMMs is
+transition probabilities, ag,,,,
+with the constraint
+that
+the modeling of state duration. Earlier we showed (5) that
+gq, = 0, i-e., no transition back to the same state can
+the inherent duration probability density pd) associated
+occur. (Clearly this is
+a requirement since we assume
+with state 5,, with self transition coefficient a;;, was of the
+that, in state q,, exactly d, observations occur.)
+fe
+F
+-
+orm
+A little thought should convince the reader that the
+pid) = (a,)9""(1 — aj)
+variable duration HMM can be made equivalent to the stan-
+= probability of d consecutive observations
+oar by setting p,(d) to be the exponential density
+in state S;.
+ore.
+-
+Using the above formulation, several changes must be
+(64)
+made to the formulas of Section III to allow calculation of
+For most physical signals, this exponential state duration
+PO!) and for reestimation of all model parameters. In par-
+ee
+.
+-
+ticular we assumethat the first state begins at
+t = 1 and the
+density is inappropriate. Instead we would preferto explic-
+.
+a
+itly
+model duration density in some analytic form.
+Fig. 9
+last state ends at t = T, i.e., entire duration intervals are
+Y
+se
+included with the observation sequence. We then define
+the forward variable a,(i) as
+Gi
+aij
+04;
+ali) = P(O, O, +++ O;,, S; ends at tld).
+(65)
+:
+:
+We assume that a total of r states have been visited during
+:
+Sj
+o
+Sj
+:
+the first t observations and we denote the states as qi, q2,
+"
++++,g,with durations associated with each state of dj, d2,
+(a)
++++,d,, Thus the constraints of (65) are
+p,td)
+ai,
+pj(d)
+qr = Si
+(66a)
+:
+3
+5
+:
+x d,=t.
+(66b)
+aj
+(b)
+Equation (65) can then be written as
+Fig. 9.
+Illustration of general interstate connections of (a)
+ai) =
+Tq,
+* Pas)
+* PO, O, +++ Og,|qn)
+anormal HMM with exponential state duration density, and
+qq"
+(b) a variable duration HMM with specified state densities
+d
+cee
+and no self transitions from a state back to itself.
+* q,q,Pq(O2) Ou+1 *** Oa, +4192)
+* ag,19,Pq(d) PlOg,+a,+---+0,.,41°°* Olg)
+(67)
+illustrates,
+fora pair of model states S;and S,, the differences
+h
+h
+.
+fi
+dall
+ibl
+d
+between HMMs without and with explicit duration density.
+w ere By induction v states gan 7 Posi je state dura-
+In part (a) the states have exponential duration densities
+tions
+d.
+By induction we can write a(j) as
+based on self-transition coefficients a, and aj, respectively.
+;
+n
+8
+;
+t
+In part (b), the self-transition coefficients are set to zero, and
+aj) = Ps Py &— ali) ajpfd) a, b(O,)
+(68)
+an explicit duration density is specified.? For this case, a
+whereD
+is the maximum duration within any state. To ini-
+®In caseswhere
+a Bakis typemodel is used, i.e., left-right models
+tialize the computation of o,(j) we use
+where the number of states is proportional to the average duration,
+.
+explicit inclusion of state duration density is neither necessary nor
+ali) = mp1)
++ b(O)
+(69a)
+is it useful.
+2
+N
+°Again the ideas behind using explicit state duration densities
+\
+7
+.
+are due to Jack Ferguson
+of IDA. Most of the material in this section
+onli) = mpi(2) pu b{O) + 2% on(j) ap) b(O2) — (69b)
+is based on Ferguson’s original work.
+iti
+RABINER: HIDDEN MARKOV MODELS
+269
+
+3
+2
+N
+terms in which a new state begins at t + 1. The formula for
+as(i) = 7mpj(3) Tr b(O,) + & xu 3-g(/) ajipi(d)
+b,(k) (assuming a discrete density) is the expected number
+=
+el
+of times that observation O, = v; occurred in state i, nor-
+3
+malized by the expected number of times that any obser-
+-
+Tl
+boy
+(69c)
+vation occurred in state i. Finally, the reestimation formula
+saa-d
+for p,(d) is the ratio of the expected number of times state
+etc., until ap(i) is computed; then (68) can be used for all
+joccurred with duration d, to the expected number
+of times
+t > D. It should be clear that the desired probability of O
+state i occurred with any duration.
+given the model ) can be written in terms of the a’s as
+The importanceofincorporating state duration densities
+N
+is reflected in the observation that, for some problems, the
+PIO|N) = D afi)
+(70)
+quality of the modeling is significantly improved when
+i=4
+explicit state duration densities are used. However, there
+.
+.
+are drawbacks to the use of the variable duration model
+as was previously used for ordinary HMMs.
+di
+din
+thi
+tion.
+One
+is th
+atly
+increased com-
+In order
+to give reestimation formulas for all the variables
+Scusse Ie 4 sec ated ne is the greatly i durati
+of the variable duration HMM, we must define three more
+putational
+load associate with using varia © urations. It
+forward-backward variables, namely
+can be seen from the definition and initialization condi-
+"
+tions on the forward variable «,(i), from (68)-(69), that about
+a (i) = P(O, O, +++ O,, S; begins att + 1)d)
+(71)
+D times the storage and D7/2 times the computation is
+required. For Don the orderof 25 (as is reasonable for many
+ii) = P(Or+1 ++
+* Or|S; ends at t, )
+(72)
+speech processing problems), computation is increased by
+*
+.
+a factor of 300. Another
+problem with the variable duration
+Br(i) = P(Or+1 +++ Or|S; begins att + 1,2).
+(73)
+models is the large number of parameters (D), associated
+The relationships between a, a*, 8, and 6* are as follows:
+with each state, that must be estimated, in addition to the
+N
+usual HMM parameters. Furthermore, for a fixed number
+af(j) = 2 alia,
+(74)
+of observations T, in the training set, there are, on average,
+int
+fewer state transitions and much less data to estimate p,(d)
+D
+t
+than would be used in a standard HMM. Thus the reesti-
+afi) = LU at_i)p{d)
+Il — b(o)
+(75)
+mation problem is more difficult for variable duration
+ont
+setcdet
+HMMs than for the standard HMM.
+|
+N
+ee
+One proposal to alleviate some of these problems is to
+Bi) = 2% ai8r(/)
+(76)
+use a parametric state duration density instead of the non-
+>
+ted
+parametric pid) used above 2291, [30]. In particular, pro-
+Be) = >» Brsa(i) pd)
+II
+b(O).
+7
+posals include the Gaussian family with
+=
+sate
+pid) = 9d, pi, 07)
+(82)
+Based on the above relationships and definitions, the rees-
+.
+2
+.
+.
+timation formulas for the variable duration HMM are
+with parameters 4; and o/, or the Gamma family with
+=
+_ mB5(i)
+dy
+= uae"
+83
+™
+= BO))
+(78)
+pi)
+Nn)
+°
+T
+with parameters v, and 9; and with mean vj; ' and variance
+_
+2) o,(i) ajB(/)
+vn;?.Reestimation formulas for ; and »; have been derived
+ay =QT
+(79)
+and used with good results [19]. Another possibility, which
+XD cali) a8?
+(/)
+has been used with good success, is to assume a uniform
+jaltet
+duration distribution (over an appropriate range of dura-
+T
+tions) and use a path-constrained Viterbi decoding pro-
+=
+[ X at(i) - Bi) — DX a@,(i) 2.0]
+cedure [31].
+_
+slorek
+ret
+ret
+bik) =
+E. Optimization Criterion—ML, MMI, and MDI [32], [33]
+*;
+7;
+au
+2, &
+[ =, art) Br) — x ali)#.00|
+The basic philosophy of HMMsis that a signal (or obser-
+St. O1=ve
+vation sequence) can be well modeled if the parameters of
+(80)
+an HMM are carefully and correctly chosen. The problem
+r
+ted
+with ins philosophy is nat it is sometimes inaccurate
+*
+.
+either
+because
+the signal
+does not obey the
+constraints o1
+Bid) = & oi) pid) Beall) al 50.)
+(81)
+the HMM, or because it is too difficult to get reliable esti-
+Pi
+Os.
+_
+td
+.
+matesof allHMM parameters. To alleviate
+this type ofprob-
+Py & a (i) pd) Br + ali) AL, b(O,)
+lem, there has been proposed at least two alternatives to
+the standard maximum likelihood (ML) optimization pro-
+The interpretation of the reestimation formulas is the fol-
+cedure for estimating HMM parameters.
+lowing. The formula for 7; is the probability that state
+i was
+The first alternative [32] is based on the idea that several
+the first state, given O. The formula for a, isalmost
+the same
+HMMs are to be designed and we wish to design them all
+as for the usual HMM except it uses the condition that the
+at the same time in such a way so as to maximize the dis-
+alpha terms in whicha state ends at t, join with the beta
+crimination power of each model (i.e., each model’s ability
+270
+PROCEEDINGS OF THE
+IEEE, VOL. 77, NO. 2, FEBRUARY 1989
+
+to distinguish between observation sequences generated
+effectively being used. None of the approaches, however,
+by the correct model and those generated by alternative
+assumes that the source has the probability distribution of
+models). We denote the different HMMs as X,, » = 1, 2,
+the model.
++ ++,V.The standard MLdesign criterion is to use a separate
+training sequence of observations O” to derive model
+F. Comparison of HMMs [34]
+parameters for each model },. Thus the standard ML opti-
+An interesting question associated with HMMs is the fol-
+mization yields
+lowing: Given two HMMs, d, and ), what is a reasonable
+P* = max P(O"|d,).
+(84)
+measure of the similarity of the two models? A key point
+»
+here is the similarity criterion. By way of example, consider
+The proposed alternative design criterion [31] is the max-
+the case of two models
+imum mutual information (MMI) criterion in which the
+dy = (Ay, By, 41)
+Az = (Aa, Ba, 2)
+average mutual information
+/ between the observation
+.
+sequence O”’ and the complete set of models \ = (Ay, Az,
+with
++++ dy) is maximized. One possible way of implementing
+p
+1-p
+q
+1-q
+this” is
+Ay =
+8B, =
+v
+1—p p
+1-q
+q
+= max [log P(O"|X,) — log xu mo")
+(85)
+a, = {1/2 1/2]
+i.e., choose ) so as to separate the correct model A, from
+and
+all other models on the training sequence O’. By summing
+r
+1-r
+s
+1-s
+(85) over all training sequences, one would hope to attain
+Ar = [
+B, =
+mm = [V2 12}.
+the most separated set of models possible. Thus a possible
+Torr
+Toss
+implementation would be
+For ), to be equivalent to 2, in the sense of having the same
+v
+v
+statistical properties for the observation symbols, i.e., E[O;
+he max {2 log P(O"|A,) — log Py mO'Da}
+(86)
+= vy|
+Ma] = FLO, = vy|Aal, for all vz, we require
+There are various theoretical reasons why analytical (or
+pq + (1
+pit ~ g) = 1s +4
+01 ~ 5)
+reestimation type) solutions
+to (86) cannot be realized. Thus
+or, by solving for s, we get
+the only known way of actually solving (86) is via general
+p+4q-—-2pq
+optimization procedures
+like the steepest descent methods
+a
+a
+[32].
+The second alternative philosophy is to assume that the
+By choosing (arbitrarily)
+p = 0.6, q = 0.7,
+r = 0.2, we get s
+signal to be modeled was not necessarily generated by a
+= 13/30 = 0.433. Thus, even when the two models, A, and
+Markov source, but does obey certain constraints (e.g., pos-
+2, look ostensibly very different (i.e., A; is very different
+itive definite correlation function) [33]. The goal of the
+from A, and B, is very different from By), statistical equiv-
+design procedure is therefore to choose HMM parameters
+alence of the models can occur.
+which minimize the discrimination information (D1) or the
+We can generalize the concept of model distance (dis-
+cross entropy between the set of valid (i.e., which satisfy
+similarity) by defining
+a distance measure D(\,, \2), between
+the measurements) signal probability densities (call this set
+two Markov models, A, and 2, as
+Q), and the set of HMM probability densities (call this set
+1
+P,), where the DI! between QandP, can generally be written
+Dy, 2) = = {log P(O®|A,) — log P(O|A,)]
+(88)
+in the form
+T
+where O” = 0, O, 0;
+: - O; is a sequence of observations
+D(Q\P,) = \ ay) In (q(yip(y) dy
+(87)
+generated by model ), [34]. Basically (88) is
+a measure of
+where q andp are the probability density functions cor-
+how well mode! }, matches observations generated by
+responding to Q and P,. Techniques for minimizing (87)
+model Xr, relative to how well model 2 matches obser-
+(thereby giving an MDI solution) for the optimum values
+vations generated by itself. Several interpretations of (88)
+of \ = (A, B, =) are highly nontrivial; however, they use a
+exist in terms of cross entropy, or divergence, or discrim-
+generalized Baum algorithm as the core of each iteration,
+ination information [34].
+.
+.
+and thusareefficiently
+tailored tohidden Markov modeling
+. One of the problems with the distance measure of (68)
+[3].
+isthatitis nonsymmetric. Hence a natural expressionofthis
+Ithas been shown that the ML, MMI, and MDI approaches
+measure is the symmetrized version, namely
+can all be uniformly formulated as MDI approaches." The
+D(A) + DO, \)
+three approaches differ in either the probability density
+D1, da) =rn
+(89)
+attributed to the source being modeled, or in the model
+V.
+IMPLEMENTATION
+ISSUES FOR HMMS
+pwn (86) we assume that all words are equiprobable, i.e.,
+The discussion in the previous two sections has primarily
+ny, Ephraim and L. Rabiner, “On the Relations Between Mod-
+dealt with the theoryofHMMs and several variations on the
+eling Approaches for Speech Recognition,”toappear in IEEE TRANS-
+form of the model. In this section we deal with several prac-
+ACTIONS
+ON INFORMATION THEORY.
+tical implementation issues including scaling, multiple
+RABINER: HIDDEN MARKOV MODELS
+271
+
+observation sequences, initial parameter estimates, miss-
+Thus we can write &;(/) as
+ing data, and choice of model size and type. For some of
+these implementation issues we can prescribe exact ana-
+s
+() TT
+(0)
+lytical solutions; for other issues we can only provide some
+j=1 AN I
+Or) Fie
+a,(i)
+seat-of-the-pants experience gained from working with
+ai) = |
+Oo
+zt
+(93b)
+HMMs over the last several years.
+= = ai-(H, 2) ayjb(Op x aii)
+A.
+Scalii
+14,
+caling [14]
+i.e., each a,(i) is effectively scaled by the sum over all states
+In order to understand why scaling is required for imple-
+of a,(i).
+menting the reestimation procedure of HMMs, consider
+Next we compute the 8,(i) terms from the backward
+the definition ofa,(i) of (18). It can be seen that «,(i) consists
+recursion. The only difference here is that we use the same
+of the sum of a large number of terms, each of the form
+scale factors for each time t for the betas as was used for
+t-1
+t
+the alphas. Hence the scaled 8's are of the form
+II
+a
+.
+(a Aga.es HT) ba(O.)
+Bai) = cB).
+(94)
+with q; = S;. Since each a and b term is less than
+1 (generally
+Since each scale factor effectively restores the magnitude
+significantly less than 1), it can be seen that as t starts to get
+of the « terms to 1, and since the magnitudes of the a and
+big (e.g., 10 or more), each term of a(/) starts to head expo-
+B terms are comparable, using the same scaling factors on
+nentially to zero. For sufficiently larget (e.g., 100 or more)
+the B’s as was used on the a's is an effective way of keeping
+the dynamic range of the (i) computation will exceed the
+the computation within reasonable bounds. Furthermore,
+precision range of essentially any machine (even in double
+in terms of the scaled variables we see that the reestimation
+precision). Hence the only reasonable way of performing
+equation (90) becomes
+the computation is by incorporating a scaling procedure.
+1
+The basic scaling procedure which is used is to multiply
+Se,
+ao:
+a,(i) by a scaling coefficient that is independent of i (i.e., it
+—_ 2 Gf) ab(Ore 9 Bes)
+(95)
+depends only on #), with the goal of keeping the scaled a,(i)
+ay TT N .
+.
+within the dynamic range of the computer for 1 < t < T.
+& z Gi) ayb(Or+) Bra)
+Asimilar scaling is done to the G,(/) coefficients (since these
+'
+also tend to zero exponentially fast) and then, at the end
+but each &,(i) can be written as
+of the computation, the scaling coefficients are canceled
+t
+out exactly.
+&(i) = | II «| a(i) = Cali)
+(96)
+To understand this scaling procedure better, consider
+s=1
+the reestimation formula for the state transition coefficients
+a
+.
+.
+aj. If we write
+the reestimationformula
+(41) directly in terms
+and each B,+;(/) can be written as
+of the forward and backward variables we get
+.
+;
+T
+;
+.
+1-1
+Bra) = J, <| Bra l{) = Drs Bra f)-
+(97)
+2 agli) ayb(Or +1)
+Besa)
+ce
+0)
+ages
+Peo
+:
+(90)
+Thus (95) can be written as
+DD
+ayli) ajb(Or41)
+Besa)
+oy
+ferjar
+Pees
+Zi Cul) a46(O,.9) DyBra)
+Consider the computation of «,(i). For each t, we first com-
+a = TN
+.
+(98)
+pute a,(i) according to the induction formula (20), and then
+XD Cry(i) ayb(O;
++1) Drs Bev)
+we multiply it by a scaling coefficient c,, where
+tetjnt
+1
+Finally the term C,D,,, can be seen to be of the form
+o=yz
+91)
+,
+;
+;
+X ai)
+CDw=Ie I
+g=Wca=Cc,
+(9
+i=d
+s=1
+satt+1
+s=1
+Thus, for a fixed ¢, we first compute
+independent
+of t.Hence
+the terms C,D, ,,;cancel
+out of both
+;
+No
+;
+the numerator and denominator of (98) and the exact rees-
+ai) = 2 &—()) ayb(O).
+(92a)
+timation equation is therefore realized.
+_
+oe
+It should be obvious that the above scaling procedure
+Then the scaled coefficient set &,(i) is computed as
+applies equally well to reestimation of the = or B coeffi-
+N
+cients. It should also be obvious that the scaling procedure
+a &_4j) ajbO)
+of (92) need not be applied at every time instant ft, but can
+& (i) = pe Lak
+(92b)
+be performed whenever desired, or necessary (e.g., to
+pre-
+NN
+p
+-,
+to pl
+DD &lf) ajb(O)
+vent underflow). If scaling is not performed at some instant
+i=1j=1
+t, the scaling coefficients c, are set to 1 at that time and all
+By induction we can write &_1(j) as
+the conditions discussed above are then met.
+1
+The only real change to the HMM procedure because of
+*
+.
+scaling is the procedure for computing P(O|\). We cannot
+Gea) = (1, 3) oral).
+(93a)
+merely sum upthe &;(/) terms since these are scaled already.
+272
+PROCEEDINGS OF THE
+IEEE, VOL. 77, NO. 2, FEBRUARY 1989
+
+However, we can use the property that
+The
+modification
+of the
+reestimation
+procedure
+is
+T
+N
+N
+straightforward and goes as follows. We denote the set of
+II
+¢, x ali) = Cy > ai) = 1.
+(100)
+K observation sequences as
+an
+im
+i=
+O =[0", 0, ---
+, O*]
+(106)
+Thus we have
+r
+where O” = [Of Of --- OM) is the kth observation
+Il ¢- POI) =1
+(101)
+sequence. We assume each observation sequence is inde-
+t=1
+pendent
+of every other observation sequence, and our goal
+or
+is to adjust the parameters of the model \ to maximize
+K
+Po) =
+(102)
+Pon) = JT Protly)
+(107)
+Il ¢
+K
+=
+=I
+x,
+(108)
+or
+k=1
+T
+Since the reestimation formulas are based on frequencies
+log [P(O|N)] = — = log ¢.
+(103)
+of occurrence of various events, the reestimation formulas
+1
+for multiple observation sequences are modified by adding
+Thus the log of Pcan be computed, but not P since it would
+together the individual frequencies of occurrence for each
+be out of the dynamic range of the machine anyway.
+sequence. Thus the modified reestimation formulas for
+Finally we note that when using the Viterbi algorithm to
+aj and 6,(e) are
+give the maximum likelihood state sequence, no scaling is
+kK
+4 Tk
+k
+gk
+os
+required if we use logarithms in the following way. (Refer
+es B Py @r(i) agb(Ors1) Bisa)
+back to (32)-(34).) We define
+a, =rn
+(109)
+ky:
+ky
+Gui) =
+| max
+| {log Pigs dz *** Gy O, O2
+++ ON}
+Zp, 2, we Bw)
+Far
+0
+Ae
+(104)
+and
+kK
+4
+Tkr-1
+and initially set
+Lez
+B
+alli) eri)
+K=1 PR
+tat
+$,(i) = log (x) + log [b(O,)]
+(105a)
+Bo =_
+ost
+(110)
+with the recursion step
+>» 4 D aki) Bhi)
+k=1 Py t=
+$j) = max. [¢,-1(/) + log aj] + log [b(O)] — (105b)
+and 7; is not reestimated since 7, = 1, 7 = 0,1 #1.
+_
+The proper scaling of (109)-(110) is now straightforward
+and termination step
+since each observation sequence has its own scaling factor.
+.
+The key idea is to remove the scaling factor from each term
+log Pt = ime (or()].
+(105c)
+before summing. This can be accomplished by writing the
+reestimation equations in terms of the scaled variables, i.e.,
+Again we arrive at log P* rather than P*, but with signifi-
+k
+het
+cantly less computation and with no numerical problems.
+1
+a
+ky
+Bk
+ope
+(The reader should note that the terms log a, of (105b) can
+-
+a P, 2 Ge) ajb(Ored) Bre)
+be precomputed and therefore do not cost anything in the
+rr
+1)
+computation. Furthermore, the terms log [b,(O,)] can be
+Py BR x &(i) BE)
+precomputed whena
+finite observation symbol analysis
+auras
+(e.g.,
+a codebook of observation sequences) is used.
+In this manner, for each sequence oO”, the same scale fac-
+tors will appear in each term of the sum over t as appears
+B. Multiple Observation Sequences [14]
+in the P, term, and hence will cancel exactly. Thus using the
+In Section IV wediscussed a form of HMMcalled the left-
+scaled values of ine alphas and betas results in an unscaled
+right or Bakis model in which the state proceeds from state
+a; A similar result is obtained for the bj(@) term.
+1 at t = 1 to state N at t = T in a sequential manner (recall
+wae
+p
+the model of Fig. 7(b)). We have already discussed how a
+C. Initial Estimates ofHMM Parameters
+left-right model imposes constraints
+on the state transition
+In theory, the reestimation equations should give values
+matrix, and the initial state probabilities (45)-(48). However,
+of the HMM parameters which correspond to a local max-
+the major problem with left-right models is that one cannot
+imumofthe likelihood function. A key question is therefore
+use a single observation sequence to train the model (i.e.,
+how
+do we choose initial estimates of the HMM parameters
+for reestimation of model parameters). This is because the
+so that the local maximum is the global maximum of the
+transient nature of the states within the model only allow
+likelihood function.
+a small number of observations for any state (until a tran-
+Basically there is no simple or straightforward answer to
+sition is made to a successor state). Hence, in order to have
+the above question. Instead, experience has shown that
+sufficient data to make reliable estimates of all model
+either random (subject to the stochastic and the nonzero
+parameters,
+one has to use multiple observation sequences.
+value constraints) or uniform initial estimates of the « and
+RABINER: HIDDEN MARKOV MODELS
+273
+
+A parameters is adequate for giving useful reestimates of
+€
+these parameters in almost all cases. However, for the B
+parameters, experience has shown that good initial esti-
+U-*
+mates are helpful in the discrete symbol case, and are
+s
+-_-— 4
+essential (when dealing with multiple mixtures) in the con-
+\
+tre
+tinuous distribution case [35]. Such initial estimates can be
+\
+obtained in a number of ways, including manual segmen-
+NX
+tation of the observation sequence(s) into states with aver-
+e ~e.
+aging of observations within states, maximum likelihood
+segmentation of observations with averaging, and seg-
+.
+.
+mental k-means segmentation with clustering, etc. We dis-
+Fig. 10. Example of how the process of deleted interpo-
+.
+:
+:
+.
+lation can be represented using a state diagram.
+cuss such segmentation techniques later in this paper.
+D. Effects of Insufficient Training Data [36]
+B, x) and (A’, B’, x). Training set T; is then used to give an
+Another problem associated with training HMM param-
+estimate of ¢, assuming the models
+and X’ are fixed. A
+eters via reestimation methods is that the observation
+modified version of this training procedure, called the
+sequence used fortraining is, of necessity, finite. Thus there
+method of deleted interpolation [36], iterates the above pro-
+is often an insufficient number of occurrences of different
+cedure through multiple partitions of the training set. For
+model events (e.g., symbol occurrences within states) to
+example one might consider a Partition of the training set
+give good estimates of the model parameters. One solution
+such that 7, is 90 percent of T and T, is the remaining 10
+to this problem is to increase the size of the training obser-
+percent of T. There are a large number of ways in which
+vation set. Often this is impractical.
+A second possible solu-
+such a partitioning can be accomplished but one partic-
+tion
+is toreduce
+the size of themodel (e.g., number
+of states,
+ularly simple one is to cycle T, through the data, i.e., the
+number of symbols per state, etc). Although this is always
+first partition uses the last 10 percent of the data as T, the
+possible, often there are physical reasons
+why a given model
+second partition uses the next-to-last 10 percent of the data
+is used and therefore the model size cannot be changed.
+as T, etc.
+.
+;
+Athird possible solution is to interpolate one set of param-
+The technique of deleted interpolation has been suc-
+eter estimates with another set of parameter estimates from
+cessfully applied to
+a number of problems in speech rec-
+a model for which an adequate amount of training data
+ognition including the estimation of trigram word proba-
+exists [36]. The idea is to simultaneously design both the
+bilities for language models [13], and the estimation of HMM
+desired model as well as a smaller model for which the
+Output probabilities for trigram phone models [37], (38).
+amountof training data is adequate to give good parameter
+Another way of handling the effects of insufficient train-
+estimates, and then to interpolate the parameter estimates
+ing data is to add extra constraints to the model parameters
+from the two models. The way in which the smaller model
+to insure that no model parameter estimate falls below a
+is chosen is by tieing one or more sets of parameters of the
+specified level. Thus, for example, we might specify the
+initial model to create the smaller model. Thus if we have
+constraint, for a discrete symbol model, that
+estimates for the parameters for the model
+= (A, B, 7), as
+bk) = 5
+(13a)
+well as for the reduced size model )’ = (A’, B’, 2’), then the
+interpolated model, X = (A, B, %), is obtained as
+or, for a continuous distribution model, that
+Rean+-on
+(112)
+Uncle, 9 & 6.
+(113b)
+where e€ represents the weighting of the parameters of the
+The constraints can be applied as a postprocessor to the
+full model, and (1 — @) represents the weighting of the
+reestimation equations such that if a constraintis violated,
+:
+A
+‘
+the relevant parameter is manually corrected, and all
+parameters of the reduced model. A key issue is the deter-
+a
+we
+mination of the optimal value of ¢,which is clearlya func-
+remaining parameters are rescaled so that the densities
+-
+no
+’
+.
+obey the required stochastic constraints. Such post-pro-
+tion of the amount
+of training data. (As the amountoftrain-
+-
+oe
+cessor techniques have been applied to several problems
+ing data gets large, we expect ¢ to tend to 1.0; similarly for
+.
+-
+‘
+a
+in speech processing with good success [39]. It can be seen
+small amounts of training data we expect € to tend to 0.0.)
+.
+A
+.
+.
+"
+ee
+.
+from (112) that this procedure is essentially equivalent to
+The solution to the determination of an optimal value for
+A
+eer
+.
+-
+-
+a simple form of deleted interpolation in which the model
+ewas
+provided byJelinek and Mercer [36] who showed how
+D
+pet
+ae
+-
+lati
+the optimal value for e could be estimated using the for-
+X is a uniform distribution model, and the interpolation
+.
+.
+.
+value ¢ is chosen as the fixed constant (1 — 6).
+ward-backward
+algorithm
+by
+interpreting
+(112)
+as
+an
+expanded HMM of the type shown in Fig. 10. For this
+E. Choice of Model
+expanded model the parameter¢ is the probability
+of a state
+transition from the (neutral) state § to the model ); similarl
+The remaining
+issue in implementing HMMsis the choice
+Y
+8
+P!
+8
+(1 — ) is the
+probability
+of a state transition from § to the
+oftype of model (ergodic or left-rightorsome other form),
+p
+y
+YP
+8
+g'
+model \’. Between each of the models, \and X’, and §, there
+choice of model size (number of states), and choice of
+isa null transition. Using
+the model of Fig.
+9,the value of
+observation symbols (discrete or continuous, single or
+8
+8-9,
+y'
+8
+€ can be estimated from the training data in the standard
+multi-mixture, choice of observation parameters). Unfor-
+manner. A key point is to segment the training data T into
+tunately, there is no simple, theoretically correct, way of
+two disjoint sets, i.e.,
+T =
+T, U Tp. Training
+set T,
+is first
+making
+such choices.
+These choices must be made depend-
+}
+1
+2
+8
+1
+8
+Pp
+used to train models \ and }’ (i.e., to
+give estimates of (A,
+ing
+on the signal being
+modeled. With these comments
+we
+8
+8
+8
+8
+274
+PROCEEDINGS OF THE
+IEEE, VOL. 77, NO.
+2, FEBRUARY 1989
+
+end our discussion of the theoretical aspects of hidden
+of speech recognition units to the unknown input speech.
+Markov models, and proceed to a discussion of how such
+Techniques for providing such match scores, and in par-
+models have been applied to selected problems in speech
+ticular determining the best match score (subject to lexical
+recognition.
+and syntactic constraints of the system) include the stack
+decoding procedure [7], various forms of frame synchron-
+VI.
+IMPLEMENTATION OF SPEECH RECOGNIZERS UsING HMMs
+ous path decoding [37], and a lexical access scoring pro-
+-
+A
+.
+scans
+cedure [46].
+The purpose
+of this, and the following sections,
+is to illus-
+i
+1
+.
+-
+.
+:
+-
+-
+"
+3) Lexical Decoding: This process places constraints on
+trate how the ideas of HMMs, as discussed in the first 5 sec-
+.
+:
+-
+.
+.
+the unit matching system so that the paths investigated are
+tions of this paper, have been applied to selected problems
+.
+.
+.
+a
+.
+.
+those corresponding to sequences of speech units which
+in speech recognition. As such, we will not strive to be as
+-
+on
+.
+-
+saan
+"
+re
+are in aword dictionary (a lexicon). This procedure implies
+thorough or as complete in our descriptions as to what was
+tes
+.
+mn
+that the speech recognition word vocabulary must be spec-
+done as we were in describing the theory of HMMs. The
+wpe
+ae
+ae
+ae
+:
+an
+ified in terms of the basic units chosen for recognition. Such
+interested reader should read the material in [6], [10], [12],
+age
+gs
+rn
+i
+ain
+paren
+a specification can be deterministic (e.g., one or more finite
+[13], (39]-[46] for more complete descriptions of individual
+.
+gs
+.
+a
+state networks for each word in the vocabulary) or statistical
+systems.
+Our main goal here is to show how specific aspects
+wege
+.
+an
+:
+(e.g., probabilities attached to the arcs in the finite state rep-
+of HMMtheory get applied,
+not to make the reader
+an expert
+fs
+A
+pa
+resentation of words). In the case where the chosen units
+in speech recognition technology.
+we
+A
+"
+arewords
+(or word combinations),
+the lexical decoding step
+we
+i
+i
+imi
+r
+re of the recognizer
+A. Overall Recognition System
+is essentially eliminated and the structure of the recog
+is greatly simplified.
+Fig. 11 shows a block diagram of a pattern recognition
+4) Syntactic Analysis: This process, much
+like lexical
+approach to continuous speech recognition system. The
+decoding, places further constraints on the unit matching
+key signal processing steps include the following:
+system so that the paths investigated are those correspond-
+1) Feature Analysis: A spectral and/or temporal analysis
+ing to speech units which comprise words (lexical decod-
+of the speech signal is performed to give observation vec-
+ing) and for which the words are in a proper sequence as
+tors which can be used to train the HMMs which charac-
+specified by a word grammar. Such a word grammar can
+terize various speech sounds. A detailed discussion of one
+again be represented by a deterministic finite state network
+type of feature analysis is given later in this section.
+(in whichall word combinations which are accepted by the
+2) Unit Matching System: First a choice of speech rec-
+grammar are enumerated),
+or by
+astatistical grammar (e.g.,
+ognition unit must be made. Possibilities include linguis-
+a trigram word model in which probabilities of sequences
+tically based sub-word units such as phones (or phone-like
+of 3 words in a specified order are given). For some com-
+units), diphones, demisyllables, and syllables [38], as well
+mand and control tasks, only a single word froma finite set
+as derivative units such as fenemes, fenones, and acoustic
+of equiprobable is required to be recognized and therefore
+units [13]. Other possibilities include whole word units, and
+the grammar is either trivial or unnecessary. Such tasks are
+even units which correspond toa groupof 2 or more words
+often referred to as isolated word speech recognition tasks.
+(e.g., and an, in the, of a, etc). Generally, the less complex
+For other applications (e.g., digit sequences) very simple
+the unit (e.g., phones), the fewer of them there are in the
+grammars are often adequate (e.g.,
+any digit can be spoken
+language, and the more complicated (variable) their struc-
+and followed by any other digit). Finally there are tasks for
+ture in continuous speech. For large vocabulary
+speech rec-
+which the grammar is a dominant factor and, although it
+ognition (involving 1000 or more words), the use of sub-word
+addsa great deal of constraint to the recognition process,
+speech units is almost mandatory as it would be quite dif-
+it greatly improves recognition performance by the result-
+ficult
+torecord an adequate training set fordesigning HMMs
+ing restrictions on the sequence of speech units which are
+for units of the size of words or larger. However, for spe-
+valid recognition candidates.
+cialized applications (e.g., small vocabulary, constrained
+5) Semantic Analysis: This process, again like the steps
+task), itis both reasonable
+and practical toconsider
+the word
+of syntactic analysis and lexical decoding, adds further con-
+asa
+basic speech unit. We will consider such systems exclu-
+straints to the set of recognition search paths. One way in
+sively in this and the following section. Independent of the
+which semantic constraints are utilized is via
+a dynamic
+unit chosen for recognition,an inventory
+of such units must
+model of the state of the recognizer. Depending on the
+be obtained via training. Typically each such unit is char-
+recognizer state certain syntactically correct input strings
+acterized by some type of HMM whose parameters are esti-
+are eliminated from consideration. This again serves to
+mated fromatraining set of speech data. The unit matching
+make the recognition task easier and leads to higher per-
+system provides the likelihoods of a match of all sequences
+formance of the system.
+aventor”\
+/oyctrowany
+RECOGNITION
+ON sen OF
+GRAMMAR)
+UNITS
+UNITS)
+SPEECH | FeaTURE
+uN
+LEXICAL
+SYNTACTIC
+SEMANTIC |RECOGNIZED
+UTTERANCE
+Fig. 11.
+Block diagram of a continuous speech recognizer.
+RABINER: HIDDEN MARKOV MODELS
+275
+
+There is one additional factor that has a significant effort
+nomer because it is truly
+a continuous speech recognition
+on the implementation of a speech recognizer and that is
+problem. However, the terminology has become estab-
+the problem of separating background silence from the
+lished and we continue its use.
+input speech. There are at least three reasonable ways of
+accomplishing this task:
+B. Isolated Word Recognition
+1)
+Explicitly detecting the presence of speech via tech-
+As our first example, consider using HMMs to build an
+niques which discriminate background from speech
+isolated word recognizer. Assume we have a vocabulary of
+on the basis of signal energy and signal durations.
+Vwords
+to be recognized and that each word is to be mod-
+Such methods have been used for template-based
+eled by a distinct
+HMM." Further assume
+that for eachword
+approaches because of their inherent simplicity and
+in the vocabulary we havea training set of K occurrences
+their success in low to moderate noise backgrounds
+of each spoken word (spoken by 1 or more talkers) where
+(48].
+each occurrence of the word constitutes an observation
+2)
+Build a mode! of the background silence, e.g., a sta-
+sequence, where the observations are some appropriate
+tistical model, and represent the incoming signal as
+representation of the (spectral and/or temporal) charac-
+an arbitrary sequence of speech and background, i.e.,
+teristics of the word. (We will return to the question of what
+signal = (silence) — speech — (silence)
+specific representation is used later in this section.)In order
+to do isolated word speech recognition, we must perform
+where the silence part of the signal is optional in that
+the following:
+it may not be
+present before or after the
+speech [49].
+.
+F
+Y
+i
+.
+P
+{49]
+1) For each wordv in the vocabulary, we must build an
+3)
+Extend the speech unit models so that background
+ve
+.
+.
+a
+.
+web:
+"
+HMM’, i.e., we must estimate the model parameters
+silence is included (optionally) within the first and/or
+on
+wb
+ali
+nan
++
+.
+(A, B, x) that optimize the likelihood of the training
+last state of the model, and therefore silence inher-
+:
+ently gets included within all
+speech unit models.
+set observation vectors for the vth word.
+y
+P
+.
+2)
+For each unknown word which is to be recognized,
+All three of these techniques have been utilized in speech
+the processing of Fig. 12 must be carried out, namely
+recognition systems.
+measurement of the observation sequence O = {O,
+Instead of discussing the general continuous speech rec-
+O,- ++ Or}, via a feature analysis of the speech cor-
+ognition system further, we now present specialized appli-
+responding to the word; followed by calculation of
+cations to illustrate how HMM technology can be utilized.
+model likelihoods for all possible models, P(O| A‘), 1
+First we present
+a system where the basic speech unit is the
+< v < V; followed by selection of the word whose
+word, where the task is to recognize a single spoken word,
+model likelihood is highest, i.e.,
+and where there is no task syntax or semantics to constrain
+*
+.
+‘
+°
+=
+)]).
+114)
+the choice of words. This task is generally referred to as
+v
+argmax [PO|N)
+(114)
+isolated word recognition. Next we discuss a slightly more
+_
+.
+.
+complicated task in which the basic speech unit is still the
+The probability computation step is generally performed
+word, but where the task is torecognize
+a continuous utter-
+using the Viterbi algorithm (i.e., the maximum likelihood
+ance consistingof words from the vocabularly. Included in
+path is used) and requires on the order of V- N*
+- Tcom-
+sucha task is the problem of recognizing a spoken string
+putations. For modest vocabulary sizes, e.g., V= 100words,
+of digits. We again consider the case where there is no task
+with an N = 5 state model, and T = 40 observations for the
+syntax or semantics to constrain the choice of words, i.e.,
+2
+;
+any digit can follow anyother digit. Recognition tasks of this
+‘An excellent description of an isolated word, large vocabulary,
+t
+h
+b
+fi
+dt
+ted
+d
+.
+speech recognizer based on sub-word units is given in the descrip-
+ype
+have
+been referred
+to as connected’
+word
+recognizers
+tion of the IBM TANGORA system [50}. Another good reference
+because the continuous speech is recognized as a conca-
+which compares the effects of continuous and discrete densities
+tenated sequence of word models. This is technicallya mis-
+using a 60 000 word vocabulary is [46].
+@
+ umror
+WORD
+4
+COMPUTATION
+HMM FOR
+seggcr [_iaee |gesenvavon |
+G2)
+ital’
+woex of
+s
+ANALYSIS, | O
+WOR NIZE
+(VECTOR
+pRopasicity
+|_P(old?)
+w
+oyaTiON)
+COMPUTATION
+vs arcmax [P01 \"))
+7%]
+SELECT
+dsusv
+Z
+tim For
+WORD
+V
+COMPUTATION
+Fig. 12.
+Block diagram of an isolated word HMM recognizer.
+276
+PROCEEDINGS OF THE IEEE, VOL. 77, NO. 2, FEBRUARY 1989
+
+unknown word, a total of 10° computations is required for
+derived cepstral vector is then computed up to the Qth
+recognition (where each computation is a multiply,
+and add,
+component, where Q > p and Q = 12 in the results to be
+and a calculation of observation density, b(O)). Clearly this
+described later in this section.
+amount of computation is modest as compared to the capa-
+6) Cepstral Weighting: The Q-coefficient cepstral vector
+P
+P:
+Pp
+P
+gnting
+P:
+bilities of most modern signal
+processor chips.
+c,(m) at time frame fis weighted by
+a window W,(m) of the
+gna!
+p
+P:
+a
+8!
+'Yy
+form [55], [56]
+C. LPC Feature Analysis [51]-[54]
+wom =1+2sin(@@),
+1<m<Q
+(15)
+One way to obtain observation vectors O from speech
+“
+2
+Q/’
+~
+samples s is to perform a front end spectral analysis. (We
+.
+assume that we are processing only the speech samples cor-
+to give
+responding to the spoken word—i.e., all background before
+é(m) = c,(m) + Wm).
+(116)
+andafter
+the spoken word has been eliminated by an appro-
+.
+a
+oat
+priate word detection algorithm.) The type of spectral anal-
+2 Delta Cepstrum: The time derivative of the sequence
+ysis that is often used (and the one we will describe here)
+ofweighted cepstral vectors isapproximated bya first-order
+is called linear predictive coding (LPC), and a block diagram
+orthogonal polynomial coand finite length window owe
+of the steps that are carried out is givenin Fig. 13. The overall
+K v rin the manne Sepr the cent vector 71, C
+- 1.
+system is a block processing model in which a frame of Na
+(k= 2 in the results to
+be presente: # ence ao
+frame win
+samples is processed and a vector of features O, is com-
+dow is used for the computationofthe derivative.)
+The cep-
+puted. The steps in the processing are as follows:
+stral derivative
+(i.e., the deltacepstrum vector)iscomputed
+as
+1) Preemphasis: The digitized (at a 6.67 kHz rate for the
+K
+examples to be discussed here) speech signal is processed
+Aé(m) = [ x ke,-aim| “Go
+1<sm<Q
+(117
+by a first-order digital network in order to spectrally flatten
+k=-K
+the signal.
+.
+.
+.
+2) Blocking into Frames: Sections of Na consecutive
+where G
+is a gain term chosen to make the variances of
+speech samples (we use N, = 300 corresponding to 45 ms
+em) and Ac(m) equal. (A value of G of 0.375 was used.)
+of signal) are used as a single frame. Consecutive frames
+. The observation vector Orused for recognition and train-
+are spaced M, samples apart (we useM, = 100 correspond-
+ing is the concatenation of the weighted cepstral vector,
+ing to 15-ms frame spacing, or 30-ms frame overlap)
+and the corresponding weighted delta cepstrum vector, i.e.,
+3) Frame Windowing: Each frame is multiplied by an Na-
+Q = {é(m), Aé(m)}
+(118)
+sample window (we use a Hamming window) w(n) so as to
+-
+a
+minimize the adverse effects ofchopping an N,-sample sec-
+and consists of 24 coefficients per vector.
+tion out of the running speech signal.
+seat
+4) Autocorrelation Analysis: Each windowed set of speech
+D. Vector Quantization [18], [39]
+samples is autocorrelated to give a set of (p + 1) coeffi-
+For the case in which we wish to use an HMM witha dis-
+cients, wherep is the order of the desired LPC analysis (we
+crete observation symbol density, rather than the contin-
+use p = 8).
+uous vectors above, a vector quantizer (VQ) is required to
+5) LPC/Cepstral Analysis: For each frame,
+a vector of LPC
+map
+each continuous observation vector into a discrete
+P:
+p
+coefficients is computed from the autocorrelation vector
+codebook index. Once the codebook of vectors has been
+using
+a Levinson or a Durbin recursion method. An LPC
+obtained, the mapping
+between continuous vectors and
+6
+pping
+No
+oM
+win)
+Pp
+a=0.95
+s(n)
+Sin) | BLock
+Xyin)]
+— auTo- | Rgim) | LPs
+(m)
+.
+my
+Fro,
+Xe) alert 1
+CORRELATION
+LES
+cepstral tm
+FRAMES
+ANALYSIS
+anacysis | C2(m)
+PREEMPHASIS
+We (m)
+ANALYSIS:
+§(n) = S(n)-aS(n-1)
+n
+Xg(n)=S
+(MB en), Os ns N-1
+DELTA
+CEPSTRAL
+Oskst-1
+CEPSTRUM
+WEIGHTING
+Xpin)= Xp(n) + W(n),0 <n gN-4
+a
+Nem
+Exim)
+Ryim=
+Xpin) Xpinem), Os ms p
+n=
+dg(m) = LPC COEFFICIENTS, Os msp
+Cy(m) = CEPSTRAL COEFFICIENTS,
+4s
+m<Q
+qi) = Cpim)+ Weim), 15
+m<Q
+Beg (m) & 2eai
+1sms@Q
+Fig. 13.
+Block diagram of the computations required in the front end feature analysis of
+the HMM recognizer.
+RABINER: HIDDEN MARKOV MODELS
+27
+
+codebook indices becomes
+a simple nearest neighbor com-
+from 2 to 10 states would be appropriate. The other idea is
+putation, i.e., the continuous vector is assigned the index
+to let the number of states correspond roughly to the aver-
+of the nearest (in a spectral distance sense) codebook vec-
+agenumber
+of observations in a spoken version of the word,
+tor. Thus the major issue in VQ is the design of an appro-
+the so-called Bakis model [11]. In this manner each state
+priate codebook for quantization.
+corresponds to an observation interval—i.e., about 15 ms
+Fortunately a great deal of work has gone into devising
+for the analysis we use. In the results to be described later
+an excellent iterative procedure for designing codebooks
+in this section, we use the former approach. Furthermore
+based on having a representative training sequence of vec-
+we restrict each word model to have the same number of
+tors [18]. The procedure basically partitions
+the training vec-
+states; thisimplies
+that the models willwork best when they
+tors into M disjoint sets (where M
+is the size of the code-
+represent words with the same number of sounds.
+book), represents each such set bya single vector (Vm, 1 <
+To illustrate the effect of varying the number of states in
+m = M), which is generally the centroid of the vectors in
+a word model, Fig. 15 shows a plot of average word error
+the training set assigned to the mth region, and then iter-
+atively optimizes the partition and the codebook (i.e., the
+6
+.
+centroids of each partition). Associated with VQ is a dis-
+b
+tortion penalty since we are representing an entire region
+a
+of the vector space bya single vector. Clearly it is advan-
+@
+tageous to keep the distortion penalty as small as possible.
+: 4
+.
+However, this impliesa large size codebook, and that leads
+u
+;
+to problems in implementing HMMs with a large number
+q
+of parameters. Fig. 14 illustrates the tradeoff of quantization
+ba 2
+Z
+09
+“
+Q
+°
+we
+4
+2
+3
+4
+5
+6
+7
+8
+8
+20
+O7
+WN, NUMBER OF STATES IN HMM
+z
+Fig. 15.
+Average word error rate (for a digits vocabulary)
+f=]
+8
+versus the number of states N in the HMM.
+& 05
+&
+0
+rate versus N, for the case of recognition of isolated digits
+5
+5
+{i.e., a 10-word vocabulary). It can be seen that the error is
+0.3
+somewhat insensitive to N, achieving a local minimum at
+°
+6
+N = 6; however, differences in error rate for values of N
+q
+close to 6 are small.
+ote
+4
+3
+rs
+32
+$a
+728
+The next issue is the choiceof observation vector and the
+M
+way it is represented. As discussed in Sections VI-C and
+Fig. 14. Curve showing tradeoff of VQ average distortion
+UD,we have considered bec derived weighted cepstral
+as a function of the size of the VQ, M (shown of a log scale).
+coefficients and weighted cepstral derivatives or (for auto-
+regressive HMMs) the autocorrelation of the LPC coeffi-
+distortion versus M (onalog scale). Although the distortion
+fade as the observation vectors for csohaok te models:
+steadily decreases as M increases, it can be seen from Fig.
+the Wines te sym bole. F © hee use acode’ ‘od Is:Benerate
+14 that only small decreases in distortion accrue beyond a
+e
+alscré esym ols. For
+the continuous models WE USE as
+.
+,
+many as M = 9 mixtures per state; for the discrete symbol
+value
+of M = 32. Hence HMMs with codebook sizes of from
+models we use codebooks with as many as M = 256 code-
+M = 32 to 256 vectors have been used in speech recognition
+ds. Also, for the continuous models, we have found that
+experiments using HMMs.
+words.
+,
+.
+a
+"
+:
+itis preferableto use diagonal covariance matrices with sev-
+.
+eral mixtures, rather than fewer mixtures with full covari-
+E. Choice of Model Parameters
+ance matrices. The reason for this is simple, namely the dif-
+We now come back tothe issue that we have raised sev-
+ficulty in performing reliable reestimation of the off-
+eral times in this paper, namely how do we select the type
+diagonal components of the covariance matrix from the
+of model, and how do we choose the parameters of the
+necessarily limited training data. To illustrate the need for
+selected model. For isolated word recognition with a dis-
+using mixture densities for modeling LPC observation vec-
+tinct HMM designed for each word in the vocabulary,
+it
+tors (i.e., eighth-order cepstral vectors with log energy
+should be clear that a left-right model is more appropriate
+appended as the ninth vector component), Fig. 16 shows
+than an ergodic model, since we can then associate time
+a comparison of marginal distributions bj(O)|o-..-0,---
+with model states in a fairly straightforward manner. Fur-
+againsta histogram ofthe actual observations
+within a state
+thermore we can envision the physical meaning of the
+(as determined by a maximum likelihood segmentation of
+model states as distinct sounds (e.g., phonemes, syllables)
+all the training observations into states). The observation
+of the word being modeled.
+vectors are ninth order, and the model density uses M =
+The issue of the number of states to use in each word
+5 mixtures. The covariance matrices are constrained to be
+model leads to two schools of thought. One idea is to let
+diagonal for each individual mixture. The results of Fig. 16
+the number of states correspond roughly to the number of
+are for the first model state of the word “zero.” The need
+sounds (phonemes) within the word—hence models with
+for values of M > 1 is clearly seen in the histogram of the
+278
+PROCEEDINGS OF THE
+IEEE, VOL. 77, NO.
+2, FEBRUARY 1989
+
+WORD: ZERO, STATE
+it is important to constrain the mixture gains Cjm as well as
+Wee
+fi
+the diagonal covariance coefficients Ujm(r, 1) to be greater
+ian alk r \.
+than or equal tosome minimum values (we use 10~‘ in all
+{
+\
+V4
+cases).
+hl ek
+“1 286
+hel 1 fru
+3254 -0364
+ee
+F. Segmental k-Means Segmentation into States [42]
+-
+aa
+z
+ca
+\
+We stated earlier that good initial estimates of the param-
+z
+eters of the b;(O,) densities were essential for rapid and
+3
+jf
+f
+"|
+proper convergence of the reestimation formulas. Hence
+od,
+\
+rt
+by
+a procedure for providing good initial estimates of these
+70527
+0435-055
+0223 -0579
+Care
+parameters
+was devised and isshown in Fig. 18. The training
+oe
+i
+MODEL
+J
+PMG
+a
+NN
+«|
+-0435
+0 366 -0483
+0375 -4420
+“File
+PARAMETER RANGE
+.
+.
+.
+nos
+STATE SEQUENCE|
+Fig. 16.
+Comparison of estimated density (jagged contour)
+and model density (smooth contour) for each of the nine
+MODEL
+components of the observation vector (eight cepstral com-
+Ponents,one log energycomponent) forstate 1 ofthe digit
+> ==
+<>
+K-MEANS
+PARAMETERS}
+first parameter (the first cepstral component) which
+is
+inherently multimodal; similarly the second, fourth, and
+eight cepstral parameters show the need for more than a
+:
+.
+.
+,
+REESTIMATION
+single Gaussian component to provide good fits to the
+empirical data. Many of the other parameters appear to be
+Fig. 18. The segmental k-means training procedure used to
+well fitted by a single Gaussian; in some cases, however,
+estimate parameter values for the optimal continuous mix-
+even M = 5 mixtures do not providea sufficiently good fit.
+ture density fit to a finite number
+of observation sequences.
+Another experimentally verified fact about the HMM is
+that it is important to limit some of the parameter estimates
+procedure is a variant on the well-known K-means iterative
+in order to prevent them from becoming too small. For
+procedure for clustering data.
+example, for the discrete symbol models, the constraint that
+We assume we havea training set of observations (the
+b,(k) be greater than or equal to some minimum valuee is
+same as is required for parameter reestimation), and an ini-
+necessary to insure that even when the kth symbol never
+tial estimate of all model parameters. However, unlike the
+occurredin some state jin the training observation set, there
+one required for reestimation, the initial model estimate
+is always
+a finite probabilityof its occurrence
+when scoring
+can be chosen randomly, or on the basis of any available
+an unknown observation set. To illustrate this point, Fig. 17
+model which is appropriate to the data.
+Following model initialization, the set of training obser-
+20
+we
+vation sequences is segmented into states, based on the
+current model \."? This segmentation is achieved by finding
+16
+the optimum state sequence, via the Viterbi algorithm, and
+<
+then backtracking along the optimal path. This procedure
+€ 2
+is illustrated in Fig. 19 which showsa log-energy plot, an
+“
+accumulated log-likelihood plot, and a state segmentation
+FA
+for one occurrence of the word “‘six.’” It can be seen in Fig.
+9
+8
+a
+19 that the states correspond roughly to the sounds in the
+a Oe
+spoken word “‘six.””
+4
+The result of segmenting each of the training sequences
+is, for each of the N states,
+a maximum likelihood estimate
+°
+we
+of the set of the observations that occur within each state
+to-3
+10-#
+40-8
+t0°&
+10710
+1o-?
+S; according to the current model. In the case where we are
+€
+using discrete symbol densities, each of the observation
+Fig. 17. Average word error rate as a function of the min-
+vectors within a state is coded using the M-codeword code-
+imum discrete density value .
+book, and the updated estimate of the b;(k) parameters is
+showsa curve of average word error rate versus the param-
+Buk) = number of vectors with codebook index k 0
+we
+state j divided by the number of vectors in
+eter € (ona log scale) for a standard word recognition exper-
+.
+iment. It can be seen that over a very broad range (10°° <
+state J.
+¢ = 107°) the average error rate remains at about a constant
+“The current or initial model could be one created from another
+value; however, when¢ is set to 0 (i.e., 10-~), then the error
+set of talkers, or it could be one created from a uniform segmen-
+tate increases sharply. Similarly, for continuous densities
+tation of each word into states.
+RABINER: HIDDEN MARKOV MODELS
+279
+
+°
+<I
+5 aa
+fa
+(
+&
+7
+g
+8
+-56
+S
+“0
+———
+* 150!
+5
+4
+w
+©
+gz
+3
+°
+2
+7
+1b,
+ba
+bs
+De
+B5-49-T
+FRAME NUMBER:
+Fig. 19.
+Plots of: (a) log energy; (b) accumulated log likelihood; and (c) state assignment
+for one occurrence of the word “six.”
+In the case where
+we are using continuous observation den-
+are strictly heuristic ones. A typical set of histogramsof p,(d)
+sities,asegmental K-means procedure is used to cluster
+the
+for a 5-state model of the word “‘six’” is shown in Fig. 20. (In
+observation vectors within each state S; into a set of M clus-
+this figure the histograms are plotted versus normalized
+ters (using a Euclidean distortion measure), where each
+duration (d/T), rather than absolute duration d.) It can be
+cluster represents one of the M mixtures of the b;(O,) den-
+sity. From the clustering, an updated set of model param-
+:
+-
+DIGIT: S1x
+eters
+is derived as follows:
+E/
+STATE 4
+¢im = number of vectors classified in cluster m of statej
+divided by the number of vectors in statej
+—
+fj = sample mean of the vectors classified in cluster m
+STATE 2
+of statej
+U, = sample covariance matrix of the vectors
+5 E
+classified in cluster m of statej.
+3
+fs)
+Based on this state segmentation, updated estimates of the
+a, coefficients can be obtained by counting the number of
+PS \
+OO
+transitions from state i to j and dividing it by the number
+—
+of transitions from state i to any state (including itself).
+An updated model X is obtained from the new model Na
+parameters and the formal reestimation procedure is used
+é
+=
+=
+J
+to reestimate all model parameters. The resulting model is
+NORMALIZED DURATION (d/T)
+then compared to the previous model (by computing a dis-
+Fig. 20.
+Histograms of the normalized duration density for
+tance score that reflects the statistical similarity of the
+the five states of the digit “six.”
+HMMs). If the model distance score exceeds a threshold,
+then the old model ) is replaced by the new (reestimated)
+model }, and the overall training loop is repeated. If the
+seen from Fig. 20 that the first two states account for the
+model distance score falls below the threshold, then model
+initial /s/ in ‘‘six”; the third state accounts for the transition
+convergence is assumed and the final model parameters
+to the vowel /i/; the fourth state accounts
+for the vowel; and
+are saved.
+the fifth state accounts for the stop and the final /s/ sound.
+The way in which the heuristic duration densities were
+G. Incorporation of State Duration into the HMM
+used in the recognizer was as follows. First the normal
+.
+.
+.
+Viterbi algorithm is used to give the best segmentation of
+eceuon IV-C we discussed the theoretically: correct
+the observation sequence of the unknown word into states
+met 10 e incorporating state \ration in faliieal into
+via a backtracking procedure. The duration of each state is
+iveludine da ortne d
+n. We
+also showe thatt e cost
+then measured from the state segmentation. A postpro-
+fold i uding duration ation wa rather high; namely
+a D-
+cessor then increments the log-likelihood score of the
+old
+increase in computation ani a D-fold increase in stor-
+Viterbi algorithm, by the quantity
+age. Using a value of D = 25 (as is required for word rec-
+ognition), the cost of the increased computation tended to
+.
+N’
+make the techniques not worth using. Thus the following
+log P(q, O|) = log P(g, O|A) + ayP log [pj(qj))__
+(119)
+alternative procedure was formulated for incorporating
+state duration information into the HMM.
+where agis a scaling multiplier on the state duration scores,
+For this alternative procedure, the state duration prob-
+and dj is the duration of state j along the optimal path as
+ability pj(d) was measured directly from the segmented
+determined bythe Viterbi algorithm.
+The incremental cost
+training sequences used in the segmental k-means pro-
+of the postprocessor for duration is essentially negligible,
+cedure
+of the previous section. Hence the estimates
+of p;(d)
+and experience has shown that recognition performance
+280
+PROCEEDINGS OF THE
+IEEE, VOL. 77, NO.
+2, FEBRUARY
+1989
+
+is essentially as good as that obtained using the theoreti-
+premise of connected word recognition is that the rec-
+cally correct duration model.
+ognition is based on individual word models (as opposed
+to models of speech units smaller than words). The rec-
+H. HMM Performance on Isolated Word Recognition
+ognition problem (once the appropriate word models have
+We conclude this section on isolated word recognition
+been derived) is to find the optimum sequence (conca ©
+-
+an
+1
+nation) of word models that best matches (in
+a maximum
+using HMMs bygiving
+a set of performance results
+(in terms
+likeli
+An
+ikelihood sense) an unknown connected word string. In
+of average word error rate) on the task of recognizing iso-
+.
+.
+\
+set
+.
+A
+this section we discuss one method (called the level build-
+jated digits in a speaker independent manner. For this task,
+.
+‘
+‘
+f
+atraining set consisting of 100 occurrences of each digit b'
+ing approach) for solving for such optimum sequences o
+:
+oi
+need
+word models. An alternative method for obtaining the opti-
+100 talkers
+(i.e., a singleoccurrence ofeach digit
+per talker)
+.
+-
+.
+mum sequence of words is a frame (time) synchronous
+was used. Half the talkers were male; half female. For test-
+.
+°
+-
+«
+pare
+an
+Viterbi search [31]. There are several practical advantages
+ing the algorithm, we used the initial training set, as well
+*
+:
+.
+.
+of the frame synchronous search (e.g., ease of real-time
+as three other independent test sets with the following
+.
+A
+A
+characteristics:
+hardware implementation, ease of path pruning, etc.) but
+.
+these do not affect the optimality of the two methods. For
+TS2:
+the same 100 talkers as were used in the training;
+convenience, we restrict our discussion to the recognition
+100 occurrences of each digit
+of strings of connected digits.
+TS3:
+anew set of 100 talkers (50 male, 50 female); 100
+occurrences of each digit
+A. Connected Digit Recognition from Word HMMs Using
+TS4:
+another new set of 100 talkers (50 male, 50 female);
+Level Building
+100 occurrences of each digit
+A block diagram of the overall level building connected
+The results of the recognition tests are given in Table 1.
+digit recognizer
+is given in Fig.
+21. There are essentially three
+The recognizers are the following:
+steps in the recognition process:
+-
+is:
+ignal
+i
+d
+LPC/DTW:
+Conventional
+template-based
+_recog-
+U Spectral Analysis: The speech signal s(n) is converte:
++
+.
+ae
+.
+to either a set of LPC vectors or a set of cepstral and delta
+nizer using dynamic time warping (DTW)
+alignment
+LPC/DTW/VQ:
+Conventional
+recognizer
+with
+vector
+.
+.
+‘SINGLE
+quantization of the feature vectors (M =
+oiciT
+64)
+PATTERNS
+HMM/VQ:
+HMM
+recognizer with M = 64codebook
+HMM/CD:
+HMM recognizer using continuous den-
+sin)
+[SPECTRAL
+Lever BUILDING
+RECOGNIZED
+sity model with M = 5 mixtures per state
+STRING
+HMM/AR:
+HMM recognizer using autoregressive
+.
+.
+a
+aan
+observation density
+Fig. 21. Block diagram of level building, connected digit
+recognizer.
+Table
+1
+Average Digit Error Rates for Several Recognizers
+and Evaluation Sets
+cepstral vectors. This defines the observation sequence O
+Evaluation Set
+of the unknown connected digit string.
+R
+.
+Ongimgl
+2) Level Building’
+Pattern Matching: The sequence of
+ecognizer
+riginal
+n
+7
+Type
+Training
+Ts2
+1s3
+1s4
+spectral vectors (the observations) of the unknown con:
+re
+nected digit string is matched against the single word HMMs
+TPC WV
+04
+32
+2.0
+1
+using a Viterbi scoring algorithm. The output of this process
+HMMIVQ Q
+i
+37
+i
+i
+is a set of candidate digit strings, generally of different
+HMM/CD
+0
+0.2
+13
+1.8
+lengths (i.e., different number of digits per string), ordered
+HMM/AR
+0.3
+1.8
+3.4
+41
+by log probability scores.
+3) Postprocessor: The candidate digit strings are sub-
+jected to further validity tests (e.g., duration), to eliminate
+It can be seen that, when using a VQ, the performance of
+unreasonable (unlikely) candidates. The postprocessor
+the isolated word recognizer degrades in both the con-
+chooses the most likely digit string from the remaining
+ventional and HMM modes. It can also be seen that the per-
+(valid) candidate strings.
+formances ofthe conventional template-based recognizer,
+Individual digits are each characterized by an HMM of
+and the HMMrecognizer with a continuous density model
+the type shown in Fig. 22. (Transitions between words are
+are comparable. Finally Table 1 shows that the autoregres-
+handled by a switch mode from the last state of one word
+sive density HMM gives poorer performance than the stan-
+model, to the first state of another word model, in the level
+dard mixture density model.
+building implementation.) The parameters of the HMMs
+used for characterizing digits are the following:
+VII.
+CONNecTED WorD RECOGNITION
+UsING HMMs
+[59]-
+.
+.
+[63]
+TION
+59)
+1) N=5or8states for digit models trained from obser-
+vations of a single talker, and N = 8 or 10 states, for
+A somewhat more complicated problem of speech rec-
+ognition, to which HMMs have been successfully applied,
+‘4A level is aword position ina string. Hence
+a5 digit string would
+is the problem of connected word recognition. The basic
+have at least 5 level outputs, one for each digit in the string.
+RABINER: HIDDEN MARKOV MODELS
+281
+
+O44
+G22
+O33
+44
+Oss7t
+N
+77)
+or
+a)
+1
+2
+3
+4
+NSS
+TT]
+tek
+nn
+.
+OBSERVATION — by (0)
+b2(o)
+b3(0)
+b4(o)
+bsto)
+N
+[TLL
+OENSITY
+///]
+ENERGY
+P(E)
+Pal)
+P3(E)
+gE)
+Pg(E)
+=
+///
+PROBABILITY
+2
+STATE
+By(r)
+By(t)
+Bs(r)
+Balt)
+Bsr)
+ey
+We
+PROBABILITY
+6 N
+Fig. 22. HMM characterization of individual digits for con-
+4
+TTTTL.
+[//
+nected digit recognition.
+i]
+LTLLL
+///
+:
+Lif]
+ve
+digit models trained from observations of more than
+ey
+LIL /]
+a single talker.
+N
+YILf]
+2) Continuous observation mixture densities with M =
+LYL{/]
+{//
+3 or 5 mixtures per state for single talker models and
+Y/Lf]
+[]/
+M = 9 mixtures per state for multiple talker models.
+2
+YI/f]
+ae
+3)
+Energy probability p;(e) where e, is the dynamically
+4 LLL]
+normalized log energy of the frame of speech used
+VTL
+to give observation vector O,, and p;(-) is a discrete
+‘
+test \RAME
+T
+density of log energy values in state j. The density is
+derived empirically from the training data.
+Fig. 23,
+Ilustration of how HMMs are applied in the level
+4)
+State duration density p,(d),
+1 < d < D = 25.
+building algorithm.
+In addition to the observation density, log
+ener;
+rob-
+.
+ability, and state duration density, acy wed HN
+x" is
+is performed to get the best model at each frame t as fol-
+also characterized by an overall word duration density p,(D)
+lows:
+of the form
+PR(t) =
+max
+Prt),
+1<t<T
+(122a)
+isvsv
+=
+7a)
+2)
+PAD) = UDy, o)
+(120)
+w(t) = argmax Put),
+9 1<t<T
+(122b)
+where D, is the average duration for word v, 02 is the var-
+tsvsv
+iance in duration for word v, and 9
+is the normal density.
+FRO = FROG,
+1stsT
+(122c)
+op
+ye
+where W(t) records the number of the word model which
+B. Level Building on HMMs
+gave the best score at frame t, level ¢, and F(t) records the
+The way in which level building is used on HMMsis illus-
+backpointer of the best word model.
+trated in Fig. 23. If we denote the set of Vword HMMs as
+Each new level begins with the initial best probability at
+X”,1 sv < V, then to find the optimum sequence of HMMs
+the preceding frame on the preceding level and increments
+that match O (i.e., maximize the likelihood), a sequence of
+the Viterbi score by matching the word models beginning
+Viterbi matches is performed.
+For eachHMM}’, and at each
+at the new initial frame. This process is repeated through
+level ¢, we do a Viterbi match against O, starting at frame
+a number of levels equivalent to the maximum expected
+(observation interval) 1 on level 1, and retain for each pos-
+number of digits in any string (e.g., typically 7).
+sible frame t the following:
+At the end of each level, a best string of size words (1
+a
+x t < L) with probability P?(T) is obtained by backtracking
+v pod sts pre accumulated log probability to
+using the backpointer array F?(t) to give the words in the
+best path
+”
+’
+ig
+the
+string. The overall best string is the maximum of P(T) over
+.
+H
+ibl
+Is
+£.
+2)
+Fit),
+1 < t < T, a backpointer indicating where the
+all possible levels
+path started at the beginning of the level.
+C. Training the Word Models [59], [61]
+To compute Pi(t), we need a local measure for the proba-
+.
+wee
+bility that observation O,, with log energy e;,, occurred in
+The key to success in connected word recognition is to
+state j of model \”. We use, as the observation density,
+th
+derive word models from representative connected word
+function
+.
+"
+ty,
+the
+strings. We have found that although the formal reesti-
+mation procedures developed in this paper work well, they
+By(O) = bY(O)
+- [pyenl™
++ Ky
+(121)
+are costly in terms of computation, and equivalently good
+parameter estimates can be obtained using a segmental K-
+where y, (set to 0.375) is a log energy scaling coefficient and
+means procedure of the type discussed in Section VI. The
+K, is a normalization constant. The state transition coeffi-
+only difference in the procedure, from the one discussed
+cients enter the calculation of Pr(t) via the dynamic pro-
+earlier, is that the training connected word strings are first
+gramming optimization in determining the Viterbi path.
+segmented into individual digits, via a Viterbi alignment
+At the end of each level ¢ (where the level corresponds
+procedure, then each set of digits is segmented into states,
+to word position within the string),
+a maximization over v
+and thevectors within each state are clustered into the best
+282
+PROCEEDINGS OF THE IEEE, VOL. 77, NO. 2, FEBRUARY 1989
+
+M cluster solution.
+The segmental K-means reestimation of
+3) Speaker independent based on the TI training and
+the HMM parameters is about an order of magnitude faster
+testing databases. Both the training and testing sets
+than the Baum-Welch reestimation procedure, and all our
+had about 113 talkers (different ones were used in
+experimentation indicates that the resulting parameter esti-
+each set) and the talkers were divided into 22 dialectal
+mates are essentially identical in that the resulting HMMs
+groups. In this case a set of
+4 HMMs per digit was used.
+have essentially the same likelihood values. As such, the
+In each of the above databases there were variable length
+segmental K-means procedure was used to give all the
+digit
+stri
+ith f
+1 to
+7 digits
+per strin
+results presented later in this section.
+igit strings with
+from 7
+to 7
+cigits per
+string. |
+The performance of the HMM connected digit recog-
+D. Duration Modeling for Connected Digits
+nizer, in these modes, is given in Table 2, where the entries
+There are two forms of durational information used in
+Table 2.
+Performance of the HMM Connected Digit
+scoring connected digit sequences, namely word duration
+Recognizer in Three Modes
+and state duration. The way in which word duration infor- aaa
+SSS
+mation
+is incorporated into the model scoringis as follows.
+Training Set
+_Testing Set_
+At the end of each level, for each frame t, the accumulated
+Mode
+UL
+KL
+UL
+KL
+probability Pf(t) is modified by determining the word dura-
+Speaker trained
+tion z(t) as
+(50 talkers)
+0.39
+0.16
+0.78
+0.35
+70 = t— FEO +1
+(123)
+Mio clkers)
+1.74
+0.98
+2.85
+1.65
+and then multiplying the accumulated probability by the
+Speaker independent
+word duration probability, ice.,
+(112/113 talkers)
+1.24
+0.36
+2.94
+1.75
+P(t) = PHt)
++ [DUr(t), Dy, oP?
+» Ky
+(124)
+.
+ae
+in the table are average string error rates for cases in which
+where Ywo (set to 3.0) is a weighting factor on word dura-
+the string length was unknown apriori (UL), and for cases
+tions, and K, is a normalization constant.
+|
+in which the string length was known apriori (KL). Results
+State duration probabilities are incorporated in a post-
+are given both for the training set (from which the word
+processor.
+The level building recognizer provides multiple
+models were derived), and for the independent test set.
+candidates at each level (by tracking multiple best scores
+at each frame of each level). Hence overall probability scores
+VIIL. HMMs For LARGE VOCABULARY SPEECH RECOGNITION
+are obtained forR strings of length L digits, where R is the
+(61-(13], (311, [37], [38], [51], [641-166]
+number of candidates per level (typically R = 2). Each of the
+R' strings is backtracked to give both individual words and
+Although HMMs have been successfully applied to prob-
+individual states within the words. For an L-word string, if
+lems in isolated and connected word recognition, the antic-
+we denote the duration of state
+j at level fas A,(j), then, for
+ipated payoff of the theory, to problems in speech rec-
+each possible string, the postprocessor multiplies the over-
+ognition, is in its application to large vocabulary speech
+all accumulated probability
+P?(T) by the state duration prob-
+recognition in which the recognition of speech is per-
+abilities, giving
+formed from basic speech units smaller than words. The
+fa
+research in this area far outweights the research in any other
+par) = PRT)» TT TL tpair’
+« Ks
+(125)
+area of speech processing and isfartoo extensive todiscuss
+t=1
+j=1
+here. Instead, in this section we briefly outline the ideas of
+where 750 (set to 0.75) is a weighting factor on state dura-
+how HMMs have been applied to this problem.
+tions, w(?) is the word at level £ and K3 is a normalization
+In the most advanced systems (e.g., comparable
+to those
+constant. The computation of (125) is performed on all R'
+under investigation at IBM, BBN, CMU and other places),
+strings, and a reordered list of best strings is obtained. The
+the theory of HMMs has been applied to the representation
+incremental cost of the postprocessor computation is neg-
+of phoneme-like sub-words as HMMs; representation of
+ligible compared to the computation to give Pf(7), and its
+words as HMMs; and representation of syntax as an HMM.
+performance has been shown to be comparable to the per-
+To solve the speech recognition problem, a triply embed-
+formance of the internal duration models.
+ded network of HMMs must be used. This leads to an
+expanded network with an astronomical number of equiv-
+E. Performance of the Connected Digit HMM Recognizer
+alent states; hence an alternative to the complete, exhaus-
+_
+.
+tive search procedure is required. Among the alternatives
+The HMM-based connected digit recognizer has been
+are the stack algorithm
+[7] and various
+forms of Viterbi beam
+trained and tested in 3 modes:
+searches [31]. These procedures have been shown to be
+1)
+Speaker trained using 50 talkers (25 male, 25 female)
+capable of handling such large networks (e.g., 5000 words
+each of whom provided a training set of about 500
+with an average word branching
+factor of 100) in an efficient
+connected digit strings and an independent testing
+and reliable manner. Details of these approaches are
+set of 500 digit strings.
+beyond the scope of this paper.
+2)
+Multispeaker in which the training sets from the 50
+In another attemptto apply HMMs to continuous speech
+talkers above were merged intoa single large training
+recognition, an ergodic HMM was used in which each state
+set, and thetesting sets were similarly merged. In this
+represented an acoustic-phonetic unit [47]. Hence about
+case a set of
+6 HMMs per digit was used, where each
+40-50 states are required to represent all sounds of English.
+HMM was derived fromasubset
+of the training utter-
+The model incorporated the variable duration feature in
+ances.
+each state to account for the fact that vowel-like sounds
+RABINER: HIDDEN MARKOV MODELS
+283
+
+have vastly different durational characteristics than con-
+as well as the author’s perspective and knowledge as to how
+sonant-like
+sounds. In this approach, lexical access was used
+the theory is best applied to problems of speech recog-
+in conjunction with a standard pronouncing dictionary to
+nition.
+determine the best matching word sequence from the out-
+put of the sub-word HMM. Again the details of this rec-
+REFERENCES
+ognition system are beyond the scope of this paper. The
+scprced
+G
+.
+.
+.
+fi
+ar
+.
+[1]
+L. E. Baum and T. Petrie, ‘Statistical inference for probabi-
+Purpose of this brief discussion Is to point out the vast
+listic functions
+of finite state Markov chains,”
+Ann. Math. Stat.,
+potential of HMMs for characterizing the basic processes
+vol. 37, pp. 1554-1563, 1966.
+of speech production;
+hence their applicability toproblems
+[2] L. E. Baum and J. A. Egon, “An inequality with applications
+in large vocabulary speech recognition.
+to statistical estimation for probabilistic functions of a Mar-
+kov process and to a model for ecology,” Bull. Amer. Mete-
+er
+orol. Soc., vol. 73, pp. 360-363, 1967.
+A. Limitations of HMMs
+[3]
+L. E. Baum and G. R. Sell, “Growth functions for transfor-
+Although use ofHMM technology has contributed greatly
+oe manifolds,” Pac. J. Math., vol. 27, no. 2, pp. 211-
+to recent advances in speech recognition, there are some
+[4]
+L. E. Baum, T. Petrie, G. Soules, and N. Weiss, “A maximi-
+inherent limitations of this type of statistical model for
+zation technique occurring in the statistical analysis of prob-
+speech. A major limitation is the assumption that succes-
+abilistic functions of Markov chains,” Ann. Math. Stat., vol.
+sive observations (frames of speech) are independent, and
+15] nn. 1 PP nkeeailine, d
+iated
+imization
+tech
+be.
+.
+.E.
+Baum,
+n inequality and
+associated
+maximization tech-
+therefore
+the probability of a sequence of observations PO,
+nique in statistical estimation for probabilistic functions of
+O;
++ «+ Or) can be written as a product of probabilities of
+Markov processes,” Inequalities, vol. 3, pp. 1-8, 1972.
+individual observations, i.e.,
+[6]
+J. K. Baker, “The dragon system—An overview,” [EEE Trans.
+T
+Acoust. Speech Signal Processing, vol. ASSP-23, no. 1, pp. 24~
+sae
+=
+29, Feb. 1975.
+PO, O2
+Or)
+pas PO)).
+(7]
+F. Jelinek, “A fast sequential decoding algorithm using a
+eee
+.
+toa.
+stack,’ IBM J. Res. Develop., vol. 13, pp. 675-685, 1969.
+Another
+limitation is the assumption that the distributions
+{8] L.R. Bahl and F. Jelinek, “Decoding for channels with inser-
+of individual observation parameters can be well repre-
+tions, deletions, and substitutions with applications to speech
+sented as a mixture ofGaussian or autoregressive densities.
+ecoenon.” IEEE Trans. Informat. Theory, vol. IT-21, pp. 404-
+Finally the Markov assumption itself, ie., that the proba-
+[9] F. Jelinek, L.R. Bahl, and R. L. Mercer, “Design of a linguistic
+bility of
+being in agiven state at time t only depends on the
+statistical decoder for the recognition of continuous speech,”
+state at time
+t — 1, is clearly inappropriate for speech sounds
+IEEE Trans, Informat. Theory, vol. IT-21, pp. 250-256, 1975.
+where dependencies often extend through several states.
+{10]
+F. Jelinek, “Continuous speech recognition by statistical
+However, in spite of these limitations this type of statistical
+nn Maan IEEE, vol. 64, pe 537 836, Aer 1976. centi
+:
+.
+Bakis,
+Inuous speech
+word
+recognition via
+-
+model has workedextremely
+well for certain types ofspeech
+second acoustic states,” in Proc. ASA Meeting (Washington,
+recognition problems.
+DC), Apr. 1976.
+[12]
+F. Jelinek, L. R. Bahl, and R. L. Mercer, “Continuous speech
+IX.
+SUMMARY
+recognition: Statistical methods,” in Handbook ofStatistics,
+H,P.R. Krishnaiad, Ed. Amsterdam,
+The Netherlands: North-
+In this paper we have attempted to present the theory of
+Holland, 1982.
+hidden Markov models from the simplest concepts (dis-
+(13] LR. Bah, F. Jelinek,
+and R. L. Mercer, “Amaximum likelihood
+A
+«ge
+approach
+to continuous speech recognition,”
+IEFE Trans. Pat-
+crete Markov chains) to the most sophisticated models
+tern Anal. Machine Intell., vol. PAMI-5, pp. 179-190, 1983.
+(variable duration, continuous density models). It has been
+[14]
+S. E. Levinson, L. R. Rabiner, and M. M. Sondhi, “An intro-
+our purpose to focus on physical explanations of the basic
+duction to the application of the theory of probabilistic func-
+mathematics; hence we have avoided long, drawn out
+tions of a Markov processto automatic speech recognition,”
+I
+ati
+f the k
+_
+Bell Syst. Tech. J., vol. 62, no. 4, pp. 1035-1074, Apr. 1983.
+proofs and oF derivations °
+. e Key results, and oot the
+[15] B.H. Juang, “On the hidden Markov model and dynamic time
+rated
+primarily
+on trying to interpret
+the meaning of the
+warping for speech recognition—A unified view,”
+AT&T Tech.
+math, and how it could be implemented in practice in real
+J., vol. 63, no. 7, pp. 1213-1243, Sept. 1984.
+world systems. We have also attempted to illustrate some
+[16]
+L.R. Rabiner and B. H. Juang, “An introduction
+to hidden Mar-
+applications
+of the theory of HMMs to simple problems in
+Koy models,” IEEE ASSP Mag., vol 3, no. 1, pp. 4-16, 1986.
+speech recognition, and pointed out how the techniques
+[17]
+J.S.
+Bridle, “Stochastic modelsand template matching: Some
+.
+important relationships between two apparently different
+could be(and have been) applied to more advanced speech
+techniques for automatic speech recognition,” in Proc. Inst.
+recognition problems.
+ofAcoustics, Autum Conf., pp. 1-8, Nov. 1984.
+[18]
+J. Makhoul, S. Roucos, and H. Gish, “Vector quantization in
+ACKNOWLEDGMENT
+speech coding,” Proc. IEEE, vol. 73, no. 11, pp. 1551-1588, Nov.
+1985.
+The author gratefully acknowledges the major contri-
+[19]
+S.E. Levinson, “Structural methodsin automatic speech rec-
+ion
+I
+A
+_
+ognition,” Proc. IEEE, vol. 73, no. 11, pp. 1625-1650, Nov. 1985.
+butio sorathe p colleagues tothe theory of HMMs we a
+[20] A. W. Drake, “Discrete—state Markov processes,’” Chapter
+eral, and
+to
+the presentation of this paper, in particular.
+5 in Fundamentals ofApplied Probability Theory. New York,
+great debt is owed to Dr. J. Ferguson, Dr. A. Poritz, Dr. L.
+NY: McGraw-Hill, 1967.
+Liporace, Dr. A. Richter,
+and to Dr. F. Jelinek and the various
+[21] A. J. Viterbi, “Error bounds for convolutional codes and an
+members
+of the IBM group forintroducing
+the speech world
+asymptotically optimal decoding algorithm,”(cee Trans.
+.
+.
+ae
+.
+Informat.
+Theory, vol.
+IT-13,
+pp.
+260-269,
+Apr.
+.
+tothe
+ideas behind HMMs. In addition Dr. S. Levinson, Dr.
+[22] G. D. Forney, “The Viterbi algorithm,” Proc. IEEE, vol. 61, pp.
+M. Sondhi, Dr. F. Juang, Dr. A. Dembo, and Dr. Y. Ephraim
+268-278, Mar. 1973.
+have contributed significantly to both the theory of HMMs
+[23]
+A.P. Dempster, N. M. Laird, and D. B. Rubin, “Maximum like-
+284
+PROCEEDINGS OF THE IEEE, VOL.
+77, NO. 2, FEBRUARY 1989
+
+lihood from incomplete data via the EM algorithm,” J. Roy.
+[45]
+D. B. Paul, “A speaker stress resistant HMM isolated word
+Stat. Soc., vol. 39, no. 1, pp. 1-38, 1977.
+recognizer,” in Proc. ICASSP ’87 (Dallas, TX), pp. 713-716, Apr.
+[24]
+L. A. Liporace, “Maximum likelihood estimation for multi-
+1987.
+variate observations of Markov sources,’’ [EEE Trans. Infor-
+[46]
+V. N. Gupta, M. Lennig and P. Mermelstein, “Integration of
+mat. Theory, vol. IT-28, no. 5, pp. 729-734, 1982.
+acoustic information in a large vocabulary word recognizer,”
+[25]
+B. H. Juang, “Maximum likelihood estimation for mixture
+in Conf. Proc. IEEE Int. Conf. on Acoustics, Speech, and Sig-
+multivariate stochastic observations of Markov chains,” AT&T
+nal Processing, pp. 697-700, Apr. 1987.
+Tech. J., vol. 64, no. 6, pp. 1235-1249, July-Aug. 1985.
+[47]
+S. E. Levinson, “Continuous speech recognition by means of
+[26]
+B. H. Juang, S. E. Levinson, and M. M. Sondhi, “Maximum
+acoustic-phonetic classification obtained from
+a hidden Mar-
+likelihood estimation for multivariate mixture observations
+kov model,” in Proc. ICASSP ‘87 (Dallas TX), Apr. 1987.
+of Markov chains,” IEEE Trans. Informat. Theory, vol. IT-32,
+[48]
+J. G. Wilpon, L. R. Rabiner, andT. Martin, “An improved
+word
+no. 2, pp. 307-309, Mar. 1986.
+detection algorithm for telephone quality speech incorpo-
+[27]
+A. B. Poritz, “Linear predictive hidden Markov models and
+rating both syntactic and semantic constraints,” AT&T Bell
+the speech signal,” in Proc. ICASSP ’82 (Paris, France), pp.
+Labs Tech. J., vol. 63, no. 3, pp. 479-498, Mar. 1984.
+1291-1294, May 1982.
+[49]
+_J.G. Wilpon and L. R. Rabiner, “Application of hidden Markov
+{28]
+B.H. Juang and L. R. Rabiner, ‘Mixture autoregressive hidden
+models to automatic speech endpoint detection,” Computer
+Markov models for speech signals,” /EEE Trans. Acoust.
+Speech and Language, vol. 2, no. 3/4, pp. 321-341, Sept./Dec.
+Speech Signal Processing, vol. ASSP-33, no. 6, pp. 1404-1413,
+1987.
+Dec. 1985.
+[50]
+A. Averbuch et al., “Experiments with the TANGORA 20,000
+[29]
+M.J.Russell and R. K. Moore, “Explicit modeling of state occu-
+word speech recognizer,” in Conf. Proc. IEEE Int. Conf. on
+pancy in hidden Markov models for automatic speech rec-
+Acoustics, Speech, and Signal Processing, pp. 701-704, Apr.
+ognition,” in Proc. ICASSP ’85 (Tampa, FL), pp. 5-8, Mar. 1985.
+1987.
+{30]
+S. £. Levinson, “Continuously variable duration hidden Mar-
+[51]
+B.S. Atal and S. L. Hanauer, ‘Speech analysis and synthesis
+kov models for automatic speech recognition,” Computer,
+by linear prediction of the speech wave,” J. Acoust. Soc. Am.,
+Speech and Language, vol. 1, no. 1, pp. 29-45, Mar. 1986.
+vol. 50, pp. 637-655, 1971.
+[31]
+B. Lowerre and R. Reddy, “The HARPY speech understanding
+[52]
+F. 1. Itakuraand S. Saito, “Analysis-synthesis telephony based
+system,” in Trends in Speech Recognition, W. Lea, Editor.
+upon the maximum likelihood method,” in Proc. 6th Int. Con-
+Englewood Cliffs, NJ: Prentice-Hall, 1980, pp. 340-346.
+gress on Acoustics (Tokyo, Japan), pp. C17-20, 1968.
+[32]
+L.R. Bahl, P. F. Brown, P. V. de Souza, and R. L. Mercer, ““Max-
+[53]
+J. Makhoul, “Linear prediction: A tutorial review,” Proc. IEEE,
+imum mutual information estimation of hidden Markov
+vol. 63, pp. 561-580, 1975.
+model parameters for speech recognition,” in Proc. ICASSP
+[54]
+J. D. Markel and A. H. Gray, Jr., Linear Prediction of Speech.
+’86 (Tokyo, Japan), pp. 49-52, Apr. 1986.
+New York, NY: Springer-Verlag, 1976.
+[33]
+Y. Ephraim, A. Dembo, and L. R. Rabiner, ‘A minimum dis-
+[55]
+Y. Tokhura,
+“A weighted cepstral distance measure for speech
+crimination information approach for hidden Markov mod-
+recognition,” IEEE Trans. Acoust. Speech Signal Processing,
+eling,’”’ in Proc. ICASSP ‘87 (Dallas, TX), Apr. 1987.
+vol. ASSP-35, no. 10, pp. 1414-1422, Oct. 1987.
+[34]
+B. H. Juang and L. R. Rabiner, “A probabilistic distance mea-
+[56]
+B.H. Juang, L. R. Rabiner, and J. G. Wilpon, ‘‘On the use of
+sure for hidden Markov models,’’ AT&T Tech. J., vol. 64, no.
+bandpass liftering in speech recognition,” [EEE Trans, Acoust.
+2, pp. 391-408, Feb. 1985.
+Speech Signal Processing, vol. ASSP-35, no. 7, pp. 947-954,
+[35]
+L. R. Rabiner, B. H. Juang, S. £. Levinson, and M. M. Sondhi,
+July 1987.
+“Some properties of continuous hidden Markov model rep-
+{57]
+S. Furui, “Speaker independent isolated word recognition
+resentations,””
+AT&T Tech. J., vol. 64, no. 6, pp. 1251-1270,
+July-
+based on dynamics emphasized cepstrum,” Trans. IECE of
+Aug. 1985.
+Japan, vol. 69, no. 12, pp. 1310-1317, Dec. 1986.
+{36}
+F. Jelinek and R. L. Mercer, “Interpolated estimation of Mar-
+[58]
+F.K. Soong
+and A. E.Rosenberg, “On the use ofinstantaneous
+kov source parameters from sparse data,” in Pattern Rec-
+and transitional spectral information in speaker recogni-
+ognition in Practice,
+E. S. Gelesma and
+L. N. Kanal, Eds.
+tion,” in Proc. ICASSP ‘86 (Tokyo, Japan), pp. 877-880, Apr.
+Amsterdam, The Netherlands: North-Holland, 1980, pp. 381-
+1986.
+397.
+[59]
+L. R. Rabiner, J. G. Wilpon, and B. H. Juang, “A segmental k-
+[37]
+_R. Schwartz et al., ‘“Context-dependent modeling for acous-
+means training procedure for connected word recognition,”
+tic-phonetic recognition of continuous speech,” in Conf.
+AT&T Tech, J., vol. 65, no. 3, pp. 21-31, May-June 1986.
+Proc. IEEE Int. Conf. on Acoustics, Speech, and Signal Pro-
+[60]
+L. R. Rabiner and S. E. Levinson, “A speaker-independent,
+cessing, pp. 1205-1208, Apr. 1985.
+syntax-directed, connected word recognition system based
+[38]
+K. F. Lee and H. W. Hon, “Large-vocabulary speaker-inde-
+on hidden Markov models and level building,” /EEE Trans.
+pendent continuous speech recognition,” in Conf. Proc. IEEE
+Acoust. Speech Signal Processing, vol. ASSP-33, no. 3, pp. 561-
+Int. Conf. on Acoustics, Speech, and Signal Processing, pp.
+573, June 1985.
+123-126, Apr. 1988.
+[61]
+L.R. Rabiner, J. G. Wilpon, and B. H. Juang, “A model-based
+[39]
+L.R. Rabiner, S. E. Levinson, and M. M. Sondhi, ‘On the appli-
+connected digit recognition system using either hidden Mar-
+cation of vector quantization and hidden Markov models to
+kov models or templates,” Computer, Speech, and Language,
+speaker-independent isolated word recognition,” Bell Syst.
+vol. 1, no. 2, pp. 167-197, Dec. 1986.
+Tech. J., vol. 62, no. 4, pp. 1075-1105, Apr. 1983.
+[62]
+H. Bourlard, Y. Kamp, H. Ney, and C. J. Wellekens, “‘Speaker-
+[40] —,“On the use of hidden Markov models for speaker-inde-
+dependent connected speech recognition via dynamic pro-
+pendent recognition of isolated words from a medium-size
+gramming and statistical methods,” in Speech and Speaker
+vocabulary,” AT&T Tech. j., vol. 63, no. 4, pp. 627-642, Apr.
+Recognition, M. R. Schroeder, Ed.
+Basel, Switzerland: Kar-
+1984.
+ger, 1985, pp. 115-148.
+[41]
+R. Billi, “Vector quantization and Markov source models
+[63]
+C. J. Wellekens, ‘Global connected digit recognition using
+applied to speech recognition,” in Proc. ICASSP ‘82 (Paris,
+Baum-Welch algorithm,” in Proc. ICASSP ’86 (Tokyo, Japan),
+France), pp. 574-577, May 1982.
+pp. 1081-1084, Apr. 1986.
+[42]
+L. R. Rabiner, B. H. Juang, S. E. Levinson, and M. M. Sondhi,
+[64]
+A. M. Derouault, “Context dependent phonetic Markov
+“Recognition of isolated digits using hidden Markov models
+models for large vocabulary speech recognition,” in Proc.
+with continuous mixture densities,” AT&T Tech. J., vol. 64,
+ICASSP ’87 (Dallas, TX), Paper 10.1.1, pp. 360-363, Apr. 1987.
+no. 6, pp. 1211-1222, July-Aug. 1986.
+[65]
+B. Merialdo, ‘‘Speech recognition with very large size dictio-
+[43]
+A. B. Poritz and A. G. Richter, “Isolated word recognition,”
+nary,” in Proc. ICASSP ’87 (Dallas, TX), Paper 10.2.2, pp. 364-
+in Proc. ICASSP ’86 (Tokyo, Japan), pp. 705-708, Apr. 1986.
+367, Apr. 1987.
+[44]
+R. P. Lippmann, E. A. Martin,
+and D. B. Paul, ‘‘Multistyle train-
+[66] Y.L. Chow etal., ‘BYBLOS: The BBN continuous speech rec-
+ing for robust isolated word speech recognition,” in Proc.
+ognition system,” in Proc. ICASSP ’87 (Dallas, TX), Paper 3.7.1,
+ICASSP ’87 (Dallas, TX), pp. 705-708, Apr. 1987.
+pp. 89-92, Apr. 1987.
+RABINER: HIDDEN MARKOV MODELS
+285
+
+Lawrence R. Rabiner (Fellow, IEEE) was born
+cuitry, military communications problems, and problems in
+sat
+in Brooklyn,
+NY, on September
+28, 1943. He
+binaural hearing. Presently he is engaged in research on speech
+.
+received the S.B. and S.M. degrees, both in
+recognition and digital signal processing techniques at Bell Lab-
+oes.
+1964, and the Ph.D. degree in electrical
+oratories, Murray Hill. He is coauthor of the books Theory and
+sp
+ee
+engineering, in 1967, all from the Massa-
+Application of Digital Signal Processing (Prentice-Hall, 1975), Dig-
+=?
+chusetts
+Institute of Technology, Cam-
+ital Processing of Speech Signals (Prentice-Hall, 1978), and Multi-
+bridge, MA.
+rate Digital Signal Processing (Prentice-Hall, 1983).
+From 1962 through 1964 he participated
+Dr. Rabiner is
+a member of Eta Kappa Nu, Sigma Xi, Tau Beta Pi,
+in the cooperative plan in electrical engi-
+The National Academy
+of Engineering, and a Fellow of the Acoust-
+:
+neering at Bell Laboratories, Whippany, and
+ical Society of America.
+Murray Hill, NJ. He worked on digital cir-
+286
+PROCEEDINGS OF THE
+IEEE, VOL. 77, NO.
+2, FEBRUARY 1989

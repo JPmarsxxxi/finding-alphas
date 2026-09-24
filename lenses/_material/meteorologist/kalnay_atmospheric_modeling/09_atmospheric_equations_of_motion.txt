@@ -1,0 +1,274 @@
+36
+2 The continuous equations
+We now have seven equations with seven unknowns: v = (u, v, w), T, p, ρ or α,
+and q. For convenience we repeat the governing equations, which (when written
+without friction F) are sometimes referred to as “the Euler equations”:
+dv
+dt = −α∇p −∇φ + F −2Ω× v
+(2.1.19)
+∂ρ
+∂t = −∇· (ρv)
+(2.1.20)
+pα = RT
+(2.1.21)
+Q = C p
+dT
+dt −α dp
+dt
+(2.1.22)
+∂ρq
+∂t
+= −∇· (ρvq) + ρ(E −C)
+(2.1.23)
+2.2
+Atmospheric equations of motion
+on spherical coordinates
+Since the earth is nearly spherical, it is natural to use spherical coordinates. Near
+the earth, gravity is almost constant, and the ellipticity of the earth is very small, so
+that one can accurately approximate scale factors by those appropriate for true spher-
+ical coordinates (Phillips, 1966, 1973, 1990a). The three velocity components are
+then
+u = zonal (positive eastward) = r cos ϕ dλ
+dt
+v = meridional (positive northward) = r dϕ
+dt
+w = vertical (positive up) = dr
+dt
+
+
+
+(2.2.1)
+Note that v = ui + vj + wk, where i, j, k are the unit vectors in the three orthogonal
+spherical coordinates. When the acceleration (total derivative of the velocity vector)
+is calculated, the rate of change of the unit vectors has to be included. For example,
+geometrical considerations show that
+dk
+dt =
+u
+r cos ϕ
+∂k
+∂λ + v
+r
+∂k
+∂ϕ = ui
+r + vj
+r
+Exercise 2.2.1: Use spherical geometry to derive this equation, and
+di
+dt =
+u
+r cos ϕ ( j sin ϕ −k cos ϕ)
+dj
+dt =
+u
+r cos ϕ (−i sin ϕ −k cos ϕ)
+When we include these time derivatives, take into account that Ω=  sin ϕk +
+ cos ϕj, and expand the momentum equation (2.1.19) into its three components, we
+
+2.3 Basic wave oscillations in the atmosphere
+37
+obtain
+du
+dt = −
+α
+r cos ϕ
+∂p
+∂λ + Fλ +
+
+2 +
+u
+r cos ϕ
+
+(v sin ϕ −w cos ϕ)
+dv
+dt = −α
+r
+∂p
+∂ϕ + Fϕ −
+
+2 +
+u
+r cos ϕ
+
+u sin ϕ −vw
+r
+dw
+dt = −α ∂p
+∂r −g + Fr +
+
+2 +
+u
+r cos ϕ
+
+u cos ϕ + v2
+r
+
+
+
+(2.2.2)
+The terms proportional to u/r cos ϕ are known as “metric terms”.
+A “traditional approximation” (Phillips, 1966) has been routinely made in NWP,
+since most of the atmospheric mass is conﬁned to a few tens of kilometers. This
+suggests that in considering the distance of a point to the center of the earthr = a + z,
+one can neglect z and replace r by the radius of the earth a = 6371 km, replace ∂/∂r
+by ∂/∂z, and neglect the metric and Coriolis terms proportional to cos ϕ. Then the
+equations of motion in spherical coordinates become
+du
+dt = −
+α
+a cos ϕ
+∂p
+∂λ + Fλ +
+
+2 +
+u
+a cos ϕ
+
+v sin ϕ
+dv
+dt = −α
+a
+∂p
+∂ϕ + Fϕ −
+
+2 +
+u
+a cos ϕ
+
+u sin ϕ
+dw
+dt = −α ∂p
+∂z −g + Fz
+
+
+
+(2.2.3)
+which possess the angular momentum conservation principle
+d
+dt [(u + a cos ϕ)a cos ϕ] = a cos ϕ
+
+−
+α
+a cos ϕ
+∂p
+∂λ + Fλ
+
+(2.2.4)
+With the “traditional approximation” the total time derivative operator in spherical
+coordinates is given by
+d( )
+dt = ∂( )
+∂t +
+u
+a cos ϕ
+∂( )
+∂λ + v
+a
+∂( )
+∂ϕ + w∂( )
+∂z
+(2.2.5)
+and the three-dimensional divergence that appears in the continuity equation by
+∇3 · v =
+1
+a cos ϕ
+∂u
+∂λ + ∂v cos ϕ
+∂ϕ
+
++ ∂w
+∂z
+(2.2.6)
+2.3
+Basic wave oscillations in the atmosphere
+In order to understand the problems in Richardson’s result in 1922 (Fig. 1.2.1) and
+the effect of the ﬁltering approximations introduced by Charney et al. (1950), we
+need to have a basic understanding of the characteristics of the different types of
+waves present in the atmosphere. The characteristics of these waves, (sound, gravity,
+
+38
+2 The continuous equations
+and slower weather waves) have also profound implications for the present use of
+hydrostatic and nonhydrostatic models. The three types of waves are present in
+the solutions of the governing equations, and different approximations such as the
+hydrostatic, the quasi-geostrophic, and the anelastic approximations are designed to
+ﬁlter out some of them.
+To simplify the analysis we make a tangent plane or “ f -plane” approximation.
+We consider motions with horizontal scales L smaller than the radius of the earth.
+On this tangent plane we can approximate the spherical coordinates (Section 2.2) by
+1
+a cos ϕ 0
+∂
+∂λ ≈∂
+∂x
+1
+a
+∂
+∂ϕ ≈∂
+∂y ,
+f ≈2 sin ϕ 0
+and ignore the metric terms, since u/(a tan ϕ) is small compared with .
+The governing equations on an f -plane (rotating with the local vertical component
+of the earth rotation) are:
+du
+dt = + f v −1
+ρ
+∂p
+∂x
+(2.3.1a)
+dv
+dt = −f u −1
+ρ
+∂p
+∂y
+(2.3.1b)
+dw
+dt = −1
+ρ
+∂p
+∂z −g
+(2.3.1c)
+dρ
+dt = −ρ
+∂u
+∂x + ∂v
+∂y + ∂w
+∂z
+
+(2.3.1d)
+ds
+dt = Q
+T ;
+s = C p ln θ
+(2.3.1e)
+p = ρRT
+(2.3.1f)
+Consider a basic state at rest u0 = v0 = w0 = 0. From (2.3.1a) and (2.3.1b), we see
+that p0 does not depend on x,y, p0 = p0(z). From (2.3.1c), ρ0 and therefore the other
+basic state thermodynamic variables also depend on z only.
+Assume that the motion is adiabatic and frictionless, Q = 0, F = 0. Consider
+small perturbations p = p0 + p′, etc. so that we can linearize the equations (ne-
+glect terms which are products of perturbations). For convenience, we deﬁne
+u∗= ρ0u′; v∗= ρ0v′; w∗= ρ0w′; s∗= ρ0s′. The perturbation equations are then
+∂u∗
+∂t
+= + f v∗−∂p′
+∂x
+(2.3.2a)
+∂v∗
+∂t = −f u∗−∂p′
+∂y
+(2.3.2b)
+∂w∗
+∂t
+= −∂p′
+∂z −ρ′g
+(2.3.2c)
+∂ρ′
+∂t = −
+∂u∗
+∂x + ∂v∗
+∂y + ∂w∗
+∂z
+
+(2.3.2d)

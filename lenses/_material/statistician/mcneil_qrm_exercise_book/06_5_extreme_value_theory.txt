@@ -1,0 +1,395 @@
+5 Extreme Value Theory
+Review
+Exercise 5.1 (Maximum domain of attraction)
+a) What is the name of the theorem that describes the limiting behaviour of sample maxima?
+b) Explain what it means to say that “a distribution function F belongs to the maximum
+domain of attraction of Hξ for some ξ ∈R”.
+c) Why is the knowledge that F ∈MDA(Hξ) for some ξ ∈R so useful for modelling the
+distribution of maximal losses from F?
+Exercise 5.2 (Characterization of the MDA of a GEV for positive shape)
+Characterize the maximum domain of attraction of Hξ for ξ > 0. In other words, state precisely
+which distribution functions F belong to MDA(Hξ), ξ > 0?
+Exercise 5.3 (Block maxima method)
+a) Explain the block maxima method for estimating the parameters of a generalized extreme
+value distribution.
+b) Explain why the block maxima method involves a bias-variance trade-oﬀ.
+Exercise 5.4 (Excess distribution and mean excess function)
+a) For a random variable X ∼F, how are the excess distribution function over a threshold u
+and the mean excess function deﬁned?
+b) What is the excess distribution function of the (memoryless) exponential distribution
+X ∼Exp(λ), λ > 0?
+c) What is the mean excess function of the exponential distribution?
+Exercise 5.5 (VaR, ES and the mean excess function)
+Let X ∼F be continuously distributed with E(|X|) < ∞. Give a formula relating the expected
+shortfall (ES) of X to the value-at-risk (VaR) of X via the mean excess function.
+Exercise 5.6 (Peaks-over-threshold method)
+a) What is the name of the theorem that underlies the peaks-over-threshold (POT) method?
+b) Explain the POT method for estimating the distribution of excess losses above a threshold.
+c) Explain why the POT method involves a bias-variance trade-oﬀ.
+d) Does the POT method represent a more or a less eﬃcient use of the data on extreme events
+than the block maxima method?
+35
+
+5 Extreme Value Theory
+e) Explain the key ideas in the estimation of tail probabilities based on the POT method.
+Exercise 5.7 (Threshold choice in the peaks-over-threshold method)
+Figure E.5.1 shows sample mean excess plots for two sets of ﬁnancial losses.
+GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+G
+GG
+GGG
+G
+G
+G
+G
+GG
+G
+G
+G
+G G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+G
+G
+G
+0
+2
+4
+6
+8
+1
+2
+3
+4
+Threshold
+Mean excess over threshold
+GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+GG
+GGGGG
+GGGGGGGG
+G
+GGG
+G G
+G
+G
+G
+GG
+G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+0.05
+0.10
+0.15
+0.20
+Threshold
+Mean excess over threshold
+Figure E.5.1 Sample mean excess plots for two sets of ﬁnancial losses.
+a) For each plot in Figure E.5.1 suggest a threshold u which could be used when applying the
+POT method. Justify your choice.
+b) Can you use the plots to give rough estimates of the shape parameter ξ of an approximate
+GPD model for the excesses over u for the two datasets?
+Exercise 5.8 (The tail index and its estimation)
+a) Deﬁne the tail index of a distribution F ∈MDA(Hξ) for ξ > 0.
+b) Describe two possible approaches to estimating the tail index for a suitable dataset.
+Exercise 5.9 (The extremal index)
+Explain what is meant by the extremal index of a strictly stationary process (Xi)i∈Z.
+Basic
+Exercise 5.10 (Max-stability of the Fréchet distribution)
+A random variable X is max-stable if for any n ∈N the maximum Mn = max{X1, . . . , Xn} of
+independent copies X1, . . . , Xn of X satisﬁes
+(Mn −dn)/cn
+d= X
+36
+
+Basic
+for real constants cn > 0 and dn. By determining appropriate sequences (cn) and (dn), prove
+that the Fréchet distribution with distribution function F(x) = exp(−x−θ), x > 0, θ > 0, is
+max-stable.
+Exercise 5.11 (A continuous distribution for which maxima do not converge to a GEV)
+Let X be log-Pareto distributed with distribution function FX, that is X = exp(Y ) for
+Y ∼Pa(α, κ); see MFE (2015, Appendix A.2.8). Show that FX /∈MDA(Hξ) for any ξ ∈R.
+Exercise 5.12 (Double logarithmic tail plot)
+a) Suppose you have data x1, . . . , xn which are believed to represent realizations of iid random
+variables with distribution function F ∈MDA(Hξ) for ξ > 0. A popular diagnostic plot for
+such data is (xi, ¯F(xi)), i ∈{1, . . . , n}, using logarithmic x and y-axes. Explain why.
+b) Explain how the plot can be used to construct an estimator of the tail index.
+Exercise 5.13 (Uniqueness of limit up to location and scale)
+In MFE (2015, Example 5.6) it is shown that if we take the Pareto distribution with distribution
+function F(x) = 1 −(κ/(κ + x))α, x ≥0, α, κ > 0 and the normalizing sequences cn = κn1/α/α
+and dn = κ(n1/α −1) for n ∈N, then
+lim
+n→∞F n(cnx + dn) = H1/α(x) .
+Suppose we consider the alternative normalizing sequences cn = F ←(1 −1/n) and dn = 0 for
+n ∈N. Show that F n(cnx + dn) converges to H1/α,µ,σ(x) as n →∞for some µ ∈R and σ > 0
+which you should determine.
+Exercise 5.14 (GPD with negative shape parameter)
+Let X follow a generalized Pareto distribution with shape ξ < 0 and scale β > 0. Derive the
+distribution of Y = −ξX/β.
+Exercise 5.15 (Slow variation, regular variation)
+a) Show that the following functions are slowly varying at ∞.
+i)
+L(x) = 2 + cos(1/x), x > 0.
+ii) L(x) = log x, x > 0.
+iii) L(x) = 1/ log x, x > 1.
+iv) L(x) = ˜L(1/x) where ˜L : [0, ∞) →[0, ∞) is slowly varying at 0.
+b) Show that the following functions are regularly varying at ∞and determine the correspond-
+ing index.
+i)
+h(x) = x−θ, x > 0, θ > 0.
+ii) h(x) = (1 + x)−θ, x > −1, θ > 0.
+iii) h(x) = ˜h(1/x), x > 0, where ˜h is regularly varying at 0 with index α ∈R.
+Exercise 5.16 (GEV limit for maxima from the GPD)
+Show that Gξ,β ∈MDA(Hξ), ξ ∈R.
+37
+
+5 Extreme Value Theory
+Exercise 5.17 (GEV limit for maxima from the Burr distribution)
+Show that the Burr distribution with distribution function
+F(x) = 1 −(κ/(κ + xθ))λ,
+x ≥0, κ, θ, λ > 0,
+is in the maximum domain of attraction of Hξ for some ξ which you should determine in terms
+of the parameters of the distribution.
+Exercise 5.18 (The Weibull distribution as a special case of the GEV)
+For ξ < 0 the generalized extreme value (GEV) distribution takes the form
+Hξ(x) = exp(−(1 + ξx)−1/ξ)
+for all
+x < −1/ξ.
+This case is referred to as a Weibull distribution although it diﬀers from the standard Weibull
+distribution used in statistics and actuarial science. Let X ∼Hξ and Y = 1 + ξX.
+a) Derive the distribution function of Y and its domain.
+b) Verify that Y has a standard Weibull distribution with density
+fY (y) = cγyγ−1 exp(−cyγ),
+y > 0,
+for parameters c > 0 and γ > 0 which you should determine in terms of ξ.
+Exercise 5.19 (An alternative formula for the mean excess function)
+a) Let X ∼F with E(|X|) < ∞. Show that the mean excess function can be calculated using
+the formula
+e(u) =
+Z xF −u
+0
+¯Fu(x) dx =
+1
+¯F(u)
+Z xF
+u
+¯F(x) dx,
+u ∈[¯xF , xF ),
+where ¯xF = inf{x ∈R : F(x) > 0} denotes the left endpoint of F.
+Hint. First show that x ¯F(x) →0 for x →xF . Conclude that limx→xF −u x ¯Fu(x) = 0. Then
+use the Stieltjes form of the integration by parts formula
+Z b
+a
+h(x) dg(x) =
+h
+h(x)g(x)
+ib
+a −
+Z b
+a
+g(x) dh(x);
+see Apostol (1974, p. 144) or Arendt et al. (2002, p. 52).
+b) Use the formula in a) to calculate the mean excess function of a random variable X following
+a generalized Pareto distribution with shape ξ < 1 and scale β > 0.
+Exercise 5.20 (Scaling of VaR, ES under a power tail)
+Let X ∼F where F(x) = 1 −c(κ + x)−θ, x ≥u, for some c > 0, κ ∈R, θ > 0 and u > 0.
+a) Show that, for all α1 and α2 satisfying F(u) < α1 ≤α2 < 1, it holds that
+VaRα2(X) =
+1 −α1
+1 −α2
+1/θ
+(κ + VaRα1(X)) −κ.
+38
+
+Basic
+b) Let θ > 1. Show that, for all α1 and α2 satisfying F(u) < α1 ≤α2 < 1, it holds that
+ESα2(X) =
+θ
+θ −1
+1 −α1
+1 −α2
+1/θ
+(κ + VaRα1(X)) −κ.
+c) Explain why these results are useful from a practical point of view.
+Exercise 5.21 (Block maxima method applied to S&P 500 return data)
+Imagine you are a risk manager sitting in your oﬃce in the evening of Friday 26 September
+2008. It has been a turbulent period in the ﬁnancial market and the S&P500 index has dropped
+by 3.33% over the course of the week and by 11.82% over the past quarter.
+Use statistical software to carry out a block maxima analysis of daily negative log-returns
+of the S&P500 index since 1960 suing a block size of one year; see the dataset SP500 of the
+R package qrmdata. In other words, ﬁt a GEV distribution Hθ to the block maxima where
+θ = (ξ, µ, σ).
+Answer the following questions:
+a) Compute the maximum likelihood estimator of the parameter vector θ. Based on the
+estimated shape parameter, which moments of the ﬁtted GEV are ﬁnite?
+b) What is the probability that next year’s maximum loss exceeds the maximal loss over the
+past 20 years?
+c) What are (approximately) the 10-year and 50-year 260-block return levels r260,10 and r260,50,
+respectively?
+Note. The index 260 stands for the approximate number of trading days per year here.
+d) What is the return period k260,0.0922 of a loss at least as large as 9.22%, as seen on Monday,
+29 September 2008?
+Exercise 5.22 (Peaks-over-threshold analysis of Bitcoin data)
+The objective of this exercise is to use the POT method to analyse extreme negative log-returns
+on the dollar price of one Bitcoin from 1 January 2014 to 31 December 2017; see the dataset
+crypto of the R package qrmdata and the R package qrmtools for functions for implementing
+the POT method.
+Work through the following steps:
+a) Load the Bitcoin price data and plot it. Also compute the series of negative log-returns
+and plot these.
+b) For the negative log-return data, use a mean excess plot to ﬁnd a suitable threshold u.
+Check your choice with a plot of ﬁtted GPD shape parameters against various thresholds.
+c) Compute the maximum likelihood estimator of the GPD parameters based on the excess
+losses over your chosen threshold u. Use a Q-Q plot to verify whether the ﬁtted GPD ﬁts
+the excess losses well. Also provide a plot of the empirical distribution function of the
+excess losses overlaid with the ﬁtted GPD to see whether the two match.
+d) Use a POT-based tail estimator to compute VaR0.99 and ES0.975 and compare the two
+values.
+39
+
+5 Extreme Value Theory
+e) Plot the empirical tail probabilities ¯Fn(x), where Fn denotes the empirical loss distribution
+function, at all exceedances x of the threshold u and overlay the points with the tail
+estimator obtained from the POT method; see MFE (2015, equation (5.21)). Also indicate
+VaR0.99 and ES0.975 in the plot.
+Advanced
+Exercise 5.23 (Alternative condition for convergence of normalized maxima)
+a) Show that
+F n(cnx + dn) →
+n→∞H(x)
+if and only if
+n ¯F(cnx + dn) →
+n→∞−log H(x).
+Hint. You may use that an →a ∈R for n →∞if and only if (1 + an/n)n →exp(a) for
+n →∞.
+b) Use part a) to show that the exponential distribution function F(x) = 1 −exp(−λx),
+x ≥0, λ > 0, belongs to the maximum domain of attraction of the Gumbel distribution
+H0(x) = exp(−e−x), x ∈R, for the normalizing sequences cn = 1/λ and dn = log(n)/λ,
+n ∈N.
+Exercise 5.24 (Maximum domain of attraction of a log-gamma distribution)
+In MFE (2015, Example 16.1) Karamata’s Theorem (MFE (2015, Theorem A.7)) is used to
+show that the Student t distribution is in the maximum domain of attraction of the Fréchet
+distribution. Use a similar method to analyse the behaviour of normalized maxima for the
+log-gamma distribution LGa(α, β) with distribution function F and density
+f(x) =
+βα
+Γ(α)(log x)α−1x−β−1,
+x > 1, α > 0, β > 0.
+In other words, determine the ξ for which F ∈MDA(Hξ).
+Exercise 5.25 (Maximum domain of attraction under serial dependence)
+Suppose (Xn)n∈N is a sequence of iid random variables with distribution function F(x) =
+√
+1 −x−θ, x ≥1, θ > 0. Furthermore, let
+Yn = max{X2n−1, X2n},
+n ∈N,
+Zn = max{Xn, Xn+1},
+n ∈N.
+a) Clearly, (Yn)n∈N is a sequence of iid random variables. Compute the distribution function
+of Y1.
+b) Let MY
+n = max{Y1, . . . , Yn}, n ∈N. Find real sequences (cn) and (dn), with cn > 0 for all
+n, and a non-degenerate distribution function HY such that (MY
+n −dn)/cn converges in
+distribution to HY .
+40
+
+Advanced
+c) Compute the distribution function of Z1.
+d) Determine whether (Zn)n∈N is also a sequence of independent random variables.
+e) Let MZ
+n = max{Z1, . . . , Zn}, n ∈N. Using the same sequences (cn) and (dn) as in b) show
+that (MZ
+n −dn)/cn converges in distribution to a limit HZ.
+f) How are the limiting distributions HY and HZ related and what is the connection with the
+extremal index?
+Exercise 5.26 (A link between the Poisson, GPD and GEV distributions)
+Suppose that over some ﬁxed period we observe a Poisson-distributed number of losses N ∼
+Poi(λ) for some λ > 0. Let the loss severities be described by an iid sequence of random
+variables (Yn)n∈N from a GPD with shape ξ ∈R and scale β > 0. Assume that the loss
+severities (Yn)n∈N are independent of the loss frequency N. Let
+MN = max{Y1, . . . , YN}.
+Show that MN ∼Hξ,µ,σ where
+µ =
+(
+β(λξ −1)/ξ,
+ξ ̸= 0,
+β log λ,
+ξ = 0,
+and
+σ = βλξ.
+Exercise 5.27 (Convergence of the excess distribution for a gamma distribution)
+Let X ∼Ga(2, 1) be gamma distributed. In solving this exercise it will be seen that the
+Pickands–Balkema–de Haan Theorem is particularly easy to verify in this case.
+a) Compute the excess distribution function Fu over a threshold u > 0.
+b) Show that
+lim
+u→∞
+sup
+0<x<∞
+|Fu(x) −G0,1(x)| = 0.
+c) Using b), identify the maximum domain of attraction to which Ga(2, 1) belongs.
+d) Compute e(u) and explain why this implies the same conclusion as in c).
+Exercise 5.28 (Shortfall-to-range-shortfall ratio for a GPD tail)
+Let L have distribution function F ∈MDA(Hξ) and assume that for some threshold u ∈[¯xF , xF )
+the excess distribution exactly satisﬁes Fu(x) = Gξ,β(x), x ∈[0, xF −u), ξ ∈R, where
+¯xF = inf{x ∈R : F(x) > 0} denotes the left endpoint of F.
+a) For 0 < α1 < α2 < 1, compute the range expected shortfall
+ESα1,α2(L) =
+1
+α2 −α1
+Z α2
+α1
+VaRz(L) dz.
+b) For ξ < 1, derive ESα(L).
+41
+
+5 Extreme Value Theory
+c) For ξ < 1, show that for all γ > 1,
+lim
+α→1−
+ESα(L)
+ESα,1−(1−α)γ(L) = 1
+and interpret this result from a risk management perspective.
+Exercise 5.29 (Probability-weighted moments for the GEV distribution)
+If they exist, the probability-weighted moments of a random variable X with distribution
+function F are deﬁned by
+Mp,r,s = E(XpF(X)r(1 −F(X))s),
+p, r, s ∈R.
+For continuous F and U ∼U(0, 1), this implies that Mp,r,s = E(F ←(U)pUr(1 −U)s). Consider
+the probability-weighted moments given by βr = M1,r,0 and assume that F = Hξ,µ,σ for some
+ξ < 1.
+a) Compute βr for r > −1.
+Hint. You may use the fact that
+R ∞
+0 log(x) exp(−x) dx = −γ, where γ denotes the Euler–
+Mascheroni constant.
+b) Hence compute β0, 2β1 −β0 and (3β2 −β0)/(2β1 −β0).
+c) Based on b) and estimates βr,n of βr, design an algorithm for computing estimates of ξ, µ, σ.
+Exercise 5.30 (Probability-weighted moments for the GPD)
+In this exercise we apply the method of probability-weighted moments as introduced in
+Exercise 5.29 to the estimation of a generalized Pareto distribution F = Gξ,β under the
+assumption that ξ < 1. For the GPD it proves easier to consider the probability-weighted
+moments given by αs = M1,0,s.
+a) Compute αs for s ≥0.
+b) Hence compute 2 −α0/(α0 −2α1) and 2α0α1/(α0 −2α1).
+c) Based on b) and estimates αs,n of αs, design an algorithm for computing estimates of ξ, β.
+42

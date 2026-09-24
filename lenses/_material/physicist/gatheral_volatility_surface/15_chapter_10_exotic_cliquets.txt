@@ -1,0 +1,435 @@
+CHAPTER10
+Exotic Cliquets
+T
+he most obvious example of a forward-skew dependent claim is a cliquet.
+We already saw two examples of simple cliquet contracts in Chapter 8.
+As we noted there, a cliquet is a sequence of cliquettes, forward-starting
+options whose terms are set on the reset dates. The simplest and perhaps
+most common kind of cliquet is just a strip of forward-starting at-the-money
+European calls.
+In this chapter, we look at some examples of exotic cliquet contracts. To
+make the discussion more concrete, we will take as our models three speciﬁc
+bonds issued by Mediobanca S.p.A.: a Locally Capped Globally Floored
+Cliquet, a Reverse Cliquet, and a Napoleon. It seems that Mediobanca
+has issued many different types of structured bond and the Mediobanca
+website (http://www.mediobanca.it) has a virtual treasure trove of well-
+written documents for the collector of exotic structures. Moreover, some of
+these deals have matured so that we can examine their ex post performance.
+LOCALLY CAPPED GLOBALLY FLOORED CLIQUET
+The ‘‘Mediobanca Bond Protection 2002–2005’’ (ISIN IT0003391353) has
+the Dow Jones EURO STOXX 50 index as underlying and offers guaranteed
+principal redemption plus an annual coupon payable on December 2 of each
+year given by
+max
+ 12
+
+t=1
+min (max (rt, −0.01) , +0.01)
+
+, MinCoupon
+
+where MinCoupon = 0.02 and each monthly return rt is given by
+rt = St −St−1
+St−1
+−1
+122
+
+Exotic Cliquets
+123
+where St is the level of the EURO STOXX 50 index on the tth monthly
+reset date. The annual coupon is therefore capped at 12% and ﬂoored at
+2%, hence the name locally capped, globally ﬂoored cliquet that is given to
+this type of structure.
+According to the document, coupons are paid on December 2 of each
+year. The valuation dates t are the second day of each month except that
+the ﬁnal valuation date for each coupon is November 25, one week before
+the coupon is paid.
+If it weren’t for the guaranteed minimum annual coupon, this particular
+Mediobanca deal would reduce to a simple strip of 1-month at-the-money
+call spreads (or equivalently put spreads according to taste). The minimum
+annual coupon acts as the global ﬂoor and each monthly return is capped at
+the local cap of 1%. Our intuition tells us that despite the global ﬂoor, this
+structure should behave as a strip of call spreads; adding a global ﬂoor is
+roughly equivalent to raising the lower strike of each spread. We would guess
+that the structure should be very sensitive to forward skew assumptions.
+Thus our prediction would be that a local volatility assumption would
+substantially underprice the deal because it generates forward skews that
+are too ﬂat (the more negative the skew, the greater the value of a call spread).
+Valuation under Heston and Local Volatility Assumptions
+In order to get a sense for the dependency of the valuation of this cliquet
+on modeling assumptions, we may generate Monte Carlo paths under
+both Heston and local volatility assumptions with the parameters from
+Chapter 4.∗Note that there is no suggestion that the Heston-Nandi param-
+eters of Chapter 4 would have generated option prices remotely close to
+those obtaining on the issue date of the bond (December 2, 2002). All we
+are trying to do is to isolate the effect of modeling assumptions.
+Figure 10.1 shows the value of this structure for different values of the
+minimum coupon (MinCoupon in the formula) in the Heston model with
+Heston-Nandi parameters:
+v = 0.04; v = 0.04; λ = 10; η = 1; ρ = −1
+and under local volatility with the Heston local volatility approximation
+from Chapter 4:
+vloc(xT, T) = max
+
+(v −v′)e−λ′T + v′ −η xT
+
+1 −e−λ′T
+λ′T
+
+, 0
+
+∗Recall that these two sets of assumptions generate almost identical European option
+prices.
+
+124
+THE VOLATILITY SURFACE
+0.02
+0.04
+0.06
+0.08
+0.1
+0.12
+MinCoupon
+0.02
+0.04
+0.06
+0.08
+0.1
+0.12
+Expected
+Coupon
+FIGURE 10.1
+Value of the ‘‘Mediobanca Bond Protection 2002–2005’’ locally
+capped and globally ﬂoored cliquet (minus guaranteed redemption) as a function of
+MinCoupon. The solid line is stochastic volatility; the dashed line is local volatility.
+with λ′ = λ + η/2, v′ = v λ/λ′. As usual, we assume zero interest rates and
+dividends.
+We see that our intuition is justiﬁed. The actual structure has
+minCoupon = 2%; at that point, the expected coupon under Heston is
+3.53% and the expected coupon under local volatility is only 2.55%, which
+corresponds to an upfront valuation difference of 3 × 0.98 = 2.94% with
+our usual assumption of zero rates and dividends. Relative to the proﬁt
+of the provider of the exotic option component, 3.0% is a big number: It
+may well be more than his entire proﬁt! The maximum coupon payable
+is 12% per year so the local volatility and Heston expected coupons must
+agree when minCoupon = 12% and from Figure 10.1, we see that they do.
+When minCoupon = −1% on the other hand, the structure is just a strip
+of European call spreads and the sensitivity to forward volatility skew (and
+so to the difference between Heston and local volatility assumptions) is
+maximized.
+Performance
+The historical performance of this bond is shown schematically in
+Figure 10.2.
+The estimated historical bond coupons in Table 10.1 reﬂect the effective
+diversiﬁcation that comes from averaging over 12 more-or-less independent
+capped and ﬂoored returns—they are rather close to the risk-free rate.∗In
+∗Note that these are only estimates. The Calculation Agent always has the ﬁnal say.
+
+Exotic Cliquets
+125
+1203 Coupon
+1204 Coupon
+1205 Coupon
+2000
+2250
+2500
+2750
+3000
+3250
+3500
+STOXX 50 Index
+FIGURE 10.2
+Historical performance of the ‘‘Mediobanca Bond Protection
+2002–2005’’ locally capped and globally ﬂoored cliquet. The dashed vertical lines
+represent reset dates, the solid lines coupon setting dates and the solid horizontal
+lines represent ﬁxings.
+TABLE 10.1
+Estimated ‘‘Mediobanca Bond
+Protection 2002–2005’’ coupons.
+Fixing Date
+Coupon
+11/25/2003
+3.91%
+11/25/2004
+3.55%
+11/25/2005
+4.14%
+fact, the 3-year euro annual swap rate on the issue date (December 2, 2002)
+was 3.59%. It is pretty hard for an investor to make or lose much money in
+a structure like this.
+REVERSE CLIQUET
+The ‘‘Mediobanca 2000–2005 Reverse Cliquet Telecommunicazioni’’ (ISIN
+IT0001458600) has a basket of telecommunication stocks as underlying and
+
+126
+THE VOLATILITY SURFACE
+offers guaranteed principal redemption plus a ﬁnal premium P given by
+P = max
+
+0, MaxCoupon +
+10
+
+i=1
+min [0, ri]
+
+where each semi-annual return ri is given by
+ri = basketi −basketi−1
+basketi
+and MaxCoupon = 100%.
+We note that as in all such structures, principal is guaranteed but the
+coupons depend on the performance of some underlying index. In this
+case, there is no real periodic coupon. Instead (and this is also typical), a
+return is computed periodically and added to the ﬁnal redemption amount.
+The maximum redemption amount achievable in this case is given by
+Principal + MaxCoupon = 200%.
+Without the guaranteed redemption feature, this Mediobanca structure
+would reduce to a simple strip of 6-month at-the-money puts; an investor
+would be short the strip of puts. The structure is termed a reverse cliquet
+because only negative returns contribute to the ﬁnal payoff. It is therefore
+fair to assume that there would be very little skew dependence in the
+valuation. In fact, this is not typical and in general, each cliquette in a
+reverse cliquet has a local cap and local ﬂoor as in our previous example.
+The guaranteed redemption amount acts as a global ﬂoor.
+Valuation under Heston and Local Volatility Assumptions
+Figure 10.3 shows the value of this structure for different values of the
+maximum payoff (coupon in the formula) under Heston and local volatility
+assumptions with Heston-Nandi parameters exactly as before. We see that
+our intuition is justiﬁed. There is not a huge difference between a stochastic
+volatility and a local volatility valuation of the deal. With MaxCoupon =
+100% as per the deal terms, the expected redemption amount is 43.9% in
+the Heston case and 42.0% in the local volatility case.
+On closer examination, we note that the valuation of the deal is con-
+sistently higher under stochastic volatility than under local volatility. That’s
+because although the investor is short at-the-money puts, he is also long the
+global ﬂoor which acts like a strip of out-of-the-money puts. This global
+ﬂoor is worth more under stochastic volatility than under local volatility
+reﬂecting the ﬂatter forward volatility skews in a local volatility world.
+
+Exotic Cliquets
+127
+0.2
+0.4
+0.6
+0.8
+1
+Coupon
+0.1
+0.2
+0.3
+0.4
+Value
+FIGURE 10.3
+Value of the Mediobanca reverse cliquet (minus guaranteed
+redemption) as a function of MaxCoupon. The solid line is stochastic volatility; the
+dashed line is local volatility.
+Performance
+ThehistoricalperformanceofthisbondisshownschematicallyinFigure 10.4.
+The extra data included prior to issuance of the deal in 2000 is to provide
+historical context. We see that as of the issue date, global telecommunications
+stocks had dropped substantially from their peak reached earlier in the year.
+One can imagine that the average investor might not have predicted that the
+basket of telecom stocks would have dropped a further 70% from inception
+to today, an 83% drop at the worst point. The investor would have been
+better off heeding the trader adage: ‘‘don’t try to catch a falling knife.’’
+Although at maturity the deal paid no more than the guaranteed
+principal, this is very substantially more than the investor would have got
+if he had held on to the underlying basket of telecommunications stocks.
+Moreover, the deal did have substantial upside unlike the capped and ﬂoored
+cliquet that we examined earlier. Again, for reference the euro 5-year annual
+swap rate was 5.73% on the issue date of May 18, 2000.
+NAPOLEON
+The payoff of the ‘‘Mediobanca 2002–2005 World Indices Euro Note Serie
+46’’ (ISIN IT0003487524) again has guaranteed principal and pays an
+annual coupon given by
+couponi = max [0, MaxCoupon + ˜ri]
+
+128
+THE VOLATILITY SURFACE
+500 1100
+501
+1101
+502
+1102
+503
+1103
+504
+1104
+505
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+1.4
+1.6
+Basket index
+FIGURE 10.4
+Historical performance of the ‘‘Mediobanca 2000–2005 Reverse
+Cliquet Telecommunicazioni’’ reverse cliquet. The vertical lines represent reset
+dates, the solid horizontal lines represent ﬁxings and the vertical grey bars represent
+negative contributions to the cliquet payoff.
+where ˜ri is the average of the worst (most negative) monthly returns of
+three global stock indices—SPX, EURO STOXX 50, and NIKKEI 225 and
+MaxCoupon = 10%. Speciﬁcally,
+˜ri :=
+inf
+ti−1<tj<ti rj.
+Each cliquette has extreme dependence on the skew at the time the
+strike is set so the whole structure is extremely dependent on forward skew.
+The more negative the volatility skew, the greater the value of downside
+puts reﬂecting in turn the greater expected magnitude of downside moves
+and the lower the value of the structure. Our previous intuition would
+therefore lead us to predict that the Napoleon should be worth substantially
+less under stochastic volatility (with more negative returns on average) than
+under local volatility.
+Valuation under Heston and Local Volatility Assumptions
+Figure 10.5 shows the risk-neutral expected value of the Napoleon coupon
+for different values of the maximum annual coupon (MaxCoupon in the
+
+Exotic Cliquets
+129
+0.02
+0.04
+0.06
+0.08
+0.1
+0.12
+0.14
+MaxCoupon
+0.01
+0.02
+0.03
+0.04
+0.05
+Expected
+Coupon
+FIGURE 10.5
+Value of (risk-neutral) expected Napoleon coupon as a function of
+MaxCoupon. The solid line is stochastic volatility; the dashed line is local volatility.
+formula) computed as usual under Heston and local volatility assumptions
+with Heston-Nandi parameters from Chapter 4. As before, we assume zero
+interest rates and dividends.
+This time, our previous intuition fails! Depending on the value of
+MaxCoupon the Heston Napoleon valuation can be higher or lower than
+the local volatility valuation. With MaxCoupon = 10% as in the deal terms,
+the expected Napoleon coupon is almost identical under the two sets of
+assumptions: 1.74% in each case.
+The Napoleon-expected coupon is high at low volatility and low at
+high volatility with a lot of volatility convexity. Volatility convexity is
+underpriced in the local volatility model relative to stochastic volatility and
+in this case, the underpricing of volatility convexity may be the dominant
+effect. The Napoleon structure also has the feature that as the underlying
+falls, the expected coupon decreases and vega decreases—if the current
+return is negative enough for the coupon ﬂoor to be hit, future volatility can
+have no further effect. Maybe this cross-effect is more highly priced in the
+stochastic volatility model than in the local volatility model?
+The moral of the story is clear: Intuition is well and good when
+the structure is familiar and well understood. But if a structure is either
+unfamiliar or not well understood, one should always look at the sen-
+sitivity of pricing to modeling assumptions as we have just done here.
+It’s not enough to just compute sensitivity to model parameters within
+a given modeling framework: modeling assumptions themselves must be
+stressed.
+
+130
+THE VOLATILITY SURFACE
+Performance
+The historical performance of the EURO STOXX 50 component of this
+Napoleon bond is shown schematically in Figure 10.6.
+Referring to Table 10.2, we see that the estimated bond coupons are
+actually rather close to the risk-free rate, 3-year euro annual swap rate of
+3.26% as of the issue date (December 20, 2002). Although the Napoleon
+structure appears to offer the investor the possibility of a very high coupon,
+the investor would have to be very lucky not to have one large negative
+monthly return out of twelve during a given coupon period. On the other
+hand, we shouldn’t forget that principal is guaranteed; all of these complex
+cliquet structures are basically conservative for the investor.
+Investor Motivation
+The reader might wonder what it is that motivates an investor to consider
+one of these exotic cliquet structures. Cliquet deals were and continue to
+be targeted at European retail investors who were accustomed to investing
+in high-yielding government bonds. Of course, with the advent of the
+2000
+2250
+2500
+2750
+3000
+3250
+3500
+STOXX
+50 Index
+1203 Coupon
+1204 Coupon
+1205 Coupon
+FIGURE 10.6
+Historical performance of the STOXX 50 component of the
+‘‘Mediobanca 2002–2005 World Indices Euro Note Serie 46’’ Napoleon. The light
+vertical lines represent reset dates, the heavy vertical lines coupon setting dates, the
+solid horizontal lines represent ﬁxings and the thick grey bars represent the
+minimum monthly return of each coupon period.
+
+Exotic Cliquets
+131
+TABLE 10.2
+Worst monthly returns and estimated Napoleon coupons. Recall that
+the coupon is computed as 10% plus the worst monthly return averaged over the
+three underlying indices.
+Date
+˜rSTOXX50
+˜rSPX
+˜rNIKKEI225
+Est. Coupon
+12/20/2003
+−7.61%
+−5.69%
+−11.61%
+1.70%
+12/20/2004
+−6.62%
+−4.26%
+−9.12%
+3.33%
+12/20/2005
+−3.09%
+−3.91%
+−6.36%
+5.55%
+euro and the global decline in yields, government bonds are no longer
+high yielding. One can surmise that these essentially conservative principal-
+guaranteed deals offer these investors the same security as a bond with the
+possibility of a high coupon. Although these structures are complex from
+the valuation and hedging perspective, they are not so hard to explain to a
+retail investor.
+More on Napoleons
+Although cliquet bonds are in general conservative deals for investors, they
+can be very hard to manage for the ultimate hedgers of the exotic option
+component. In the cases of locally capped globally ﬂoored and reverse
+cliquets, at least the hedger can roughly visualize what the structure is in
+terms of strips of forward-starting options. On the other hand, there doesn’t
+seem to be any such neat (even approximate) decomposition of a Napoleon
+into conventional options.
+In fact, exotic option traders at the time (2002 to 2003) that the
+Napoleon structure was popular were smart enough to realize that local
+volatility models were inappropriate because, as we keep noting, forward
+skews are too ﬂat. However, the most common valuation technique wasn’t
+stochastic volatility—it was the so-called independent increment technique.
+While to avoid arbitrage, returns must be uncorrelated, this technique effec-
+tively assumes that returns are independent of each other—even squared
+returns! Forward skews are roughly correct because 1-month returns are
+drawn (in Monte Carlo for example) from the 1-month risk-neutral distri-
+bution. However, forward volatility levels are deterministic and volatility
+convexity is underpriced.
+It follows that the independent increment technique substantially under-
+prices the Napoleon and since the lowest price invariably gets the deal, it
+was precisely those traders that were using the wrong model that got the
+business. Ironically, had those exotic traders used local volatility assump-
+tions to price Napoleons, they would have lost less money. The importance
+
+132
+THE VOLATILITY SURFACE
+of trying out different modeling assumptions cannot be overemphasized.
+Intuition is always fallible!
+In a February 2004 RISK magazine article, Jeffery (2004) describes the
+situation well giving a sense of some of the pain suffered by exotic option
+traders.

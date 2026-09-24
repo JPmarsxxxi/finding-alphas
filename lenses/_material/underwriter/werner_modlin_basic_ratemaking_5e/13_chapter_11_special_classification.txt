@@ -1,0 +1,2942 @@
+Chapter 11:  Special Classification 
+188 
+ 
+CHAPTER 11:  SPECIAL CLASSIFICATION 
+As discussed in Chapters 9 and 10, companies that can determine and implement equitable rates are able 
+to insure a broader range of risk profitably and, therefore, have a competitive advantage.  Companies that 
+choose not to do so may face adverse selection.    
+The past two chapters discussed traditional (univariate) and multivariate techniques that determine the 
+indicated relativities between different levels of a given rating variable.  Certain rating variables and risk 
+characteristics have unique qualities that led actuaries to develop special ratemaking procedures.   
+This chapter discusses alternate ratemaking procedures to address the following items: 
+ 
+Territorial boundary analysis 
+ 
+Increased limits factors 
+ 
+Deductibles 
+ 
+Workers compensation size of risk 
+ 
+Insurance to value/Coinsurance 
+TERRITORIAL RATEMAKING 
+Geography is considered one of the primary drivers of claims experience.  Consequently, it is one of the 
+most well-established and widely used rating variables.  Companies typically define territories as a 
+collection of small geographic units (e.g., postal/zip codes, counties, census blocks) and have rate 
+relativities for each territory.  The territorial boundaries and associated rate relativities can vary 
+significantly from insurer to insurer.   
+Territorial ratemaking poses some interesting challenges.  First, location tends to be heavily correlated 
+with other rating variables (e.g., high-value homes tend to be located in the same area), which makes 
+traditional univariate analysis of location very susceptible to distortions.  Second, as companies often 
+analyze territory as a collection of small units, the data in each individual territory is sparse.  This is 
+referred to as high-dimensionality, and special multivariate techniques are required to circumvent the 
+problem.  
+Territorial ratemaking generally involves two phases:  
+ 
+Establishing territorial boundaries 
+ 
+Determining rate relativities for the territories 
+Establishing Territorial Boundaries 
+In the past, companies had few rating territories and, for many lines, most companies used the same or 
+very similar territorial boundaries.  Often these territories were developed by a third-party (e.g., ISO or 
+NCCI) using industry data.  Over time, companies began to subdivide (or modify) the territories to try to 
+gain a competitive advantage.  In many cases, the refinement was based on operational knowledge of the 
+area and judgment.  Recently, actuaries are applying more advanced methods such as geo-spatial 
+techniques to develop or refine territorial boundaries.  Actuaries are also using both internal and external 
+data in their analyses. 
+
+Chapter 11:  Special Classification 
+189 
+ 
+Determining Geographic Unit 
+The first step in establishing territorial boundaries is to determine the basic geographic unit.  The unit 
+should be refined enough to be relatively homogenous with respect to geographic differences while still 
+having some observations in most units.  Typical units are postal codes (zip codes in the U.S.), census 
+blocks, counties, or some combination of these.  Each of these options has practical advantages and 
+disadvantages.  For example, while zip codes have the advantage of being the most readily available, they 
+have the disadvantage of changing over time.  Counties have the advantage of being static and readily 
+available; however, due to the large size of most counties, they tend to contain very heterogeneous risks.  
+Census blocks are relatively static over time, but require a process to map insurance policies to the census 
+blocks.    
+Once the basic geographic unit is determined, the actuary’s objective is to estimate the geographic risk 
+associated with each unit.  Actual experience reflects 
+both signal and random noise.  The signal is driven by 
+non-geographic elements (e.g., age, amount of 
+insurance, number of employees) and geographic 
+elements (e.g., density, weather indices, crime rates).  
+The different components are shown in Figure 11.1; the 
+key to accurately estimating the geographic risk is 
+isolating the geographic signal in the data.   
+Calculating the Geographic Estimator 
+Traditionally, the actuary used univariate techniques (e.g., pure premium approach) to develop an 
+estimator for each geographic unit.  There are two major issues with this approach.  First, the geographic 
+estimator in this approach reflects both the signal and the noise.  Since geographic units tend to be small, 
+the data is often sparse and either the resulting loss ratios or pure premiums or both will typically be too 
+volatile to distinguish the noise from the signal.  Second, since location tends to be highly correlated with 
+other non-geographic factors, the resulting estimator is biased.37   
+A more sophisticated approach involves building a multivariate model (e.g., a GLM) on loss cost data 
+using a variety of non-geographic and geographic explanatory variables.  The non-geographic variables 
+include many traditional rating variables (e.g., age of insured, claim history) as well as other explanatory 
+variables that may not currently be used in rating.  The geographic variables can include geo-demographic 
+variables (e.g., population density) and geo-physical variables (e.g., average rainfall).  The geo-
+demographic and geo-physical variables are often obtained from third-party sources and merged with the 
+insurance company database via some geographic unit, although it does not have to be the same as the 
+selected basic geographic unit.  
+ 
+ 
+                                                     
+37 The same comments made in Chapter 9 regarding this bias apply.  In other words, actuaries using the loss ratio 
+approach generally assume the rates are equitable and make no adjustments.  Actuaries using the pure premium 
+approach may adjust the exposures to account for distributional bias. 
+11.1  Components of Actual Experience 
+Actual Experience
+Signal
+Non-
+Geographic
+Geographic
+Noise
+
+Chapter 11:  Special Classification 
+190 
+ 
+The very nature of the multivariate modeling 
+process enables the actuary to isolate the signal 
+from the noise in the data.  Since the variables and 
+interactions included in the model are only a subset 
+of the universe of predictive variables, there may be 
+unexplained signal in the model residuals.  Given 
+that geography is a useful basis for examining 
+patterns in the residuals, actuaries often examine the 
+geographic residual variation.  The parameters from each of the various geographic predictors, including a 
+predictor variable for the geographic residual variation, can be combined to form one composite risk 
+index or score that represents the geographic signal for each geographic unit.   
+Smoothing 
+Geographic risk tends to be similar for units that are close in proximity.  Consequently, actuaries may use 
+spatial smoothing techniques to improve the estimate of any individual unit by using information from 
+nearby units.  There are two basic types of spatial smoothing:  distance-based and adjacency-based.   
+The distance-based approach smoothes by weighting the information from one geographic unit with the 
+information from all nearby geographic units based on the distance from the primary unit and some 
+measure of credibility.  The influence of nearby areas is deemed to diminish with increasing distance.   
+Distance-based smoothing has the advantage of being easy to understand and implement.  A disadvantage 
+to this approach is the assumption that a certain distance (e.g., a mile) has the same impact on similarity 
+of risk regardless of whether it is an urban or rural area.  Additionally, the presence of a natural or 
+artificial boundary (e.g., river or highway) between two geographic units is not taken into consideration 
+when determining distance.  This assumption tends to be most appropriate for weather-related perils.  
+Adjacency-based smoothing weights the information from one geographic unit with the information 
+estimators of rings of adjacent units (i.e., immediately adjacent units get more weight than the units 
+adjacent to adjacent units, etc).  Adjacency-based smoothing handles urban/rural differences more 
+appropriately, and accounts for natural or artificial boundaries better than the distance-based smoothing.  
+For these reasons, adjacency-based smoothing tends to be most appropriate for perils driven heavily by 
+socio-demographic characteristics (e.g., theft).   
+Whether distance or adjacency-based smoothing is used, the actuary needs to balance over- and under-
+smoothing.  If the actuary smoothes too much (e.g., uses data from dissimilar units in another part of the 
+state), the actuary may be masking the real spatial variation among the risks.  If the actuary does not 
+smooth enough, the actuary may be leaving considerable noise in the estimator.   
+The exact mechanics of the various spatial smoothing techniques are beyond the scope of this text. 
+Smoothing techniques are generally applied in one of two ways.  First, smoothing techniques can be 
+applied to the geographic estimators themselves.  This is most commonly done when the geographic 
+estimator is based on the univariate approaches as the estimators generally still contain a significant 
+amount of noise.  Second, these techniques can be applied within a more sophisticated framework to 
+improve the predictive power of a multivariate analysis of geographical effects.  In this case, the actuary 
+applies smoothing techniques to the geographic residuals to see if there are any patterns in the residuals; 
+Actual Experience
+Signal
+Non-
+Geographic
+Geographic 
+Predictors
+Geographic 
+Residual 
+Variation
+Noise
+11.2  Components of Actual Experience Further Refined 
+
+Chapter 11:  Special Classification 
+191 
+ 
+in other words, the actuary tries to detect any systematic geographic patterns that are not explained by the 
+geographical factors in the multivariate model.  Any pattern in the residuals (i.e., the residuals are all 
+positive or negative in a certain region) indicates the existence of geographic residual variation.   Once 
+identified, the spatially smoothed residuals can be used to adjust the geographic estimators to improve the 
+overall predictive power of the model. 
+Clustering 
+Once the geographic estimators are calculated for each unit, the units can be grouped into territories.  
+When combining units, the goal is to minimize within group heterogeneity and maximize between group 
+heterogeneity.  As with smoothing techniques, there are a variety of clustering techniques that can achieve 
+this.  The following are basic categories of clustering routines: 
+ 
+Quantile methods create clusters based on either equal numbers of observations (such as 
+geographic units) or equal weights (such as exposure). 
+ 
+Similarity methods create clusters based on how close the estimators are to one another.  The 
+definition of closeness can be based on a few different statistics:   
+o The average linkage similarity method creates boundaries based on the overall average 
+difference between the estimators from one cluster to the next.  This tends to join clusters 
+with smaller variances.   
+o The centroid similarity method creates boundaries based on the overall average 
+difference in estimators squared.  This tends to be more responsive to outliers.   
+o Ward’s clustering method creates boundaries that lead to the smallest within cluster sum 
+of squares difference.  This tends to produce clusters that have the same number of 
+observations. 
+It is important to note that these types of clustering routines do not naturally produce contiguous 
+groupings (i.e., groupings that only include geographic units that are adjacent to each other).  If the 
+actuary desires contiguous territorial boundaries, then a contiguity constraint needs to be added to the 
+clustering routine.   
+In the absence of some natural or man-made “boundary,” the level of geographic risk generally changes 
+gradually.  By creating distinct boundaries, there will be a discontinuity at the boundary.  If there are too 
+few clusters, there may be a significant jump in estimated risk between two adjacent clusters, which is 
+undesirable.  Thus, the actuary should select the number of clusters that minimizes noise without creating 
+significant discontinuities.  Interestingly, many companies have eliminated the grouping of units into 
+territories and simply derive rate relativities for each geographic unit; practically speaking, that is no 
+different than creating a significant number of small territories.  If done properly, this minimizes extreme 
+discontinuities between units.  Ultimately, rather than having rating territories, many companies will geo-
+code every risk, and the latitude and longitude of the insured item will create a unique rate relativity that 
+changes gradually from one location to a neighboring location. 
+Calculating Territorial Relativities 
+Once the boundary definitions have been determined, the actuary determines the associated rate 
+relativities or differentials.  This can be accomplished using the techniques described in the prior two 
+
+Chapter 11:  Special Classification 
+192 
+ 
+chapters.  Since location tends to be highly correlated with other variables (e.g., low- or high-valued 
+homes tend to be concentrated in certain areas), it is prudent to perform this analysis using multivariate 
+classification techniques.  For example, the new territorial boundaries could be modeled along with 
+various other explanatory variables in a GLM. 
+INCREASED LIMITS RATEMAKING 
+Insurance products that provide protection against third-party liability claims usually offer the insured 
+different amounts of insurance coverage, referred to as limits of insurance.  Typically, the lowest level of 
+insurance offered is referred to as the basic limit, and higher limits are referred to as increased limits.   
+Establishing appropriate rate differentials for each limit (referred to as increased limits ratemaking) is 
+growing in importance for several reasons.  First, as personal wealth continues to grow, individuals have 
+more assets to protect and need more insurance coverage.  Second, general inflation drives up costs and, 
+as discussed in Chapter 6, trends in costs have a greater impact on increased limits losses than on basic 
+limits losses.  Third, the propensity for lawsuits and the amount of jury awards have increased 
+significantly (i.e., social inflation).  Like general inflation, this has a disproportionate impact on the 
+increased limits losses.   
+Particular lines of insurance where increased limits are of extreme importance include private passenger 
+and commercial auto liability, umbrella, and any commercial product offering liability coverage such as 
+contractor’s liability, professional liability, etc.  There are two types of policy limits offered:  single limits 
+and compound limits.  A single limit refers to the total amount the insurer will pay for a single claim.  For 
+example, if an umbrella policy has a limit of $1,000,000, then the policy will only pay up to $1,000,000 
+for any one claim.   
+A compound limit applies two or more limits to the covered losses.  A compound limit that includes both 
+a per claimant and a per occurrence limit is commonly referred to as a split limit.  For example, in 
+personal automobile insurance, a split limit for bodily injury liability of $15,000/$30,000 means that in 
+the event the insured causes an accident, the policy will pay each injured party up to $15,000 with the 
+total payment to all injured parties not to exceed $30,000.  Another common compound limit is an 
+occurrence/aggregate limit; it limits the amount payable for any one occurrence and for all occurrences 
+incurred during the policy period.  For example, assume an annual professional liability policy has a limit 
+of $1,000,000/$3,000,000.  The policy will not pay more than $1,000,000 for any single occurrence and 
+will not pay more than $3,000,000 for all occurrences incurred during the policy period.  
+The focus of this section will be on determining indicated increased limit factors (ILFs) for a single limit.  
+Compound and split limits are more complex in that both limits must be considered.   
+Standard ILF Approach 
+It is possible to aggregate policies based on the limit purchased and to use univariate (e.g., loss ratio or 
+pure premium) analysis or multivariate techniques (e.g., GLMs) to calculate indicated rate differentials 
+for the various limits (commonly referred to as “increased limits factors”).  However, since increased 
+limits offer protection for larger, less common liability claims, the data per limit tends to be very sparse 
+and the results can be very volatile.  Consequently, actuaries often use special techniques for increased 
+limits ratemaking.   
+
+Chapter 11:  Special Classification 
+193 
+ 
+Similar to other rating variables, the increased limit factor (ILF) is used to modify the base rate (B, which 
+assumes the basic limit) if the insured selects a limit of liability (H) that is different than the basic limit.   
+.
+Limit 
+for 
+ 
+ILF
+Limit 
+at 
+ 
+Rate
+B
+H
+H
+
+
+ 
+Making the assumption that all underwriting expenses are variable and that the variable expense and 
+profit provisions do not vary by limit, the formula for the indicated ILF is derived in the same way as 
+Chapter 9: 
+.
+ILF
+ 
+Indicated
+L
+L
+ 
+)
+E
+L
+(
+ 
+)
+E
+L
+(
+(H)
+B
+H
+
+
+
+ 
+Actuaries may elect to vary the profit provision by limit, which violates the assumption in the previous 
+paragraph.  Because higher limits offer additional coverage for claims that are less frequent and very 
+severe, the experience for these limits can be volatile.  The greater variability adds uncertainty that makes 
+these limits challenging to price and risky for insurers; consequently, insurers may alter the profit 
+provision in the rates to reflect the higher cost of capital needed to support the additional risk.  The 
+actuary also typically makes the simplifying assumption that frequency and severity are independent so 
+that: 
+.
+Severity
+Frequency
+Severity
+Frequency
+)
+ILF
+  
+Indicated
+B
+B
+H
+H
+(H
+
+
+
+ 
+Making the final assumption that the frequency is the same regardless of the limit chosen, the formula 
+simplifies to: 
+.
+Severity
+Severity
+)
+ILF(
+  
+Indicated
+B
+H
+H 
+ 
+For some lines of business, data suggests that the frequency of losses may vary by the limit chosen.  For 
+example, personal automobile insureds who select a very high limit tend to have lower accident 
+frequencies than insureds who select low limits.  One common explanation for this is that the selection of 
+a higher limit tends to be a sign of risk aversion and a higher degree of overall responsibility that applies 
+to driving behavior, too. 
+If the actuary is willing to accept all of these simplifying assumptions, the indicated ILF for a given limit 
+H is equal to the severity of losses limited at H divided by the severity of losses limited at B.  A severity 
+limited at H is often referred to as the limited average severity at H or LAS (H).  Using this notation: 
+.
+)
+LAS(
+)
+LAS(
+)
+ILF(
+  
+Indicated
+B
+H
+H 
+ 
+LAS (H) is the severity assuming every loss is capped at limit H (regardless of the actual policy limit), 
+and LAS (B) is the severity assuming every loss is capped at the basic limit.  If the actuary knows the full 
+amount of each loss assuming no policy limits, then this calculation is straightforward.     
+
+Chapter 11:  Special Classification 
+194 
+ 
+To illustrate this, assume the following 5,000 reported uncensored claims categorized by the size of the 
+loss (i.e., a $150,000 loss is slotted in the $100,000<X<=$250,000 range): 
+ 
+The average severity limited to $100,000, or LAS ($100,000), is calculated by capping every claim at 
+$100,000 and dividing by the total number of claims.  All 2,324 claims in the first interval have individual 
+sizes of loss less than $100,000, so these losses are uncapped.  The other 2,676 claims in the other three 
+intervals have individual sizes of loss that exceed $100,000 and are, therefore, capped at $100,000; the 
+resulting capped losses for these claims are $267,600,000 (= 2,676 x $100,000).  The sum of those 
+amounts ($385,229,223 = $117,629,223 + $267,600,000) is divided by the total claim count. 
+Using this technique, the increased limit factor for $250,000 is calculated as follows: 
+,
+046
+,
+77
+$
+000
+,5
+000
+,
+100
+$
+)
+73
+680
+923
+,1(
+223
+,
+629
+,
+117
+$
+LAS($100K)
+
+
+
+
+
+
+ 
+,
+696
+,
+122
+$
+000
+,5
+000
+,
+250
+$
+)
+73
+680
+(
+929
+,
+599
+,
+307
+$
+223
+,
+629
+,
+117
+$
+LAS($250K)
+
+
+
+
+
+
+ 
+.
+59
+.1
+046
+,
+77
+$
+696
+,
+122
+$
+LAS($100K)
+LAS($250K)
+ILF($250K)
+  
+Indicated
+
+
+
+ 
+Censored Losses 
+The losses used in the example above are uncensored losses.  In other words, the loss data reflected the 
+full amount of the loss assuming no policy limits.  Unfortunately, the data available to the actuary is 
+typically censored at the policy limit; consequently, the actuary does not know the full amount of the loss.  
+For example, assume an insured with a $50,000 policy limit has an at-fault accident in which the injured 
+third party has $150,000 worth of medical costs.  The claims database will likely only reflect the amount 
+paid by the insurer (i.e., $50,000) rather than the amount the claim would be in the absence of any limit 
+($150,000).   
+To further illustrate this point, consider the case that 2,019 of the 5,000 claims in the example above came 
+from policies with a $100,000 limit.  The uncensored losses for these policies are as follows:   
+ 
+11.3 Size of Loss Distribution
+Reported 
+Claims
+Reported Losses
+      X <=
+100,000
+$      
+2,324
+117,629,223
+$      
+100,000
+$   
+   < X <=
+250,000
+$      
+1,923
+307,599,929
+$      
+250,000
+$   
+   < X <=
+500,000
+$      
+680
+222,793,514
+$      
+500,000
+$   
+   < X  <=
+1,000,000
+$   
+73
+43,047,470
+$        
+5,000
+691,070,136
+$     
+Size of Loss
+Total
+
+Chapter 11:  Special Classification 
+195 
+ 
+ 
+Assuming the insurer’s data contains only the censored losses, the loss distribution available to the 
+actuary is represented in the right-hand portion of the table below: 
+ 
+Assuming the insurer writes three policy limits ($100,000, $250,000, and $500,000) and the historical 
+database contains only censored losses, the 5,000 losses censored at the applicable policy limit appear in 
+the data as follows:  
+ 
+When calculating the limited average severity for each limit, the actuary should use as much data as 
+possible without allowing any bias due to censorship.  The general approach is to calculate a limited 
+average severity for each layer of loss and combine the estimates for each layer taking into consideration 
+the probability of a claim occurring in the layer.  The limited average severity of each layer is based 
+solely on loss data from policies with limits as high as or higher than the upper limit of the layer.     
+For example, when calculating the LAS ($100K), the actuary can use the experience from all policies 
+(even those with limits above $100,000) and censor at $100,000: 
+.
+,
+$
+,
+,
+,
+$
+,
+,
+)
+(
+,
+$
+,
+,
+$
+,
+,
+$
+,
+,
+$
+046
+77
+000
+5
+223
+229
+385
+LAS($100K)
+000
+5
+232
+574
+773
+000
+100
+111
+768
+35
+214
+903
+34
+898
+657
+156
+LAS($100K)
+
+
+
+
+
+
+
+
+
+ 
+When calculating the LAS ($250,000), the actuary cannot use the policies that have a $100,000 limit as 
+there is no way to know what the claim amounts would be if each of those policies had a limit of 
+11.4 Uncensored Loss Distribution of Policies with $100,000 Limit
+Reported 
+Claims
+Reported Losses
+      X <=
+100,000
+$      
+922
+46,957,898
+$        
+100,000
+$   
+   < X  <=
+250,000
+$      
+787
+127,573,028
+$      
+250,000
+$   
+   < X  <=
+500,000
+$      
+282
+92,665,855
+$        
+500,000
+$   
+   < X <=
+1,000,000
+$   
+28
+16,640,606
+$        
+2,019
+283,837,387
+$     
+Size of Loss
+Total
+11.5 Censored Loss Distribution of Policies with $100,000 Limit
+Claims
+Losses
+Claims
+Losses
+      X  <=
+100,000
+$      
+922
+46,957,898
+$        
+2,019
+156,657,898
+$      
+100,000
+$   
+   < X <=
+250,000
+$      
+787
+127,573,028
+$      
+250,000
+$   
+   < X <=
+500,000
+$      
+282
+92,665,855
+$        
+500,000
+$   
+   < X <=
+1,000,000
+$   
+28
+16,640,606
+$        
+2,019
+283,837,387
+$     
+2,019
+156,657,898
+$      
+Size of Loss
+Total
+Uncensored
+Censored 
+11.6 Censored Loss Distribution by Policy Limit
+Claims
+Losses
+Claims
+Losses
+Claims
+Losses
+      X  <=
+100,000
+$      
+2,019
+156,657,898
+$      
+690
+34,903,214
+$        
+712
+35,768,111
+$        
+100,000
+$  
+   < X <=
+250,000
+$      
+773
+142,767,479
+$      
+574
+90,009,422
+$        
+250,000
+$  
+   < X  <=
+500,000
+$      
+232
+81,092,725
+$        
+500,000
+$  
+   < X  <=
+1,000,000
+$   
+2,019
+156,657,898
+$     
+1,463
+177,670,693
+$     
+1,518
+206,870,258
+$      
+$100,000 Limit
+$250,000 Limit
+$500,000 Limit
+Size of Loss
+Total
+
+Chapter 11:  Special Classification 
+196 
+ 
+$250,000.  Instead, the actuary can combine the LAS ($100K) with a limited average severity for the 
+layer between $100,000 and $250,000.  To do this, the actuary first needs to determine the losses in that 
+second layer. 
+By definition, policies with a limit of $100,000 do not contribute any losses to that layer and the data is 
+not used.   
+Of the 1,463 claims associated with policies having a limit of $250,000, there are 773 claims with sizes of 
+loss in that layer.  The total censored losses for those 773 claims are $142,767,479.  Eliminating the first 
+$100,000 of each of those losses results in $65,467,479 of losses in the layer between $100,000 and 
+$250,000: 
+0.
+00
+100
+773
+479
+767
+142
+479
+467
+65
+,
+$
+,
+,
+$
+,
+,
+$
+
+
+
+ 
+Policies with a limit of $500,000 also contribute loss dollars to the layer between $100,000 and $250,000.  
+Of the 1,518 claims associated with a limit of $500,000, there are 574 claims that have losses in the 
+$100,000 to $250,000 layer.  These claims contribute $32,609,422 of losses to the layer: 
+.
+,
+$
+,
+,
+$
+,
+,
+$
+000
+100
+574
+422
+009
+90
+422
+609
+32
+
+
+
+ 
+Another 232 claims exceed $250,000, and each contributes $150,000 to the layer for a total of 
+$34,800,000: 
+).
+,
+$
+,
+($
+,
+,
+$
+000
+100
+000
+250
+232
+000
+800
+34
+
+
+
+ 
+Combining all of those figures yields the following loss dollars in the layer $100,000 to $250,000: 
+.
+,
+,
+$
+,
+,
+$
+,
+,
+$
+,
+,
+$
+000
+800
+34
+422
+609
+32
+479
+467
+65
+901
+876
+132
+
+
+
+ 
+Given that those loss dollars were derived from 1,579 (=773+574+232) claims, the limited average 
+severity for the layer between $100,000 and $250,000 is: 
+.
+,
+,
+,
+$
+,
+$
+579
+1
+901
+876
+132
+153
+84
+
+ 
+Before combining this with the LAS ($100K), the actuary needs to adjust for the fact that these losses are 
+based on a subset of the claims used to calculate the LAS ($100K).  The adjustment involves calculating 
+the probability that the loss will exceed $100,000, given that a claim occurs.  Since the actuary cannot 
+know whether or not the claims from the policies with a $100,000 limit would have exceeded $100,000, 
+that data is not used for this calculation.  To adjust this, the limited average severity for the layer between 
+$100,000 and $250,000 can be multiplied by the following probability: 
+   
+.
+981
+,2
+579
+,1
+1,518
+1,463
+232
+574
+773
+K)
+100
+$
+Pr(X
+
+
+
+
+
+
+ 
+
+Chapter 11:  Special Classification 
+197 
+ 
+This is equivalent to dividing the losses in the layer by the total claim count for those policies:  
+.
+,
+,
+,
+$
+,
+,
+ x 
+,
+$
+,
+$
+981
+2
+901
+876
+132
+981
+2
+579
+1
+153
+84
+575
+44
+
+
+ 
+Given these calculations, 
+.
+,
+$
+,
+$
+,
+$
+621
+121
+575
+44
+046
+77
+LAS($250K)
+
+
+
+ 
+These same techniques can be applied to calculate LAS ($500K).  Only the policies with a limit of 
+$500,000 or greater can be used to determine the contribution from the layer between $250,000 and 
+$500,000: 
+.
+,
+,
+$
+,
+,
+$
+,
+$
+518
+1
+000
+250
+232
+725
+092
+81
+213
+15
+
+
+
+ 
+Given this, 
+.
+,
+$
+,
+$
+,
+$
+,
+$
+834
+136
+213
+15
+575
+44
+046
+77
+LAS($500K)
+
+
+
+
+ 
+Other Considerations 
+The increased limits ratemaking analyses outlined above are intended to produce rate relativities for 
+future policies; therefore, historical losses used in the analysis should be adjusted for any expected trend.  
+This is especially relevant with increased limits losses.  Recall from Chapter 6 that loss trends have a 
+leveraged effect on increased limits losses.  More specifically, assuming a constant positive percentage 
+trend in total losses, the following relationship holds: 
+Trend.
+ 
+Limits
+ 
+Increased
+Trend
+ 
+Limits
+ 
+Total
+ 
+Trend
+ 
+Limits
+ 
+Basic
+
+
+ 
+See Table 6.15 in Chapter 6 for a numeric example that demonstrates this relationship. 
+Also, depending on how recent the empirical data is, the claims may not be settled.  Since larger claims 
+often develop differently than smaller claims, this can have an impact on the calculation of the increased 
+limit factors.  Ideally, all claims should be developed to ultimate before the application of these 
+techniques. 
+In addition to censoring through policy limits, losses may also be truncated from below if there is a 
+deductible applied to the policy.  While it is possible to “add back” the amount of dollars eliminated due 
+to the deductible on known claims, it may not be possible to know how many claims were completely 
+eliminated due to the deductible.   
+Fitted Data Approach 
+The prior approach used historical loss data to calculate the indicated increased limit factors.  That 
+approach depends heavily on the existence and nature of the claims in the layers of loss being studied.  
+Given the relatively rare nature of large claims, the results using that approach may be volatile.  
+
+Chapter 11:  Special Classification 
+198 
+ 
+Consequently, actuaries may fit curves to empirical data to smooth out the random fluctuations in the 
+data.  Common distributions include lognormal, Pareto, and the truncated Pareto. 
+Assuming f(x) represents a continuous distribution of losses of size x, and H is the limit being priced, then 
+the formula for the limited average severity is given by: 
+
+
+
+
+
+H
+H
+f(x)dx
+H
+xf(x)dx
+(H)
+0
+.
+LAS
+ 
+The severity is based on claims that are less than the limit and claims that are censored by the limit.  The 
+first term is the loss amount for all claims less than the limit multiplied by the probability of those claims 
+occurring.  The second term represents the limit multiplied by the probability that the loss exceeds the 
+limit.  The sum of the two terms equals the limited average severity.   
+Thus, the increased limit factor for the limit H is represented as follows: 
+.
+)
+ILF(
+0
+0
+
+
+
+
+
+
+
+
+
+B
+B
+H
+H
+f(x)dx
+B
+xf(x)dx
+f(x)dx
+H
+xf(x)dx
+H
+ 
+The major challenge with this approach is determining a distribution that is representative of the expected 
+losses. 
+ISO Mixed Exponential Methodology 
+The ISO Mixed Exponential Methodology is an advanced approach designed to address some of the 
+issues with the empirical data (trend, censoring by policy limits, etc.).  This is an advanced topic and is 
+outside the scope of this text.  For more information on this approach, refer to “Increased Limits 
+Ratemaking for Liability Insurance” (Palmer 2006, pp. 19-25). 
+ Multivariate Approach 
+As discussed in Chapter 10, many actuaries analyze increased limits factors within a multivariate 
+framework.  Techniques such as generalized linear models can cope more effectively with sparse data, but 
+this is still an issue for the very high, thinly populated limits.  A major difference between a GLM 
+approach and the univariate approaches using limited average severities is that the GLM does not assume 
+the frequency is the same for all risks.  Therefore, the GLM results are influenced by both the limiting of 
+losses and the behavioral differences among insureds at different limits.  This may produce counter-
+intuitive results (e.g., expected losses decrease as limit increases).  Consequently, actuaries may use both 
+approaches to guide the selection of increased limit factors.   
+ 
+ 
+
+Chapter 11:  Special Classification 
+199 
+ 
+DEDUCTIBLE PRICING 
+Many early insurance policies were written on a full coverage basis (i.e., the policy covered the entire loss 
+amount).  Over time, insurance companies introduced deductible clauses in which the insured is 
+responsible for the first dollars of loss up to the deductible amount, and the insurer pays the amount 
+greater than the deductible, up to applicable policy limits.   
+There are two basic types of deductibles:  flat dollar deductibles and percentage deductibles. 38   Flat 
+dollar deductibles are the most prevalent.  As the name suggest, a flat dollar deductible (e.g., $250 
+deductible) specifies a dollar amount below which losses are not covered by the policy.  Flat dollar 
+deductibles may range from very small amounts (e.g., $100 or $250) on personal lines policies to very 
+large deductibles (e.g., $100,000 or more) on large commercial policies.  Percentage deductibles state the 
+deductible as a percentage of the coverage amount.  For example, a 5% deductible on a home insured for 
+$500,000 is equivalent to a flat dollar deductible of $25,000.  These types of deductibles are most 
+prevalent on property policies, and are often applied specifically to perils that are susceptible to 
+catastrophic losses (e.g. earthquake or hurricane).     
+There are several reasons why deductibles are popular among both insureds and insurers, some of which 
+are listed below: 
+ 
+Premium reduction:  The application of a deductible reduces the rate as the insured is 
+responsible for a portion of the losses.  Often the insured (whether an individual or company) 
+may be willing to cover the amount under the deductible in exchange for a lower premium. 
+ 
+Eliminates small nuisance claims:  Under a full coverage policy, insureds have an incentive to 
+file every claim.  Insurance companies incur loss adjustment expenses in the process of settling 
+reported claims.  The expense associated with investigating and handling small claims frequently 
+costs more than the actual claim amount.  Deductibles minimize the occurrence of these small 
+nuisance claims.  By doing this, insurers can better control LAE and keep the rates lower than 
+would otherwise be possible.   
+ 
+Provides incentive for loss control:  Since the insured is responsible for the first layer of loss, 
+the insured has a financial incentive to avoid losses. 
+ 
+Controls catastrophic exposure:  When an insurer writes a significant number of policies in a 
+given area, the insurer may be susceptible to very large aggregate losses in the case of a 
+catastrophic event.  By including large catastrophe deductibles, the insurer can significantly 
+reduce overall exposure to such losses and reduce the overall risk of insolvency.         
+Loss Elimination Ratio (LER) Approach 
+It is possible to group data by deductible and use the techniques described in Chapters 9 and 10 to 
+determine rate relativities for each deductible amount.  Alternatively, actuaries have determined 
+deductible relativities using a loss elimination ratio (LER) approach.   
+                                                     
+38 A third type of deductible, used in a small number of insurance products (e.g., crop hail insurance) is the 
+disappearing deductible.  With a disappearing deductible, the insured is still responsible for the first dollars of loss.  
+However, this amount decreases, or disappears, as the size of the claim increases until at a certain point the insured’s 
+retained losses are zero.  Since this type of deductible is not commonly used in practice today, this text will not 
+further address disappearing deductibles. 
+
+Chapter 11:  Special Classification 
+200 
+ 
+Using the assumptions that all expenses are variable and that the variable expenses and profit are a 
+constant percentage of premium, the indicated deductible relativity for deductible D is given by the 
+following formula (where the base level in this example assumes no deductible): 
+.
+ 
+Relativity
+ 
+Deductible
+ 
+Indicated
+L
+L
+  
+)
+E
+L
+(
+ 
+)
+E
+L
+(
+B
+D
+
+
+
+ 
+In other words, the indicated deductible relativity is equivalent to the ultimate losses and LAE after 
+application of the deductible divided by the ground-up ultimate losses and LAE (i.e., no deductible).  In 
+the LER approach, the actuary calculates the amount of losses that are eliminated going from full 
+coverage to a deductible, or by going from one deductible to a higher deductible:   
+.
+LAE
+ 
+and
+  
+Losses
+  
+up
+-
+Ground
+  
+Total
+Deductible
+by  
+  
+Eliminated
+  
+LAE
+  
+and
+  
+Losses
+ 
+ )
+LER(
+L
+L
+L
+  
+)
+E
+(L
+ 
+)
+E
+-(L
+)
+E
+(L
+D
+B
+D
+B
+
+
+
+
+
+ 
+That formula can be re-written as follows: 
+.
+LER
+0
+1
+L
+L
+(D))
+-
+.
+(
+)
+E
+(L
+ 
+)
+E
+(L
+B
+D
+
+
+
+
+ 
+The indicated deductible relativity can be restated as: 
+.
+LER
+0
+1
+LER
+0
+1
+ 
+Relativity
+ 
+Deductible
+ 
+Indicated
+L
+L
+(D))
+.
+(
+  
+)
+E
+L
+(
+(D)) 
+-
+.
+(
+)
+E
+L
+(
+B
+B
+
+
+
+
+
+
+ 
+Empirical Distribution (Discrete Case) 
+If the ground-up loss is known for every claim, the LER can be calculated as follows: 
+To demonstrate the discrete approach for determining loss elimination ratios, consider the following table 
+of ground-up homeowners losses: 
+ 
+11.7 Size of Loss Distribution
+(2)
+(3)
+Reported 
+Claims
+Ground-Up 
+Reported 
+Losses
+ $       -   <=X <
+$   100 
+3,200
+$240,365 
+ $    100 <=X <
+$   250 
+1,225
+$207,588 
+ $    250 <=X <
+$   500 
+1,187
+$463,954 
+ $    500 <=X <
+$1,000 
+1,845
+$1,551,938 
+ $ 1,000 <=X <
+2,543
+$11,140,545 
+10,000
+$13,604,390 
+Size of Loss
+(1)
+TOTAL
+  
+
+
+).
+Amount
+Loss
+D)
+-
+Amount
+(Loss
+0,
+Maximum
+1 
+(
+LER(D) 
+Losses
+  
+All
+Losses
+  
+All
+
+
+
+
+
+Chapter 11:  Special Classification 
+201 
+ 
+To calculate the loss elimination ratio for a $250 deductible denoted as LER ($250), the actuary 
+determines the amount of losses in each layer that will be eliminated by the deductible.  The first two 
+rows of data only contain losses that are less than $250, which will be completely eliminated by the 
+deductible.  The remaining rows contain individual losses that are at least $250; therefore, $250 will be 
+eliminated for each of the 5,575 claims (or $1,393,750 in total).  The LER is calculated as losses 
+eliminated divided by the total losses: 
+.
+.
+,
+,
+$
+)
+,
+,
+,
+(
+$
+)
+,
+$
+,
+($
+135
+0
+390
+604
+13
+543
+2
+845
+1
+187
+1
+250
+588
+207
+365
+240
+ 
+LER($250)
+
+
+
+
+
+
+
+ 
+Thus without any further adjustments, the rate credit for going from full coverage to a $250 deductible is 
+13.5%; alternatively, this can be restated as a deductible relativity by subtracting 0.135 from 1.0 (i.e., 
+0.865).   
+The following table shows the calculations discussed above: 
+ 
+Other Considerations 
+The aforementioned calculations were possible because the ground-up losses were known.  The company 
+may not know the ground-up losses for every claim.  For example, insureds may not report claims that are 
+obviously less than the deductible on their policy.  In this case, the database may only include censored 
+losses (i.e., the portion of reported losses that exceed the deductible); these losses are commonly referred 
+to as net losses.  When this is the case, data from policies with deductibles greater than the deductible 
+being priced cannot be used to calculate the loss elimination ratio.  For example, data from policies with a 
+$500 deductible cannot be used to determine loss elimination ratios for a $250 or $100 deductible.  
+However, data from policies with deductibles less than the deductible being priced can be used to 
+determine loss elimination ratios (e.g., data from policies with a $500 deductible can be used to determine 
+the loss elimination ratio associated with moving from a $750 deductible to a $1,000 deductible).  It is 
+11.8 LER Calculation for $250 Deductible
+(2)
+(3)
+(4)
+Reported 
+Claims
+Ground-Up 
+Reported 
+Losses
+Losses 
+Eliminated by 
+$250 
+deductible
+ $       -   <=X <
+ $   100 
+3,200
+$240,365 
+$240,365 
+ $    100 <=X <
+ $   250 
+1,225
+$207,588 
+$207,588 
+ $    250 <=X <
+ $   500 
+1,187
+$463,954 
+$296,750 
+ $    500 <=X <
+ $1,000 
+1,845
+$1,551,938 
+$461,250 
+ $ 1,000 <=X <
+2,543
+$11,140,545 
+$635,750 
+10,000
+$13,604,390 
+$1,841,703 
+(5) LER
+0.135
+                 
+(3)
+(2) x $250
+(Tot4) / (Tot3)
+(5)                  =
+(1)
+Size of Loss
+TOTAL
+(4)Losses<250    =
+(4)Losses>=250 = 
+
+Chapter 11:  Special Classification 
+202 
+ 
+common for the actuary to aggregate the data from all policies with a lower deductible to increase the 
+volume of data used in the loss elimination ratio analysis. 
+The following example shows the calculation of the credit to change from a $250 to a $500 deductible.  
+Each row contains data for policies with different deductible amounts.  Since the goal is to determine the 
+losses eliminated when changing from a $250 to a $500 deductible, the analysis can only use policies 
+with deductibles of $250 or less.  Columns 4 and 5 contain the net reported losses in Column 3 restated to 
+$500 and $250 deductible levels, respectively.39  The losses eliminated by moving from a $250 to a $500 
+deductible are the difference between the two columns.  The LER equals the eliminated losses divided by 
+the total losses at the $250 level.   
+ 
+The same comments made earlier with respect to trend and development in the Increased Limit Factors 
+section apply to deductible pricing, too. 
+                                                     
+39 Columns 4 and 5 are not simply Column 3 minus the product of Column 2 and the assumed deductible.  This is 
+because not every reported loss exceeds the assumed deductible.  The losses in Columns 4 and 5 are based on an 
+assumed distribution of losses by deductible and size of loss, and cannot be recreated given the data shown. 
+ 
+ 
+11.9 LER Calculation to Move from a $250 to $500 Deductible
+(1)
+(2)
+(3)
+(4)
+(5)
+(6)
+Deductible
+Reported 
+Claims
+Net Reported 
+Losses
+Net Reported 
+Losses 
+Assuming 
+$500 Ded
+Net Reported 
+Losses 
+Assuming 
+$250 Ded
+Losses 
+Eliminated
+ Full Cov 
+          500 
+$680,220 
+$524,924 
+$588,134 
+$63,210 
+$100 
+          680 
+$1,268,403 
+$1,049,848 
+$1,176,269 
+$126,421 
+$250 
+       1,394 
+$2,940,672 
+$2,624,621 
+$2,940,672 
+$316,051 
+$500 
+       2,194 
+$5,249,242 
+$5,249,242 
+Unknown
+Unknown
+$1,000 
+          254 
+$859,755 
+Unknown
+Unknown
+Unknown
+TOTAL
+       5,022 
+$10,998,292 
+$4,705,075 
+$505,682 
+0.107
+             
+   (3)=
+Net of the deductible
+   (4)=
+(3) Adjusted to a $500 deductible
+   (5)=
+(3) Adjusted to a $250 deductible
+   (6)=
+(5) - (4)
+   (7)=
+Sum of (5) for $0, $100, $250 Deductibles
+   (8)=
+Sum of (6) for $0, $100, $250 Deductibles
+   (9)=
+(8) / (7)
+(7) Net Reported Losses for Ded <=$250
+(8) Losses Eliminated <=$250 Ded
+(9) LER
+
+Chapter 11:  Special Classification 
+203 
+ 
+Fitted Data Approach 
+The LER can be calculated given a continuous distribution of losses.  Assume f(x) represents a continuous 
+distribution of losses of size x, and D is the size of the deductible.  The eliminated losses equal the sum of 
+all losses less than the deductible D and the deductible amount for every loss that exceeds D. 
+This formula is very similar to the formula used in the increased limit factor section and calculates the 
+expected loss eliminated through the application of a deductible, D. 
+dx.
+f(x)
+D
+dx
+xf(x)
+D
+D
+
+
+
+
+0
+ 
+The LER is calculated by dividing this formula by the unlimited expected loss: 
+.
+)
+LER(
+0
+0
+dx
+xf(x)
+f(x)dx
+D
+xf(x)dx
+D
+D
+D
+
+
+
+
+
+
+
+ 
+Practical Considerations 
+Like the ILF pricing, the LER approach assumes claiming behavior will be the same for each deductible.  
+This may not be the case.  The LER approach assumes an insured with a $250 deductible and an insured 
+with a $1,000 deductible will both report a $1,100 loss.  In reality, the same insured who reports the claim 
+under a $250 deductible policy may choose not to report the claim under a $1,000 deductible policy for 
+fear of an increase in premium from the insurer applying a claim surcharge (i.e., the small net payment of 
+$100 is not worth the increase in premium).  This difference in behavior is ignored in loss elimination 
+ratio calculations.   
+Furthermore, when insureds are allowed to freely choose their policy deductible, lower-risk insureds tend 
+to choose higher deductibles.  Presumably, those insureds realize they are unlikely to have a claim and are 
+willing to accept the risk associated with a higher deductible.  Since the LER approach does not recognize 
+these behavioral differences, higher deductible policies may end up being more profitable than lower 
+deductible policies.   
+If insureds are not allowed to self-select and are forced to purchase higher deductibles, this phenomena 
+will not be present.  In fact, it is possible that the insureds who wanted a lower deductible may try to 
+artificially inflate claims to make up the additional deductible amount.   
+An analysis using the techniques described in Chapters 9 and 10 will reflect behavioral differences among 
+deductible options inherent in the historical data.  The actuary may wish to view both sets of indications 
+before selecting a final set of deductible rate relativities. 
+Another consideration is that the LER approach determines an average percentage credit that is applied to 
+all policies with a certain deductible amount.  In the earlier example, the credit for a $250 deductible is 
+13.5%.  If the total policy premium is $3,000, then the credit for moving from full coverage to a $250 
+deductible is $405.   Since the premium savings exceeds the amount of the deductible, the insured will be 
+better off to select the deductible unless he or she expects to have multiple losses.  A company may 
+
+Chapter 11:  Special Classification 
+204 
+ 
+handle this circumstance in different ways.  First, an insurer may implement a cap on the amount of dollar 
+credit from the deductible; for example, the maximum dollar credit for moving from full coverage to a 
+$250 deductible might be $200.  Second, companies may calculate a different set of credits for different 
+policies.  For example, a homeowners insurer may have different deductible credits for low-, medium-, 
+and high-valued homes.  By segregating risks in this fashion, the chance of such reversals is minimized.  
+Finally, percentage deductibles address this issue since the amount of the deductible increases with the 
+amount of insurance.       
+The examples did not address expenses, profit, etc.  These issues are especially important for large 
+deductible commercial policies and will be discussed in depth in Chapter 15. 
+SIZE OF RISK FOR WORKERS COMPENSATION 
+Many commercial lines products have relatively simple rating algorithms.  Historically, workers 
+compensation rating algorithms did not include a rating variable accounting for the size of the insured 
+company.  To account for expected differences in expense and loss levels for larger insureds, some 
+workers compensation insurers vary the expense component for large risks, incorporate premium 
+discounts or loss constants, or all of these.   
+Expense Component 
+As discussed in Chapter 7, commercial lines insurers typically use the All Variable Approach to 
+determine the applicable expense provisions.  The basic assumption of that approach is that underwriting 
+expenses are a constant percentage of the premium charged.  Since some expenses are fixed or nearly 
+fixed, they do not vary greatly by the size of the policy.  Consequently, policies with small average 
+premium (i.e., small risks) will be undercharged and policies with large average premium (i.e., large 
+risks) will be overcharged.  Insurers may adjust for this in a few different ways. 
+First, workers compensation insurers may calculate a variable expense provision that only applies to the 
+first $5,000 of standard premium.40  Thus, the expenses on policies with standard premium greater than 
+the $5,000 limit represent a smaller percentage of the total premium. 
+Second, insurers may charge an expense constant to all risks, which accounts for costs that are the same 
+no matter the size of the policy, such as many underwriting and administrative expenses.  Since the 
+expense constant is a flat dollar amount, it is a decreasing percentage of written premium as the size of the 
+policy increases.   
+Finally, workers compensation insurers apply a premium discount to policies with premium above a 
+specified amount.  The following table shows the calculation of the premium discount for a policy with 
+standard premium of $400,000. 
+                                                     
+40 Standard premium is a term defined by the National Council of Compensation Insurers (NCCI).  In general, it is 
+premium before application of premium discounts and expense constants, but the exact NCCI definition is beyond 
+the scope of this text. 
+
+Chapter 11:  Special Classification 
+205 
+ 
+ 
+In this procedure, the premium discount is calculated using a graduated expense discount scale and 
+applying it to the premium in different layers.  Column 3 shows the premium of $400,000 split into the 
+premium ranges.  Columns 4 through 7 show the applicable expense percentage for each type of expense.  
+In the example, percentages for production and general expenses decrease for the larger premium ranges 
+recognizing that some of the expenses do not vary by premium.  Taxes and profit are assumed to be a 
+constant percentage of premium and no reduction is applicable.  Column 8 is the total expense and profit 
+percentage by premium range, and Column 9 calculates the incremental change in the expense ratio for 
+each premium range.  The applicable premium discount is calculated by dividing the percentage reduction 
+by 1.0 minus the expense percentages for taxes and profit; the division reflects the fact that the when the 
+fixed expenses are reduced, the variable items associated with those expenses (i.e., taxes and profit) are 
+reduced, too.  The dollar discount is calculated by multiplying the premium in the range by the applicable 
+discount percentage.   
+Loss Constants 
+Small workers compensation risks tend to have less favorable loss experience (as a percentage of 
+premium) than large risks.  There are several theories for this phenomenon.  First, small companies 
+generally have less sophisticated safety programs since they require a large amount of capital to 
+implement and maintain.  Second, small companies may also lack programs to help injured workers 
+return to work.  Finally, the premium for small insureds are either unaffected or only slightly impacted by 
+experience rating, which results in lower rates for insureds with better than average loss experience and 
+higher rates for insureds with worse than average loss experience. 41  Thus, small insureds may have less 
+incentive to prevent or control injuries than large insureds.   
+When workers compensation insurers charge the same rate per exposure for small and large insureds, the 
+premium will be inadequate for small companies and excessive for large companies.  Historically, a loss 
+constant has been added to the premium to equalize the final expected loss ratios between small and large 
+insureds.  The following table shows an example of the calculation. 
+                                                     
+41Experience rating is discussed in detail in Chapter 15. Very small companies either may not be eligible for 
+experience rating or the effect of experience rating may be limited through the use of credibility, or both.   
+11.10  Workers Compensation Premium Discount Example
+(1)
+(2)
+(3)
+(4)
+(5)
+(6)
+(7)
+(8)
+(9)
+(10)
+(11)
+Premium 
+in Range
+Prod General Taxes Profit Total
+Expense 
+Reduction
+Discount 
+%
+Premium 
+Discount
+-
+$          
+-
+5,000
+$      
+5,000
+$      
+15.0%
+10.0%
+3.0%
+5.0% 33.0%
+0.0%
+0.0%
+-
+$           
+5,000
+$       
+-
+100,000
+$  
+95,000
+$    
+12.0%
+8.0%
+3.0%
+5.0% 28.0%
+5.0%
+5.4%
+5,130
+$       
+100,000
+$   
+-
+500,000
+$  
+300,000
+$  
+9.0%
+6.0%
+3.0%
+5.0% 23.0%
+10.0%
+10.9%
+32,700
+$     
+500,000
+$   
+-
+above
+-
+6.0%
+4.0%
+3.0%
+5.0% 18.0%
+15.0%
+16.3%
+         -
+400,000
+$  
+37,830
+$     
+(3)=
+Min of [(2) - (1), Standard Premium-SumPrior(3)]
+(9)=
+(8Row 1)-(8)
+(10)=
+(9) / [1.0 -(6) - (7)]
+(11)=
+(3) x (10)
+Premium Range
+Standard Premium:
+
+Chapter 11:  Special Classification 
+206 
+ 
+ 
+In the example, the unadjusted expected loss ratios for small (premium less than or equal to $2,500) and 
+large (premium greater than $2,500) risks are 75% and 70%, respectively.  Assuming the insurer wants to 
+achieve an expected loss ratio of 70% for both types of risks, an adjustment to the rate is necessary.  
+Column 8 shows the amount of premium needed to decrease the small risk expected loss ratio to 70%, 
+and is calculated by dividing the reported loss by the target loss ratio (to get the needed premium) and 
+subtracting the premium without the loss constant.  The loss constant is calculated by dividing the 
+premium shortfall by the number of small risk policies. 
+With more sophisticated multivariate techniques, some insurers are adding a rating variable to account for 
+the size of the risk.  In such cases, the loss constant is no longer necessary.  
+INSURANCE TO VALUE (ITV) 
+For many property policies (e.g., homeowners), the policy limit corresponds to the value or replacement 
+cost of the insured item, and the rates vary based on the policy limit chosen.  The term insurance to value 
+(ITV) is used to indicate how the level of insurance chosen relates to the overall value or replacement cost 
+of the item.  For example, if an item is insured to full value, then the amount of insurance equals the total 
+value or replacement cost of the insured item.  This section discusses the importance of ITV and 
+addresses actions companies may take to ensure policies are insured to the appropriate level assumed in 
+the rates. 
+Insurance to Value Example 
+To help understand the concept and the issues associated with ITV, consider the following example: 
+ 
+Two homes worth $250,000 and $200,000 are each insured for the full amount. 
+ 
+Expected claim frequency is assumed to be 1% for both homes. 
+ 
+Expected losses are uniformly distributed. 
+That information yields the following expected size of loss distributions and rates for each home: 
+ 
+ 
+11.11  Workers Compensation Loss Constant Example
+(1)
+(2)
+(3)
+(4)
+(5)
+(6)
+(7)
+(8)
+(9)
+Policies
+Premium
+Reported 
+Loss
+Initial 
+Loss 
+Ratio
+Target 
+Loss 
+Ratio
+Premium 
+Shortfall
+Loss 
+Constant
+1
+$             
+-
+2,500
+$     
+1,000
+       
+1,000,000
+$   
+750,000
+$      
+75.0%
+70.0%
+71,429
+$       
+71.43
+$     
+2,501
+$      
+-
+above
+1,000
+       
+5,000,000
+$  
+3,500,000
+$  
+70.0%
+70.0%
+-
+$             
+-
+$        
+(6)=
+(5) / (4)
+(7)=
+Given
+(8)=
+[(5) / (7)] -(4)
+(9)=
+(8) / (3)
+Premium Range
+
+Chapter 11:  Special Classification 
+207 
+ 
+ 
+ 
+Based on this information, the expected pure premium for the $250,000 home is $1,250 (=$125,000 x 
+0.01).  Assuming no expenses or profit, the appropriate premium is $1,250.  More specifically, the rate is 
+$5 per $1,000 of amount of insurance ( 
+
+000
+,1
+$
+000
+,
+250
+$
+250
+,1
+$
+
+
+).  Similarly, the expected pure 
+premium for a $200,000 home insured to full value is $1,000 (=$100,000 x 0.01), and the appropriate rate 
+is $5 per $1,000 of amount of insurance.   
+Now consider the case in which the $250,000 home is only insured for $200,000.  The expected loss 
+distribution remains unchanged, but the expected claim payment is limited to the amount of insurance for 
+the policy (i.e., $200,000): 
+11.12 Calculations for a $250,000 Home
+11.13 Calculations for a $200,000 Home
+(1)
+(2)
+(1)
+(2)
+Loss 
+Distribution
+ Average 
+Reported 
+Loss 
+($000s) 
+Loss 
+Distribution
+ Average 
+Reported 
+Loss 
+($000s) 
+-
+$      
+<X <=
+25
+$         
+10.0%
+12.5
+$            
+-
+$       
+<X <=
+25
+$       
+12.5%
+12.5
+$            
+25
+$        
+<X <=
+50
+$         
+10.0%
+37.5
+$            
+25
+$         
+<X <=
+50
+$       
+12.5%
+37.5
+$            
+50
+$        
+<X <=
+75
+$         
+10.0%
+62.5
+$            
+50
+$         
+<X <=
+75
+$       
+12.5%
+62.5
+$            
+75
+$        
+<X <=
+100
+$       
+10.0%
+87.5
+$            
+75
+$         
+<X <=
+100
+$     
+12.5%
+87.5
+$            
+100
+$      
+<X <=
+125
+$       
+10.0%
+112.5
+$          
+100
+$       
+<X <=
+125
+$     
+12.5%
+112.5
+$          
+125
+$      
+<X <=
+150
+$       
+10.0%
+137.5
+$          
+125
+$       
+<X <=
+150
+$     
+12.5%
+137.5
+$          
+150
+$      
+<X <=
+175
+$       
+10.0%
+162.5
+$          
+150
+$       
+<X <=
+175
+$     
+12.5%
+162.5
+$          
+175
+$      
+<X <=
+200
+$       
+10.0%
+187.5
+$          
+175
+$       
+<X <=
+200
+$     
+12.5%
+187.5
+$          
+200
+$      
+<X <=
+225
+$       
+10.0%
+212.5
+$          
+100.0%
+100.0
+$          
+225
+$      
+<X <=
+250
+$       
+10.0%
+237.5
+$          
+(3)
+Frequency
+1%
+100.0%
+125.0
+$          
+(4)
+Pure Premium ($000s)
+1.00
+$            
+(3)
+Frequency
+1%
+(5)
+Amount of Insurance ($000s)
+200.00
+$        
+(4)
+Pure Premium ($000s)
+1.25
+$            
+(6)
+Rate per $1,000
+5.00
+$            
+(5)
+Amount of Insurance ($000s)
+250.00
+$        
+(6)
+Rate per $1,000
+5.00
+$            
+(Tot2)= (2) weighted by (1)
+(4)= (Tot2) x (3)
+(6)= [(4) / (5)] x $1,000
+ Size of Loss ($000s) 
+Total
+ Size of Loss ($000s) 
+Total
+
+Chapter 11:  Special Classification 
+208 
+ 
+ 
+This demonstrates two problems associated with underinsurance.  First, the insurance payment will not be 
+sufficient to cover the full loss amount 20% of the time.  Thus, the insured will not be returned to the pre-
+loss condition.  Second, if the insurer assumes all homes are insured to full value and uses a rate of $5 per 
+$1,000, then the premium will not be sufficient to cover the expected payments for a home that is 
+underinsured.  Therefore, the rates are not equitable.        
+It is important to note that the inequity in the rates is caused by the fact that the homes are not insured to 
+the same level.  If all homes are underinsured by the same percentage amount, then the resulting premium 
+may not be adequate to cover all the losses, but the premium will be equitable.  Over time, the base rate 
+will adjust so that aggregate premium covers the aggregate losses at the actual level of ITV present in the 
+book of business.  
+A key point is that the inequity and adequacy issues only exist because partial losses are possible.  The 
+following table shows a comparison if all claims are total losses: 
+11.14 Calculations for a $250,000 Home Insured for $200,000
+(1)
+(2)
+(3)
+Loss 
+Distribution
+ve
+ge
+Reported 
+Loss 
+($000s) 
+Average 
+Payment 
+($000s)
+-
+$       
+<X <=
+25
+$      
+10.0%
+12.5
+$           
+12.5
+$             
+25
+$        
+<X <=
+50
+$      
+10.0%
+37.5
+$           
+37.5
+$             
+50
+$        
+<X <=
+75
+$      
+10.0%
+62.5
+$           
+62.5
+$             
+75
+$        
+<X <=
+100
+$    
+10.0%
+87.5
+$           
+87.5
+$             
+100
+$      
+<X <=
+125
+$    
+10.0%
+112.5
+$         
+112.5
+$           
+125
+$      
+<X <=
+150
+$    
+10.0%
+137.5
+$         
+137.5
+$           
+150
+$      
+<X <=
+175
+$    
+10.0%
+162.5
+$         
+162.5
+$           
+175
+$      
+<X <=
+200
+$    
+10.0%
+187.5
+$         
+187.5
+$           
+200
+$      
+<X <=
+225
+$    
+10.0%
+212.5
+$         
+200.0
+$           
+225
+$      
+<X <=
+250
+$    
+10.0%
+237.5
+$         
+200.0
+$           
+100.0%
+125.0
+$         
+120.0
+$           
+(4)
+Frequency
+1%
+(5)
+Pure Premium ($000s)
+1.20
+$             
+(6)
+Amount of Insurance ($000s)
+200.00
+$         
+(7)
+Rate per $1,000
+6.00
+$             
+(Tot2)= (2) weighted by (1)
+(Tot3)= (3) weighted by (1)
+(5)= (Tot3) x (4)
+(7)= [(5) / (6)] x $1,000
+ Size of Loss ($000s) 
+Total
+
+Chapter 11:  Special Classification 
+209 
+ 
+ 
+In this case, the home that is underinsured (2) still results in a claim payment that is less than the full 
+value of the item.  However, the total premium collected is adequate and the rates are equitable. 
+Coinsurance Clause 
+Coinsurance implies that two or more parties are jointly participating in the insurance arrangement.  In 
+property insurance, an insurer may implement a coinsurance clause in which the two parties are the 
+insurer and the insured.  Basically, the insurer may require a minimum insurance to value (e.g., 80% of 
+full value) or else payment on covered losses will be reduced proportionately by the amount of 
+underinsurance.42  The intent of the coinsurance requirement is to achieve greater equity among risks, 
+though more so through the payment of losses than the adequacy of rates. 
+The following notation is used in the coinsurance calculations:   
+ 
+I 
+= indemnity received after loss 
+ 
+L 
+= amount of loss after deductible 
+ 
+F 
+= face value of policy (i.e., amount of insurance selected) 
+ 
+V 
+= value of property 
+ 
+c 
+= required coinsurance percentage  
+ 
+a 
+= apportionment ratio 
+ 
+e 
+= coinsurance penalty 
+Using this notation, the coinsurance requirement (cV) is the amount of coverage required such that no 
+penalty is applied.  The coinsurance apportionment ratio (a) is the relationship of the amount of insurance 
+selected (F) to the coinsurance requirement (cV), and is the factor applied to the loss amount to calculate 
+the indemnity payment: 
+.
+.
+, 
+cV
+F
+a
+
+
+
+
+
+0
+1
+min
+ 
+                                                     
+42 In some countries (e.g., the U.K.), this is known as the Principle of Averages. 
+11.15 Three Policies-Total Losses Only
+(1)
+(2)
+(3)
+Full Value of Item ($000s)
+500
+$              
+500
+$              
+400
+$              
+Amount of Insurance ($000s)
+500
+$              
+400
+$              
+400
+$              
+Frequency
+1%
+1%
+1%
+Severity ($000s)*
+500
+$              
+400
+$              
+400
+$              
+Pure Premium ($000s)
+5
+$                  
+4
+$                  
+4
+$                  
+Rate per $1,000
+10
+$                
+10
+$                
+10
+$                
+Premium ($000s)
+5
+$                  
+4
+$                  
+4
+$                  
+*All losses are total losses.
+
+Chapter 11:  Special Classification 
+210 
+ 
+ The indemnity payment is given by the following basic formula: 
+.
+ 
+and
+ 
+ 
+where
+,
+L
+I
+F
+I
+cV
+F
+L
+I
+
+
+
+
+ 
+ 
+The coinsurance penalty (e) is the amount that the indemnity payment is reduced by the application of the 
+coinsurance clause.  A reduction occurs when the following three conditions apply: 
+1. A non-zero loss has occurred (i.e., L > 0).  
+2. The face amount of insurance is less than the coinsurance requirement (i.e., F < cV). 
+3. The loss is less than the coinsurance requirement (i.e., L < cV). 
+The amount of the penalty is given by the following: 
+.
+ 
+if
+ 
+          
+,0
+ 
+if
+     
+,
+ 
+if
+     
+,
+
+
+
+
+
+
+
+
+
+
+L
+cV
+cV
+L
+F
+I
+F
+F
+L
+I
+L
+e
+ 
+To illustrate these points, consider a home valued at $500,000 that is only insured for $300,000 despite a 
+coinsurance requirement of 80% (or $400,000 in this case).  Since the face value is $300,000 a 
+coinsurance deficiency exists and the apportionment ratio is 0.75 (=$300,000 / $400,000).   
+The following are the indemnity payments and coinsurance penalties for a $200,000 loss: 
+,
+000
+150
+000
+400
+000
+300
+000
+200
+,
+$
+,
+$
+,
+$
+,
+$
+cV
+F
+L
+I
+
+
+
+
+
+ 
+.
+,
+$
+,
+-$
+,
+$
+L-I
+e
+000
+50
+000
+150
+000
+200
+
+
+
+ 
+The following are the indemnity payments and coinsurance penalties for a $300,000 loss: 
+,
+000
+225
+000
+400
+000
+300
+000
+300
+,
+$
+,
+$
+,
+$
+,
+$
+cV
+F
+L
+I
+
+
+
+
+
+ 
+.
+,
+$
+,
+-$
+,
+$
+L-I
+e
+000
+75
+000
+225
+000
+300
+
+
+
+ 
+The following are the indemnity payments and coinsurance penalties for a $350,000 loss: 
+,
+500
+262
+000
+400
+000
+300
+000
+350
+,
+$
+,
+$
+,
+$
+,
+$
+cV
+F
+L
+I
+
+
+
+
+
+ 
+0.
+50
+37
+500
+262
+000
+300
+,
+$
+,
+-$
+,
+$
+F-I
+e
+
+
+
+ 
+ 
+ 
+
+Chapter 11:  Special Classification 
+211 
+ 
+The following are the indemnity payments and coinsurance penalties for a $450,000 loss: 
+$300,000,
+ 
+ 
+ 
+so
+ ,
+500
+337
+but 
+ ,
+500
+337
+000
+400
+000
+300
+000
+450
+
+
+
+
+
+
+
+
+F
+I
+F
+,
+$
+,
+$
+,
+$
+,
+$
+,
+$
+cV
+F
+L
+I
+ 
+.0
+000
+300
+000
+300
+$
+,
+-$
+,
+$
+F-I
+e
+
+
+
+ 
+The following chart illustrates the magnitude of the coinsurance penalty for all loss values between $0 
+and $500,000 (i.e., the full value of the home): 
+ 
+ 
+ 
+This chart shows that the dollar coinsurance penalty increases linearly between $0 and the face amount, 
+which is where the penalty is the largest.  The penalty decreases for loss sizes between the face amount 
+and the coinsurance requirement.  There is no coinsurance penalty for losses larger than the coinsurance 
+requirement, but the insured suffers a penalty in that the payment does not cover the total loss. 
+For the coinsurance mechanism to work appropriately in the event of a loss, it is important that the value 
+of the insured property can be established so that the coinsurance penalty can be accurately calculated. 
+Varying Rates Based on ITV Level 
+A coinsurance penalty clause corrects for inequity caused by two homes being insured to different levels 
+of ITV by adjusting the indemnity payment in the event of a loss.  Another way to achieve equity is to 
+calculate and use rates based on the level of ITV.  Returning to Tables 11.12 through 11.14, the indicated 
+rate per $1,000 of insurance was the same for the two homes insured to full value (i.e., $5 per $1,000 of 
+insurance) and higher for the underinsured home (i.e., $6 per $1,000 of insurance).  If those indicated 
+rates were used, the premium would have been equitable and no coinsurance penalty would have been 
+necessary.    
+$0
+$10
+$20
+$30
+$40
+$50
+$60
+$70
+$80
+$0
+$30
+$60
+$90
+$120
+$150
+$180
+$210
+$240
+$270
+$300
+$330
+$360
+$390
+$420
+$450
+$480
+Penalty ($000s)
+Loss Amount ($000s)
+Coinsurance Penalty
+cV
+F
+ 
+11.16 Coinsurance Penalty by Loss Amount 
+
+Chapter 11:  Special Classification 
+212 
+ 
+A rate can be calculated for any face amount of insurance given the expected frequency, the size of loss 
+distribution, and the full value of the property.  Use the following notation: 
+ 
+f 
+= frequency of loss 
+ 
+s(L) 
+= probability of loss of a given size 
+ 
+V 
+= maximum possible loss (which may be unlimited for some insurance) 
+ 
+F 
+= face value of policy 
+The formula to determine the rate is the expected indemnity payment divided by the face value of the 
+policy.43  Given a set of empirical losses, the rate is as follows: 
+.
+0
+1
+ 
+Rate
+1
+1
+F
+s(L))
+.
+(
+F
+Ls(L)
+f
+F
+L
+F
+L
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+Given a distribution of losses, the rate is as follows: 
+.
+0
+1
+ 
+Rate
+0
+0
+F
+)
+s(L)dL
+.
+(
+F
+Ls(L)dL
+f
+F
+F
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+Assuming partial losses are possible, the rate per amount of insurance decreases as the face value gets 
+closer to the value of the insured item.  The rate of change of that decrease will vary depending on the 
+shape of the loss distribution: 
+ 
+Right-skewed distribution (i.e., small losses predominate):  the rate will decrease at a decreasing 
+rate as the policy face value increases. 
+ 
+Uniform distribution (i.e., all losses equally likely):  the rate will decrease at a constant rate as the 
+policy face value increases. 
+ 
+Left-skewed distribution (i.e., large losses predominate):  the rate will decrease at an increasing 
+rate as the policy face value increases. 
+Under the rate approach (as opposed to the coinsurance penalty), the coinsurance is really thought to be 
+any portion of the loss that exceeds the face value should the insured choose a face value less than the full 
+value of the property.  The major difficulty with the rate approach is determining the loss distribution. 
+Insurance to Value Initiatives 
+The homeowners policy in the U.S. typically settles losses based on replacement cost, subject to the 
+policy limit.  One feature of the policy that encourages insurance to full value is guaranteed replacement 
+cost (GRC).  This policy feature allows replacement cost to exceed the policy limit if the property is 
+100% insured to value and, in some cases, subject to annual indexation.  In the 1990s, large catastrophes 
+such as Hurricane Andrew and the Oakland fires changed the dynamics of the construction industry and 
+                                                     
+43 The amount of insurance is frequently shown in $100 or $1,000 increments. 
+ 
+
+Chapter 11:  Special Classification 
+213 
+ 
+insurers were faced with replacement costs far in excess of insured values.  The industry responded by 
+changing the policy feature to cap the replacement cost (e.g., 125% of policy limit). 
+In more recent years, the property insurance industry has implemented other means to encourage 
+insurance to full value.  For example, insurers are using more sophisticated property estimation tools.  
+Previously these tools were crude estimators that considered a limited number of inputs when calculating 
+value (e.g., square footage and number of rooms) and updated the value at renewal according to broad 
+geographic indices.  Today’s component indicator tools consider customized features of the home (e.g., 
+granite countertops, hardwood floors, age of plumbing and electricity); moreover, these same tools are 
+used to estimate insured value at renewal as well.   
+By increasing the amount of insurance on underinsured homes to the level of ITV assumed in the rates, 
+companies are able to generate additional premium without increasing rates.  Since homeowners loss 
+distributions tend to be left-skewed (i.e., small losses predominate), the increased premium is more than 
+the additional losses generated from this action.  As the insureds receive increased coverage, they are 
+generally more accepting of the increased premium than if rate increases were implemented.  
+In addition to property estimation tools, the industry has made better use of property inspections, 
+indexation clauses, and education of insureds.  As with any major change to insurance company 
+operations, the actuaries need to estimate the effect of any ITV initiative on overall results. 
+SUMMARY 
+The preceding two chapters outlined basic classification ratemaking techniques designed to achieve 
+equity among insureds.  This chapter outlined some other methods used by actuaries to determine 
+equitable rates based on a few important risk characteristics.  
+Territorial ratemaking involves establishing territorial boundaries and then deriving rate relativities for 
+those territories.  Because location tends to be heavily correlated with other factors and many locations 
+have very sparse data, special techniques are required to estimate the risk for each geographic unit.  Once 
+a geographic estimator is calculated for each unit, additional techniques are applied in order to combine 
+the units into territories.  Rate relativities for the territories can be derived using the methods described in 
+the previous rate classification chapters. 
+Increased limit factors are difficult to price as large losses tend to be rare.  Actuaries can price increased 
+limit factors for a given limit of insurance as the severity of losses at that limit divided by the severity of 
+losses at the basic limit.  Actuaries may use empirical data or fitted data for these calculations.  In some 
+cases, actuaries may use multivariate analysis or other advanced techniques (e.g., ISO Mixed 
+Exponential).   
+Pricing deductibles is similar to increased limits except that the loss is censored below the deductible 
+rather than above the policy limit.  Actuaries generally calculate loss elimination ratios, which represent 
+the portion of the loss eliminated by the deductible.  This approach does not account for the varying 
+behavior of insureds that self-select different amounts of insurance; consequently, actuaries may 
+supplement their loss elimination ratio analysis with multivariate analysis that does capture behavioral 
+differences. 
+
+Chapter 11:  Special Classification 
+214 
+ 
+Workers compensation rating algorithms have not traditionally considered size of risk as a rating variable 
+yet insurers generally agree that the loss experience between small and large risks is different.  To 
+incorporate this difference in the rates, insurers use expense adjustments and loss constants in the rating 
+algorithms. 
+For many property lines of business, such as homeowners, it is important that the property be insured to 
+the value assumed in the rates.  When insureds underinsure their properties, they risk not being fully 
+covered in the event of a loss; moreover, this condition creates inequity compared to policies that are 
+insured to full value.  Insurers address this inequity by either reducing covered losses through a 
+coinsurance clause or by adjusting rates according to the degree of underinsurance.  Insurers have also 
+implemented various initiatives to ensure that individual risks are insured to the appropriate value.   
+ 
+ 
+ 
+
+Chapter 11:  Special Classification 
+215 
+ 
+KEY CONCEPTS FOR CHAPTER 11 
+ 
+1. Territorial ratemaking 
+a. Establishing territorial boundaries 
+i. Defining basic geographic units 
+ii. Creating geographic estimators 
+iii. Smoothing geographic estimators 
+iv. Combining units based on clustering techniques 
+b. Calculating territorial rate relativities 
+ 
+2. Increased limit factors 
+a. Limited Average Severity 
+i. Uncensored losses 
+ii. Censored losses 
+b. Fitted data approach 
+c. Other considerations 
+d. Multivariate approach 
+e. ISO mixed exponential approach 
+ 
+3. Deductible LER approach 
+a. Discrete approach 
+b. Fitted data approach 
+c. Practical considerations 
+  
+4. Workers compensation size of risk 
+a. Expense component 
+b. Loss constants 
+ 
+5. Insurance to Value (ITV) 
+a. Importance of ITV 
+b. Coinsurance 
+i. Penalty 
+ii. Varying rates based on ITV level 
+c. ITV initiatives 

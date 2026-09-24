@@ -1,0 +1,6262 @@
+ 
+41
+Part II
+Statistics of Financial Market Returns
+
+ 
+42
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+43
+Part II:  Statistics of Financial Market Returns
+Chapter 4.
+Statistical and probability foundations
+ 
+4.1  Deﬁnition of ﬁnancial price changes and returns
+45
+4.1.1  
+One-day (single period) horizon
+45
+4.1.2  
+Multiple-day (multi-period) horizon
+47
+4.1.3  
+Percent and continuous compounding in aggregating returns
+48
+4.2  Modeling ﬁnancial prices and returns
+49
+4.2.1  
+Random walk model for single-price assets
+50
+4.2.2  
+Random walk model for ﬁxed income instruments
+51
+4.2.3  
+Time-dependent properties of the random walk model
+51
+4.3  Investigating the random-walk model
+54
+4.3.1  
+Is the distribution of returns constant over time?
+54
+4.3.2  
+Are returns statistically independent over time?
+56
+4.3.3  
+Multivariate extensions
+62
+4.4  Summary of our ﬁndings
+64
+4.5  A review of historical observations of return distributions
+64
+4.5.1  
+Modeling methods
+65
+4.5.2  
+Properties of the normal distribution
+66
+4.5.3  
+The lognormal distribution
+72
+4.6  RiskMetrics model of ﬁnancial returns:  A modiﬁed random walk
+73
+4.7  Summary
+74
+
+ 
+44
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+45
+Part II:  Statistics of Financial Market Returns
+Chapter 4.
+Statistical and probability foundations
+ 
+Peter Zangari
+Morgan Guaranty Trust Company
+Risk Management Research
+(1-212) 648-8641
+ 
+zangari_peter@jpmorgan.com
+ 
+This chapter presents the statistical and probability underpinnings of the RiskMetrics model. It 
+explains the assumptions commonly applied to forecast the distribution of portfolio returns and 
+investigates the empirical validity of these assumptions. While we have tried to make this chapter 
+self-contained, its subject matter does require a thorough grasp of elementary statistics. We have 
+included many up-to-date references on speciﬁc topics so that the interested reader may pursue 
+further study in these areas.
+This chapter is organized as follows:
+• Section 4.1 presents deﬁnitions of ﬁnancial price returns and explains the type of returns 
+applied in RiskMetrics. 
+• Section 4.2 describes the basic random walk model for ﬁnancial prices to serve as background 
+to introducing the RiskMetrics model of returns.
+• Section 4.3 looks at some observed time series properties of ﬁnancial returns in the context of 
+the random walk model.
+• Section 4.4 summarizes the results presented in Sections 4.1 through 4.3.
+• Section 4.5 reviews some popular models of ﬁnancial returns and presents a review of the 
+normal and lognormal distributions.
+• Section 4.6 presents the RiskMetrics model as a modiﬁed random walk. This section lists the 
+assumptions of the RiskMetrics model—that is, what RiskMetrics assumes about the evolu-
+tion of ﬁnancial returns over time and the distribution of returns at any point in time.
+• Section 4.7 is a chapter summary.
+ 
+4.1  Deﬁnition of ﬁnancial price changes and returns
+ 
+1
+ 
+Risk is often measured in terms of price changes. These changes can take a variety of forms such 
+as absolute price change, relative price change, and log price change. When a price change is 
+ 
+deﬁned relative to some initial price, it is known as a return.
+ 
+ RiskMetrics measures change in 
+value of a portfolio (often referred to as the adverse price move) in terms of log price changes 
+also known as continuously-compounded returns. 
+ 
+Next, we explain different deﬁnitions of 
+price returns.
+ 
+4.1.1  One-day (single period) horizon
+ 
+Denote by 
+ the price of a security at date 
+ 
+t
+ 
+. In this document, 
+ 
+t
+ 
+ is taken to represent one business 
+day. 
+The absolute price change on a security between dates 
+ 
+t
+ 
+ and 
+ 
+t 
+ 
+− 
+ 
+1 (i.e., one day) is deﬁned as
+[4.1]
+ 
+ 
+ 
+1
+ 
+References for this section are, Campbell, Lo and MacKinley (1995) and Taylor, S. J. (1987). 
+Pt
+Dt
+Pt
+Pt
+1
+–
+–
+=
+
+ 
+46
+Chapter 4.  Statistical and probability foundations
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+The relative price change, or percent return
+ 
+2
+ 
+, 
+, for the same period is 
+[4.2]
+If the gross return on a security is just 
+, then the log price change (or continuously-com-
+pounded return), 
+, of a security is deﬁned to be the natural logarithm of its gross return. That is,
+[4.3]
+where 
+ is the natural logarithm of 
+.
+In practice, the main reason for working with returns rather than prices is that returns have more 
+attractive statistical properties than prices, as will be shown below. Further, returns (relative and 
+log price changes) are often preferred to absolute price changes because the latter do not measure 
+change in terms of the 
+ 
+given
+ 
+ price level.
+To illustrate the different results that different price changes can yield, Table 4.1 presents daily 
+USD/DEM exchange rates for the period 28-Mar-96 through 12-Apr-96 and the corresponding 
+daily absolute, relative, and log price changes.
+As expected, all three series of price changes have the same sign for any given day. Also, notice 
+the similarity between the log and relative price changes. In fact, we should expect these two 
+return series to be similar to one another for small changes in the underlying prices. In contrast, the 
+absolute change series is quite different from the other two series.
+ 
+2
+ 
+Although it is called “percent return,” the relative price change is expressed as a decimal number.
+ 
+Table 4.1
+ 
+Absolute, relative and log price changes* 
+ 
+Date
+ Price 
+(USD/DEM), P
+ 
+t
+ 
+ Absolute price 
+change (%), D
+ 
+t
+ 
+ Relative price 
+change (%), R
+ 
+t
+ 
+ Log price 
+change (%,) r
+ 
+t
+ 
+28-Mar-96
+0.67654
+0.427
+0.635
+0.633
+29-Mar-96
+0.67732
+0.078
+0.115
+0.115
+1-Apr-96
+0.67422
+ 
+−
+ 
+0.310
+ 
+−
+ 
+0.458
+ 
+−
+ 
+0.459
+2-Apr-96
+0.67485
+0.063
+0.093
+0.093
+3-Apr-96
+0.67604
+0.119
+0.176
+0.176
+4-Apr-96
+0.67545
+ 
+−
+ 
+0.059
+ 
+−
+ 
+0.087
+ 
+−
+ 
+0.087
+5-Apr-96
+0.67449
+ 
+−
+ 
+0.096
+ 
+−
+ 
+0.142
+-0.142
+8-Apr-96
+0.67668
+0.219
+0.325
+0.324
+9-Apr-96
+0.67033
+ 
+−
+ 
+0.635
+ 
+−
+ 
+0.938
+ 
+−
+ 
+0.943
+10-Apr-96
+0.66680
+ 
+−
+ 
+0.353
+ 
+−
+ 
+0.527
+ 
+−
+ 
+0.528
+11-Apr-96
+0.66609
+ 
+−
+ 
+0.071
+ 
+−
+ 
+0.106
+ 
+−
+ 
+0.107
+12-Apr-96
+0.66503
+ 
+−
+ 
+0.106
+ 
+−
+ 
+0.159
+ 
+−
+ 
+0.159
+* RiskMetrics foreign exchange series are quoted as USD per unit foreign currency given that 
+the datasets are standardized for users whose base currency is the USD. This is the inverse of 
+market quotation standards for most currency pairs.
+Rt
+Rt
+Pt
+Pt
+1
+–
+–
+Pt
+1
+–
+----------------------
+=
+1
+Rt
++
+rt
+rt
+1
+Rt
++
+(
+)
+ln
+=
+Pt
+Pt
+1
+–
+-----------
+
+
+
+
+
+
+ln
+=
+pt
+pt
+1
+–
+–
+(
+)
+=
+pt
+Pt
+(
+)
+ln
+=
+Pt
+
+ 
+Sec. 4.1  Definition of financial price changes and returns
+47
+Part II:  Statistics of Financial Market Returns
+ 
+To further illustrate the potential differences between absolute and log price changes, Chart 4.1 
+shows daily absolute and log price changes for the U.S. 30-year government bond over the ﬁrst 
+quarter of 1996.
+ 
+Chart 4.1
+ 
+Absolute price change and log price change in U.S. 30-year government bond
+ 
+Chart 4.1 shows that movements of the two changes over time are quite similar although the mag-
+nitude of their variation is different. This latter point and the results presented in Table 4.1 should 
+make it clear that it is important to understand the convention chosen for measuring price changes.
+ 
+4.1.2  Multiple-day (multi-period) horizon
+ 
+The returns 
+ and 
+ described above are 1-day returns. We now show how to use them to com-
+pute returns for horizons greater than one day.
+Multiple-day percent returns over the most recent 
+ 
+k
+ 
+ days, 
+, are deﬁned simply as
+[4.4]
+In terms of 1-day returns, the multiple-day 
+ 
+gross
+ 
+ return 
+ is given by the product of 
+1-day gross returns. 
+[4.5]
+Note that in Eq. [4.5] the 
+ 
+k
+ 
+-day return is a discretely compounded return. For continuously com-
+pounded returns, the multiple-day return 
+ is deﬁned as
+[4.6]
+Absolute price change
+1-Jan
+19-Jan
+8-Feb
+28-Feb
+19-Mar
+-0.010
+-0.008
+-0.006
+-0.004
+-0.002
+0
+0.002
+0.004
+0.006
+-0.10
+-0.08
+-0.06
+-0.04
+-0.02
+0
+0.02
+0.04
+0.06
+log price change
+absolute price change
+Log price change
+Rt
+rt
+Rt k
+( )
+Rt k
+( )
+Pt
+Pt
+k
+–
+–
+Pt
+k
+–
+----------------------
+=
+1
+Rt k
+( )
++
+1
+Rt k
+( )
++
+1
+Rt
++
+(
+)
+1
+R
++
+t
+1
+–
+(
+) … 1
+Rt
+k
+–
+1
+–
++
+(
+)
+=
+Pt
+Pt
+1
+–
+-----------
+Pt
+1
+–
+Pt
+2
+–
+----------- … Pt
+k
+1
+–
+–
+Pt
+k
+–
+-----------------
+⋅
+⋅
+⋅
+=
+Pt
+Pt
+k
+–
+-----------
+=
+rt k
+( )
+rt k
+( )
+Pt
+Pt
+k
+–
+-----------
+
+
+
+
+
+
+ln
+=
+
+ 
+48
+Chapter 4.  Statistical and probability foundations
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+The continuously-compounded return 
+ is the sum of 
+ 
+k
+ 
+ continuously-compounded 1-day 
+returns. To see this we use the relation 
+. The return 
+ can then be 
+written as
+[4.7]
+Notice from Eq. [4.7] that compounding, a multiplicative operation, is converted to an additive 
+operation by taking logarithms. Therefore, multiple day returns based on continuous compounding 
+are simple sums of one-day returns.
+As an example of how 1-day returns are used to generate a multiple-day return, we use a 1-month 
+period, deﬁned by RiskMetrics as having 25 business days. Working with log price changes, the 
+continuously compounded return over one month is given by 
+[4.8]
+That is, the 1-month return is the sum of the last 25 1-day returns.
+ 
+4.1.3  Percent and continuous compounding in aggregating returns
+ 
+When deciding whether to work with percent or continuously compounded returns it is important 
+to understand how such returns aggregate both across time and across individual returns at any 
+point in time.
+In the preceding section we showed how multiple-day returns can be constructed from 1-day 
+returns by aggregating the latter across time. This is known as temporal aggregation. However, 
+there is another type of aggregation known as cross-section aggregation. In the latter approach, 
+aggregation is across individual returns (each corresponding to a speciﬁc instrument) at a particu-
+lar point in time. For example, consider a portfolio that consists of three instruments. Let 
+ and 
+  
+ be the continuously compounded and percent returns, respectively and let 
+ 
+represent the portfolio weights. (The parameter 
+ represents the fraction of the total portfolio 
+value allocated to the 
+ 
+i
+ 
+th instrument with the condition that—assuming no short positions—
+). If the initial value of this portfolio is 
+ the price of the portfolio one period 
+later with continuously compounded returns is
+[4.9]
+Solving Eq. [4.9] for the portfolio return, 
+, we get
+[4.10]
+The price of the portfolio one period later with discrete compounding, i.e., using percent returns, is
+[4.11]
+The percent portfolio return, 
+, is given by
+[4.12]
+rt k
+( )
+rt k
+( )
+1
+Rt k
+( )
++
+[
+]
+ln
+=
+rt k
+( )
+rt k
+( )
+1
+Rt k
+( )
++
+[
+]
+ln
+=
+1
+Rt
++
+(
+)
+1
+Rt
+1
+–
++
+(
+)
+1
+Rt
+k
+1
+–
+–
++
+(
+)
+⋅
+⋅
+[
+]
+ln
+=
+rt
+rt
+1
+–
+…
+rt
+k
+–
+1
++
++
++
++
+=
+rt 25
+(
+)
+rt
+rt
+1
+–
+…
+rt
+24
+–
++
++
++
+=
+ri
+Ri
+i
+1 2 3
+, ,
+=
+(
+)
+wi
+wi
+w1
+w2
+w3
++
++
+1
+=
+P0
+P1
+w1 P0 e
+r1
+⋅
+⋅
+w2 P0 e
+r2
+⋅
+⋅
+w3 P0 e
+r3
+⋅
+⋅
++
++
+=
+rp
+P1
+P0
+-----
+
+
+
+
+
+
+ln
+=
+rp
+w1 e
+r1
+⋅
+w2 e
+r2
+⋅
+w3 e
+r3
+⋅
++
++
+
+
+
+
+ln
+=
+P1
+w1 P0
+1
+r1
++
+(
+)
+⋅
+⋅
+w2 P0
+1
+r2
++
+(
+)
+⋅
+⋅
+w3 P0
+1
+r3
++
+(
+)
+⋅
+⋅
++
++
+=
+Rp
+P1
+P0
+–
+(
+)
+P0
+------------------------
+=
+Rp
+w1 r1
+⋅
+w2 r2
+⋅
+w3 r3
+⋅
++
++
+=
+
+Sec. 4.2  Modeling financial prices and returns
+49
+Part II:  Statistics of Financial Market Returns
+Equation [4.12] is the expression often used to describe a portfolio return—as a weighted sum of 
+individual returns.
+Table 4.2 presents expressions for returns that are constructed from temporal and cross-section 
+aggregation for percent and continuously compounded returns.
+The table shows that when aggregation is done across time, it is more convenient to work with 
+continuously compounded returns whereas when aggregation is across assets, percent returns offer 
+a simpler expression.
+As previously stated, log price changes (continuously compounded returns) are used in 
+RiskMetrics as the basis for all computations. In practice, RiskMetrics assumes that a port-
+folio return is a weighted average of continuously compounded returns. That is, a portfolio 
+return is deﬁned as follows 
+[4.13]
+ 
+As will be discussed in detail in the next section, when 1-day returns are computed using 
+, then 
+a model describing the distribution of 1-day returns extends straightforwardly to returns greater 
+than one day.3 
+In the next two sections (4.2 and 4.3) we describe a class of time series models and investigate the 
+empirical properties of ﬁnancial returns. These sections serve as important background to under-
+standing the assumptions RiskMetrics applies to ﬁnancial returns.
+4.2  Modeling ﬁnancial prices and returns
+A risk measurement model attempts to characterize the future change in a portfolio’s value. Often, 
+it does so by making forecasts of each of a portfolio’s underlying instrument’s future price 
+changes, using only past changes to construct these forecasts. This task of describing future price 
+changes requires that we model the following; (1) the temporal dynamics of returns, i.e., model the 
+evolution of returns over time, and (2) the distribution of returns at any point in time. 
+A widely used class of models that describes the evolution of price returns is based on the notion 
+that ﬁnancial prices follow a random walk.
+3 There are two other reasons for using log price changes. The ﬁrst relates to “Siegel’s paradox,” Meese, R.A. and 
+Rogoff, K. (1983). The second relates to preserving normality for FX cross rates. Simply put, when using log price 
+changes, FX cross rates can be written as differences of base currency rates. (See Section 8.4 for details.)
+Table 4.2 
+Return aggregation
+Aggregation
+Temporal
+Cross-section
+Percent returns
+Continuously
+compounded returns
+Rit k
+( )
+1
+Rit
++
+(
+)
+1
+–
+t
+1
+=
+T
+∏
+=
+Rpt
+wiRit
+i
+1
+=
+N
+∑
+=
+rit k
+( )
+rit
+t
+1
+=
+T
+∑
+=
+rpt
+wierit
+i
+1
+=
+N
+∑
+
+
+
+
+
+
+ln
+=
+rpt
+wirit
+i
+1
+=
+N
+∑
+≅
+rt
+
+50
+Chapter 4.  Statistical and probability foundations
+RiskMetrics —Technical Document
+Fourth Edition
+4.2.1  Random walk model for single-price assets
+In this section we present a model for a security with a single price. Such a model applies naturally 
+to assets such as foreign exchange rates, commodities, and equities where only one price exists per 
+asset. The fundamental model of asset price dynamics is the random walk model, 
+[4.14]
+where IID stands for “identically and independently distributed”4, and N
+ stands for the nor-
+mal distribution with mean 0 and variance 1. Eq. [4.14] posits the evolution of prices and their dis-
+tribution by noting that at any point in time, the current price 
+ depends on a ﬁxed parameter µ, 
+last period’s price 
+, and a normally distributed random variable, 
+. Simply put, µ and σ 
+affect the mean and variance of 
+’s distribution, respectively.
+The conditional distribution of 
+, given 
+, is normally distributed.5 An obvious drawback of 
+this model is that there will always be a non-zero probability that prices are negative.6 One way to 
+guarantee that prices will be non-negative is to model the log price 
+ as a random walk with nor-
+mally distributed changes.
+[4.15]
+Notice that since we are modeling log prices, Eq. [4.15] is a model for continuously compounded 
+returns, i.e., 
+. Now, we can derive an expression for prices, 
+ given last period’s 
+price 
+ from Eq. [4.15]:
+[4.16]
+where 
+ and e ≅ 2.718.
+Since both 
+ and 
+ are non-negative, we are guaranteed that 
+ will never be 
+negative. Also, when 
+ is normally distributed, 
+ follows a lognormal distribution.7
+Notice that both versions of the random walk model above assume that the change in (log) prices 
+has a constant variance (i.e., 
+ does not change with time). We can relax this (unrealistic) assump-
+tion, thus allowing the variance of price changes to vary with time. Further, the variance could be 
+modeled as a function of past information such as past variances. By allowing the variance to vary 
+over time we have the model
+[4.17]
+4 See Section 4.3 for the meaning of these assumptions.
+5 The unconditional distribution of Pt is undeﬁned in that its mean and variance are inﬁnite. This can easily be seen 
+by solving Eq. [4.14] for Pt as a function of past εt’s.
+6 This is because the normal distribution places a positive probability on all points from negative to positive inﬁnity. 
+See Section 4.5.2 for a discussion of the normal distribution.
+7 See Section 4.5.3 for a complete description of the lognormal distribution.
+Pt
+µ
+Pt
+1
+–
++
+σεt
++
+=
+Pt
+Pt
+1
+–
+–
+µ
+σε
++
+t           εt
+IID  N 0 1
+,
+(
+)
+∼
+,
+=
+0 1
+,
+(
+)
+Pt
+Pt
+1
+–
+εt
+Pt
+Pt
+Pt
+1
+–
+pt
+pt
+µ
+p
++
+t
+1
+–
+σεt         εt
+IID  N 0 1
+,
+(
+)
+∼
++
+=
+rt
+µ
+σεt
++
+=
+Pt
+Pt
+1
+–
+Pt
+Pt
+1
+–
+µ
+σεt
++
+(
+)
+exp
+=
+x
+( )
+exp
+e
+x
+≡
+Pt
+1
+–
+µ
+σεt
++
+(
+)
+exp
+Pt
+εt
+Pt
+σ
+pt
+µ
+p
++
+t
+1
+–
+σtεt         εt
+N 0 1
+,
+(
+)
+∼
++
+=
+
+Sec. 4.2  Modeling financial prices and returns
+51
+Part II:  Statistics of Financial Market Returns
+This version of the random walk model is important since it will be shown below that 
+RiskMetrics assumes that log prices evolve according to Eq. [4.17] with the parameter µ set 
+to zero. 
+4.2.2  Random walk model for ﬁxed income instruments
+With ﬁxed income instruments we observe both prices and yields. When prices and yields exist, 
+we must decide whether to model the log changes in the yields or in the prices. For example, for 
+bonds, a well documented shortcoming of modeling price returns according to Eq. [4.15] is that 
+the method ignores a bond’s price pull to par phenomenon. That is, a bond has the distinct fea-
+ture that as it approaches maturity, its price converges to its face value. Consequently, the bond 
+price volatility will converge to zero.
+Therefore, when modeling the dynamic behavior of bonds (and other ﬁxed income instruments), 
+the bond yields rather than the bond prices are often modeled according to the lognormal distribu-
+tion. That is, if 
+ denotes the yield on a bond at period t, then 
+ is modeled as
+[4.18]
+(Note that similar to Eq. [4.17] we can incorporate a time-varying variance into Eq. [4.18]). In 
+addition to accounting for the pull to par phenomenon, another important reason for modeling the 
+yield rather than the price according to Eq. [4.18] is that positive yields are guaranteed. In the con-
+text of bond option pricing, a strong case can often be made for modeling yields as lognormal.8
+4.2.3  Time-dependent properties of the random walk model
+Each of the random walk models presented in Sections 4.2.1 and 4.2.2 imply a certain movement 
+in ﬁnancial prices over time. In this section we use Eq. [4.15]—the random walk model in log 
+prices, 
+—to explain some important properties of price dynamics implied by the random walk 
+model. Speciﬁcally, we discuss the properties of stationary (mean-reverting) and nonstationary 
+time series. 
+A stationary process is one where the mean and variance are constant and ﬁnite over time.9 In 
+order to introduce the properties of a stationary time series we must ﬁrst generalize Eq. [4.15] to 
+the following model.
+[4.19]
+where c is a parameter. Here, a stationary time series is generated when 
+. For example, 
+if we set c = 0.5, we can simulate a stationary time series using
+[4.20]
+ 
+8 For a discussion on the potential advantages of modeling yield levels as lognormal, see Fabozzi (1989, Chapter 3).
+9 Stationarity also requires that the (auto-)covariance of returns at different times is only a function of the time 
+between the returns, and not the times at which they occur. This deﬁnition of stationarity is known as weak or 
+covariance stationarity. 
+Yt
+yt
+Yt
+(
+)
+ln
+=
+yt
+µ
+y
++
+t
+1
+–
+σεt         εt
+IID  N 0 1
+,
+(
+)
+∼
++
+=
+pt
+pt
+µ
+c
+p
+⋅
++
+t
+1
+–
+εt         εt
+IID   N 0 1
+,
+(
+) p0
+,
+∼
++
+0
+=
+=
+1
+c
+1
+<
+<
+–
+pt
+0.01
+0.5p
++
+t
+1
+–
+εt         εt
+IID   N 0 1
+,
+(
+) p0
+,
+∼
++
+0
+=
+=
+
+52
+Chapter 4.  Statistical and probability foundations
+RiskMetrics —Technical Document
+Fourth Edition
+Chart 4.2 shows the simulated stationary time series based on 500 simulations.
+Chart 4.2
+Simulated stationary/mean-reverting time series
+Chart 4.2 shows how a stationary series ﬂuctuates around its mean, which in this model is 0.02. 
+Hence, stationary series are mean-reverting since, regardless of the ﬂuctuations’ amplitudes, the 
+series reverts to its mean.
+Unlike a mean-reverting time series, a nonstationary time series does not ﬂuctuate around a ﬁxed 
+mean. For example, in Eq. [4.15] the mean and variance of the log price 
+ conditional on some 
+original observed price, say 
+, are given by the following expressions
+[4.21]
+where E0[ ] and V0[ ] are the expectation and variance operators taken at time 0. Eq. [4.21] shows 
+that both the mean and variance of the log price are a function of time such that, as time t 
+increases, so does pt’s conditional mean and variance. The fact that its mean and variance change 
+with time and “blow-up” as time increases is a characteristic of a nonstationary time series. 
+To illustrate the properties of a nonstationary time series, we use the random walk model, 
+Eq. [4.15], to simulate 500 data points. Speciﬁcally, we simulate a series based on the following 
+model,
+[4.22]
+1
+91
+181
+271
+361
+451
+-4
+-3
+-2
+-1
+0
+1
+2
+3
+4
+Log price
+Time (t)
+pt
+p0
+E0 pt p0
+[
+]
+p0
+µt         (mean)
++
+=
+V0 pt p0
+[
+]
+σ
+2t          (variance)
+=
+pt
+0.01
+p
++
+t
+1
+–
+εt         εt
+IID  N 0 1
+,
+(
+) p0
+,
+∼
++
+0
+=
+=
+
+Sec. 4.2  Modeling financial prices and returns
+53
+Part II:  Statistics of Financial Market Returns
+The simulated series is shown in Chart 4.3.
+Chart 4.3
+Simulated nonstationary time series
+Notice how this series has a positive drift that grows with time, representing the term µt in 
+Eq. [4.21]. This is a typical feature of a nonstationary time series. 
+In the preceding examples, notice that the difference between these stationary and nonstationary 
+series is driven by the coefﬁcient on last period’s log price 
+. When this coefﬁcient is 1, as in 
+Eq. [4.22], the process generating log prices is known to have a “unit root”. As should be 
+expected, given the differences between stationary and non-stationary times series and their impli-
+cations for statistical analysis, there is a large body of literature devoted to testing for the presence 
+of a unit root.10
+Real world examples of stationary and nonstationary series are shown in Charts 4.4 and 4.5. For 
+the same period, Chart 4.4 plots the USD 30-year rate, a stationary time series.
+Chart 4.4
+Observed stationary time series 
+USD 30-year yield
+10 A common statistical test for a unit root is known as the augmented Dickey-Fuller test. See Greene, (1993). 
+1
+91
+181
+271
+361
+451
+-15
+-10
+-5
+0
+5
+10
+15
+20
+25
+30
+µ = 1%
+Time (t)
+Log price
+pt
+1
+–
+1993
+1994
+1995
+1996
+6.0
+6.5
+7.0
+7.5
+8.0
+8.5
+USD 30-year zero yield (%)
+7.30%
+
+54
+Chapter 4.  Statistical and probability foundations
+RiskMetrics —Technical Document
+Fourth Edition
+ 
+Notice how the 30-year rates ﬂuctuate around the sample average of 7.30%, signifying that the 
+time series for this period is mean-reverting.
+Chart 4.5 plots the S&P 500 index for the period January 4, 1993 through June 28, 1996.
+Chart 4.5
+Observed nonstationary time series
+S&P 500 index
+Notice that the S&P 500 index does not ﬂuctuate around the sample mean of 504, but rather has a 
+distinct trend upwards. Comparing the S&P 500 series to the simulated nonstationary data in 
+Chart 4.3, we see that it has all the markings of a nonstationary process.
+4.3  Investigating the random-walk model
+Thus far we have focused on a simple version of the random walk model (Eq. [4.15]) to demon-
+strate some important time series properties of ﬁnancial (log) prices. Recall that this model 
+describes how the prices of ﬁnancial assets evolve over time, assuming that logarithmic price 
+changes are identically and independently distributed (IID). These assumptions imply:
+1.
+At each point in time, t, log price changes are distributed with a mean 0 and variance 
+ 
+(identically distributed). This implies that the mean and variance of the log price changes 
+are homoskedastic, or unchanging over time.
+2.
+Log price changes are statistically independent of each other over time (independently dis-
+tributed). That is to say, the values of returns sampled at different points are completely 
+unrelated 
+In this section we investigate the validity of these assumptions by analyzing real-world data. We 
+ﬁnd evidence that the IID assumptions do not hold.11
+11  Recent (nonparametric) tests to determine whether a time series is IID are presented in Campbell and Dufour 
+(1995).
+1993
+1994
+1995
+1996
+400
+450
+500
+550
+600
+650
+700
+S&P 500
+504
+σ
+2
+
+Sec. 4.3  Investigating the random-walk model
+55
+Part II:  Statistics of Financial Market Returns
+4.3.1  Is the distribution of returns constant over time?
+Visual inspection of real-world data can be a useful way to help understand whether the assump-
+tions of IID returns hold. Using a time series of returns, we investigate whether the ﬁrst assump-
+tion of IID, identically distributed returns, is indeed valid. We ﬁnd that it is violated and present 
+the following data as evidence.
+Charts 4.6 and 4.7 show time series plots of continuously compounded returns for the USD/DEM 
+and USD/FRF exchange rates, respectively.12
+Chart 4.6
+USD/DEM returns
+Chart 4.7
+USD/FRF returns
+These time series show clear evidence of volatility clustering. That is, periods of large returns are 
+clustered and distinct from periods of small returns, which are also clustered. If we measure such 
+volatility in terms of variance (or its square root, i.e., the standard deviation), then it is fair to think 
+that variance changes with time, reﬂecting the clusters of large and small returns. In terms of the 
+model in Eq. [4.15], this means that 
+ is changing with time (t). In statistics, changing variances 
+are often denoted by the term heteroscedasticity.
+12 This notation (i.e., USD per DEM) is not necessarily market convention.
+Jan-93
+Jun-93
+Dec-93
+Jun-94
+Dec-94
+May-95
+Nov-95
+-0.03
+-0.02
+-0.01
+0
+0.01
+0.02
+0.03
+0.04
+low volatility
+high volatility
+USD/DEM returns
+Jan-93
+Jun-93
+Dec-93
+Jun-94
+Dec-94
+May-95
+Nov-95
+-0.03
+-0.02
+-0.01
+0
+0.01
+0.02
+0.03
+USD/FRF returns
+low volatility
+high volatility
+σt
+2
+
+56
+Chapter 4.  Statistical and probability foundations
+RiskMetrics —Technical Document
+Fourth Edition
+In Charts 4.6 and 4.7 we also notice not only the individual volatility clustering, but the correlation 
+of the clusters between return series. For example, note that periods of high volatility in 
+USD/DEM returns coincide with high volatility in USD/FRF returns. Such correlation between 
+returns series motivates the development of multivariate models, that is, models of returns that 
+measure not only individual series variance (volatility), but also the correlation between return 
+series. 
+4.3.2  Are returns statistically independent over time?
+Having established, albeit informally, the possibility of time-varying variances, and consequently, 
+a violation of the identically distributed assumption, we now investigate the validity of the inde-
+pendence assumption, i.e., the second assumption of IID. From our methods and the data that we 
+present in the following sections (4.3.2.1 through 4.3.2.3), we conclude that returns in a given 
+series are not independent of each other.
+In Charts 4.6 and 4.7, the persistence displayed by the volatility clusters shows some evidence of 
+autocorrelation in variances. That is, the variances of the series are correlated across time. If 
+returns are statistically independent over time, then they are not autocorrelated. Therefore, a natu-
+ral method for determining if returns are statistically independent is to test whether or not they are 
+autocorrelated. In order to do so, we begin by deﬁning correlation and a method of testing for 
+autocorrelation.
+4.3.2.1  Autocorrelation of daily log price changes
+For a given time series of returns, the autocorrelation coefﬁcient measures the correlation of 
+returns across time. In general, the standard correlation coefﬁcient between two random variables 
+X and Y is given by the covariance between X and Y divided by their standard deviations:
+[4.23]
+where 
+ represents the covariance between X and Y. A simple way to understand what covari-
+ance measures is to begin with the deﬁnition of variance. The variance of a random variable X is a 
+measure of the variation of X around its mean, 
+. The mathematical expression for variance is 
+[4.24]
+where the term E[ ] is the mathematical expectation—or more simply, the average. Whereas the 
+variance measures the magnitude of variation of one random variable (in this case X), covariance 
+measures the covariation of two random variables (say, X and Y). It follows that if the variance of 
+X is the expected value of 
+times 
+, then the covariance of X and Y is the 
+expected value of 
+ times 
+, or 
+[4.25]
+Now, for a time series of observations 
+, the kth order autocorrelation coefﬁcient ρ(k) 
+is deﬁned as: 
+[4.26]
+ρxy
+σxy
+2
+σxσy
+-----------
+=
+σxy
+2
+µX
+E
+X
+µX
+–
+(
+)
+2
+X
+µX
+–
+(
+)
+X
+µX
+–
+(
+)
+X
+µX
+–
+(
+)
+Y
+µY
+–
+(
+)
+E
+X
+µX
+–
+(
+)
+Y
+µY
+–
+(
+)
+[
+]
+rt t,
+1…T
+=
+ρk
+σt t
+k
+–
+,
+2
+σtσt
+k
+–
+----------------
+σt t,
+k
+–
+2
+σt
+2
+--------------
+=
+=
+
+Sec. 4.3  Investigating the random-walk model
+57
+Part II:  Statistics of Financial Market Returns
+Notice that since ρ(k) operates on just one series the subscripts on the covariance and standard 
+deviation refer to the time index on the return series. For a given sample of returns, 
+, 
+we can estimate Eq. [4.26] using the sample autocorrelation coefﬁcient which is given by:
+[4.27]
+where k = number of lags (days), and 
+, is the sample mean.
+If a time series is not autocorrelated then estimates of 
+ will not be signiﬁcantly different from 
+0. In fact, when there is a large amount of historical returns available, we can calculate a 95% con-
+ﬁdence band around 0 for each autocorrelation coefﬁcient13 as 
+.
+Charts 4.8 and 4.9 show the sample autocorrelation coefﬁcient 
+plotted against different lags k 
+(measured in days), along with the 95% conﬁdence band around zero for USD/DEM foreign 
+exchange and S&P 500 log price changes, respectively, for the period January 4, 1990 to June 24, 
+1996. These charts are known as correlograms. The dashed lines represent the upper and lower 
+95% conﬁdence bands 
+. If there is no autocorrelation, that is, if the series are purely ran-
+dom, then we expect only one in twenty of the sample autocorrelation coefﬁcients to lie outside 
+the conﬁdence bands. 
+Chart 4.8
+Sample autocorrelation coefﬁcients for USD/DEM foreign exchange returns
+13 This an asymptotic test statistic since it relies on a large value of T, say, T > 1000. See Harvey (p. 43, 1993).
+rt t,
+1…T
+=
+ρˆ k
+rt
+r
+–
+(
+)
+rt
+k
+–
+r
+–
+(
+)
+{
+}
+T
+k
+1
+–
+(
+)
+–
+[
+]
+⁄
+t
+k
+1
++
+=
+T
+∑
+rt
+r
+–
+(
+)
+2
+{
+}
+T
+1
+–
+[
+]
+⁄
+t
+1
+=
+T
+∑
+------------------------------------------------------------------------------------------------------------
+=
+r
+1
+T---
+rt
+t
+1
+=
+T
+∑
+=
+ρˆ k
+1.96
+T
+---------
+±
+ρˆ k
+4.7%
+±
+Autocorrelation
+1
+12
+23
+34
+45
+56
+67
+78
+89
+100
+-0.08
+-0.06
+-0.04
+-0.02
+0
+0.02
+0.04
+0.06
+0.08
+Lag (days)
+
+58
+Chapter 4.  Statistical and probability foundations
+RiskMetrics —Technical Document
+Fourth Edition
+Chart 4.9
+Sample autocorrelation coefﬁcients for USD S&P 500 returns
+Overall, both charts show very little evidence of autocorrelation in daily log price changes. Even 
+in the cases where the autocorrelations are outside the conﬁdence bands, the autocorrelation coef-
+ﬁcients are quite small (less than 10%). 
+4.3.2.2  Box-Ljung statistic for daily log price changes
+While the above charts are useful for getting a general idea about the level of autocorrelation of 
+log price changes, there are more formal methods of testing for autocorrelation. An often cited 
+method is the Box-Ljung (BL) test statistic,14 deﬁned as
+[4.28]
+ 
+Under the null hypothesis that a time series is not autocorrelated, BL ( p ), is distributed chi-
+squared with p degrees of freedom. In Eq. [4.28], p denotes the number of autocorrelations used to 
+estimate the statistic. We applied this test to the USD/DEM and S&P 500 returns for p = 15. In this 
+case, the 5% chi-squared critical value is 25. Therefore, values of the BL(10) statistic greater than 
+25 implies that there is statistical evidence of autocorrelation. The results are shown in Table 4.3. 
+14 See West and Cho (1995) for modiﬁcations to this statistic.
+Table 4.3
+Box-Ljung test statistic
+Series
+USD/DEM
+15
+S&P 500
+25
+1
+12
+23
+34
+45
+56
+67
+78
+89
+100
+-0.10
+-0.08
+-0.06
+-0.04
+-0.02
+0
+0.02
+0.04
+0.06
+0.08
+Autocorrelation
+Lag (days)
+BL p
+( )
+T
+T
+2
++
+(
+)
+ρk
+2
+T
+k
+–
+-----------
+k
+1
+=
+p
+∑
+⋅
+=
+BLˆ
+15
+(
+)
+
+Sec. 4.3  Investigating the random-walk model
+59
+Part II:  Statistics of Financial Market Returns
+We also applied this test to the daily log price changes of a selected series of commodity futures 
+contracts because, when plotted against time, these series appear autocorrelated. In these tests we 
+chose p = 10 which implies a critical value of 18.31 at the 95% conﬁdence level. Table 4.4 pre-
+sents the results along with the ﬁrst order autocorrelation coefﬁcient, 
+.
+The preceding tests show little evidence of autocorrelation for some daily log price change series. 
+The fact that the autocorrelation is not strong agrees with previous research. It is often found that 
+ﬁnancial returns over the short-run (daily) are autocorrelated but the magnitudes of the autocorre-
+lation are too small (close to zero) to be economically signiﬁcant.15 For longer return horizons 
+(i.e., beyond a year), however, there is evidence of signiﬁcant negative autocorrelation (Fama and 
+French, 1988). 
+4.3.2.3  Autocorrelation of squared daily log price changes (returns)
+As previously stated, although returns (log price changes) are uncorrelated, they may not be inde-
+pendent. In the academic literature, such dependence is demonstrated by the autocorrelation of the 
+variances of returns. Alternatively expressed, while the returns are not autocorrelated, their 
+squares are autocorrelated. And since the expected value of the squared returns are variances16, 
+autocorrelation in the squared returns implies autocorrelation in variances. The relationship 
+between squared returns and variances is evident from the deﬁnition of variance, 
+.
+[4.29]
+ 
+Assuming that the mean of the returns is zero, i.e., 
+, we get 
+.
+15 In other words, it would be very difﬁcult to form proﬁtable trading rules based on autocorrelation in daily log price 
+changes (Tucker, 1992). Also, more recent work has shown that over short horizons, autocorrelation in daily 
+returns may be the result of institutional factors rather than purely inefﬁcient markets (Boudoukh, Richardson and 
+Whitelaw, 1994).
+16 This is true if the expected values of returns are zero.The plausibility of assuming a mean of zero for daily returns 
+will be discussed in Section 5.3.1.1.
+Table 4.4
+Box-Ljung statistics
+Contract*
+Maturity
+(mths.)
+WTI
+1
+−0.0338
+5.24
+3
+−0.0586
+7.60
+6
+−0.0927
+13.62
+12
+−0.1323
+25.70
+LME
+Copper
+3
+−0.0275
+8.48
+15
+−0.0900
+19.04
+27
+−0.1512
+16.11
+* Note that the higher autocorrelation associated with con-
+tracts with longer maturities may be due to the fact that such 
+contracts are less liquid than contracts with short maturities.
+ρ1
+ρˆ 1
+BLˆ
+10
+(
+)
+σt
+2
+σt
+2
+E rt
+E rt
+( )
+–
+[
+]
+2  
+=
+E rt
+2
+
+
+
+
+E rt
+( )
+[
+]
+–
+2
+=
+E rt
+( )
+0
+=
+σt
+2
+E rt
+2
+
+
+
+
+=
+
+ 
+60
+Chapter 4.  Statistical and probability foundations
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Charts 4.10 and 4.11 show time series of squared returns for the USD/DEM exchange rate and for 
+the S&P 500 index. 
+ 
+Chart 4.10
+ 
+USD/DEM returns squared
+ 
+Chart 4.11
+ 
+S&P 500 returns squared
+ 
+Notice the clusters of large and small spikes in both series. These clusters represent periods of high 
+and low volatility recognized in Section 4.2.1. To analyze the autocorrelation structure of the 
+squared returns, as in the case of log price changes, we compute sample autocorrelation coefﬁ-
+cients and the Box-Ljung statistic. Charts 4.12 and 4.13 present correlograms for the squared 
+return series of USD/DEM foreign exchange and S&P 500, respectively.
+1990
+1991
+1992
+1993
+1994
+1995
+1996
+0
+2
+4
+6
+8
+10
+12
+14
+16
+18
+USD/DEM log returns squared (%)
+1990
+1991
+1992
+1993
+1994
+1995
+1996
+0
+2
+4
+6
+8
+10
+12
+14
+S&P 500 log returns squared (%)
+
+Sec. 4.3  Investigating the random-walk model
+61
+Part II:  Statistics of Financial Market Returns
+Chart 4.12
+Sample autocorrelation coefﬁcients of USD/DEM squared returns
+Chart 4.13
+Sample autocorrelation coefﬁcients of S&P 500 squared returns
+1
+12
+23
+34
+45
+56
+67
+78
+89
+100
+-0.04
+-0.02
+0.00
+0.02
+0.04
+0.06
+0.08
+0.10
+0.12
+0.14
+Autocorrelation
+Lag (days)
+1
+12
+23
+34
+45
+56
+67
+78
+89
+100
+-0.02
+0.00
+0.02
+0.04
+0.06
+0.08
+0.10
+0.12
+0.14
+0.16
+Autocorrelation
+Lag (days)
+
+62
+Chapter 4.  Statistical and probability foundations
+RiskMetrics —Technical Document
+Fourth Edition
+Comparing the correlograms (Charts 4.8 and 4.9) based on daily log price changes to those based 
+on the squared daily log price changes (Charts 4.12 and 4.13), we ﬁnd the autocorrelation coefﬁ-
+cients of the squared log price changes are larger and more persistent than those for log price 
+changes. In fact, much of the signiﬁcant autocorrelation in the squared log price changes is posi-
+tive and well above the asymptotic 95% conﬁdence band of 4.7%.17 The Box-Ljung statistics for 
+the squared log price change series are presented in Table 4.5.
+This table shows the dramatic effect that the squared log price changes has on the BL test. For all 
+three series we reject the null hypothesis that the variances of daily returns are not autocorre-
+lated.18
+4.3.3  Multivariate extensions
+Thus far, we have focused our attention on the empirical properties of individual returns time 
+series. It appears that the variances of returns that were analyzed vary with time and are autocorre-
+lated. As stated in Section 4.3.1, returns appear correlated (through their variances, at least) not 
+only across time but also across securities. The latter ﬁnding motivates a study of the empirical 
+properties of correlation, or more precisely, covariance between two return series. 
+We investigate whether covariances are autocorrelated by using the same logic applied to vari-
+ances. Recall that we determined whether variances are autocorrelated by checking whether 
+observed squared returns are autocorrelated. We used Eq. [4.29] to show the relation between vari-
+ances and squared returns. Now, suppose we are interested in the covariance between two return 
+series 
+ and 
+. We can derive a relationship between the covariance, 
+, and observed 
+returns as follows. We begin with a deﬁnition of covariance between 
+ and 
+. 
+[4.30]
+Assuming that the mean of the returns is zero for both return series, we get 
+[4.31]
+In words, Eq. [4.31] states that the covariance between 
+ and 
+ is the expectation of the 
+cross-product of returns minus the product of the expectations. In models explaining variances, the 
+focus is often on squared returns because of the presumption that for daily returns, squared 
+expected returns are small. Focusing on cross-products of returns can be justiﬁed in the same way. 
+17 Note that this conﬁdence band may not be appropriate due to the fact that the underlying data are not returns, but 
+squared returns.
+18 For a discussion on tests of autocorrelation on squared returns (residuals) see McLeod and Li (1983) and Li and 
+Mak (1994).
+Table 4.5
+Box-Ljung statistics on squared log price changes (cv = 25)
+Series
+USD/DEM
+153
+S&P 500
+207
+BLˆ
+15
+(
+)
+r1 t,
+r2 t,
+σ12 t,
+2
+r1 t,
+r2 t,
+σ12 t,
+2
+E
+r1 t,
+E r1 t,
+(
+)
+–
+[
+]
+r2 t,
+E r2 t,
+(
+)
+–
+[
+]
+{
+}
+=
+= E r1 t, r2 t,
+(
+)
+E r1 t,
+(
+) E r2 t,
+(
+)
+–
+σ12 t,
+2
+E r1 t, r2 t,
+(
+)
+=
+r1 t,
+r2 t,
+
+Sec. 4.3  Investigating the random-walk model
+63
+Part II:  Statistics of Financial Market Returns
+Chart 4.14 presents a time series of the cross product (
+ times 
+) of the returns on USD/DEM 
+and USD/FRF exchange rates. This series is a proxy for the covariance between the returns on the 
+two exchange rates.
+Chart 4.14
+Cross product of USD/DEM and USD/FRF returns
+Chart 4.14 shows that the covariance (correlation) between the returns on the two exchange rates 
+is positive over a large segment of the sample period. Time series generated from the cross product 
+of two return series not only offers insight into the temporal dynamics of correlation but also can 
+be used in a regression context to determine the stability of correlations over time.
+Similar to the correlogram of squared returns, the correlogram of the cross product of returns on 
+the two exchange rates can be used to determine whether the covariance of these two series are 
+autocorrelated. Chart 4.15 shows the autocorrelations of the cross-products of returns on USD/
+DEM and USD/FRF exchange rates plotted against 50 daily lags.
+Chart 4.15
+Correlogram of the cross product of USD/DEM and USD/FRF returns
+r1 t,
+r2 t,
+1993
+1994
+1995
+1996
+-0.02
+0
+0.02
+0.04
+0.06
+0.08
+0.10
+Cross product
+2
+13
+24
+35
+46
+-0.06
+-0.04
+-0.02
+0
+0.02
+0.04
+0.06
+0.08
+0.10
+0.12
+0.14
+Autocorrelation
+Lag (days)
+
+64
+Chapter 4.  Statistical and probability foundations
+RiskMetrics —Technical Document
+Fourth Edition
+The BL(10) test associated with the cross product of returns on the two exchange rate series is 37, 
+which is statistically signiﬁcant (i.e., there is evidence of autocorrelation) at the 95% conﬁdence 
+level. 
+4.4  Summary of our ﬁndings
+Up to this point, Chapter 4 focused on the dynamic features of daily continuously compounded 
+returns, otherwise known as log price changes, and developed the topic as follows:
+• We introduced three versions of the random walk model to describe how ﬁnancial prices 
+evolve over time. We used a particular version of this model (Eq. [4.15]) to highlight the dif-
+ferences between stationary (mean-reverting) and nonstationary time series.
+• We investigated the assumptions that log price changes are identically and independently dis-
+tributed.
+– To determine whether the distribution that generates returns is identical over time, we plot-
+ted log price changes against time. From time series plots of returns and their squares we 
+observed the well documented phenomenon of “volatility clustering” which implies that the 
+variance of daily log price changes vary over time (i.e., they are heteroscedastic), thus vio-
+lating the identical assumption.19
+– To test independence, we analyzed the autocorrelation coefﬁcients of both log price 
+changes and squared log price changes. We found that while daily log price changes have 
+small autocorrelations, their squares often have signiﬁcant autocorrelations.
+Much of this analysis has focused on short-horizon (daily) returns. In general, however, observed 
+distributions of returns with longer horizons, such as a month or a quarter, are often different from 
+distributions of daily returns.20
+From this point, Chapter 4 reviews how returns are assumed to be distributed at each point in time. 
+Speciﬁcally, we describe the normal distribution in detail. In RiskMetrics, it is assumed that 
+returns are distributed according to the conditional normal distribution.
+4.5  A review of historical observations of return distributions
+As shown in Eq. [4.15] and Eq. [4.17], returns were assumed to follow, respectively, an uncondi-
+tional and conditional normal distribution. The implications of the assumption that ﬁnancial 
+returns are normally distributed, at least unconditionally, has a long history in ﬁnance. Since the 
+early work of Mandelbrot (1963) and Fama (1965), researchers have documented certain stylized 
+facts about the statistical properties of ﬁnancial returns. A large percentage of these studies focus 
+on high frequency or daily log price changes. Their conclusions can be summarized in four basic 
+observations:
+• Financial return distributions have “fat tails.” This means that extreme price movements 
+occur more frequently than implied by a normal distribution.
+• The peak of the return distribution is higher and narrower than that predicted by the normal 
+distribution. Note that this characteristic (often referred to as the “thin waist”) along with fat 
+tails is a characteristic of a leptokurtotic distribution.
+19 See for example, Engle and Bollerslev (1986).
+20 See, for example, Richardson and Smith (1993)
+
+Sec. 4.5  A review of historical observations of return distributions
+65
+Part II:  Statistics of Financial Market Returns
+• Returns have small autocorrelations.
+• Squared returns often have signiﬁcant autocorrelations.
+Chart 4.16 illustrates a leptokurtotic distribution of log price changes in USD/DEM exchange rates 
+for the period 28-Mar-96 through 12-Apr-96 and compares it to a normal distribution. In this chart, 
+the leptokurtotic distribution can be thought of as a smoothed histogram, since it is obtained 
+through a smoothing process known as “kernel density estimation.”21 A kernel density estimate of 
+the histogram, rather than the histogram itself, is often used since it produces a smooth line that is 
+easier to compare to the true density function (normal, in this example).
+Chart 4.16
+Leptokurtotic vs. normal distribution
+4.5.1  Modeling methods
+Having documented the failure of the normal distribution to accurately model returns, researchers 
+started looking for alternative modeling methods, which have since evolved into two classes:  
+unconditional (time-independent) and conditional distributions (time-dependent) of returns.
+Models in the class of unconditional distribution of returns assume that returns are independent of 
+each other and that the return-generating process is linear with parameters that are independent of 
+past realizations. An example of a model that falls into this class is the standard normal distribu-
+tion with mean 
+ and variance 
+ (note there is no time subscript). Other examples of uncondi-
+tional distribution models include inﬁnite-variance symmetric and asymmetric stable Paretian 
+distributions, and ﬁnite variance distributions including the t-distribution, mixed-diffusion-jump 
+model, and the compound normal model.
+21 See Silverman (1986).
+-3.4
+-2.3
+-1.1
+0.0
+1.1
+2.3
+3.4
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+PDF
+Returns (%)
+USD/DEM log returns
+Normal
+thin waist
+fat tails
+µ
+σ
+2
+
+66
+Chapter 4.  Statistical and probability foundations
+RiskMetrics —Technical Document
+Fourth Edition
+The second class of models, the conditional distribution of returns, arises from evidence that 
+refutes the identically and independently distributed assumptions (as presented in Sections 4.3.1 
+and 4.3.2). Models in this category, such as the GARCH and Stochastic Volatility, treat volatility 
+as a time-dependent, persistent process. These models are important because they account for vol-
+atility clustering, a frequently observed phenomenon among return series. 
+The models for characterizing returns are presented in Table 4.6 along with supporting references. 
+It is important to remember that while conditional and unconditional processes are based on differ-
+ent assumptions, except for the unconditional normal model, models from both classes generate 
+data that possess fat tails.22
+4.5.2  Properties of the normal distribution
+All of the models presented in Table 4.6 are parametric in that the underlying distributions depend 
+on various parameters. One of the most widely applied parametric probability distribution is the 
+normal distribution, represented by its “bell shaped” curve.
+This section reviews the properties of the normal distribution as they apply to the RiskMetrics 
+method of calculating VaR. Recall that the VaR of a single asset (at time t) can be written as 
+follows:
+[4.32]
+or, using the common approximation
+[4.33]
+where 
+ is the marked-to-market value of the instrument and 
+ is the standard deviation 
+of continuously compounded returns for time t made at time t−1.
+22 For a speciﬁc comparison between time-dependent and time-independent processes, see Ghose and Kroner (1993). 
+Table 4.6
+Model classes
+Distribution 
+Model
+Reference
+Unconditional 
+(time independent)
+Inﬁnite variance:
+symmetric stable Paretian
+Mandelbrot (1963)
+asymmetric stable Paretian
+Tucker (1992)
+Finite variance:
+Normal
+Bachelier (1900)
+Student t
+Blattberg & Gonedes (1974)
+Mixed diffusion jump
+Jorion (1988)
+Compound normal
+Kon (1988)
+Conditional
+(time dependent)
+GARCH:
+Normal
+Bollerslev (1986)
+Student t
+Bollerslev (1987)
+Stochastic 
+Volatility:
+Normal
+Ruiz (1994)
+Student t
+Harvey et. al (1994)
+Generalized error distribution
+Ruiz (1994)
+VaRt
+1
+exp
+1.65σt t
+1
+–
+–
+(
+)
+–
+[
+] Vt
+1
+–
+=
+VaRt
+  1.65σt t
+1
+– Vt
+1
+–
+≅
+Vt
+1
+–
+σt t
+1
+–
+
+Sec. 4.5  A review of historical observations of return distributions
+67
+Part II:  Statistics of Financial Market Returns
+4.5.2.1  Mean and variance
+If it is assumed that returns are generated according to the normal distribution, then it is believed 
+that the entire distribution of returns can be characterized by two parameters:  its mean and vari-
+ance. Mathematically, the normal probability density function for a random variable 
+ is23
+[4.34]
+where 
+Note that the normal distribution as shown in Eq. [4.34] is an unconditional distribution since the 
+mean and variance parameters are not time-dependent and, therefore, do not have time subscripts. 
+Chart 4.17 shows how the mean and variance affect the shape of the normal distribution. 
+Chart 4.17 
+Normal distribution with different means and variances
+Now that we have an understanding of the role of the mean and variance in the normal distribution 
+we can present their formulae. The mathematical expression for the mean and variance of some 
+random variable rt, are as follows:
+[4.35]
+23 Note that we are abusing notation since rt represents both a random variable and observed return. We hope that by 
+the context in which rt is used it will be clear what we are referring to.
+rt
+f rt
+( )
+1
+2πσ
+2
+----------------
+1
+2σ
+2
+--------
+
+
+
+
+–
+rt
+µ
+–
+(
+)
+2
+exp
+=
+µ
+mean of the random variable, which affects the location of the distribution′s peak
+=
+σ
+2
+variance of the random variable, which affects the distribution′s width
+=
+π
+3.1416
+≅
+-5
+-4
+-3
+-2
+-1
+0
+1
+2
+3
+4
+6
+0
+0.05
+0.10
+0.15
+0.20
+0.25
+0.30
+0.35
+0.40
+(µ=0, σ=1)
+(µ=0, σ=.5)
+(µ=5, σ=.2)
+Standard normal PDF
+Standard deviation
+µ
+E
+=
+rt
+[ ]   (mean)
+σ
+2
+E
+rt
+µ
+–
+(
+)
+2  (variance)
+=
+
+68
+Chapter 4.  Statistical and probability foundations
+RiskMetrics —Technical Document
+Fourth Edition
+where E[ ] denotes the mathematical expectation. Two additional measures that we will make ref-
+erence to within this document are known as skewness and kurtosis. Skewness characterizes the 
+asymmetry of a distribution around its mean. The expression for skewness is given by 
+[4.36]
+For the normal distribution skewness is zero. In practice, it is more convenient to work with the 
+skewness coefﬁcient which is deﬁned as
+[4.37]
+Kurtosis measures the relative peakedness or ﬂatness of a given distribution. The expression for 
+kurtosis is given by 
+[4.38]
+As in the case of skewness, in practice, researchers frequently work with the kurtosis coefﬁcient 
+deﬁned as 
+[4.39]
+ 
+For the normal distribution, kurtosis is 3. This fact leads to the deﬁnition of excess kurtosis which 
+is deﬁned as kurtosis minus 3. 
+4.5.2.2  Using percentiles to measure market risk
+Market risk is often measured in terms of a percentile (also referred to as quantile) of a portfo-
+lio’s return distribution. The attractiveness of working with a percentile rather than say, the vari-
+ance of a distribution, is that a percentile corresponds to both a magnitude (e.g., the dollar amount 
+at risk) and an exact probability (e.g., the probability that the magnitude will not be exceeded). 
+The pth percentile of a distribution of returns is deﬁned as the value that exceeds p percent of the 
+returns. Mathematically, the pth percentile (denoted by α) of a continuous probability distribution, 
+is given by the following formula
+[4.40]
+ 
+where f (r) represents the PDF (e.g., Eq. [4.34])
+So for example, the 5th percentile is the value (point on the distribution curve) such that 95 per-
+cent of the observations lie above it (see Chart 4.18).
+When we speak of percentiles they are often of the percentiles of a standardized distribution, 
+which is simply a distribution of mean-centered variables scaled by their standard deviation. For 
+example, suppose the log price change rt is normally distributed with mean µt and variance 
+. 
+The standardized return 
+ is deﬁned as
+s
+3
+E
+rt
+µ
+–
+(
+)
+3  (skewness)
+=
+γ
+E
+rt
+µ
+–
+(
+)
+3
+σ
+3
+--------------------------------- (skewness coefficient)
+=
+s
+4
+E
+rt
+µ
+–
+(
+)
+4  (kurtosis)
+=
+κ
+E
+rt
+µ
+–
+(
+)
+4
+σ
+4
+--------------------------------- (kurtosis  coefficent)
+=
+p
+f r
+( ) r
+d
+∞
+–
+α
+∫
+=
+σt
+2
+r˜t
+
+Sec. 4.5  A review of historical observations of return distributions
+69
+Part II:  Statistics of Financial Market Returns
+[4.41]
+ 
+Therefore, the distribution of 
+ is normal with mean 0 and variance 1. An example of a standard-
+ized distribution is presented above (µ = 0, σ = 1). Chart 4.18 illustrates the positions of some 
+selected percentiles of the standard normal distribution.24 
+Chart 4.18
+Selected percentile of standard normal distribution
+We can use the percentiles of the standard distribution along with Eq. [4.41] to derive the percen-
+tiles of observed returns. For example, suppose that we want to ﬁnd the 5th percentile of 
+, under 
+the assumption that returns are normally distributed. We know, by deﬁnition, that
+[4.42a]
+[4.42b]
+From Eq. [4.42b], re-arranging terms yields
+[4.43]
+According to Eq. [4.43], there is a 5% probability that an observed return at time t is less than 
+−1.65 times its standard deviation plus its mean. Notice that when 
+, we are left with the 
+standard result that is the basis for short-term horizon VaR calculation, i.e., 
+[4.44]
+ 
+24 Note that the selected percentiles above (1%, 5%, and 10%) reside in the tails of the distribution. Roughly, the tails 
+of a distribution are the areas where less then, say, 10% of the observations fall.
+r˜t
+rt
+µt
+–
+σt
+--------------
+=
+r˜t
+-5
+-4
+-3
+-2
+-1
+0
+1
+2
+3
+4
+6
+0
+0.10
+0.20
+0.30
+0.40
+-1.28 (10th percentile)
+-1.65 (5th percentile)
+-2.33 (1st percentile)
+Standard normal PDF
+Standard deviation
+rt
+Probability r˜t
+1.65
+–
+<
+(
+)
+5%
+=
+Probability
+rt
+µt
+–
+(
+)
+σt
+⁄
+1.65
+–
+<
+[
+]
+5%
+=
+Probability rt
+1.65σt
+–
+µt
++
+<
+(
+)
+5%
+=
+µt
+0
+=
+Probability rt
+1.65σt
+–
+<
+(
+)
+5%
+=
+
+70
+Chapter 4.  Statistical and probability foundations
+RiskMetrics —Technical Document
+Fourth Edition
+4.5.2.3  One-tailed and two-tailed conﬁdence intervals
+Equation [4.44] is very important as the basis of VaR calculations in RiskMetrics. It should be rec-
+ognized, however, that there are different ways of stating the conﬁdence interval associated with 
+the same risk tolerance. For example, since the normal distribution is symmetric, then
+[4.45]
+Therefore, since the entire area under the probability curve in Chart 4.18 is 100%, it follows that 
+[4.46a]
+ 
+[4.46b]
+Charts 4.19 and 4.20 show the relationship between a one-tailed 95% conﬁdence interval and a 
+two-tailed 90% conﬁdence interval. Notice that the statements in Eqs. [4.46a] and [4.46b] are 
+consistent with Eq. [4.45], a 5% probability that the return being less than −1.65 standard 
+deviations.25
+Chart 4.19
+One-tailed conﬁdence interval
+25 The two statements are not equivalent in the context of formal hypothesis testing. See DeGroot (1989, chapter 8).
+Probability rt
+1.65σt
+–
+µt
++
+<
+(
+)
+Probability rt
+1.65σt
+µt
++
+>
+(
+)
+=
+5%
+=
+Probability
+1.65σt + µt
+rt
+1.65σt
+µt
++
+<
+<
+–
+(
+)
+90%
+=
+Probability
+1.65σt + µt
+rt
+<
+–
+(
+)
+95%
+=
+-5
+-4
+-3
+-2
+-1
+0
+1
+2
+3
+4
+0.00
+0.10
+0.20
+0.30
+0.40
+5%
+-1.65
+95%
+Standard normal PDF
+Standard deviation
+
+Sec. 4.5  A review of historical observations of return distributions
+71
+Part II:  Statistics of Financial Market Returns
+Chart 4.20
+Two-tailed conﬁdence interval
+Table 4.7 shows the conﬁdence intervals that are prescribed by standard and BIS-compliant 
+versions of RiskMetrics, and at which the one-tailed and two-tailed tests yield the same VaR 
+ﬁgures.26
+4.5.2.4   Aggregation in the normal model
+An important property of the normal distribution is that the sum of normal random variables is 
+itself normally distributed.27 This property is useful since portfolio returns are the weighted sum 
+of individual security returns.
+As previously stated (p. 49) RiskMetrics assumes that the return on a portfolio, 
+, is the 
+weighted sum of N underlying returns (see Eq. [4.12]). For practical purposes we require a model 
+of returns that not only relates the underlying returns to one another but also relates the distribu-
+tion of the weighted sum of the underlying returns to the portfolio return distribution. To take an 
+example, consider the case when N = 3, that is, the portfolio return depends on three underlying 
+returns. The portfolio return is given by 
+[4.47]
+26 For ease of exposition we ignore time subscripts.
+27 These random variables must be drawn from a multivariate distribution.
+Table 4.7
+VaR statistics based on RiskMetrics and BIS/Basel requirements
+Conﬁdence interval
+RiskMetrics method
+One-tailed
+Two-tailed
+Standard
+95%
+(−1.65σ)
+90%
+(−/+1.65σ )
+BIS/Basel Regulatory
+99%
+(−2.33σ)
+98%
+(−/+2.33σ)
+-5
+-4
+-3
+-2
+-1
+0
+1
+2
+3
+4
+0
+0.10
+0.20
+0.30
+0.40
+-1.65
+1.65
+90%
+5%
+5%
+Standard normal PDF
+Standard deviation
+rp t,
+rpt
+w1r1 t,
+w2r2 t,
+w3r3 t,
++
++
+=
+
+72
+Chapter 4.  Statistical and probability foundations
+RiskMetrics —Technical Document
+Fourth Edition
+We can model each underlying return as a random walk that is similar to Eq. [4.17]. This yields
+[4.48a]
+[4.48b]
+[4.48c]
+Now, since we have three variables we must account for their movements relative to one another. 
+These movements are captured by pairwise correlations. That is, we deﬁne measures that quantify 
+the linear association between each pair of returns. Assuming that the εt’s are multivariate nor-
+mally (MVN) distributed we have the model
+[4.49]
+, or more succinctly, 
+where parameter matrix 
+ represents the correlation matrix of 
+. Therefore, if we 
+apply the assumptions behind Eq. [4.49] (that the sum of MVN random variables is normal) to the 
+portfolio return Eq. [4.47], we know that rpt is normally distributed with mean µp,t and variance 
+. The formulae for the mean and variance are
+[4.50a]
+ 
+[4.50b]
+where the terms 
+ represent the covariance between returns i and j. In general, these results 
+hold for (
+) underlying returns. Since the underlying returns are distributed conditionally 
+multivariate normal, the portfolio return is univariate normal with a mean and variance that are 
+simple functions of the underlying portfolio weights, variances and covariances.
+4.5.3  The lognormal distribution
+In Section 4.2.1 we claimed that if log price changes are normally distributed, then price, 
+, con-
+ditional on 
+ is lognormally distributed. This statement implies that 
+, given 
+, is drawn 
+from the probability density function
+[4.51]
+where 
+ follows a lognormal distribution with a mean and variance given by 
+[4.52]
+[4.53]
+r1 t,
+µ1
+σ1 t, ε1 t,
++
+=
+r2 t,
+µ2
+σ2 t, ε2 t,
++
+=
+r3 t,
+µ2
+σ3 t, ε3 t,
++
+=
+ε1 t,
+ε2 t,
+ε3 t,
+MVN
+0
+0
+0
+1
+ρ12 t, ρ13 t,
+ρ21 t,
+1
+ρ23 t,
+ρ31 t, ρ32 t,
+1
+,
+
+
+
+
+
+
+
+
+
+
+
+
+∼
+ε
+MVN µt Rt
+,
+(
+)
+∼
+Rt
+ε1 t,
+ε2 t,
+ε3 t,
+,
+,
+(
+)
+σp t,
+2
+µp t,
+w1µ1
+w2µ2
+w3µ3
++
++
+=
+σp t,
+2
+w1
+2σp t,
+2
+w2
+2σp t,
+2
+w3
+2σp t,
+2
+2w1w2σ12 t,
+2
+2w1w3σ13 t,
+2
+2w2w3σ23 t,
+2
++
++
++
++
++
+=
+σij t,
+2
+N
+1
+≥
+Pt
+Pt
+1
+–
+Pt
+Pt
+1
+–
+f
+Pt
+(
+)
+1
+Pt
+1
+– σt 2π
+----------------------------
+Pt
+1
+–
+µ
+–
+ln
+(
+)
+2
+–
+2σt
+2
+--------------------------------------
+exp
+     Pt
+1
+–
+0
+>
+=
+Pt
+E Pt
+[
+]
+µ
+5σt
+2
++
+
+
+
+
+exp
+=
+V Pt
+(
+)
+2µt
+2σt
+2
+
+
+
+
+exp
+⋅
+σt
+2
+
+
+
+
+exp
+–
+exp
+=
+
+Sec. 4.6  RiskMetrics model of financial returns: A modified random walk
+73
+Part II:  Statistics of Financial Market Returns
+Chart 4.21 shows the probability density function for the lognormal random variable 
+ when 
+ and 
+. 
+Chart 4.21
+Lognormal probability density function
+Unlike the normal probability density function, the lognormal PDF has a lower bound greater than 
+zero and is skewed to the right. 
+4.6  RiskMetrics model of ﬁnancial returns:  A modiﬁed random walk
+We can now use the results of the last four sections to write down a model of how returns are gen-
+erated over time. Our analysis has shown that:
+• Return variances are heteroscedastic (change over time) and autocorrelated.
+• Return covariances are autocorrelated and possess dynamic features.
+• The assumption that returns are normally distributed is useful because of the following:
+(i) only the mean and variance are required to describe the entire shape of the distribution28
+(ii) the sum of multivariate normal returns is normally distributed. This fact facilitates the 
+description of portfolio returns, which are the weighted sum of underlying returns. 
+Given these points, we can now state the assumptions underlying the RiskMetrics variance/covari-
+ance methodology. Consider a set of N securities, i = 1…, N. The RiskMetrics model assumes that 
+returns are generated according to the following model
+[4.54]
+28 The covariances are also required when there is more than one return series.
+Pt
+µt
+0 σt
+1
+=
+,
+=
+Pt
+1
+–
+1
+=
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+0.30
+0.35
+0.40
+0
+4
+8
+12
+16
+20
+PDF
+Price
+ri t,
+σi t, εi t,          εit
+N 0 1
+,
+(
+)
+∼
+=
+εt
+MVN 0 Rt
+,
+(
+)      εt
+∼
+ε1t ε2t … εNt
+,
+,
+,
+[
+]
+=
+
+74
+Chapter 4.  Statistical and probability foundations
+RiskMetrics —Technical Document
+Fourth Edition
+where 
+ is an NxN time-dependent correlation matrix. The variance of each return, 
+ and the 
+correlation between returns, 
+, are a function of time. The property that the distribution of 
+returns is normal given a time dependent mean and correlation matrix assumes that returns follow 
+a conditional normal distribution—conditional on time. Notice that in Eq. [4.54] we excluded term 
+. As will be discussed in more detail in Section 5.3.1.1, the mean return represented by 
+ is set 
+to zero.
+In Appendix A we propose a set of statistical tests to assess whether observed ﬁnancial returns fol-
+low a conditional normal distribution. In Appendix B we discuss alternative distributions that 
+relax the normality assumption.
+4.7  Summary
+In this chapter, we presented the statistical and probability assumptions on the evolution and distri-
+bution of ﬁnancial returns in some simple models. This discussion served as background to the 
+speciﬁcation of the assumptions behind the RiskMetrics VaR methodology. 
+In review, this chapter covered the following subjects. The chapter began by outlining a simple 
+version of the VaR calculation. We then:
+• Deﬁned absolute price change, relative price change, log price change, and returns.
+• Showed the importance of understanding the use of different price change deﬁnitions. 
+• Established that RiskMetrics measures changes in portfolio value in terms of continuously-
+compounded returns.
+• Introduced temporal aggregation and cross-section aggregation to show the implications of 
+working with relative and log returns.
+• Introduced the random walk model for:29
+– Single-price assets
+– Fixed income instruments
+• Found evidence that contradicts the assumption that returns are IID (identically and indepen-
+dently) normal. In reality, continuously compounded returns are:
+– Not identical over time. (The variance of the return distribution changes over time)
+– Not statistically independent of each other over time. (Evidence of autocorrelation between 
+return series and within a return series.)
+• Explained the properties of the normal distribution, and, lastly,
+• Presented the RiskMetrics model as a modiﬁed random walk that assumes that returns are 
+conditionally normally distributed.
+29 While the random walk model serves as the basis for many popular models of returns in ﬁnance, another class of 
+models that has received considerable attention lately is based on the phenomenon of long-range dependence. 
+Brieﬂy, such models are built on the notion that observations recorded in the distant past are correlated to observa-
+tions in the distant future. (See Campbell, et. al (1995) for a review of long-range dependence models.)
+Rt
+σi t,
+2
+ρij t,
+µi
+µi
+
+ 
+75
+Part II:  Statistics of Financial Market Returns
+Chapter 5.
+Estimation and forecast
+ 
+5.1  Forecasts from implied versus historical information
+77
+5.2  RiskMetrics forecasting methodology
+78
+5.2.1  
+Volatility estimation and forecasting
+78
+5.2.2  
+Multiple day forecasts
+84
+5.2.3  
+More recent techniques
+88
+5.3  Estimating the parameters of the RiskMetrics model
+90
+5.3.1  
+Sample size and estimation issues
+90
+5.3.2  
+Choosing the decay factor
+96
+5.4  Summary and concluding remarks
+100
+
+ 
+76
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+77
+Part II:  Statistics of Financial Market Returns
+Chapter 5.
+Estimation and forecast
+ 
+Peter Zangari
+Morgan Guaranty Trust Company
+Risk Management Research
+(1-212) 648-8641
+ 
+zangari_peter@jpmorgan.com
+ 
+In this chapter we present a methodology for forecasting the parameters of the multivariate condi-
+tional normal distribution, i.e., variances and covariances of returns whose empirical properties 
+were examined in Chapter 4, “Statistical and probability foundations.” The reason for forecasting 
+variances and covariances of returns is to use them to forecast a portfolio’s change in value over a 
+given horizon, which can run over one day to several months. 
+This chapter is organized as follows:
+• Section 5.1 brieﬂy explains why RiskMetrics forecasts of variances and covariances are gen-
+erated from historical data rather than derived from option prices.
+• Section 5.2 describes the RiskMetrics forecasting methodology, i.e., 
+– Use of the exponentially weighted moving average (EWMA) model to produce forecasts of 
+variances and covariances. This includes an explanation as to why the EWMA is preferred 
+to the simple moving average model.
+– How to compute forecasts over longer time horizons, such as one month. 
+Section 5.2 also discusses alternative, more advanced methods for forecasting variances and 
+covariances.
+• Section 5.3 explains two important implementation issues involving the RiskMetrics fore-
+casts:  (1) the reliability of the forecasts in relation to the number of historical data points used 
+to produce them, and (2) the choice of the “decay factor” used in the EWMA model.
+• Section 5.4 concludes the chapter with a review of the RiskMetrics forecasting model.
+Finally, practitioners often refer to the term “volatility” when speaking of movements in ﬁnancial 
+prices and rates. In what follows we use the term volatility to mean the standard deviation of con-
+tinuously compounded ﬁnancial returns. 
+ 
+5.1  Forecasts from implied versus historical information 
+ 
+RiskMetrics forecasts are based on historical price data, although in theory, they may be derived 
+from option prices.
+From a practical point of view, implied forecasts introduce a number of problems. For example, an 
+implied volatility (IV) is based entirely on expectations given a particular option pricing model. 
+Therefore, as noted in Kroner, Kneafsey and Claessens (1995), since most option pricing models 
+assume that the standard deviation is constant, the IV becomes difﬁcult to interpret and will not 
+lead to good forecasts if the option formula used to derive it is not correctly speciﬁed. Moreover, 
+IV forecasts are associated with a ﬁxed forecast horizon. For example, the implied volatility 
+derived from a 3 month USD/DEM option is exclusively for a 3 month forecast horizon. However, 
+a risk manager may be interested in the VaR of this option over the next day.
+If RiskMetrics were to use implied statistics, it would require observable options prices on all 
+instruments that compose a portfolio. Currently, the universe of consistently observable options 
+prices is not large enough to provide a complete set of implied statistics; generally only exchange-
+traded options are reliable sources of prices. In particular, the number of implied correlations that 
+can be derived from traded option prices is insigniﬁcant compared to the number of correlations 
+required to estimate risks in portfolios consisting of many types of assets.
+
+ 
+78
+Chapter 5.  Estimation and forecast
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Academic research has compared the forecasting ability of implied and historical volatility mod-
+els. The evidence of the superior forecasting ability of historical volatility over implied volatility 
+is mixed, depending on the time series considered. For example, Xu and Taylor (1995, p. 804) note 
+that, “prior research concludes that volatility predictors calculated from options prices are better 
+predictors of future volatility than standard deviations calculated from historical asset price data.” 
+Kroner, Kneafsey and Claessens (1995, p. 9), on the other hand, note that researchers are begin-
+ning to conclude that GARCH (historical based) forecasts outperform implied volatility forecasts. 
+Since implied standard deviation captures market expectations and pure time series models rely 
+solely on past information, these models can be combined to forecast the standard deviation of 
+returns.
+ 
+5.2  RiskMetrics forecasting methodology
+ 
+RiskMetrics uses the exponentially weighted moving average model (EWMA) to forecast vari-
+ances and covariances (volatilities and correlations) of the multivariate normal distribution. This 
+approach is just as simple, yet an improvement over the traditional volatility forecasting method 
+that relies on moving averages with ﬁxed, equal weights. This latter method is referred to as the 
+simple moving average (SMA) model.
+ 
+5.2.1  Volatility estimation and forecasting
+ 
+1
+ 
+One way to capture the dynamic features of volatility is to use an exponential moving average of 
+historical observations where the latest observations carry the highest weight in the volatility esti-
+mate. This approach has two important advantages over the equally weighted model. First, volatil-
+ity reacts faster to shocks in the market as recent data carry more weight than data in the distant 
+past. Second, following a shock (a large return), the volatility declines exponentially as the weight 
+of the shock observation falls. In contrast, the use of a simple moving average leads to relatively 
+abrupt changes in the standard deviation once the shock falls out of the measurement sample, 
+which, in most cases, can be several months after it occurs. 
+For a given set of 
+ 
+T
+ 
+ returns, Table 5.1 presents the formulae used to compute the equally and expo-
+nentially weighted (standard deviation) volatility.
+In comparing the two estimators (equal and exponential), notice that the exponentially weighted 
+moving average model depends on the parameter 
+ 
+λ 
+ 
+(0 < 
+ 
+λ 
+ 
+<1) which is often referred to as the 
+ 
+decay factor
+ 
+. This parameter determines the relative weights that are applied to the observations 
+(returns) and the effective amount of data used in estimating volatility. Ways of estimating 
+ 
+λ
+ 
+ are 
+discussed in detail in Section 5.3.2.
+ 
+1
+ 
+In this section we refer loosely to the terms estimation and forecast. The reader should note, however, that these 
+terms do have distinct meanings.
+ 
+Table 5.1
+ 
+Volatility estimators*
+Equally weighted
+Exponentially weighted
+ 
+* In writing the volatility estimators we intentionally do not use time 
+subscripts.
+σ
+1
+T---
+rt
+r
+–
+(
+)
+2
+t
+1
+=
+T
+∑
+=
+σ = 
+1
+λ
+–
+(
+)
+λ
+t
+1
+–
+rt
+r
+–
+(
+)
+2
+t
+1
+=
+T
+∑
+
+ 
+Sec. 5.2  RiskMetrics forecasting methodology
+79
+Part II:  Statistics of Financial Market Returns
+ 
+We point out that in writing the EWMA estimator in Table 5.1 we applied the approximation
+[5.1]
+These two expressions are equivalent in the limit, i.e., as 
+. Moreover, for purpose of com-
+parison to the equally weighted factor 1/
+ 
+T
+ 
+, the more appropriate version of the EWMA is 
+[5.2]
+rather than 
+. Also, notice that when 
+, Eq. [5.2] collapses to 1/
+ 
+T
+ 
+. 
+Charts 5.1 and 5.2 highlight an important difference between equally and exponentially weighted 
+volatility forecasts using as an example the GBP/DEM exchange rate in the fall of 1992. In late 
+August of that year, the foreign exchange markets went into a turmoil that led a number of 
+Europe’s currencies to leave the ERM and be devalued. The standard deviation estimate using an 
+exponential moving average rapidly reﬂected this state of events, but also incorporated the decline 
+in volatility over subsequent months. The simple 6-month moving average estimate of volatility 
+took longer to register the shock to the market and remained higher in spite of the fact that the for-
+eign exchange markets calmed down over the rest of the year. 
+ 
+Chart 5.1 
+ 
+DEM/GBP exchange rate
+λ
+j
+1
+–
+j
+1
+=
+T
+∑
+1
+1
+λ
+–
+(
+)
+------------------
+≅
+T
+∞
+→
+λ
+t
+1
+–
+λ
+j
+1
+–
+j
+1
+=
+T
+∑
+⁄
+1
+λ
+–
+(
+) λ
+t
+1
+–
+λ
+1
+=
+1992
+1993
+1994
+2.25
+2.35
+2.45
+2.55
+2.65
+2.75
+2.85
+2.95
+DEM/GBP
+
+ 
+80
+Chapter 5.  Estimation and forecast
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Chart 5.2
+ 
+Log price changes in GBP/DEM and VaR estimates (1.65
+ 
+σ
+ 
+)
+ 
+This example would suggest that EWMA is more satisfactory, given that when combined with fre-
+quent updates, it incorporates external shocks better than equally weighted moving averages, thus 
+providing a more realistic measure of current volatility.
+Although the exponentially weighted moving average estimation ranks a level above simple mov-
+ing averages in terms of sophistication, it is not complex to implement. To support this point, 
+Table 5.2 presents an example of the computation required to estimate equally and exponentially 
+weighted moving average volatilities. Volatility estimates are based on 20 daily returns on the 
+USD/DEM exchange rate. We arbitrarily choose
+ 
+ λ
+ 
+ = 0.94 and keep matters simple by setting the 
+sample mean, , to zero. 
+1992
+1993
+1994
+-5.00
+-4.00
+-3.00
+-2.00
+-1.00
+0.00
+1.00
+2.00
+3.00
+1992
+1993
+1994
+0
+0.20
+0.40
+0.60
+0.80
+1.00
+1.20
+1.40
+1.60
+1.80
+VaR estimate
+Log price change
+Simple moving average
+Exponentially weighted moving average
+r
+
+ 
+Sec. 5.2  RiskMetrics forecasting methodology
+81
+Part II:  Statistics of Financial Market Returns
+ 
+Notice that the difference between the two estimated standard deviations results from the different 
+weighting schemes. Whereas the equally weighted approach weights each squared return by 5%, 
+the exponentially weighted scheme applies a 6% weight to the most recent squared return and 
+1.9% weight to the most distant observation.
+An attractive feature of the exponentially weighted estimator is that it can be written in 
+ 
+recursive
+ 
+ 
+form which, in turn, will be used as a basis for making volatility forecasts. In order to derive the 
+recursive form, it is assumed that an inﬁnite amount of data are available. For example, assuming 
+again that the sample mean is zero, we can derive the period 
+ 
+t 
+ 
++
+ 
+ 1 variance forecast, given data 
+available at time 
+ 
+t
+ 
+ (one day earlier) as
+[5.3]
+ 
+The 1-day RiskMetrics volatility forecast is given by the expression
+ 
+[5.4]
+ 
+Table 5.2
+ 
+Calculating equally and exponentially weighted volatility
+Date
+A
+B
+C
+D
+Volatility
+Return
+USD/DEM 
+(%)
+Return 
+squared
+(%)
+Equal weight
+(
+ 
+T
+ 
+ = 20)
+Exponential weight
+(
+ 
+λ
+ 
+ = 0.94)
+Equally 
+weighted,
+B 
+ 
+× 
+ 
+C
+Exponentially 
+weighted,
+B 
+ 
+× 
+ 
+D
+ 
+28-Mar-96
+0.634
+0.402
+0.05
+0.019
+0.020
+0.007
+29-Mar-96
+0.115
+0.013
+0.05
+0.020
+0.001
+0.000
+1-Apr-96
+-0.460
+0.211
+0.05
+0.021
+0.011
+0.004
+2-Apr-96
+0.094
+0.009
+0.05
+0.022
+0.000
+0.000
+3-Apr-96
+0.176
+0.031
+0.05
+0.024
+0.002
+0.001
+4-Apr-96
+-0.088
+0.008
+0.05
+0.025
+0.000
+0.000
+5-Apr-96
+-0.142
+0.020
+0.05
+0.027
+0.001
+0.001
+8-Apr-96
+0.324
+0.105
+0.05
+0.029
+0.005
+0.003
+9-Apr-96
+-0.943
+0.889
+0.05
+0.030
+0.044
+0.027
+10-Apr-96
+-0.528
+0.279
+0.05
+0.032
+0.014
+0.009
+11-Apr-96
+-0.107
+0.011
+0.05
+0.034
+0.001
+0.000
+12-Apr-96
+-0.160
+0.026
+0.05
+0.037
+0.001
+0.001
+15-Apr-96
+-0.445
+0.198
+0.05
+0.039
+0.010
+0.008
+16-Apr-96
+0.053
+0.003
+0.05
+0.041
+0.000
+0.000
+17-Apr-96
+0.152
+0.023
+0.05
+0.044
+0.001
+0.001
+18-Apr-96
+-0.318
+0.101
+0.05
+0.047
+0.005
+0.005
+19-Apr-96
+0.424
+0.180
+0.05
+0.050
+0.009
+0.009
+22-Apr-96
+-0.708
+0.501
+0.05
+0.053
+0.025
+0.027
+23-Apr-96
+-0.105
+0.011
+0.05
+0.056
+0.001
+0.001
+24-Apr-96
+-0.257
+0.066
+0.05
+0.060
+0.003
+0.004
+Standard deviation: 
+Equally weighted
+0.393
+ Exponentially weighted
+0.333
+σ1 t,
+1 t
++
+2
+λσ1 t,
+t
+1
+–
+2
+1
+λ
+–
+(
+) r1 t,
+2
++
+=
+σ1 t,
+1 t
++
+λσ1 t,
+t
+1
+–
+2
+1
+λ
+–
+(
+) r1 t,
+2
++
+=
+
+ 
+82
+Chapter 5.  Estimation and forecast
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+The subscript “
+ 
+t 
+ 
++
+ 
+ 1|
+ 
+t
+ 
+” is read “the time 
+ 
+t 
+ 
++
+ 
+ 1 forecast given information up to and including time 
+ 
+t.
+ 
+” The subscript “
+ 
+t
+ 
+|
+ 
+t
+ 
+ 
+ 
+− 
+ 
+1” is read in a similar fashion. This notation underscores the fact that we are 
+treating the variance (volatility) as time-dependent. The fact that this period’s variance forecast 
+depends on last period’s variance is consistent with the observed autocorrelation in squared returns 
+discussed in Section 4.3. We derive Eq. [5.3] as follows.
+[5.5]
+Using daily returns, Table 5.3 presents an example of how Eq. [5.3] can be used in practice to 
+produce a 1-day volatility forecast on USD/DEM returns for the period March 28 through 
+April 24, 1996.
+The volatility forecast made on April 24 for the following day is the square root of 0.224% (the 
+variance) which is 0.473%. 
+ 
+5.2.1.1  Covariance and correlation estimation and forecasts
+ 
+We use the EWMA model to construct covariance and correlation forecasts in the same manner as 
+we did volatility forecasts except that instead of working with the square of one series, we work 
+with the product of two different series. Table 5.4 presents covariance estimators based on equally 
+and exponentially weighted methods.
+ 
+Table 5.3
+ 
+Applying the recursive exponential weighting scheme to compute volatility
+ 
+Daily returns on USD/DEM
+ 
+Date
+A
+B
+Date
+A
+B
+Return
+USD/DEM
+Recursive variance
+Return
+USD/DEM
+Recursive variance
+ 
+28-Mar-96
+0.633
+0.401
+11-Apr-96
+ 
+−
+ 
+0.107
+0.296
+29-Mar-96
+0.115
+0.378
+12-Apr-96
+ 
+−
+ 
+0.159
+0.280
+1-Apr-96
+ 
+−
+ 
+0.459
+0.368
+15-Apr-96
+ 
+−
+ 
+0.445
+0.275
+2-Apr-96
+0.093
+0.346
+16-Apr-96
+0.053
+0.258
+3-Apr-96
+0.176
+0.327
+17-Apr-96
+0.152
+0.244
+4-Apr-96
+ 
+−
+ 
+0.087
+0.308
+18-Apr-96
+ 
+−
+ 
+0.318
+0.236
+5-Apr-96
+ 
+−
+ 
+0.142
+0.291
+19-Apr-96
+0.424
+0.232
+8-Apr-96
+0.324
+0.280
+22-Apr-96
+ 
+−
+ 
+0.708
+0.248
+9-Apr-96
+ 
+−
+ 
+0.943
+0.316
+23-Apr-96
+ 
+−
+ 
+0.105
+0.234
+10-Apr-96
+ 
+−
+ 
+0.528
+0.314
+24-Apr-96
+ 
+−
+ 
+0.257
+0.224
+ 
+*Initial variance forecast = initial return squared. Figures following this number are obtained by applying the recursive formula.
+σ1 t
+1
++
+t
+,
+2
+1
+λ
+–
+(
+)
+λ
+ir1 t
+i
+–
+,
+2
+i
+0
+=
+∞
+∑
+=
+ (1-λ )
+r1 t,
+2
+λr1 t,
+1
+–
+2
+λ
+2r1 t,
+2
+–
+2
+…
++
++
++
+
+
+
+
+=
+ (1-λ ) r1 t,
+2
+λ 1
+λ
+–
+(
+)
+r1 t,
+1
+–
+2
+λr1 t,
+2
+–
+2
+ + r1 t,
+3
+–
+2
++
+
+
+
+
++
+=
+λσ1 t,
+t
+1
+–
+2
+1
+λ
+–
+(
+) r1 t,
+2
++
+=
+
+Sec. 5.2  RiskMetrics forecasting methodology
+83
+Part II:  Statistics of Financial Market Returns
+ 
+Analogous to the expression for a variance forecast (Eq. [5.3]), the covariance forecast can also be 
+written in recursive form. For example, the 1-day covariance forecast between any two return 
+series, r1,t and r2,t made at time t is
+[5.6]
+We can derive Eq. [5.6] as follows.
+[5.7]
+In order to derive correlation forecasts we apply the corresponding covariance and volatility fore-
+cast. Recall that correlation is the covariance between the two return series, say, r1,t and r2,t, 
+divided by the product of their standard deviations. Mathematically, the one-day RiskMetrics 
+prediction of correlation is given by the expression
+[5.8]
+Table 5.5 presents an example of how to compute recursive covariance and correlation forecasts 
+applied to the USD/DEM exchange rate and S&P 500 return series. 
+Table 5.4
+Covariance estimators
+Equally weighted
+Exponentially weighted
+σ12
+2
+1
+T---
+r1t
+r1
+–
+(
+)
+r1t
+r2
+–
+(
+)
+t
+1
+=
+T
+∑
+=
+σ12
+2  = (1-λ )
+λ
+j
+1
+–
+r1t
+r1
+–
+(
+)
+r1t
+r2
+–
+(
+)
+j
+1
+=
+T
+∑
+σ12 t,
+1 t
++
+2
+λσ12 t,
+t
+1
+–
+2
+1
+λ
+–
+(
+) r1t r
+⋅
+2t
++
+=
+σ1 t
+1
++
+t
+,
+2
+1
+λ
+–
+(
+)
+λ
+ir1 t
+i
+–
+,
+r2 t
+i
+–
+,
+⋅
+i
+0
+=
+∞
+∑
+=
+1
+λ
+–
+(
+)
+r1 t,
+r2 t,
+λr1 t
+1
+–
+,
+r2 t
+1
+–
+,
+λ
+2r2 t
+2
+–
+,
++
+r2 t
+2
+–
+,
+…
++
+⋅
+⋅
++
+⋅
+
+
+
+
+=
+1
+λ
+–
+(
+) r1 t,
+r2 t,
+⋅
+=
++ λ 1
+λ
+–
+(
+)
+r1 t,
+1
+–
+r2 t,
+1
+–
+⋅
+λr1 t,
+2
+–
+r2 t,
+2
+–
+⋅
+ + λ
+2r1 t,
+3
+–
+r2 t,
+3
+–
+⋅
++
+
+
+
+
+λσ12 t t
+1
+–
+,
+2
+1
+λ
+–
+(
+) r1 t,
+1
+–
+r2 t 1
+–
+,
+⋅
++
+=
+ρ12 t
+1 t
++
+,
+σ12 t
+1 t
++
+,
+2
+σ1 t
+1 t
++
+,
+σ2 t
+1 t
++
+,
+---------------------------------------
+=
+
+84
+Chapter 5.  Estimation and forecast
+RiskMetrics —Technical Document
+Fourth Edition
+Note that the starting points for recursion for the covariance is 0.634 × 0.005. From Table 5.5 we 
+can see that the correlation prediction for the period 24-Apr-96 through 25-Apr-96 is −12.4%.
+5.2.2  Multiple day forecasts
+Thus far, we have presented 1-day forecasts which were deﬁned over the period t through t + 1, 
+where each t represents one business day. Risk managers, however, are often interested in forecast 
+horizons greater than one-day. We now demonstrate how to construct variance (standard devia-
+tion) and covariance (correlation) forecasts using the EWMA model over longer time horizons. 
+Generally speaking, the T-period (i.e., over T days) forecasts of the variance and covariance are, 
+respectively, 
+[5.9]
+and
+[5.10]
+Equations [5.9] and [5.10] imply that the correlation forecasts remain unchanged regardless of the 
+forecast horizon. That is,
+Table 5.5
+Recursive covariance and correlation predictor
+Date
+Returns
+USD/DEM
+(%)
+Returns 
+S&P 500
+(%)
+Recursive 
+variance
+USD/DEM
+Recursive 
+variance
+S&P 500
+Recursive 
+covariance
+(λ = 0.94)
+Recursive 
+correlation
+(λ = 0.94)
+28-Mar-96
+0.634
+0.005
+0.402
+0.000
+0.003
+1.000
+29-Mar-96
+0.115
+−0.532
+0.379
+0.017
+−0.001
+−0.011
+1-Apr-96
+-0.460
+1.267
+0.369
+0.112
+−0.036
+−0.176
+2-Apr-96
+0.094
+0.234
+0.347
+0.109
+−0.032
+−0.166
+3-Apr-96
+0.176
+0.095
+0.328
+0.103
+−0.029
+−0.160
+4-Apr-96
+-0.088
+−0.003
+0.309
+0.097
+−0.028
+−0.160
+5-Apr-96
+-0.142
+−0.144
+0.291
+0.092
+−0.025
+−0.151
+8-Apr-96
+0.324
+−1.643
+0.280
+0.249
+−0.055
+−0.209
+9-Apr-96
+-0.943
+−0.319
+0.317
+0.240
+−0.034
+−0.123
+10-Apr-96
+-0.528
+−1.362
+0.315
+0.337
+0.011
+0.035
+11-Apr-96
+-0.107
+−0.367
+0.296
+0.325
+0.013
+0.042
+12-Apr-96
+-0.160
+0.872
+0.280
+0.351
+0.004
+0.012
+15-Apr-96
+-0.445
+0.904
+0.275
+0.379
+−0.020
+−0.063
+16-Apr-96
+0.053
+0.390
+0.259
+0.365
+−0.018
+−0.059
+17-Apr-96
+0.152
+−0.527
+0.245
+0.360
+−0.022
+−0.073
+18-Apr-96
+-0.318
+0.311
+0.236
+0.344
+−0.026
+−0.093
+19-Apr-96
+0.424
+0.227
+0.233
+0.327
+−0.019
+−0.069
+22-Apr-96
+-0.708
+0.436
+0.249
+0.318
+−0.036
+−0.129
+23-Apr-96
+-0.105
+0.568
+0.235
+0.319
+−0.038
+−0.138
+24-Apr-96
+-0.257
+−0.217
+0.224
+0.302
+−0.032
+−0.124
+σ1 t,
+T t
++
+2
+Tσ1 t,
+1 t
++
+2
+   or  σ1 t,
+T t
++
+Tσ1 t,
+1 t
++
+ 
+=
+=
+σ12 t,
+T t
++
+2
+Tσ12 t,
+1 t
++
+2
+=
+
+Sec. 5.2  RiskMetrics forecasting methodology
+85
+Part II:  Statistics of Financial Market Returns
+[5.11]
+Notice that multiple day forecasts are simple multiples of one-day forecasts. For example, if we 
+deﬁne one month to be equivalent to 25 days, then the 1-month variance and covariance forecasts 
+are 25 times the respective 1-day forecasts and the 1-month correlation is the same as the one-day 
+correlation.2 We now show how we arrive at Eq. [5.9] and Eq. [5.10].
+Recall that RiskMetrics assumes that log prices 
+ are generated according to the model
+[5.12]
+Recursively solving Eq. [5.12] and writing the model in terms of returns, we get
+[5.13]
+Taking the variance of Eq. [5.13] as of time t implies the following expression for the forecast 
+variance
+[5.14]
+Similar steps can be used to ﬁnd the T days-ahead covariance forecast, i.e., 
+[5.15]
+Now, we need to evaluate the right-hand side of Eq. [5.14] and Eq. [5.15]. To do so, we work with 
+the recursive form of the EWMA model for the variance and covariance. To make matters con-
+crete, consider the case where we have two (correlated) return series, r1 ,t and r2,t. In vector form3, 
+let’s write the 1-day forecast of the two variances and covariance as follows:
+2 In RiskMetrics, 1-day and 1-month forecasts differ because we use different decay factors when making the fore-
+casts.
+3 We use the “vec representation” as presented in Engle and Kroner (1995).
+ρt
+T t
++
+Tσ12 t,
+1 t
++
+2
+Tσ1 t,
+1 t
++
+Tσ2 t,
+1 t
++
+-------------------------------------------------------
+ρt
+1 t
++
+=
+=
+pt
+p1 t,
+p1 t,
+1
+–
+σ1 t, ε1 t,       ε1 t,  
+IID N 0 1
+,
+(
+)
+∼
++
+=
+r1 t,
+T
++
+σ1 t,
+s
++
+s
+1
+=
+T
+∑
+ε1 t,
+s
++
+=
+σ1 t,
+T
++
+2
+E
+=
+t r1 t,
+T
++
+2
+Et σ1 t,
+s
++
+2
+s
+1
+=
+T
+∑
+=
+σ12 t,
+T
++
+2
+E
+=
+t r1 t,
+T
++
+r
+⋅
+2 t,
+T
++
+[
+]
+Et σ12 t,
+s
++
+2
+s
+1
+=
+T
+∑
+=
+
+86
+Chapter 5.  Estimation and forecast
+RiskMetrics —Technical Document
+Fourth Edition
+[5.16]
+Using the expectation operator at time t, write the forecast over S days as 
+[5.17]
+Evaluating the expectations of the squared returns and their cross product yields
+[5.18]
+That is, the variance forecasts for two consecutive periods are the same. Consequently, the 
+T-period forecast is deﬁned as 
+[5.19]
+so that the T-period forecast of the variance/covariance vector is 
+[5.20]
+This leads to the “square root of time” relationship for the standard deviation forecast
+σt
+1
++
+t
+2
+σ1 t
+1
++
+t
+,
+2
+σ12 t
+1 t
++
+,
+2
+σ2 t
+1
++
+t
+,
+2
+=
+λ 0 0
+0 λ 0
+0 0 λ
+σ1 t t
+1
+–
+,
+2
+σ12 t t
+1
+–
+,
+2
+σ2 t t
+1
+–
+,
+2
+1
+λ
+–
+0
+0
+0
+1
+λ
+–
+0
+0
+0
+1
+λ
+–
+r1 t,
+2
+r1 t,
+r
+⋅
+2 t,
+r2 t,
+2
++
+=
+Et σt
+s
++
+2
+λ 0 0
+0 λ 0
+0 0 λ
+Et σ1 t
+s
+1
+–
++
+,
+2
+Et σ12 t
+s
+1
+–
++
+,
+2
+Et σ2 t
+s
+1
+–
++
+,
+2
+=
++ 
+1
+λ
+–
+0
+0
+0
+1
+λ
+–
+0
+0
+0
+1
+λ
+–
+Et r1 t
+s
+1
+–
++
+,
+2
+Et r1 t
+s
+1
+–
++
+,
+r
+⋅
+2 t
+s
+1
+–
++
+,
+[
+]
+Et r2 t
+s
+1
+–
++
+,
+2
+Et σt
+s
++
+2
+λ 0 0
+0 λ 0
+0 0 λ
+1
+λ
+–
+0
+0
+0
+1
+λ
+–
+0
+0
+0
+1
+λ
+–
++
+
+
+
+
+
+
+
+
+
+
+  
+Et σ1 t
+s
+1
+–
++
+,
+2
+Et σ12 t
+s
+1
+–
++
+,
+2
+Et σ2 t
+s
+1
+–
++
+,
+2
+=
+Et σt
+s
+1
+–
++
+2
+=
+σt
+T t
++
+2
+Et σt
+s
++
+2
+s
+1
+=
+T
+∑
+=
+T
+E
+⋅
+t σt
+1
++
+2
+=
+σt
+T t
++
+2
+T σt
+1 t
++
+2
+⋅
+=
+
+Sec. 5.2  RiskMetrics forecasting methodology
+87
+Part II:  Statistics of Financial Market Returns
+[5.21]
+Having found that volatility and covariance forecasts scale with time, a few points are worth not-
+ing about Eq. [5.21]. Typically, the “square root of time rule” results from the assumption that 
+variances are constant. Obviously, in the above derivation, volatilities and covariances vary with 
+time.   Implicitly, what we are assuming in modeling the variances and covariances as exponen-
+tially weighted moving averages is that the variance process is nonstationary. Such a model has 
+been studied extensively in the academic literature (Nelson 1990, Lumsdaine, 1995) and is 
+referred to as the IGARCH model.4
+In practice, scaling up volatility forecasts may sometimes lead to results that do not make much 
+sense. Three instances when scaling up volatility estimates prove problematic are:
+• When rates/prices are mean-reverting (see Section 4.2.3)
+• When boundaries limit the potential movements in rates and prices 
+• When estimates of volatilities optimized to forecast changes over a particular horizon are 
+used for another horizon (jumping from daily to annual forecasts, for example).
+Take the simple example of the Dutch guilder to Deutsche mark exchange rate. On March 22, 
+1995, the cross rate as quoted at London close of business was 1.12048 NLG/DEM. The 
+RiskMetrics daily volatility estimate was 0.1648%, which meant that over the next 24 hours, the 
+rate was likely to move within a 1.1186 to 1.1223 range with 90% probability (the next day’s rate 
+was 1.1213 NLG/DEM).
+The Netherlands and Germany have maintained bilateral 2.25% bands within the ERM so scaling 
+up a daily volatility estimate can quickly lead to exchange rate estimates which are extremely 
+unlikely to occur in reality. An example of this is shown by Chart 5.3: 
+Chart 5.3
+NLG/DEM exchange rate and volatility
+4 Note that whereas we essentially arrive at a model that reﬂects an IGARCH (without an intercept), our motivation 
+behind its derivation was more “bottom up” in the sense that we wanted to derive a model that is generally consis-
+tent with observed returns while being simple to implement in practice. The formal approach to IGARCH is more 
+“top down” in that a formal statistical model is written down which then maximum likelihood estimation is used to 
+estimate its parameters.
+σ1 t,
+T t
++
+T σ1 t,
+1 t
++
+⋅
+=
+Mar-1995
+Jun-1995
+Sep-1995
+Dec-1995
+Mar-1996
+1.08
+1.09
+1.1
+1.11
+1.12
+1.13
+1.14
+1.15
+1.16
+2.25%
+-2.25%
+central rate
+NLG/DEM
+
+88
+Chapter 5.  Estimation and forecast
+RiskMetrics —Technical Document
+Fourth Edition
+Applying the square root of time rule with caution does not apply exclusively to exchange rates 
+that are constrained by political arrangements. Suppose you had been trying to forecast the S&P 
+500’s potential annual volatility on April 5, 1994. The index stood at 448.3 and its previous 
+declines had increased the daily volatility estimate to 1.39%. Chart 5.4 extends this daily volatility 
+estimate out to the end of the ﬁrst quarter of 1995 using the square root of time rule. The chart 
+shows how a short term increase in daily volatility would bias an estimate of volatility over any 
+other time horizon, for example, a year. 
+Chart 5.4
+S&P 500 returns and VaR estimates (1.65σ)
+The preceding two examples underscore the importance of understanding how volatility estimates 
+for horizons longer than a day are calculated. When daily volatility forecasts are scaled, nonsensi-
+cal results may occur because the scale factor does not account for real-world restrictions.
+5.2.3  More recent techniques 
+Research in ﬁnance and econometrics has devoted signiﬁcant efforts in recent years to come up 
+with more formal methods to estimate standard deviations and correlations. These are often 
+referred to as volatility models. The methods range from extreme value techniques (Parkinson, 
+1980) and two step regression analysis (Davidian and Carroll, 1987), to more complicated nonlin-
+ear modelling such as GARCH (Bollerslev, 1986), stochastic volatility (Harvey et. al, 1994) and 
+applications of chaotic dynamics (LeBaron, 1994). Among academics, and increasingly among 
+practitioners, GARCH-type models have gained the most attention. This is due to the evidence that 
+time series realizations of returns often exhibit time-dependent volatility. This idea was ﬁrst for-
+malized in Engle’s (1982) ARCH (Auto Regressive Conditional Heteroscedasticity) model which 
+is based on the speciﬁcation of conditional densities at successive periods of time with a time-
+dependent volatility process.
+Of the methods just mentioned, the least computationally demanding procedures for estimating 
+volatility are the extreme value and regression methods. Extreme value estimators use various 
+types of data such as high, low, opening and closing prices and transaction volume. While this 
+approach is known for its relative efﬁciency (i.e., small variance), it is subject to bias. On the other 
+hand, the two step regression method treats the underlying volatility model as a regression involv-
+ing the absolute value of returns on lagged values. Applications of this method to monthly volatil-
+ity can be found in Schwert (1989) and Pagan and Schwert (1990). 
+Since the introduction of the basic ARCH model, extensions include generalized ARCH 
+(GARCH), Integrated GARCH (IGARCH), Exponential GARCH (EGARCH) and Switching 
+Jan-1994
+May-1994
+Sep-1994
+Jan-1995
+300
+350
+400
+450
+500
+550
+600
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+1.6
+1.39
+Daily volatility
+S&P 500
+Cone of potential S&P 500 levels (90% confidence)
+
+Sec. 5.2  RiskMetrics forecasting methodology
+89
+Part II:  Statistics of Financial Market Returns
+Regime ARCH (SWARCH), just to name a few. Numerous tests of GARCH-type models to for-
+eign exchange and stock markets have demonstrated that these relatively sophisticated approaches 
+can provide somewhat better estimates of volatility than simple moving averages, particularly over 
+short time horizons such as a day or a week.
+More recent research on modeling volatility involves Stochastic Volatility (SV) models. In this 
+approach, volatility may be treated as an unobserved variable, the logarithm of which is modeled 
+as a linear stochastic process, such as an autoregression. Since these models are quite new, their 
+empirical properties have yet to be established. However, from a practical point of view, an 
+appealing feature of the SV models is that their estimation is less daunting than their counterpart 
+EGARCH models.5
+In a recent study, West and Cho (1995) found that GARCH models did not signiﬁcantly outper-
+form the equally weighted standard deviation estimates in out-of-sample forecasts, except for very 
+short time horizons. In another study on foreign exchange rates and equity returns, Heynen and 
+Kat (1993) showed that while GARCH models have better predictive ability for foreign exchange, 
+the advantage over a simple random walk estimator disappears when the outlook period chosen is 
+more than 20 days.
+We have elected to calculate the volatilities and correlations in the RiskMetrics data set using 
+exponential moving averages. This choice is viewed as an optimal balance given the constraints 
+under which most risk management practitioners work.
+Since the GARCH models are becoming more popular among practitioners, we demonstrate the 
+behavior of the daily volatility estimator by comparing its forecasts to those produced by a 
+GARCH(1,1) volatility model with normal disturbances. If 
+ represents the time t daily return, 
+then the return generating process for the GARCH(1,1) volatility model is given by
+[5.22]
+This model is parameterized according to the results produced in Ruiz (1993). They were esti-
+mated from daily return data for the British pound. The following graph shows variance forecasts 
+produced by this model and the exponential estimator with the decay factor set to 0.94. The fore-
+casts from the EWMA are based on the following equation:
+[5.23]
+5 Bayesian SV models, on the other hand, are computationally intensive. 
+rt
+rt
+σtεt          εt
+IID N 0 1
+,
+(
+)
+∼
+=
+σt
+2
+0.0147
+0.881σt
+1
+–
+2
+0.0828rt
+1
+–
+2
++
++
+=
+σt
+1
++
+t
+2
+0.94σt t
+1
+–
+2
+0.06rt
+2
++
+=
+
+90
+Chapter 5.  Estimation and forecast
+RiskMetrics —Technical Document
+Fourth Edition
+Chart 5.5
+GARCH(1,1)-normal and EWMA estimators
+GBP parameters
+Notice from Chart 5.5, the dynamics of the exponential model's forecasts closely mimic those pro-
+duced by the GARCH(1,1) model. This should not be surprising given our ﬁndings that the expo-
+nential model is similar in form to the IGARCH model.
+A natural extension of univariate GARCH and Stochastic Volatility models has been to model con-
+ditional covariances and correlations. With the ability to estimate more parameters of the return 
+generating process comes growing computational complexity.6 Often, to make models tractable, 
+restrictions are placed on either the process describing the conditional covariance matrix or the 
+factors that explain covariance dynamics. Recent discussion and applications of multivariate 
+GARCH models include Engle and Kroner (1995), Karolyi (1995), King, Sentena and Wadhwani 
+(1994). Harvey (1993) presents work on multivariate extensions to the stochastic volatility 
+models.
+5.3  Estimating the parameters of the RiskMetrics model
+In this section we address two important issues that arise when we estimate RiskMetrics volatili-
+ties and correlations. The ﬁrst issue concerns the estimation of the sample mean. In practice, when 
+we make volatility and correlation forecasts we set the sample mean to zero. The second issue 
+involves the estimation of the exponential decay factor which is used in volatility and correlation 
+forecasts.
+5.3.1  Sample size and estimation issues
+Whenever we must estimate and/or forecast means, standard deviations and correlations, we 
+would like to be reasonably conﬁdent in the results. Here, conﬁdence is measured by the standard 
+error of the estimate or forecast; in general, the smaller the standard error, the more conﬁdent we 
+are about its value. It is important, therefore, to use the largest samples available when computing 
+these statistics. We illustrate the relationship between sample size and conﬁdence intervals next. 
+For ease of exposition we use equally weighted statistics. The results presented below carry over 
+to the case of exponentially weighted statistics as well.
+6 With respect to the required computation of the bivariate EGARCH model, Braun, Nelson and Sunier (1991) note 
+that, “ease of computation is, alas, not a feature even of the bivariate model. For, example, the FORTRAN code for 
+computing the analytic derivatives … ran to forty pages.”
+0
+0.2
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+1.6
+1.8
+GARCH (1,1)
+Exponential
+Variance (%)
+
+Sec. 5.3  Estimating the parameters of the RiskMetrics model
+91
+Part II:  Statistics of Financial Market Returns
+5.3.1.1  The sample mean
+Table 5.6 shows that the mean estimates for USD/DEM foreign exchange returns and S&P 500 
+returns are −0.114 and −0.010 percent, respectively. To show the variability of the sample mean, 
+Chart 5.6 presents historical estimates of the sample mean for USD/DEM exchange rate returns. 
+Each estimate of the mean is based on a 74-day rolling window, that is, every day in the sample 
+period we estimate a mean based on returns over the last 74 days.
+Table 5.6
+Mean, standard deviation and correlation calculations
+USD/DEM and S&P500 returns
+Date
+Returns
+USD/DEM
+S&P 500
+28-Mar-96
+0.634
+0.005
+29-Mar-96
+0.115
+−0.532
+1-Apr-96
+−0.460
+1.267
+2-Apr-96
+0.094
+0.234
+3-Apr-96
+0.176
+0.095
+4-Apr-96
+−0.088
+−0.003
+5-Apr-96
+−0.142
+−0.144
+8-Apr-96
+0.324
+−1.643
+9-Apr-96
+−0.943
+−0.319
+10-Apr-96
+−0.528
+−1.362
+11-Apr-96
+−0.107
+−0.367
+12-Apr-96
+−0.160
+0.872
+15-Apr-96
+−0.445
+0.904
+16-Apr-96
+0.053
+0.390
+17-Apr-96
+0.152
+−0.527
+18-Apr-96
+−0.318
+0.311
+19-Apr-96
+0.424
+0.227
+22-Apr-96
+−0.708
+0.436
+23-Apr-96
+−0.105
+0.568
+24-Apr-96
+−0.257
+−0.217
+Mean
+−0.114
+0.010
+Standard deviation
+0.393
+0.688
+Correlation
+−0.180
+
+92
+Chapter 5.  Estimation and forecast
+RiskMetrics —Technical Document
+Fourth Edition
+Chart 5.6
+USD/DEM foreign exchange
+Chart 5.6 shows how the estimates of the mean of returns on USD/DEM ﬂuctuate around zero. An 
+interesting feature of the equally weighted sample mean estimator is that the mean estimate does 
+not depend directly on the number of observations used to construct it. For example, recall that the 
+1-day log return is deﬁned as 
+. Now, the sample mean of returns 
+for the period t = 1,…, T is 
+[5.24]
+ 
+Hence, we see that the sample mean estimator depends only on the ﬁrst and last observed prices; 
+all other prices drop out of the calculation.   Since this estimator does not depend on the number of 
+observed prices between t = 0 and t = T but rather on the length of the sample period, neither does 
+its standard error. The implication of this effect can best be demonstrated with a simple example.7
+Suppose a price return has a standard deviation of 10 percent and we have 4 years’ of historical 
+price data. The standard deviation of the sample mean is 
+ percent. So, if the average 
+annual return were 20 percent over the 4-year sample (which consists of over 1000 data points), a 
+95 percent conﬁdence region for the true mean would range from 10 percent to 30 percent. 
+In addition, recall that the variance of a returns series, 
+, can be written as 
+. Jorion (1995) notes that with daily data the “average term 
+ 
+dominates the term 
+ by a typical factor of 700 to one. Therefore, ignoring expected 
+returns is unlikely to cause a perceptible bias in the volatility estimate.”
+To reduce the uncertainty and imprecision of the estimated mean, it may be more accurate to set 
+the mean to some value which is consistent with ﬁnancial theory. In RiskMetrics, we assume 
+that the mean value of daily returns is zero. That is, standard deviation estimates are cen-
+7 This example is adapted from Figlewski, (1994).
+-0.25
+-0.20
+-0.15
+-0.10
+-0.05
+0
+0.05
+0.10
+0.15
+0.20
+0.25
+January 1987 through March 1993
+Sample mean
+rt
+Pt Pt
+1
+–
+⁄
+(
+)
+ln
+pt
+pt
+1
+–
+–
+=
+=
+r
+1
+T---
+pt pt
+1
+–
+–
+t
+1
+=
+T
+∑
+=
+1
+T--- pT
+p0
+–
+(
+)
+=
+10
+4
+⁄
+5
+=
+rt
+σ
+2
+E rt
+2
+
+
+
+
+E rt
+( )
+[
+]
+2
+–
+=
+E rt
+2
+
+
+
+
+E rt
+( )
+[
+]
+2
+
+Sec. 5.3  Estimating the parameters of the RiskMetrics model
+93
+Part II:  Statistics of Financial Market Returns
+tered around zero, rather than the sample mean. Similarly, when computing the covariance, 
+deviations of returns are taken around zero rather than the sample mean.
+5.3.1.2  Volatility and correlation
+Volatility and correlation forecasts based on the EWMA model requires that we choose an appro-
+priate value of the decay factor λ. As a practical matter, it is important to determine the effective 
+number of historical observations that are used in the volatility and correlation forecasts. 
+We can compute the number of effective days used by the variance (volatility) and covariance 
+(correlation) forecasts. To do so, we use the metric 
+[5.25]
+Setting 
+ equal to a value —the tolerance level (
+)— we can solve for K, the effective 
+number of days of data used by the EWMA. The formula for determining K is
+[5.26]
+ 
+Equation [5.26] is derived as follows
+[5.27]
+which implies
+[5.28]
+Solving Eq. [5.28] for K we get Eq. [5.26].
+Table 5.7 shows the relationship between the tolerance level, the decay factor, and the effective 
+amount of data required by the EWMA.
+ΩK
+∞
+1
+λ
+–
+(
+)
+λ
+t
+t
+K
+=
+∞
+∑
+=
+ΩK
+∞
+ϒL
+K
+lnϒL
+λ
+ln
+----------
+=
+ΩK
+∞
+1
+λ
+–
+(
+)
+λ
+t
+t
+K
+=
+∞
+∑
+ϒL
+=
+=
+λ
+K 1
+λ
+–
+(
+)
+1
+λ
+λ
+2
+…
++
++
++
+
+
+
+
+ϒL
+=
+
+94
+Chapter 5.  Estimation and forecast
+RiskMetrics —Technical Document
+Fourth Edition
+For example, setting a tolerance level to 1% and the decay factor to 0.97, we see the EWMA uses 
+approximately 151 days of historical data to forecast future volatility/correlation. Chart 5.7 depicts 
+the relationship between the tolerance level and the amount of historical data implied by the decay 
+factor
+Chart 5.7
+Tolerance level and decay factor
+Table 5.7
+The number of historical observations used by the EWMA model
+daily returns
+Decay factor
+Days of historical data at tolerance level: 
+0.001%
+0.01%
+0.1%
+1 %
+0.85
+71
+57
+43
+28
+0.86
+76
+61
+46
+31
+0.87
+83
+66
+50
+33
+0.88
+90
+72
+54
+36
+0.89
+99
+79
+59
+40
+0.9
+109
+87
+66
+44
+0.91
+122
+98
+73
+49
+0.92
+138
+110
+83
+55
+0.93
+159
+127
+95
+63
+0.94
+186
+149
+112
+74
+0.95
+224
+180
+135
+90
+0.96
+282
+226
+169
+113
+0.97
+378
+302
+227
+151
+0.98
+570
+456
+342
+228
+0.99
+1146
+916
+687
+458
+0
+0.5
+1.0
+1.5
+2.0
+2.5
+3.0
+Data point weights
+Days of historical data
+151 days
+Σ weights = 1%
+λ = 0.97
+
+Sec. 5.3  Estimating the parameters of the RiskMetrics model
+95
+Part II:  Statistics of Financial Market Returns
+Chart 5.8 shows the relationship between the number of days of data required by EWMA and var-
+ious values of the decay factor.
+Chart 5.8
+Relationship between historical observations and decay factor
+For a different perspective on the relationship between the number of data points used and differ-
+ent values of the decay factor, consider Chart 5.9. It shows the weights for different decay factors 
+over a ﬁxed window size of T = 100 (approximately 6 months’ of data).
+Chart 5.9
+Exponential weights for T = 100
+decay factors = 1, .99, .97, .95, .93
+Note that while the decay factor of 0.93 weighs the most recent data more than the factor 0.99, 
+after 40 days, the weight associated with the decay factor of 0.93 is below the weight of 0.99.   
+Hence, the closer the decay factor is to 1, the less responsive it is to the most recent data.
+0.85
+0.87
+0.88
+0.90
+0.91
+0.93
+0.94
+0.96
+0.97
+0.99
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+Number  of historical data points
+151 days
+74 days
+Exponential decay factor
+100
+75
+50
+25
+0
+0.01
+0.02
+0.03
+0.04
+0.05
+0.06
+0.07
+Days of historical data
+0.97
+0.93
+0.95
+0.99
+1.00
+a exp(t)
+
+96
+Chapter 5.  Estimation and forecast
+RiskMetrics —Technical Document
+Fourth Edition
+Now we consider the effect of sample size on volatility and correlation forecasts. Chart 5.10 pre-
+sents two historical time series of 1-day volatility forecasts on the returns series in USD/DEM 
+exchange rate. One volatility series was constructed with a decay factor of 0.85, the other used 
+0.98. (Refer to Table 5.7 for the relationship between the decay factor and the amount of data 
+used).
+Chart 5.10
+One-day volatility forecasts on USD/DEM returns
+λ = 0.85 (black line), λ = 0.98 (gray line)
+As expected, the volatility forecasts based on more historical observations are smoother than those 
+that rely on much less data. 
+One-day forecasts of correlation between the returns on the USD/DEM foreign exchange rate and 
+S&P 500 for two different decay factors are presented in Chart 5.11.
+Chart 5.11
+One-day correlation forecasts for returns on USD/DEM FX rate and on S&P500
+λ = 0.85 (black line), λ = 0.98 (gray line) 
+Again, the time series with the higher decay factor produces more stable (though not necessarily 
+more accurate) forecasts.
+Standard deviation
+1993
+1994
+1995
+1996
+0
+0.2
+0.4
+0.6
+0.8
+1.0
+1.2
+1.4
+1.6
+1993
+1994
+1995
+1996
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+Correlation
+
+Sec. 5.3  Estimating the parameters of the RiskMetrics model
+97
+Part II:  Statistics of Financial Market Returns
+5.3.2  Choosing the decay factor
+In this section we explain how we determine the decay factors (λ’s) that are used to produce the 
+RiskMetrics volatility and correlation forecasts. We begin by describing the general problem of 
+choosing ‘optimal’  λ’s for volatilities and correlations that are consistent with their respective 
+covariance matrix. We then discuss how RiskMetrics chooses its two optimal decay factors; one 
+for the daily data set (λ = 0.94), and the other for the monthly data set (λ = 0.97).
+RiskMetrics produces volatility and correlation forecasts on over 480 time series. This requires 
+480 variance forecasts and 114,960 covariance forecasts. Since these parameters comprise a cova-
+riance matrix, the optimal decay factors for each variance and covariance forecast are not indepen-
+dent of one another. We explain this concept with a simple example that consists of two return 
+series, 
+ and 
+. The covariance matrix associated with these returns is given by
+[5.29]
+ 
+We write each parameter explicitly as a function of its decay factor. As we can see from Eq. [5.29], 
+the covariance matrix, 
+, is a function of 3 decay factors, 
+, 
+ and 
+. Now, 
+, to be properly 
+deﬁned must contain certain properties. For example, 
+ must be such that the following three con-
+ditions are met:
+• The variances, 
+ and 
+, cannot be negative
+• The covariances 
+ and 
+ must be equal (i.e., 
+ is symmetric)
+• The correlation between 
+ and 
+ has the range 
+. (Recall the deﬁnition of cor-
+relation, 
+, 
+.
+It follows then that decay factors must be chosen such that they not only produce good forecasts of 
+future variances and covariances, but that the values of these decay factors are consistent with the 
+properties of the covariance matrix to which they belong.
+In theory, while it is possible to choose optimal decays factors that are consistent with their respec-
+tive covariance matrix, in practice this task is exceedingly complex for large covariance matrices 
+(such as the kind that RiskMetrics produces that has 140,000 elements). Therefore, it becomes 
+necessary to put some structure (restrictions) on the optimal λ’s.
+RiskMetrics applies one optimal decay factor to the entire covariance matrix. That is, we use one 
+decay factor for the daily volatility and correlation matrix and one for the monthly volatility and 
+correlation matrix. This decay factor is determined from individual variance forecasts across 450 
+time series (this process will be discussed in Section 5.3.2.2).
+Recently, Crnkovic and Drachman (1995)8 have shown that while it is possible to construct a 
+covariance matrix with different decay factors that is positive semi-deﬁnite, this matrix is subject 
+to substantial bias.9
+We now describe a measure applied by RiskMetrics to determine the optimal decay factor, i.e., that 
+decay factor that provides superior forecast accuracy.
+8 From personal communication.
+9 See Section 8.3 for an explanation of positive semi-deﬁnite and its relationship to covariance matrices.
+r1 t,
+r2 t,
+Σ
+σ1
+2 λ1
+(
+) σ12
+2
+λ3
+(
+)
+σ21
+2
+λ3
+(
+) σ2
+2 λ2
+(
+)
+=
+Σ
+λ1
+λ2
+λ3
+Σ
+Σ
+σ1
+2
+σ2
+2
+σ12
+2
+σ21
+2
+Σ
+r1 t,
+r2 t,
+1
+ρ
+1
+≤
+≤
+–
+ρ
+ρ
+σ12
+2
+σ1σ2
+(
+)
+⁄
+=
+
+98
+Chapter 5.  Estimation and forecast
+RiskMetrics —Technical Document
+Fourth Edition
+5.3.2.1  Root mean squared error (RMSE) criterion10
+The deﬁnition of the time t + 1 forecast of the variance of the return, 
+, made one period earlier 
+is simply 
+, i.e., the expected value of the squared return one-period earlier. 
+Similarly, the deﬁnition of the time t + 1 forecast of the covariance between two return series, 
+ and 
+ made one period earlier is 
+. In general, these 
+results hold for any forecast made at time t + j, 
+. 
+Now, if we deﬁne the variance forecast error as 
+ it then follows that the 
+expected value of the forecast error is zero, i.e., 
+. Based on 
+this relation a natural requirement for choosing λ is to minimize average squared errors. When 
+applied to daily forecasts of variance, this leads to the (daily) root mean squared prediction error 
+which is given by 
+[5.30]
+ (variance)
+where the forecast value of the variance is written explicitly as a function of λ.
+In practice we ﬁnd the optimal decay factor λ* by searching for the smallest RMSE over different 
+values of λ. That is, we search for the decay factor that produces the best forecasts (i.e., minimizes 
+the forecast measures). 
+Although RiskMetrics does not assess the accuracy of covariance forecasts, similar results to those 
+for the variance can be derived for covariance forecasts, i.e., the covariance forecast error is 
+ such that 
+ 
+and 
+[5.31]
+ (covariance)
+The measures presented above are purely statistical in nature. For risk management purposes, this 
+may not be optimal since other factors come into play that determine the best forecast. For exam-
+ple, the decay factor should allow enough stability in the variance and covariance forecasts so that 
+these forecasts are useful for risk managers who do not update their systems on a daily basis.11
+Next, we explain how we determine the two RiskMetrics optimal decay factors, one for daily and 
+one for monthly forecasts.
+10 See Appendix C for alternative measures to assess forecast accuracy.
+11 West, Edison and Cho (1993) suggested that an interesting alternative basis for comparing forecasts is to calculate 
+the utility of an investor with a particular utility function investing on the basis of different variance forecasts. We 
+plan to pursue this idea from a risk management perspective in future research.
+rt
+1
++
+Et rt
+1
++
+2
+σt
+1 t
++
+2
+=
+r1 t,
+1
++
+r2 t,
+1
++
+Et r1 t
+1
++
+,
+r2 t
+1
++
+,
+[
+]
+σ12 t,
+1 t
++
+2
+=
+j
+1
+≥
+εt
+1 t
++
+r
+=
+t
+1
++
+2
+σt
+1 t
++
+2
+–
+Et εt
+1 t
++
+[
+]
+E
+=
+t rt
+1
++
+2
+σt
+1 t
++
+2
+–
+0
+=
+RMSEv
+1 
+T----
+rt
+1
++
+2
+σˆ t
+1 t
++
+2
+λ
+( )
+–
+
+
+
+2
+t
+1
+=
+T
+∑
+=
+ε12 t,
+1 t
++
+r1 t,
+1
++ r
+=
+2 t,
+1
++
+σ12 t,
+1 t
++
+2
+–
+Et ε12 t,
+1 t
++
+[
+]
+E
+=
+t r1 t,
+1
++ r2 t,
+1
++
+[
+] σ12 t,
+1 t
++
+2
+–
+0
+=
+RMSEc
+1 
+T----
+r1 t,
+1
++ r2 t,
+1
++
+σˆ 12 t,
+1 t
++
+2
+λ
+( )
+–
+
+
+
+2
+t
+1
+=
+T
+∑
+=
+
+Sec. 5.3  Estimating the parameters of the RiskMetrics model
+99
+Part II:  Statistics of Financial Market Returns
+5.3.2.2  How RiskMetrics chooses its optimal decay factor
+RiskMetrics currently processes 480 time series, and associated with each series is an optimal 
+decay factor that minimizes the root mean squared error of the variance forecast (i.e., Eq. [5.30]). 
+We choose RMSE as the forecast error measure criterion.12 Table 5.8 presents optimal decay fac-
+tors for return series in ﬁve series.
+For the daily and monthly data sets we compute one optimal decay factor from the 480+ time 
+series. Denote the ith optimal decay factor by 
+ and let N (i = 1, 2,…, N) denote the number of 
+time series in the RiskMetrics database. Also, let 
+ denote the ith RMSE associated with 
+, i.e., 
+ is the minimum RMSE for the ith time series. We derive the one optimal decay factor as fol-
+lows:
+1.
+Find 
+, the sum of all N minimal RMSE’s, 
+’s:
+[5.32]
+ 
+.
+2.
+Deﬁne the relative error measure:
+12  We have chosen this criterion because it penalizes large forecast errors more severely, and provides more useful 
+results than other common accuracy statistics.
+Table 5.8 
+Optimal decay factors based on volatility forecasts
+based on RMSE criterion 
+Country
+Foreign exchange
+5-year swaps
+10-year zero prices
+Equity indices
+1-year money market rates
+Austria
+0.945
+—
+—
+—
+—
+Australia
+0.980
+0.955
+0.975
+0.975
+0.970
+Belgium
+0.945
+0.935
+0.935
+0.965
+0.850
+Canada
+0.960
+0.965
+0.960
+—
+0.990
+Switzerland
+0.955
+0.835
+—
+0.970
+0.980
+Germany
+0.955
+0.940
+0.960
+0.980
+0.970
+Denmark
+0.950
+0.905
+0.920
+0.985
+0.850
+Spain
+0.920
+0.925
+0.935
+0.980
+0.945
+France
+0.955
+0.945
+0.945
+0.985
+—
+Finland
+0.995
+—
+—
+—
+0.960
+Great Britain
+0.960
+0.950
+0.960
+0.975
+0.990
+Hong Kong
+0.980
+—
+—
+—
+—
+Ireland
+0.990
+—
+0.925
+—
+—
+Italy
+0.940
+0.960
+0.935
+0.970
+0.990
+Japan
+0.965
+0.965
+0.950
+0.955
+0.985
+Netherlands
+0.960
+0.945
+0.950
+0.975
+0.970
+Norway
+0.975
+—
+—
+—
+—
+New Zealand
+0.975
+0.980
+—
+—
+—
+Portugal
+0.940
+—
+—
+—
+0.895
+Sweden
+0.985
+—
+0.980
+—
+0.885
+Singapore
+0.950
+0.935
+—
+—
+—
+United States
+—
+0.970
+0.980
+0.980
+0.965
+ECU
+—
+0.950
+—
+—
+—
+λˆ i
+τi
+λˆ i
+τi
+Π
+τi
+Π
+τi
+i
+1
+=
+N
+∑
+=
+
+100
+Chapter 5.  Estimation and forecast
+RiskMetrics —Technical Document
+Fourth Edition
+[5.33]
+ 
+3.
+Deﬁne the weight 
+:
+[5.34]
+where 
+4.
+The optimal decay factor 
+ is deﬁned as
+[5.35]
+ 
+That is, the optimal decay factor applied by RiskMetrics is a weighted average of individual 
+optimal decay factors where the weights are a measure of individual forecast accuracy.
+Applying this methodology to both daily and monthly returns we ﬁnd that the decay factor 
+for the daily data set is 0.94, and the decay factor for the monthly data set is 0.97.
+5.4  Summary and concluding remarks
+In this chapter we explained the methodology and practical issues surrounding the estimation of 
+the RiskMetrics volatilities and correlations. Table 5.9 summarizes the important results about the 
+RiskMetrics volatility and correlation forecasts. 
+Table 5.9
+Summary of RiskMetrics volatility and correlation forecasts
+Forecast
+Expression*
+Decay 
+factor
+# of daily returns 
+used in production
+Effective # of daily returns 
+used in estimation†
+1-day volatility
+0.94
+550
+75
+1-day correlation
+0.94
+550
+75
+1-month volatility
+0.97
+550
+150
+1-month correlation
+0.97
+550
+150
+* Note that in all calculations the sample mean of daily returns is set to zero.
+† This number is a dependent of the decay factor explained in Section 5.3.1.2.
+θi
+τi
+τi
+i
+1
+=
+N
+∑
+
+
+
+
+
+
+⁄
+=
+φi
+φi
+θi
+1
+–
+θi
+1
+–
+i
+1
+=
+N
+∑
+⁄
+=
+φi
+1
+=
+i
+1
+=
+N
+∑
+λ˜
+λ˜
+φiλˆ i
+i
+1
+=
+N
+∑
+=
+σ1 t,
+1 t
++
+λσ1 t,
+t
+1
+–
+2
+1
+λ
+–
+(
+) r1 t,
+2
++
+=
+ρ12 t
+1 t
++
+,
+σ12 t
+1 t
++
+,
+2
+σ1 t
+1 t
++
+,
+σ2 t
+1 t
++
+,
+---------------------------------------
+=
+σ1 t,
+25 t
++
+5 σ1 t,
+1 t
++
+⋅
+=
+ρ12 t,
+25 t
++
+ρ12 t,
+1 t
++
+=
+
+Sec. 5.4  Summary and concluding remarks
+101
+Part II:  Statistics of Financial Market Returns
+Lastly, recall from Chapter 4 that RiskMetrics assumes that returns are generated according to the 
+model
+[5.36]
+Now, given the recursive form of the EWMA model, a more complete version of the RiskMetrics 
+model for any individual time series is
+[5.37]
+Since Eq. [5.37] describes a process by which returns are generated, we can determine whether 
+this model (evaluated at the optimal decay factor) can replicate the distinctive features of the 
+observed data as presented in Chapter 4. We do so by generating a time series of daily returns from 
+Eq. [5.37] for a given value of λ. A simulated time series from Eq. [5.37] with λ = 0.94 is shown in 
+Chart 5.12. 
+Chart 5.12
+Simulated returns from RiskMetrics model
+Chart 5.12 shows that the RiskMetrics model can replicate the volatility clustering feature noted in 
+Chapter 4 (compare Chart 5.12 to Charts 4.6 and 4.7).
+rt
+σtεt      εt
+IID N 0 1
+,
+(
+)
+→
+=
+rt
+σtεt      εt
+IID N 0 1
+,
+(
+)
+→
+=
+σt
+2
+λσt
+1
+–
+2
+1
+λ
+–
+(
+) rt
+1
+–
+2
++
+=
+200
+400
+600
+800
+1000
+-0.4
+-0.3
+-0.2
+-0.1
+0
+0.1
+0.2
+0.3
+Daily returns  (rt)
+Time (t)
+
+102
+Chapter 5.  Estimation and forecast
+RiskMetrics —Technical Document
+Fourth Edition

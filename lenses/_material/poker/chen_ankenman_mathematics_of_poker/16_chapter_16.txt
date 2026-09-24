@@ -1,0 +1,1597 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         174 
+ 
+Chapter 16 
+Small Bets, Big Pots: No-Fold [0,1] Games 
+ 
+In Chapter 15, we solved our first full-street game, where both players have the option to bet. 
+There, we returned to consider the AKQ game. In this chapter, we return to a game that we 
+considered when we began looking at half-street games; the [0,1] game. The [0,1] game is 
+among the most important games we consider, because it is the game that is most closely related 
+to poker, primarily because of the many hand types and the necessity of utilizing betting regions. 
+ 
+Throughout this chapter, all of the games we consider will have a special rule that we first 
+introduced in Chapter 11, which is that neither player may fold. The "neither player may fold" 
+rule approximates play when the pot is extremely large. What this means for us here is that none 
+of the strategies that follow contain bluffing; such strategies would be of no use, since there is no 
+opportunity for folding. 
+ 
+No-fold games are exercises in extracting the proper amount of value from strong hands. 
+ 
+The first and simplest [0,1] full street game is where there is only one bet remaining (i.e., no 
+raising is allowed). Hence, there is only one decision for each player. X must decide what hands 
+to bet, and Y must decide what hands to bet if X checks. If either player bets, the other player 
+must call. 
+ 
+Before going on to the solution, see if you can figure out the optimal strategies; this is a good 
+method of improving intuition. 
+ 
+Example 16.1 - [0,1] Game #4 
+One full street.  
+Neither player may fold.  
+Only one bet is allowed. 
+ 
+In this game, there is only one bet available, so the number of possible betting sequences is three: 
+ 
+X bets-Y calls. 
+X checks - Y bets - X calls. 
+X checks - Y checks. 
+ 
+Solving the problem intuitively, X is going to bet at least some of the time. If he bets, he will 
+never bet a hand that is worse than a hand he would check, since Y can never fold. If X checks, 
+however, Y can bet all the hands that X would have bet, since he is sure to win (given that X 
+checked). In addition, Y can bet the strongest half of the remaining hands. If X's hand is in that 
+same region, then Y will break even on X's calls (overall), but if X's hand is the lower half of that 
+region, then Y will win a bet. 
+ 
+To recap Y's strategy: 
+ 
+If X bets, then Y's action is forced (he must call). 
+If X checks, then Y responds by betting all hands that X would have bet, and the best half of the 
+hands that he would check. 
+ 
+Given this strategy for Y, then, what is X's strategy? 
+ 
+Y gains value when he bets a hand after X checks. Otherwise, Y's strategy is forced. So to 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         175 
+ 
+prevent Y from exploiting him, X can simply bet all hands. If he does this, he guarantees that the 
+game will have equal equity for both players (one bet will go in). 
+ 
+So the optimal strategy for this game is for X to bet every hand, and Y to call every hand. 
+ 
+Analytically, recall that we referred to thresholds earlier as the key components of the solutions 
+to our strategies. In fact, even in this simple game we solve for the thresholds of each strategy. 
+ 
+We parameterize the optimal strategies for both sides as follows: 
+ 
+There is a threshold x1 such that below this threshold, X will bet, and above this threshold, X will 
+check. 
+ 
+There is a threshold y1 such that below this threshold, Y will bet if checked to, and above this 
+threshold, Y will check. 
+ 
+To make X's strategy optimal, X must make it so that Y cannot unilaterally improve his equity 
+by changing y1, and vice versa. Each player, then, wants to play so that the other is indifferent 
+between the two actions on either side of each of his threshold points. This indifference means 
+that the equity of the two actions is equal. We showed earlier how we can solve games by 
+application of this concept. We write indifference equations for each threshold point. 
+ 
+Recall that we are referring to ex-showdown expectation here; only the change in equity that 
+occurs as a result of the postflop betting is considered. 
+ 
+The indifference at y1 (where Y is indifferent between checking and betting): 
+ 
+X’s hand  
+p(X’s hand) 
+<Y, bet> 
+Product 
+<Y, check> 
+Product 
+[0, x1] 
+x1 
+N/A 
+N/A 
+N/A 
+N/A 
+[x1, y1] 
+y1 – x1 
+-1 
+(x1 - y1) 
+0 
+0 
+[y1, 1] 
+1 – y1
++1 
+(1 – y1) 
+0 
+0 
+Total
+ 
+ 
+x1 - 2y1 + 1 
+ 
+0 
+ 
+As we did in Example 11.3 in Chapter 11, we sum the total of the "Product" columns, and set the 
+weighted expectations equal: 
+ 
+0 = x1 - 2y1 + 1 
+2y1 = x1  + 1 
+ 
+We next consider the indifference at x1. 
+ 
+At x1 (where X is indifferent between checking and betting): 
+ 
+X’s hand  
+p(X’s hand) 
+<Y, bet> 
+Product 
+<Y, check> 
+Product 
+[0, x1] 
+x1 
+-1 
+x1 
+-1 
+x1 
+[x1, y1] 
+y1 – x1 
++1 
+(y1 – x1) 
++1 
+y1 – x1 
+[y1, 1] 
+1 – y1 
++1 
+(1 – y1) 
+0 
+0 
+Total 
+ 
+ 
+1 – 2x1 
+ 
+y1 – 2x1 
+ 
+Setting the expected values equal and solving for y1. 
+1 – 2x1 = y1 – 2x1 
+y1 = 1 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         176 
+ 
+Substitution: 
+ 
+2 y1 = x1+ 1 
+2 = x1+ 1 
+x1 = 1 
+ 
+This is the same answer we found intuitively; both x1 and y1 are located at 1. So X bets all hands, 
+and Y never gets a chance to bet; he must simply call. 
+ 
+Example 16.2 - [0,1] Game #5 
+The next simplest [0,1] full-street game introduces the concept of raising for value and has the 
+following parameters: 
+ 
+One full street.  
+Two bets left. 
+Check-raising is not allowed.  
+Neither player may fold. 
+ 
+In analyzing this game we will use a notation that we have alluded to and which should seem 
+intuitive; the threshold between betting and raising, y2 There is no x2 m this game, as due to the 
+impermissibility of check-raise, X can never put in the second bet. However, when X bets, Y 
+will raise with some fraction of the hands X bets. 
+ 
+In Game #4 (Example 16.1), we saw that X can prevent Y from exploiting him by simply betting 
+all his hands. However, this strategy will not do here, as Y has the option of raising and X can 
+improve on his equity with his very worst hands by checking and calling instead of betting. 
+ 
+The first step is to parameterize the solution:  
+ 
+0 < y2 < x1 < y1 < 1 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+16.1 Strategy structure for [0,1] Game #5 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         177 
+ 
+What this parameterization means is that the optimal strategies will have the following form: X 
+will bet some amount of hands. Y will raise with fewer hands than that. If X checks, Y will bet 
+more hands than X would have. 
+ 
+We can then write indifference equations at each threshold value: 
+In our table, we can simplify the process by identifying only the difference between one EV and  
+the other for each row. Then we can make all the differences add up to zero. 
+ 
+At y2 (the indifference between Y calling and Y raising): 
+ 
+X's hand 
+ Y calls 
+Y raises 
+Y difference 
+Product 
+[0, y2] 
+-1 
+-2 
+1 
+y2 
+[y2, x1] 
++1 
++2 
+-1 
+-1(x1 – y2) 
+Total 
+ 
+ 
+ 
+2y2 – x1 
+ 
+Recall again that Y's equity from calling or raising must be the same due to our principle of 
+indifference. Likewise, the lengths of the intervals [0, y2] and [y2, x1] represent probabilities 
+because the hands were originally' drawn from a uniform distribution. 
+ 
+2y2 – x1 = 0 
+y2 = x1 / 2 
+ 
+This indicates that Y will raise with half the hands that X bets. The reasoning for this is similar 
+to the reasoning that we saw in the half-street game. In an no-fold game, if X holds some number 
+of hands, Y can put in one additional bet. X must call and may not fold. Whether the bet Y puts 
+in is the first or second bet, Y puts it in with half the hands that X can hold. 
+ 
+Even in cases where X can reraise, however, we find that in these no-fold games that there is a 
+ratio between the hands that X can hold and the hands that Y will put in the next bet. We will use 
+the variable R to represent the ratio between the two: 
+ 
+y2 = Rx1 
+ 
+This may seem like an unnecessary complication, but it will be prove useful. R is an important 
+concept, representing the fraction of X's value betting hands that Y should raise. Here R is 1 2
+	 , 
+because X cannot reraise. In fact, this is always the case on the last bet - when a player cannot be 
+reraised and the other player cannot fold, R is 1 2
+ . 
+ 
+At x1, we see the effect that Y's ability to raise has on X's betting thresholds. As betting exposes 
+X to being raised, he is forced to bet a narrower distribution of hands. 
+ 
+For X at x1 (the indifference between X checking and betting): 
+ 
+Y's hand 
+ X check-calls 
+X bets 
+Difference 
+Product 
+[0, y2] 
+-1 
+-2 
++1 
+y2 
+[y2, x1] 
+-1 
+-1 
+0 
+0 
+[x1, y1] 
+-1 
+-1 
+0 
+0 
+[y1, 1] 
+0 
++1 
+-1 
+-(1 – y1) 
+Total 
+ 
+ 
+ 
+y2 – 1+ y1 
+ 
+Writing the indifference equation here results in an equation that lacks any x values at all; what it 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         178 
+ 
+states is that the size of the raising region of Y's optimal strategy must be equal to the size of the 
+region he checks behind when X checks. 
+ 
+y2 = 1- y1 
+ 
+At y1, we see the familiar pattern of Y betting behind X's check with 1 2
+  of the hands that X 
+would check there: 
+ 
+At y1 (the indifference between Y checking and Y betting): 
+ 
+X's hand 
+ Y check 
+Y bets 
+Y difference 
+Product 
+[0, x1] 
+N/A 
+N/A 
+N/A 
+N/A 
+[x1, y1] 
+0 
+-1 
++1 
+y1 - x1 
+[y1, 1] 
+0 
++1 
+-1 
+- 1(1 – y1) 
+Total 
+ 
+ 
+ 
+2y2 – x1 - 1 
+ 
+2y2 – x1 – 1=0 
+y1 = (1+ x1)/2 
+ 
+We now have three equations and three thresholds: 
+ 
+y2 = Rx1 
+y2 = 1 – y1 
+y1 = (1+x1)/2 
+ 
+To solve, we set the first two expressions for y2 equal and substitute the third expression for y1: 
+ 
+Rx1 =1 – (1+x1)/2 
+ 
+ =
+1
+1 + 2+ 
+ 
+We know from earlier that R = 1 2
+  Substituting, we have: 
+ 
+ 
+Solution: 
+ 
+x1 = 1 2
+  
+y2 = 1 4
+  
+y1 = 3 4
+  
+ 
+ 
+To verify that this solution is indeed optimal, we can examine the play and see if either player 
+can improve by playing differently against the opponent's optimal strategy. 
+ 
+Consider X's play when this hand is x between 0 and  1 4
+ . His choices are to check and call or to 
+bet. If he bets, then the following outcomes occur: 
+ 
+When Y is better than x, X loses two bets.  
+ 
+ 
+(p = x) 
+ 
+When Y is worse than x but better than 1 4
+  , X gains two bets. 
+(p = ( 1 4
+  - x)) 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         179 
+ 
+When Y is worse than  1 4
+  X gains one bet. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(p =  3 4
+ ) 
+<y, x bets> = (x)(2) + ( 1 4
+  - x)(-2) + ( 3 4
+ )(-l)  
+<y, x bets> = 4x -  5 4
+  
+ 
+If X checks a hand that is between 0 and  1 4
+ . 
+ 
+When Y is better than x, X loses one bet.   
+ 
+ 
+ 
+(p = x) 
+When Y is worse than x but better than  1 4
+ , X gains one bet.  
+ 
+(p = 1 4
+ −) 
+When Y is worse than  1 4
+  but better than  3 4
+ , X gains one bet.   
+(p =  1 2
+ ) 
+When Y is worse than  3 4
+ , X gains 0. 
+ 
+ 
+ 
+ 
+(p =  1 4
+ ) 
+ 
+<x, check> = (x)(l) + ( 1 4
+  - x)(-l) + ( 1 2
+ )(-l)  
+<x, check > = 2x -  3 4
+  
+ 
+This second value is greater than the first (Y's equity is greater) when: 
+ 
+2x -  3 4
+  > 4x -  5 4
+  
+x <  1 4
+  
+ 
+So we can see that for X's hands between 0 and  1 4
+ , betting yields higher equity than checking - 
+hence, X cannot improve by switching strategies. We could go on and check all the regions, 
+looking for hands where we can unilaterally improve one player's equity. However, since the 
+strategies we found here are optimal, no such opportunities exist. 
+ 
+In this last section, we also touched on an important concept - the game value. Playing this game 
+has value to Y, because of his positional advantage. In Chapter 18 we will look at game values in 
+depth, especially comparing game values from different types of games to each other. 
+ 
+Example 16.3 - [0,1] Game #6 - The Raising Game 
+One full street. 
+Players are allowed to raise and reraise without limit and have arbitrarily large stacks.  
+Check-raise is not allowed.  
+Neither player may fold. 
+ 
+This game is similar to the previous game, except that instead of just two bets, we now allow the 
+number of bets to grow forever. Of course, in our optimal strategies, one or the other player will 
+eventually stop raising and call. 
+ 
+Our thresholds can be described as follows: 
+ 
+We have x1, which is the threshold where X is indifferent to checking and betting. Since check-
+raise is not allowed, when X checks, there is just one remaining threshold y1. We know from our 
+discussion in the previous game that y1 will be half the distance from x1 to 1, because this is the 
+last bet and X cannot raise. We also know from the previous discussion that X will never "bluff" 
+by putting in the nth bet with a hand weaker than a hand that would not put in that bet. 
+ 
+When X does bet, however, we have an infinite series of thresholds, beginning with y2, the _ 
+threshold between hands that will raise and hands that will simply call. To the left of y2, we have 
+a threshold where X reraises x3, and to the left of that, a threshold where Y puts in the fourth bet, 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         180 
+ 
+y4, and so on. 
+ 
+So our parameterization looks like this: 
+ 
+0 < y2n < x2n-1 < … < y2 < x1 < y1 < 1 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 16.2 Strategy structure for [0.1] Game #6 
+ 
+This game has a sort of symmetry to it. First, consider the case where X bets. Y will raise with 
+some fraction of his hands. Call this fraction (as before) R. 
+ 
+y2 = Rx1, 
+(just as in the previous game) 
+ 
+However, in this game, R is not  1 2
+ ; X can reraise. Consider the situation once Y has raised. Y 
+holds a hand in the range [0, Rx1]. Now X wants to put in a raise with a fraction of the hands Y 
+raised with. The situation for X here is the same as the situation for Y was on the previous bet - 
+Y has a range, X wants to raise; his raising standard will be the same as Y's - he will raise with R 
+of the hands that Y has. 
+ 
+x3 = Ry2 
+ 
+And now Y faces a bet from X, and will raise with R of the hands X has, and so on. Generally, 
+then, for n > 1: 
+ 
+yn = Rxn-1 (note that y3, y5, etc., do not exist)  
+xn = Ryn-1 (note that x2, x4, etc., do not exist) 
+ 
+We have called [0,1] Game #6 "the raising game," because it contains the answer to a frequently 
+asked question about poker - "how often should I raise my opponent if he can reraise me and no 
+one can fold?" If we solve for R, we will know the proper frequency and be able to answer this 
+question. 
+ 
+Next, consider the situation where X checks. We know that Y will bet with all the hands better 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         181 
+ 
+than x1 and half the hands worse than x1: 
+ 
+y1 = (1+x1) / 2 
+ 
+Additionally, the same indifference at y1 holds from the previous game (as there is no check-
+raising), leading to the size of Y's raising region y2 being the same size as his checking region: 
+ 
+y2 = 1 – y1 
+ 
+Substituting: 
+ 
+y2 = l – (l + x1)/2 
+2Rx1 = 2 – 1– x1  
+x1 = 1/(2R + 1) 
+ 
+Using this value, we can now find the values of all the thresholds y2, x3, y4 and so on, in terms of 
+R by multiplying by R the appropriate number of times. Additionally, we can find y1 in terms of 
+R. 
+ 
+But what is the value of R? For this we need one more indifference equation: 
+ 
+For Y at y2 (indifference between raising and calling): 
+ 
+X's hand 
+ Y raises 
+Y calls 
+Y difference 
+Product 
+[0, x3] 
+-3 
+-1 
++2 
+2x3 
+[x3, y2] 
+-2 
+-1 
++1 
+y2 – x3 
+[y2, x1] 
++2 
++1 
+-1 
+- 1(x1 – y1) 
+Total 
+ 
+ 
+ 
+x3+2y2 – x1  
+ 
+x3+2y2 – x1 = 0 
+ 
+This is an indifference equation that relates three thresholds. However, we have all these things 
+in terms of R and x1 (for convenience): 
+ 
+R2x1 + 2Rx1 – x1=0  
+R2 + 2R - 1 = 0  
+R = √2 −1 
+ 
+Recall that we christened √2 −1 as "the golden mean of poker." (See Equation 14.1.) Here it 
+appears again as the answer to our question: "How often should I raise an opponent who cannot 
+fold and can raise me back?" 
+ 
+So the solution to our game is as follows:  
+ 
+ 
+Solution: 
+ 
+x1 = l/(l+2r)   
+ 
+ 
+ 
+ 
+ 
+≈ 0.5469 
+y1 = (1/(1 + 2r) + l)/2 = (1 + r)/(l + 2r) 
+ 
+ 
+≈ 0.7735 
+y2 = r/(l+2r)   
+ 
+ 
+ 
+ 
+ 
+≈ 0.2265  
+x3 = r2/(1 +2r)  
+ 
+ 
+ 
+ 
+ 
+≈ 0.0938  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         182 
+ 
+yn = rn-1/(1 + 2r)    (for even n >1)  
+xn = rn-1/(1 + 2r)    (for odd n >2)  
+ 
+ 
+In our next game, we give Player X yet another option - check-raise. 
+ 
+Example 16.4 - [0,1] Game #7 
+One full street.  
+Two bets left.  
+Check-raising is allowed.  
+Folding is not allowed. 
+ 
+In Game #5 (Example 16.2), the two-bet case without check-raising, recall that there was no 
+threshold x2. When check-raise was not allowed, x2 was meaningless, as there was no sequence 
+of betting that would lead to X putting in the second bet. However, when we give X the option to 
+check-raise, we have the same game, but with one additional threshold for which we must solve. 
+ 
+The key to this game is to identify hands with which X wishes to check-raise. Clearly, X wants 
+to put in the second bet with hands that are better than y1 - obviously hands that are worse than 
+this would lose value by check-raising. Clearly, X will not put the second bet in with a hand 
+weaker than he would put in the first - we've shown that this is dominated already. Intuitively, it 
+would seem that X would want to be the one to put in two bets with his strongest hands; 
+although, it turns out that X's strategies are co-optimal as long as he chooses the proper region 
+size for check-raising with hands better than y2. However, for simplicity, and because it aids us 
+when more bets are available, we parameterize the game as follows: 
+ 
+0 < x2 < y2 < x1 < y1 < 1 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 16.3 Strategy structure for [0,1} Game # 7 
+ 
+This translates to the following strategies. 
+For X: 
+ 
+X checks and raises if Y bets on [0, x2].  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         183 
+ 
+X bets for value on [x2, x1]. 
+ 
+X checks and calls on [x1, 1]. 
+ 
+For Y: 
+ 
+If X bets: 
+ 
+Y raises for value on [0,y2]. 
+Y calls on [y2, 1]. 
+ 
+If X checks: 
+Y bets for value on [0, y1]. 
+Y checks on [y1, 1]. 
+ 
+Creating indifference equations for the four thresholds: 
+ 
+For X at x2 (indifference between check-raising and betting): 
+ 
+Y's hand 
+ X check-raises X bets 
+Difference 
+Product 
+[0, y2] 
+-2 
+-2 
+0 
+0 
+[y2, y1] 
++2 
++1 
++1 
+y1 - y2 
+[y1, 1] 
+0 
++1 
+-1 
+- (1 – y1) 
+Total 
+ 
+ 
+ 
+2y1 – y2  - 1 
+ 
+ 
+ 
+2y1 – y2  - 1 = 0 
+y2 = 2y1 - 1 
+ 
+For Y at y2 (indifference between raising and calling): 
+ 
+X's hand 
+ Y raises 
+Y calls 
+Difference 
+Product 
+[0, x2] 
+N/A 
+N/A 
+N/A 
+N/A 
+[x2, y2] 
+-2 
+-1 
++1 
+y2 – x2 
+[y2, x1] 
++2 
++1 
+-1 
+- 1(x1 – y2) 
+[x1, 1] 
+N/A 
+N/A 
+N/A 
+N/A 
+Total 
+ 
+ 
+ 
+2y2 – x1 – x2 
+ 
+2y2 – x1 – x2 = 0 
+y2 = (x1 + x2)/2 
+ 
+For X at x1 (indifference between check-calling and betting): 
+ 
+Y's hand 
+ X check-calls 
+X bets 
+Difference 
+Product 
+[0, y2] 
+-1 
+-2 
++1 
+y2 
+[y2, y1] 
+-1 
+-1 
+0 
+0 
+[y1, 1] 
+0 
++1 
+-1 
+- (1 – y1) 
+Total 
+ 
+ 
+ 
+ y2 - 1 + y1 
+ 
+y2  - 1 + y1 = 0 
+y2  = 1 - y1 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         184 
+ 
+For Y at y1 (indifference between betting and checking): 
+ 
+X's hand 
+ Y raises 
+Y calls 
+Difference 
+Product 
+[0, x2] 
+0 
+-2 
++2 
++2x2 
+[x2, x1] 
+N/A 
+N/A 
+N/A 
+N/A 
+[x1, y1] 
+0 
+-1 
+-1 
+- 1(y1 – x1) 
+[y1, 1] 
+0 
++1 
++1 
+1 - y1 
+Total 
+ 
+ 
+ 
+2x2 + 2y2 – x1 + 1 
+ 
+2x2 + 2y2 – x1 + 1 = 0 
+2y1 = 1 + x1 – 2x2 
+ 
+We now have four indifference equations, and we can solve for the four unknowns: 
+ 
+2y1 = 1 + x1- 2x2 
+y2 = (x1 + x2)/2  
+y2 = 2y1 -1 
+ 
+y2 = 1 – y1 
+ 
+2y1 -1 = 1 – y1 
+ 
+y1 = 2 3
+  
+y2 = 1 3
+  
+4 3
+  = 1 + x1 -2x2 
+1 3
+  = (x1 + x2)/2 
+x1 = 2 3
+  - x2 
+4 3
+  = 1 + 2 3
+  - 3x2 
+3x2 = 1 3
+  
+x2 = 1 9
+  
+x1 = 5 9
+  
+ 
+ 
+Solution:  
+ 
+x1 = 5 9
+  
+y1 = 2 3
+  
+x2 = 1 9
+  
+y2 = 1 3
+  
+ 
+ 
+We can compare this game to Game #5 (Example 16.2), the similar game without check-raise. 
+What would we expect to be different? First, we would expect Y to bet fewer hands when X 
+checks. This is because by betting in Game #5, Y was only exposing one bet. However, in Game 
+#7, Y exposes a second bet, because sometimes X will check-raise. So Y must bet fewer hands 
+behind X's check. 
+ 
+But this, in turn, causes X a problem. In Game #5, X was checking and calling with hands higher 
+than but near 1 2
+ . These hands were gaining check-call value because Y was betting hands as 
+weak as 3 4
+ . In the new game, however, these hands of X's lose some of that value because Y 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         185 
+ 
+will no longer bet those mediocre hands for value. So X will likely bet additional hands worse 
+than 1 2
+ . This in turn will allow Y to loosen up his raising threshold, since two things have 
+occurred. First, X is checking some of his best hands, so Y does not have to fear X having those 
+hands. Secondly, X is betting additional mediocre hands near 1 2
+ . Y can therefore raise for value 
+with somewhat weaker hands in this game than in Game #5. 
+ 
+Inspecting the thresholds, we see that these changes are in fact reflected in the solution to the 
+game: 
+ 
+Threshold 
+Game #5 
+Game #7 
+x1 
+1 2
+  
+5 9
+  
+y1 
+3 4
+  
+2 3
+  
+y2 
+1 4
+  
+1 3
+  
+ 
+Our last full-street no-fold game is the analogue to Game #6 with check-raise: this game might 
+be thought of as the full no-fold one-street [0,1] game. 
+ 
+Example 16.5 - [0,1] Game #8: The Raising Game with Check-Raise 
+One full street. 
+Players are allowed to raise and reraise without limit and have arbitrarily large stacks.  
+Check-raise is allowed.  
+Neither player may fold. 
+ 
+The final no-fold game in the one-street cases is the game where both players can put in as many 
+raises as they think their hands merit and check-raise is allowed. Like Game #6 (Example 16.3), 
+in this game we have an infinite number of thresholds, and so we cannot simply write all the 
+indifference equations for this game. However, we can create a recursion for higher-valued 
+indifference equations and solve that to find the values for each threshold and the solution to the 
+game. 
+ 
+Based on the principles of the last few sections, we can parameterize the game this way:  
+ 
+For any positive integer n, 0 < xn+1 < yn+! < xn <yn < 1 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 16.4. Strategy structure for [0,1] Game #8 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         186 
+ 
+We can begin by writing indifference equations at the various x thresholds:  
+ 
+At x1: 
+y2 = 1 – y1 
+ 
+ 
+(This is unchanged from Game #6) 
+ 
+For X at x2 (indifference between check-raising and betting): 
+ 
+Y's hand 
+ X check-raises X bets 
+Difference 
+Product 
+[0, y3] 
+-3 
+-2 
+-1 
+-y3 
+[y2, y1] 
++2 
++1 
++1 
+y1 – y2 
+[y1, 1] 
+0 
++1 
+-1 
+- (1 – y1) 
+Total 
+ 
+ 
+ 
+ -y3  + 1 - 2y1 – y2 
+ 
+-y3  + 1 - 2y1 – y2 = 0 
+y3 + y2 + 1=2y1 
+ 
+Substituting: 
+ 
+y3  + 1 - y1 +1 = 2y1 
+y3  + 2 = 2y1 
+ 
+For X at x3 (indifference between bet-re-raising and check-raising): 
+ 
+Y's hand 
+ X bet-reraises 
+X check-raises 
+Difference 
+Product 
+[0, y4] 
+-4 
+-3 
+-1 
+-y4 
+[y3, y2] 
++3 
++2 
++1 
+y2 – y3 
+[y2, y1] 
++1 
++2 
+-1 
+- 1(y1 – y2) 
+[y1, 1] 
++1 
+0 
++1 
+1 - y1 
+Total 
+ 
+ 
+ 
+-y4 – y3 + 2y2 -2y1+ 1 
+ 
+-y4 – y3 + 2y2 -2y1+ 1 = 0 
+y4 + (y1 -  y2) = (y2 -  y3)+(1 – y1)  
+ 
+For X at x4 (indifference between check-raise-re-raising and bet-re-raising): 
+ 
+Y's hand 
+ X bet-reraises 
+X check-raises Difference Product 
+[0, y5] 
+-5 
+-4 
+-1 
+-y5 
+[y4, y3] 
++4 
++3 
++1 
+y3 – y4 
+[y3, y2] 
++2 
++3 
+-1 
+-( y2 – y3) 
+[y2, y1] 
++2 
+ 
++1 
++1 
+y1 – y2 
+[y1, 1] 
+0 
++1 
+-1 
+-(1 - y1) 
+Total 
+ 
+ 
+ 
+-y5 + 2y3 – y4 - 2y2 +2y1+ 1 
+ 
+-y5 + 2y3 – y4 - 2y2 +2y1+ 1 = 0 
+(y3 – y4)+( (y1 – y2) = y5 + (y2 – y3) + (1 - y1) 
+ 
+More generally, at xn we have the Following indifference equation when n is odd: 
+ 
+yn+1 + (yn-2 – yn-1) + (yn-4 - yn-3) […] + [y1- y2] = (yn-1- yn) + (yn-3 - yn-2) + […] + (1 – y1) 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         187 
+ 
+And when n is even: 
+ 
+(yn-1 – yn) + (yn-3 - yn-2) […] + [y1- y2] = yn+1 + (yn-2- yn-1) + (yn-4 - yn-3) + […] + (1 – y1) 
+ 
+Let's look at two actual thresholds, x6 and x7.  
+Writing the indifference equations for these yields: 
+ 
+(y5 - y6) + (y3 – y4) + (y1 – y2) = y7 + (y4 – y5) + (y2 – y3) + (1 – y1) 
+ 
+y8 + (y5 – y6) + (y3 – y4) + (y1 – y2) = (y6 – y7) + (y4 – y5) + (y2 – y3) + (1 – y1) 
+ 
+Subtracting the second of these equations from the first:  
+ 
+y8 = -2y7 + y6 
+ 
+It's not too difficult to see that we can do the same thing for any value of n, such as k + 1 and k: 
+ 
+yk+2 + (yk-1 – yk) + (yk-3 – yk-2) […]+ (y1 – y2) = (yk – yk+1)+(yk-2 – yk-1)+(yk-4 – yk-3) […]+ (1 – y1) 
+ 
+(yk-1 – yk)+(yk-3 – yk-2)+ […]+ (y1 – y2) = yk+1 + (yk-2 – yk-1)+(yk-4 – yk-3)+ […]+ (1 – y1) 
+ 
+ Again subtracting: 
+ 
+yk+2 = -2yk+1 + yk 
+ 
+yk+2 + 2yk+1 - yk = 0  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(16.1) 
+ 
+Equations of this type are called difference equations and solving them requires a slightly more 
+advanced mathematical technique. We present the derivation of the solution to Equation 16.1 in 
+the Appendix to this chapter. The solution is that: 
+ 
+yn = rn/(1 – r)  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(for y > 0) 
+ 
+This is Y's entire strategy, then, captured in a single equation, y1 is 1/(1 - r), and Y puts in the (n 
++ l)th bet with a fraction of the hands with which he put in the nth bet equal to r. Compare this 
+with Y's strategy in the game without check-raise. There, the factors of r separated each 
+alternating threshold, from X to Y. So yn was rxn-1, and so on. Here, instead, the factors of r 
+separate each of Y's thresholds from the next Y thresholds, so we have: 
+ 
+yn = ryn-1 
+ 
+With Y's strategy solved, we move on to X's strategy, which is solved in a similar manner but 
+contains a little more complexity. Just as Y's strategy involved a pattern for specifying yn, we 
+can specify xn. However, Y's strategy was unaffected by regions in thresholds with n much 
+lower than the current one. X, on the other hand, alternates his regions between check-raising 
+and betting initially, and this is the case for thresholds as low as y1. 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         188 
+ 
+For Y at y1: 
+ 
+X’s hand 
+Y check 
+Y bets 
+[y1, 1] 
+0 
++1 
+[x1, y1] 
+0 
+-1 
+[x3, x2] 
+0 
+-2 
+[x5, x4] 
+0 
+-2 
+[x7, x6] 
+0 
+-2 
+[…] 
+ 
+ 
+[x2k+1, x2k] 
+0 
+-2 
+ 
+1 – y1 = (y1 – x1) + 2(x2 - x3) + 2(x4 – x5) + 2(x6 – x7) + [...] + 2(x2k - x2k+1)  
+(k→∞) 
+ 
+For this threshold, when the decision is between betting and checking, Y gains a bet when X has 
+checked out of weakness, but loses two bets whenever X is planning to check-raise. 
+ 
+For Y at y2: 
+ 
+X’s hand 
+Y raises 
+Y calls 
+[y2, x1] 
++2 
++1 
+[x2, y2] 
+-2 
+-1 
+[x4, x3] 
+0 
+-2 
+[x6, x5] 
+0 
+-2 
+[x8, x7] 
+0 
+-2 
+[…] 
+ 
+ 
+[x2n, x2n+1] 
+0 
+-2 
+ 
+x1 - y2 = (y2 – x2) + 2(x3 - x4) + 2(x5 - x6) +2(x7- x8) + [...] + 2(x2k - x2k+1)  
+(k→∞) 
+ 
+And more generally, for Y at yn: 
+ 
+X’s hand 
+Y raises 
+Y calls 
+[yn, xn-1] 
++2 
++1 
+[xn, yn] 
+-2 
+-1 
+[xn+2, xn+1] 
+0 
+-2 
+[xn+4, xn+3] 
+0 
+-2 
+[…] 
+ 
+ 
+[x2n, x2n+1] 
+0 
+-2 
+ 
+xn-1 - yn = (yn - xn)  + 2(xn+1 - xn+2) + 2(xn+3 - xn+4) + [...] + 2(x2k - x2k+1)   
+(k→∞) 
+ 
+Returning briefly to y1 we see that this equation is the general form of yn for all thresholds, if we 
+define x0= 1 (which makes intuitive sense, as X will never bluff in a game where Y cannot fold.) 
+ 
+Consider this equation for a particular k and also for k + 1: 
+ 
+xk-1 – yk = (yk - xk) + 2(xk+1 - xk+2) + 2(xk+3 - xk+4) + [...]  
+xk - yk+1 = (yk+1 - xk+1) + 2(xk+2 - xk+3) + 2(xk+4 - xk+5) + […] 
+ 
+Adding these two equations to each other, we find that the higher k terms cancel out neatly 
+because of the alternating signs: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         189 
+ 
+xk+1 - yk + xk  - yk+1 = yk  - xk + yk+1 + xk+1  
+xk-1 + 2xk - xk+1 = 2yk + 2yk+1  
+xk + 2xk+1 - xk+2 = 2yk+1 + 2yk+2 
+ 
+Substituting for yn: 
+ 
+xk + 2xk+1 - xk+2 = 2(rk+1)/(l - r) + 2(rk+2)/(l - r)  
+r/(l -r) = (√2- l)/(2 - √2) = 1/√2  
+xk + 2xk+1 - xk+2 = √2(rk) + √2 (rk+1)  
+xk + 2xk+1 - xk+2 = √2 (rk)(l + r) 
+ 
+ 
+xk+2xk+1- xk+2 = 2rk  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(16.2) 
+ 
+This equation, too, can be solved using a more advanced mathematical technique, and the steps 
+of the derivation are presented in the Appendix to this chapter. The solution to this equation 
+yields X's strategy: 
+ 
+xn = rn-1[(2r - l)(-l)n + l]/2 
+ 
+And so we have a recursive relationship that completely describes X's strategy. 
+ 
+ 
+Solution: 
+ 
+xn = rn-1[(2r - l)(-l)n + l]/2 
+ 
+yn = rn/(1 – r)  
+ 
+ 
+The contrast between these two strategies is quite interesting: Y's strategy is relatively 
+straightforward, with a simple exponential relationship between each threshold. Y puts in the 
+first bet if checked to with hands below r/(l - r), and is willing to put m one additional bet with 
+each multiple of r of his hands if X keeps raising. 
+ 
+Each X threshold lies between each of Y's thresholds, beginning with x1 at 1 - r. However, these 
+thresholds are not evenly spaced between Y's thresholds. X's check-raising regions are much 
+narrower than his betting regions. This occurs in the formulas as the term in xn with the (-1)n in 
+it. The intuitive explanation for this is that when X has a very strong hand, he often wants to bet, 
+because he gets a very large amount of value from the sequence "bet-call." As a result, X's 
+thresholds oscillate in their relationship to Y's thresholds. 
+ 
+A partial table of the thresholds in the game 
+ 
+Threshold (n) 
+yn 
+xn 
+yn/xn 
+0 
+1 
+1 
+1 
+1 
+0.707107 
+0.585786 
+r/(l – r) + 1 2
+  
+2 
+0.292893 
+0.171573 
+r/(l – r) + 1 
+3 
+0.12132 
+0.100505 
+r/(l – r) + 1 2
+  
+4 
+0.050253 
+0.029437 
+r/(l – r) + 1 
+5 
+0.020815 
+0.017244 
+r/(l – r) + 1 2
+  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         190 
+ 
+xn = rn-1[(2r - l)(-l)n + l]/2 
+ 
+The portion in brackets evaluates to 2r when n is even, and to 2(1 - r) when n is odd.  
+ 
+So xn = rn when n is even and rn-1(1 - r) when n is odd. 
+ 
+We can find something interesting if we look at the size of x's checking regions: 
+ 
+x0 → x1 : 1 - (1 - r) = r  
+x2 → x3 : r2 - r2(l - r) = r2(l - (1 - r)) = r3  
+x4 → x5 : r4 - r4( 1 - r) = r4 (1 - (1 - r)) = r5  
+x2n → x2n+l : r2n - r2n( 1 - r) = r2n+! 
+ 
+Summing the size of all these regions, we get the following expression 
+ 
+, -,
+
+
+ 
+ 
+r2 is less than 1, so the sum of this infinite series is r (1 / (1 - r2)). 
+ 
+, = 2 ∙2√2 + 1 = 3 −2√2 
+(√2 −1)/(1 −(3 −2√2)) = 1 2
+	  
+ 
+This intriguing result indicates that X checks half his hands overall. Most of these hands, of 
+course, will reluctantly call (in fact, r of them). The remainder will check-raise and be ready-to 
+put in additional bets as appropriate. 
+ 
+Key Concepts 
+• In full-street games with no folding, there is an important relationship between the hands 
+with which the opponent could have taken an action, and the hands with which you will 
+take your actions. 
+• If you cannot be raised and your opponent cannot fold, you should bet or raise with 1 2
+  of 
+the hands your opponent has bet or checked so far. 
+• If your opponent can raise you back, this ratio shrinks. In the case where an infinite 
+number of raises are allowed, it becomes r. 
+• No-fold games are exercises in extracting the proper amount of value from strong hands. 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         191 
+ 
+Appendix to Chapter 16 
+Solving the Difference Equations 
+ 
+Equation 16.1: 
+yk+2 + 2yk+1 – yk = 0   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(16.1) 
+ 
+This equation is called a second-order homogeneous difference equation and describes the 
+relationship between three consecutive y thresholds. 
+ 
+All equations of the form 
+ 
+yn+2 + cyn+l + dyn = 0 
+ 
+where c and d are constants have a solution of the form: 
+ 
+yn = apn+bqn  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(16.1a) 
+ 
+where a and b are constants and p and q are the real distinct roots of the "characteristic equation" 
+of the original difference equation, which is x2 + cx + d= 0. If the roots are the same, there is a 
+different solution, but this is irrelevant to our solution. 
+ 
+For this difference equation, the characteristic equation is 
+ 
+x2 + 2x - 1 = 0  
+or x = - l ± √2 
+ 
+We recall that √2 - 1 is the "Golden Mean of Poker" we discussed in Chapter 14 (see Equation 
+14.1). We substitute the constant r for that value. 
+ 
+Returning to Equation 16.1a, we substitute the two roots for p and q, and have: 
+ 
+yn = arn + b(- l - √2)qn 
+ 
+Using a bit of intuition, we know that as n → ∞, yn converges on 0, as Y will need a hand closer 
+and closer to zero to put in additional bets as n becomes large. 
+ 
+The second term of this equation, however, does not converge on 0 for any value of b except 0. 
+Therefore b = 0 and the equation simplifies to: 
+ 
+yn = arn 
+ 
+To find a, we simply plug back in to the equation at the threshold x1: 
+ 
+y2 = 1 – y1  
+ar2 = 1 – ar  
+ar2 + ar -1 = 0 
+ 
+We could solve this as a quadratic in r, but instead let us make use of the following identity: 
+ 
+r2 = (√2 – l)2  
+r2 = 2 – 2√2 + 1 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         192 
+ 
+r2 = - 2(√2 – 1) + 1  
+r2 = 1 - 2r 
+a(1 - 2r) + ar - 1=0  
+a - ar - 1 = 0 
+a(1 - r) - 1  
+a = 1/(1 - r) 
+ 
+Hence: 
+ 
+yn = rn/(1 – r)  
+ 
+Equation 16.2: 
+ 
+xk + 2xk+1 – xk+2 = 2rk  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(16.2) 
+ 
+This equation, like Equation 20.1, is a second-order difference equation. However, because the 
+xk terms of this equation sum to a value other than zero, this type of equation is called non-
+homogeneous and this adds an additional step to solving it. If Z is a "particular solution" - that 
+is, a solution for some k value, then all solutions to the general equation will be the "general 
+solution," which is the solution to the homogeneous version of the equation, summed with Z. 
+ 
+xn = apn + bqn + Z 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(16.2a) 
+ 
+We now solve the homogeneous form of the difference equation to find the non-Z part of the 
+equation: 
+ 
+1 + 2x - x2 = 0 
+x = 1 ± √2  
+p = 1 - √2  = - r  
+q = 1 + √2  
+xn = a(-r)n + b( 1 + √2 )n + Z 
+ 
+We can now guess at a form for the particular solution. We conjecture that Z has the form: 
+ 
+Z = cxn 
+ 
+for some constant c and some constant x. 
+ 
+If we substitute our particular solution Z back into equation 16.2, we obtain: 
+ 
+xk + 2xk+1 – xk+2 = 2rk  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(16.2) 
+cxn + 2cxn+1 - cxn+2 = 2rn  
+cxn(l + 2x – x2) = 2 rn  
+ 
+Here (1 + 2x – x2) is a constant, so we find that for a specific value of c, x = r is a solution: 
+ 
+crn(l + 2r – r2) = 2 rn  
+c(l +2r – (l – 2r)) =2 
+c (4r) = 2 
+c = r/2 
+ 
+So our particular solution Z will be: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         193 
+ 
+ 
+Z = (r/2)rn 
+ 
+We can see that as n goes to infinity, Z converges on zero. Likewise, by the same reasoning we 
+used in solving 16.1, we know that the second term of the general solution only converges on z 
+for b = 0. 
+ 
+xn = a(-r)n + (r/2) rn 
+ 
+To solve for a, we simply use our definition x0 = 1. 
+ 
+x0 = a(-r)0 + (1 2
+ r) r0 
+1 = a + 1 2
+  r 
+a = (2r – l)/2r 
+ 
+xn = ((2r – l)/2r)(-l)rn + (1 2
+ r)rn  
+xn = rn-1[(2r – 1)(-1)n + l]/2 
+ 
+ 
+ 

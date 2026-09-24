@@ -1,0 +1,1284 @@
+7
+Non-linear correlations and volatility ﬂuctuations
+For in a minute there are many days.
+(William Shakespeare, Romeo and Juliet.)
+7.1 Non-linear correlations and dependence
+7.1.1 Non identical variables
+The previous chapter presented a statistical analysis of ﬁnancial data that implicitly as-
+sumes homogenous time series. For example, when we constructed the empirical distribu-
+tions of price returns ηk, we pooled together all the data, thereby assuming that P1(η1),
+P2(η2), . . . , PN(ηN) are all identical.
+It turns out that the distributions of the elementary random variables P1(η1),
+P2(η2), . . . , PN(ηN) are often not all identical. This is the case, for example, when the
+variance of the random process itself depends upon time – in ﬁnancial markets, it is a well-
+known fact that the daily volatility is time dependent, taking rather high levels in periods
+of uncertainty, and reverting back to lower values in calmer periods. This phenomena is
+called heteroskedasticity. For example, the volatility of the bond market has been very
+high during 1994, and decreased in later years. Similarly, the stock markets since the be-
+ginning of the century have witnessed periods of high volatility separated by rather quiet
+periods (Fig. 7.1). Another interesting analogy is turbulent ﬂows which are well known
+to be intermittent: periods of relative tranquility (laminar ﬂow), where the velocity ﬁeld is
+smooth, are interrupted by intense ‘bursts’ of activity.†
+If the distribution Pk varies sufﬁciently ‘slowly’, one can in principle measure some of
+its moments (for example its mean and variance) over a time scale which is long enough
+to allow for a precise determination of these moments, but short compared to the time
+scale over which Pk is expected to vary. The situation is less clear if Pk varies ‘rapidly’.
+Suppose for example that Pk(ηk) is a Gaussian distribution of variance σ 2
+k , which is itself
+a random variable. We shall denote as (· · ·) the average over the random variable σk, to
+distinguish it from the notation ⟨· · ·⟩k which we have used to describe the average over the
+† On this point, see Frisch (1997).
+
+108
+Non-linear correlations and volatility ﬂuctuations
+Fig. 7.1. Top panel: daily returns of the Dow Jones index since 1900. One very clearly sees the
+intermittent nature of volatility ﬂuctuations. Note in particular the sharp feature in the 1930s. Lower
+panel: daily returns for a geometric Brownian random walk, showing a featureless pattern.
+probability distribution Pk. If σk varies rapidly, it is impossible to separate the two sources
+of uncertainty. Thus, the empirical histogram constructed from the series {η1, η2, . . . , ηN}
+leads to an ‘apparent’ distribution P which is non-Gaussian even if each individual Pk is
+Gaussian. Indeed, from:
+P(η) ≡
+
+P(σ)
+1
+√
+2πσ 2 exp
+
+−η2
+2σ 2
+
+dσ,
+(7.1)
+one can calculate the kurtosis of P as:
+κ =
+⟨η4⟩
+(⟨η2⟩)2 −3 ≡3
+
+σ 4
+(σ 2)2 −1
+
+.
+(7.2)
+Since for any random variable one has σ 4 ≥(σ 2)2 (the equality being reached only if σ 2
+does not ﬂuctuate at all), one ﬁnds that κ is always positive. Volatility ﬂuctuations thus lead
+to ‘fat tails’.
+More precisely, let us assume that the probability distribution of the RMS, P(σ), decays
+itself for large σ as exp(−σ c), c > 0. Assuming Pk to be Gaussian, it is easy to obtain,
+
+7.1 Non-linear correlations and dependence
+109
+using a saddle-point method (cf. Eq. (2.47)), that for large η one has:
+log[P(η)] ∝−η
+2c
+2+c .
+(7.3)
+Since c < 2 + c, this asymptotic decay is always much slower than in the Gaussian case,
+which corresponds to c →∞. The case where the volatility itself has a Gaussian tail
+(c = 2) leads to an exponential decay of P(η).
+Another interesting case is when σ 2 is distributed as a completely asymmetric L´evy
+distribution (β = 1) of exponent µ < 1. Using the properties of L´evy distributions, one
+can then show that P is itself a symmetric L´evy distribution (β = 0), of exponent equal
+to 2µ. When σ 2 is distributed according to an inverse gamma distribution, P is a Student
+distribution.
+7.1.2 A stochastic volatility model
+If the ﬂuctuations of σk are themselves correlated, one observes an interesting case of
+dependence. For example, if σk is large, σk+1 will probably also be large. The ﬂuctuation
+ηk thus has a large probability to be large (but of arbitrary sign) twice in a row.
+We shall often refer, in the following, to a rather general stochastic volatility model
+where the random part of the return can be written as a product:
+δxk
+xk
+≡ηk = m + ϵkσk,
+(7.4)
+where ϵk are iid random variables of zero mean and unit variance (but not necessarily
+Gaussian), and σk corresponds to the local ‘scale’ of the ﬂuctuations, which can be
+correlated in time and also, possibly, with the random variables ϵ j with j < k (see
+Chapter 8).
+Assuming for the moment that m = 0 and that the random variables ϵ and σ are inde-
+pendent from each other, the correlation function of the returns ηk is given by:
+⟨ηiη j⟩= σiσ j⟨ϵiϵ j⟩= δi, jσ 2.
+(7.5)
+Hence the returns are uncorrelated random variables, but they are not independent since
+higher-order, non-linear, correlation functions reveal a richer structure. Let us for example
+consider the correlation of the square returns:
+C2(i, j) ≡
+
+η2
+i η2
+j
+
+−
+
+η2
+i
+ 
+η2
+j
+
+= σ 2
+i σ 2
+j −σ 2
+i σ 2
+j
+(i ̸= j),
+(7.6)
+which indeed has an interesting temporal behaviour in ﬁnancial time series, as we shall
+discuss below. Notice that for i ̸= j this correlation function can be zero either because σ
+is identically equal to a certain value σ0, or because the ﬂuctuations of σ are completely
+uncorrelated from one time to the next.
+
+110
+Non-linear correlations and volatility ﬂuctuations
+7.1.3 GARCH(1,1)
+As an illustration, let us discuss a model often used in ﬁnance, called GARCH(1,1), where
+the volatility evolves through a simple feedback mechanism.† More precisely, one writes
+the following set of equations:
+ηi = σiϵi
+(7.7)
+σ 2
+i = σ 2
+0 + α
+
+σ 2
+i−1 −σ 2
+0
+	
++ g
+
+η2
+i−1 −σ 2
+i−1
+	
+.
+(7.8)
+where ϵi are Gaussian iid random numbers of zero mean and unit variance. The three
+parameters of the model have the following interpretation: σ 2
+0 is the unconditional average
+variance, α measures the strength with which the volatility reverts to its average value and
+g is a coupling parameter describing how the difference between the realized past square
+return η2
+i−1 and its expected value σ 2
+i−1 feeds back on the present value of the volatility. The
+logic is that large squared returns are a source for higher future volatility. Note that unlike
+the stochastic volatility model discussed above, this model only has a single noise source ϵi
+which determines both the price and the volatility processes. For this reason, in this section
+we will use a single type of averaging denoted by ⟨. . .⟩.
+In this model returns have zero mean (⟨ηi⟩= 0) and are uncorrelated (⟨ηiη j⟩= 0, for
+i ̸= j), and the unconditional variance is given by
+
+η2
+i
+
+=
+
+σ 2
+i
+
+= σ 2
+0 .
+(7.9)
+To compute the auto-correlation function of σ 2
+i and that of η2
+i , one should realize that
+after squaring Eq. (7.7), the model is a linear coupled system with noise. One can then
+ﬁnd a change of variables to obtain two linear equations coupled only through the noise
+term. More precisely, setting δi = η2
+i −σ 2
+i and ψi = gη2
+i + (α −g)σ 2
+i + ασ 2
+0 transforms
+the system into
+δi =
+
+ψi−1 + σ 2
+0
+	˜ξi
+(7.10)
+ψi = αψi−1 + g
+
+ψi−1 + σ 2
+0
+	˜ξi,
+(7.11)
+where ˜ξi = ϵ2
+i −1 a zero mean (non-Gaussian) noise. From then on, it is relatively straight-
+forward (but tedious) to compute the squared auto-correlation functions of this model. For
+the volatilities, one ﬁnds:
+
+σ 2
+i σ 2
+j
+
+−
+
+σ 2
+i
+ 
+σ 2
+j
+
+=
+2g2σ 4
+0
+1 −α2 −2g2 α|i−j|.
+(7.12)
+This result holds provided α < 1 and 2g2 < 1 −α2, which are necessary conditions to
+obtain a stationary model. For g too large (large feedback), the volatility process blows
+up. In the regular case, the above correlation function decays exponentially with a char-
+acteristic time equal to 1/| log α|. In fact, the volatility process follows a (non-Gaussian)
+† GARCH stands for Generalized Autoregressive Conditional Heteroskedasticity model, as the name suggests
+GARCH is a generalization of the simpler ARCH model, where σ 2
+i = σ 2
+0 + gη2
+i−1.
+
+7.1 Non-linear correlations and dependence
+111
+Ornstein-Uhlenbeck process (compare with Section 4.3.1). Similarly, one ﬁnds that the
+squared return correlation function is given by:
+C2(i, j) ≡
+
+η2
+i η2
+j
+
+−
+
+η2
+i
+ 
+η2
+j
+
+=
+
+
+
+2σ 4
+0 (1 −α2 + g2)
+1 −α2 −2g2
+i = j
+2gσ 4
+0 (1 −α2 + gα)
+1 −α2 −2g2
+α|i−j|−1 i ̸= j
+,
+(7.13)
+which also decays exponentially with the same correlation time. Using the i = j term, we
+can compute the unconditional kurtosis
+κ =
+6g2
+1 −α2 −2g2 ,
+(7.14)
+which is zero in the absence of feedback (g = 0).
+7.1.4 Anomalous kurtosis
+Suppose that the correlation function σ 2
+i σ 2
+j −σ 22 decreases (even very slowly) with |i −j|.
+One can then show that the sum of the ηk, given by N
+k=1 ϵkσk is still governed by the CLT,
+and converges for large N towards a Gaussian variable. A way to see this is to compute the
+average unconditional kurtosis of the sum, κN. As detailed below, one ﬁnds the following
+result:
+κN = 1
+N
+
+κ0 + (3 + κ0)g(0) + 6
+N
+
+ℓ=1
+
+1 −ℓ
+N
+
+g(ℓ)
+
+,
+(7.15)
+where κ0 is the kurtosis of the variable ϵ, and g(ℓ) the correlation function of the variance,
+deﬁned as:
+σ 2
+i σ 2
+j −σ 22 = σ 22g(|i −j|).
+(7.16)
+It is interesting to see that for N = 1, the above formula gives:
+κ1 = κ0 + (3 + κ0)g(0) > κ0,
+(7.17)
+which means that even if κ0 = 0, a ﬂuctuating volatility is enough to produce some kurtosis,
+as we already mentioned: for κ0 = 0 the previous formula for κ1 reduces to Eq. (7.2) above.
+More importantly, one sees that as soon as the variance correlation function g(ℓ) decays
+with ℓ, the kurtosis κN tends to zero with N, thus showing that the sum indeed converges
+towards a Gaussian variable. For example, if g(ℓ) decays as a power-law ℓ−ν for large ℓ,
+one ﬁnds that for large N:
+κN ∝1
+N
+for
+ν > 1;
+κN ∝1
+N ν
+for
+ν < 1.
+(7.18)
+
+112
+Non-linear correlations and volatility ﬂuctuations
+The difference comes form the fact that the sum over ℓthat appears in the expression
+of κN is convergent for ν > 1 but diverges as N 1−ν for ν < 1.† Hence, long-range cor-
+relations in the variance considerably slow down the convergence towards the Gaussian:
+the kurtosis and all the ‘hypercumulants’ deﬁned in Eq. (2.43) decay very slowly to zero.
+This remark will be of importance in the following, since ﬁnancial time series often reveal
+long-ranged volatility ﬂuctuations, with ν rather small. Therefore, the non Gaussian cor-
+rections do remain anomalously high even for relatively long time scales (months or even
+years).
+An important remark must be made here. The quantity κN deﬁned above is an uncon-
+ditional kurtosis, where we averaged over both sources of uncertainty: ϵ and σ. However,
+since the correlation function of the volatility is assumed to be non trivial, σ must have
+some degree of predictability. The conditional kurtosis κc
+N of log(xN/x0), computed using
+all the information available at time 0, is in general smaller than the unconditional kurtosis
+computed above. Let us assume for example that all the future σi are in fact perfectly known.
+The conditional kurtosis in this case reads:
+κc
+N = κ0
+N
+i=1 σ 4
+i
+N
+i=1 σ 2
+i
+2 .
+(7.19)
+Note that if the ϵ are Gaussian variables, κ0 = 0 and hence κc
+N ≡0, whereas the uncondi-
+tional kurtosis κN is always positive. The kurtosis can be seen as a measure of our ignorance
+about the future value of the volatility.
+Let us show how Eq. (7.15) can be obtained. We calculate the unconditional average
+kurtosis of the sum N
+i=1 ηi, assuming that the ηi can be written as σiϵi. We deﬁne the
+rescaled correlation function g as in Eq. (7.16).
+Let us ﬁrst compute ⟨(N
+i=1 ηi)4⟩, where ⟨· · ·⟩means an average over the ϵi’s and the
+overline means an average over the σi’s. If ⟨ϵi⟩= 0, and ⟨ϵiϵ j⟩= 0 for i ̸= j, one ﬁnds:
+
+N
+
+i, j,k,l=1
+ηiη jηkηl
+
+=
+N
+
+i=1
+
+η4
+i
+
++ 3
+N
+
+i̸= j=1
+
+η2
+i
+ 
+η2
+j
+
+= (3 + κ0)
+N
+
+i=1
+
+η2
+i
+2 + 3
+N
+
+i̸= j=1
+
+η2
+i
+ 
+η2
+j
+
+,
+(7.20)
+where we have used the deﬁnition of κ0 (the kurtosis of ϵ). On the other hand, one must
+estimate
+N
+i=1 ηi
+22
+. One ﬁnds:
+
+N
+
+i=1
+ηi
+22
+=
+N
+
+i, j=1
+
+η2
+i
+ 
+η2
+j
+
+.
+(7.21)
+† This sum diverges as log N for ν = 1.
+
+7.1 Non-linear correlations and dependence
+113
+Gathering the different terms and using the deﬁnition Eq. (7.16), one ﬁnally establishes
+the following general relation:
+κN =
+1
+N 2σ 22
+
+Nσ 22(3 + κ0)(1 + g(0)) −3Nσ 22 + 3σ 22
+N
+
+i̸= j=1
+g(|i −j|)
+
+,
+(7.22)
+which readily gives Eq. (7.15).
+7.1.5 The case of inﬁnite kurtosis∗
+What survives from the above analysis if the kurtosis of the process on elementary time
+scales is inﬁnite? An illustrative case is that of a Student process with µ = 3, as already
+considered in Section 2.3.5. Suppose that the return ηk at time k is distributed according
+to:
+Pk(ηk) =
+2a3
+k
+π
+
+η2
+k + a2
+k
+	.
+(7.23)
+The local volatility of this process is σk ≡ak, but its local kurtosis is inﬁnite. The charac-
+teristic function of this distribution is given by Eq. (2.56). From this result, one obtains the
+characteristic function for the sum of N returns as:
+ˆP(z, N) = exp
+N
+
+k=1
+[log(1 + |z|ak) −|z|ak].
+(7.24)
+Anticipating that for large N the distribution becomes Gaussian, we set z = ˆz/
+√
+N and
+expand for large N. One ﬁnds:
+ˆP(z, N) ≃exp
+
+−ˆz2
+2N
+N
+
+k=1
+a2
+k +
+|ˆz|3
+3N 3/2
+N
+
+k=1
+a3
+k −
+ˆz4
+4N 2
+N
+
+k=1
+a4
+k + · · ·
+
+.
+(7.25)
+Let us ﬁnd the unconditional distribution by averaging the above result over the volatil-
+ity ﬂuctuations. Much as in the case above where the kurtosis is ﬁnite, the ﬂuctuations of
+a2
+k give rise to a term proportional to ˆz4 that reads 
+i j C2(i, j)ˆz4/4N 2. If the exponent
+ν describing the decay of the variance ﬂuctuations is less than unity, then, as discussed
+above, this term is of order N −ν and dominates the term N
+k=1 a4
+k ˆz4/4N 2 ≃a4ˆz4/4N,
+which is of order 1/N provided a4 is ﬁnite. Now, one has to compare N −ν with the
+term N
+k=1 a3
+k|ˆz|3/3N 3/2 ≃a3|ˆz|3/3N 1/2, which is of order 1/N 1/2 and, as discussed in
+Section 2.3.5, dominates the convergence towards the Gaussian if volatility ﬂuctuations
+are absent.
+One therefore ﬁnds that if volatilityﬂuctuationsaresuchthatν > 1/2,thedominantfactor
+slowing down the convergence to the Gaussian are the inverse cubic tails of the elementary
+distribution, whereas if ν < 1/2, the dominant factor becomes the volatility correlations.
+In this case, the fact that the kurtosis is inﬁnite on short time scales does not prevent the
+
+114
+Non-linear correlations and volatility ﬂuctuations
+convergence to the Gaussian to be dominated, for large N by an effective kurtosis κN given
+by:
+κN = 6
+N
+N
+
+ℓ=1
+
+1 −ℓ
+N
+
+g(ℓ).
+(7.26)
+This remark is very important in practice since for many assets µ = 3 whereas the volatility
+ﬂuctuation exponent ν is indeed often found to be smaller than 1/2. The long term deviations
+formGaussianity,relevantfortheshapeoftheoptionsmilesforlongmaturities,cantherefore
+be estimated using an effective kurtosis, even if the kurtosis is inﬁnite on short time scales.
+Note ﬁnally that if the tails of the elementary distribution decay with a power-law µ in
+the range ]2, 4], one can argue similarly that whenever ν < µ/2 −1, long range volatility
+ﬂuctuations are dominant for large N. (The above case corresponds to µ = 3.)
+7.2 Non-linear correlations in ﬁnancial markets: empirical results
+7.2.1 Anomalous decay of the cumulants
+As mentioned in Chapter 6, one sees from Figure 6.9 that P(η, N) systematically deviates
+from [P1(η1)]∗N. In particular, the tails of P(η, N) are anomalously ‘fat’ compared to what
+should be expected if the price increments were iid. A way to quantify this effect is to
+study the kurtosis κN of P(η, N), which is found to be larger than κ1/N. This can be seen
+from Figures 7.2 and 7.3, where κN is plotted as a function of N, for the assets considered
+0.01
+0.1
+1
+10
+100
+T (days)
+0.1
+1
+10
+100
+κ(T)
+S&P
+GBP/USD
+Bund
+T
+-1/2
+Fig. 7.2. Kurtosis κN at scale N = T
+τ as a function of N, for the S&P 500, the GBP/USD and the
+Bund. If the iid assumption were true, one should ﬁnd κN = κ1/N. A straight line of slope of −1/2,
+is shown for comparison. The decay of the kurtosis κN is much slower than 1/N.
+
+7.2 Non-linear correlations in ﬁnancial markets: empirical results
+115
+1
+10
+100
+T (days)
+1
+10
+κ(T)
+stock data
+κ ~ T
+-0.5
+Fig. 7.3. Average kurtosis as a function of time for individual stocks. Time is expressed in trading
+days. The kurtosis was computed individually for each stock and then averaged over all stocks. The
+dataset consisted of 10 to 12 years of daily prices from a pool of 288 U.S. large cap stocks. The
+dotted line shows a 1/
+√
+T scaling for comparison.
+in Chapter 6: the S&P 500, the GBP/USD and the Bund on the one hand, and for a pool of
+U.S. stocks on the other hand. However, as we have seen in Section 6.4, the tails of P(η, N)
+are so fat that the kurtosis might actually be ill deﬁned on short time scales. A more robust
+estimation of the convergence towards the Gaussian is provided by lower moments. More
+precisely, consider the time dependent ‘hypercumulants’ q deﬁned in Section 2.3.3, which
+read:
+q(N) =
+√π
+2q/2
+ 1+q
+2
+	 ⟨| log xN/x0|q⟩
+⟨| log xN/x0|2⟩q/2 −1.
+(7.27)
+Figure 7.4 shows q as a function of T = Nτ for q = 1, 3, 4. Although the time dependence
+of q depends on q for small time lags T , one sees clearly that for longer times, all these
+hypercumulants behave in the same way. This can be understood following Section 7.1.5
+above: for short times, high moments are affected by the power-law tail of high frequency
+returns and contain an information not revealed by lower moments, whereas at long times,
+the dominant effect is the slow decay of the volatility ﬂuctuations, which affects all the
+moments in a similar fashion: see Eq. (2.43). It is interesting to test directly the small
+kurtosis expansion formula (2.43) by plotting q(N)/q∗(N) as a function of q for different
+
+116
+Non-linear correlations and volatility ﬂuctuations
+0.01
+0.1
+1
+10
+100
+T (days)
+0.1
+1
+Λq(T)
+q=4
+q=3
+q=1
+Fig. 7.4. ‘Hypercumulants’ 1, 3/3 and 4/8 for the S&P 500 as a function of the time scale
+T = Nτ (τ is equal to 5 minutes). The rescaling factors 3 and 8 above were chosen according to
+formula (2.43), which suggest that at long times these quantities should be equal. One sees from this
+graph this approximately holds for T > 1 day.
+0
+1
+2
+3
+4
+q
+-1
+0
+1
+2
+3
+4
+Λq(T)/Λ3(T)
+T=0.5
+T=1
+T=2
+T=4
+T=7
+T=14
+T=28
+q(q-2)/3
+Fig. 7.5. Rescaled hypercumulants q/3 (for the S&P 500), as a function of q for different time
+scales T from half a day to 30 days (symbols). These curves should collapse at long times on top of
+each other and coincide with the parabola q(q −2)/3 (plain line). Note that even for q ∼4, the
+convergence towards the theoretical prediction is observed for long times.
+N (Fig. 7.5). Here q∗is a ﬁxed number that we choose to be q∗= 3. The prediction of
+Eq. (2.43) is:
+q(N)
+3(N) = 1
+3q(q −2),
+(7.28)
+
+7.2 Non-linear correlations in ﬁnancial markets: empirical results
+117
+independently of N. From Figure 7.5, we see that the rescaling of the curves correspond-
+ing to different N onto the theoretical prediction (plain line) is rather good, although the
+convergence is slower for q ∼4, as expected.
+We conclude that the convergence to Gaussian is indeed, for medium to long time lags
+(say beyond a few days) well represented by a single number, the effective kurtosis, which
+captures the behaviour of all the even moments. (For odd moments, related to small skewness
+effects, another mechanism comes into play – see Chapter 8.)
+7.2.2 Volatility correlations and variogram
+The fact that the ηi’s are not iid, as the study of the cumulants illustrates, also appears when
+one looks at non-linear correlations functions, such as that of the squares of ηi, which reveal
+a non-trivial structure. These correlations are associated to a very interesting dynamics of
+the volatility that we discuss in the present section.
+A volatility proxy
+Although of great practical interest for many purposes, such as risk control or option pricing,
+the true volatility process is not directly observable – one can at best study approximate
+estimates of the volatility. For example, it is interesting to deﬁne a proxy of the volatility
+using the daily average of 5-min price increments, as:
+σh f = 1
+Nd
+Nd
+
+k=1
+|ηk(5′)|,
+(7.29)
+where σh f is our notation for a high frequency volatility proxy, ηk(5′) is the 5-min increment,
+and Nd is the number of 5-min intervals within a day. It is reasonable to expect that the
+true volatility σ is proportional to σh f , plus a noise term, which can be thought of as a
+measurement error. Indeed, even for a Brownian random walk with a constant volatility, the
+quantity σh f depends, for Nd ﬁnite, on the particular realization of the Gaussian process.
+Other proxies for the daily volatility can be constructed, for example the absolute daily
+return |ηi|, or the difference between the ‘high’ and the ‘low’, divided by the ‘open’ of that
+given day. This last proxy will be noted σH L.
+The quantity σh f as a function of time for the S&P 500 in the period 1991–2001 is plotted
+in Figure 7.6, and reveals obvious correlations: the periods of strong volatility persist far
+beyondthedaytimescale.ItisinterestingtocomparethisgraphwiththatshowninFigure7.1
+for the Dow Jones over a much longer time span (100 years): the same alternation of highly
+volatile and rather quiet periods can be observed on all time scales.
+Probability distribution of the empirical volatility
+The probability density of σh f for the S&P 500 is shown in Figure 7.7, together with two
+very good ﬁts: a log-normal distribution and an inverse gamma distribution:
+P(σ) =
+σ µ
+0
+(µ)σ 1+µ exp
+
+−σ0
+σ
+
+.
+(7.30)
+
+118
+Non-linear correlations and volatility ﬂuctuations
+1990
+1995
+2000
+t
+0
+0.1
+0.2
+0.3
+σ
+Fig. 7.6. Evolution of the ‘volatility’ σh f as a function of time, for the S&P 500 in the period
+1990–2001. One clearly sees periods of large volatility, which persist in time. Here the signal σh f
+has been ﬁltered over two weeks.
+0
+0.2
+0.4
+0.6
+σ
+10
+-2
+10
+-1
+10
+0
+10
+1
+P(σ)
+Index data
+Log-normal
+Gamma
+Fig. 7.7. Distribution of the measured volatility σh f of the S&P using a semi-log plot, and ﬁts using
+a log-normal distribution, or an inverse gamma distribution. Note that the log-normal distribution
+underestimates the right tail.
+This distribution is motivated by simple models of volatility feedback, such as the one dis-
+cussedinChapter20.Thetwoﬁtswereperformedusingmaximumlikelihoodonlog σh f ,and
+are of comparable quality. The total number of points is 3000. The log-likelihood per point
+for the log-normal ﬁt is found to be −1.419 (see Section 4.1.4), whereas the log-likelihood
+
+7.2 Non-linear correlations in ﬁnancial markets: empirical results
+119
+-2
+-1
+0
+1
+log(σ)
+10
+-3
+10
+-2
+10
+-1
+10
+0
+P(log(σ))
+Stock data
+Log-normal
+Gamma
+2
+3
+Fig. 7.8. Distribution of the measured volatility σH L of individual stocks, in a log-log scale, and ﬁts
+using a log-normal distribution, or an inverse gamma distribution. Again, the log-normal
+distribution underestimates the right tail, and is not very good in the centre.
+per point for the inverse gamma distribution is slightly better, equal to −1.4177, with an
+exponent µ equal to 5.4.† The log-normal tends to underestimate the large volatility tail,
+whereas the inverse gamma distribution tends to overestimate the same tail. Identical con-
+clusions are drawn from the study of the empirical volatility σH L of individual stocks, as
+shown in Figure 7.8. Again, the inverse gamma distribution (with µ = 6.43) is found to be
+superior to the log-normal ﬁt (the relative likelihood is now 10−60, with 150 000 points),
+and the same systematics are observed.
+Correlations and variograms
+A more quantitative characterisation of these long-ranged correlations can be obtained using
+the so-called volatility variogram, which measures how ‘far’ the volatility at time i + ℓhas
+escaped away from the value it had at time i. More precisely, we will study the quantity:
+Vσ(ℓ) =
+
+σ 2
+e,i −σ 2
+e,i+ℓ
+	2
+e,
+(7.31)
+where ⟨. . .⟩e refers to an empirical average over the initial time i, and σe to an empirical
+volatility proxy. Let us ﬁrst discuss how this quantity is related to the correlation of the square
+of price increments that we introduced above in relation with the kurtosis (see Eq. (7.6)).
+† Although the difference per point is small, the overall relative likelihood of the log-normal compared to the
+inverse gamma distribution is exp −(3000 × 0.0013) = 0.02. Note that the volatility estimators used here, in
+particular σH L, tend to overestimate the probability of small volatilities.
+
+120
+Non-linear correlations and volatility ﬂuctuations
+Consider the quantity:
+V2(ℓ) =
+
+η2
+i −η2
+i+ℓ
+	2
+.
+(7.32)
+As can be seen by expanding the square, the above quantity is simply equal to 2[C2(i, i) −
+C2(i, i + ℓ)]. Therefore the variogram of the square increments is closely related to their
+correlation function. However, the empirical determination of the variogram does not re-
+quire the knowledge of ⟨η2
+i ⟩, needed to determine the correlation function. This is inter-
+esting since the latter quantity is often noisy and does not allow a precise determination
+of the baseline of the correlations. Using the fact that ηi = σiϵi where the ϵ are iid, we
+obtain:
+V2(ℓ) =
+
+σ 2
+i −σ 2
+i+ℓ
+	2 + v0(1 −δℓ,0),
+(7.33)
+wherethelasttermcomesfromthecontributionoftheϵ.Now,sinceσ andσe areproportional
+up to a measurement noise term which is presumably uncorrelated from one day to the next,
+one also obtains:
+Vσ(ℓ) ∝
+
+σ 2
+i −σ 2
+i+ℓ
+	2 + v′
+0(1 −δℓ,0),
+(7.34)
+where v′
+0 comes from the measurement noise term. Therefore, the non trivial part of the
+σe variogram (i.e. the ℓ̸= 0 part) is proportional to the variogram of η2, up to an additive
+constant, and in turn contains all the information on C2(i, i + ℓ).
+Figures 7.9 and 7.10 show these variograms (normalized by σ 22) for the S&P 500 and for
+individual stocks (averaged over stocks), together with a ﬁt that correspond to power-law
+decay of the correlation function C2:
+Vσ(ℓ) =
+
+v∞−v1
+ℓν
+
+(ℓ̸= 0).
+(7.35)
+The ﬁt is rather good, and leads to ν ≈0.3 for the S&P 500, and ν ≈0.22 for individual
+stocks. The ratio φ = v1/v∞is found to be φ ≈0.77 for the S&P 500 and φ ≈0.35 for
+stocks.
+On these graphs, we have also shown the variogram of the log-volatility, that turns out
+to be of interest in the context of the multifractal model discussed in the following section.
+Within this model, the log-volatility variogram is expected to behave as:
+
+log σi+ℓ
+σi
+2
+≈2K 2
+0 log(αℓ),
+(7.36)
+also in reasonable agreement with the data.
+
+7.2 Non-linear correlations in ﬁnancial markets: empirical results
+121
+0
+50
+100
+150
+200
+Dt (days)
+0.05
+0.1
+0.15
+0.2
+0.25
+Log-vol variogram
+Eq. (20.15)
+2K0
+2 log Dt
+0
+50
+100
+150
+2001
+1.5
+2
+2.5
+3
+3.5
+4
+vol
+2 variogram
+Power-law
+Fig. 7.9. Temporal variogram of the high frequency volatility proxy of the S&P 500 (lower curve,
+right scale). The value ℓ= 1 corresponds to an interval of 1 day. For comparison, we have shown a
+power-law ﬁt using Eq. (7.35). We also show the variogram of the log-volatility (left scale), together
+with the multifractal prediction, Eq. (7.39), with K 2
+0 = 0.0145. We also show another ﬁt of
+comparable quality, motivated by a simple model explained in Chapter 20.
+1
+10
+100
+τ (days)
+0.22
+0.24
+0.26
+0.28
+0.30
+0.32
+0.34
+<[σ
+2(t+τ)−σ
+2(t)]
+2>
+Data (500 stock average)
+Power-law, ν = 0.22
+0
+1
+2
+3
+4
+5
+ln(τ)
+0.1
+0.2
+log variogram
+K0
+2= 0.028
+Fig. 7.10. Temporal variogram of the volatility proxy for individual stocks. The value τ = 1
+corresponds to an interval of 1 day. We have shown a power-law ﬁt using Eq. (7.35). We also show
+the variogram of the log-volatility, together with the multifractal prediction, Eq. (7.39), with
+K 2
+0 = 0.028.
+
+122
+Non-linear correlations and volatility ﬂuctuations
+Two important remarks are in order:
+(i) A ﬁt of Vσ using a power law works quite nicely. However, a ﬁt of similar quality is
+obtained using other functional forms. For example, a constant v∞minus the sum of
+two exponentials exp(−ℓ/ℓ1,2) with adjustable amplitudes is also acceptable. One then
+ﬁnds two rather different time scales: ℓ1 is short (a day or less), and a long correlation
+time ℓ2 of the order of months.
+The important point here is that the dynamics of the volatility cannot be
+accounted for using a single time scale: the volatility ﬂuctuations is a multi-
+timescale phenomenon.
+(ii) The short time behaviour of the volatility correlation function is to a certain extent a
+matter of choice. One can either insist that the variables ϵ are Gaussian but allow the true
+volatility process to have a high frequency random component unrelated to the long term
+process, or equivalently consider that the ϵ have a non zero kurtosis and that the volatility
+process only has low frequency components. We have indeed shown in Section 7.1 that a
+positive kurtosis can be thought of as a random volatility effect. A relative measure of the
+long time volatility ﬂuctuations, which has some degree of predictability, as compared
+to the short time component, is given by Vσ(∞)/Vσ(ℓ= 1) −1 = 1/(1 −φ), which is
+found to be roughly equal to two.
+Back to the kurtosis
+From the empirical determination of Vσ(ℓ), one can determine, up to a multiplicative con-
+stant, the correlation function g(ℓ) deﬁned by Eq. (7.16) and use this information to ﬁt the
+anomalous behaviour of the empirical kurtosis κN using Eq. (7.15) that relates κN and g(ℓ).
+The result is shown in Figure 7.11 for U.S. individual stocks. Since the variogram Vσ(ℓ)
+does not tell us anything about g(0), we have treated the quantity κ0 + (3 + κ0)g(0) as an
+adjustable parameter along with the overall scale of g(ℓ) for ℓ> 1.
+The agreement shows quite convincingly that long range volatility correlations and the
+persistence of fat tails are two sides of the same coin. As we shall see in Section 13.3.4,
+these long ranged volatility correlations have direct consequences for the dynamics of the
+volatility smile observed on option markets.
+Although g(0) cannot be estimated directly because of measurement noise, it is rea-
+sonable, from the value of φ = v1/v∞found from the ﬁts of the volatility variograms,
+to assume that g(0) ∼2g1 ∼1.5. From the ﬁtted value of κ0 + (3 + κ0)g(0) = 23.0,
+we estimate that the ‘intrinsic’ value of the daily kurtosis is κ0 ∼7.5 for individual
+stocks.
+
+7.3 Models and mechanisms
+123
+1
+10
+100
+T (days)
+1
+10
+κ(T)
+stock data
+fit to Eq. (7.15)
+Fig. 7.11. Average kurtosis as a function of time for individual stocks and two parameter ﬁt of
+Eq. (7.15) using g(ℓ) = g1ℓ−0.22 for ℓ≥1. The ﬁt gives κ0 + (3 + κ0)g(0) = 23.0 and g1 = 0.73.
+Time is expressed in trading days and the stock data is the same as in Fig. 7.3.
+7.3 Models and mechanisms
+7.3.1 Multifractality and multifractal models (∗)
+As we have emphasized several times, the distribution of price increments on scale N
+strongly depends on N, at variance with what would be observed for a Brownian ran-
+dom walk where this distribution would be Gaussian for all N. Empirical distributions
+of price changes are strongly non-Gaussian for small time delays, and progressively (but
+rather slowly) become Gaussian as N increases. This means that the different unconditional
+moments of the price changes, deﬁned as ⟨| log(xN/x0)|q⟩depend on a non trivial way
+on N, even when rescaled by ⟨(log(xN/x0))2⟩
+q/2. (Again, for a Brownian random walk,
+these rescaled moments would be given by q dependent, but N independent constants.) A
+multifractal (or multiafﬁne) process corresponds to the case where:
+⟨| log(xN/x0)|q⟩≃Aq N ζq
+ζq ̸= q
+2 ζ2.
+(7.37)
+In this case, rescaled moments behave as a (q-dependent) power-law of N. Such a behaviour
+for price (or log-price) changes has been reported by many authors. Let us ﬁrst show that
+this ‘multifractal’ effect is another manifestation of the intermittent nature of the volatility,
+which generically leads to an apparent (or approximate) multifractal behaviour. We will
+
+124
+Non-linear correlations and volatility ﬂuctuations
+then discuss a particular situation where multifractality is indeed exact, and for which ζq
+can be computed for all q.
+We showed in Section 7.1.4 that long-ranged volatility correlations can lead to an anoma-
+lous decay of the kurtosis, as AN −ν with ν < 1. From the very deﬁnition of the kurtosis,
+this implies that, for large N:
+⟨| log(xN/x0)|4⟩= σ 22N 2(1 + AN −ν).
+(7.38)
+The fourth moment of the price difference therefore behaves as the sum of two power-
+laws, not as a unique power-law as for a multifractal process. However, when ν is small
+and in a restricted range of N, this sum of two power-laws is indistinguishable from a
+unique power-law with an effective exponent ζ4 somewhere in-between 2 and 2 −ν; there-
+fore ζ4 < 2ζ2 = 2. If σ is a Gaussian random variable, one can show explicitly that this
+scenario occurs for all even q: the qth moment appears as a sum of q/2 power-laws that
+can be ﬁtted by an effective exponent ζq which systematically bends downwards, away
+from the line qζ2/2, leading to an apparent multifractal behaviour (see Bouchaud et al.
+(1999)).
+On the other hand, one can deﬁne a truly multifractal stochastic volatility model by
+choosing the volatility σ to be a log-normal random variable such that σi = σ0 exp ξi, with
+ξ Gaussian and:
+ξi = −K 2
+0 log α = m0;
+ξiξ j −m2
+0 = −K 2
+0 log [α(|i −j| + 1)] ,
+(7.39)
+for |i −j| ≪α−1, where α−1 ≫1 is a large cut-off time scale. This deﬁnes the Bacry-
+Muzy-Delour (BMD) model. One can then show, using the properties of multivariate Gaus-
+sian variables, that:
+σ 2 = σ 2
+0 .
+(7.40)
+The rescaled correlation of the squared volatilities, deﬁned as in Eq. (7.16), is found to be:
+g(ℓ) = [α(1 + ℓ)]−ν
+ν ≡4K 2
+0.
+(7.41)
+We can choose K0 small enough such that ν < 1 and be in the ‘anomalous’ kurtosis regime
+discussed above, where Eq. (7.38) holds. The interesting point here is that for small α,
+the constant A appearing in Eq. (7.38) is much larger than unity: A = α−ν/(2 −ν)(1 −ν).
+Therefore, the second term in Eq. (7.38) is dominant whenever αN ≪1. In the regime
+1 ≪N ≪α−1, one thus ﬁnd a unique power-law for ⟨| log(xN/x0)|4⟩, with ζ4 ≡2 −ν.
+One can actually compute exactly all even moments ⟨| log(xN/x0)|q⟩, assuming that the
+random ‘sign’ part ϵ is Gaussian. For qK 2
+0 < 1, the corresponding moments are ﬁnite,
+and one ﬁnds, in the scaling region 1 ≪N ≪α−1, a true multifractal behaviour with
+ζq = q/2[1 −K 2
+0(q −2)]. Note that ζ2 ≡1 and ζ4 = 2 −ν. For qK 2
+0 > 1, the moments
+diverge, suggesting that the unconditional distribution of log(xN/x0) has power-law tails
+with an exponent µ = 1/K 2
+0. For N ≫α−1, one the other hand, the scaling becomes that
+of a standard random walk, for which ζq = q/2. Any multifractal scaling can actually only
+hold over a ﬁnite time interval.
+
+7.3 Models and mechanisms
+125
+Let us end this section with several remarks.
+r The BMD multifractal model has some similarities with the multiplicative cascade models
+introducedbyMandelbrotandcollaborators.Thecascademodelassumesthatthevolatility
+can be constructed as a product of random variables associated with different time scales
+τk, these time scales being in a geometrical progression, i.e. τk+1/τk = ω, where ω is a
+ﬁxed number. Using the central limit for the log-volatility, this construction naturally leads
+toalog-normaldistributionforthevolatility,andtoalogarithmiccorrelationfunction.This
+cascade model however violates causality. In this respect the BMD model is attractive
+since it can be given, using the construction explained in Section 2.5, a purely causal
+interpretation, where the volatility only depends on the past, and not on the future of the
+process.† On the other hand, this additive construction does not account naturally for the
+log-normal nature of the volatility, which has to be put ‘by hand’.
+r The study of the empirical distribution of the volatility is indeed compatible with the as-
+sumption of log-normality. This is illustrated in Figures 7.7 and 7.8, where the distribution
+of volatility proxies σe is compared with a log-normal distribution. Note however that
+an inverse gamma distribution also ﬁts the data very well, and is actually motivated by
+simple (non cascade) models of volatility feedback (see Section 20.3.2).
+r The direct study of the correlation function of the log-volatility can indeed be ﬁtted by a
+logarithm of the time lag (Figs. 7.9 and 7.10), as assumed in Eq. (7.39), with K 2
+0 in the
+range 0.01–0.10 for many different markets, and α−1 on the order of a few years.
+r On the other hand, the empirical tail of the distribution of price increments is described by
+a power-law with an exponent µ in the range 3–5, much smaller than the value 1/K 2
+0 ∼
+10–100 predicted by the BMD model. This suggests that the sign part ϵ itself is non
+Gaussian and further fattens the tails. Stochastic volatility is an important cause for fat
+tails, but is alone insufﬁcient to generate the observed high frequency tails. On the other
+hand, the low frequency kurtosis is indeed dominated by long range volatility ﬂuctuations.
+A similar conclusion was already reached above, in Sections 7.2.1, 7.1.5.
+r Finally, one can extend the above multifractal model to account for a skewed distribution
+of returns. A simple possibility is to use the above construction to obtain retarded returns
+(as deﬁned in the next chapter) rather than instantaneous returns.
+7.3.2 The microstructure of volatility
+Markets can be volatile for two, rather different reasons. The ﬁrst is related to the market
+activity itself: if the ‘atomic’ price increments were all equal to ϵk = ±1 (or more realisti-
+cally one ‘tick’), with a random sign for each trade, the volatility of the process would be
+equal to the average frequency of trades per unit time. One would indeed have:
+Xt −X0 =
+N(t)
+
+k=1
+ϵk −→⟨(Xt −X0)2⟩= ⟨N(t)⟩
+(7.42)
+† An alternative causal construction has been proposed in Calvet & Fisher (2001).
+
+126
+Non-linear correlations and volatility ﬂuctuations
+where N(t) is the actual number of trades during the time interval t, the average of which is
+simply t/τ0, where τ0 is the average time between trades. Typically, a tick is 0.05% of the
+price, and τ0 is a fraction of a minute on liquid stocks. Periods of high volatilities would be,
+in this model, periods when the number of transactions is particularly high, corresponding
+to a large activity of the market. Although it is true that very large volumes often lead to high
+local volatilities, this is not the only cause. It is well known that crashes, on the contrary,
+correspond to very illiquid markets when the bid-ask spread widens anomalously, with no,
+or nearly no volume of transaction.
+Therefore, another constituent of volatility is the average ‘jump’ size Jk between two
+trades. Suppose now that δxk = Jkϵk, where the average value of J 2
+k is equal to J 2
+0 . The
+volatility of the process is now J 2
+0 /τ0. Both the trading frequency 1/τ0 and the jump size J0
+can be time dependent, and the volatility can be high either because J0 is large or because τ0
+is small. Using tick data, where all the trades are recorded, one can measure both the number
+trades in a certain time interval t, and the average jump size in the same time window.
+Interestingly, J0 shows long tails that can account for the tails in the price (or volatility)
+distribution, but has only short time autocorrelations. Conversely, the trading frequency
+1/τ0 has rather thin tails but has long term power law correlations that are similar to those
+observed on the volatility itself (see Plerou et al. (2001)).
+We show for example in Figure 7.12 the variogram of the daily number of trades on
+the S&P 500 futures contract, together with a ﬁt similar to those used for the volatility in
+Figures 7.9 (and which will be justiﬁed in Chapter 20).
+0
+5
+10
+15
+τ
+1/2 (days
+1/2)
+2×10
+5
+3×10
+5
+4×10
+5
+5×10
+5
+6×10
+5
+7×10
+5
+8×10
+5
+9×10
+5
+ Volume variogram
+ Data
+ Eq. (20.18)
+Fig. 7.12. Plot of the variogram of the volume of activity (number of trades) on the S&P500 futures
+contract during the years 1993–1999, as a function of the time lag √τ. Also shown is the ﬁt using
+Eq. (20.18), motivated by a microscopic model of trading agents.
+
+7.4 Summary
+127
+Therefore, the explanation for large volatility values should be sought for in terms of large
+local jumps, where the liquidity of the market is severely reduced, whereas the explanation
+of the long-ranged nature of volatility correlations should be associated to long term corre-
+lations of the volume of activity. Again, we ﬁnd a natural decomposition of the kurtosis in
+terms of a high frequency part (related to jumps) and a low frequency part (related to volume
+activity). As explained in Chapter 20, there might indeed be rather natural mechanisms that
+can account for such long-ranged volume correlations.
+7.4 Summary
+r In ﬁnancial markets, the volatility is not constant in time, but has random, log-
+normal like, ﬂuctuations. These ﬂuctuations cannot be described by a single time
+scale. Rather, their temporal correlation function is well ﬁtted by a power-law. This
+power-law reﬂects the multi-scale nature of these ﬂuctuations: high volatility periods
+can persist from a few hours to several months.
+r From a mathematical point of view, the sum of increments with a ﬁnite stochastic
+volatility still converge to a Gaussian variable, although the kurtosis decays much
+more slowly than in the case of iid variables when the volatility has long range
+correlations. Accordingly, the empirical moments of price variations approach the
+Gaussian limit only very slowly with the time horizon, and their long time value is
+dominated by volatility ﬂuctuations.
+r The slow decay of the volatility correlation function, together with the observed
+approximate log-normal distribution of the volatility, leads to a ‘multifractal-like’
+behaviour of the price variations, much as what is observed in turbulent hydro-
+dynamical ﬂows.
+r Further reading
+C. Alexander, Market Models: A Guide to Financial Data Analysis, John Wiley, 2001.
+J. Beran, Statistics for long-memory processes, Chapman & Hall, 1994.
+T. Bollerslev, R. F. Engle, D. B. Nelson, ARCH models, Handbook of Econometrics, vol 4, ch. 49,
+R. F. Engle and D. I. McFadden Edts, North-Holland, Amsterdam, 1994.
+J. Y. Campbell, A.W. Lo, A. C. McKinley, The Econometrics of Financial Markets, Princeton Uni-
+versity Press, Priceton, 1997.
+R. Cont, Empirical properties of asset returns: stylized facts and statistical issues, Quantitative
+Finance, 1, 223 (2001).
+M. M. Dacorogna, R. Gen¸cay, U. A. Muller, R. B. Olsen, O. V. Pictet, An Introduction to High-
+Frequency Finance, Academic Press, San Diego, 2001.
+U. Frisch, Turbulence: The Legacy of A. Kolmogorov, Cambridge University Press, 1997.
+C. Gourieroux, A. Montfort, Statistics and Econometric Models, Cambridge University Press,
+Cambridge, 1996.
+B. B. Mandelbrot, Fractals and Scaling in Finance, Springer, New York, 1997.
+
+128
+Non-linear correlations and volatility ﬂuctuations
+R. Mantegna, H. E. Stanley, An Introduction to Econophysics, Cambridge University Press,
+Cambridge, 1999.
+r Specialized papers: ARCH
+T. Bollerslev, Generalized ARCH, Journal of Econometrics, 31, 307 (1986).
+R. F. Engle, ARCH with estimates of the variance of the United Kingdom inﬂation, Econometrica, 50,
+987 (1982).
+R. F. Engle, A. J. Patton, What good is a volatility model?, Quantitative Finance, 1, 237 (2001).
+r Specialized papers: volatility distribution and correlations
+P. Cizeau, Y. Liu, M. Meyer, C.-K. Peng, H. E. Stanley, Volatility distribution in the S&P500 Stock
+Index, Physica A, 245, 441 (1997).
+Z. Ding, C. W. J. Granger, R. F. Engle, A long memory property of stock market returns and a new
+model, Journal of Empirical Finance, 1, 83 (1993).
+Z. Ding, C. W. J. Granger, Modeling volatility persistence of speculative returns: a new approach,
+Journal of Econometrics, 73, 185 (1996).
+B. LeBaron, Stochastic volatility as a simple generator of apparent ﬁnancial power laws and long
+memory, Quantitative Finance, 1, 621 (2001), and comments by B. Mandelbrot, T. Lux, V. Plerou
+and H. E. Stanley in the same issue.
+Y. Liu, P. Cizeau, M. Meyer, C.-K. Peng, H. E. Stanley, Correlations in economic time series, Physica
+A, 245, 437 (1997).
+A. Lo, Long term memory in stock market prices, Econometrica, 59, 1279 (1991).
+S. Miccich`e, G. Bonanno, F. Lillo, R. N. Mantegna, Volatility in ﬁnancial markets: stochastic models
+and empirical results, e-print cond-mat/0202527.
+r Specialized papers: multiscaling and multifractal models
+A. Arn´eodo, J.-F. Muzy, D. Sornette, Causal cascade in the stock market from the ‘infrared’ to the
+‘ultraviolet’, European Journal of Physics, B 2, 277 (1998).
+E. Bacry, J. Delour, J.-F. Muzy, Modelling ﬁnancial time series using multifractal random walks,
+Physica A, 299, 284 (2001).
+J.-P. Bouchaud, M. Meyer, M. Potters, Apparent multifractality in ﬁnancial time series, Eur. Phys.
+J. B 13, 595 (1999).
+M.-E. Brachet, E. Taﬂin, J. M. Tch´eou, Scaling transformation and probability distributions for
+ﬁnancial time series, e-print cond-mat/9905169.
+L. Calvet, A. Fisher, Forecasting multifractal volatility, Journal of Econometrics, 105, 27, (2001).
+L. Calvet, A. Fisher, Multifractality in asset returns: theory and evidence, Forthcoming in Review of
+Economics and Statistics, 2002.
+A. Fisher, L. Calvet, B. B. Mandelbrot, Multifractality of DEM/$ rates, Cowles Foundation Discussion
+Paper 1165.
+Y. Fujiwara, H. Fujisaka, Coarse-graining and Self-similarity of Price Fluctuations, Physica A, 294,
+439 (2001).
+S. Ghashghaie, W. Breymann, J. Peinke, P. Talkner, Y. Dodge, Turbulent cascades in foreign exchange
+markets, Nature, 381, 767 (1996).
+T. Lux, Turbulence in ﬁnancial markets: the surprising explanatory power of simple cascade models,
+Quantitative Finance, 1, 632 (2001).
+U. A. Muller, M. M. Dacorogna, R. B. Olsen, O. V. Pictet, M. Schwartz, C. Morgenegg, Statistical
+study of foreign exchange rates, empirical evidence of a price change scaling law, and intraday
+analysis, Journal of Banking and Finance, 14, 1189 (1990).
+
+7.4 Summary
+129
+J.-F. Muzy, J. Delour, E. Bacry, Modelling ﬂuctuations of ﬁnancial time series: from cascade process
+to stochastic volatility model, Eur. Phys. J., B 17, 537–548 (2000).
+B. Pochart, J.-P. Bouchaud, The skewed multifractal random walk with applications to option smiles,
+Quantitative Finance, 2, 303 (2002).
+F. Schmitt, D. Schertzer, S. Lovejoy, Multifractal analysis of Foreign exchange data, Applied Stochas-
+tic Models and Data Analysis, 15, 29 (1999).
+G. Zumbach, P. Lynch, Heterogeneous volatility cascade in ﬁnancial markets, Physica A, 298, 521,
+(2001).
+r Specialized papers: trading volume
+G. Bonnano, F. Lillo, R. Mantegna, Dynamics of the number of trades in ﬁnancial securities, Physica
+A, 280, 136 (2000).
+J.-P. Bouchaud, I. Giardina, M. M´ezard, On a universal mechanism for long ranged volatility corre-
+lations, Quantitative Finance 1, 212 (2001).
+V. Plerou, P. Gopikrishnan, L. A. Amaral, X. Gabaix, H. E. Stanley, Price ﬂuctuations, market activity
+and trading volume, Quantitative Finance, 1, 262 (2001).

@@ -1,0 +1,426 @@
+10
+Decisions! Decisions!
+AVERAGING  ONE  HUNDRED  INDEPENDENT  GUESSES  OF
+THE NUMBER of jellybeans in a jar usually provides a better
+estimate  of  the  actual  number  than  does  any  one  guess.
+More  generally,  ensemble-averaged  forecasts  are  typically
+better  than  best-guess  deterministic  forecasts.  However,
+when we have to make decisions, simply knowing the
+expected  outcome  is  often  not  good  enough.  We  need  to
+know the likelihood of some plausible worst-case scenario.
+If the consequences of a plausible worst-case scenario are
+truly  dire,  we  should  try  to  avoid  such  a  scenario  at  any
+reasonable  cost.  For  example,  COVID  lockdown  policies
+were imposed, at great economic cost, to avoid a plausible
+worst-case scenario in which hospitals were overwhelmed
+and  unable  to  cope  with  the  number  of  patients  needing
+treatment. But how plausible is “plausible”, and what do we
+mean by any “reasonable” cost? In this chapter we will look
+at the use of ensembles for decision-making. This is an area
+where  really  exciting  new  approaches  to  disaster  relief
+management are being developed and deployed.
+«  »
+
+A FEW YEARS AGO, before weather apps told us the
+probability of rain, a friend of mine called. He was having a
+garden party in ten days’ time and had an option to rent a
+tent (what in British English would be called a “marquee”).
+However,  he  had  to  let  the  owner  of  the  tent  know  by
+lunchtime  that  day  whether  he  wanted  it  or  not.  So,  he
+called me and asked: Is it going to rain in his back garden
+next Saturday between 2 p.m. and 6 p.m.?
+I told him that I would look at the latest forecast but it
+would be in the form of a probability. I could hear the groan
+at the other end of the phone line.
+“How  on  earth  are  probabilities  going  to  help  me?”  he
+complained.
+“Well, who’s coming to your party?”
+“What’s that got to do with it?” he replied.
+“Suppose  the  Queen  is  coming.  You  would  not  want  to
+risk  the  Queen  getting  wet,  would  you?  If  the  Queen  got
+wet, your chances of that knighthood would go right down
+the drain—along with the rainwater. So, even if the
+probability of rain was as low as ﬁve percent, say, I guess
+you would likely still rent the tent. Is the Queen coming?”
+“No, of course not!”
+“Well, what about the town mayor?”
+I sensed he was losing patience. “Look,” I continued, “if
+the town mayor is coming, you would not want him to get
+wet  either.  However,  you  probably  wouldn’t  be  quite  as
+bothered  about  him  getting  wet  as  you  would  the  Queen
+getting wet. Let’s say that if the town mayor was coming,
+perhaps  you  would  rent  the  tent  if  the  probability  of  rain
+exceeded twenty percent, say. Is the town mayor coming?”
+“No.”
+“So,  who  is  the  most  important  person  coming  to  the
+party?”
+He thought about it for a while and replied, “The mother-
+in-law.”
+
+“And how much does it matter if she gets wet? That is to
+say,  what  is  the  smallest  forecast  probability  that  your
+mother-in-law will get wet above which you would decide to
+rent  the  tent?  If  you  don’t  care  whether  she  gets  wet  or
+not,  the  threshold  is  one  hundred  percent.  If  she’s  as
+important as the Queen, the threshold is ﬁve percent. I’m
+guessing your threshold probability is somewhere between
+these two.”
+Again,  he  thought  about  it  for  a  few  seconds  and  said,
+“About ﬁfty percent.”
+“Good, then we have made a decision. I’ll take a look at
+the forecast. If the probability of rain exceeds ﬁfty percent,
+then you hire the tent. If it does not exceed ﬁfty percent,
+then you don’t. OK?”
+I looked at the latest forecast. The probability was only
+around 30 percent. He didn’t rent the tent/marquee.
+Fortunately, it didn’t rain and everyone was happy.
+What’s the essential idea from this story? It’s that
+probabilities  aren’t  some  wishy-washy  things  that  make
+forecasts imprecise and diﬀicult to use. In fact, these
+probabilities help you make better decisions—providing the
+probabilities are reliable.
+Let’s generalise the story. Imagine some weather event
+which I will call E.  E could represent the occurrence of rain
+or  perhaps  freezing  temperatures  or  perhaps  storm-force
+winds.  However  it  is  deﬁned, E  either  occurs  or  doesn’t
+occur. In the story about the tent, E occurs if it rains.
+If E  occurs,  then  Jim,  as  we  will  call  him,  will  incur  a
+ﬁnancial  loss, L,  if  he  has  taken  no  measure  to  protect
+himself. However, we will assume L can be avoided
+altogether if Jim takes some kind of anticipatory action. But
+this anticipatory action will cost him an amount, C. L and C
+have values in real monetary units such as dollars or euros,
+but the ratio C / L is just a dimensionless fraction which we
+can assume lies between 0 and 1 (if it were greater than 1,
+then there will be no point taking anticipatory action, since
+
+it would cost more than the avoidable loss). We call 
+C /  L
+Jim’s “cost-loss ratio”.
+If C  /   L  is  small  enough,  i.e.,  the  cost  of  anticipatory
+action is cheap enough relative to the loss, Jim might just
+as  well  take  anticipatory  action  regardless  of  what  the
+weather is likely to be. Conversely, if C /  L is close enough
+to  1,  then  Jim  might  just  as  well  never  take  anticipatory
+action, and just suﬀer the loss when the bad weather hits.
+But  if C  /   L  lies  between  these  two  extremes,  then  it’s
+worthwhile for Jim to consult a weather forecast to decide
+when to take anticipatory action.
+If Jim has access to only an old-fashioned deterministic
+weather 
+forecast, 
+then 
+the 
+decision 
+process 
+is
+straightforward:  take  action  when  the  forecast  predicts
+that E  will  occur;  otherwise  don’t  take  action.  This  is  all
+well and good, except, as we have seen, these old-fashioned
+deterministic forecasts can be unreliable. If 
+E denotes the
+occurrence  of  hurricane-force  gusts  in  southern  England
+for the morning of October 16, 1987, then on the basis of
+the  deterministic  forecast,  on  that  day  no  one  will  have
+taken  anticipatory  action  (moved  cars,  secured  boats  and
+aircraft, cancelled travel plans). Deterministic forecasts
+have limited value because they are unreliable.
+However,  if  Jim  has  access  to  probabilistic  forecasts
+based  on  a  reliable  ensemble  prediction  system,  then  he
+has  a  much  more  valuable  strategy  for  deciding  when  to
+take  anticipatory  action.  Suppose  an  ensemble  forecast
+system predicts E with probability p. Then the best decision
+Jim can make is to take action when p exceeds his cost-loss
+ratio, C /  L. For example, in the case where 
+L is twice the
+cost of C,  then  Jim  should  take  action  when E  is  forecast
+with  a  probability  of  at  least  0.5,  or  50  percent.  On  the
+other hand, if L is twenty times the cost of C, then it makes
+sense for Jim to take precautionary action when E is
+forecast with a probability of as low as 0.05, or 5 percent.
+
+Fig.  41  shows  an  estimate  of  the  value  of  a  modern
+weather forecast system for decisions based on whether it
+will  rain  four  days  into  the  future.  The  horizontal  axis
+shows  all  possible  values  of C  /  L  between  0  and  1.  The
+vertical axis shows how valuable the forecast system is for
+deciding  when  to  take  anticipatory  action.  A  value  of  0
+means that the forecast system has no value (you can make
+decisions that are just as valuable knowing only the
+climatological likelihood that it will rain in your region). By
+contrast, a hypothetical perfect oracle of truth has a value
+of 1; nothing can be better than that. The solid line shows
+the value of decisions using a deterministic forecast system
+(i.e., one that predicts that it either will rain or won’t rain
+with 100 percent likelihood). It can be seen that the
+forecast system has value only for a limited range of cost-
+loss  ratios C  /   L.  Outside  this  range,  it  is  useless.  The
+dashed line shows the value of an ensemble forecast
+system. It has value for almost the entire range of cost-loss
+ratios. Not only that, for any cost-loss ratio where there is
+value, the value is greater than for the deterministic
+system1.
+This  is  all  very  well,  but  does  it  really  matter  if  the
+Queen gets wet? In any case, she will have an army of staﬀ
+who, with umbrellas and the like, ensure she never actually
+gets wet. Indeed. So, let’s instead think about a farmer in
+Bangladesh.  We’ll  call  him  Ahmadul.  In  the  days  before
+computer-based weather forecasts, individual tropical
+cyclones  would  kill  hundreds  of  thousands  of  people  like
+Ahmadul;  as  many  as  half  a  million  individuals  on  one
+occasion2.
+
+FIG. 41. The potential economic value of operational forecasts from the
+European Centre for Medium-Range Weather Forecasts for the
+European/North African region over the period October–December 2020 for
+the event of rainfall over a six-hour period, four days into the forecast. The
+lines show the value of two diﬀerent forecast systems for decision-making,
+where losses L associated with the occurrence of rain can be mitigated at
+cost C. The horizontal axis denotes the user’s C / L. The vertical axis shows
+the value of the forecast, where 0 is useless and 1 is perfection. The solid
+line is for a state-of-the-art high-resolution deterministic forecast system.
+The dashed line is for a lower-resolution ensemble forecast system.
+Because  modern  weather  forecasts  are  so  much  more
+skilful,  far  fewer  people  get  killed  by  extreme  weather
+
+events  today  than  in  decades  past.  However,  that  doesn’t
+mean  that  we  are  making  the  best  use  we  can  of  these
+forecasts.  Disaster  relief  and  humanitarian  aid  agencies
+have tended to react to extreme weather events only after
+they  have  hit.  It  can  take  many  days,  perhaps  a  week  or
+more  sometimes,  for  emergency  food,  water,  shelter  and
+medicines to reach a stricken region. And of course, once
+an extreme weather event has hit, reaching aﬀected
+communities is that much harder.
+It would be so much better if these agencies were able to
+be more proactive—to use the forecasts to target aid,
+allowing  action  to  be  taken  before  the  event  hits.  The
+problem is that aid agencies aren’t ﬂush with cash.
+Because  the  old-fashioned  deterministic  forecasts  weren’t
+reliable, if they acted every time such forecasts predicted
+an  extreme  event,  valuable  resources  would  be  spent  on
+weather events that never happened.
+Because of ensemble forecasting, one can be much more
+discerning about when to become proactive. Targeting aid
+before  the  event  hits  is  called  “anticipatory  action”  by
+humanitarian  and  disaster  relief  agencies.  Like  my  friend
+deciding  whether  to  rent  a  tent  based  on  a  probability
+threshold, 
+aid 
+agencies 
+predetermine 
+a 
+probability
+“trigger”,  based  on  cost/loss  estimates,  above  which  it
+makes good sense to take anticipatory action.
+The story starts over thirty years ago. It’s not just
+tropical  cyclones  that  Ahmadul  has  to  worry  about.  His
+life’s investments are bound up in cattle. Like many in the
+country, Ahmadul lives in a low-lying area and the land on
+which his cattle graze is prone to ﬂooding from the nearby
+Brahmaputra  River.  The  ﬂooding  need  not  be  caused  by
+local heavy rainfall; indeed, the rain may have fallen many
+hundreds  of  kilometres  upstream.  But  if  a  major  ﬂood
+occurs without warning, Ahmadul’s cattle, and thereby his
+life savings, will be lost.
+
+My colleague Professor Peter Webster from the Georgia
+Institute  of  Technology  has  had  an  illustrious  research
+career.  He  is  one  of  the  world’s  experts  on  the  theory  of
+tropical  meteorology3.  He  led  a  number  of  observational
+ﬁeld campaigns to improve our scientiﬁc understanding of
+the climate of the tropics. However, in 1992, Webster spent
+a sabbatical year working with me, and during this period
+he completely changed his research direction. He became a
+convert to the recently developed ensemble-based forecasts
+and decided to spend the next years of his career showing
+how this new way of doing weather forecasting could help
+people in some of the poorest parts of the world.
+Webster began by consulting with local oﬀicials in
+regions in Bangladesh aﬀected by the Ganges and
+Brahmaputra rivers. Whilst the national meteorological
+services  provided  conventional  deterministic  forecasts  a
+couple  of  days  ahead,  the  local  oﬀicials  wanted  forecasts
+with more lead time, to allow meaningful anticipatory
+actions to be taken ahead of possible ﬂooding events. They
+needed  reliable  predictions  a  week  or  more  ahead.  With
+such forecasts, families could store several days’ worth of
+food and safe drinking water. Cattle and poultry, crop seed
+and  other  belongings  could  be  secured  in  safer  higher
+locations. Most important, plans could be made for
+complete  evacuations.  Of  particular  concern  were  those
+who lived on river islands called “chars”. It was diﬀicult to
+make  such  plans  when  you  had  only  a  day  or  two  of
+warning.
+Webster showed it was possible to make skilful
+probabilistic ﬂood forecasts for the Brahmaputra and
+Ganges  as  much  as  two  weeks  ahead,  by  coupling  the
+ensemble predictions of rainfall from the European Centre
+for Medium-Range Weather Forecasts to hydrological
+models of these rivers. Flooding would occur when enough
+rainfall fell in the catchment basins of these rivers. In this
+
+way,  the  combined  weather/hydrological  ensemble  system
+would  predict  the  probability  that  one  or  both  of  these
+rivers would ﬂood.
+However,  could  probabilistic  predictions  of  ﬂooding  be
+used by the local communities? Would they be able to make
+sense of probabilities? It wasn’t obvious. After all, when I
+was  developing  these  ensemble  prediction  systems,  I  had
+been told repeatedly by weather forecasters that the
+British public would never understand the concept of
+probability  (despite  the  fact  that  many  of  them  bet  on
+horses, where the “odds of winning” are well understood).
+Answering these questions would need a ﬁeld trial. With
+support from the US Agency for International Development
+(USAID)4, Webster began a pilot project to provide
+probabilistic forecasts to local villages in some of the ﬂood-
+prone districts in Bangladesh.
+The  project  was  an  enormous  success.  It  ran  for  two
+years—2007 through 2008. There were two prolonged
+ﬂoods in 2007 and a third in 2008. For each of these there
+was  a  strong  signal  in  the  ensemble  forecasts,  allowing
+anticipatory action to be taken. The Asian Disaster
+Preparedness 
+Center5 
+assessed 
+the 
+value 
+of 
+these
+probabilistic forecasts. Farmers with ﬁsh farms or a focus
+on ﬁshing saved about $130 per household (e.g., from ﬁsh
+farm protection). Mainly agricultural households saved
+about 
+$190 
+from 
+early 
+cropping. 
+Households 
+with
+signiﬁcant  livestock  beneﬁtted  the  most,  with  an  average
+savings  of  around  $500  from  advanced  warnings  to  move
+livestock  to  higher  ground.  More  general  savings  of  $270
+per household arose from the protection of household
+assets. At the time, the average income in Bangladesh was
+$470 per year and half the population existed on less than
+$1.25 per day. As such, the savings were substantial
+indeed.
+
+Webster needn’t have worried that the farmers wouldn’t
+understand probabilities. When he asked one farmer
+whether he could cope with probabilities, the farmer
+replied:
+“That  is  ﬁne!  Only  God  knows  100  percent  what  will
+happen, and he is not telling and you are not God!”
+With probabilities, the farmer realised, he had something
+more valuable than simple guesswork. Peter Webster’s
+groundbreaking  study  showed  that  societies  faced  with
+environmental  catastrophe  are  indeed  ready,  willing  and
+able to accept and act on probabilistic forecast information.
+The legacy of Webster’s work is the approach referred to
+earlier 
+as 
+anticipatory 
+action. 
+This 
+approach 
+is
+transforming the way in which disaster preparedness
+agencies  operate.  In  collaboration  with  the  International
+Federation  of  Red  Cross  and  Red  Crescent  Societies,  it  is
+being geared up for application around the world.
+Associated with such anticipatory action is a scheme called
+“forecast-based ﬁnance” grounded in three essential
+elements: disaster relief emergency funds, a forecast-based
+probabilistic trigger to release such funds and a pre-agreed
+action plan when the trigger conditions are met.
+As an early example of this system in action, on July 4,
+2020,  fed  by  ECMWF  ensemble  forecasts,  the  European
+Commission’s Global Flood Awareness System (GloFAS)
+predicted 
+a 
+high 
+probability 
+of 
+severe 
+ﬂooding 
+in
+Bangladesh  (which  occurred).  The  probability,  combined
+with  an  independent  assessment  by  the  Government  of
+Bangladesh’s  Flood  Forecasting  and  Warning  Centre,  was
+high enough to trigger the United Nations Central
+Emergency Response Fund (CERF) to release $5.2 million
+of  funds  to  a  number  of  local  organisations,  who  then
+prepared to distribute assistance including cash, livestock
+feed, storage drums and hygiene kits. This was the fastest
+allocation of funds since CERF was established in 2005 and
+the  ﬁrst  time  it  had  been  done  before  the  peak  ﬂoods
+
+occurred.  Ultimately  200,000  people  were  able  to  beneﬁt
+from this anticipatory action.
+In September 2021, opening a major conference on
+anticipatory action, UN secretary-general António Guterres
+said  that  CERF  had  invested  $140  million  to  scale  up
+anticipatory action in twelve countries, noting that
+“anticipatory  action  protects  lives”,  and  concluded  that
+anticipatory action will become central to the UN’s agenda
+in  the  humanitarian  sector  going  forward.  This  is  a  great
+legacy  of  Webster’s  pioneering  ﬁeld  trial  and  one  that
+would have been impossible without reliable ensemble
+predictions.
+Of course, communication issues remain critical. Most of
+us  experience  severe  weather  in  one  form  or  other  from
+time to time, and we need to know when to take notice: the
+threat  to  life  notwithstanding,  such  weather  can  lead  to
+property  damage,  to  travel  delays  and  cancellations  or  to
+loss of electricity or water supplies. As a way to
+communicate  the  risk  of  a  forecast  event,  the  UK  Met
+Oﬀice  puts  out  “yellow”,  “amber”  and  “red”  warnings  of
+severe weather based on what is called a “warning impact
+matrix” (see Fig. 42). The weather event E is characterised
+by its estimated impact and by its forecast likelihood. In the
+warning impact matrix, impact varies along the horizontal
+axis and likelihood varies along the vertical axis. In terms
+of  the  cost-loss  model  described  earlier,  we  can  imagine
+that moving along the horizontal axis, the loss, 
+L, due to E
+gets  bigger  and  bigger.  Moving  up  the  vertical  axis,  the
+probability, p, of E gets bigger and bigger. Severe weather
+warnings are based on the product pL. Hence, for example,
+an  amber  warning  could  refer 
+either  to  an  event  with
+medium  impact  but  high  probability or  to  an  event  with
+high impact but only medium probability. The probabilities
+that determine such warnings are taken from the ensemble
+forecast systems.
+
+Of course, even when people are well informed, they do
+not  always  take  action.  It  was  reported  that  some  people
+did  not  leave  their  shoreline  homes  ahead  of  the  well-
+forecast, deadly tropical cyclone Idai that hit Mozambique
+in  2019,  for  fear  their  houses  would  be  burgled.  In  such
+situations, anticipatory action could include the automatic
+provision  of  insurance  coverage  or  of  guards  to  protect
+houses.
+Anticipatory action based on probabilistic thresholds
+isn’t relevant only for ﬂooding events or storms. There is a
+growing problem of developing and maintaining global food
+security.  In  over  80  percent  of  the  world,  farming  is  rain-
+fed,  meaning  that  water  for  agriculture  comes  principally
+from  rainfall.  Many  farmers  around  the  world  know  the
+importance  of  planting  and  harvesting  crops  when  there
+will  be  rainfall  and  when  it  is  dry,  respectively.  Reliable
+probabilistic  forecasts  can  help  them  decide  on  planting,
+cropping and harvest strategies in ways for which
+deterministic forecasts are useless.
+
+FIG. 42. Risk matrix used to determine severe weather warnings in the UK.
+Shown in the ﬁgure are boxes with four shades of grey, corresponding to
+“no warning”, “yellow warning”, “amber warning” and “red warning”—the
+latter being the most severe weather warning. The shading is determined
+by the product of impact and likelihood of occurrence. For example, an
+amber warning could mean either a high probability of a medium-impact
+event or a medium probability of a high-impact event. The probabilities are
+determined by ensemble forecast systems. The ticked box corresponds to a
+“yellow warning”.

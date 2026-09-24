@@ -1,0 +1,1187 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         243 
+ 
+ 
+Chapter 20 
+Drawing Out; Non-Static Multi-Street Games 
+ 
+In the previous chapter, we discussed some clairvoyant multi-street games where the hand values 
+do not change from street to street. We saw that in that case the non-clairvoyant player checked 
+and called on each street as though it were a single street game. The clairvoyant player employed 
+a strategy of ''stacking" bluffs, and giving up on some of them on successive streets, such that on 
+the river he had an appropriate mixture of hands for the single-street river strategy. 
+ 
+In this chapter, we continue to add more complexity by adding draws to the games. What this 
+really means is that one or the other player may have a hand which has some probability of being 
+best after the next street. In some cases both players will know what cards have come (we call 
+this an open draw). This is more like a situation in holdem, where the river card is faceup and 
+shared. We also have closed draws, which are similar to seven-card stud, where the river cards 
+are revealed to only one player. 
+ 
+We begirt by considering once again a clairvoyant game. This game actually contains no draws; 
+instead, it might be the end position of a hand where there were draws, 
+ 
+Example 20.1 - The Clairvoyance Game (Open Draws) 
+Consider the following game: 
+ 
+It's limit holdem and the pot contains 6 big bets.  
+X has an exposed pair of aces. 
+Y has a hand from a distribution that contains 7/8 hands  
+with two hearts and 1 /8 dead hands. 
+ 
+The board has come:  
+Q♥ 7♦ K♥ 4c 8♥ 
+ 
+Using the solutions from the original clairvoyance game (Example 11.1), we can see that Y will 
+value bet all of his flushes, and then bluff enough dead hands so that X is indifferent to calling. 
+Using the familiar ratios we calculated when studying that game, we have the following 
+strategies: 
+ 
+X checks and Y bets all of his flushes (7 8
+ ) and a times as many dead hands, or 1 8
+  of his hands 
+total. X folds α of his hands (1 7 
+ ) and calls with the remaining 6/7. 
+ 
+Example 20.2 
+But now consider this related game: 
+ 
+It's the turn in limit holdem and the pot contains 4 big bets.  
+X has an exposed pair of aces. 
+Y has a hand from a distribution that contains  
+1 10
+  hands with two hearts and 9 10 
+
+dead hands. 
+ 
+For simplicity's sake, suppose the flush draw comes in exactly 20% of the time. We'll also ignore 
+the fact that the flush comes in less frequently when Y actually has the Bush draw because there 
+are fewer hearts left in the deck. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         244 
+ 
+ 
+The board has come:  
+Q♥ 7♦ K♥ 4♣ 
+ 
+How will the action on the turn go? In Part II. we looked at games like this. So it should be clear 
+that the aces will bet. Since Y has no hands that are ahead of the aces, he will simply call when 
+he has pot odds (with his flush draws). He will also call with some dead hands, hoping to bluff if 
+the flush comes in. The total number of dead hands he calls with is equal to the amount of hands 
+he will bluff on the river if the flush comes in. We can find the number of bluffs by figuring out 
+what the pot size will be. After a bet and a call on the turn, the pot contains six big bets. Y will 
+want to bluff on the river (if the flush card comes) with α = 1/ (P+ 1) = 1 7
+  as many hands as he 
+will value bet, or 1 70
+  of his hands total. 
+ 
+Now the river comes the 8♥. We have now arrived at the situation in Example 20.1 above: the 
+pot contains six bets, Y's distribution contains a mixture of flushes and dead hands, and the board 
+is identical. Y now cheerfully bets all his flushes and bluffs with 1 7
+  as many dead hands - which 
+is all the dead hands he brought to the river. Before going on, you should try to figure out how 
+often X has to call here. The single-street solution is of course that X should call 6 7
+  of the time. 
+However, the fact that we paused and turned it into a quiz should alert you that this is probably 
+not the right answer. Suppose X decided not to call at all. Y did, after all, bet an amount on the 
+river that would make X indifferent to calling or folding. 
+ 
+We know, however, that if X did decide to simply fold all the time, Y could likely exploit that. 
+Since Y is left with only the set of hands that he wants to have to play optimally on the river, he 
+would have to change his play on a previous street to carry forward more bluffs. But now he has 
+a problem. The problem is that in order to carry forward bluffs to the river, Y has to call a bet on 
+the turn with a dead hand in order to bluff on the end. However, 4 5
+  of the time, he will be unable 
+to bluff because the flush doesn't actually make it and he has no credible threat to have a strong 
+hand. On those hands, he just loses one bet. It turns out that he can in fact do this if X never calls 
+on the river when the flush comes in. He loses 1 bet 4 5
+  of the time, but gains 5 bets when the 
+flush comes in, for a total win of 1 5
+  of a bet. 
+ 
+So X must find a different strategy. What he is trying to do here is not to make the flush draws 
+indifferent on the river to bluffing with a dead hand, but to make the dead hands indifferent to 
+the entire play of calling the turn (with nothing), hitting the flush, and bluffing the river. We can 
+find this value algebraically. Let x be X's calling percentage. If the dead hands fold immediately 
+on the turn, their expectation is 0. To make them indifferent to the entire play, the expectation of 
+that play must also be zero. The dead hands lose 2 bets when the flush hits and they are called, 
+win 5 bets (4 in the pot, plus the bet from the opponent on the turn) when they are not called, and 
+lose 1 bet when the flush misses. 
+ 
+<dead hand, fold> =0 
+<dead hand, play> = p(call)p(flush)(-2) + p(flush)p(fold) (5) + p(no flush) (-1)  
+<dead hand, play> = x(1 5
+ )(-2) + (1 5
+ )(l – x)(5) + 4 5
+  (-l)  
+<dead hand, play> = x(-7 5
+ ) + 1 5
+   
+x(-7 5
+ ) + 1 5
+  = 0  
+x = 1 7
+  
+ 
+This leads to two principles that are at the core of analyzing multi-street play.  
+ 
+The first is: 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         245 
+ 
+In order for a bluff to be credible, it must come from a distribution of hands that contains strong 
+hands as well. 
+ 
+When considering calling ratios, the cost of playing the distribution to that point must be 
+considered. Marked made hands can call less often on the river against marked draws when the 
+draw comes in if the marked made hands bet and were called on previous streets. The made 
+hands effectively extracted their value on an earlier street, and the opponent cannot exploit the 
+made hand effectively because the draw doesn't come in often enough. 
+ 
+This principle has many implications for real poker play; the first is that it's frankly terrible to 
+find oneself in a situation with a marked open draw. You can see from this previous example - X 
+only called for value with 1 7
+  of his hands on the river, instead of 6 7
+ , but Y gained nothing from 
+compensating bluffs. X's strong position on the turn enables him to give up when the flush 
+comes in because Y paid so much for the opportunity to bluff on the river. 
+ 
+In fact, you might notice that Y's partial clairvoyance doesn't help him very much at all here; this 
+occurs primarily because his distribution of hands is so weak. Optimal strategies would normally 
+never result in a situation where a hand was marked as a draw; in fact, our fellow poker theorist 
+Paul R. Pudaite has proposed a "Fundamental Theorem of Chasing" that conjectures that given 
+sufficient potential future action, every action sequence must have some positive chance of 
+containing hands that are the nuts for all cards to come. 
+ 
+The second principle is also of prime importance in understanding how to apply game theory to 
+poker. 
+ 
+Multi-street games are not single-street games chained together; the solution to the full game is 
+often quite different than the solutions to individual streets. 
+ 
+In the first game, we considered the play on the river in isolation as a problem unto itself. 
+However the solution to the two-street game is different, even though after the play on the turn, 
+the second game reduced to an identical situation to the first. In fact, this is almost always the 
+case. This is one of the most important differences in the analysis of games such as chess or 
+backgammon and the analysis of poker. In those games, if we arrive at a particular position, the 
+move order or the history of the game is irrelevant to the future play from this point. This is not 
+the case in poker. 
+ 
+This critically important point also leads us to one of the great difficulties of doing truly optimal 
+poker analysis - no situation exists in a vacuum. There was always action preceding the play on a 
+particular street that should be taken into account. There are always more complex distributions 
+of hands that must be taken into account. In fact, we really cannot label a play or solution 
+"optimal" unless it is taken from the full solution to the game. This difficulty is in some ways 
+insurmountable due to lack of computing power and also because of the multiplayer nature of the 
+game. However, we still look for insight through the solving of toy games and then try to adjust 
+for these factors in real play. 
+ 
+Example 20.3 - The Clairvoyance Game (Mixture of Draws) 
+Suppose that instead of a distribution of hands for Y that contains only draws and dead hands, he 
+has a distribution which contains x% flush draws (the main draw), y% weak closed draws - for 
+example underpairs that don't have sets yet, and the remainder z% are dead hands. For the sake 
+of simplicity, presume that the flush hits 20% of the time and the weak draws hit 4% of the time 
+(these events are independent - both could happen, or neither). 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         246 
+ 
+The weak draws don't have pot odds (even considering the extra bet they might win on the river) 
+to call a bet on the flop. However, since Y is calling with additional hands in order to balance his 
+bluffs on the river, he might as well (in fact, he must to be optimal) call with all of his weak 
+closed draws first, and finally with some dead hands. 
+ 
+So X bets, and Y calls with a mixture of the three types of hands. However, Y still has some 
+equity on the river when the flush doesn't come in, because 4% of the time he has hit a set with a 
+non-flush card. He will bet his sets for value and bluff with some dead hands. (Busted flush 
+draws, weak draws that didn't come in, and dead hands from the start are all dead hands on the 
+river). 
+ 
+In the previous game (Example 20.2), it was clear which hands X had to make indifferent by 
+calling on the river. X could not prevent Y from profitably calling and betting the river for value 
+when he made his flush. Hence, he made Y indifferent to calling with a pure bluff. Here, 
+however, he must decide between trying to make Y indifferent with his weak closed draws or 
+with his completely dead hands. This choice depends on the total fraction of each of these hands 
+that are present. 
+ 
+If x = 10% and z = 90%, we have the game we previously solved. 
+ 
+Suppose that x = 10% and y = 90% (there are no dead hands). Then clearly X must make Y 
+indifferent with his weak closed draws. He does this by calling enough in both cases that Y is    
+indifferent to calling and bluffing the river. Say that xf is X's calling frequency when the flush 
+comes in, and xn is X's calling frequency when another card hits. 
+ 
+Now let's consider a single of Y's closed draws. Y has a number of strategies he can employ. 
+We'll transform multiple decisions into a matrix because it makes solving the game easier. We'll 
+denote Y's strategies as the following: 
+ 
+[<turn action>/<river action if the flush comes in>/< river action if the flush misses >] 
+ 
+So for example [F//] is a turn fold, while [C/B/K] means to call on the turn, bluff the river if the 
+flush comes in and check the river if the flush misses. In all cases, if the hand hits a set, it will 
+value bet on the river. If this occurs, then us equity is 5 bets (the bets in the pot and from the 
+turn) plus the appropriate implied odds (xf calls if the flush came in, xn calls if it missed). We'll 
+assume that the set is made with a flush card 1 4
+  of the time. 
+ 
+Vset = (3 4
+ )(5+xn) + (1 4
+ )(5+xf) 
+ 
+Y's action 
+sequence 
+Y's equity 
+Y's equity assuming  
+xn = 1 and xf = 1 
+[F//] 
+-(1 25
+
+)(4) = - 0.16 
+ 
+[C/B/B] 
+(1 25
+
+)Vset + (19 100
+
+)(-2xf+5(1-xf)) 
++( 77 100
+
+)(-2xn+5(1-xn)) 
+ 
+[C/B/K] 
+(1 25
+
+)Vset + (19 100
+
+)(-2xf+5(1-xf)) - 77 100
+
+ 
+ 
+[C/K/B] 
+(1 25
+
+)Vset - 19 100
+
++( 77 100
+
+)(-2xn+5(1-xn)) 
+ 
+[C/K/K] 
+(1 25
+
+)Vset - 19 100
+
+ - 77 100
+
+ 
+72 100
+
+ 
+ 
+The values 1 25
+
+, 19 100
+
+, and 77 100
+
+ are the respective probabilities of hitting a set (whether a 
+flush comes or not), hitting a flush card but not a set, and missing everything. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         247 
+ 
+We can immediately see that calling and checking down whatever comes must be dominated. 
+Suppose that xn and xf were both 1, the most favorable situation for a set. Then <[C/K/K]> = 
+1 25
+
+ (6) - 96 100
+
+ = - 72 100
+
+, which is substantially worse than simply folding immediately. 
+ 
+We also know that the total number of bluffing hands when the flush comes will be greater than 
+the total number of bluffing hands when the flush does not come (because we will have more 
+value hands). Therefore, there must be some hands that are played in the manner [C/B/K] in 
+addition to those which are played in the manner [C/B/B], (If any hands are played [G/K/B]. we 
+can simply remove these hands and convert [C/B/K] to [C/B/B]). 
+ 
+Since we have both types of hands, bluffing on the river when the flush does not come in must 
+he a mixed strategy. 
+ 
+We therefore have: 
+ 
+<[C/B/B]> = <[C/B/K]>  
+77 100
+
+ (-2xn + 5(l - xn) = - 77 100
+
+  
+5 - 7xn = - l  
+ 
+We additionally know that Y must bluff at least sometimes on the river since he does not always 
+have the nuts. Hence we have the following: 
+ 
+4 100
+
+Vset + 19 100
+
+ (-2xf + 5(1-xf)) - 77 100
+
+ = 16 100
+
+ 
+1 25
+
+ ((3 4
+ )(5+6 7
+ )+( 1 4
+ )(5+xf))+ 19 100
+
+ (5-7xf) = 61 100
+
+ 
+xf = 3 7
+  
+ 
+This is a pretty interesting result as well: by adding draws that are only 1 4
+  as strong as the flush 
+draws, Y is able to force X to call on the river three times as often. Here we see the power of 
+closed draws. When only closed draws are possible (the flush didn't come in), X must call 6 7
+  of 
+the time to keep Y indifferent. When the flush does come in however (an open draw), X needn't 
+call so much, only 3 7
+  of the time. 
+ 
+For Y's play, he need only play enough weak draws so that he has the appropriate amount of 
+bluffing hands when the flush comes in. If he plays y weak closed draws, he will have a made 
+hand 1 9
+  y + 1 10
+  of the time on the river, and his a should be 1 7
+  . Hence, 
+ 
+(1 7
+ )( 1 9
+ y + 1 10
+ ) = 8 9
+ y 
+8 9
+  y = 1 63
+
+ + 1 70
+  
+y = 9 550
+
+ 
+ 
+(This value is a little more than 1 70
+ , the total number of dead hands Y played in the previous 
+game). 
+ 
+Now let's consider a more genera] case, where Y's distribution contains some of each type of 
+hand. The shape of his distribution determines the strategy of the game - X must make a decision 
+regarding which type of hand to make indifferent. Y needs to add "bluffing" hands to support his 
+flush draw calls. Y will of course prefer to add hands with equity compared to hands with none. 
+So he will add the weak closed draws to his calling distribution until they are exhausted. Only 
+then will he add dead hands and attempt to bluff when the open draw comes in. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         248 
+ 
+In a way, this is similar to the [0,1] game. Y's distribution has regions; a region of flush draws, a 
+region of weak closed draws, and a region of dead hands. He has to take actions in certain 
+frequencies for purposes of balance, to make X unable to exploit him. Likewise, however, he 
+will choose hands that have positive value with which to do this. At some point, there will be a 
+threshold hand that will have a mixed strategy - at that hand he will be indifferent. 
+ 
+Sometimes, that threshold hand will be a weak closed draw (as we saw when there were no dead 
+hands). Sometimes, that threshold hand will be a dead hand (as we saw when there were no weak 
+closed draws). The key is: if there are not enough weak closed draws in Y's distribution, then X 
+cannot make him indifferent to calling and bluffing with those closed draws. Y will always have 
+greater equity from doing that than doing something else. This occurs in just the same way that 
+X cannot make him indifferent to calling with flush draws; X cannot bet enough to prevent him 
+from making money. The presence of the flush draws allows the weak closed draws (up to a 
+certain number) to profitably call on the turn because they obtain positive value (compared to 
+checking) by bluffing when the flush comes in. This positive value enables them to overcome the 
+fact that they are calling without sufficient pot odds to do so. 
+ 
+So suppose that x = 30%, y=1%, and z= 69%. Then X will make Y indifferent to calling and 
+bluffing with a dead hand. Y will simply call with all his weak closed draws. But if x = 30%, y = 
+50%, and z = 20%, then X makes Y indifferent to calling and bluffing with a weak closed draw. 
+ 
+This is a question that people who are familiar with our work on optimal play often ask us: 
+"Which draws should we make indifferent to calling and bluffing?'' The answer is, in a sense, the 
+best one you can! It is possible to extend the above methodology- to include any combination of 
+draws that do not contain the nuts. We can take this concept further by combining the 
+clairvoyance game with the two-street game and looking at a situation where a known, exposed 
+hand plays against a known distribution with cards to come. 
+ 
+Example 20.4 
+Consider the following situation: 
+ 
+X and Y play holdem on the turn. 
+X's hand is exposed. 
+Y holds some hand y chosen randomly from a distribution of hands Y.  
+There are P units in the pot. 
+ 
+Now we can directly map Y and y to probabilities; Y knows X's hand, and he knows all the 
+possible cards that can come on the river, so his chance of being ahead in a showdown (with no 
+other betting) is simply the probability that he will have the best hand after the river card (for the 
+sake of this discussion, we'll ignore ties). 
+ 
+For example, suppose we have the following: 
+ 
+A's hand: A♠ 4♣ 
+The board: A♥ J♠ 8♦ 7♣ 
+Y's distribution of hands: (99+, AQ+} 
+Y has the following types of hands: 
+ 
+ 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         249 
+ 
+ 
+Hand Type 
+Frequency 
+Probability of winning 
+AA 
+1 39
+  
+1 
+KK 
+6 39
+
+2 44
+  
+QQ 
+3 39
+
+2 44
+
+JJ 
+3 39
+
+1 
+TT 
+6 39
+
+6 44
+  
+99 
+6 39
+  
+6 44
+  
+AK 
+8 39
+  
+41 44
+  
+AQ 
+6 39
+  
+41 44
+  
+Total 
+1 
+ 
+ 
+We can sum the frequencies of each of the unique probability outcomes (without regard to the 
+actual hand type) and create an alternate distribution 4, which for the purposes of this game is 
+equivalent to 4: 
+ 
+{(1, 4 39
+ ), (41 44
+
+, 14 39
+ ), (6 44
+
+, 12 39
+ ), (2 44
+
+, 9 39
+ )} 
+ 
+The reason that this is equivalent to the previous distribution is that all the hands with one 
+probability of winning are interchangeable, even though they have different cards that "make" 
+them, and even though both players will see the river card. This is because on the river, the 
+second player has perfect information about the hand. Therefore, he will never pay off a bet 
+incorrectly, so the first player cannot gain from inferences about the river card by betting or 
+raising. 
+ 
+There are, of course, two streets remaining, but play on the river is fairly simple. If the hand gets 
+to the river, the player with the made hand checks (if he is first). The player with the distribution 
+of hands then value bets all his winning hands, plus a fraction of losing hands equal to his 
+winning hands times l/(P + 1). This is the familiar betting-to-bluffing ratio that we saw first in 
+the one-street clairvoyance game (Example 11.1). Then the opponent calls P/(P+ 1) of the time 
+with his exposed hand, and there is a showdown. 
+ 
+Y therefore breaks even on his bluffs, and wins one bet when he is called with a winner. The bets 
+he wins on the river are "implied odds" from the play on the turn, but because the play on the 
+river is essentially automatic if both players play optimally, we can actually incorporate that 
+directly into calculations about play on the turn. We define the value of a winning concealed 
+hand to be the pot size on the river plus P/(P + 1) bets, the amount that the concealed hand wins 
+by value betting and bluffing appropriately on the river. We use the notation Pt to represent this 
+value. 
+ 
+Pt = P+P/(P+1) 
+ 
+X has to pay off here with P/(P+ 1) of his hands because we constrained the game to contain 
+only a half street on the turn. 
+ 
+Let's assume that in the above example after the turn betting there are five bets in the pot. Now X 
+will bet his winning hands, and be called 5 6 
+ of the time. So the value of the hand is the pot (5 
+bets) plus 5 6 
+  of a bet = 35 6 
+ . 
+ 
+Now using our mapped distribution, we can define some more things. Suppose we order the 
+probabilities from best to worst. So in the example distribution, the probabilities are: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         250 
+ 
+4 39 
+
+ of the hands have equity 1.  
+14 39 
+
+ of the hands have equity 41 44 
+
+ 
+12 39 
+
+ of the hands have equity 6 44 
+
+  
+9 39 
+
+ of the hands are have equity 2 44 
+
+ 
+ 
+We now create a function that identifies the probability of a particular hand based on the rank of 
+that hand: 
+ 
+y(t) = the winning probability of the best hand in 4, after removing the t best hands from 4.  
+(0 <= t < = 1) 
+ 
+y(0) =  the winning probability of the best hand in 4.  
+y(1) = the winning probability of the worst hand in Y’. 
+ 
+In our example distribution, we have: 
+ 
+y(0) = 1 
+y(1 4 
+ ) = 41 44 
+
+ 
+y(1 2 
+ ) = 6 44 
+
+ 
+ 
+(the median hand) 
+y(1) = 2 44 
+
+  
+ 
+Another function that is quite useful for analyzing this game is the average equity of the best 
+t hands, which we denote by yθ(t). This is a measure of the probability of a range of hands; 
+it is the expected value of the designated subset of the distribution. So for example, yθ(1 2 
+ ) is the 
+average of y(t) for the top 50% of hands. 
+ 
+yθ(t) (the value of the  tth  hand) is often discontinuous and ill-behaved.  
+ 
+We can see some values of the yθ(t) function for our example distribution:  
+ 
+yθ(0) = 1 
+yθ(1 4 
+ ) = (16 156 
+
+)(1)+( 23 156 
+
+)( 41 44 
+
+) ≈ 0.23995 / 0.25 ≈ 0.95980 
+yθ(1 2 
+ ) = (8 78 
+
+)(1) + (28 78 
+
+)( 41 44 
+
+)+( 3 78 
+
+)( 6 44 
+
+) ≈ 0.44231/.5 ≈ 0.88462 
+yθ(1) ≈ 0.48951 
+  
+y -(t) is a much different and much more well-behaved function; it turns out that this function has 
+some nice properties. 
+ 
+• Continuous. 
+• Decreasing for all t, and strictly decreasing as long as y(t) <> y(0). 
+ 
+Another way of expressing yθ(t) (which shows its continuity) is as follows: 
+ 
+yθ(t) = 56 "(()'(
+
+
+7 /( 
+ 
+yθ(1) is an important value - the average equity for all the hands is Y. This value will be quite 
+significant in determining the play. For example, suppose that yθ(1) = 1. Then Y would bet the 
+turn and X would fold (because X has no equity in the pot!). Similarly, if 
+yθ(1) = 0, then Y could not win and X would simply claim the pot. However, between these two 
+extremes, there are cutoffs such that the players employ mixed strategies designed to prevent 
+exploitation. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         251 
+ 
+Example 20.5 - The One-and-a-Half-Street Clairvoyance Game 
+One half-street on the turn (X checks dark), followed by a full street on the river.  
+Y's hand is exposed. 
+Y's hand is randomly chosen from a distribution Y  
+There are P bets in the pot.  
+No raising is allowed* 
+ 
+* There is one extremely limited case where Y might bet and X check-raise if it were allowed, 
+when the relationship between the distribution of Y, the adjusted pot on the turn, and the 
+adjusted pot on the river meets a quite narrow set of criteria. We ignore this case for simplicity's 
+sake here by simply removing the raise option. 
+ 
+To solve this game, we must identify the optimal strategies. Consider intuitively how the play 
+should go. If Y's distribution is very strong (such that Y doesn't have "enough" equity), then 
+will just bet and take the pot, as X lacks pot odds to call. On the other hand, if Y's distribution 
+contains a mixture of strong and weak hands, Y will bet some set of his better hands and check 
+the rest. And if Y's distribution contains only weak hands, then he will just check and play the 
+river. 
+ 
+First, let's find some of the threshold values. We'll calculate all equities from Y's point of view as 
+usual. Assume Y bets all hands. If he is called, the pot on the river will be 
+ 
+P+2 bets and his hand will be worth (P+ 2)t on the river if he hits a whining card. It costs him 
+one bet to make this play. The betting on the river is already included in the t. If Y bets and X 
+folds, then Y wins P units. 
+ 
+X should fold immediately if the value of folding is less than the value of calling. 
+ 
+yθ(1)(P+2)t – 1 ≥ P 
+yθ(1) ≥ (P+1)/(P+2)t 
+or 
+yθ(1) ≥ (P+1)/(P+3)/(P+2)(P+4) 
+ 
+So if Y's overall hand strength (chance of winning) from all the hands in his distribution is 
+greater than the value (P+1)/(P+2)t, then Y can bet and claim the pot. X can't profitably call on 
+the turn at all. 
+ 
+We'll call that Case 1. 
+ 
+Case 1. 
+Condition: yθ(1) ≥ (P+1)/(P+2)t 
+Action: Y bets and X folds. 
+ 
+Something else comes up here. Suppose Y's distribution is such that this case is satisfied, but 
+checks and then bets the river? Can X sometimes call then? 
+ 
+The answer is no. The reason is that by doing so, X can be exploited. Suppose that Y has 1 5
+  
+hands that always win, and the remaining 2 5
+  of hands are close to always winning, such that 
+Case l's condition is true. If Y can occasionally check the nuts on the turn, bet the river and 
+occasionally get called, then he can employ the following exploitive strategy: 
+ 
+Bet all hands that don't have 100% equity (X must fold) and win P units. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         252 
+ 
+Check the nuts and bet the river. 
+Hope to get called and win more than P units. 
+ 
+Since X's optimal strategy cannot allow this exploitation. X's optimal strategy is to fold at any 
+future point during the hand. This is actually a general rule: 
+ 
+If your opponent's distribution and yours are such that your opponent can take some action and 
+you must fold and surrender the entire pot, then at any later point in the hand, it is at least co-
+optimal to fold to any future action. 
+ 
+Avoiding this situation is another reason to play properly balance strategies throughout the hand. 
+ 
+In any event, at the opposite end of the spectrum, let us consider the situation where X should 
+always call a bet. If X will always call, then Y's equity from checking a handy is simply y(Pt). 
+That is, Y checks the turn and if he wins on the river, the value of the hand is Pt. Y's equity from 
+betting a hand y is similarly y(P+ 2)t - 1. Then Y should bet when: 
+ 
+y(P+2)t – l ≥ y(Pt) 
+y ≥ 1/((P+2)t - Pt) 
+ 
+What this means is that if X will call all the time, then Y can profitably bet all hands such that y 
+is greater than this value. For most P values, this expression is a little less than 1 2
+ . At P= 3, for 
+example, it evaluates to around 0.48. It should be clear that Y profits by betting when he has 
+more than 50% equity in the pot. However, from this expression, we can see that Y can 
+profitably bet with a little less than 50% equity hi the pot, because of the implied odds his 
+clairvoyance affords him on the next street. 
+ 
+Now we can make use of one more piece of notation. We will often want to designate "the set of 
+hands where y is greater than some value y0," in terms of how many hands there are or what 
+fraction of the hands satisfy this condition. So the set of hands {y [ y ≥ y0} corresponds to a 
+different set {y (t) | t ≤ } for some value  . We'll call this value  [y0]. Let's go back to our 
+example distribution Y': 
+ 
+{(1, 4 39
+ ), (41 44
+
+, 14 39
+ ), (6 44
+
+, 12 39
+ ), (2 44
+
+, 9 39
+ )} 
+ 
+Suppose we want all the hands where x is greater than y0 = 1 2
+ . This set of hands includes all the 
+100% winners and all the 41 44
+  winners {AA, JJ, AK. AQ}, We can also define this set of hands 
+with a t value that corresponds to the cutoff value, t values below this threshold will have equity 
+greater than or equal to y0, and t values above this threshold will have less. Since these hands 
+make up 18 39
+ ), of the total,  [1 2
+ ] = 18 39
+ . This is the t value such that y(t) ≥ 1 2
+  for all t values 
+less than  [1 2
+ ], or more straightforwardly, it's the fraction of hands with equity greater than or 
+equal to 1 2
+ . 
+ 
+y(1 2
+ ) is the equity of the best hand left after removing the best 1 2
+  of hands. So there are 39 
+hands total. Removing the best 19 of them, the best hand left is 6 44
+ . So that's what y(t) is, the 
+best hand after removing the best t hands.  [x] is like the inverse of this. So suppose we have an 
+*equity* 1 2
+ , and we want to know how many hands have at least that much equity. In this case 
+it's 18 39
+ .  [x]  is the fraction of hands with at least x equity. 
+ 
+So in this case, we'll define: 
+ 
+t0 = [(1/((P+2)t - Pt)] 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         253 
+ 
+t0 is the threshold where if X calls all the time. Y should bet all hands that have greater equity. If 
+Y does bet all these hands, then X can call all the time as long as Y's equity with the hands he 
+bets is less than (P+1)/(P+2)t. 
+ 
+To summarize this case, if X calls all the time, then Y can come up with a set of hands to bet 
+with a threshold of t0. His equity with that set of hands is yθ(t0). As long as this value is low 
+enough that X always has odds to call on the turn, X just calls all the time. 
+ 
+Case 2. 
+Condition: yθ(t0) ≤ (P+1)/(P+2)t 
+t0 = [(1/((P+2)t - Pt)] 
+Action: Y bets and B calls. 
+ 
+So those are the two extreme cases - where Y has almost all of the equity, and where Y doesn't 
+have enough strong hands to prevent X from calling no matter what strategy he employs. 
+ 
+The third case, however, is the most interesting one, because X utilizes a mixed calling strategy. 
+That is, the set of hands that Y bets is too strong for X to call all the time, but not strong enough 
+for X to simply fold. Instead, X calls often enough that Y can't just bluff his bad hands with 
+impunity, but folds often enough that Y can't exploit him by betting strong hands exclusively. 
+ 
+So X is going to have some "folding frequency," which is the % of the time he will fold on the 
+turn. We will call this value α. Here, however, since it is the turn, applying the typical α = P/(P+ 
+1) is incorrect. Remember, X's hands are all alike, so his play can be expressed as a single 
+number (call/fold frequency on the turn). On the river, of course, he simply calls P/(P + 1) of the 
+time. Y's strategy, on the other hand, includes betting different types of hands with different 
+values. 
+ 
+If X will fold α of the time and call 1- α of the time, we can find Y's strategy in terms of α. Y 
+will bet when the equity of betting is higher than the equity of checking. 
+ 
+<Y, bet hand x > = αP + (1 - α) (y (P + 2)t  - 1) 
+<Y, check hand x > = yPt 
+αP + (1 - α) (y (P + 2)t  - 1) ≥ yPt 
+y [(1 - α)(P+ 2)t – Pt] ≥ 1 - α(P+ 1) 
+ 
+The left side of this equation is positive as long as αP< 2, or α < 2/P. 
+ 
+The right side of this equation is positive as long as α > 1/(P+ 1). So if X chooses his folding 
+frequency a greater than 1/(P + 1), then Y just bets all the time. This could be optimal (in Case 1 
+from above), but if that case doesn't apply, then Y is exploiting X. We can also see that if X 
+chooses a frequency a that's high enough, then Y bets whenever his equity from betting is higher 
+than checking: 
+ 
+y [(1 - α)(P+ 2)t – Pt] ≥ 1 – α (P+1) 
+ 
+y ≥ (1 – α (P+1))/[(1 - α)(P+2)t - Pt]  
+ 
+ 
+ 
+ 
+ 
+ 
+(20.1) 
+ 
+We can use another fact about optimal strategies. If X is playing a mixed strategy of calling and 
+folding with his hand, then he must be indifferent to doing those two things. Otherwise, he could 
+simply improve by moving his calling frequency. So suppose that Y is betting his optimal set of 
+hands . Then we have! 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         254 
+ 
+yθ()(P+2)t – 1 = P 
+yθ() = (P+1)/(P+2)t 
+ 
+Now we return to the properties of yθ((). This function is decreasing, so we know that yθ(1) ≤ 
+yθ(() ≤ yθ(0). We also have an important value (P + 1)/(P + 2)t. This value is the value of y-(t) 
+such that if Y bets all hands better than T, X is indifferent to calling or folding. So one of the 
+following must be true. 
+ 
+Possibility 1: yθ(1) ≥ (P+ 1)/(P+ 2)t 
+Possibility 2: yθ(0) ≤ (P \ 1)/(P+ 2)t 
+Possibility 3:  yθ()  = (P+ l) /(P+ 2)t 
+ 
+Possibility 1 is within Case 1, where Y bets all the time and X just folds. 
+ 
+Possibility 2 is within Case 2, where Y only bets his hands that have positive equity, and X calls 
+all the time. 
+ 
+Possibility 3 is a new case, Case 3. We know that y(t) ≤ yθ(t), because y(t) is just the worst hand 
+that makes up the equities in yθ(t). If y() > l/((P + 2)t – Pt): then the threshold hand (the hand 
+that makes X indifferent to calling) is still a "good hand." So Y bets and X still calls because he 
+still has odds, and this is actually Case 2. 
+ 
+If y() < l/((P+2)t - Pt), however, then we have Equation 20.1, which we found earlier, and 
+shows that Y will only bet hands that have positive equity from betting: 
+ 
+y ≥ (1 - α(P + 1))/ [(1 - α) (P + 2)t – Pt] 
+ 
+Substituting y() for y and solving for α, we get: 
+ 
+α = (1 –y()[(P+ 2)t – Pt])/(P + 1 - y(t)(P + 2)t) 
+ 
+In this case, Y chooses a  such that X is indifferent to calling or folding against the whole range 
+of hands better than T. And X calls and folds with a frequency that makes Y indifferent to 
+betting with exactly y(). 
+ 
+Case 3. 
+Condition: Neither Case 1 nor Case 2 hold.  
+Y bets hands such that yθ() = (P+ 1)/(P+ 2)t 
+X folds α = (1 – y()[(P + 2)t – Pt])/(P + 1 - y(t)(P + 2)t) of his hands and calls with the rest. 
+ 
+Now let's look at some examples. First, we return to our example hand. Recall that the situation 
+was: 
+ 
+X's hand: A♠ 4♣ 
+The board: A♥J♠ 8♦ 7♣ 
+Y's distribution of hands: {99+, AQ+} 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         255 
+ 
+Y has the following types of hands: 
+ 
+Hand Type 
+Frequency 
+Probability of winning 
+AA 
+1 39
+  
+1 
+KK 
+6 39
+
+2 44
+  
+QQ 
+3 39
+
+2 44
+
+JJ 
+3 39
+
+1 
+TT 
+6 39
+
+6 44
+  
+99 
+6 39
+  
+6 44
+  
+AK 
+8 39
+  
+41 44
+  
+AQ 
+6 39
+  
+41 44
+  
+Total 
+1 
+ 
+ 
+This converted into a secondary Y distribution of: 
+ 
+{(1, 4 39
+ ), (41 44
+
+, 14 39
+ ), (6 44
+
+, 12 39
+ ), (2 44
+
+, 9 39
+ )} 
+ 
+Say the pot is 5 bets. 
+First of all, we can look for which case we are in.  
+ 
+Case 1: 
+yθ(1)  is about 0.48 (as we found earlier) 
+(P+1)/(P+2)t = (6)/( 63 8
+ ) = 48 63
+
+, or about 3 4
+  
+ 
+So Case 1 doesn't hold because yθ(1)  ≥ (P+ 1)/(P+ 2)t. 
+ 
+This should make sense, because Y's distribution here isn't strong enough that he can just blast 
+away with all his hands and X has to fold. X has a big share of the pot if Y bets all hands, so he 
+won't fold outright. 
+ 
+Case 2: 
+First, we can find t0. 
+ 
+t0 =  [(1/((P+2)t) - Pt)]= [8 15
+ ] 
+ 
+[8 15
+ ] is the t value for which y(t) is greater than 8 15
+ . That includes all the hands with 100% 
+equity and all the hands with 41 44 
+
+equity, or 18 39
+  of the hands. If the following is true, we have 
+Case 2: 
+ 
+yθ(t0) ≤ (P+1)/(P+2)t   
+yθ(18 39
+ ) ≤ 48 63
+  
+ 
+The average equity of the top 18 39
+
+ of Y's hands is just:  
+ 
+yθ(18 39
+ ) = (4 18
+ )(l) + (14 18
+ )( 41 44
+ ) ≈ 0.94697 
+ 
+Case 2 isn't true either, because the inequality above isn't satisfied. This also should make sense. 
+Y has some pretty strong hands in his distribution in addition to a lot of weaker ones. If X were 
+to call all the time, Y could selectively bet his strong hands to exploit X. 
+ 
+Since neither Case 1 nor Case 2 hold, we must be in Case 3. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         256 
+ 
+Now what we must do is find a  value for Y, such that if Y bets, X is indifferent to calling or 
+folding. 
+ 
+yθ()  = (P+ l) /(P+ 2)t 
+yθ()  = 48 63
+  
+ 
+We can work backwards into this: 
+ 
+{(1, 4 39
+ ), (41 44
+
+, 14 39
+ ), (6 44
+
+, 12 39
+ ), (2 44
+
+, 9 39
+ )} 
+ 
+48 63
+
+ = [(4 39
+ )(1) + (14 39
+ )( 41 44
+ ) + (y)( 6 44
+ )]/( 18 39
+ + y) 
+ 
+(where y is the number of 6 44
+  equity hands that Y will bet) 
+ 
+48 63
+ ( 18 39
+ + y) = [(4 39
+ )(1) + (14 39
+ )( 41 44
+ ) + (y)( 6 44
+ )] 
+ 
+y ≈ 0.13655 
+T = y + 18 39
+
+ ≈ 0.59808 
+ 
+(You may wish to independently verify that yθ()  =48 63
+ ) 
+ 
+So Y bets his best 59.8% of hands (approximately). We must also find X’s calling frequency. 
+(He seeks to make Y indifferent between bluffing and checking at T). 
+ 
+α = (1 - y()[(P+2)t – Pt ])/(P + 1 - y(t)(P+2)t)  
+α = (1 - (6 44
+ )( 15 64
+ ))/(6 - (6 44
+ )( 63 8
+ ))  
+α ≈ 0.19651 
+ 
+So X folds about 19.6% of his hands. 
+ 
+This game has three important features that help to inform our decisions in real poker. 
+ 
+• Implied odds are an important part of optimal strategy in games with more than one 
+street. These games are often more difficult to solve because of their increased 
+complexity. Hence, game theory examples often consider the play on a single street and 
+show how to make the opponent indifferent on the one street. In this game, the Pt idea 
+introduces a quantitative measure of the implied odds. We can see from this that the 
+strategy for each individual street is not the same as the strategy for that street in 
+isolation. For example, on the turn, the pot contains 5 bets. Usually, if a player folds more 
+often than 1/(P+ 1) of the time, he is exploitable by bluffing. However, in this case, with 
+a pot size of 5, it is correct for X to fold almost 1 5
+ of his hands (instead of 1 6
+ ). This is 
+because X is at a disadvantage not only on this, but on future sneets. When he folds, he 
+doesn't have to pay off on the river. Hence, he can fold more often optimally. We cannot 
+emphasize this concept enough - multi-street games are not single-street games chained 
+together; the solution to the full game is often quite different than the solutions to 
+individual streets. 
+• The distributions that the players hold cause the play to be significantly different. When 
+Y is quite strong, X can just fold; when Y is weaker, X can just call all the time. X can 
+sometimes play accurately against Y's distribution.    
+• The players cannot make each other indifferent to taking certain actions with certain 
+hands, hi fact, there is usually just one threshold where they are indifferent, but that 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         257 
+ 
+threshold forms the linchpin of the entire strategy. In this case, the values for T and α 
+represent those thresholds. X can vary the value of α fairly widely without giving up 
+value as long as Y continues to play optimally. However, if X strays from the optimal α 
+value, Y can exploit him by bluffing or not as appropriate. 
+ 
+More Advanced Topics In Games With Draws 
+Tire previous game was a fairly general case of a game where X could not bet on the turn. We 
+have done some work on games with even more complexity; we omit describing some of these 
+games because they are substantially more difficult, and often involve many cases related to the 
+shapes of the distributions. However, we will briefly touch upon some of the principles we see 
+from studying more complex games. 
+ 
+One important principle we find throughout looking at games with different types of draws is 
+that that concentrating equity in a few hands is stronger than having a distribution that contains 
+many draws of moderate value. Contrast the following two distributions - one that contains 25% 
+the nuts and 75% dead hands and one that contains 100% hands that have 25% equity. In terms 
+of showdown equity, these distributions are identical; y(1) for both of them is 0.25. However, the 
+distribution that contains nut hands can play much more effectively in a two-street game, 
+extracting additional value from his winning hands. When he holds a homogeneous set of draws, 
+he basically has to wait until the draw comes in or doesn't in order to effectively bet and bluff. 
+Distributions that contain more hands with high showdown value are in general more like 
+clairvoyance than distributions that contain hands with medium-strength. And clairvoyance is 
+effectively the limit of how well you can do playing a game. 
+ 
+As a result, it is important, as we said earlier, to keep one's distributions balanced with different 
+types of hands, and to allow nut hands to balance draws whenever possible when deciding to 
+carry hands from street to street. 
+ 
+In full two-street games we also see semi-bluff raising. When Y's distribution is sufficiently 
+weak or draw-heavy, X will bet out on the turn. Y should then raise with strong hands and 
+balance those raises with semi-bluffs, while continuing to call with weaker draws and folding the 
+weakest draws of all (beyond the bluffing hands he needs to carry forward, as in the first games 
+we studied in this chapter), 
+ 
+A third principle we see is that in clairvoyant situations, open draws are often much weaker than 
+closed draws. When a draw is closed, the non-clairvoyant player must fold just α of his hands. 
+Contrast this to the results we saw in open draw games, where the non-clairvoyant player was 
+able to fold more than half his hands, even when there were some closed draws present. 
+ 
+The complexity of multi-street games provides a tremendous challenge for us as poker analysts; 
+there are many factors to be considered about the shape of the distributions, the size of the pot. 
+and the structure of the game. And these are only two-street games where the bet size is the same 
+on each street. If we had a full understanding of all the ways in which distributions made up of 
+hands of varying strengths and varying draw potential interacted across multiple streets in 
+optimal play, we would have a solution to any poker game. As it is, we simply continue to try to 
+take out tiny chips from that large tree, by analyzing one situation at a time. 
+ 
+Key Concepts 
+• There are two principles at the core of analyzing multi-street play. The first is that in 
+order for a bluff to be credible, it must come from a distribution of hands that contains 
+strong hands as well. The second principle is also of prime importance in understanding 
+how to apply game theory to poker. It is that multi-street games are not single-street 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         258 
+ 
+games chained together; the solution to the full game is often quite different than the 
+solutions to individual streets. 
+• If a player has a distribution that contains only draws and does not threaten to have a 
+strong hand in a particular situation, it is typically very bad for his expectation. 
+• Closed draws are much more powerful than open draws because the opponent is forced to 
+pay off to value bets more often. 
+• Some draws (or made hands) are so strong that it is impossible to make them indifferent 
+to calling a value bet. When choosing which draw to make indifferent, the answer is often 
+the strongest draw that you can. 
+• Implied odds have a very important impact on action frequencies when draws are 
+possible. In the clairvoyant game with arbitrary draws, the entire game revolves around 
+equity in the implied pot - which contains additional value once the river is completed. 
+• If your opponent's distribution and yours are such that your opponent can take some 
+action and you must fold and surrender the entire pot, then at any later point in the hand, 
+it is at least co-optimal to fold to any future action. 
+  
+ 

@@ -1,0 +1,705 @@
+CHAPTER 9
+Trade Sizing
+It certainly is not true that good risk management can turn a strategy with
+no positive expectation into a winner. Risk management can change the
+return distribution of a strategy with dynamic trade sizing and the use of
+stops and profit targets, but unless there is real edge somewhere the idea
+will eventually lose money. However, this doesn't make risk control
+irrelevant. Bad risk management can turn a potentially profitable idea into a
+loser. And, because risk management is the only part of the trading process
+that is completely under the control of the trader, there is no excuse for not
+doing it as well as possible.
+In this chapter, I restate why the Kelly criterion should form the basis of a
+trade-sizing scheme and look at two extensions that are particularly
+important when trading options: non-normal trade returns and uncertainty
+about the return distribution.
+The Kelly Criterion
+It is well-known that investing according to the Kelly criterion (Kelly,
+1956) will theoretically outperform any other sizing strategy. No other
+sizing scheme will produce greater long-term growth. This doesn't mean
+that everyone tries or even wants to invest like this. There are three kinds of
+reasons for this:
+The Kelly criterion maximizes the long-term growth rate of the
+bankroll. But it is completely legitimate to have other goals. For
+example, many traders are more interested in maximizing the
+probability of hitting a goal in a given time (see Browne, 1999, 2000a,
+2000b). No one has a utility function that is as simple as the log
+function that matches the Kelly scheme. This is fair.
+Some traders try to deny the math. They don't like the volatile return
+stream and decide that this is a flaw of the system. It isn't. Whether or
+not you like what Kelly says, it is a mathematical fact. It's objectively
+true. It is common for people to conflate their dislike of a situation
+with its truth. Examples of this are evolution, climate change, and the
+Kelly criterion.
+Some people create strawman arguments about the mathematics,
+claiming that Kelly only applies to simplified, unrealistic situations.
+This isn't true at all. The mathematics of maximizing growth rate are
+quite general.
+A derivation of the Kelly criterion for both discrete and continuous
+outcomes is given in Sinclair (2013), together with a discussion of the
+distribution of results we can expect when investing this way.
+The important results can be summarized as follows.
+Good
+Kelly maximizes growth rate.
+The expected time to reach any goal is minimized.
+It is impossible to go bankrupt.
+The strategy depends only on the current bankroll, not the specific
+trade results that led to it.
+It is essentially unbeatable.
+Bad
+The best bets can be uncomfortably large.
+Portfolio volatility and drawdowns are large.
+Because of compounding, it is reasonably common to find that an
+equal number of wins and losses leaves you with a net loss.
+Here I want to look at two slight extensions that are very important to
+traders, particularly option traders. What happens when outcomes are
+highly non-normal? And what happens when we are uncertain of outcomes
+and probabilities?
+(9.1)
+(9.2)
+These are two aspects of the same general problem. Trading success is
+largely dependent on how robust our ideas are. At best our knowledge is
+uncertain. Probably our knowledge is incomplete and only partially correct.
+In particular, we will be ignorant of the true probabilities of rare events.
+These will be the events that drive non-normality, and, because they appear
+only rarely, they will be those that we are most uncertain of.
+To introduce the ideas, we first look at the fairly impractical case of discrete
+trade results.
+Non-normal Discrete Outcomes
+Imagine we have a discrete set of outcomes W
+i
+, each with probability p
+i
+. We
+bet a fraction, f, of our bankroll on each opportunity. So, the gain factor per
+trade is
+Alternatively, the exponential growth per unit bet is
+To find the value of f that maximizes the exponential growth rate, we
+differentiate with respect to f and set the derivative to zero. If i is greater
+than 2, this is unwieldly or impossible and we need to use numerical
+methods. A numerical solution of a simple example is illustrative.
+Case One
+p
+1
+= 0.55
+p
+2
+= 0.45
+W
+1
+= 1
+W
+2
+= −1
+(55% chance of winning a dollar and 45% chance of losing a dollar)
+This implies f
+max
+= 0.1. The dependence of the exponential growth rate on f
+is shown in Figure 9.1.
+FIGURE 9.1 Growth rate as a function of f (p1=0.55,p2=0.45,W1=1,
+W2=−1).
+Reconsidered Case
+p
+1
+= 0.55
+p
+2
+= 0.43
+p
+3
+= 0.02
+W
+1
+= 1
+W
+2
+= −1
+W
+3
+= −3
+Here the probability, p
+3
+, of the extreme event is low enough that we could
+easily misestimate it from historical data. But the implications of including
+this small probability are far from negligible. The growth rate is illustrated
+in Figure 9.2.
+(9.3)
+In this case f
+max
+is 0.5, half of that in the two-outcome case. And growth
+rate becomes negative for f > 0.1. An event with only a 2% chance of
+occurrence could easily be missed when we estimate parameters, and if we
+erroneously think p
+3
+= 0, we will bet at a size that gives a negative growth
+rate.
+This phenomenon is qualitatively similar when returns are continuous.
+Because this is the more relevant situation for trading, that is what we will
+assume when deriving methods to live with these issues.
+FIGURE 9.2 Growth rate as a function of f (P1 = 0.55, P2 = 0.44, P3 =
+0.01, W1 = 1, W2 = −1, W3 = −3).
+Non-normal Continuous Outcomes
+We are interested in the case where the outcome of a trade is known to have
+a certain continuous distribution. We bet a fraction, f, of our wealth at the
+start of each period so that
+where B
+n
+is the random variable giving the result of the nth trade and it has
+the payoff g(X
+n
+). After a sequence of n trades our bankroll will be
+(9.4)
+(9.5)
+(9.6)
+(9.7)
+(9.8)
+(9.9)
+(9.10)
+Now we take logarithms:
+so
+where Φ(x) is the distribution function that describes the results of the
+trades. If we maximize over the bankroll fraction, f, we find that the optimal
+value is the one that satisfies
+Applying a Taylor expansion to this equation gives
+(9.11)
+(9.12)
+(9.13)
+(9.14)
+(9.15)
+(9.16)
+(9.17)
+This can be further simplified if we note that
+is the payoff to a unit bet.
+Further
+where 
+and 
+are the third and fourth raw moments of 
+.
+So, if f is small, we can truncate the series after the first term to get
+And further, if μ is small, we can further approximate by
+(9.18)
+(9.19)
+(9.20)
+(9.21)
+(9.22)
+This is the usual expression for the Kelly ratio of a trade with a continuum
+of outcomes, but it is only an approximation and if we are in a situation
+where skewness is important, a better approximation can be obtained if we
+keep the third term, so that equation 9.13 becomes
+We can solve this equation to get
+Equation 9.19 only has real solutions if
+(which is a limitation of our sloppy use of asymptotics).
+Further, it isn't immediately obvious which root is the correct one. Also, the
+case where skewness is zero leads to a singularity. We can address these
+issues by taking the limit as skewness approaches zero.
+To do this note that
+(if b is small relative to a).
+So if
+we can write
+(9.23)
+(9.24)
+(9.25)
+And so the negative root of equation 9.19 is approximately
+which simplifies to
+So, in order for the limiting case to agree with the Kelly fraction when
+trades are normally distributed (equations 9.16 and 9.17), we need to take
+the negative root.
+From a practitioner's perspective, the important thing is to note that
+negative skewness decreases the optimal investment fraction and positive
+skewness increases the optimal investment fraction. This effect is shown in
+Figure 9.3.
+Figure 9.4 shows the approximation of equation 9.25.
+FIGURE 9.3 The optimal investment fraction as a function of skewness
+(return is 0.015, volatility is 0.5).
+FIGURE 
+9.4 
+The 
+approximate 
+investment 
+fraction 
+as 
+a 
+function 
+of
+skewness (return is 0.015, volatility is 0.5).
+Uncertain Parameters
+(9.26)
+(9.27)
+(9.28)
+The value of the optimal sizing fraction will generally need to be estimated
+from empirical data. Because empirical data will always have sampling
+errors and uncertainty, the estimate of the sizing parameter will also have a
+degree of uncertainty attached to it.
+This is well-known by professional gamblers. And to mitigate the risk of
+over-betting, bettors following a Kelly scheme often modify the Kelly
+criterion by investing only a fraction of the optimal amount. These schemes
+are known as “fractional Kelly” sizing. By doing this, traders accept that
+they will be reducing growth but will also more drastically reduce variance.
+However, simply scaling the investment fraction doesn't protect against a
+bigger problem: the case in which the investment fraction is estimated to be
+positive, but the true value is negative. In this case, investing any positive
+fraction of the bankroll will be over-betting.
+In order to estimate the chances of this happening we need the variance of
+the estimated Kelly criterion ratio (Sinclair, 2014). f
+max
+(approximated in
+equation 9.17) is a statistical estimator and has an associated probability
+distribution.
+First consider the case of normal trade results. Here the central limit
+theorem says that the estimators of the mean,
+, and variance,
+asymptotically have the following normal distributions, where 
+and 
+are the population mean and variances respectively.
+Alternatively, the estimation errors of mean, 
+and variance, 
+can be
+approximated by
+(9.29)
+(9.30)
+(9.31)
+(9.32)
+denoted by f(μ,σ
+2
+), the Kelly ratio of equation 9.17. So the estimator is just
+. The estimation errors in the mean and variance will lead to
+estimation errors in f.
+If we define theta to be the column vector of the normal distribution's
+parameters, this has an estimate of 
+. For IID returns,
+where 
+is the variance of the
+estimation error of 
+.
+Denoting the estimator of the Kelly ratio to be 
+where f() is now a
+function that estimates the Kelly ratio, we next apply the delta method (see,
+for example, Oehlert, 1992).
+This states that the variance of a function 
+is
+and
+so, evaluating equation 9.30 gives the asymptotic variance of our estimate
+of the Kelly ratio as
+(9.33)
+(9.34)
+(9.35)
+(9.36)
+If the trade returns are not normally distributed, we need to make use of the
+result (Zhang, 2007) that
+where 
+is the third central moment of the population distribution. Now
+equation 9.30 gives
+It isn't possible to find the variance of the sizing fraction given by equation
+9.19, because the variance of the skewness would need to be evaluated for
+the particular distribution the results were drawn from. The best we can do
+in general is to measure the empirical skewness, calculate the sizing ratio
+using equation 9.19, then estimate the variance around that value by using
+equation 9.36.
+We now use an example of real trade results to show the importance of
+including estimation error in trade sizing. The trade results are from a
+proprietary short volatility strategy. It is somewhat typical of many such
+strategies in that it has a positive expected value but a large negative
+kurtosis. The summary statistics for these trade results are given in Table
+9.1 and the distribution of results is shown in Figure 9.5.
+We can rearrange (and slightly modify) equation 9.36 to give an explicit
+expression for the estimated standard deviation of the Kelly ratio.
+(9.37)
+where the denominator of n − 1 is due to applying Bessel's correction.
+TABLE 9.1 Summary Statistics for the Option Trade
+Sample size
+1000
+Mean
+$0.059
+Standard
+deviation
+$1.137
+Skewness
+($6.199
+)
+FIGURE 9.5 The distribution of the option trade results.
+Because of the central limit theorem, we know that the distribution of f is
+normal so we can calculate the probability that f is actually below any
+critical value f*.
+(9.38)
+where Z is the cumulative distribution function of the normal distribution
+with mean of f and a standard deviation calculated from equation 9.38.
+Equation 9.17 gives the Kelly ratio as 0.046, but equation 9.37 tells us that
+the standard deviation of this point estimate is 0.031, so our point estimate
+is only 1.4 standard deviations above zero. There is an 7% chance that the
+true Kelly ratio of the population is less than zero.
+Having an expression for the sampling distribution also enables us to
+estimate the chance that we are over-betting so much that our growth rate is
+negative. This case corresponds to the true value of f being roughly less
+than half the estimated value. Equation 9.38 tells us this is 25%.
+TABLE 9.2 Fractional Schemes Corresponding to Various Probabilities
+of Over-Betting
+Chance of Over-
+betting
+Corresponding
+Benchmark
+Kelly Scale
+Factor
+0.1
+0.0022
+0.0480
+0.15
+0.0104
+0.2301
+0.2
+0.0169
+0.3748
+TABLE 9.3 Fractional Schemes Corresponding to Various Probabilities
+of Over-Betting When Setting Skewness of the Trading Results to Zero
+Chance of Over-
+betting
+Corresponding
+Benchmark
+Kelly Scale
+Factor
+0.1
+0.0092
+0.2054
+0.15
+0.0161
+0.3574
+0.2
+0.0215
+0.4782
+(9.39)
+This leads us to a complimentary way to use the information. We can use
+equation 9.38 to solve for a benchmark given that we want a certain chance
+of over-betting. For example, we have just seen that using a benchmark of
+half the measured Kelly fraction (i.e., betting at “half-Kelly”) still implies a
+25% chance that we will be over-betting. Table 9.2 shows the probabilities
+of over-betting for various fractional Kelly schemes.
+So, in order to introduce a margin of safety we would need to scale the
+measured Kelly ratio by a considerable amount. This is in line with the
+practice of professional gamblers. Much of this need for scaling is due to
+the presence of negative skewness. If the returns were normally distributed,
+the scaling could be reduced. This is shown in Table 9.3.
+Kelly and Drawdown Control
+Even after calculating and allowing for our measurement uncertainty, it is
+likely that investors will find that investing the full Kelly fraction leads to
+results that are unpalatably volatile. And the more edge there is, the higher
+the Kelly ratio will be and so the higher the volatility will be. Good trades
+are the most volatile.
+The standard way to mitigate drawdowns is to trade using a fraction of the
+Kelly ratio. In this case, both growth rate and volatility will drop. If we
+trade at a fraction, f, of the Kelly ratio, the growth rate is
+This is maximized for f = 1 and drops as the investment fraction is reduced
+from this (Figure 9.6).
+Measures of risk and drawdown also decrease as the investment fraction
+drops. The ratio of growth rate to drawdown is shown in Figure 9.7 for the
+case where μ = 0.05 and σ = 0.3.
+FIGURE 9.6 The dependence of growth rate on the fractional Kelly ratio.
+FIGURE 9.7 The growth rate to drawdown ratio as a function of the
+scaling factor.
+(9.40)
+FIGURE 9.8 The probability of reaching 200% before being stopped out at
+0% when trading at fractions of the Kelly ratio.
+So, if drawdown is the primary risk factor, you should be very cautious
+indeed.
+Another way to quantify the effect of changing the investment ratio is by
+looking at the chance of hitting a lower barrier (possibly the stop level)
+before reaching a target. If the stop percentage level is A, and the target is B,
+the probability is given by
+(Interestingly, neither the return nor volatility of the return stream is
+relevant. A “good” trade means the level will be hit earlier but doesn't
+change the relative probability.) The dependence of the probability on the
+scaling fraction, f, is shown in Figure 9.8 for the case A = 50%, B = 200%.
+A very conservative trading size will raise the probability of a good
+outcome because the volatility associated with Kelly betting is dampened to
+the point that hitting a stop is unlikely.
+(9.41)
+However, a very small scaling factor also means that the expected time to
+hit the goal increases. The expected exit time is given by
+Expected exit time as a function of f, for the case A = 50% and B = 200%,
+and μ = 0.05 and σ = 0.3. is shown in Figure 9.9.
+FIGURE 9.9 The expected time to reach 200% before being stopped out at
+50% when trading at fractions of the Kelly ratio for the case where μ = 0.05
+and σ = 0.3.
+(Note that the average exit time is monotonically decreasing in f, even
+decreasing when expected growth rate is negative. At this point, you will
+probably get stopped out, but you also might just get lucky.)
+In terms of risk mitigation, it is easy to make a case for trading at only a
+fraction of Kelly. However, doing this will also affect the good points of the
+method. Further, due to sampling issues when we estimate the parameters,
+we may be betting in a negative expectation game. We can mitigate these
+issues by combining the Kelly concept with a stop.
+The Effect of Stops
+To many traders, the use of stops is seen as an essential part of risk control
+and money management. And usually they take the utility of stops to be
+self-evident. “How can you go broke if you limit your losses?” “Cut your
+losses and let your profits run.” “Losers add to losers.” But the effect of
+stop use is quite complex. In this section I will explain where stops help,
+where they don't, their effect on profitability, and, if you are using them,
+where to set them.
+First, we examine what the use of stops does to the distribution of our
+trading results. A hypothetical trade result example is shown in Figure 9.10.
+The trade results are normally distributed with a mean return of 10% and a
+standard deviation of 15%.
+FIGURE 9.10 The return distribution of our trading strategy.
+However, we can also see that a significant number of trades were losers
+(here nearly 11% of trades will lose more than 15%). A natural thought
+would be to introduce a stop loss to somehow “cut off” the left-hand side of
+the distribution.
+It is tempting to think that use of a stop simply truncates the downside of
+the distribution by capping losses at a certain level. Redrawing the
+distribution to reflect this intuition situation gives us Figure 9.11, where a
+stop has been introduced at the 15% down level, so all loses are capped at
+15%.
+But a little thought will be enough to see that this distribution isn't possible.
+The trades that get stopped out don't just disappear. Their results still have
+to be accounted for (mathematically, the integral of the probability density
+function must still be 1). So we next surmise that these trades cluster around
+the level of the stop. But this still misses an important point.
+FIGURE 9.11 The hoped-for distribution when a stop has been added.
+Many trades that at the end of the period will be small winners and will
+have been stopped out beforehand. Note that the large winners will still
+remain because these largely consist of trades that started as winners and
+never looked back, but the presence of a stop will drastically reduce the
+number of small winners. This is the hidden cost of using a stop.
+To see the exact effect, I simulated 1,000 GBM paths that represented
+checking the performance of the trade once a day for a year. Again, the
+expected final return was 10%, the standard deviation was 15%, and a stop
+was placed to cap losses at 15%. Results are shown in Figure 9.12.
+There are several things to note here. First, the average return is negatively
+affected by using stops. The “unstopped” investment has a mean return of
+10% (as we planned for the simulation), but when we add a stop this drops
+to 9.6%, and the median is now 8.6%. This is the mathematical inevitability
+of assuming that the (unstopped) results follow the normal distribution. By
+adding a stop, we eliminate the big losers (in this case of greater than 15%)
+but we also eliminate trades that would have later recovered above the stop
+level. And because the normal distribution has more density around the
+mean than it does in the wings, there are more of these marginal trades than
+there are big losers.
+This analysis has been for a fixed stop, set at a given distance from our
+entry price. The other type of stop is the trailing stop, which is set so it stays
+a certain distance from the highest amount the investment has made. A
+trailing stop is a very comforting strategy. It protects us from the painful
+experience of seeing our winners turn into losers.
+FIGURE 9.12 The true distribution when a stop has been added.
+FIGURE 9.13 The return distribution of the simulated trade when using a
+trailing stop.
+However, the trailing stop costs even more than the fixed stop. This is
+because some positions that would be large winners don't get the chance to
+fully realize their potential. When using fixed stops, some investments
+benefit by getting away from the stop and having the chance to develop.
+Trailing stops are always in play.
+Adapting our previous simulation confirms this. The trailing stop is always
+15% below the high of the trade. The addition of a trailing stop lowers the
+mean return of the trade to only 9.4%, and the median is 8.0%. This is
+lower than the unstopped return and also lower than when employing a
+fixed stop. Figure 9.13 shows the distribution when we employ a trailing
+stop. The distribution in this case is now totally different from that of the
+unstopped investment.
+Stops don't just stop losses. They drastically change the shape of the return
+distribution and can lower the average return. Adding stops won't transform
+a losing strategy into a winning strategy. The only reason that we would add
+a stop is that we prefer the shape of the stopped distribution, that is, we
+prefer to trade lots of small losses and fewer small wins for some large
+losses.
+Although this is true, the real world is far more complex. Returns are not
+normally distributed and the results will change over time. Also, there is no
+reason a trader need only be interested in maximizing returns. Safety and
+risk control are important for both financial and psychological reasons.
+Obviously, many traders like using stops. Indeed, some insist that stops are
+absolutely essential and that their appropriate use is a good predictor of
+overall, long-term success. Given that most tests show that stops cost
+money, what is it that these traders are thinking?
+Let's take a quick look at some of the common arguments given for using
+stops:
+Stops limit losses. For any given trade this is trivially true. Ignoring
+slippage and trading costs, we can't lose more than a certain predefined
+amount on any investment when we use a stop. But, as we have seen in
+our simple simulation, in aggregate this is an illusion. Using stops will
+lower returns in the long term so this reason at best needs more
+justification and is probably just incorrect.
+Stops are a form of discipline. It is true that if you always use stops,
+then you have displayed discipline. But discipline needs to be about
+applying a sensible methodology consistently, not just doing something
+consistently. If your idea has negative return, executing it diligently
+will result in greater losses than doing it haphazardly.
+Using stops means all trades risk the same amount. Some traders
+have the idea that it is important to risk a certain set amount on each
+investment (1% or 2% is often the amount given). This is generally
+false. Different trades, even within the same strategy, will have
+different projected risks and returns. It is best to take this into account
+when trade sizing. Not doing so will lead to lower total returns and
+unnecessary risk. Further, trade sizing and risk control are a different
+issue from setting a loss for each single position.
+A stop is a predefined exit. The trade will be stopped out when we
+don't want to be in the position anymore. It should be obvious that
+exiting a position when we don't want to be in it is an excellent idea. If
+we use stops to formalize this, then they are perfectly sensible. But we
+need to think more about what this means. If we are exiting a position
+purely because the price has moved by a given amount, then we are
+assuming the trade has positive autocorrelation: the move that has
+already happened is predictive of a future move. Price-based stops are
+a trend-following system. So they make a good deal of sense if we are
+explicitly betting on momentum. Conversely, they don't make a lot of
+sense if we are trading something that we expect to revert. In this case
+we will be exiting trades at points where we see potential for future
+profit. We should never exit a position when a trader with the same
+strategy and no position would want to enter.
+Rephrased, the reason we should get out of a position that has moved
+against us is if, and only if, we expect the move to continue. The loss
+has already been incurred; we need to think about our current risk, not
+the sunk cost of the incurred loss. And if we are only basing the stop
+on the price action, we are saying price direction alone determines
+future price direction, that is, we are trend following.
+A position should be exited when we are wrong. Sometimes this will
+coincide with losing money. In this case a stop is harmless. But
+sometimes losing money corresponds to situations for which we have
+more edge. Here a stop is actively damaging and contrary to the idea
+behind the strategy.
+Stop Placement
+Once we have decided we want to use a stop, we still need to choose where
+to put it. There are two aspects to this: game theory and statistics.
+The role of game theory is often emphasized although it is the less
+important consideration. The idea is to avoid placing stops in “obvious”
+price levels such as around the highs or lows of the previous session, key
+technical levels, or round numbers. Other traders could take advantage of
+this predictability. For example, imagine the market was quoted at 98 bid
+and 99 offered and a trader knew there were likely to be buy stops set at
+100. He could get long at 99, print a trade at 100, and set off the stops. This
+would drive the price higher, giving him an instant profit.
+This sort of tactic was common on trading floors, but the higher liquidity
+and different sociological structure of electronic markets means the idea is
+less relevant than it once was. It probably doesn't hurt to avoid placing
+orders at these levels, but it almost certainly doesn't matter much.
+The more important consideration is choosing a stop price that correctly
+balances risk and costs. If a stop is too far away, it isn't doing much to
+reduce risk and if it is too close, it will get hit too often, increasing
+transaction costs and not giving trades enough of a chance to become
+winners.
+There have been many attempts to establish a theoretical basis for stop
+placement. Unfortunately, the results are highly dependent on both the
+assumed price process and the trader's utility function. For example, a risk-
+neutral trader who is long an instrument with a positive drift will never use
+a stop.
+We can never be completely sure about either the price process or
+parameters and our utility function is likely to be a function of many things
+other than just wealth. So, these theories aren't helpful.
+There have also been a number of empirical tests of the efficacy of stops.
+The problem is that these are tests of the interplay between a stop and a
+particular strategy. They can possibly help as guides, but they will never
+apply particularly well to a different strategy or set of instruments. Some
+such studies are those by Lei and Li (2009), Clare et al. (2013), and Han et
+al. (2016).
+Instead we need to use a completely empirical method for each strategy we
+are considering. Here, the only theoretical assumption is the usual one that
+the past return distribution is predictive of the future. It is never a great idea
+to base a trading decision only on data analysis but at this point I don't think
+that there is a better way to choose stop parameters than just testing various
+ideas.
+Incorporating Stops into the Kelly Criterion
+Conceptually, we split the trading account into two parts: a risky part that
+we trade according to the Kelly criterion and the riskless part that we hold
+in cash. If we never transfer profits from the risky part to the safe part, we
+are using a fixed stop. For example, we split our $100 account into $80 cash
+and an active trading subaccount of $20. We will never be able to lose more
+(9.42)
+than $20 (in theory we can't even lose all of that because we will be trading
+proportionally) but we can suffer larger peak-to-trough drawdowns if we
+first make money and then lose those profits as well as the original $20.
+This idea has been studied by Grossman and Zhou (1993), Cvitanic and
+Karatzas (1995), and Browne (2000b).
+Consider trading our $100 in two situations with identical growth rates. Our
+trading strategy has a mean return of 5% and a volatility of 30%. In one
+case we trade at one-quarter of the Kelly ratio, which according to equation
+9.39 gives a growth rate of 0.0061. So, after one year the expected account
+value is $100.61, and the volatility is 0.75, or $7,546. The complete
+distribution of results is shown in Figure 9.14.
+FIGURE 9.14 The distribution of the final account after 10,000 simulations
+of a GBM where μ = 0.05 and σ = 0.3 when using a quarter of the Kelly
+ratio.
+Full Kelly gives a growth rate of 0.139. To achieve the same expected
+account value using a smaller subaccount, W
+r
+, which trades at full Kelly, we
+solve the equation
+which gives W
+r
+= $43.7. Initial volatility is 0.3 or $13. So, the subaccount
+method gives the same growth rate but with a higher dollar volatility. This
+doesn't seem promising. But things are better when we consider the entire
+distribution. We have given ourselves some downside protection while still
+retaining the possibility of the extreme growth that Kelly can give. This is
+shown in Figure 9.15.
+Another method is to adjust the amount in our safe subaccount to stay a
+constant percentage below the peak. We will be using a trailing stop on the
+account value. This time we use a trailing stop level of 43%. The
+distribution of results from using this method are shown in Figure 9.16.
+From the figures the higher volatility of the subaccount method is largely
+due to the positive upside. Summary statistics are shown in Table 9.4.
+Using a percentage-based trailing stop retains many good features of the
+aggressiveness of the Kelly criterion. It does better both on average and in
+the extreme cases. The great results are those that start well and continue
+well, never being affected by the stop. And when the stop does come into
+play, the trailing stop idea protects capital nearly as well as the other two,
+more conservative, methods. Trading according to full Kelly on a
+percentage-based subaccount seems to be the best idea no matter what
+criteria are considered.
+FIGURE 9.15 The distribution of the final account after 10,000 simulations
+of a GBM where μ=0.05 and σ=0.3 when only trading a subaccount that
+begins at $43.70 at full Kelly.
+FIGURE 9.16 The distribution of the final account after 10,000 simulations
+of a GBM where μ = 0.05 and σ = 0.3 when only trading a subaccount of
+43.7% of the total at full Kelly.
+TABLE 9.4 A Comparison of Trading at Quarter Kelly and Trading
+Full Kelly in Subaccounts
+Statistic
+Quarter
+Kelly
+Subaccount with
+Fixed Maximum Loss
+Subaccount with
+Trailing % Loss
+Average
+$101.70
+$102.20
+$117.13
+Minimum
+$78.30
+$68.75
+$69.36
+Maximum
+$129.50
+$187.60
+$305.60
+10th percentile
+$91.70
+$86.30
+$89.30
+90th percentile
+$111.10
+$120.90
+$153.40
+Average
+maximum
+drawdown
+9%
+12%
+12%
+Maximum
+drawdown
+26%
+38%
+30%
+Conclusion
+The Kelly criterion is only optimal in the sense that it maximizes growth.
+There are many other things a trader could be interested in maximizing.
+However, using a modified Kelly scheme that explicitly includes higher-
+order moments in the return stream, sampling errors and drawdown control
+is a consistent, sensible method that is vastly preferable to either an ad-hoc
+strategy or one that is based on mistaken ideas.
+Summary
+Adjust the Kelly ratio to account for skew. Trade negatively
+(positively) skewed strategies and instruments smaller (larger) than
+suggested by the standard Kelly criterion approximation.
+Quantify the uncertainty in the estimate of the Kelly ratio. Scale the
+raw ratio to give a prespecified chance of it being non-negative.
+Split the trading account into an untraded percentage and a traded
+percentage. Apply full Kelly to the risky part of the portfolio.
+...

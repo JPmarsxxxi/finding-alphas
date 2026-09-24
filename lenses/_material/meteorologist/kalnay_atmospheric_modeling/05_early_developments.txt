@@ -1,0 +1,248 @@
+4
+1 Historical overview of numerical weather prediction
+Center for Prediction of Storms (CAPS). Internationally, major research takes place
+in large operational national and international centers (such as the European Center
+for Medium Range Weather Forecasts (ECMWF), NCEP, and the weather services
+of the UK, France, Germany, Scandinavian and other European countries, Canada,
+Japan,Australia,andothers).Inmeteorologytherehasbeena longtraditionof sharing
+both data and research improvements, with the result that progress in the science of
+forecasting has taken place on many fronts, and all countries have beneﬁted from
+this progress.
+In this introductory chapter, we give an overview of the major components and
+milestones in numerical forecasting. They will be discussed in detail in the following
+chapters.
+1.2
+Early developments
+Jule G. Charney (1917–1981) was one of the giants in the history of numerical
+weather prediction. In his 1951 paper “Dynamical forecasting by numerical process”,
+he introduced the subject of this book as well as it could be introduced today. We
+reproduce here parts of the paper (with emphasis added):
+As meteorologists have long known, the atmosphere exhibits no periodicities of
+the kind that enable one to predict the weather in the same way one predicts the
+tides. No simple set of causal relationships can be found which relate the state
+of the atmosphere at one instant of time to its state at another. It was this realization
+that led V. Bjerknes (1904) to deﬁne the problem of prognosis as nothing less than
+the integration of the equations of motion of the atmosphere.2 But it remained for
+Richardson (1922) to suggest the practical means for the solution of this problem.
+He proposed to integrate the equations of motion numerically and showed exactly
+how this might be done. That the actual forecast used to test his method was
+unsuccessful was in no way a measure of the value of his work. In retrospect it
+2 The importance of the Bjerknes (1904) paper is clearly described by Thompson (1990), another
+pioneer of NWP, and the author of a very inspiring text on NWP (Thompson, 1961a). His paper
+“Charney and the revival of NWP” contains extremely interesting material on the history of
+NWP as well as on early computers:
+It was not until 1904 that Vilhelm Bjerknes – in a remarkable manifesto and testament of
+deterministic faith – stated the central problem of NWP. This was the ﬁrst explicit, coherent
+recognition that the future state of the atmosphere is, in principle, completely determined by its
+detailed initial state and known boundary conditions, together with Newton’s equations of
+motion, the Boyle–Charles–Dalton equation of state, the equation of mass continuity, and the
+thermodynamic energy equation. Bjerknes went further: he outlined an ambitious, but logical
+program of observation, graphical analysis of meteorological data and graphical solution of the
+governing equations. He succeeded in persuading the Norwegians to support an expanded
+network of surface observation stations, founded the famous Bergen School of synoptic and
+dynamic meteorology, and ushered in the famous polar front theory of cyclone formation.
+Beyond providing a clear goal and a sound physical approach to dynamical weather prediction,
+V. Bjerknes instilled his ideas in the minds of his students and their students in Bergen and in
+Oslo, three of whom were later to write important chapters in the development of NWP in the
+US (Rossby, Eliassen and Fj¨ortoft).
+
+1.2 Early developments
+5
+becomes obvious that the inadequacies of observation alone would have doomed
+any attempt, however well conceived, a circumstance of which Richardson
+was aware. The real value of his work lay in the fact that it crystallized
+once and for all the essential problems that would have to be faced by future
+workers in the ﬁeld and it laid down a thorough groundwork for their solution.
+For a long time no one ventured to follow in Richardson’s footsteps. The
+paucity of the observational network and the enormity of the computational task
+stood as apparently insurmountable barriers to the realization of his dream that
+one day it might be possible to advance the computation faster than the weather.
+But with the increase in the density and extent of the surface and upper-air
+observational network on the one hand, and the development of large-capacity
+high-speed computing machines on the other, interest has revived in
+Richardson’s problem, and attempts have been made to attack it anew.
+These efforts have been characterized by a devotion to objectives more
+limited than Richardson’s. Instead of attempting to deal with the atmosphere in
+all its complexity, one tries to be satisﬁed with simpliﬁed models approximating
+the actual motions to a greater or lesser degree. By starting with models
+incorporating only what it is thought to be the most important of the
+atmospheric inﬂuences, and by gradually bringing in others, one is able to
+proceed inductively and thereby to avoid the pitfalls inevitably encountered
+when a great many poorly understood factors are introduced all at once.
+A necessary condition for the success of this stepwise method is, of course,
+that the ﬁrst approximations bear a recognizable resemblance to the actual
+motions. Fortunately, the science of meteorology has progressed to the point
+where one feels that at least the main factors governing the large-scale
+atmospheric motions are well known. Thus integrations of even the linearized
+barotropic and thermally inactive baroclinic equations have yielded solutions
+bearing a marked resemblance to reality. At any rate, it seems clear that the
+models embodying the collective experience and the positive skill of the forecast
+cannot fail utterly. This conviction has served as the guiding principle in the
+work of the meteorology project at The Institute for Advanced Study [at
+Princeton University] with which the writer has been connected.
+As indicated by Charney, Richardson performed a remarkably comprehensive
+numerical integration of the full primitive equations of motion (Chapter 2). He used
+a horizontal grid of about 200 km, and four vertical layers of approximately 200 hPa,
+centered over Germany. Using the observations at 7 UTC (Universal Coordinate
+Time) on 20 May 1910, he computed the time derivative of the pressure in central
+Germany between 4 and 10 UTC. The predicted 6-h change was 146 hPa, whereas in
+reality there was essentially no change observed in the surface pressure. This huge
+error was discouraging, but it was due mostly to the fact that the initial conditions
+were not balanced, and therefore included fast-moving gravity waves which masked
+the initial rate of change of the meteorological signal in the forecast (Fig. 1.2.1).
+Moreover, if the integration had been continued, it would have suffered “computa-
+tionalblow-up”duetotheviolationoftheCourant–Friedricks–Lewy(CFL)condition
+
+6
+1 Historical overview of numerical weather prediction
+About one day
+Figure 1.2.1: Schematic of a forecast with slowly varying weather-related variations
+and superimposed high-frequency gravity waves. Note that even though the forecast
+of the slow waves is essentially unaffected by the presence of gravity waves, the
+initial time derivative is much larger in magnitude, as obtained in the Richardson
+(1922) experiment.
+(Chapter 3) which requires that the time step should be smaller than the grid size
+divided by the speed of the fastest traveling signal (in this case horizontally moving
+sound waves, traveling at about 300 m/s).
+Charney (1948, 1949) and Eliassen (1949) solved both of these problems by
+deriving “ﬁltered” equations of motion, based on quasi-geostrophic (slowly varying)
+balance, which ﬁltered out (i.e., did not include) gravity and sound waves, and were
+based on pressure ﬁelds alone. Charney points out that this approach was justiﬁed by
+the fact that forecasters’ experience was that they were able to predict tomorrow’s
+weather from pressure charts alone:
+In the selection of a suitable ﬁrst approximation, Richardson’s discovery that
+the horizontal divergence was an unmeasurable quantity had to be taken into
+account. Here a consideration of forecasting practice gave rise to the belief that
+this difﬁculty could be surmounted: forecasts were made by means of
+geostrophic reasoning from the pressure ﬁeld alone – forecasts in which the
+concept of horizontal divergence played no role.
+In order to understand better Charney’s comment, we quote an anecdote from
+Lorenz (1990) on his interactions with Jule Charney:
+On another3 occasion when our conversations had turned closer to scientiﬁc
+matters, Jule was talking again about the early days of NWP. For a proper
+3 The previous occasion was a story about an invitation Charney received to appear on the
+“Today” show, to talk about how computers were going to forecast the weather. Since the show
+was at 7 am, Charney, a late riser, had never watched it. “He told us that he felt that he ought to
+see the show at least once before agreeing to appear on it, and so, one morning, he managed to
+pull himself out of bed and turn on the TV set, and the ﬁrst person he saw was a chimpanzee.
+
+1.2 Early developments
+7
+perspective, we should recall that at the time when Charney was a student, pressure
+was king. The centers of weather activity were acknowledged to be the highs and
+lows. A good prognostic chart was one that had the isobars in the right locations.
+Naturally, then, the thing that was responsible for the weather changes was the
+thing that made the pressure change. This was readily shown to be the divergence
+of the wind ﬁeld. The divergence could not be very accurately measured, and a
+corollary deduced by some meteorologists, including some of Charney’s advisors,
+was that the dynamic equations could not be used to forecast the weather.
+Such reasoning simply did not make sense to Jule. The idea that the wind
+ﬁeld might serve instead of the pressure ﬁeld as a basis for dynamical
+forecasting, proposed by Rossby, gave Jule a route to follow.4 He told us,
+however, that what really inspired him to develop the equations that later became
+the basis for NWP was a determination to prove, to those who had assured him
+that the task was impossible, that they were wrong.
+Charney, R. Fjørtoft, and J. von Neuman (1950) computed a historic ﬁrst one-day
+weather forecast using a barotropic (one-layer) ﬁltered model. The work took place
+in 1948–9. They used one of the ﬁrst electronic computers (the Electronic Numerical
+Integrator and Computer, ENIAC), housed at the Aberdeen Proving Grounds of the
+US Army in Maryland. It incorporated von Neuman’s idea of “stored programming”
+(i.e., the ability to perform arithmetic operations over different operands (loops)
+without having to repeat the code). The results of the ﬁrst forecasts were quite
+encouraging: Fig. 1.2.2, reproduced from Charney (1951) shows the 24-h forecast and
+veriﬁcation for 30 January 1949. Unlike Richardson’s results, the forecast remains
+meteorological, and there is a pattern correlation between the predicted and the
+observed pressure ﬁeld 24-h changes.
+It is remarkable that in his 1951 paper, just after the triumph of performing the
+ﬁrst successful forecasts with ﬁltered models, Charney already saw that much more
+progress would come from the use of the primitive (unﬁltered) equations of motion
+as Richardson had originally attempted:
+The discussion so far has dealt exclusively with the quasi-geostrophic
+equations as the basis for numerical forecasting. Yet there has been no intention
+to exclude the possibility that the primitive Eulerian equations can also be used
+for this purpose. The outlook for numerical forecasting would be indeed dismal
+if the quasi-geostrophic approximation represented the upper limit of attainable
+accuracy, for it is known that it applies only indifferently, if at all, to many of the
+small-scale but meteorologically signiﬁcant motions. We have merely indicated
+two obstacles that stand in the way of the applications of the primitive equations:
+He decided he could never compete with a chimpanzee for the public’s favor, and so he
+gracefully declined to appear, much to the dismay of the computer company that had
+engineered the invitation in the ﬁrst place” (Lorenz, 1990).
+4 The development of the “Rossby waves” phase speed equation c = U −βL2/π 2 based on the
+linearized, non-divergent vorticity equation (Rossby et al., 1939, Rossby, 1940), and its success
+in predicting the motion of the large-scale atmospheric waves, was an essential stimulus to
+Charney’s development of the ﬁltered equations (Phillips, 1990b, 1998).
+
+8
+1 Historical overview of numerical weather prediction
+(a)
+(b)
+(c)
+(d)
+Figure 1.2.2: Forecast of 30 January 1949, 0300 GMT: (a) contours of observed z
+and ζ + f at t = 0; (b) observed z and ζ + f at t = 24 h; (c) observed (continuous
+lines) and computed (broken lines) 24-h height change; (d) computed z and ζ + f at
+t = 24 h. The height unit is 100 ft and the unit of vorticity is 1/3 × 10−4 s–1.
+(Reproduced from the Compendium of Meteorology, with permission of the
+American Meteorological Society.)
+First, there is the difﬁculty raised by Richardson that the horizontal divergence
+cannot be measured with sufﬁcient accuracy. Moreover, the horizontal
+divergence is only one of a class of meteorological unobservables which also
+includes the horizontal acceleration. And second, if the primitive Eulerian
+equations are employed, a stringent and seemingly artiﬁcial bound is imposed on
+the size of the time interval for the ﬁnite difference equations. The ﬁrst obstacle
+is the most formidable, for the second only means that the integration must
+proceed in steps of the order of ﬁfteen minutes rather than two hours. Yet the
+ﬁrst does not seem insurmountable, as the following considerations will indicate.
+He proceeded to describe an unpublished study in which he and J.C. Freeman
+integrated barotropic primitive equations (i.e., shallow water equations, Chapter 2)
+which include not only the slowly varying quasi-geostrophic solution, but also fast
+gravity waves. They initialized the forecast assuming zero initial divergence, and
+compared the result with a barotropic forecast (with gravity waves ﬁltered out).
+The results were similar to those shown schematically in Fig. 1.2.1: they observed
+
+1.2 Early developments
+9
+that over a day or so the gravity waves subsided (through a process that we call
+geostrophic adjustment) and did not otherwise affect the forecast of the slow waves.
+From this result Charney concluded that numerical forecasting could indeed use the
+full primitive equations (as eventually happened in operational practice). He listed in
+the paper the complete primitive equations in pressure coordinates, essentially as they
+are used in current operational weather prediction, but without heating (nonadiabatic)
+and frictional terms, which he expected to have minor effects in one- or two-day
+forecasts. Charney concluded this remarkable paper with the following discussion,
+which includes a list of the physical processes that take place at scales too small
+to be resolved, and are incorporated in present models through “parameterizations
+of the subgrid-scale physics” (condensation, radiation, and turbulent ﬂuxes of heat,
+momentum and moisture, Chapter 4):
+Nonadiabatic and frictional terms have been ignored in the body of the
+discussion because it was thought that one should ﬁrst seek to determine how
+much of the motion could be explained without them. Ultimately they will have to
+be taken into account, particularly if the forecast period is to be extended to
+three or more days.
+Condensational phenomena appear to be the simplest to introduce: one has
+only to add the equation of continuity for water vapor and to replace the dry by
+the moist adiabatic equation. Long-wave radiational effects can also be provided
+for, since our knowledge of the absorptive properties of water vapor and carbon
+dioxide has progressed to a point where quantitative estimates of radiational
+cooling can be made, although the presence of clouds will complicate the
+problem considerably.
+The most difﬁcult phenomena to include have to do with the turbulent
+transfer of momentum and heat. A great deal of research remains to be done
+before enough is known about these effects to permit the assignment of even
+rough values to the eddy coefﬁcients of viscosity and heat conduction. Owing to
+their statistically indeterminate nature, the turbulent properties of the atmosphere
+place an upper limit to the accuracy obtainable by dynamical methods of
+forecasting, beyond which we shall have to rely upon statistical methods. But it
+seems certain that much progress can be made before these limits can be reached.
+This paper, which although written in 1951 has not become dated, predicted
+with almost supernatural vision the path that numerical weather forecasting was to
+follow over the next ﬁve decades. It described the need for objective analysis of
+meteorological data in order to replace the laborious hand analyses. We now refer
+to this process as data assimilation (Chapter 5), which uses both observations and
+short forecasts to estimate initial conditions. Note that at a time at which only one-day
+forecasts had ever been attempted, Charney already had the intuition that there was an
+upper limit to weather predictability, which Lorenz (1965) later estimated to be about
+two weeks. However, Charney attributed the expected limit to model deﬁciencies
+(such as the parameterization of turbulent processes), rather than to the chaotic nature
+of the atmosphere, which imposes a limit of predictability even if the model is perfect

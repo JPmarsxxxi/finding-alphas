@@ -1,0 +1,698 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         47 
+ 
+Chapter 4 
+Playing the Odds: Pot Odds and Implied Odds 
+ 
+The heart of poker is decision-making. Players who make better decisions than their opponents 
+win; players who make worse decisions than their opponents lose. In Part I, we defined decisions 
+with higher EV as "better" than their lower EV counterparts. In Parts II and III, we will examine 
+the decision-making process as it applies to playing poker games and identify both techniques of 
+analysis and methods of play that lead to making the best decisions at each juncture. 
+ 
+Part II deals with what we call exploitive play; this is play which seeks to maximize EV by 
+taking the action at each decision point which has the highest EV in a particular situation, 
+inclusive of whatever information is available about the opponent, such as his tendencies, tells, 
+and so on. Virtually every player uses exploitive play in one form or another, and many players, 
+even some of the strongest players in the world, view exploitive play as the most evolved form 
+of poker. 
+ 
+Before we get into a discussion of exploitive play, we will introduce some terms and definitions. 
+First, we have the concept of a game. In the poker world, we have different definitions of this 
+term, and in Part III, we will be primarily working in the domain of game theory, the 
+mathematical study of games. For now, we will define a game as containing the following 
+elements: 
+ 
+• There are two or more players.  
+• At least one player has a choice of actions.      
+• The game has a set of outcomes for each player. 
+• The outcomes depend on the choices of actions by the players. 
+ 
+Normally in our poker discussions, there will be two or more players, and both players will have 
+action choices. The set of outcomes for the game will be expressed in dollars won or lost. 
+ 
+Additionally, we call the "choice of action" a strategy. In game theory terms, a strategy is a 
+complete specification of a player's actions choices at all possible paths the hand might follow. 
+In poker, strategies are extremely difficult to specify, as we have what might be called a 
+combinatorial explosion of paths. There are 1326 starting hands a player might hold. Then there 
+are 19.600 different three-card flops that might hit, 47 different turns, and 46 different rivers. 
+Even after factoring in some equivalences with regard to suit, we still have well over five million 
+board/hand combinations to consider. Then we must specify how we will play-each of our hands 
+on each street, how we will respond to raises, checks, bets, and so on. 
+ 
+This is basically impractical for any but the simplest toy games. As a result, we often use the 
+term strategy a little more loosely in poker. Frequently, when we use this term we are referring to 
+our expected play on this and perhaps one more street. The depth to which we specify the 
+strategy is often tied to the convenience with which we can express it; simpler games and more 
+static boards can often go deeper than more complex ones. It is normally just simpler to treat the 
+game this way. We do, however, try to tie together the play on two or more streets as much as 
+possible. 
+ 
+The concepts of Part I have particular meanings when we consider the play in terms of strategies. 
+It is fairly meaningless to consider the expectation of a hand in a vacuum before the play begins, 
+so instead we use the term "expectation of a hand" here to mean the expectation of a hand played 
+with a given strategy against an opposing strategy. Likewise, the expectation of a hand 
+distribution against a strategy is the weighted average expectation of the hands in that 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         48 
+ 
+distribution against the opposing strategy, and so on. 
+ 
+Maximizing expectation against the opponent's strategy is the goal of exploitive play. If our 
+opponent plays a strategy S, we define the maximally exploitive strategy to be the strategy (or 
+one of the strategies) that has the highest expectation against S. When playing exploitively, it is 
+often our goal to find the strategy that is maximally exploitive and then employ it. By doing this, 
+we maximize our expectation. We begin with a simple toy game to illustrate the process of 
+finding this strategy. 
+ 
+Example 4.1 
+Two players play headsup limit poker on the river. Player A has either the nuts (20% of the time) 
+or a valueless (or dead) hand (80% of the time), and Player B has some hand of mediocre value - 
+enough to beat dead hands, but which loses to the nuts. The pot is four big bets, and A is first. 
+Let us first consider what will happen if A checks. B could bet, but A knows exactly when he has 
+B beaten or not; hence he will raise B with nut hands and fold at least most of his bluffing hands. 
+B cannot gain value by betting; so he will check. As a result, A will bet all of his nut hands. A 
+might also bet some of his dead hands as a bluff: if B folds, A can gain the whole pot. 
+ 
+We'll call the % of total hands that A bluffs with x. A’s selection of x is his strategy selection. B 
+loses one bet for calling when A has a nut hand, and wins five bets (the four in the pot plus the 
+one A bluffed) when A has a bluff. B's calling strategy only applies when A bets, so the 
+probability values below are conditional on A betting. Using Equation 1.11, the expectation of 
+B's hand if he calls is: 
+ 
+<B, call > = p(A has nuts)(-1) + p(A has a bluff)(+5) 
+<B, call >  = (0.2)(-1) + (5)x 
+<B, call >  = 5x - 0.2 
+ 
+If B folds, his expectation is simply zero. 
+ 
+<B, fold> = 0  
+ 
+We consider a few potential values for x: 
+ 
+Situation 
+x value 
+<B, call> 
+<B, fold> 
+A never bluffs 
+0 
+-0.2 
+0 
+A always bluffs 
+0.8 
++3.8 
+0 
+A bluffs 5% 
+0.05 
++.05 
+0 
+A bluffs 4% 
+.04 
+0 
+0 
+ 
+B should choose the strategy that has higher expectation in each of these cases. If A bluffs often 
+B should call all the time. If A bluffs rarely, B should never call. 
+ 
+To determine how often A will bluff, B might use his knowledge of A's play, tells, or some other 
+information, perhaps using Bayes' theorem (A might have lost the last hand and therefore has a 
+higher a priori chance to be playing this hand overaggressively because of emotion, etc.). 
+ 
+We can also graph these two functions: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         49 
+ 
+Figure 4.1 shows the linear functions that represent B's strategy options. We can see that B's 
+maximally exploitive strategy involves choosing the strategy that has the higher value at the x-
+value that A is playing. So when x is below 0.04, (meaning that A is bluffing 4% of the time), B 
+should simply fold; above that B should call. One tiling that is important to note about this is that 
+exploitive play often involves shifting strategies rather drastically. If A changes his x-value from 
+0.039 to 0.041, that is, bluffing two thousandths of a percent more often, B changes his strategy 
+from folding 100% of the time to calling 100% of the time. 
+ 
+Over the next several chapters, we will look, at some of the principles of exploitive play, 
+including pot odds and implied odds, and then consider the play of some example hands. We -
+will consider situations where the cards are exposed but the play is non-trivial and then play a 
+single hand against a distribution of hands. We focus primarily on the process of trying to find 
+the maximally exploitive strategy in lieu of giving specific play advice on any given hand, and 
+especially on the process of identifying specific weaknesses in the opponent's strategy. This last 
+is particularly valuable as it is generally quite repeatable and easy to do at the table. 
+ 
+Pot Odds 
+None of the popular forms of poker are static games (where the value of hands does not change 
+from street to street). Instead, one common element of all poker games played in casinos is the 
+idea of the draw. When beginners are taught poker, they often learn that four cards to a flush and 
+four cards to a straight are draws and that hands such as pairs, trips, and flushes and straights are 
+made hands. This is a useful simplification, but we use "draw" to mean a variety of types of 
+hands. Most often, we use "draw" to refer to hands whose value if the hand of poker ended 
+immediately is not best among the hands remaining, but if certain cards (often called outs) come, 
+they will improve to be best. However, in some cases, this can be misleading. For example, 
+consider the following two hands on a flop of T♣ 9♣ 2♦ in holdem: 
+ 
+Hand A: Q♣ J♣  
+Hand B: A♠ 3♦ 
+ 
+Hand A has more than a 70% chance of whining the hand despite his five-card poker hand being 
+Bluffing frequency 
+Figure 4.1, Game Equity for various B strategies 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         50 
+ 
+worse at this point. In this hand, it may seem a little strange to refer to the hand that is more than 
+a 7 to 3 favorite as "the draw" while the other hand is the "made hand," because of the 
+connotations we usually associate with these terms. However, we will consistently use the term 
+"draw" throughout this book to mean the hand that at the moment has the worse five-card poker 
+hand and needs to catch one of its outs, no matter how numerous they may be, in order to win. In 
+contrast, we will use the term "favorite" to mean that hand that has more equity in the pot and 
+"underdog" to mean the hand that has less. In the above example, the Q♣ J♣ hand is both the 
+favorite and a draw. 
+ 
+One of the fundamental confrontations between types of hands m poker is between made hands 
+and draws. This confrontation is particularly accentuated in limit poker, where the made hands 
+arc unable to make bets large enough to force the draws to fold; instead, they simply extract 
+value, while (he draws call because the expectation from their share of the pot is more than the 
+amount they must call. However, all is not lost in big-bet poker for the draws. As we shall see 
+later on, draws are able to take advantage of the structure of no-limit games to create a special 
+type of situation that is extremely profitable by employing a play called the semi-bluff. 
+ 
+Example 4.2 
+The game is $30-60 holdem. Player A has A♣ A♦. Player B has 9♥ 8♥. The board is K♥ 7♣ 3♠ 
+2♥. The pot is $400. Player A is first. How should the action go if both players know the full 
+situation? 
+ 
+You can likely guess that the action goes A bets - B calls. It is valuable, however, to examine the 
+underlying mathematics because it provides an excellent introduction to this type of analysis and 
+to the concept of pot odds. 
+ 
+If Player A checks, then Player B will certainly check behind. If B were to bet, he would 
+immediately lose at a minimum 3 5
+  of his bet (because he only wins the pot 1 5
+ of the time), plus 
+additional EV if Player A were to raise. There will be no betting on the river, since both players 
+will know who has won the hand. Rather, any bet made by the best hand will not be called on the 
+river, so effectively the pot will be awarded to the best hand. 
+ 
+Since 35 of the remaining 44 cards give AA the win, we use Equation 1.11 to determine A’s EV 
+from checking to be: 
+ 
+<A, check > = p(A wins)) + (pot size) 
+<A, check > = (35 44
+
+)(400) 
+<A, check > = $318.18 
+ 
+Now let's consider B's options. Again, B will not raise, as he has just a 1 5
+  chance of winning the 
+pot (with 9 cards out of 44) and A will never fold. So B must choose between calling and 
+folding. 
+ 
+<B, call> = (p(B wins)) (new pot size) - (cost of a call)  
+<B, call> = (9 44
+
+) ($400+60+60) - $60 
+ 
+<B, call> = (9 44
+
+) ($520) - $60  
+<B, call> = $46.36  
+<B, fold> = 0 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         51 
+ 
+Since B's EV from calling is higher than his EV from folding, he will call in response to from A. 
+That makes A's EV from betting: 
+ 
+<A, bet> = (p(A wins)) (new pot size) - (cost of a bet)  
+<A, bet> = (35 44
+
+) ($520) - $60  
+<A, bet> = $353.64 
+ 
+Comparing A's equity from betting to A's equity from checking, we see that A gains a more than 
+$35 by betting. This result indicates the main principle of made hand vs. confrontations: In made 
+hand vs. draw situations, the made hand usually bets. 
+ 
+There are some exceptions to this rule, as we shall see later when we consider some: complicated 
+draw vs. made hand games. Now let us consider B's play. We found that  equity from calling was 
+greater than the zero equity from folding. We can solve an inequity to find all the equities at 
+which B would call, letting x be B's chance of winning the pot: 
+ 
+(B's chance of winning the pot) (new pot size) - (cost of a call) > 0  
+520x - 60 > 0 
+x > 3 26
+
+ 
+ 
+So B ought to call if his probability of winning the hand is greater than 3 26
+
+, which they are the 
+given case. As we discussed in Part I, we might also say that the odds of B winning be at least 23 
+to 3. We often call this relationship B's pot odds. B should call if his odd winning the pot are 
+shorter than his pot odds. Pot odds are a shorthand for straightfor  equity calculations-the pot lays 
+X to our bet of Y; our odds of winning are W to Z,  hen choose a decision based on the 
+relationship between those two. 
+ 
+This leads us to the second principle of hand vs. draw situations. 
+ 
+In made hand vs. draw situations, the draw usually calls if it has positive equity in the after 
+calling and subtracting the amount of the call. 
+There are a number of exceptions to these rules, and by studying individual hands w examine the 
+situations in which simply relying on pot odds as a guide is incorrect or income. However, pot 
+odds calculations are a useful and practical way of approximating and some calculating outright 
+whether it's correct to call with a draw, particularly at the table. 
+ 
+Pot Odds on Multiple Streets 
+Poker, of course, is a multi-street game, and as such, we often confront situations where it simply 
+action on the current street that needs to be considered, but action on future streets as Consider 
+another perfect-information situation (both players know their opponents' cards). 
+ 
+Example 4.3 ($75 Pot) 
+Is the flop of a $30-$60 holdem game. Player A holds A♦ K♦, and player B holds 8♣. The flop is 
+A♣ Ks 4♣. There is just $75 in the pot (suppose that the AK limped preflop) the AK bets $30. B 
+has just eight outs in this case (as the K♣ makes AK a full house). So an immediate pot odds 
+standpoint, B should call if his chance of winning the pot is go than 30/105, or 28.5%. So what is 
+B's chance of making his flush on the next street? It’s on the turn. This chance is only 17°/o, and 
+so we can see that B's chance of making his is not high enough to justify calling. 
+ 
+Example 4.4 ($195 Pot) 
+What if the pot were larger, say $195? Now B has enough immediate odds to call with his flush 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         52 
+ 
+draw on the flop. His EV is then (8 45
+
+)($255) - $30 = $15.33. On the turn, if the draw misses, 
+there are two cases. In one case, an ace or king will have hit on the turn and he will be unable to 
+win the pot, or be drawing dead. This occurs 4 45
+
+ of the time. The remaining 41 45 
+
+of the time he 
+will have (8 44
+
+) ($375) - $60 = $8.18 of positive expectation from calling. 
+ 
+His total expectation on the turn, again using equation 1.11, is: 
+ 
+<B, turn> = p(A or K) (<B, A or K hits) + p(other)(<B, other>) 
+<B, turn> = (4 41
+
+) (0) + (41 45
+
+) ($8.18) 
+<B, turn> = $7.45 
+ 
+So in this case, the play on the flop would go A bets - B calls. Then if the draw did not hit on the 
+turn, A would bet again and B would be able to profitably call again (because calling is worth 
+more than zero from folding). 
+ 
+Example 4.5 ($135 Pot) 
+There is also another pot size of interest. If the pot were just $135, B has enough equity to justify 
+calling on the flop, but not on the turn. 
+ 
+<B, flop> = p(win on turn) ($135 + $60) - $30  
+<B, flop> = 8 45
+
+ ($135 + $60) - $30  
+<B, flop> = $4.67 
+<B, turn> = p(win on river)($195 + $120) - $60  
+<B, turn> = (8 44
+
+) ($315) - $60  
+<B, turn> = -$2.73 
+ 
+(Here we ignore the case where A hits an ace or king on the turn and wins the hand immediately. 
+Since B can't call when we ignore this case, his equity is worse when we include those hands, 
+and hence he can't call if we include it.) 
+ 
+This poses a difficulty with our previous characterization of pot odds. We stated earlier, "B 
+should call if his odds of winning the pat are shorter than his pot odds." But here B's chance of 
+winning the pot by the end of the hand is: 
+ 
+p(B wins) = 1 - p(B loses) 
+ 
+By applying Equation 1.3: 
+ 
+p(B wins) = 1 - [p(B loses on turn)][p(B loses on river)]  
+p(B wins) = 1 - (37 45
+
+) (36 44
+
+) 
+p(B wins) = 0.327 or 32.7% 
+ 
+Here we use the joint probability p(A ∩ B) = p(A )p(B) of B not whining the pot and subtract it 
+from one to find the probability of him winning the pot. We could likewise calculate the chance 
+of him winning on the turn and also on the river, and then subtract the chance that he wins on 
+both streets. However, the single step above is more straightforward for this type of calculation. 
+ 
+If B has nearly a one-third chance of winning the pot then why can we not call in all of these 
+cases, since in each of them B is getting longer odds from the pot than two to one? For example, 
+in 4.3, the smallest pot of the three, B is getting ($75+$60) to $60, or 2.25 to 1. The answer to 
+this question is that only situations where B wins on the next street count for his immediate pot 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         53 
+ 
+odds. 
+ 
+Example 4.6 (Why giving yourself odds by raising doesn't work) 
+Consider the case we looked at previously where the pot is $135 on the flop. If B calls the flop, 
+there is $195 in the pot on the turn. If the draw misses, then when A bets $60, B lacks the odds to 
+call the bet on the turn. But what if B raises the flop instead? Now A will reraise, B will call, and 
+B will have odds to draw on the turn as well. It turns out that this is a losing play for B compared 
+to simply calling the flop and folding the turn. (If B hits one of his outs, he will bet and shut A 
+out of the pot, so the full house redraw doesn't come into play.) 
+ 
+We can break B's expectation into two elements. One is his expectation if he wins on the turn, 
+and the other is the expectation when the hand goes to the river. Let's call B winning on the turn 
+card Bf and B not winning on the turn card Bt. 
+ 
+<B, raise flop> = <Bf, raise flop> + <Bt, raise flop> 
+<Bf, raise flop> = p(B wins on the turn) (pot if B raises and A reraises) - (cost of the raises) 
+<Bf, raise flop> = ( 8 45
+
+ )($135 + 2($30+$30+$30)) - $90  
+<Bf, raise flop>  = -$34 
+<Bt, raise flop>  = p(B doesn’t win on the turn)[p(B wins on the river)(pot after the turn bets) –  
+(cost of the turn bet)] 
+<Bt, raise flop> = ( 37 45
+
+ )[( 8 44
+
+)($315 + 2($60)) - $60]  
+ 
+<Bt, raise flop>  = $15.70 
+<B, raise flop>  = -$34 + $15.70 
+ 
+ 
+   = -$18.30  
+<B, call flop>  = p(Bf )($135+2($30))-$30 
+ 
+ 
+ = $4.67 
+ 
+So raising the flop, even though it makes it such that B has odds to call the turn and draw to his 
+flush again, has over $20 less expectation compared to simply calling. In real-life poker, both 
+players don't have all the information. In fact, there will often be betting on future streets after 
+the draw hits his hand. The draw can use this fact to profitably draw with hands that are not 
+getting enough immediate pot odds. 
+ 
+Implied Odds 
+In the previous section, we discussed the concept of pot odds, which is a reasonable shorthand 
+for doing equity calculations in made hand vs. draw situations. We assumed that both players 
+knew the complete situation. This assumption, however, does not hold in real poker. After all, 
+the purported drawing player could be bluffing outright, could have been drawing to a different 
+draw (such as a straight or two pair draw), or could have had the best hand all along. As a result, 
+the player with the made hand often has to call a bet or two after the draw comes in. 
+ 
+When we looked at pot odds previously, the draw never got any money after hitting his hand, 
+since the formerly made hand simply folded to his bet once the draw came in. However, such a 
+strategy in a game with concealed cards would be highly exploitable. As a result, the draw ran 
+anticipate extracting some value when the draw comes in. The combination of immediate odds 
+and expected value from later streets is called implied odds. 
+ 
+Example 4.7 
+Consider the following example: 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         54 
+ 
+Imagine the situation is just as in the game previously (Player A holds A♦ K♦ and player B holds 
+8♣ 7♣. The flop is A♣ K♠ 4♣.), but Player A does not know for sure that Player B is drawing. 
+Instead of trying to arrive at some frequency with which Player A will call Player B's bets once 
+the flush comes in, we will simply assume that A will call one bet from B on all remaining 
+streets. 
+ 
+Earlier we solved for B's immediate pot odds given that the hands were exposed. However, in 
+this game, B's implied odds are much greater. Assume that the pot is $135 before the flop. Now 
+on the flop, A bets $30, We can categorize the future action into three cases: 
+ 
+Case 1: The turn card is a flush card. 
+In this case, B wins $195 in the pot from the flush, plus $240 from the turn and river (one bet 
+from each player on each street). Subtracted from this is the $150 B puts into the pot himself. So 
+B's overall value from this case is $285. This case occurs 8 45
+
+ (or 17.8%) of the time, for a total 
+EV contribution of $50.67. 
+ 
+Case 2: The turn card is not a flush card, but the river is. 
+In this case, B again wins $285, as one bet goes into the pot on both the turn and river. This joint 
+probability (using Equation 1.3) occurs (37 45
+
+) (8 44
+
+)  of the time, or about 14.9%. This results 
+in a total EV contribution of $42.61. 
+ 
+Case 3: Neither card is a flush card. 
+This occurs the remaining 67.3% of the time. In this case, B calls the flop and turn but not the 
+river, and loses those bets. So he loses $90. This results in an EV contribution of-$60.55. 
+ 
+Outcome 
+p(Outcome) 
+Value 
+Weighted EV 
+Turn flush 
+8/45 
++$285 
+$50.67 
+River flush 
+(37/45)(8/44) 
++$285 
+$42.61 
+No flush 
+l-[(8/45)+(37/45)(844)] 
+-$90 
+$60.55 
+Total 
+1 
+ 
+$32.43 
+ 
+Summing the weighted EV amounts, we End that this game has an expectation of about $32.73 
+for B. Contrast this to the expectation of just $4.67 in the same game if A never paid off B's 
+flushes. 
+ 
+Effective Pot Size 
+Exploitive play in games such as no-limit holdem relies quite heavily on implied odds. It is 
+frequently correct to take the opportunity to see a cheap flop with hands such as small or medium 
+pairs or suited connectors or weak suited aces in order to attempt to flop a set or a strong flush 
+draw. When doing this, however, it is important to take into account not just the amount that we 
+will win when we do make a powerful hand, but the amount we might lose when that powerful 
+hand loses anyway (as, for example, when the opponent flops a higher set than we). Also, we 
+cannot assume that our opponents will simply pay us off for their entire stack, as some players 
+do when they use the size of the stacks as a guide to what implied odds they have. 
+ 
+In the previous examples, the increased equity from implied odds allowed B to call at lower pot 
+sizes and with less equity because it increases the size of what we might call "the effective pot." 
+In Part III, we will see that "payoff amounts" are a very important part of games played between 
+hand distributions containing various combinations of made hands and draws. In addition, these 
+amounts are of critical importance when considering games where the draw is closed. By this, 
+we mean the information of whether the draw has come in is not available to t both players. This 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         55 
+ 
+is the case, for example, in seven-card stud, where the final card is dealt facedown. When this 
+information is asymmetric, the player with the made hand is at a disadvantage because he must at 
+least sometimes pay off the draw when the draw gets there. The reason for this is because if he 
+does not, then the draw can exploit this by bluffing  aggressively. 
+ 
+Bluffing 
+Bluffing is perhaps the most storied action in poker. One of the most exciting moments in any 
+beginning poker player's career is when he first bluffs an opponent out of a pot. A lot of the 
+drama that is captured in poker on television revolves around moments where a player makes I 
+large bet and the other player must decide whether the player is bluffing or not when deciding to 
+call. It is true in some sense, of course; bluffing is an integral part of poker and is the element of 
+the game that differentiates it directly from games such as chess or backgammon. 
+ 
+A pure bluff is a bet with a hand that has no chance of winning the pot if called by the 
+opponent's maximally exploitive strategy. A semi-bluff' is a bet with a hand that might or — 
+tight not be best at the moment, but which can improve substantially on later streets. Ordinarily, 
+pure bluffs only occur on the last street of a hand, when no further improvement is possible, 
+although it is possible for players to start bluffing with no hope of winning the pot on earlier 
+streets. We often call this snowing. An example of an appropriate snow is when holding four 
+deuces in deuce-to-seven lowball. Standing pat before the draw and bluffing is often a quite 
+effective strategy because the opponent cannot hold a very strong hand (86543 b sing his best 
+possible hand). 
+ 
+On the opposite end of the spectrum are value bets. These are bets that expect to have positive 
+expectation even when called. In extreme cases, such as when a player holds the 
+uncounterfeitable nuts on an early street, we can make pure value bets early in a hand. But like 
+straight bluffs, it is frequency the case that with cards to come, most value bets can in fact be 
+semi-bluffs (this depends on how strong the opponent's hand is). 
+ 
+However, between pure bluffs and pure value bets, there is a broad spectrum of bets, most of 
+which are sometimes value bets and sometimes semi-bluffs. The clearest and easiest example of 
+a pure semi-bluff with no value component is a weak flush draw, which might or might not have 
+value if it pairs its cards, but has no chance of being called by a worse hand in terms of high card 
+value. Still, this type of hand can frequently benefit from betting because the opponent may fold. 
+We will return to semi-bluffing later in Part II. The next example, however, shows the exploitive 
+power of bluffing. 
+ 
+Example 4.8 
+The game is $40-80 seven-card stud. The hands are exposed, except for the river card, which will 
+be dealt face-down. We call situations such as these closed draws: that is, the information about 
+whether the draw has come in is available to only one player. 
+ 
+Player A: 6♥ A♣ A♠ 7♦ 9♦ K♣  
+Player B: 7♠ 8♠ 9♠ K♠ 2♣ 4♣ 
+ 
+ 
+As you can see, this game mirrors to some extent the previous game. Player A has a made hand, 
+while Player B has a pure flush draw with no secondary outs. The pot is $655. The river card is 
+dealt. 
+ 
+In this case, Player A is done betting for this hand. Either B has made his flush or he has not, and 
+B will never call A's bet unless B beats A. Hence, A should simply check and then attempt to 
+play accurately if B bets. If B checks, of course, A should expect to win the pot all the time. In 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         56 
+ 
+fact, A should expect to win the pot quite frequently here, far more than 50°/o of the time. 
+However, he should still not value bet because he only loses expectation by doing so. His 
+expectation in the large pot is still intact whether he bets or not. In this case, also, A's value bet, 
+no matter what card he catches, will never extract value from B's hand, because B can't make a 
+hand better than the open aces A has. 
+ 
+So A checks. Now B must decide what to do. Clearly, he should value bet his flushes. There are 
+40 cards left in the deck, and eight flush cards. So B will make a flush 1 5
+ (or 20%) of the time. 
+In addition to value betting his flushes, B might also want to bluff sometimes when he misses the 
+flush. If he does this and A folds, he'll win a pot with more than eight bets in it with the worst 
+hand. 
+ 
+If B bets, then A has to decide between calling and folding. This decision is actually affected by 
+whether or not A caught a spade on the river, because if he did it is more likely that B is bluffing. 
+But we'll neglect this for now; assume that A decides to play blind on the river, for our 
+convenience. 
+ 
+This leaves us with two unknowns: 
+ 
+A's calling frequency: that is, given that B bets, how often A calls. Call this value x. 
+B's bluffing frequency: that is, what percentage of his total hands B bluffs with. Call this value y. 
+ 
+Then, from Equation 1.11, we have the following equations: 
+ 
+<A, call> = p(B has a flush) (lose one bet) + p(B is bluffing) (pot + one bet)  
+<A, call>= (0.2)(-$80) + (y)($655 + 80)  
+<A, call> = $735y - $16 
+<B, bluff> = p(A calls) (lose one bet) + p(A folds) (pot)  
+<B, bluff> = x(-$80) + (1 - x)($655)  
+<B, bluff> = $655 - $735x 
+ 
+So the value of calling for A is dependent on how often B will bluff; the value of calling for B is 
+dependent on how often A will call. 
+ 
+For A, we can solve an inequality to see when calling will have positive value: 
+ 
+$735y - $16>0  
+y > ~ 2.2% 
+ 
+This means that if B bluffs more than 2.2% of the time, A should call all the time, because he 
+will have positive expectation by doing so. Also, we can see that at precisely this bluffing 
+frequency, A's calling will have EV 0. This is a critical concept that we will revisit again and 
+again in this book. At this frequency, A is indifferent to calling and folding-it doesn't matter 
+what he does. 
+ 
+For B, we can solve an analogous inequality to see when bluffing will have positive value. 
+ 
+$655 - $735.x > 0 
+ x< ~ 89.1% 
+ 
+This means that if A calls less than 89.1 % of the time, then B should bluff all the time, because 
+he will have positive expectation for doing so. We can again see that at precisely this frequency, 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         57 
+ 
+B's bluffs will have EV 0. That is, B is indifferent to bluffing or checking his non-flushes. 
+ 
+It might happen that Player A is a "skeptic ," who thinks that Player B is a habitual bluffer and 
+will therefore call all the time. If he does this, his expectation from calling is as above, about 
+$7.35 for every percent of dead hands that B bluffs (above the critical value). B's best response 
+no A’s skepticism is to simply stop bluffing. Or perhaps Player A is a "believer." who thinks that 
+Player B wouldn't dare bet without having made a Bush. So he folds quite often. Then Player B 
+can simply bluff all his non-flushes, gaining the entire pot each time that Player A folds. Of 
+course, Player B loses out on value when he bets his flushes, but the eight-bet pots be wins more 
+than offset that. 
+ 
+Exploitive Strategies 
+The responses of Player A and Player B to their opponents' different bluffing and calling 
+frequencies are prototypical exploitive plays. Both players simply maximize their equity against   
+their opponent's strategy. We call these strategies exploitive because by performing these equity 
+calculations and employing these strategies, these players identify the weaknesses in their 
+opponent's strategy and exploit them by taking the actions that maximize EV against those 
+weaknesses. 
+ 
+However, equity calculations can be difficult to do at the table, particularly when there are many 
+additional factors, such as those that occur in the real world. In this book, we often present toy 
+games as conceptual aids to the processes we describe. As we examine more complicated 
+situations, where the play is distributions of hands against each other and complex strategies are 
+employed by both sides, sometimes doing straightforward equity calculations is beyond a human 
+player's reach hi the time available at the table. 
+ 
+Nevertheless, the identification and exploitation of weaknesses in our opponents' strategies leads 
+us to plays that increase EV against the strategy. And so if our ultimate goal is to maximize the 
+results of equity calculation, identifying and exploiting weaknesses is an effective proxy for 
+expected value calculation and is often more practical at the table. 
+ 
+Returning to Example 4.8, we presented this game as a sort of guessing game between A and B. 
+where each attempts to guess the strategy that the other will employ and respond to that by 
+moving their strategy dramatically in the other direction. However, we can briefly foreshadow 
+things to come in Part III here. The indifference points we identified (~2.2% bluffs for B and 
+89.1% calls for A) are special values: they are the points at which each player's opponent cannot 
+exploit the strategy any further, even if they know the strategy. If A and B each play these 
+specific strategies, then neither player can improve his EV by unilaterally changing his action 
+frequencies. These strategies are called optimal. Finding optimal strategies and playing optimally 
+is the subject of Part III. 
+ 
+Strong exploitive play is essentially a two-part process. The first step is to gather information 
+about the situation. This can include Inferring the opponent's hand or hand distribution from the 
+action or identifying situations in which the opponent plays poorly or in a manner that is easily 
+exploitable. The second step is deciding on action in light of the information gathered in the first 
+step. This is often simply taking the exploitive action called for based on the weakness identified 
+in the first step. The second step is often simpler than the first, but this is not always true, as we 
+shall see. We will consider these two steps of the process in turn, with our eye always turned to 
+maximizing EV through the process. 
+ 
+Key Concepts 
+• Exploitive play is the process of maximizing expectation against the opponent's hands 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         58 
+ 
+and strategy. In practice, this often amounts to identifying weaknesses in the opponent's 
+strategy and exploiting them because detailed calculations of expected value are too 
+difficult at the table. 
+• Pot odds provide a metric for us when considering whether to call with a draw or not; if 
+the size of the pot relative to our chance of winning is large enough, calling is correct; 
+otherwise folding is often indicated. 
+• Pot odds across multiple streets must be treated together-sometimes if we lack pot odds 
+on a particular street, we can still calf because the total cost of calling across all streets is 
+low enough to make the entire play profitable. The focus must be on the total expectation 
+of the strategy rather than the play on any particular street. 
+• Implied odds involve additional betting that takes place after a draw is complete. 
+Figuring implied odds into calling or folding decisions can help us to maximize EV. 
+• Two principles of hand vs. draw situations: 
+1) In made hand vs. draw situations, the made hand usually bets. 
+2) In made hand vs. draw situations, the draw usually calls if it has positive equity in the 
+pot after calling and subtracting the amount of the call. 
+• A pure bluff is a bet with a hand that has no chance of winning the pot if called by the 
+opponent's maximally exploitive strategy. A semi-bluff is a bet with a hand that might or 
+might not be best at the moment, but which can improve substantially on later streets. 
+Value bets are bets that expect to have positive expectation even when called. 
+ 
+ 
+ 
+ 

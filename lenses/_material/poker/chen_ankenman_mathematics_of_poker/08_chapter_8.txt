@@ -1,0 +1,615 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         85 
+ 
+Chapter 8 
+Playing Accurately, Part II: Hand vs. Distribution 
+ 
+Concealed hands make for a much better game: hence the popularity of poker games with hidden 
+information. We now consider situations where only one hand is revealed, while the other hands 
+are some sort of distribution. For these cases we can use the expected value techniques 
+previously discussed to arrive at the best play, if we can come up with an accurate 
+characterization of the opponent's strategy. For the time being, we will not concern ourselves -
+with our opponent's changing strategies, but simply assume that we are able to estimate reliably 
+how he will play his various hands. We will return to the idea of players adapting their strategies 
+and the value of an entire distribution changing as the result of different strategies with 
+individual hands at length in later chapters. 
+ 
+But before we get too deeply into analyzing particular games, we can discuss a concept that 
+plays a valuable role in attempting to analyze games of more complexity. This concept is of 
+particular value in games such as holdem. Frequently, two hands put in some action before the 
+flop, and then one or the other of the hands calls while there are still a significant amount of 
+chips to play with postflop. When the play stops with a call in this manner, we frequently want to 
+know what the expectation for the hand will be for both players in order to compare that 
+expectation with the expectation of, for example, raising again. 
+ 
+This value has two components; one is what we frequently call showdown equity, which is the 
+expectation that each hand has if we simply stopped the betting right now and dealt all the cards 
+out immediately. The other is what we call ex-showdown equity, the expectation that each hand 
+has in the post-flop betting. Ex- is a Latin prefix meaning "outside"—hence ex-sbowdown equity 
+is the equity outside of the current pot. The sum of these two values is the total expectation a 
+player has in the pot. These two values are actually related because they are both dependent on 
+the strength of the distributions that each player holds. It's quite possible for a player's showdown 
+equity to be positive while his ex-showdown equity is negative. One example of this is if a 
+player holds an extremely weak draw and his opponent bets. His showdown equity is equal to his 
+chance of whining times the pot before the bet. However, since he must fold, his ex-showdown 
+equity is actually the negative of that value since he is losing), making his total equity from the 
+hand zero. 
+ 
+We would love to be able to project out the entire play of the hand over all possible boards and 
+the players' strategies in order to see what the EV of playing the hand out in that manner would 
+be. Unfortunately, this is a fairly intractable problem, especially at the table. What we try to do is 
+train our intuition to guess at these equities within a certain band. For example, consider a hand 
+where both players' distributions are approximately equal and both players of equal skill. Then 
+the showdown values will be equal, and the most important influence on the ex-showdown value 
+for these two players will be position; the player who has the button will have a higher ex-
+showdown value than the other because of his positional advantage. 
+ 
+Oher types of situations might change this; for example, consider a situation where one player is 
+known to hold a quite strong distribution, such as [AA, KK, QQ, AK] and the other player holds 
+a random hand. In this case, the player with the strong distribution will have much higher 
+showdown equity than his opponent. However, his advantage ex-showdown will be smaller than 
+if he held one of those hands in a situation where he could hold a wide distribution. We can also 
+state the equity of a particular hand within a distribution. For example, assuming a typical 
+button-raising range in limit holdem, it might be the case that against a strong player in the big 
+blind, holding aces on the button might be worth as much as four or five small bets ex-
+showdown. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         86 
+ 
+When analyzing games where players might call preflop, we often refer to a player having "X% 
+of the pot" after the call. In some cases, such as when the money is all-in preflop, this is strictly 
+showdown equity. In other cases, however, we are trying to capture the effect of future betting 
+on the players’ expectation. We will see an example of this in a moment. 
+ 
+Many types of exploitation are quite straightforward. For example, against an opponent who   
+bluffs too often on the end, the most profitable play is to call with additional hands that can beat 
+only a bluff, while against opponents who fold too often to bets on the end, the highest 
+expectation play with weak hands is generally to bluff. We looked at an example of this type at 
+the outset of Part II, These cases are rules of thumb that often adequately represent the 
+expectation analysis appropriate to those situations. We can analyze more complicated situations, 
+however, by simply applying a methodical approach-evaluate the EV of each potential strategy, 
+and choose the one that is the highest. 
+ 
+Example 8.1 
+We're the big blind in a $5-$10 blind no-limit holdem game. The button, a player we know well, 
+has about $200 in front of him. It's folded around to him and he opens for $30. The small blind 
+folds. 
+ 
+We know the following things about the button (through the magic of toy game technology): 
+ 
+• The button's raising distribution here is {22+, A2+, KT+, K9s+, QTs+, QJ+, JTs, T9s}. 
+• If we jam (re-raising $170 more), he will call with AA-JJ and AK and fold all other 
+hands. 
+ 
+If we call, we can expect to have some portion of the pot, depending on how many hands we call 
+with. If we called, for example, with the same range of hands that he is raising, we could expect 
+to have approximately 45% equity in the resultant pot (the shortfall due to position) from the 
+postflop play. 
+ 
+What is our maximally exploitive strategy? 
+ 
+The opponent will raise with a total of  350 1326
+
+ hands: 
+ 
+6 ways to make each of thirteen pairs = 78  
+16 ways to make each of twelve ace-high hands = 192  
+12 ways to make each of four other unsuited hands = 48  
+4 ways to make each of eight other suited hands = 32 
+ 
+He only calls, however, with 40 of those hands. These proportions are influenced slightly by 
+card removal effects (if we hold an ace, he has fewer ways to make AA, etc). This is the basic 
+proportion, and we will use it in this analysis. 
+ 
+We are risking $190 (the remainder of our stack after posting the blind) to win the $45 in the pot. 
+If we simply jam with all hands, we will win the pot immediately 310 350
+
+ ) times, or 88.57% of 
+the time. In addition, when we are called, despite having poor equity in the pot, we do still win 
+sometimes. The equity of our random hand against his distribution of AA-JJ and AK is about 
+24.95%. Note that even against a very strong range, we still have nearly a quarter of the pot with 
+two random cards. 
+ 
+This results in an overall EV for this jamming play of: 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         87 
+ 
+<jam> = [p(he folds)) (pot) + (p(he calls)) (p(we win) (new pot) - cost of jam)  
+<jam> = (0.8857) ($45) + (1 - 0.8857) ((0.2495) ($200 + $200 + $5) - $190)  
+<jam> = $29.69 
+ 
+This is a fairly important point. We have positive equity by simply jamming any hand here, no 
+matter how weak. Our opponents strategy has a significant flaw; he folds too often to reraises. 
+ 
+We can also look at specific hands-take for example, 32o. Against {JJ+. AKs, AKo}, 32o has 
+21.81% of the pot. 
+ 
+Then our EV of jamming is: 
+ 
+<32o, jam > = (p{he folds))(pot) + (p(he calls))p(we win)(new pot) - cost of jam)  
+<32o, jam > = (0.8857) ($45) + (0.1143)(($405)(0.2181) - $190)  
+<32o, jam > = $28.24 
+ 
+We can contrast this to calling, where we call $20 and wind up with some percentage x of the 
+pot. 
+ 
+<call> = x(new pot) - cost of call  
+<call> = x($65) - $20 
+ 
+In order to make calling as good a play as jamming with any specific hand, this EV has to be 
+greater than $29.69. 
+ 
+x($65) - $20 > $29-69  
+x > 76.45% 
+ 
+It should be clear that no player, no matter how impossibly gifted, has more than 76% of the pot 
+postflop with a random hand out of position against a button raiser. 
+ 
+But what about the case where we have aces in the blind? Holding two of the aces makes some 
+significant difference in the hands that are raised, so we adjust the calling frequency using Bayes' 
+theorem. After adjusting for the card removal by removing two aces from the deck, the button 
+raises 249 hands and calls with just 27 of them, folding 222 249
+
+ . Against his calling hands, our 
+equity is much higher - 83.43%. 
+ 
+<AA, jam > = p(he folds)(pot) + [p(he calls)][p(we win) (new pot) - cost of jam)]  
+<AA, jam > = ( 222 249
+
+ )($45) + (27 249
+
+ )((.8343)($405) - $190))  
+<AA, jam > = $56.16 
+ 
+To make calling with aces correct, we need at least x% of the pot where: 
+ 
+X($65) -$20 > $56.16  
+x>117.20/o 
+ 
+It is not impossible that this could be the case, especially against an opponent who is aggressive 
+postflop. But this is the very best case out of all the possible hands that we could hold. 
+ 
+So, in summary of this example, jamming with any hand is a substantially stronger play against 
+this type of button raiser than either folding or calling. This holds except when the blind has a 
+very strong hand; in which case it's likely close, depending on how well the players play 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         88 
+ 
+postflop. 
+ 
+What this type of analysis leads us to are the flaws in our opponents' strategies—the place where 
+they give up ground. In the above example, the flaw in the button raiser's strategy was that he 
+raised with a wide range of hands but surrendered too often to reraises. In truth, the only way to 
+be sure that this is the case is to do an EV analysis as above, but at the table, it is fairly easy to do 
+off-the-cuff analysis such as the following: 
+ 
+"This guy is raising 25% of his hands, but he's only calling with few. If I jam, I'm putting in 
+about 4 pots to win 1. If he calls me less than a fifth of the time, I'm making money on the jam 
+immediately, and sometimes I'll win when he calls too!" 
+ 
+Finding the weaknesses in opponents' strategies is the core of exploitive play. In the above case, 
+it was an imbalance between the number of raising hands and hands that would stand a reraise in 
+the button player's strategy. This imbalance created the opportunity for exploitation by an aware 
+big blind, who could profit by jamming with any two cards. If the button player wanted to 
+prevent this type of exploitation, he would need to do one of two things. He could cither tighten 
+his initial raising requirements or loosen the range of hands with which he would call a jam from 
+the big blind. 
+ 
+Another way to exploit one's opponents is to take advantage of advantageous flops that don't 
+appear to be so at first glance. 
+ 
+Example 8.2 
+Consider the following situation in a limit holdem game: 
+ 
+You are dealt 99 under the gun in a full game and raise (stipulate that your distribution of hands 
+for this action is AA-99, AK, AQ, and AJs). A player several seats to your left reraises (you 
+judge his distribution to be AA-TT. AK and AQs), and the field folds. You call. 
+ 
+The flop comes A72 with no suits. Your estimation of the other player's likely strategy for 
+playing the hand from the flop on is roughly as follows: (We'll ignore the possibility of hitting a 
+set on the turn for simplicity) 
+ 
+If you check the flop, he will bet the flop with all hands. 
+ 
+If you bet the flop, he will call with all hands. 
+ 
+If you check-raise the flop, he will call the check-raise with all hands. 
+ 
+His turn strategy is as follows: 
+Your flop 
+action 
+Your turn 
+action 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+AA 
+KK/QQ 
+JJ/TT 
+AK 
+AQs 
+Check-raise  
+ 
+ 
+ 
+ 
+ 
+ 
+Bet 
+Raise 
+Fold 
+Fold 
+Raise 
+Call 
+ 
+Check-call 
+Bet 
+Bet 
+Bet 
+Bet 
+Bet 
+ 
+Check-raise Bet/Reraise Bet/Fold 
+Bet/Fold 
+Bet/Call 
+Bet/Call 
+Check-call 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Bet 
+Raise 
+Call 
+Call 
+Raise 
+Raise 
+ 
+Check-call 
+Bet 
+Check 
+Bet 
+Bet 
+Bet 
+ 
+Check-raise Bet/Reraise Check 
+Bet/Fold 
+Bet/Call 
+Bet/Call 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         89 
+ 
+What is your plan? 
+ 
+A typical thoughtful player would begin by noting that given the action and distributions -
+stipulated, 99 is never ahead, and against ail the hands in the opponents distribution, has just two 
+outs to improve. This fairly bad situation seems to argue for check-folding as the proper course 
+of action. 
+ 
+But a stronger method of evaluating the problem is to consider the comparative equities of 
+different types of strategies. The check-fold strategy clearly has an EV of 0, so that's a baseline 
+against which we can compare other strategies. 
+ 
+First, we should consider how many hands of each type the opponent will hold. Given our hand 
+and the flop, the opponent holds the following hands with the given frequency: 
+ 
+AA: 
+ 
+ 
+ 3 42
+
+ 
+KK, QQ, JJ, TT: 
+ 6 42
+
+ for each pair  
+AK: 
+ 
+ 
+ 12 42
+
+ 
+AQs:  
+ 
+ 3 42
+
+ 
+ 
+Let's consider just a few candidate strategies: 
+ 
+1) Check-folding the flop. 
+2) Check-calling the flop and check-raising the turn, giving up if the opponent pushes back 
+or stays until the river. 
+3) Check-raising the flop and playing aggressively through the turn, giving up if the 
+opponent pushes back or stays until the river.  
+4) Betting out on the flop and turn. 
+ 
+Strategy 1) has an EV of 0. 
+ 
+Strategy 2) performs as follows against the opponent's hands: 
+ 
+vs AA, AK, AQs: -5 small bets 
+vs JJ-TT: +10.5 small bets (7.5 from the pot, one on the flop, two on the turn)  
+vs KK-QQ: -3 small bets 
+<strategy 2> = p({AA, AK, AQs})(-5) + p({JJ, TT})(10.5) + p({KK, QQ})(-3) 
+<strategy 2> = (3 7
+ )(-5) + (2 7
+ )(10.5) + (2 7
+ )(-3) 
+<strategy 2> = 0 
+ 
+Strategy 3) performs as follows against the opponent's hands: 
+vs. AA, AK, AQs: - 4 small bets  
+vs. KK-TT: +9.5 small bets 
+<strategy 3> = p({AA, AK, AQs})(-4) + p({KK, QQ, JJ, TT})(9.5) 
+<strategy 3> = (3 7
+ )(-4) + (4 7
+ )(9.5) 
+<strategy 3> = 3.71 
+ 
+Strategy 4) performs as follows against the opponent's hands: 
+vs AA, AK, AQs, KK, QQ: -3 small bets  
+vs JJ, TT: +8.5 small bets 
+<strategy 4> = p({AA, AK, AQs, KK, QQ})(-3) + p({JJ, TT})(8.5) 
+<strategy4> = ( 5 7
+  )(-3) + (2 7
+ )(8.5) 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         90 
+ 
+<strategy 4> = 0.29 
+ 
+So interestingly enough, the immediately intuitive solution seems to have the worst EV of any of 
+these possibilities! 
+ 
+The clear winner, however, is the strategy of check-raising the flop and betting the turn. And the 
+value of this strategy (given this strategy by the opponent) is almost 4 small bets! Against an 
+opponent who plays this way, it is a gigantic mistake to check and fold on the flop in this 
+situation; we know this because we calculated the equities. But why, intuitively, is this strategy 
+so good? 
+ 
+The re-raiser has made the pot six bets before the flop. Post-flop, however, when an ace flops, he 
+is folding more titan half his hands to only four bets worth of aggression. The original raiser is 
+putting in four small bets to win six and the re-raiser is folding more than half the time. What's 
+happened here is that a flop that appears at first glance to be poor for the nines (and which would 
+be if the hands were face up) is actually a strong one because of the shape of the re-raiser's 
+distribution of hands and the way in which he will play those hands. If the re-raiser wanted to 
+prevent this type of exploitation, he would need to call down with hands such as KK and QQ 
+instead of folding them. 
+ 
+Example 8.3 (Example 5.1 revisited) 
+As a final example of this process of attempting to maximize EV, we return to the stud eight or-
+better hand from Chapter 5 (Example 5.1). 
+ 
+To recap the hand: 
+We:   
+(5♣A♥) 4♥ 8♠   J♥ A♠  
+Opponent:  
+(??) 6♣ T♦ K♣ 3♣ 
+ 
+The antes are $5, and the limits are S30-60. There is $345 in the pot and we are first on sixth 
+street. We have narrowed the opponent's range to the following hands: 
+ 
+AA 
+ 
+ 
+-1 
+Q♣ Qx  
+ 
+-3 
+Qx Qy  
+ 
+-3 
+J♣ Jx  
+ 
+-2 
+Jx Jy  
+ 
+-1 
+X♣ Y♣ 
+ 
+-6 
+ 
+We consider the play against each of these hands in turn. In each of these cases, we consider the 
+most likely way the play will go, assuming that there are not many branches of equal value. The 
+strategy on later streets here is a little more complicated in practice with very strong players 
+because of small fractions of semi-bluff raises and so on. We will also ignore the check-raising 
+possibility; this hand in this position should almost certainly not check raise. 
+ 
+As we proceed through the cases, there are a fair amount of places where we speculate as to how 
+the action will go on later streets. It is often not that easy to predict the shape of future action, 
+and so a lot of estimates will be made. However, as long as we do not introduce a systematic bias 
+toward overestimating or underestimating our equity, the various errors introduced by these 
+speculations should at least partially balance each other; each error is individually quite small in 
+the whole scheme of the hand. 
+ 
+Against AA: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         91 
+ 
+When deciding whether to bet against a hand of approximately the same strength as our own, one 
+important consideration is that often the hand result is the same either way. If we bet, it would 
+seem overly aggressive for the opponent to raise with AA, since we could already have a low 
+made, in which case we're freerolling to scoop (perhaps with a wheel draw). In that case we 
+could also immediately re-raise for value. So if we bet, it seems clear that AA should simply call. 
+But if we check, the hand with aces and a flush draw will bet; so it doesn't matter what we do. 
+One bet goes into the pot in either case. This situation occurs often between hands of 
+approximately equal strength. 
+ 
+<bet> = <check> 
+ 
+Note that we're not really interested in what the absolute expectations of the various actions are; 
+we're primarily interested in the difference between the candidate actions. It should be fairly 
+clear that we have enough equity in this situation that we don't want to fold, so all we need to pay 
+attention to is the difference in expectation between the two reasonable actions. 
+ 
+Against Q♣ Qx and J♣ Jy: 
+ 
+Now we have the best hand for high and the best draw for low. If the game were stud high, 
+where there was no low possibility, it would be clear to bet and extract value from the draw. But 
+the situation here is much stronger, as even if the flush comes in or the opponent makes two pair, 
+we still have 12 out of 39 remaining cards that give us half the pot. So this case seems clear; we 
+should bet and the opponent will call with his fairly strong high draw. We can likely use the hand 
+equities as a proxy for the total equities, including betting on the river. Occasionally the 
+opponent will make a flush and a better low or we will miss our low. Against Q♣ Q♦, we have 
+about 70% equity in the pot. 
+ 
+<bet> = p(win)(new pot value) - cost of bet 
+<bet> = (0.70) ($345 + $120) - $60 
+<bet> = $265.50 
+<check> = p(win)(pot value) 
+<check> = (0.70) ($345) 
+<check> = $241.50 
+ 
+for a expected gain of approximately S24 from betting. 
+ 
+Against Qx Qy and Jx Jy: 
+ 
+In this case, we are against an even worse hand. This is the same as the previous situation, but 
+with no flush draw. 
+ 
+This case is even clearer; we should bet. Now the opponent has a difficult decision about 
+whether to fold or not. He would consider our possible distribution of hands (aces up, aces with a 
+low draw, a made low with only a weak high draw, etc.). But with the strong likelihood that we 
+have made at least a pair of aces, the opponent will probably have to fold in this case. If we had 
+checked, the opponent will probably call all the time on the river, figuring us for perhaps a pair 
+lower than aces. 
+ 
+<bet> = $345 
+<check> = p(win)(new pot value) - cost of bet  
+<check> = (0.85)($345 + $120) - $60 
+<check> == $335.25 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         92 
+ 
+ 
+Here we gain about $10 by betting because we are able to claim the entire pot immediately rattier 
+than allowing the opponent to draw. 
+ 
+Against X♣ Y♣: 
+ 
+In this case, if we bet, we have the difficulty. The opponent has a made flush and a low draw, so 
+he will raise. Now we have to consider calling, hi all likelihood, our low draw and the chance 
+that the opponent is semi-bluffing will tip the scales toward calling. However, it's dear that 
+against this hand, we do not wish to bet. If we check, of course, the opponent will bet. On the 
+river, in either case, we will call if we hit the low draw. Occasionally we will still be scooped 
+when the opponent wins low anyway. So in the betting case, we will put in two bets on sixth 
+street and one on seventh when we hit a low card or aces up, and just two bets on sixth when we 
+miss completely. 
+ 
+We have about 13% equity against the opponent's hands when we hit a calling card. Our calling 
+cards are two aces, three of each card from deuces through eights, and three jacks. We fold on 
+two tens, two kings, and four queens. So 26 34
+
+ of the time we have the following equities: 
+ 
+<bet> = p(win)(new pot value) - cost of bet  
+<bet> = (0.13}($345 + $360) - $180  
+<bet> = - $88.35 
+<check> = p(win)(new pot value) - cost of bet  
+<check> = (0.13) ($345 + $240) - $180  
+<check> = $43.95 
+ 
+And the following occurs the other 8 34
+
+ of the time: 
+ 
+<bet> = - $120  
+<check> = - $60 
+ 
+Weighting these by their probabilities, we have: 
+ 
+<bet> = p(don't hit calling card) (bet equity) + p(hit calling card) (bet equity)  
+<bet> = 26 34
+
+ ($-88.35) + 8 34
+
+ (- $120)  
+<bet> = - $95.80 
+<check> = p(don't hit calling card) (check equity) + p(hit calling card) (check equity)  
+<check> = 26 34
+
+ ($-43.95) + 8 34
+
+ (-$60)  
+<check> = -$47.73 ~ - $48 
+ 
+Summarizing all of these possibilities: 
+ 
+Opp. Hole Cards 
+Probability 
+<Bet> – <Check> 
+Weighted EV 
+AA 
+1/16 
++ 
+0 
+Q♣ Qx or J♣ Jx 
+5/16 
++$24 
+$7.50 
+Qx Qy  or Jx Jy 
+4/16 
++1$0 
+$2.50 
+X♣ Y♣ 
+6/16 
+-$48 
+-$18 
+Total 
+1 
+ 
+-$8/hand 
+ 
+So it turns out, in this analysis, that betting is actually about $8 worse per hand than checking in 
+this spot! Now we could add additional hands in our "lost his mind" category; for most of these 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         93 
+ 
+hands, we are better served by betting than by checking. But any reasonable distribution of hands 
+will still result in the finding that the “automatic” bet that would be made by many players is 
+actually worse than the alternative strategy of checking. 
+ 
+This example had many assumptions throughout. You may disagree with our characterizations of 
+how players would play, what outcomes we could expect, and so on. The central point here is not 
+to quibble over the play of a specific stud eight-or-better hand. Instead we presented it first under 
+the topic of hand reading, to show the Bayesian framework by which a hand unfolds, and how 
+appropriately adding each newly revealed piece of information throughout a hand, making the 
+proper inferences based on the streets that have gone before, and forecasting what the action will 
+be on later streets, can provide information. We then continued the example under the topic of 
+accurate play and used that information to make a correct EV analysis of our hand against the 
+assumed distribution our opponent held. 
+ 
+Key Concepts 
+• After the process of hand reading and strategy reading is complete, we can take the 
+information gathered by those processes and make decisions about which actions to take 
+by comparing the EV of different actions. 
+• Identifying the weaknesses in our opponents' play qualitatively will often help us to 
+identify the right exploitive play even if we cannot do all the calculations at the table. 
+• Developing intuition for situations that commonly call for exploitation is extremely 
+helpful in playing exploitively at the table. 
+• When our opponents hold distributions of hands, often we will want to take different 
+actions against their different hand types. Weighting our expected values by the 
+Bayesian-adjusted probabilities that they hold each hand type can allow us to make an 
+accurate decision, even against their entire distribution of hands. 
+• Showdown equity is the expectation that each hand has if we simply stopped the betting 
+and dealt all the cards out immediately. Ex-showdown equity is the expectation that each 
+hand has in the post-flop betting. 
+ 
+ 

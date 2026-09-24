@@ -1,0 +1,1534 @@
+4
+Risk-Return Tradeoﬀs
+The previous section mainly focuses on supervised prediction models
+that do not take a stand on the risk-return tradeoﬀ, and thus do not
+constitute asset pricing models. In this section, we develop factor pricing
+models using unsupervised and semi-supervised learning methods that
+model the risk-return tradeoﬀexplicitly.
+4.1
+APT Foundations
+The Arbitrage Pricing Theory (APT) of Ross (1976) lays the groundwork
+for data-driven, machine learning analysis of factor pricing models. It
+demonstrates that with a partial model speciﬁcation—requiring in
+essence only a linear factor structure, a ﬁxed number of factors, and the
+minimal economic assumption of no-arbitrage—we can learn the asset
+pricing model simply by studying factor portfolios and understanding
+which components of returns are diversiﬁable and which are not. In
+other words, the APT provides a blueprint for empirical analysis of the
+risk-return tradeoﬀwithout requiring any knowledge of the mechanisms
+that give rise to asset pricing factors. Machine learning methods for
+latent factor analysis can thus be leveraged to conduct new and powerful
+analyses of empirical asset pricing phenomena.
+79
+
+80
+Risk-Return Tradeoﬀs
+We also refer readers to a survey of return factor models by Giglio
+et al. (2022a). They organize the literature into categories based on
+whether factors are observable, betas are observable, or neither are
+observable. Observable factors or betas give rise to time series and
+cross section regression methodologies. In this survey, we focus on the
+more challenging case in which factors and betas are latent (or, at best,
+partially observable), which allows us to go deeper into some of the
+details of machine learning factor modeling techniques.
+4.2
+Unconditional Factor Models
+The premise of Ross (1976)’s APT is the following statistical factor
+model:
+Rt = α + βFt + ϵt,
+(4.1)
+where Rt collects individual asset excess returns Ri,t into an N × 1
+vector, β is an N × K matrix of loadings on the K × 1 vector of latent
+factors, Ft, which may have a non-zero mean γ = E(Ft) interpreted as
+factor risk premia, and ϵt is an N × 1 vector of mean-zero residuals.
+The N × 1 intercept vector α represents pricing errors. They are the
+components of expected asset returns that are not explained by factor
+exposures. Ross (1976)’s APT and its descendants (e.g. Huberman,
+1982; Ingersoll, 1984; Chamberlain and Rothschild, 1983) establish that
+no-near-arbitrage is equivalent to1
+α′Var(ϵt)−1α ≲P 1,
+as
+N →∞.
+(4.2)
+That is, the compensation for bearing idiosyncratic risk does not explode
+as the investment universe expands.
+4.2.1
+Estimating Factors via PCA
+Motivated by the APT, Chamberlain and Rothschild (1983), Connor
+and Korajczyk (1986), and Connor and Korajczyk (1988) advocate
+PCA as a factor model estimator when factors and betas are latent. A
+1We use a ≲P b to denote a = OP(b), and use a ≍P b if a ≲P b and b ≲P a.
+
+4.2. Unconditional Factor Models
+81
+more convenient yet equivalent approach is to conduct singular value
+decomposition (SVD) of the de-meaned returns ¯R = R−( 1
+T
+PT
+t=1 Rt)ι′
+T :
+¯R =
+b
+K
+X
+j=1
+σjςjξ′
+j + bU,
+(4.3)
+where {σj}, {ςj}, and {ξj} correspond to the ﬁrst c
+K singular values,
+left and right singular vectors of ¯R, c
+K is any consistent estimator (e.g.
+Bai and Ng, 2002) of the number of factors in Rt, bU is a matrix of
+residuals, and ιT is a T × 1 vector of ones. This decomposition yields
+estimates of factor innovations Vt = Ft −E(Ft) and risk exposures β as
+bV = T 1/2(ξ1, ξ2, . . . , ξ b
+K)′,
+bβ = T −1/2(σ1ς1, σ2ς2, . . . , σ b
+Kς b
+K).
+(4.4)
+The factor estimates are normalized such that they satisfy bV bV ′ =
+TI b
+K. Alternatively, we can normalize bβ such that bβ′ bβ = NI b
+K. There
+is fundamental indeterminacy in latent factor models, i.e., rotating
+factors and counter-rotating loadings leads to no change in the data-
+generating process. Therefore, factors and their loadings are identiﬁable
+only up to an invertible linear transformation (i.e., rotation). In light of
+this, diﬀerent normalizations yield equivalent estimators of factors and
+loadings, in that they only diﬀer by some rotation. Bai (2003) proves
+the consistency of these PCA estimates and derives their asymptotic
+distributions under the assumption that all factors are pervasive, i.e.,
+λK(β′β) ≍P N.
+Connor and Korajczyk (1988) ﬁrst investigate the performance of a
+latent factor model using a large cross section of roughly 1,500 stocks.
+They ﬁnd that, while a PCA-based factor model performs better than the
+CAPM in explaining the risk-return tradeoﬀin their sample, it admits
+large and signiﬁcant pricing errors. Generally speaking, unconditional
+factor models have a diﬃcult time describing stock-level data. Based on
+this and related studies, unconditional latent factor models (and their
+estimation via PCA) largely fell out of favor in the period following
+Connor and Korajczyk (1988). Kelly et al. (2020b) corroborate those
+ﬁndings in more recent data. They show that, in the panel of CRSP
+stocks from 1962–2014, PCA is extremely unreliable for describing risk
+premia of individual stocks.
+
+82
+Risk-Return Tradeoﬀs
+There is a recent resurgence of PCA for return factor modeling.
+This emanates in large part from the fact that, while PCA suﬀers
+when describing individual stock panels, it has much greater success in
+modeling panels of portfolios. For example, Kelly et al. (2020b), Kozak
+et al. (2018), and Pukthuanthong et al. (2019) demonstrate that factor
+models estimated from a panel of anomaly portfolios manage to price
+those portfolios with economically small pricing errors. These analyses
+build on earlier work of Geweke and Zhou (1996) who use a Gibbs
+sampling approach to extract latent factors from portfolio-level data.
+A potential drawback of the latent factor approach lies in its diﬃculty
+in interpreting the estimated factors due to the indeterminacy of latent
+factor models. Yet, it is beneﬁcial to adopt the latent-factor approach
+whenever the object of interest is invariant to rotations. We provide one
+such example next.
+4.2.2
+Three-pass Estimator of Risk Premia
+A factor risk premium describes the equilibrium compensation investors
+demand to hold risk associated with that factor. Many theoretical
+economic models are developed on the basis of some non-tradable
+factors (factors that are not themselves portfolios) such as consumption,
+GDP growth, inﬂation, liquidity, and climate risk. To estimate the
+risk premium of a non-tradable factor we need to construct a factor
+mimicking portfolio and estimate its expected returns. To ﬁx ideas,
+suppose that this non-tradable factor, Gt, relates to the cross-section of
+assets in the following form:
+Gt = ξ + ηVt + Zt,
+(4.5)
+where Zt is measurement error and Vt = Ft −E(Ft). According to this
+model, the risk premium of Gt is given by ηγ. Since Gt is sometimes
+motivated from some economic theory, its mimicking portfolio and risk
+premium may be economically interpretable. Moreover, ηVt and ηγ
+are rotation invariant and identiﬁable despite that Vt, η, and γ are
+identiﬁable only up to some rotation. To see this, it is known from Bai
+and Ng (2002) that there exists a matrix H such that bVt
+P
+−→HVt, for
+any t. If we rewrite the DGP of Rt and Gt with respect to HVt, then the
+
+4.2. Unconditional Factor Models
+83
+risk premium of Vt is Hγ, and the loading of Gt on HVt becomes ηH−1,
+yet the innovation of the mimicking portfolio and the risk premium of
+Gt remain ηH−1HVt = ηVt and ηH−1Hγ = ηγ.
+Giglio and Xiu (2021) propose a three-pass estimator to make
+inference on ηγ, marrying Fama-MacBeth regression with PCA. The
+ﬁrst pass is to conduct PCA and estimate factors and loadings according
+to (4.4). The second pass recovers the risk premia of latent factors via
+Fama-MacBeth regressions:
+bγ = 1
+T
+T
+X
+t=1
+( bβ
+′ bβ)−1 bβ
+′Rt.
+(4.6)
+The third pass recovers the loading of Gt on the estimated latent factors:
+bη = 1
+T
+T
+X
+t=1
+Gt bV ′
+t .
+The risk premium estimator thereby becomes: bηbγ.
+Giglio and Xiu (2021) establish the asymptotic property of the
+resulting estimator. Their asymptotic analysis of Fama-MacBeth on
+PCA outputs paves the way for statistical inference on quantities of
+interest in asset pricing with latent factor models, including risk premia,
+stochastic discount factors (Giglio et al., 2021b), and alphas (Giglio
+et al., 2021a).
+The three-pass estimator is closely related to PCA-regression based
+mimicking portfolios. The procedure amounts to regressing Gt onto the
+PCs of Rt to construct its factor-mimicking portfolio and computing its
+average return to arrive at Gt’s risk premium. The use of PCs instead
+of the original assets in Rt is a form of regularization. This viewpoint
+encourages the adoption of other regularization methods in machine
+learning, like ridge and lasso, when creating mimicking portfolios.
+On the empirical side, Table 4.1 collects risk premia estimates using
+diﬀerent methods for a number of non-tradable factors, including AR(1)
+innovations in industrial production growth (IP), VAR(1) innovations
+in the ﬁrst three principal components of 279 macro-ﬁnance variables
+from Ludvigson and Ng (2010), the liquidity factor of Pástor and
+Stambaugh (2003), the intermediary capital factor from He et al. (2017),
+four factors from Novy-Marx (2014) (high monthly temperature in
+
+84
+Risk-Return Tradeoﬀs
+Manhattan, global land surface temperature anomaly, quasiperiodic
+Paciﬁc Ocean temperature anomaly or “El Niño,” and the number of
+sunspots), and an aggregate consumption-based factor from Malloy
+et al. (2009).
+This table highlights two issues of the conventional two-pass regres-
+sions: the omitted variable bias and the measurement error bias. The
+two-pass estimates depend on the benchmark factors researchers select
+as controls. Yet economic theory often provides no guidance on what
+factors should serve as controls. Omitting control factors would in gen-
+eral bias the risk premia estimates. Take the liquidity and intermediary
+capital factors as an example. Risk premium estimates for the former
+change from 226bp per month based on a univariate two-pass regression
+to 57bp based on the same method but with FF3 factors as control.
+Similarly, estimates for the latter change from 101bp to 43bp.
+Equation (4.5) also allows for noisy (η = 0) and weak (η small)
+factors as special cases, which normally would distort inference on risk
+premia in a two-pass regression (a phenomenon ﬁrst documented by Kan
+and Zhang, 1999). For instance, the four factors from Novy-Marx (2014)
+are examples of variables that appear to predict returns in standard
+predictive regressions, but their economic link to the stock market seems
+weak. Nonetheless, three out of these four factors have signiﬁcant risk
+premia based on two-pass regression with FF3 factors. Macro factors
+(such as PCs or consumption growth) are also weak. The three-pass
+approach addresses both omitted variable bias and measurement error
+because it estimates latent factors in the ﬁrst pass, uses them as controls
+in the second-pass cross sectional regression, and adopts another time-
+series regression in the third pass to remove measurement error. Thanks
+to this robustness, the estimates from the last two columns of Table 4.1
+appear more economically reasonable.
+4.2.3
+PCA Extensions
+While PCA is the most common approach to factor recovery, there are
+alternatives with unique features. For instance, Giglio et al. (2021a)
+adopt matrix completion to estimate the factor model that can cope
+with an unbalanced panel of returns. Suppose that Ωis an N ×T matrix
+
+4.2. Unconditional Factor Models
+85
+Factors
+Two-pass w/o controls
+Two-pass w/ FF3
+Three-pass regression
+Liquidity
+2.26∗∗
+(0.90)
+0.57
+(0.68)
+0.37∗∗
+(0.16)
+Interm. Cap.
+1.01∗∗
+(0.45)
+0.43
+(0.45)
+0.60∗∗
+(0.31)
+NY temp.
+-319.01
+(255.73)
+-277.96∗∗
+(124.08)
+-0.69
+(13.90)
+Global temp.
+-6.65
+(4.85)
+-3.33
+(2.07)
+0.05
+(0.21)
+El Niño
+56.85∗∗∗
+(17.42)
+-15.34∗∗
+(7.11)
+0.41
+(0.82)
+Sunspots
+-409.37
+(937.73)
+882.89∗∗
+(405.40)
+4.01
+(35.63)
+IP growth
+-0.36∗∗∗
+(0.14)
+-0.14∗∗
+(0.05)
+-0.01∗
+(0.00)
+Macro PC1
+84.90∗∗∗
+(24.76)
+39.96∗∗∗
+(13.57)
+3.26∗∗
+(1.58)
+Macro PC2
+9.35
+(15.93)
+23.91∗∗∗
+(8.97)
+-0.88
+(1.27)
+Macro PC3
+-5.94
+(14.30)
+-31.24∗∗∗
+(9.74)
+-1.25
+(1.51)
+Cons. growth
+0.26∗
+(0.16)
+0.07
+(0.05)
+0.00
+(0.01)
+Table 4.1: Three-Pass Regression: Empirical Results
+Note: For each factor, the table reports estimates of risk premia in percentage points
+per month using diﬀerent methods, with the restriction that the zero-beta rate
+is equal to the observed T-bill rate: two versions of the two-pass cross-sectional
+regression, using no control factors in the model and using the Fama-French three
+factors, respectively; the three-pass estimator using 7 latent factors. The test assets
+comprise of 647 portfolios sorted by various characteristics (from Table B1 of Giglio
+and Xiu, 2021).
+with the (i, t) element equal to 1 if and only if Ri,t is not missing. The
+matrix completion algorithm solves the following convex optimization
+problem:
+bX = arg min
+X ∥(R −X) ◦Ω∥2 + λ∥X∥n,
+where ◦denotes Hadamard product, ∥X∥n = Pmin{N,T}
+i=1
+ψi(X) with
+ψi(X) being the ith largest singular value of X, and λ is a tuning
+parameter. By penalizing the ℓ1-norm of singular values of X, the
+algorithm attempts to ﬁnd a low rank approximation of the return
+matrix R using only its observed entries. The estimated bX is a completed
+matrix of R with a low rank structure, from which latent factors and
+loadings can thus be recovered via SVD.
+The standard implementation of PCA applies SVD to demeaned ex-
+cess returns matrix ¯R. In doing so, it estimates latent factors and betas
+solely from the sample centered second moment of returns. Lettau and
+Pelger (2020b) point out that PCA’s sole reliance on second moment in-
+formation leads to ineﬃcient factor model estimates. Asset pricing theory
+implies a restriction between asset means and factor betas (in particular,
+through the unconditional version of Euler equation (1.2)). They thus
+
+86
+Risk-Return Tradeoﬀs
+argue that leaning more heavily on factor loading information contained
+in the ﬁrst moment of returns data can improve overall performance of
+PCA estimators. Based on this insight, they develop “risk-premia PCA”
+(RP-PCA) estimator, which applies PCA to an uncentered second mo-
+ment of returns, T −1 PT
+t=1 RtR′
+t+λ(T −1 PT
+t=1 Rt)(T −1 PT
+t=1 Rt)′, where
+λ > −1 serves as a tuning parameter. Connor and Korajczyk (1988)
+also use uncentered PCA, but stick to the case of λ = 0, whereas the
+standard PCA corresponds to λ = −1.
+Lettau and Pelger (2020a) establish the asymptotic theory of RP-
+PCA and show that it is more eﬃcient than PCA when factors are
+pervasive in the absence of pricing error. While the standard PCA ap-
+proach is robust to the existence of pricing error, this error term could
+bias the RP-PCA estimator in that the expected returns are no longer
+parallel to factor loadings. We conjecture that such a bias is asymptoti-
+cally negligible if the economic constraint of no-near-arbitrage (4.2) is
+imposed, in which case the magnitude of α is suﬃciently small that it
+would not bias estimates of factors and their loadings asymptotically.2
+Giglio et al. (2021b) point out that the strength of a factor hinges
+on the choice of test assets. Even the market factor could become weak
+if all test assets are long-short portfolios that have zero exposure to this
+factor. To resolve this weak factor issue in risk premia estimation, they
+propose a procedure to select test assets based on supervised PCA, as
+discussed in Section 3.5.2. Moreover, this procedure can be applied to
+detect missing factors in models of the stochastic discount factor.
+4.2.4
+Which Factors?
+The search for factors that explain the cross section of expected stock
+returns has produced hundreds of potential candidates. Many of them
+are redundant, adding no explanatory power for asset pricing given
+some other factors. Some are outright useless that have no explanatory
+power.
+Machine learning methods can address the challenge of redundant
+and useless factors through dimension reduction and variable selection.
+2Bryzgalova et al. (2023) introduce other economically motivated targets to
+identify later pricing factors.
+
+4.2. Unconditional Factor Models
+87
+For example, a lasso regression of average returns on factor covariances
+can help identify a parsimonious set of factors that price the cross
+section of assets. At the same time, selection mistakes are inevitable:
+overﬁtting may lead to the selection of useless variables; variables that
+have relatively weak explanatory power may be omitted; redundant
+variables may be selected in place of the real ones. Figure 4.1 by Feng
+et al. (2020) show that the variables selected by lasso vary consider-
+ably across diﬀerent random seeds adopted in cross validation, which
+randomly split the sample into multiple folds (see Figure 3.1).
+Figure 4.1: Factor Selection Rate
+Note: Source: Feng et al. (2020). The ﬁgure shows, for each factor identiﬁed by the
+factor ID (on the X axis), in what fraction of the random seeds each factor is selected
+by a lasso regression of average returns onto factor covariances via 200 random cross
+validations.
+Feng et al. (2020) propose a methodology that marries the double
+machine learning framework of Chernozhukov et al. (2018) with two-
+pass cross-sectional regression to identify a coherent set of factors and
+develop the asymptotic distribution of their estimator, with which they
+can make inferences regarding the factors.
+
+88
+Risk-Return Tradeoﬀs
+Empirically, Feng et al. (2020) apply their inference procedure
+recursively to distinguish useful factors from useless and redundant
+factors as they are introduced in the literature. Their empirical ﬁndings
+show that had their approach been applied each year starting in 1994,
+only 17 factors out of 120+ candidate factors would have been considered
+useful, with a large majority identiﬁed as redundant or useless.
+Another literature considers factor model selection from a model
+uncertainty and model averaging perspective, with related work in-
+cluding Avramov et al. (2021) and Chib et al. (2023). Avramov et al.
+(2021) shows that prior views about how large a Sharpe ratio could
+be has implications for the inclusion of both factors and predictors. In
+general, Bayesian model uncertainty is an interesting topic for further
+development in ﬁnancial machine learning.
+4.3
+Conditional Factor Models
+The previous section focuses on the unconditional version of Euler
+equation (1.2) with static betas and risk prices (derived by replacing It
+with the null set, or “conditioning down”). Generally, when we change
+the conditioning set, the factor representation also changes because
+assets’ conditional moments change. It could be the case that as we
+condition down asset betas and expected returns do not change—in
+this special case the conditional and unconditional models are the same.
+However, empirical research demonstrates that asset covariances are
+highly predictable in the time series, and a preponderance of evidence
+suggests that asset means are also predictable. In other words, we can
+rule out the “conditionally static” special case.
+To condition, or not to condition? That is the question when devising
+return factor models. Our view is that, whenever possible, the researcher
+should aspire to build an eﬀective conditional model. Conditional mod-
+els are ambitious—they describe the state dependent nature of asset
+prices, and thus capture in ﬁner resolution the behavior of markets.
+However, conditional models are also more demanding, requiring the
+researcher to supply relevant data to summarize prevailing conditions.
+Such conditioning information may be expansive and may require more
+richly parameterized models in order to capture nuanced conditional
+
+4.3. Conditional Factor Models
+89
+behaviors. When the relevant conditioning information is unavailable,
+an unconditional model allows the researcher to understand basic asset
+behavior without necessarily having to understand detailed market
+dynamics and with potentially simpler models. For this reason, much
+of the early literature on return factor analysis pursues unconditional
+speciﬁcations (as in the preceding section). In this section we focus on
+conditional model formulations.
+In analogy to (4.1), the vectorized conditional latent factor model is
+Rt+1 = αt + βtFt+1 + ϵt+1,
+(4.7)
+where factor loadings and pricing errors now vary with the conditioning
+information set It.
+4.3.1
+IPCA
+Without additional restrictions, the right-hand side of (4.7) contains
+too many degrees of freedom and the model cannot be identiﬁed. Instru-
+mented principal components analysis (IPCA) of Kelly et al. (2020b)
+makes progress by introducing restrictions that link assets’ betas (and
+alphas) to observables. The IPCA model takes the form
+Rt+1 = ZtΓα
+| {z }
+αt
++ ZtΓβ
+| {z }
+βt
+Ft+1 + ϵt+1,
+(4.8)
+where Zt is an N × L matrix that stacks up data on L observable
+characteristics (or “instruments”) for each asset.3 Ft+1 is again a K × 1
+vector of latent factors. Harvey and Ferson (1999), and more recently
+Gagliardini et al. (2016), also model factor loadings as time-varying
+functions of observables, but their factors are fully observable.
+The core of the IPCA model is its speciﬁcation of βt. First and
+foremost, time-varying instruments directly incorporate dynamics into
+conditional factor loadings. More fundamentally, incorporating instru-
+ments allows additional data to shape the factor model, diﬀering from
+unconditional latent factor techniques like PCA that estimate the factor
+structure only from returns data. And anchoring loadings to observables
+3Typically, one of the characteristics in Z is a constant term.
+
+90
+Risk-Return Tradeoﬀs
+identiﬁes the model by partially replacing unidentiﬁed parameters with
+data.
+The L × K matrix Γβ deﬁnes the mapping from a potentially large
+number of characteristics (L) to a small number of risk factor expo-
+sures (K). When we estimate Γβ, we are searching for a few linear
+combinations of candidate characteristics that best describe the latent
+factor loading structure. To appreciate this point, ﬁrst imagine a case
+in which Γβ is the L-dimensional identity matrix. In this case, it is easy
+to show that Ft consists of L latent factors that are proportional to
+R′
+t+1Zt, and the characteristics determine the betas on these factors.
+This is reminiscent of Rosenberg (1974) and MSCI Barra (a factor
+risk model commonly used by practitioners). Barra’s model includes
+several dozen characteristics and industry indicators in Zt. When the
+number of ﬁrm characteristics L is large, the number of free parameters
+is equal to the number of factor realizations {Ft}, or L × T, which is
+typically large compared to sample size. There is signiﬁcant redundancy
+in Barra factors (a small number of principal components capture most
+of their joint variation) which suggests it may be overparameterized
+and ineﬃcient.
+IPCA addresses this problem with dimension reduction in the char-
+acteristic space. If there are many characteristics that provide noisy
+but informative signals about a stock’s risk exposures, then aggregating
+characteristics into linear combinations isolates their signal and averages
+out their noise.
+The challenge of migrating assets, such as stocks evolving from small
+to large or from growth to value, presents a problem in modeling stock-
+level conditional expected returns using simple time series methods.
+The standard solution is to create portfolios that possess average char-
+acteristic values that are somewhat stable over time, but this approach
+becomes impractical if multiple characteristics are needed to accurately
+describe an asset’s identity. The IPCA solution parameterizes betas
+with the characteristics that determine a stock’s risk and return. IPCA
+tracks the migration of an asset’s identity through its betas, which are
+in turned deﬁned by the asset’s characteristics. This eliminates the need
+for a researcher to manually group assets into portfolios since the model
+explicitly tracks assets’ identities in terms of their characteristics. As a
+
+4.3. Conditional Factor Models
+91
+K
+Test Assets
+Statistic
+1
+3
+4
+5
+6
+Panel A: IPCA
+Stocks
+Total R2
+14.9
+17.6
+18.2
+18.7
+19
+Pred. R2
+0.36
+0.43
+0.43
+0.70
+0.70
+Np
+636
+1908
+2544
+3180
+3816
+Portfolios
+Total R2
+90.3
+97.1
+98.0
+98.4
+98.8
+Pred. R2
+2.01
+2.10
+2.13
+2.41
+2.39
+Np
+636
+1908
+2544
+3180
+3816
+Panel B: Observable Factors
+Stocks
+Total R2
+11.9
+18.9
+20.9
+21.9
+23.7
+Pred. R2
+0.31
+0.29
+0.28
+0.29
+0.23
+Np
+11452
+34356
+45808
+57260
+68712
+Portfolios
+Total R2
+65.6
+85.1
+87.5
+86.4
+88.6
+Pred. R2
+1.67
+2.07
+1.98
+2.06
+1.96
+Np
+37
+111
+148
+185
+222
+Table 4.2: IPCA Comparison with Other Factor Models
+Note: The table reports total and predictive R2 in percent and number of estimated
+parameters (Np) for the restricted (Γα = 0) IPCA model (Panel A) and for observable
+factor models with static loadings (Panel B). Observable factor model speciﬁcations
+are CAPM, FF3, FFC4, FF5, and FFC6 in the K = 1, 3, 4, 5, 6 columns, respectively
+(from Table 2 of Kelly et al., 2020b).
+result, the model accommodates a high-dimensional system of assets
+(e.g., individual stocks) without the need for ad hoc portfolio formation.
+Finally, the IPCA speciﬁcation in (4.7) also allows for the possibility
+that characteristics may proxy for alpha instead of beta. Conventional
+asset pricing models assume that diﬀerences in expected returns among
+assets are solely due to diﬀerences in risk exposure. However, when the
+L × 1 coeﬃcient vector Γα is non-zero, stock-level characteristics can
+predict returns in a way that does not align with the risk-return trade-
+oﬀ. IPCA addresses this by estimating alpha as a linear combination
+of characteristics (determined by Γα) that best explains conditional
+expected returns while controlling for the characteristics’ role in factor
+risk exposures. If the alignment of characteristics with average stock
+returns diﬀers from the alignment of characteristics with risk factor
+loadings, IPCA will estimate a non-zero Γα, thus identifying mispricing
+(that is, compensation for holding assets that is unrelated to the assets’
+systematic risk exposure).
+Table 4.2 compares IPCA (Panel A) with various numbers of la-
+
+92
+Risk-Return Tradeoﬀs
+tent factors to other leading models in the literature. The ﬁrst set of
+comparison models includes pre-speciﬁed observable factors, estimated
+using the traditional approach of asset-by-asset time series regression.
+The K = 1 model is the CAPM, K = 3 is the Fama-French (1993)
+three-factor model that includes the market, SMB and HML (“FF3”
+henceforth), K = 4 is the Carhart (1997, “FFC4”) model that adds
+MOM to the FF3 model, K = 5 is the Fama-French (2015, “FF5”)
+ﬁve-factor model that adds RMW and CMA to the FF3 factors, K = 6
+(“FFC6”) includes MOM alongside the FF5 factors. All models in Table
+4.2 are estimated with a zero-intercept restriction by imposing Γα = 0
+in IPCA or by omitting an intercept in time series regressions.
+Table 4.2 reports the total R2 based on contemporaneous factor
+realizations, the predictive R2 (replacing the factor realization with its
+average risk premium), as well as the number of estimated parameters
+(Np) for each model. We report ﬁts at the individual stock level and
+at the level of characteristic-managed portfolios. These statistics are
+calculated in-sample.4 For individual stocks, observable factor models
+produce a slightly higher total R2 than IPCA. To accomplish this,
+however, observable factors rely on vastly more parameters than IPCA.
+In this sample of 11,452 stocks with 37 instruments over 599 months,
+observable factor models estimate 18 times (≈11452/(37 + 599)) as
+many parameters as IPCA! In short, IPCA provides a similar description
+of systematic risk in stock returns as leading observable factors while
+using almost 95% fewer parameters. At the same time, IPCA provides
+a substantially more accurate description of stocks’ risk compensation
+than observable factor models, as evidenced by the predictive R2. For
+characteristic-managed portfolios, observable factor models’ total R2
+and predictive R2 both suﬀer in comparison to IPCA.
+Figure 4.2 compares models in terms of average pricing errors for
+37 characteristic-managed “anomaly” portfolios.5 The left-hand plot
+shows portfolio alphas from the FFC6 model against their raw average
+4Kelly et al. (2020b) show that IPCA is highly robust out-of-sample, while
+other models like those using observable factors or PCA tend to suﬀer more severe
+out-of-sample deterioration.
+5For comparability, portfolios are re-signed and scaled to have positive means
+and 10% annualized volatility.
+
+4.3. Conditional Factor Models
+93
+FFC6
+IPCA5
+0
+1
+2
+3
+Raw return (% p.a.)
+-0.5
+0
+0.5
+1
+1.5
+2
+2.5
+Alpha (% p.a.)
+0
+0.5
+1
+1.5
+2
+Raw return (% p.a.)
+-0.5
+0
+0.5
+1
+1.5
+2
+2.5
+Alpha (% p.a.)
+Figure 4.2: Alphas of Characteristic-Managed Portfolios
+Note: The left and right panels report alphas for characteristic-managed portfolios
+relative to the FFC6 model and the IPCA ﬁve-factor model. Alphas are plotted
+against portfolios’ raw average excess returns. Alphas with t-statistics in excess of
+2.0 are shown with ﬁlled squares, while insigniﬁcant alphas are shown with unﬁlled
+circles (from Figure 1 of Kelly et al., 2020b).
+excess returns, overlaying the 45-degree line. Alphas with t-statistics in
+excess of 2.0 are depicted with ﬁlled squares, while insigniﬁcant alphas
+are shown with unﬁlled circles. Twenty-nine characteristic-managed
+portfolios earn signiﬁcant alpha with respect to the FFC6 model. The
+alphas are clustered around the 45-degree line, indicating that their
+average returns are essentially unexplained by observable factors. The
+right-hand plot shows the time series averages of conditional alphas
+from the ﬁve-factor IPCA speciﬁcation. Four portfolios have conditional
+alphas that are signiﬁcantly diﬀerent from zero but are economically
+small. Figure 4.2 supports the conclusion that the IPCA latent factor
+formulation is more successful at pricing a range of equity portfolios
+relative to asset pricing models with observable factors.
+The IPCA framework has been used to study cross-sectional asset
+pricing in a variety of markets, including international stocks (Langlois,
+2021; Windmueller, 2022), corporate bonds (Kelly et al., Forthcoming),
+equity index options (Büchner and Kelly, 2022), single-name equity
+options (Goyal and Saretto, 2022), and currencies (Bybee et al., 2023a).
+It has also been used to understand the proﬁts of price trend signals
+
+94
+Risk-Return Tradeoﬀs
+(Kelly et al., 2021) and the narrative underpinnings of asset pricing
+models (Bybee et al., 2023b).
+4.4
+Complex Factor Models
+A number of papers study generalizations of speciﬁcation (4.8) for
+instrumented betas in latent conditional factor models. IPCA can be
+viewed as a linear approximation for risk exposures based on observable
+characteristics data. While many asset pricing models predict nonlinear
+association between expected returns and state variables, the theoretical
+literature oﬀers little guidance for winnowing the list of conditioning
+variables and functional forms. The advent of machine learning allows
+us to target this functional form ambiguity with a quiver of nonlinear
+models.
+In early work, Connor et al. (2012) and Fan et al. (2016b) allow for
+nonlinear beta speciﬁcation by treating betas as nonparametric functions
+of conditioning characteristics (but, unlike IPCA, the characteristic are
+ﬁxed over time for tractability). Kim et al. (2020) adopt this framework
+to study the behavior of “arbitrage” portfolios that hedge out factor
+risk.
+Gu et al. (2020a) extends the IPCA model by allowing betas to
+be a neural network function of characteristics. Figure 4.3 diagrams
+their “conditional autoencoder” (CA) model. Figure 4.3 illustrates its
+basic structure, which diﬀers from (4.8) by propagating the input data
+(instruments Zt) through nonlinear activation functions. The CA is the
+ﬁrst deep learning model of equity returns that explicitly accounts for
+the risk-return tradeoﬀ. Gu et al. (2020a) show that CA’s total R2 is
+similar to that of IPCA, but it substantially improves over IPCA in
+terms of predictive R2. In other words, the CA provides a more accurate
+description of assets’ conditional compensation for factor risk.
+Gu et al. (2020a) is a high complexity model and its strong empirical
+performance hints at a beneﬁt of complexity in factor models analogous
+to that studied in prediction models by Kelly et al. (2022a). Didisheim et
+al. (2023) formalize this idea and prove the virtue of complexity in factor
+pricing. They build their analysis around the conditional stochastic
+discount factor (SDF), which can be generally written as a portfolio of
+
+4.4. Complex Factor Models
+95
+...
+Beta Output Layer
+          (MxK)
+Input Layer 1 
+        (MxN)
+Hidden Layer (s)
+...
+(factor)
+(beta)
+(Nx1)
+Factor Output Layer
+               (Kx1)
+Dot Product
+Output Layer 
+        (Mx1)
+...
+...
+...
+...
+...
+g
+g
+g
+g
+g
+g
+g
+g
+...
+g
+g
+g
+g
+...
+...
+...
+M
+N
+M
+K
+...
+(Mx1)
+OR
+Input Layer 2
+Figure 4.3: Conditional Autoencoder Model
+Note: This ﬁgure presents the diagram of a conditional autoencoder model, in
+which an autoencoder is augmented to incorporate covariates in the factor loading
+speciﬁcation. The left-hand side describes how factor loadings (in green) depend on
+ﬁrm characteristics (in yellow) of the input layer 1 through an activation function g
+on neurons of the hidden layer. Each row of yellow neurons represents the vector
+of characteristics of one ticker. The right-hand side describes the corresponding
+factors. Nodes (in purple) are weighted combinations of neurons of the input layer 2,
+which can either be characteristic-managed portfolios (in pink) or individual asset
+returns (in red). In the former case, we further use dashed arrows to indicate that the
+characteristic-managed portfolios rely on individual assets through pre-determined
+weights (not to be estimated). In either case, the eﬀective input can be regarded as
+individual asset returns, exactly what the output layer (in red) aims to approximate,
+thus this model shares the same spirit as a standard autoencoder. Source: Gu et al.
+(2020a).
+risky assets:
+Mt+1 = 1 −w(Xt)′Rt+1,
+(4.9)
+where Rt+1 is the vector of excess returns on the N assets. The N-
+vector w(Xt) contains the SDF’s conditional portfolio weights, with Xt
+representing conditioning variables that span the time t information set.
+Absent knowledge of its functional form, w() can be approximated with
+a machine learning model:
+w(Xt) ≈
+P
+X
+p=1
+λpSp(Xt)
+
+96
+Risk-Return Tradeoﬀs
+where Sp(Xt) is some nonlinear basis function of Xt and the number of
+parameters P in the approximation is large. A machine learning model
+of the SDF may be interpreted as a factor pricing model with P factors:
+Mt+1 ≈1 −
+X
+p
+λpFp,t+1,
+(4.10)
+where each “factor” Fp,t+1 is a managed portfolio of risky assets using the
+nonlinear asset “characteristics” Sp(Xt) as weights. The main theoretical
+result of Didisheim et al. (2023) shows that quite the more factors in
+an asset pricing model the better. In this setup, adding factors means
+using a richer representation of the information contained in Xt which
+achieves a better approximation of the true SDF. The improvement
+in approximation accuracy dominates statistical costs of having to
+estimate many parameters. As a result, expected out-of-sample alphas
+decrease as the number of factors grows. This interpretation of the
+virtue of complexity is a challenge for the traditional APT perspective
+that a small number of risk factors provide a complete description of
+the risk-return tradeoﬀfor any tradable assets. This has the implication
+that, even if arbitrage is absent and an SDF exists, the fact that the
+SDF must be estimated implies that it is possible (in fact, expected)
+to continually ﬁnd new empirical “risk” factors that are unpriced by
+others and that adding these factors to the pricing model continually
+improves its out-of-sample performance.
+4.5
+High-frequency Models
+The increasing availability of high-frequency transaction-level data on a
+growing cross-section of tradable assets presents a unique opportunity
+in estimating risks of individual assets and their interdependencies.
+Simple nonparametric measures of volatility and covariances (Andersen
+and Bollerslev, 1998; Andersen et al., 2001; Barndorﬀ-Nielsen and
+Shephard, 2002) provide an early demonstration of how to harness
+rich and timely intraday prices data to better understand asset market
+ﬂuctuations. The use of high frequency measures helps resolve several
+challenges of studying low frequency time series. For example, it helps the
+researcher accommodate structural breaks and time-varying parameters
+
+4.5. High-frequency Models
+97
+with minimal assumptions. Moreover, many standard assumptions on
+linearity, stationarity, dependence, and heteroscedasticity in classic time
+series are often unnecessary for modeling intraday data.
+We identify two streams of recent literature that adopt machine
+learning techniques to estimate high-dimensional covariances and to
+improve volatility forecasting with high frequency data.
+Accurate covariance estimates are critical to successful portfolio
+construction. But estimating large covariance matrices is a challenging
+statistical problem due to the curse of dimensionality. A number of
+methods rely on various forms of regularization (Bickel and Levina,
+2008a; Bickel and Levina, 2008b; Cai and Liu, 2011; Ledoit and Wolf,
+2012; Ledoit and Wolf, 2004) to improve estimates. Inspired by the
+APT, Fan et al. (2008) propose factor-model based covariance matrix
+estimators in the case of a strict factor model with observable factors,
+and Fan et al. (2013) oﬀer an approach with an approximate factor
+structure with latent factors.
+A factor structure is also necessary at high frequency when the
+dimension of the panel approaches the sample size. However, the econo-
+metric techniques are fundamentally diﬀerent in low-frequency and
+high-frequency sampling environments. The latter is often cast in a
+continuous-time setting based on a general continuous-time semimartin-
+gale model, allowing for stochastic variation and jumps in return dy-
+namics. Ait-Sahalia and Xiu (2019) develop the asymptotic theory of
+nonparametric PCA to handle intraday data, which paves the way for
+applications of factor models in continuous time. In addition, Fan et al.
+(2016a) and Ait-Sahalia and Xiu (2017) develop estimators of large
+covariance matrices using high frequency data for individual stocks on
+the basis of a continuous-time factor model.
+A promising agenda is to tie the literature on high-frequency risk
+measurement with the literature on the cross-section of expected re-
+turns, leveraging richer risk information for a better understanding of
+the risk-return tradeoﬀ. Some relevant research in this direction includes
+Bollerslev et al. (2016), who compute individual stock betas with respect
+to the continuous and the jump components of a single market factor
+in a continuous-time setting, but associate these estimates with the
+cross-section of returns in a discrete-time setup. Ait-Sahalia et al. (2021)
+
+98
+Risk-Return Tradeoﬀs
+provide inference for the risk premia in a uniﬁed continuous-time frame-
+work, while also allowing for multiple factors and stochastic betas in the
+ﬁrst stage, and treat the betas in the second pass as components that
+were estimated in the ﬁrst pass, generalizing the classical approach to
+inference by Shanken (1992a). Empirically, they examine factor models
+of intraday returns using Fama-French and momentum factors sampled
+every 15 minutes built by Ait-Sahalia et al. (2020).
+The idea of measuring volatility using high-frequency data also
+spurred a promising agenda in volatility forecasting. The heterogenous
+autoregressive (HAR) model of past realized volatility measures (Corsi,
+2009) has emerged as the leading volatility forecasting model in academic
+research and industry practice. A number of recent papers have examined
+machine learning strategies for volatility forecasting, including Li and
+Tang (2022) and Bollerslev et al. (2022). But unlike a return prediction
+analysis in which machine learning predictions directly translate into
+higher Sharpe ratios, it is unclear the extent to which machine learning
+forecasts outperform existing HAR models in economic terms. This is
+an interesting open question in the literature.
+4.6
+Alphas
+This section discusses the literature on alpha testing and machine
+learning. Alpha is the portion of the expected return unaccounted for by
+factor betas and is thus a model-dependent object. Because economic
+theory is often too stylized to pin down the identities of all factors,
+and because the data may not be rich enough to infer the true factors
+in a data-driven way, model misspeciﬁcation is lingering challenge for
+distinguishing alpha from “fair” compensation for factor risk exposure.
+For example, it is possible that estimated alphas are a manifestation
+of weak factor betas, reminiscent of the omitted variable problem in
+regression. In other words, one person’s alpha is another’s beta. In a
+latent factor model, alphas and betas are ultimately distinguished by
+a factor strength cutoﬀthat distinguishes factors from idiosyncratic
+noise.
+We concentrate our alpha analysis from the perspective of uncon-
+ditional latent factor models. Our emphasis on unconditional rather
+
+4.6. Alphas
+99
+than conditional alphas is motivated by the focus in the literature.
+Our emphasis on latent factor models is motivated by our view that
+misspeciﬁcation concerns are less severe for latent factor models.
+4.6.1
+Alpha Tests and Economic Importance
+A longtime focus of empirical asset pricing is the null hypothesis that
+all alphas are equal to zero, H0 : α1 = α2 = . . . = αN = 0. This is
+a single hypothesis distinct from a multiple hypotheses alpha testing
+problem that we discuss later. Rejection of H0 is interpreted as evidence
+of misspeciﬁcation of the asset pricing model or mispricing of the test
+assets (and, perhaps mistakenly, as a violation of Ross (1976)’s APT).
+The well known GRS test (Gibbons et al., 1989) of H0 is a Chi-
+squared test designed for low-dimensional factor models with observable
+factors. Fan et al. (2015) and Pesaran and Yamagata (2017) propose
+tests of the same null but in high-dimensional settings. This is an
+important step forward as it eliminates a restriction (T > N +K) in the
+original GRS test and improves the power of the test when N is large.
+While these methods are initially proposed for models with observable
+factors, it is possible to extend them to latent factor models. In fact,
+Giglio et al. (2021a) construct an estimator of α using the estimated
+factor loadings and risk premia given by (4.4) and (4.6), respectively:
+bα = 1
+T
+T
+X
+t=1
+Rt −bβbγ.
+(4.11)
+They also derive the necessary asymptotic expansion of bα, which paves
+the way for constructing tests of alpha in latent factor models.
+The GRS test statistic is built upon (S⋆)2 = α′Σ−1
+ϵ α, which can
+be interpreted as the optimal squared Sharpe ratio of a portfolio that
+has zero exposure to factors. Estimating this Sharpe ratio is one thing,
+implementing a trading strategy to realize it is another. That is, a
+rejection of the zero alpha hypothesis in a GRS-like test does not neces-
+sarily mean the rejection is economically important. Any meaningful
+quantiﬁcation of the economic importance of alphas should consider
+the feasibility of a would-be arbitrageur’s trading strategy. Evaluating
+statistical rejections in economic terms is both more valuable for asset
+
+100
+Risk-Return Tradeoﬀs
+pricing research and more relevant for practitioners.6
+The APT assumes that arbitrageurs know the true parameters in
+the return generating process. Such an assumption might be benign
+provided a suﬃciently large sample size, in which case the parameters
+are asymptotically revealed and arbitrageurs behave (approximately)
+as if they know the true parameters. The catch is that, in the setting
+of the APT, arbitrageurs must know an increasing number of alphas,
+thus the cross-section dimension is large relative to a typical sample
+size. Consequently, it is unreasonable to assume that arbitrageurs can
+learn alphas even in the large T limit.
+Da et al. (2022) revisit the APT and relax the assumption of known
+parameters. In their setting, arbitrageurs must use a feasible trading
+strategy that relies on historical data with a sample size T. For any
+feasible strategy bw at time t, they deﬁne this strategy’s next period
+conditional Sharpe ratio as:
+S( bw) := E( bw′Rt+1|It)/Var( bw′Rt+1|It)1/2,
+where It is the information set at t. They show that S( bw) obeys
+S( bw) ≤
+ S(G)2 + γ′Σ−1
+v γ
+1/2 + oP(1),
+(4.12)
+where S(G)2 := E(α|G)′Σ−1
+ϵ E(α|G), as N →∞, Σv is the covari-
+ance matrix of factors, and G is the information set generated by
+{(Rs, β, Vs, Σϵ) : t −T + 1 ≤s ≤t}.
+Notably, γ′Σ−1
+v γ is the Sharpe ratio of the optimal factor portfolio.
+Therefore, for any factor-neutral strategy bw, i.e., bw′β = 0,
+S( bw) ≤S(G) + oP(1).
+(4.13)
+This result suggests that it is the posterior estimate of α that determines
+the optimal feasible Sharpe ratio and imposes an upper bound on the
+6As Shanken (1992b) puts
+... practical content is given to the notion of ‘approximate arbitrage,’
+by characterizing the investment opportunities that are available as
+a consequence of the observed expected return deviation ... Far more
+will be learned, I believe, by examining the extent to which we can
+approximate an arbitrage with existing assets.
+
+4.6. Alphas
+101
+proﬁts of statistical arbitrage. Any machine learning strategy, simple or
+complex, needs obey this feasible Sharpe ratio bound.
+In general, E
+ S(G)2 ≤E
+ (S⋆)2, where the equality holds only
+when E(α|G) = α almost surely. S(G) results from the feasible strategy
+and S⋆can be referred to as the infeasible optimal Sharpe ratio.
+The “Sharpe ratio gap” between feasible and infeasible strategies
+characterizes the diﬃculty of statistical learning. If learning is hard,
+the gap is large. Figure 4.4 reports the ratio between these two Sharpe
+ratios numerically for a hypothetical return generating process in which
+α takes a value of zero with probability 1 −ρ and a value of µ or −µ
+each with probability ρ/2. Residuals have a covariance matrix Σϵ that
+is a diagonal with variances of σ2. Within this class of DGPs, µ/σ
+characterizes the strength of α (relative to noise), while ρ characterizes
+its rareness. Varying µ/σ and ρ helps trace out the role of various
+generating processes in arbitrageur performance, shown in Figure 4.4.
+As µ/σ increases, alpha is suﬃciently strong and easy to learn, and the
+Sharpe ratio gap is smaller. Rareness of alpha plays a less prominent
+role, though more ubiquitous alpha also lead to a smaller gap.
+Da et al. (2022) show how to quantify the gap between infeasible
+and feasible Sharpe ratios. They evaluate the APT on the basis of a 27-
+factor model, in which 16 characteristics and 11 GICS sector dummies
+are adopted as observable betas. The estimated infeasible Sharpe ratio
+is over 2.5 for a test sample from January 1975 to December 2020,
+and this is four times higher than the feasible Sharpe ratio of around
+0.5 achieved by machine learning strategies. The fact that the feasible
+Sharpe ratio (before transaction costs) is below 0.5 suggests that the
+APT in fact works quite well empirically. In theory, the gap between
+feasible and infeasible Sharpe ratios further increases if arbitrageurs face
+more statistical obstacles, such as model misspeciﬁcation, non-sparse
+residual covariance matrix, and so forth.
+4.6.2
+Multiple Testing
+Since the introduction of CAPM, the ﬁnancial economics community
+has collectively searched for “anomalies;” i.e., portfolios with alpha to
+the CAPM. Some of these, like size, value, and a handful of others, have
+
+102
+Risk-Return Tradeoﬀs
+10.95
+ 8.22
+ 5.48
+ 4.38
+ 3.29
+ 2.74
+ 2.19
+ 1.92
+ 1.64
+ 1.37
+ 1.10
+ 0.99
+ 0.88
+ 0.77
+ 0.66
+ 0.55
+ 0.44
+ 0.33
+ 0.22
+ 0.16
+ 0.11
+50.00
+25.00
+20.00
+15.00
+10.00
+ 7.50
+ 5.00
+ 2.50
+ 1.25
+ 1.00
+ 0.75
+ 0.50
+ 0.25
+ 0.12
+0.73
+0.68
+0.62
+0.68
+0.61
+0.59
+0.56
+0.52
+0.46
+0.39
+0.72
+0.69
+0.65
+0.58
+0.50
+0.48
+0.45
+0.41
+0.34
+0.28
+0.72
+0.69
+0.64
+0.60
+0.55
+0.47
+0.39
+0.37
+0.34
+0.30
+0.24
+0.18
+0.68
+0.64
+0.60
+0.54
+0.50
+0.45
+0.36
+0.28
+0.26
+0.23
+0.20
+0.15
+0.11
+0.71
+0.58
+0.54
+0.50
+0.44
+0.39
+0.34
+0.26
+0.19
+0.18
+0.15
+0.13
+0.09
+0.07
+0.67
+0.54
+0.50
+0.45
+0.39
+0.35
+0.30
+0.22
+0.16
+0.15
+0.13
+0.11
+0.08
+0.05
+0.63
+0.49
+0.46
+0.41
+0.35
+0.31
+0.26
+0.19
+0.14
+0.13
+0.11
+0.09
+0.06
+0.05
+0.58
+0.44
+0.41
+0.36
+0.31
+0.27
+0.23
+0.16
+0.12
+0.11
+0.09
+0.08
+0.05
+0.04
+0.52
+0.39
+0.36
+0.31
+0.26
+0.23
+0.19
+0.14
+0.10
+0.09
+0.08
+0.06
+0.04
+0.03
+0.45
+0.33
+0.30
+0.27
+0.22
+0.19
+0.16
+0.11
+0.08
+0.07
+0.06
+0.05
+0.04
+0.03
+0.37
+0.27
+0.25
+0.21
+0.18
+0.15
+0.13
+0.09
+0.06
+0.06
+0.05
+0.04
+0.03
+0.02
+0.29
+0.21
+0.19
+0.16
+0.13
+0.12
+0.09
+0.07
+0.05
+0.04
+0.04
+0.03
+0.02
+0.02
+0.20
+0.14
+0.13
+0.11
+0.09
+0.08
+0.06
+0.04
+0.03
+0.03
+0.02
+0.02
+0.01
+0.01
+0.15
+0.11
+0.09
+0.08
+0.07
+0.06
+0.05
+0.03
+0.02
+0.02
+0.02
+0.02
+0.01
+0.01
+0.10
+0.07
+0.06
+0.05
+0.04
+0.04
+0.03
+0.02
+0.02
+0.01
+0.01
+0.01
+0.01
+0.01
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+1.00
+0.99
+0.99
+0.99
+0.99
+0.99
+0.98
+0.98
+0.98
+0.98
+0.97
+0.96
+0.98
+0.97
+0.97
+0.96
+0.95
+0.95
+0.94
+0.92
+0.90
+0.89
+0.88
+0.86
+0.83
+0.80
+0.96
+0.93
+0.92
+0.91
+0.90
+0.88
+0.86
+0.83
+0.79
+0.77
+0.75
+0.92
+0.86
+0.85
+0.83
+0.79
+0.77
+0.74
+0.88
+0.81
+0.79
+0.76
+0.84
+0.75
+0.79
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+Figure 4.4: Ratios between S(G) and S⋆
+Note: The ﬁgure reports the ratios of optimal Sharpe ratios between feasible and
+infeasible arbitrage portfolios. The simulation setting is based on a simple model, in
+which only a 100 × ρ% of assets have non-zero alphas, with each entry corresponding
+to an annualized Sharpe ratio µ/σ ×
+√
+12. Source: Da et al. (2022).
+been absorbed into benchmark models (Fama and French, 1993; Fama
+and French, 2015). New anomalies are then proposed when researchers
+detect an alpha with respect to the prevailing benchmark. Harvey
+et al. (2016) survey the literature and collates a list of over three
+hundred documented anomalies. They raise the important criticism that
+the anomaly search eﬀort has failed to properly account for multiple
+hypothesis testing when evaluating the signiﬁcance of new anomalies.7
+Multiple testing in this context refers to simultaneously testing
+a collection of null hypotheses: Hi
+0 : αi = 0, for i = 1, 2, . . . , N. This
+problem is fundamentally diﬀerent from testing the single null hypothesis
+H0 : α1 = α2 = . . . = αN = 0 discussed earlier. Multiple testing is prone
+to a false discovery problem because a fraction of the individual alpha
+tests are bound to appear signiﬁcant due to chance alone and hence
+7More broadly, Harvey (2017) among others highlight the propensity for ﬁnance
+researchers to draw ﬂawed conclusions from their analyses by failing to account for
+unreported tests, failure to account for multiple tests, and career incentives that
+promote “p-hacking.”
+
+4.6. Alphas
+103
+their null hypotheses are incorrectly rejected.
+Let ti be a test statistic for the null Hi
+0. Suppose Hi
+0 is rejected
+whenever |ti| > ci for some pre-speciﬁed critical value ci. Let H0 ⊂
+{1, ..., N} denote the set of indices for which the corresponding null
+hypotheses are true. In addition, let R be the total number of rejections
+in a sample, and let F be the number of false rejections in that sample:
+F =
+N
+X
+i=1
+1{i ≤N : |ti| > ci and i ∈H0},
+R =
+N
+X
+i=1
+1{i ≤N : |ti| > ci}.
+Both F and R are random variables, but R is observable whereas F is
+not.
+For any predetermined level τ ∈(0, 1), say, 5%, the individual tests
+ensure that the per-test error rate is bounded below by τ: E(F)/N ≤τ.
+In other words, the expected number of false rejections can be as large as
+Nτ. To curb the number of false rejections, an alternative proposal is to
+select a larger critical value to control the family-wise error rate (FWER):
+P(F ≥1) ≤τ. The latter proposal is unfortunately overly conservative
+in practice. The third proposal, dating back to Benjamini and Hochberg
+(1995), is to control the false discovery rate directly: FDR ≤τ, where
+the false discovery proportion (FDP) and its expectation, FDR, are
+deﬁned as FDP = F/max{R, 1} and FDR = E(FDP).
+While the asset pricing literature has long been aware of the gen-
+eral data snooping problem (Lo and MacKinlay, 1990; Sullivan et al.,
+1999), early proposals suggest alternative single null hypotheses instead,
+such as H0 : maxi αi ≤0 or H0 : E(αi) = 0 (see e.g. White, 2000;
+Kosowski et al., 2006; Fama and French, 2010). Barras et al. (2010),
+Bajgrowicz and Scaillet (2012), and Harvey et al. (2016) are among
+the ﬁrst to adopt FDR or FWER control methods in asset pricing
+contexts to curb multiple testing. Harvey and Liu (2020) propose a
+double-bootstrap method to control FDR, while also accounting for
+the false negative rate and odds ratio.8 Giglio et al. (2021a) propose
+a rigorous inference approach to FDR control on alphas in a latent
+factor model, simultaneously tackling omitted variable bias, missing
+8Chen et al. (2023) study hundreds of factors and ﬁnd only 2 independent
+anomaly factors after controlling the FDR.
+
+104
+Risk-Return Tradeoﬀs
+data, and high dimensionality in the test count. Jensen et al. (2021)
+propose a Bayesian hierarchical model to accomplish their multiple
+testing correction, which leverages a zero-alpha prior and joint behavior
+of factors, allowing factors’ alpha estimates to shrink towards the prior
+and borrow strength from one another.
+Ultimately, multiple testing is a statistical problem in nature. The
+aforementioned statistical methods typically meet the criteria of a good
+statistical test, such as controlling Type I error, false discovery rate, etc.
+Nonetheless, it is the economic performance that agents care about most.
+These two objective are typically in conﬂict. Jensen et al. (2021) and Da
+et al. (2022) point that multiple testing as a device for alpha selection
+often leads to extremely conservative trading strategies, even though it
+guards against FDR perfectly. Jensen et al. (2021) demonstrate that a
+researcher that includes factors in their portfolio based on a Bayesian
+hierarchical multiple testing approach would have achieved a large and
+signiﬁcant improvement over an investor using the more conservative
+approach of FDR control.

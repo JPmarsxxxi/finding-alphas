@@ -1,0 +1,693 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         100 
+ 
+Chapter 10 
+Facing The Nemesis: Game Theory 
+ 
+To this point, we have explored various methods and examples of exploiting weaknesses in our 
+opponent's strategies that are weak in one way or another. It may be the case that all your 
+opponents are ripe for exploitation and will never adapt or attempt to exploit you in turn. If this 
+is the case, then exploitive play will serve to generate profit. However, many games contain a 
+mixture of strong and weak players; and in a related vein, tournaments often preclude game 
+selection decisions by providing players with no choice of opponents. In the extreme case, you 
+may actually find yourself in a game with players stronger than you are. 
+ 
+In these circumstances, what can you do? One approach is to continue to try to exploit the 
+opponent's mistakes, playing a regular exploitive game and effectively concede an edge to the 
+opponent. This is the approach favored, or perhaps we should say used, by many players, often 
+for lack of a better alternative. 
+ 
+And a related situation occurs fairly frequently - that is, playing against new opposition with 
+whom we are not familiar. One approach to playing in this situation is to simply play a "default" 
+exploitive game, assuming the new player meets a typical profile and playing accordingly, while 
+attempting to gain information about his play and adjusting as indicated. Again, this is the 
+approach favored by the majority of players, often because they lack another reasonable 
+alternative. 
+ 
+We, however, advocate a different approach in both of these circumstances. Instead of relying 
+solely on an exploitive strategy, we attempt to find strategies that are fundamentally sound; that 
+yield no benefit to an opponent's attempts to exploit us. We may in this way give up a small 
+amount of potential profit that we could have seized by playing exploitively. But by doing this, 
+we attempt to make ourselves in turn unexploitable. 
+ 
+This approach to the game finds its roots in game theory, a subject that occupies the remainder of 
+Part III. In Part II, we introduced the concepts of games and strategies, which are the main topics 
+with which game theory is concerned. This branch of mathematics is a large and growing field 
+with applications in a broad array of disciplines. However, since this is a poker book, we will not 
+attempt to provide a comprehensive overview of the many interesting situations game theory 
+addresses except for those that lend insight into poker. Instead, we will introduce the various 
+concepts of game theory as they are needed for our discussion, without attempting to be 
+rigorously formal. 
+ 
+In part II, we defined a game as containing the following elements: 
+ 
+• There are two or more players. 
+• At least one player has a choice of actions. 
+• The game has a set of outcomes for each player. 
+• The outcomes depend on the choices of actions by the players. 
+ 
+We call the choice of actions a strategy, and the outcomes payoffs. Each action that a player may 
+take is called a strategic option; the specification of all the choices he makes at each possible 
+decision point is the strategy. 
+ 
+As a simple introduction to the structure of games, let us consider one of the simplest games, 
+Odds and Evens. Two players play. Each conceals either a penny or no penny in his hand, and 
+the hands are revealed simultaneously. By prior agreement, one player (Player A) win 1 unit if 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         101 
+ 
+the total number of pennies in the hands is even, and the other player (Player B) wins 1 unit if the 
+total number of pennies is odd. 
+ 
+The following is what is called a payoff matrix for this simple game. Player B's strategies are 
+listed left to right and Player A's from top to bottom. Once the strategies have been revealed, 
+looking up their intersection in the chart gives the payoff due to each player (A's payoff, B's 
+payoff). 
+ 
+Example 10.1 - Odds and Evens 
+ 
+ 
+Player B 
+ 
+Player A 
+0 pennies 
+1 penny 
+0 pennies 
+(1, - 1) 
+(-1, 1) 
+1 penny 
+(-1, 1) 
+(1, - 1) 
+ 
+There are a number of properties of interest that games can have. Some games, such as Odds and 
+Evens or rake-free poker, are what are called constant-sum games. The total of all the payoffs to 
+the various players must total a constant. In poker, this constant happens to be zero, and it is 
+common to speak of zero-sum games as well. All constant-sum games can be converted to zero 
+sums by simply scaling the payoffs appropriately. 
+ 
+A second important property of games is whether the play is sequential or simultaneous. In a 
+game like Odds and Evens, for example, the play is simultaneous. In a game like checkers, for 
+example, play is sequential; first one player plays, then the other. In some sense, we can convert 
+all games to simultaneous play by simply requiring all players to specify their complete strategy 
+(including all possible game trees) beforehand. However, the distinction between simultaneous 
+and sequential play is still useful because of what it tells us about mixed strategies (more in a 
+moment). 
+ 
+Another important property of games is whether there is hidden information. Hidden 
+information is information available to one player but not the other. First consider a game such 
+as chess, hi this game, the entire game situation is available to either player at any time, and the 
+game is completely deterministic; that is, a player or computer with enough calculating power 
+could examine every possible game tree and find the best move. This is an example of a game 
+with no hidden information. Backgammon is an example of a game where there is no hidden 
+information, but the game is not deterministic. On each roll of the dice the game tree forks, but 
+the mechanics of this probabilistic selection process are known to each player. So in this case, 
+even though perfect play cannot guarantee victory for either player because of the random 
+element, there is no hidden information; that is, there is no information that one player has that 
+the other does not. 
+ 
+Poker, on the other hand, is a game that relies on hidden information. Each player knows his own 
+hand, and the knowledge of his opponent's hands would be a great boon to him. As a result, the 
+task of poker is to extract value by taking advantage of the hidden information. From a game 
+theory standpoint, the most important thing about games with hidden information is that their 
+optimal strategies can contain mixed strategies. Mixed strategies are situations where strategies 
+contain two or more actions in a single situation. For example, ''raise half the time, limp- reraise 
+half the time with aces in a full game" is an example of a mixed strategy. Only games with either 
+hidden information or sequential play can contain mixed optimal strategies. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         102 
+ 
+In using game theory to study poker, zero-sum two-player games (such as Odds and Evens) are 
+normally the most important and most interesting. In zero-sum two-player games, only two 
+players have payoffs and those payoffs always sum to zero; that is, whatever player A loses, 
+player B wins, and vice versa. The comments that Follow about "optimal strategies'' apply only 
+to zero-sum two-player games. 
+ 
+We can discuss strategy pairs; that is, a combination of a strategy for the first player and a 
+strategy for the second player. For a zero-sum two-player game, a strategy pair is optimal if 
+neither player can improve his expectation by unilaterally changing his strategy. A strategy for 
+one player is optimal if it is part of any optimal strategy pair. 
+ 
+Imagine playing against a super-opponent. We call this super-opponent the nemesis. The 
+nemesis always knows your strategy and always plays the maximally exploitive strategy against 
+it. If you change your strategy, the nemesis changes instantly to counter, always playing the 
+strategy that maximally exploits yours. An optimal strategy is the strategy that has maximum EV 
+against the nemesis. Another way of stating this is: 
+ 
+An optimal strategy pair consists of two strategies that maximally exploit each other. 
+ 
+Please note that the term "optimal" in this context is carefully defined - many disciplines use this 
+term, sometimes with varying definitions or meaning. We will use the term only in the narrow 
+sense given above and only in reference to strategies. 
+ 
+In both zero-sum two-player and other types of games, either variable-sum or multi-player, we 
+can still satisfy the condition that no player be able to increase his expectation by acting 
+unilaterally. Strategy sets for each player that satisify this condition are called Nash equilibria. It 
+is proven that all multiplayer games with finite payout matrices have at least one such 
+equilibrium; some games have multiple equilibria. In fact, some games have multiple equilibria 
+that makes them difficult to analyze. We will revisit this In Part V. 
+ 
+Mathematics tells us that the optimal strategies to a zero-sum two-player game have the 
+following properties: 
+ 
+• As long as mixed strategies are allowed (i.e., each player can use strategies such as "do X 
+60% of the time and Y 40%"), optimal strategies always exist.  
+• As a corollary to this, if an optimal strategy contains a mixed strategy, then the 
+expectation of each strategic alternative must be equal against the opponent's optimal 
+strategy. Thus, optimal strategies in poker do not contain "loss leaders" or other plays that 
+sacrifice immediate expectation for deceptive purposes. If a hand is played in different 
+ways, then each way of playing the hand will have the same expectation. If this were not 
+the case, then the player could simply shift all the hands from the option with lower 
+expectation to the option with higher expectation and unilaterally improve. 
+ 
+Frequently, especially in very simple games, the optimal strategy is simply the one that 
+guarantees zero EV. This is because simple games are frequently totally symmetric; in this case 
+the optimal strategy must yield zero for the player employing it, as his opponent could simply 
+play the optimal strategy in response. 
+ 
+Looking back at Odds and Evens, it is clear that Player A's objective is to match Player B's -
+strategy. The two could play this game as an exploitive guessing game and try to outthink each 
+other; in that case, the player better at outguessing his opponent would have an edge. Another 
+option is available, however. Suppose that B felt he was inferior at the guessing game to A. B 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         103 
+ 
+could instead try to play optimally. One way of doing this is to try to find the nemesis srategy for 
+any strategy he himself utilizes and then maximize his equity. 
+ 
+B can play any mixed strategy which consists of playing 0 pennies X% of the time and 1 penny 
+(1-X)% of the time. Note that pure strategies are simply a mixed strategy where one of the 
+options is given 100% weight. 
+ 
+We can directly calculate the expectation of A's counter-strategies, but we should know from our 
+work on exploitive play that the nemesis will best exploit B by playing a pure strategy. If B plays 
+0 pennies more than 50%, the nemesis will play 0 pennies all the time. If B plays 1 penny more 
+than 50%, the nemesis will play 1 penny all the time. 
+ 
+From Equation 1.11, B's EV for 0 pennies > 0.5 is: 
+ 
+<B, x > 0.5 > = (-l)(x) + (1)(1-x) 
+<B, x > 0.5 > = 1 – 2x 
+ 
+His EV for 1 penny > 0.5 is: 
+ 
+<B, x < 0.5 > = (-1)(1 - x) + (l)(x)  
+<B, x < 0.5 > = 2x -1 
+ 
+We can see that in both of these cases, the expectation of the strategy is negative.  
+When x > 0.5,1- 2x is negative, while when x < 0.5, 2x - 1 is negative. 
+At precisely x= 0.5, the nemesis can do anything and achieve the same equity. 
+ 
+<nemesis, 0 pennies > = (-1)(0.5) + (1)(0.5)  
+<nemesis, 0 pennies > = 0  
+<nemesis, 1 penny > = (-1)(0.5) + (1)(0.5) = 0  
+<nemesis, 1 penny > = 0 
+ 
+0 
+0.2 
+0.4 
+0.6 
+0.8 1.0 
+p(X plays 0 pennies) 
+ 
+Figure 10.1. Odds and Evens equity vs. nemesis 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         104 
+ 
+This is the highest expectation B can have against the nemesis. Therefore, x = 0.5 is B's optimal 
+strategy. B can guarantee himself zero expectation by following a strategy where he randomly 
+selects between 0 pennies (50%) and 1 penny (50%). To do this, he could use any source of 
+external randomness; a die roll, another coin flip, or perhaps quantum measurements ■i 
+radioactive decay, if he were sufficiently motivated to be unexploitable. 
+ 
+Example 10.2 - Roshambo 
+A second, slightly more complicated game that illustrates the same concept is the game of 
+Roshambo (also known as Rock, Paper, Scissors). In this game, the players choose among three 
+options: rock, paper, or scission, and the payoff matrix is as follows: 
+ 
+ 
+Player B 
+ 
+ 
+Player A 
+Rock 
+Paper 
+Scissors 
+Rock 
+(0, 0) 
+(-1, 1) 
+(1, -1) 
+Paper 
+(1, -1) 
+(0, 0) 
+(-1, 1) 
+Scissors 
+(-1,1) 
+(1, -1) 
+(0, 0) 
+ 
+In general, throughout this book we will be referring to zero-sum games. In cases where we have 
+games that are non-zero sum, we will denote it explicitly. The following matrix is equivalent to 
+the above, except that only A's outcomes are in the matrix cells. 
+ 
+ 
+Player B 
+ 
+ 
+Player A 
+Rock 
+Paper 
+Scissors 
+Rock 
+0 
+-1 
++1 
+Paper 
++1 
+0 
+-1 
+Scissors 
+-1 
++1 
+0 
+ 
+If B wants to ensure 0 EV, he can play the strategy {1 3
+ , 1 3
+ , 1 3
+ } a similar way to the calculation 
+in Odds and Evens, no matter what option A chooses, he will win 1 unit 1 3
+  of the time, tie 1 3
+  of 
+the time, and lose 1 unit Yi of the time. Any other choice on the part of B will lead to the nemesis 
+exploiting him by playing a pure strategy in response. So this is an optimal strategy for this 
+game. 
+ 
+What occurs frequently in these types of games is a situation where the nemesis has two or more 
+possible exploitive strategies to employ. B selects his strategy, and the nemesis selects his 
+exploitive strategy in response. At some strategy S that B chooses, the nemesis strategy is 
+indifferent between his exploitive strategy choices; that is, it makes no difference to his 
+expectation which one he chooses. This indifference threshold is the optimal strategy for B. The 
+reason that this concept is so powerful is that it enables us to ensure that the strategies we find 
+cannot be improved by moving them a tiny bit in a different direction. Remember that one of the 
+conditions for a strategy being optimal is that neither player be able to improve by changing his 
+strategy unilaterally. When a player is indifferent between strategy choices, this prevents this 
+condition from being violated. 
+ 
+To see how this allows us to more easily find optimal strategies, let us consider a slightly 
+modified version of Roshambo, where there is a bonus for winning with scissors. We'll call this 
+game Roshambo-S, and its payoff matrix is as follows: 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         105 
+ 
+Example 10.3 - Roshambo - S 
+ 
+ 
+Player B 
+ 
+ 
+Player A 
+Rock 
+Paper 
+Scissors 
+Rock 
+0 
+-1 
++1 
+Paper 
++1 
+0 
+-2 
+Scissors 
+-1 
++2 
+0 
+ 
+Now the strategy {1 3
+ , 1 3
+ , 1 3
+ } is easily foiled by the opponent playing {0, 0, 1}, in which case 
+the opponent wins 1 3
+  of a unit overall. However, A can again reduce the game to 0 EV by 
+attempting to make his opponent indifferent between the various choices. 
+ 
+Say A's strategy will be {a, b, c}. Then A wants to make B's EV from the various strategy 
+options equal. Using Equation 1.11: 
+ 
+<B, rock > = (0)( a) +  (-l)(b) + (1)(c) 
+<B, rock > = c - b 
+<B, paper > = (1)(a) + (0)( b) + (-2)(c)  
+<B, paper > = a - 2c  
+<B, scissors > = (-1)( a) + (2)(b) + (0)(c)  
+<B, scissors > = 2b - a 
+ 
+Setting these three things equal and solving the resultant system of equations, we find that a = 
+2b=2c. This indicates a strategy of {1 2
+ , 1 4
+ , 1 4
+ }. We can verify that this strategy is optimal 
+indirectly. First of all, the game is symmetrical, so any strategy B can utilize, A can utilize also. 
+Since the payoffs sum to zero, no strategy can have positive expectation against the nemesis. If 
+such a strategy existed, then both players would play it and the zero-sum nature of the game 
+would be violated. So the strategy must be optimal. 
+ 
+Note that increasing the amount gained by winning with scissors shifted the optimal strategy to 
+play less scissors. We often find this type of defensive maneuver in situations like this. When the 
+rules change to benefit some specific type of action, optimal strategies often move toward 
+counter-acting the benefited strategy instead of utilizing it. We will see that in poker, this 
+manifests itself in that when the pot is larger, we bluff less, because a successful bluff is more 
+profitable. 
+ 
+In the cases we have considered so far, all the strategy options have been equally "powerful," so 
+to speak. Each one represented a key part of a strategy or counter-strategy, and no option was so 
+weak that it should never be played. However, this does happen; very frequently, in fact, in more 
+complex games. A strategy S is said to be dominated if there is a strategy S' such that <S'> ≥ 
+<S> against all opponent strategies and <S'> ><S> for at least one opponent strategy. S' is said 
+to dominate S. (This term should not be confused with the flop game term "domination," which 
+refers to situations where one player is reduced to three or less outs.) 
+ 
+This should make intuitive sense; if we have 1 strategic option, but there's some other option that 
+does at least the same and sometimes better against all the opponent's strategies, we should 
+always pick the better option. We can see this by looking at another variant of Roshambo. This 
+time, instead of changing the payout matrix, we include an additional strategy option, "flower." 
+Flower loses to each of rock and scissors and ties with paper and other flowers. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         106 
+ 
+Example 10.4 - Roshambo - F 
+ 
+ 
+Player B 
+ 
+ 
+ 
+Player A 
+Rock 
+Paper 
+Scissors 
+Flowers 
+Rock 
+0 
+-1 
++1 
++1 
+Paper 
++1 
+0 
+-1 
+0 
+Scissors 
+-1 
++1 
+0 
++1 
+Flowers 
+-1 
+0 
+-1 
+0 
+ 
+It should be clear that no strategy that includes flower can be as good as the same strategy that 
+substitutes paper for flower in the frequencies. Therefore, flower is dominated by paper. We also 
+have a second terminology, strictly dominated, which means that a strategy S' performs better 
+than S (not equal) against all possible opponent strategies. This often occurs when all strategic 
+options are gone: a poker example of this is when an opponent pushes all-in preflop in a cash 
+game (with blinds in the pot) and you are the last remaining player in the hand with AA. No 
+matter what your opponent's strategy is, you have higher expectation from calling than from 
+folding. Hence calling strictly dominates folding. It should be obvious that an optimal strategy 
+cannot contain strictly dominated options: if it did, then the player could simply substitute the 
+higher-expectation option and unilaterally improve. 
+ 
+Strategic options are usually valuable; in fact, we can go so far as to say that in zero-sum two -
+player games, strategic options have non-negative value. Adding an additional strategic option 
+to one player's choices in a game cannot reduce his expectation in the game, because he could 
+simply pretend that the option was not added and play his old strategy to get the old expectation. 
+However, often he can incorporate the new option into his strategy to gain value. 
+ 
+One other term we frequently use to describe strategies is co-optimal. Sometimes there can be 
+many strategies that are part of an optimal strategy pair. This can include dominated strategies in 
+some cases. This may be surprising to some readers, but an example should clarify. Suppose that 
+to Roshambo-F, we add yet another strategic option: "safety scissors." (Safety scissors have 
+blunt tips and cut paper just as well as regular scissors, but other materials more poorly). Safety 
+scissors plays just as regular scissors (i.e., loses to rock and cuts paper), but loses to flower. So in 
+this variant, playing safety scissors is always dominated by playing regular scissors. However, 
+strategies involving safety scissors can still be co-optimal, because they can be part of an optimal 
+strategy pair. This is because optimal strategy pairs will never contain flower; hence, safety 
+scissors are as good as regular scissors. 
+ 
+When we search for optimal strategies in poker, however, we are primarily concerned with 
+finding undominated strategies, because picking up value from opponent's mistakes is important 
+and occurs frequently. 
+ 
+When there are dominated strategic options present, we can use a recursive process to simplify 
+the game. In the above example, we begin with the full payoff matrix: 
+ 
+ 
+Player B  
+ 
+ 
+Player A 
+Rock 
+Paper 
+Scissors 
+Flower 
+Safety 
+Rock 
+0 
+-1 
++1 
++1 
+-1 
+Paper 
++1 
+0 
+-1 
+0 
+-1 
+Scissors 
+-1 
++1 
+0 
++1 
+0 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         107 
+ 
+Flower 
+-1 
+0 
+-1 
+0 
++1 
+Safety 
+-1 
++1 
+0 
+-1 
+0 
+ 
+We can identify safety as a dominated strategic option by comparing the payoff values to the 
+payoff values of scissors. In each case, the payoff value for scissors is greater than or equal to the 
+payoff value for safety scissors. As a result, safety scissors is dominated by scissors. When we 
+are searching for the optimal strategy, we can then reduce the game to a subgame where neither 
+player can play safety scissors: 
+ 
+ 
+Player B 
+ 
+ 
+ 
+Player A 
+Rock 
+Paper 
+Scissors 
+Flowers 
+Rock 
+0 
+-1 
++1 
++1 
+Paper 
++1 
+0 
+-1 
+0 
+Scissors 
+-1 
++1 
+0 
++1 
+Flowers 
+-1 
+0 
+-1 
+0 
+ 
+This matrix is, of course, Roshambo - F. We can now apply this process again, identifying 
+Flower as the dominated strategy to remove: 
+ 
+ 
+Player B 
+ 
+ 
+Player A 
+Rock 
+Paper 
+Scissors 
+Rock 
+0 
+-1 
++1 
+Paper 
++1 
+0 
+-1 
+Scissors 
+-1 
++1 
+0 
+ 
+And we have returned to basic Roshambo. Thus, the solution to the expanded game, including 
+flower and safety scissors, is the same as the solution to this last sub-game. This recursive 
+process can be used to simplify many games. This is often helpful because it reduces the number 
+of strategic options that must be considered. To summarize: 
+ 
+A game G can be reduced to a sub-game G' by removing dominated strategic options from both 
+sides. An optimal strategy pair for G' will be an optimal strategy pair for G. 
+ 
+The last simple game we will look at in this chapter, before going on to games directly related to 
+poker, is called Cops and Robbers. In this game, one player is the "Cop" and the other player is 
+the "Robber." The cop has two strategy options: to patrol or not to patrol. The robber has two 
+strategy options as well: to attempt to rob a store, or not to. If the robber decides to rob, he wins 
+1 unit if the cop is not patrolling, hut loses 1 unit if the cop patrols because he gets arrested!). If 
+the robber stays home, the cop loses 1 unit (resources, etc.) by patrolling, but nothing if he 
+doesn't patrol. And because the game is zero-sum, the robber gains that unit when he chooses not 
+to rob and the cop patrols. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         108 
+ 
+The payoff matrix for this game is as follows: 
+ 
+Example 10.5 - Cops and Robbers 
+ 
+ 
+Robber 
+ 
+Cop 
+Rob 
+Don’t Rob 
+Patrol 
+(1, -1) 
+(-1,1) 
+Don’t Patrol 
+(-1. 1) 
+(0, 0) 
+ 
+To find the optimal strategies to this game, we pick a player. Consider the cop's strategies. As 
+before the cop will choose a percentage x of the time to patrol, and the rest of the time he will 
+not. From Equation 1.11: 
+ 
+<robber, rob > = (-1)(x) + (1)(1 - x)  
+<robber, rob > = 1 - 2x  
+<robber, don't > = (l)(x) + 0(1 - x)  
+<robber, don't > = x 
+ 
+The robber is indifferent between his choices when these two values are equal. 
+ 
+1 - 2x = x 
+x = 1 3
+  
+ 
+So the cop's optimal strategy is to patrol 1 3
+  of the time. 
+ 
+Next we consider the robber. If he chooses a percentage x of the time to rob, the cop's 
+expectations are as follows: 
+ 
+<cop, patrol > = (1)(x) + (-1)(1 - x)  
+<cop, patrol > = 2x - 1  
+<cop, don't > = (-1)(x) + 0(1 - x)  
+<cop, don't > = - x 
+ 
+The cop is indifferent between his choices when these values are equal. 
+ 
+2x - 1 = - x 
+x = 1 3
+  
+ 
+So the robber's optimal strategy is to rob 1 3
+  of the time. 
+ 
+These two values (cop patrols 1 3
+  , and the robber robs 1 3
+  ) are the optimal strategies for this 
+game. We consider this game as an example of optimal strategies leading to indifference. Mixed 
+strategies will occur if both sides have the ability to exploit each other's pure strategies. In this 
+game, if the robber plays a pure strategy of always robbing, the cop can play a pure strategy of 
+always patrolling. But if the cop does this, the robber can switch to a strategy of always staying 
+home, and so on. These oscillating exploitive strategies tell us that the optimal strategies will be 
+mixed. 
+ 
+This is true generally for a zero-sum two-player game; suppose two players X and Y are 
+formulating their strategies for a game. X utilizes the pure strategy A. Y then exploits X by 
+playing the pure strategy B. But X in turn exploits B by playing C. Y then exploits C by playing 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         109 
+ 
+D. X's best response to D is A again. This recursive exploitation is a sign that the strategies are 
+going to be mixed between A and C for X, and between B and D for Y. 
+ 
+If we know what components are to be mixed in the optimal strategies, we can easily solve the 
+game systematically by writing and solving the equations that make both sides indifferent to the 
+various mixed options. If we don't know which components are mixed - this occurs in different 
+types of games, we often have to guess at the structure of the solution. Our guesses are 
+sometimes called parameterizations, a topic we will revisit in discussing the solutions to [0,1] 
+games. 
+ 
+In this game, however, since both the cop and the robber will be utilizing mixed strategies, we 
+know that their expectation from each option will be equal. By setting the expectations equal to 
+each other, we use this fact to find their strategies. 
+ 
+This game may seem simple and fairly unrelated to poker; but as we shall soon see, this game 
+shares a structure and important features with a very simple poker game. 
+ 
+Key Concepts 
+• The optimal strategies to a zero-sum two-player game have the following properties: 1) 
+As long as milted strategies are allowed optimal strategies always exist. 2) If an optimal 
+strategy contains a mixed strategy, then the expectation of each strategic alternative must 
+be equal against the opponent's optimal strategy. 
+• If a strategy-pair is optimal, neither player can improve his expectation unilaterally by 
+changing strategies. 
+• An optimal strategy pair consists of two strategies that maximally exploit each other. 
+• Optimal strategies maximize expectation against the nemesis. 
+• Optimal strategies do not contain strictly dominated alternatives. 
+• When the players have oscillating exploitive pure strategies - that is, if X exploits Y by 
+playing a pure strategy, Y can exploit X, after which X exploits Y again, and so on...then 
+X and Y's strategies will be mixed. 
+• If a player employs a mixed strategy at any point, both of the mixed strategic options 
+must have equal expectation against the opponent's optimal strategy. 
+• We can obtain simpler games that have equivalent optimal strategies by recursively 
+removing dominated strategies from a larger game. 
+• In both zero-sum two-player and other types of games, strategy sets for each player that 
+satisify the condition that no player be able to increase his expectation by acting 
+unilaterally are called Nash equilibria. All multiplayer games with finite payout matrices 
+have at least one such equilibrium; some games have multiple equilibria. 
+ 
+ 

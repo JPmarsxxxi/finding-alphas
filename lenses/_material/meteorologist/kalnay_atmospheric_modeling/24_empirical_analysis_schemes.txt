@@ -1,0 +1,137 @@
+140
+5 Data assimilation
+5.2
+Empirical analysis schemes
+5.2.1
+Successive corrections method (SCM)
+The ﬁrst analysis method used in 4DDA was based on an empirical approach known
+as the SCM, developed by Bergthorsson and Doos (1955) in Sweden and by Cressman
+(1959) of the US Weather Service. In SCM the ﬁrst estimate of the gridded ﬁeld is
+given by the background (or ﬁrst guess) ﬁeld:
+f 0
+i = f b
+i
+(5.2.1)
+where f b
+i is the background ﬁeld evaluated at the ith grid point, and f 0
+i the corres-
+ponding zeroth iteration estimate of the gridded ﬁeld (Fig. 5.1.1).
+After this ﬁrst estimate, the following iterations are obtained by “successive cor-
+rections”:
+f n+1
+i
+= f n
+i +
+K n
+i
+
+k = 1
+wn
+ik
+	
+f O
+k −f n
+k
+
+K n
+i
+
+k = 1
+wn
+ik + ε2
+(5.2.2)
+where f n
+i is the nth iteration estimation at the grid point i, f O
+k is the kth observation
+surrounding the grid point i, f n
+k is the value of the nth ﬁeld estimate evaluated at
+the observation point k (obtained by interpolation from the surrounding grid points),
+and ε2 is an estimate of the ratio of the observation error variance to the background
+error variance. The weights wn
+ik can be deﬁned in different ways. Cressman (1959)
+deﬁned the weights in the SCM as
+wn
+ik = R2
+n −r2
+ik
+R2n + r2
+ik
+for
+r2
+ik ≤R2
+n
+wn
+ik = 0
+for
+r2
+ik > R2
+n
+
+
+
+(5.2.3)
+where r2
+ik is the square of the distance between an observation point rk and a grid
+point at ri.
+The radius of inﬂuence Rn is allowed to vary with the iteration, and K n
+i is the
+number of observations within a distance Rn of the grid point i. For example, in the
+1980s the Swedish operational system used R1 = 1500 km, R2 = 900 km for upper
+air analyses, and R1 = 1500 km, R2 = 1200 km, R3 = 750 km, R4 = 300 km for
+the surface pressure analysis. The reduction of the radius of inﬂuence results in a
+ﬁeld that reﬂects the large scales after the ﬁrst iteration and converges towards the
+smaller scales after the additional iterations.
+In the Cressman SCM, the coefﬁcient ε2 is assumed to be zero. This results in a
+“credulous”analysisthatmorefaithfullyreﬂectstheobservations,andforaverysmall
+radius of inﬂuence the analysis converges to the observation values if the observations
+
+5.2 Empirical analysis schemes
+141
+are located at the grid points. If the data are noisy (e.g., if an observation has gross
+errors, or if it contains an unrepresentative sample of subgrid-scale variability), this
+can lead to “bull’s eyes” (many isolines around an unrealistic grid-point value) in
+the analysis. Including ε2 > 0 assumes that the observations have errors, and gives
+some weight to the background ﬁeld.
+Barnes (1964, 1978) developed another empirical version of the SCM that has
+been widely used for analyses where there is no available background or ﬁrst guess
+ﬁeld, such as the analysis of radar data or other small-scale observations. Since we
+have no information on the background ﬁeld, its error variance can be considered to
+be very large, so that ε2 = 0. The weights are given by wn
+ik = e−r2
+ik/2R2
+n. The radii of
+inﬂuence are changed by a constant factor at each iteration: R2
+n+1 = γ R2
+n. If γ = 1,
+only the large scales are captured. For γ < 1 more details in the observations are
+reproduced in the analysis as more iterations are performed.
+Although the SCM method is empirical, it is simple and economical, and it pro-
+vides reasonable analyses. Bratseth (1986) showed that if the weights are chosen
+appropriately instead of using the empirical formulas presented above, the SCM can
+be made to converge to a proper statistical interpolation (OI) (Section 5.3).
+5.2.2
+Nudging
+Another empirical and fairly widely used method for data assimilation is Newtonian
+relaxation or nudging (Hoke and Anthes, 1976, Kistler, 1974). This consists of adding
+to the prognostic equations a term that nudges the solution towards the observations
+(interpolated to the model grid). For example, for a primitive equation model, the
+zonal velocity forecast equation is written as
+∂u
+∂t = −v · ∇u + f v −∂φ
+∂x + uobs −u
+τu
+(5.2.4)
+and similarly for the other equations.
+The relaxation time scale, τ, is chosen based on empirical considerations and
+may depend on the variable. If τ is very small, the solution converges towards the
+observations too fast, and the dynamics do not have enough time to adjust. If τ is
+too large, the errors in the model can grow too much before the nudging becomes
+effective. Hoke and Anthes indicated that τ should be chosen so that the last term
+is similar in magnitude to the less dominant terms. They used a very short time
+scale, about 20 minutes, in their experiments. Stauffer and Seaman (1990) used
+about one hour in experiments assimilating synoptic observations, and reported a
+fair amount of success. Zou et al. (1992) made optimal parameter estimations of the
+nudging time scale. Kaas et al. (1999) performed an interesting experiment, nudging
+a model towards a 15-y reanalysis from the ECMWF, and by averaging the mean
+forcing introduced by nudging, empirically determined corrections to reduce model
+deﬁciencies.

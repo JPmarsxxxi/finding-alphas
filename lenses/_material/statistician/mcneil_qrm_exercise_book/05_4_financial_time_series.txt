@@ -1,0 +1,427 @@
+4 Financial Time Series
+Review
+Exercise 4.1 (Stationarity)
+a) State the deﬁnitions of covariance (or weak) stationarity and strict stationarity for a time
+series (Xt)t∈Z.
+b) Give an example of a covariance-stationary process that is not strictly stationary and vice
+versa.
+c) Explain why stationarity is such an important assumption in time series analysis.
+d) If you had time series data displaying a linear trend, explain how you might pre-process
+them to make them suitable for modelling with a stationary time series process.
+Exercise 4.2 (Identiﬁcation of ARMA processes)
+Figure E.4.1 shows simulated paths for various time series processes as well as the corresponding
+sample autocorrelation function (ACF) and partial autocorrelation function (PACF) plots.
+In each case the innovations (εt)t∈Z are from a strict white noise process and the time series
+(Xt)t∈Z follows one of the following models:
+a) Xt = εt −0.3εt−1 −0.4εt−2, t ∈Z
+b) Xt = 10 + 20t + 2t sin(t) + εt, t ∈Z
+c) Xt −0.3Xt−1 −0.4Xt−2 = εt, t ∈Z
+d) Xt = εt −0.7εt−1, t ∈Z
+e) Xt −0.3Xt−1 = εt −0.6εt−1, t ∈Z
+Match each model with the pictures, explaining your reasoning.
+Note. The PACF is mentioned brieﬂy in MFE (2015, p. 108). The PACF of an AR(p) process
+cuts oﬀafter lag p and decays exponentially for an MA process.
+Note that this is the
+opposite behaviour to that of the ACF, which cuts oﬀafter lag q for an MA(q) process
+and decays exponentially for an AR process. Neither the ACF nor the PACF give clear
+guidance for indentifying the order of an ARMA(p, q) process with p > 0 and q > 0. See, for
+example, Brockwell and Davis (2002).
+Exercise 4.3 (GARCH models and stylized facts)
+Consider a GARCH(1, 1) process with parameters α0 = 2, α1 = 0.1 and β1 = 0.85.
+a) Discuss whether or not this process can replicate all of the univariate stylized facts of
+ﬁnancial time series listed in MFE (2015, Section 3.1).
+27
+
+4 Financial Time Series
+Time series
+ACF
+PACF
+0
+100
+200
+300
+400
+500
+−4
+−2
+0
+2
+0
+5
+10
+15
+20
+25
+−0.5
+0.0
+0.5
+1.0
+0
+5
+10
+15
+20
+25
+−0.5
+−0.3
+−0.1
+0.1
+0
+100
+200
+300
+400
+500
+0
+2000
+6000
+10000
+0
+5
+10
+15
+20
+25
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+0
+5
+10
+15
+20
+25
+−0.4
+0.0
+0.4
+0.8
+0
+100
+200
+300
+400
+500
+−4
+−2
+0
+2
+4
+0
+5
+10
+15
+20
+25
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+0
+5
+10
+15
+20
+25
+−0.1
+0.0
+0.1
+0.2
+0.3
+0.4
+0
+100
+200
+300
+400
+500
+−4
+−2
+0
+2
+0
+5
+10
+15
+20
+25
+−0.2
+0.2
+0.6
+1.0
+0
+5
+10
+15
+20
+25
+−0.3
+−0.1
+0.0
+0.1
+0
+100
+200
+300
+400
+500
+−4
+−2
+0
+2
+0
+5
+10
+15
+20
+25
+−0.4
+0.0
+0.4
+0.8
+0
+5
+10
+15
+20
+25
+−0.3
+−0.1
+0.0
+0.1
+Figure E.4.1 Paths of ﬁve time series (Xt)t∈Z (left) with corresponding ACF (middle) and
+PACF (right).
+28
+
+Basic
+b) Calculate the variance of the GARCH process.
+c) Explain the form that the autocorrelation function of the squared GARCH process would
+take.
+Exercise 4.4 (White noise)
+a) Explain the diﬀerence between a white noise process (WN) and a strict white noise process
+(SWN).
+b) Give an example of a WN that is not SWN and a SWN that is not WN.
+Exercise 4.5 (AR models with ARCH errors)
+a) Write down the full set of equations for a time series (Xt)t∈Z following an AR(1) model
+with non-zero mean and ARCH(1) errors.
+b) Give a formula for value-at-risk calculated at time t, that is for the conditional quantile of
+Xt+1 in terms of previous values of the process and quantiles of the innovation distribution.
+Exercise 4.6 (QML estimation of GARCH models)
+Explain how the quasi-maximum likelihood (QML) method for estimating the parameters of a
+GARCH process works and contrast the properties of the resulting QML estimates with those
+of full maximum likelihood estimates.
+Basic
+Exercise 4.7 (Checking stationarity)
+Decide whether the following time series (Xt) are covariance stationary. Calculate the mean
+function and autocorrelation function of any time series that is covariance stationary.
+a) Xt =
+(
+εt
+if t is odd,
+εt+1
+if t is even,
+where (εt)t∈Z is a WN(0, σ2
+ε) process.
+b) Xt = Pt
+k=0 εk for t ∈N0, where (εt)t∈N0 is a WN(0, σ2
+ε) process.
+c) Xt = sin(π
+6 t)Z2 + cos(π
+6 t)Z1, t ∈Z, where Z1 and Z2 are independent random variables
+with mean 0 and variance σ2
+Z.
+Exercise 4.8 (Symmetry of ACF)
+Show that the autocorrelation function ρ of a covariance-stationary time series is an even
+function, that is ρ(−h) = ρ(h), h ∈Z.
+Exercise 4.9 (MA(2) process)
+Let (Xt)t∈Z be a time series of the form
+Xt = εt + θ1εt−1 + θ2εt−2,
+t ∈Z,
+where (εt)t∈Z ∼WN(0, σ2
+ε).
+29
+
+4 Financial Time Series
+a) Show from ﬁrst principles (that is without using general formulas provided in MFE (2015))
+that (Xt)t∈Z is causal and stationary and compute the mean function and autocorrelation
+function.
+b) Assume that (Xt)t∈Z is an invertible process. Derive formulas for the predictions PtXt+h
+for h = 1 and h = 2 and explain what happens when h ≥3.
+Exercise 4.10 (Absolute summability condition)
+Let Xt = P∞
+k=−∞ψkεt−k for (εt)t∈Z ∼WN(0, σ2
+ε). Show that P∞
+k=−∞|ψk| < ∞implies that
+E(P∞
+k=−∞|ψkεt−k|) < ∞or, in other words, P∞
+k=−∞ψkεt−k converges absolutely, almost surely.
+Exercise 4.11 (AR(1) process)
+This question is intended to ﬁll in some of the details and extend the analysis of the AR(1)
+model in MFE (2015, Example 4.11). Let the process (Xt)t∈Z be a stationary solution of the
+AR(1) equations
+Xt −φ1Xt−1 = εt,
+t ∈Z, |φ1| < 1,
+(E1)
+where (εt)t∈Z ∼WN(0, σ2
+ε).
+a) Show that if (Yt)t∈Z is another stationary solution of (E1), then the process (Zt)t∈Z deﬁned
+by Zt = Xt −Yt is almost surely equal to zero for all t.
+Hint. Derive the recurrence relation Zt = φn
+1Zt−n, n ∈N, and use the Cauchy–Schwarz
+inequality E(|Zt−n|) ≤
+q
+E(Z2
+t−n) to show that E(|Zt|) = 0 for all t ∈Z.
+b) Let Yt = P∞
+k=0 φk
+1εt−k, t ∈Z. Show that this series converges absolutely almost surely.
+Hint. Apply Exercise 4.10.
+c) Show that (Yt)t∈Z satisﬁes (E1) and hence conclude from a) that Xt = Yt, almost surely,
+for t ∈Z.
+d) Compute the mean function and autocorrelation function of (Xt)t∈Z.
+e) Derive a prediction formula for PtXt+h for all h ∈N.
+Exercise 4.12 (ARMA(1,1) process)
+This question is intended to ﬁll in some of the details of the analysis of the ARMA(1, 1) model
+in MFE (2015, Example 4.12). Let (Xt)t∈Z be a stationary and causal solution of
+Xt −φ1Xt−1 = εt + θ1εt−1,
+t ∈Z,
+(E1)
+for some constants φ1 ̸= 0, θ1 ̸= 0 and (εt)t∈Z ∼WN(0, σ2
+ε), 0 < σε < ∞.
+a) Assume that φ1 ̸= −θ1. By using the general ARMA theory in MFE (2015, p. 103) show
+that a necessary and suﬃcient condition for the equations (E1) to have a stationary and
+causal solution is |φ1| < 1.
+b) By using MFE (2015, Proposition 4.9), compute the autocorrelation function of (Xt)t∈Z in
+this case.
+c) What is the solution of the equations (E1) when φ1 = −θ1?
+30
+
+Basic
+Hint. One can proceed as in the proof of Exercise 4.11 a).
+Exercise 4.13 (Kurtosis of GARCH(1,1) process)
+Let (Xt)t∈Z be a covariance-stationary GARCH(1, 1) process with ﬁnite kurtosis κZ of the
+innovation distribution.
+a) By using the solution of the GARCH(1, 1) deﬁning equations (see MFE (2015, equa-
+tion (4.27)) show that (Xt)t∈Z has a ﬁnite fourth moment if and only if
+(α1 + β1)2 < 1 −(κZ −1)α2
+1,
+where α1 and β1 are the ARCH and GARCH parameters, respectively.
+b) Suppose you know that the kurtosis κX of the GARCH(1, 1) process is equal to the kurtosis
+of the innovation distribution. Determine κX in this case and comment on whether this
+situation is likely to arise when modelling ﬁnancial return data.
+Exercise 4.14 (GARCH(2,1) and GARCH(1,2) processes)
+Let (Xt)t∈Z be a covariance-stationary GARCH(2, 1) process.
+a) Derive a recursive formula for PtX2
+t+h = E(X2
+t+h | Ft) for h ≥1.
+b) Compute the limit limh→∞PtX2
+t+h and infer the condition for covariance stationarity from
+this limit.
+c) Repeat a) and b) for the GARCH(1, 2) process.
+Exercise 4.15 (Skewed innovation distributions)
+This question concerns the method that is used in the R package rugarch to introduce skewness
+into the innovation distribution of a GARCH process. Let fX denote a unimodal density that
+is symmetric around 0 and consider the density fY given by
+fY (x) =
+2
+δ + δ−1 (fX(δx)H(−x) + fX(δ−1x)H(x)),
+x ∈R,
+where δ > 0 is a skewness parameter and H(x) is the Heaviside function deﬁned by H(x) = 0
+for x < 0, H(0) = 0.5 and H(x) = 1 for x > 0.
+a) Explain the intuition behind this construction.
+b) Verify that fY is a probability density and calculate the distribution function FY of fY .
+c) Let X be a random variable with density fX and let Y be a random variable with density
+fY . Calculate the kth moment of Y in terms of the kth moment of X, assuming that the
+latter exists.
+d) The distribution of Y must be standardized to have mean zero and unit variance for use as
+the innovation distribution of a GARCH process. Calculate E(Y ) and var(Y ) in the case
+where X ∼N(0, 1).
+e) Repeat the calculations in the case where X ∼tν, ν > 1.
+31
+
+4 Financial Time Series
+Exercise 4.16 (Fitting GARCH models to equity index return data)
+Take the set of closing prices of the S&P 500 index from 2006 to 2009 including the ﬁnancial
+crisis; see the dataset SP500 of the R package qrmdata.
+a) Fit GARCH(1, 1) models with standard normal, standardized t and standardized skewed t
+innovations to the negative log-returns; see the functions ugarchspec() and ugarchfit()
+in the R package rugarch. Plot the resulting standardized residuals and Q-Q plots against
+the ﬁtted innovation distributions.
+b) Add AR(1), MA(1) and ARMA(1, 1) models for the conditional mean and investigate
+whether this improves the resulting ﬁt of the models.
+c) Use your favourite model to calculate an in-sample estimate of volatility and an in-sample
+estimate of the 99% value-at-risk for the period.
+d) Compare the GARCH volatility estimate with an exponentially-weighted moving-average
+(EWMA) estimate of volatility. Note that this can be carried out in rugarch by choosing
+an IGARCH model in ugarchspec() and setting the parameters to have ﬁxed values.
+Exercise 4.17 (Fitting GARCH models to weekly equity index return data)
+Repeat the analysis of Exercise 4.16 for the weekly returns of the S&P 500 index from 2000 to
+2015.
+Exercise 4.18 (Fitting GARCH models to foreign-exchange return data)
+Repeat the analysis of Exercise 4.16 for daily log-returns of the EUR/USD exchange rate from
+2012 to 2015; see the dataset EUR_USD of the R package qrmdata.
+Advanced
+Exercise 4.19 (AR(2) process)
+Let (Xt)t∈Z be a stationary and causal solution of the AR(2) equations
+Xt −φ1Xt−1 −φ2Xt−2 = εt,
+t ∈Z,
+where φ1 ∈R, φ2 ̸= 0 and (εt)t∈Z ∼WN(0, σ2
+ε).
+a) Using the general ARMA theory in MFE (2015, p. 103), show that the AR parameters
+must satisfy the following conditions:
+i)
+|φ2| < 1;
+ii) φ2 + φ1 < 1; and
+iii) φ2 −φ1 < 1.
+Note. One can also show that i)–iii) are suﬃcient.
+b) What shape is the set of permissible parameters (φ1, φ2) satisfying i)–iii)?
+c) Derive a recurrence relation for the autocorrelation function of (Xt)t∈Z of the form ρ(h) =
+a1ρ(h −1) + a2ρ(h −2) for some a1, a2. What is ρ(0), ρ(1)?
+32
+
+Advanced
+Exercise 4.20 (EGARCH(1,1) model)
+The exponential GARCH (EGARCH) model is a widely-used alternative to the standard
+GARCH model. The EGARCH(1, 1) takes the form Xt = σtZt where (Zt)t∈Z ∼SWN(0, 1)
+and the logarithm of the volatility σt is updated according to the equations
+log(σ2
+t ) = α0 + α1Zt−1 + γ1(|Zt−1| −E(|Zt−1|)) + β1 log(σ2
+t−1),
+t ∈Z,
+where α0, α1, β1, γ1 ∈R.
+a) Give an economic interpretation for the form of the squared volatility equations.
+b) Let εt = α1Zt−1 + γ1(|Zt−1| −E(|Zt−1|)), t ∈Z. Is the process (εt)t∈Z a strict white noise?
+Calculate the mean and variance of εt, t ∈Z, under the assumption that Zt is symmetrically
+distributed around 0.
+c) For t ∈Z, let Yt = log(σ2
+t ) and let εt be deﬁned as in b). What kind of process does (Yt)t∈Z
+follow?
+d) Give a condition for (Yt)t∈Z to be covariance stationary and derive the mean and variance
+of Yt, t ∈Z.
+Exercise 4.21 (GJR-GARCH(1,1) model)
+The GJR-GARCH model of Glosten et al. (1993) is another extension of the standard GARCH
+model. The GJR-GARCH(1, 1) model takes the form Xt = σtZt where (Zt)t∈Z ∼SWN(0, 1)
+and the volatility σt is updated according to the equations
+σ2
+t = α0 + (α1 + γ1I{Xt−1<0})X2
+t−1 + β1σ2
+t−1,
+t ∈Z,
+where α0 > 0, α1 + γ1 ≥0 and β1 ≥0.
+a) Give an economic interpretation for the form of the squared volatility equations.
+b) By considering the variance of the process var(Xt), t ∈Z, show that a necessary condition
+for (Xt)t∈Z to be covariance stationary is that
+α1 + β1 + γ1θZ < 1,
+where θZ = E(I{Zt<0}Z2
+t ).
+c) Show that θZ = 1/2 when Zt has a distribution that is symmetric about 0.
+d) Derive an equation for predicting the squared volatility σ2
+t+h, h ≥1, given the values of Xt
+and σ2
+t .
+33
+

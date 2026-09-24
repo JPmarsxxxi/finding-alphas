@@ -1,0 +1,2061 @@
+Chapter 12:  Credibility 
+216 
+ 
+CHAPTER 12: CREDIBILITY 
+Prior chapters covered ratemaking techniques that use historical data to develop actuarial estimates of 
+future loss experience.  According to the Law of Large Numbers, as the volume of similar, independent 
+exposure units increases, the observed experience will approach the “true” experience, and for a 
+sufficiently large number, the observed experience will equal the “true” experience.  The experience of 
+any one insured can vary significantly from year to year.  By insuring a large number of independent 
+risks, the experience of the entire group becomes more stable and can be more accurately predicted.  
+Unfortunately, the volume of data used for overall ratemaking or classification ratemaking may not 
+always be fully sufficient to produce accurate and stable rates, and the actuary can consider 
+supplementing the data with additional information.  The science of credibility in ratemaking addresses 
+how to blend the actuarial estimate based on observed experience with one or more sets of related 
+experience in order to improve the estimate of expected values. 
+This chapter covers: 
+ 
+Methods for measuring credibility in an actuarial estimate44 
+ 
+Desirable qualities for the complement of credibility 
+ 
+Methods (and examples) for determining the complement of credibility in both first dollar and 
+excess ratemaking 
+ 
+A brief commentary on credibility when using statistical multivariate ratemaking techniques   
+NECESSARY CRITERIA FOR MEASURES OF CREDIBILITY 
+The first step in utilizing credibility is to determine the reliability of the actuarial estimate based on 
+observed experience.  Assuming homogenous risks, the amount of credibility given to the observed 
+experience, commonly denoted by Z, should meet the following three basic criteria: 
+1. Z must be greater than or equal to zero (i.e., no negative credibility) and less than or equal to 1.00 
+(i.e., capped at fully credible). 
+2. Z should increase as the size of the risk underlying the actuarial estimate increases (all else being 
+equal). 
+3. As the size of the risk increases (all else being equal), Z should increase at a decreasing rate. 
+METHODS FOR MEASURING CREDIBILITY IN AN ACTUARIAL 
+ESTIMATE 
+As defined in Actuarial Standard of Practice (ASOP) Number 25 “Credibility Procedures Applicable to 
+Accident and Health, Group Term Life, and Property/Casualty Coverages” (ASOP No. 25, 1996, p. 1), 
+credibility is “a measure of the predictive value in a given application that the actuary attaches to a 
+particular body of data.” 
+The actuary should be familiar with and consider various methods for determining the credibility of a 
+particular body of data.  Two commonly discussed credibility methods are classical credibility and 
+Bühlmann credibility.  Both methods involve explicit calculation of a measure of credibility used to blend 
+                                                     
+44 This chapter will not cover the application of credibility within experience rating calculations. 
+
+Chapter 12:  Credibility 
+217 
+ 
+subject experience and related experience.  A third method, Bayesian analysis, introduces related 
+experience into the actuarial estimate in a probabilistic measure.  In other words, the method does not 
+explicitly calculate a measure of credibility. 
+ 
+These three methods are covered extensively in other actuarial texts; this chapter is meant to provide an 
+overview. 
+Classical Credibility Approach 
+The classical credibility approach, commonly called limited fluctuation credibility, is the most frequently 
+used method in insurance ratemaking.  The goal of classical credibility is to limit the effect that random 
+fluctuations in the observations have on the risk estimate.   
+In this approach, a value of credibility (Z) is calculated and used to assign weights to the observed 
+experience (also known as subject experience or base statistic) and to some related experience in the 
+following linear expression: 
+.
+Experience
+ 
+Related
+ x 
+ Z)
+- 
+(1.0
+ 
+  
+Experience
+ 
+Observed
+ x 
+ Z
+  
+Estimate
+
+
+ 
+Let Y represent the total number of claims, and S represent the total amount of losses.  The actuary first 
+determines the expected number of claims, (E(Y), required for the observed experience to be considered 
+fully credible (Z=1.00). 
+The observed experience is considered fully credible when the probability (p) is high that the observed 
+experience will not differ significantly from the expected experience by more than some arbitrary amount 
+(k).  Stated in probabilistic terms: 
+ 
+
+
+.
+1
+1
+Pr
+p
+k)E(S)
+(
+S
+k)E(S)
+(
+
+
+
+
+
+ 
+According to the Central Limit Theorem,  
+).
+,
+~N(
+Var(S)
+S-E(S)
+1
+0
+ 
+Therefore, the probabilistic expression above can be transformed as follows: 
+p.
+ 
+Var(S)
+(S)
+k)E(S) - E
+(
+Var(S)
+S-E(S)
+Var(S)
+E(S)
+-k)E(S) - 
+(
+
+
+
+
+
+
+
+
+
+
+
+
+1
+1
+Pr
+ 
+ 
+ 
+
+Chapter 12:  Credibility 
+218 
+ 
+Since the normal distribution is symmetric about its mean, this is equivalent to: 
+.2
+/
+)1
+(
+  
+ values
+specified
+for 
+ 
+ table
+Normal
+ 
+Standard
+ 
+in the
+ 
+ value
+ the
+is
+ 
+ 
+where
+,
+1
+2
+)1
+(
+2
+)1
+(
+
+
+
+
+
+
+
+
+
+
+
+
+
+p
+z
+ z
+ 
+Var(S)
+(S)
+k)E(S) - E
+(
+p
+p
+ 
+Consider the following simplifying assumptions about the observed experience: 
+ 
+Exposures are homogeneous (i.e., each exposure has the same expected number of claims). 
+ 
+Claim occurrence is assumed to follow a Poisson distribution; therefore, it follows that the 
+expected number of claims, E(Y), equals the variance, Var(Y). 
+ 
+There is no variation in the size of loss (i.e., constant severity).  
+ 
+Given those assumptions, the expression above can be simplified to: 
+.
+2
+)1
+( 
+
+
+
+
+
+
+
+
+
+p
+ z
+ 
+E(Y)
+kE(Y)
+ 
+ 
+By squaring both sides of the equation and rearranging the terms, the expected number of claims needed 
+for full credibility can be expressed as: 
+.
+2
+2
+)
+1
+(
+
+
+
+
+
+
+
+
+
+
+k
+z
+ 
+E(Y) 
+p
+ 
+For example, an actuary may regard the loss experience as fully credible if there is a 90% probability that 
+the observed experience is within 5% of its expected value.  This is equivalent to saying there is a 95% 
+probability that the observed losses are no more than 5% above the mean.  In the Standard Normal table, 
+the 95th percentile is 1.645 standard deviations above the mean; therefore, the expected number of claims 
+needed for full credibility is:  
+1,082.
+ 
+05
+.0
+645
+.1
+ 
+ 
+2
+
+
+
+
+
+
+
+
+E(Y)
+ 
+If the number of observed claims is equal to or greater than the standard for full credibility (1,082 in the 
+example above), the measure of credibility (Z) is 1.00:   
+.
+ 
+ where
+00
+.1
+ E(Y)
+Y 
+Z
+
+
+ 
+If the number of observed claims is less than the standard for full credibility, the square root rule is 
+applied to calculate Z: 
+.
+where
+ E(Y)
+ Y 
+ 
+E(Y)
+Y
+Z
+
+
+ 
+ 
+ 
+ 
+
+Chapter 12:  Credibility 
+219 
+ 
+In the example above, if the observed number of claims is 100, Z is calculated as: 
+0.30.
+ 
+ 
+1,082
+100 
+
+Z
+ 
+The square root formula, with the inclusion of the maximum of 1.0, does meet the three criteria discussed 
+earlier. 
+In some cases, the actuary may prefer to have a full credibility standard based on the number of exposures 
+rather than the number of claims.  The exposure standard is calculated by dividing the number of claims 
+needed for full credibility by the expected frequency.   
+The following table shows the number of claims and exposures needed for full credibility using example 
+values for k and p: 
+ 
+If the actuary rejects the assumption that there is no variation in the size of losses, the number of claims 
+needed for observed data to be considered fully credible is as follows: 
+ 
+ 
+ 
+Removing the other simplifying assumptions will also alter the calculation for the full credibility 
+standard; appropriate derivations and formulae are beyond the scope of this text.  More in-depth 
+discussion can be found in “Credibility” (Mahler and Dean 2001).     
+Simple Example 
+Calculate the credibility-weighted pure premium estimate assuming the following: 
+12.1 Example Full Credibility Standards
+(1)
+(2)
+(3)
+(4)
+(5)
+(6)
+k
+p
+z (p+1)/2
+Number of 
+Claims for 
+Full Credibilty
+Projected 
+Frequency
+Number of 
+Exposures for 
+Full Credibility
+5%
+90%
+1.645
+1,082
+5.0%
+21,640
+            
+10%
+90%
+1.645
+271
+5.0%
+5,420
+              
+5%
+95%
+1.960
+1,537
+5.0%
+30,740
+            
+10%
+95%
+1.960
+384
+5.0%
+7,680
+              
+5%
+99%
+2.575
+2,652
+5.0%
+53,040
+            
+10%
+99%
+2.575
+663
+5.0%
+13,260
+            
+(3)=
+From Normal Distribution Table
+(4)=
+[(3) / (1)] ^ 2
+(6)=
+(4) / (5)
+ 
+frequency.
+Poisson  
+ 
+assuming
+ 
+squared,
+ 
+ variation
+of
+t 
+coefficien
+ 
+ the
+is
+ 
+where
+,
+1
+2
+2
+2
+2
+2
+2
+)1
+(
+s
+s
+s
+s
+p
+μ
+σ
+ 
+ 
+μ
+σ
+x 
+k
+z
+ 
+E(Y) 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Chapter 12:  Credibility 
+220 
+ 
+ 
+The standard for full credibility is set so that the observed value is to be within +/-5% of the true 
+value 90% of the time.  
+ 
+The actuary assumes exposures are homogeneous, claim occurrence follows a Poisson 
+distribution, and there is no variation in claim costs.   
+ 
+The observed pure premium of $200 is based on 100 claims.   
+ 
+The pure premium of the related experience is $300. 
+Based on the specified values of k and p, the corresponding value on the Standard Normal table is 1.645.  
+The claim count standard for full credibility is therefore:  
+1,082.
+ 
+05
+.0
+645
+.1
+ 
+2
+
+
+
+
+
+
+
+
+E(Y) 
+ 
+Z is calculated by the square root rule as: 
+.
+30
+0
+00
+1
+082
+1
+100
+Min
+.
+.
+,
+,
+Z
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+The credibility-weighted pure premium estimate is $270 (=0.30 x $200 + (1-0.30) x $300). 
+Comments on Approach 
+This approach has three main advantages.  First, it is the most commonly used and is therefore generally 
+accepted.  Second, the data required for this approach is readily available.  Finally, the computations are 
+very straightforward.  
+The main disadvantage of this approach is that the derivation involves making several simplifying 
+assumptions that may not be true in practice (e.g., no variation in the size of losses).  Another 
+disadvantage of the classical credibility approach is that while it uses a selected complement, it does not 
+take into account the quality of the estimator compared to the latest observation and therefore judgment is 
+required. 
+The actuary should consider the advantages and disadvantages above and determine whether this 
+approach is appropriate for the particular ratemaking analysis.    
+Bühlmann Credibility 
+Bühlmann credibility is commonly referred to as least squares credibility since the goal of this approach is 
+to minimize the square of the error between the estimate and the true expected value of the quantity being 
+estimated.  When using least squares credibility, the credibility-weighted estimate is defined as:  
+Mean.
+Prior 
+ x 
+)
+0.1( 
+  
+Experience
+ 
+Observed
+ x 
+ 
+  
+Estimate
+ - Z
+Z
+
+
+  
+Whereas classical credibility considered related experience, this formula considers a prior mean, which 
+reflects the actuary’s a priori assumption of the risk estimate. 
+ 
+ 
+
+Chapter 12:  Credibility 
+221 
+ 
+In least squares credibility, Z is defined as follows: 
+.
+ K
+N 
+N
+ 
+Z 
+
+
+ 
+N represents the number of 
+observations, and K is the 
+expected value of the process 
+variance (EVPV) divided by 
+the variance of the 
+hypothetical means (VHM).  
+The ratio K can be described 
+more simply as the ratio of 
+the average risk variance and 
+the variance between risks.  In 
+practice, K can be difficult to 
+calculate.  The EVPV and 
+VHM can be derived from a 
+model or estimated based on 
+data. The former case is 
+subject to model error, while 
+the latter case is subject to 
+random fluctuation.  Further commentary on the calculation of K is beyond the scope of this text.  Chart 
+12.2 shows the sensitivity of the derived credibility for three different values of K. 
+Since K is a constant for a given situation, the credibility will meet the criteria listed earlier in the chapter.  
+The chart demonstrates this visually.   
+For Bühlmann credibility, Z 
+approaches 1.0 
+asymptotically as N gets 
+larger, whereas the classical 
+credibility measure equals 
+1.0 at the point the number of  
+claims or exposures equals 
+the full credibility standard 
+(denoted Nf)  and thereafter.  
+Chart 12.3 shows a 
+comparison of the credibility 
+at different numbers of 
+observations (N) under 
+classical and Bühlmann 
+approaches.   
+For these specific values of 
+Nf and K and for a relatively small number of observations, the Bühlmann credibility estimate is closest to 
+
+Chapter 12:  Credibility 
+222 
+ 
+the classical credibility estimate when K equals 5,000 (i.e., the line with dashes and dots is close to the 
+solid line).  As the number of observations gets larger, the Bühlmann credibility estimate is closest to the 
+classical credibility estimate when K equals 1,500 (i.e., the dotted line).  Many practitioners using 
+classical credibility make simplifying assumptions—for example, they ignore the variation in the size of 
+losses and assume that the risks in the subject experience are homogeneous.  If these same assumptions 
+are made with least squares credibility, then VHM = 0 (this is because all of the exposures have exactly 
+the same claim distribution).  When VHM = 0, then Z = 0 and no credibility is assigned to the observed 
+experience.  
+The Bühlmann credibility formula has a number of assumptions, summarized as follows: 
+ 
+(1.0-Z) is applied to the prior mean. 
+ 
+The risk parameters and risk process do not shift over time. 
+ 
+The expected value of the process variance (EVPV) of the sum of N observations increases with 
+N. 
+ 
+The variance of the hypothetical means (VHM) of the sum of N observations increases with N. 
+Simple Example 
+Calculate the Bühlmann credibility-weighted estimate assuming the following: 
+ 
+The observed pure premium is $200 based on 21 observations. 
+ 
+The expected value of the process variance (EVPV) is 2.00. 
+ 
+The variance of the hypothetical means (VHM) is 0.50.  
+ 
+The prior mean is $225. 
+Given that information, 
+,
+00
+.4
+50
+.0
+00
+.2
+VHM
+EVPV
+ 
+ 
+
+
+
+K
+ 
+and 
+;
+84
+.0
+00
+.4
+21
+21
+
+
+
+Z
+ 
+consequently, 
+  
+Credibility-weighted Pure Premium
+$204.
+ 
+ 
+$225
+ x 
+0.84)
+-
+(1
+ 
+ 
+$200
+ x 
+0.84
+ 
+ 
+
+
+
+ 
+Comments on Approach 
+While not as common as classical credibility, least squares credibility is used within the insurance 
+industry and is generally accepted.  The major challenge of this approach is the determination of the 
+expected value of the process variance and the variance of the hypothetical means.  Like classical 
+credibility, least squares credibility is also based on a set of simplifying assumptions that need to be 
+evaluated to confirm that this approach is suitable for the given situation.    
+
+Chapter 12:  Credibility 
+223 
+ 
+Bayesian Analysis 
+The third class of credibility analysis is based on Bayesian theory.  In Bayesian analysis there is no 
+specific calculation of the Z parameter, but a distributional assumption must be made.  Bayesian analysis 
+is based on the fundamental notion that the prior estimate is adjusted to reflect the new information.  The 
+new information is introduced into the prior estimate in a probabilistic manner, via Bayes Theorem.  This 
+differs from least squares credibility where the new information is introduced into the prior estimate via 
+the credibility weighting.  Note that due to the greater complexities of its probabilistic nature, Bayesian 
+analysis is not used as commonly in practice as Bühlmann credibility.   
+It is interesting to note that Bühlmann or least squares credibility is the weighted least squares line 
+associated with the Bayesian estimate.  In certain special mathematical situations, the Bayesian analysis 
+estimate is equivalent to the least squares credibility estimate.   
+DESIRABLE QUALITIES OF A COMPLEMENT OF CREDIBILITY 
+As discussed earlier, the basic formula for calculating the credibility-weighted actuarial estimate using 
+classical credibility is: 45 
+.
+Experience
+  
+Related
+ x 
+)
+ - 
+(1
+ 
+  
+Experience
+   
+Observed
+ x 
+ 
+  
+Estimate
+Z
+Z
+
+
+  
+Once the credibility of the observed data is determined, the next step is to select the related experience.  
+This is commonly referred to as the “complement of credibility.”  According to ASOP 25: 
+The actuary should use care in selecting the related experience that is to be blended with 
+the subject experience.  Such related experience should have frequency, severity, or other 
+determinable characteristics that may reasonably be expected to be similar to the subject 
+experience.  If the proposed related experience does not or cannot be adjusted to meet 
+such criteria, it should not be used.  The actuary should apply credibility procedures that 
+appropriately reflect the characteristics of both the subject experience and the related 
+experience. 
+The complement of credibility can often be more important than the observed data.  For example, if the 
+observed experience varies around the true experience with a standard deviation equal to its mean, it will 
+probably receive a very low credibility.  Therefore, the majority of the rate (in this context, expected loss 
+estimate) will be driven by the complement of credibility. 
+ 
+ 
+                                                     
+45 Theoretically when an actuary determines credibility based on the Bühlmann approach, the complement 
+of credibility should be the prior mean.  Even so, actuaries have used other related experience when 
+Bühlmann credibility is used.   
+ 
+
+Chapter 12:  Credibility 
+224 
+ 
+In “Complement of Credibility” (Boor 2004, pp. 7-8), Boor gives desirable qualities for a complement of 
+credibility: 
+1. Accurate  
+2. Unbiased  
+3. Statistically independent from the base statistic 
+4. Available 
+5. Easy to compute 
+6. Logical relationship to base statistic. 
+Rates should have as low an error variance as possible around the future expected losses being estimated.  
+A complement of credibility that helps achieve this is considered accurate. 
+The complement should not be routinely higher or lower than the observed experience.  Said another way, 
+the differences between the complement and the observed experience should average to zero over time.  If 
+this is not the case, the complement is biased and the actuary needs to determine whether or not the bias is 
+material. 
+The distinction between accurate and unbiased is important.  An unbiased statistic varies randomly 
+around the following year’s losses over many successive years, but it may not be close.  An accurate 
+statistic may be consistently higher or lower than the following year’s losses, but it is always close.   
+The complement should also be statistically independent from the base statistic.  If it is not independent, 
+then any error in the base statistic can be compounded.   
+The data required to compute the complement should be readily available.  If it is not, then the 
+complement of credibility is not practical.  The calculations should also be relatively easy to perform and 
+understand.  This is particularly important when the actuary must provide justification to a third party 
+(e.g., regulator) for approval.   
+Finally, the complement should have an explainable relationship to the observed experience.  If there is a 
+logical relationship, it is much easier to support the use of the complement to any third party reviewing 
+the actuarial justification. 
+METHODS FOR DEVELOPING COMPLEMENTS OF CREDIBILITY  
+There are a variety of complements used in practice.  The remainder of this chapter describes and 
+evaluates different methods for developing complements of credibility for both first dollar ratemaking and 
+excess ratemaking.  First dollar ratemaking is performed on products that cover claims from the first 
+dollar of loss (or after some small deductible) up to some limit.  Personal automobile, homeowners, 
+workers compensation, and professional liability insurance are good examples of first dollar products.  In 
+first dollar ratemaking, historical losses are used for the base statistic, and they are generally the same 
+magnitude as the true expected losses.  In contrast to first dollar products, excess insurance products cover 
+claims that exceed some high attachment point.  Personal umbrella policies, large deductible commercial 
+policies, and excess reinsurance are good examples of excess products.   
+ 
+ 
+
+Chapter 12:  Credibility 
+225 
+ 
+First Dollar Ratemaking 
+Boor describes six commonly used methods for developing complements for first dollar ratemaking:   
+ 
+Loss costs of a larger group that includes the group being rated 
+ 
+Loss costs of a larger related group 
+ 
+Rate change from the larger group applied to present rates 
+ 
+Harwayne’s method 
+ 
+Trended present rates 
+ 
+Competitor’s rates 
+The complements are discussed in terms of pure premium ratemaking.  Several of the methods can be 
+used with loss ratio methods by replacing the exposure units with earned premium. 
+Loss Costs of a Larger Group that Include the Group being Rated 
+This complement considers the experience of a larger group to which the subject experience belongs.  The 
+following are a few examples that may apply: 
+ 
+A multi-state insurer may use data from all states in the region to supplement the experience of 
+the state being reviewed. 
+ 
+A medical malpractice insurer may use the experience of all primary care physicians to 
+supplement the experience of primary care pediatricians.   
+ 
+An auto insurer may use the data of all insureds ages 16-19 to supplement the experience of 16-
+year-olds.  
+ 
+An insurer may use data from a longer-term period to credibility-weight observed experience that 
+is short-term. 
+Consider the following data (adapted from Boor 2004, p 11) and the possibilities for a complement of 
+credibility to the observed experience, the latest year pure premium from Rate Group A, Class 1 ( = $50). 
+ 
+ 
+Some of the obvious candidates for complement of credibility are the three-year pure premium for Rate 
+Group A, Class 1; the one- or three-year pure premium for Rate Group A; and the one- or three-year pure 
+premium for the total of all experience.  While not shown, another option is the total of all Class 1 
+experience across all rate groups.   
+ 
+ 
+12.4 Data from a Larger Group
+Rate 
+Group
+Class
+Exposures
+Pure 
+Premium
+Exposures
+Pure 
+Premium
+A
+1
+100
+50
+$            
+250
+64
+$            
+2
+300
+67
+$            
+850
+65
+$            
+3
+400
+48
+$            
+1,100
+50
+$            
+Subtotal
+800
+55
+$            
+2,200
+57
+$            
+B
+Subtotal
+600
+48
+$            
+1,700
+32
+$            
+C
+Subtotal
+1,000
+72
+$            
+2,800
+86
+$            
+D
+Subtotal
+1,600
+94
+$            
+5,600
+87
+$            
+Total
+Total
+4,000
+74
+$            
+12,300
+74
+$            
+Latest Year
+Latest 3 Years
+
+Chapter 12:  Credibility 
+226 
+ 
+The following comments summarize the advantages and disadvantages of complement of credibility 
+candidates. 
+ 
+Using the three-year pure premium of Rate Group A, Class 1 experience (i.e., $64) is 
+problematic.  The one-year subject experience comprises over one-third the exposures of the 
+three-year complement experience, thus it is most likely not independent.  Additionally, the large 
+difference between the one-year pure premium ($50) and the three-year pure premium ($64) 
+suggests the three-year data may be biased (i.e., changes in loss costs may have occurred that 
+makes the older data less relevant).  
+ 
+Using the total of all experience combined ranks better with respect to independence as the latest 
+year of Rate Group A, Class 1 is only a small portion of the total experience (100 out of 4,000 
+exposures).  A comparison of the total one and three-year pure premiums suggests the total 
+experience has low process variance; however, the difference between the one-year Rate Group 
+A, Class 1 pure premium ($50) and the one-year total pure premium ($74) implies a bias may be 
+present. 
+ 
+Using the one-year Rate Group A experience appears to be the best of the given options.  The 
+Rate Group A data should reflect risks that are more similar to Class 1.  Comparing the one-year 
+pure premium ($55) and three-year pure premium ($57) suggests it has a low process variance.  
+Also, the one-year result is not significantly different than the one-year Rate Group A, Class 1 
+result ($50), which suggests little bias.   
+ 
+The data is not readily available to use the Class 1 data from all rate groups combined.  
+Otherwise, it is possible that would be a reasonable option.    
+Evaluation 
+Because the complement is based on a greater volume of data, it is likely to have a lower process variance 
+than the subject experience.  However, as discussed in the classification ratemaking chapters, the actuary 
+tries to subdivide data into homogenous groups.  The fact that the subject experience has been split out of 
+the larger group suggests that the actuary believes the subject experience is different than the larger 
+group.  If this is the case, then the larger group is likely a biased estimator of the subject experience.  The 
+actuary may be able to make an adjustment to reduce this bias. 
+The complement can be constructed to include or exclude the subject experience.  If the complement 
+excludes the subject experience, then it is likely to be independent.  If the subject experience is included, 
+the key is to ensure it does not dominate the group.  For example, regional data, including the state, 
+should not be used as a complement if the state represents a large portion of the regional data.   
+The loss cost data of the larger group is typically available and the loss cost is easy to compute.  As long 
+as all the risks in the larger group have something in common, there is a logical connection between the 
+complement and the subject experience. 
+Loss Costs of a Larger Related Group  
+Instead of using the loss cost of the larger group to which the subject experience belongs, the actuary may 
+use the loss costs of a separate but similar, large group.  For example, a homeowners insurer may use the 
+contents loss experience from the owners forms to supplement the contents experience for the condos 
+form.   
+
+Chapter 12:  Credibility 
+227 
+ 
+Evaluation 
+This method is similar to the large group complement.  It is generally biased though the magnitude and 
+direction of bias are unknown.  If the actuary can adjust the related experience to match the exposure to 
+loss in the subject experience, the bias can be reduced.  In the example mentioned above, the actuary 
+needs to consider how the exposure to loss for condos differs from owned homes and adjust the 
+experience accordingly.  
+Since the complement does not contain the subject experience, this lack of dependence may make it a 
+better choice than the first method described. 
+The data for this method is likely readily available and the calculations should be the same as those used 
+to derive the base statistic.  Adjustments made to the related experience to correct for bias may be 
+difficult to explain.  If the groups are closely related, then the complement will have a logical relationship 
+to the base statistic.   
+Rate Change from the Larger Group Applied to Present Rates 
+The loss costs of a larger related group may be a biased complement of credibility.  This third approach 
+mitigates this problem by using the rate change indicated for a larger group applied to the current loss cost 
+of the subject experience, rather than using the larger group’s loss costs directly.   
+The complement (C) can be expressed as: 
+.
+Cost
+  
+Loss
+  
+Average
+Current  
+  
+Group
+Larger  
+Cost
+  
+Loss
+  
+Indicated
+  
+Group
+Larger  
+Experience
+Subject 
+ 
+of
+Cost 
+ 
+Loss
+Current 
+
+
+
+
+
+
+
+
+C
+ 
+As way of example, assume the following: 
+ 
+Current loss cost of subject experience is $200. 
+ 
+Indicated loss cost of larger group is $330. 
+ 
+Current average loss cost of larger group is $300. 
+Then the complement of credibility, to be blended with the subject experience loss cost, is calculated as 
+follows: 
+$220.
+$300
+$330
+$200
+
+
+
+C
+ 
+Evaluation 
+Even when the overall loss costs for the subject experience and the larger group are different, this 
+complement is largely unbiased.  Assuming the rate changes are relatively small, this complement is 
+likely to be accurate over the long term.  The level of independence depends on the size of the subject 
+experience relative to the larger group.  The data for this method is most likely readily available, and the 
+calculations are very straightforward.  In many instances it is logical that the rate change indicated for a 
+larger related group is indicative of the rate change for the subject experience. 
+
+Chapter 12:  Credibility 
+228 
+ 
+Harwayne’s Method 
+Harwayne’s Method is used when the subject experience and related experience have significantly 
+different distributions, and the related experience requires adjustment before it can be blended with the 
+subject experience.  A prime application of Harwayne’s method is when the subject experience is within a 
+specific geographical area (e.g., a state), and the desired complement of credibility considers related 
+experience in other geographical areas.  The other geographical areas (e.g., other states) have distinctly 
+different cost levels than the subject experience due to circumstances such as legal environment and 
+population density.  For example, the pure premium may be 10% higher for every risk in a complement 
+state compared to the otherwise identical risks in the subject state; in this case, the actuary should adjust 
+the loss costs from that state prior to using them as a complement of credibility.   
+In this application of Harwayne’s method, the complement of credibility is determined using countrywide 
+data (excluding the base state being reviewed), but the countrywide data is adjusted to remove overall 
+differences between states.  The following example illustrates the steps necessary to calculate the 
+complement for class 1 of state A.   
+  
+The first step is to calculate the average pure premium for state A: 
+ 
+3.33.
+125
+100
+4.00
+125
+2.50
+100
+A
+
+
+
+
+
+
+L
+ 
+The next step is to calculate the average pure premium for states B and C based on the state A exposure 
+distribution by class: 
+ 
+ 
+3.46.
+125
+100
+4.00
+125
+2.78
+100
+ˆ
+3.97,
+125
+100
+4.62
+125
+3.16
+100
+ˆ
+C
+B
+
+
+
+
+
+
+
+
+
+
+
+
+L
+L
+ 
+ 
+ 
+12.5 Harwayne Method
+State
+Class
+Exposure
+Losses
+Pure 
+Premium
+A 
+1
+100
+250
+$        
+2.50
+     
+2
+125
+500
+$        
+4.00
+     
+Subtotal
+225
+750
+$        
+3.33
+     
+B
+1
+190
+600
+$        
+3.16
+     
+2
+325
+1,500
+$     
+4.62
+     
+Subtotal
+515
+2,100
+$     
+4.08
+     
+C
+1
+180
+500
+$        
+2.78
+     
+2
+450
+1,800
+$     
+4.00
+     
+Subtotal
+630
+2,300
+$     
+3.65
+     
+All
+1
+470
+1,350
+$     
+2.87
+     
+2
+900
+3,800
+$     
+4.22
+     
+Total
+1,370
+5,150
+$     
+3.76
+     
+
+Chapter 12:  Credibility 
+229 
+ 
+Adjustment factors are calculated by dividing the average pure premium for state A by the reweighted 
+average pure premium for B and C: 
+ 
+0.96.
+3.46
+3.33
+ˆ
+0.84,
+3.97
+3.33
+ˆ
+C
+A
+C
+B
+A
+B
+
+
+
+
+
+
+L
+L
+F
+L
+L
+F
+ 
+ 
+These adjustment factors are applied to the class 1 pure premium in states B and C, respectively, to adjust 
+for the difference in loss costs by state A.  The adjusted loss costs for class 1 in states B and C, 
+respectively, are: 
+ 
+2.67.
+0.96
+2.78
+ˆ
+2.65,
+0.84
+3.16
+ˆ
+C
+C
+1,
+C
+ 
+1,
+B
+B
+1,
+B
+ 
+1,
+
+
+
+
+
+
+
+
+
+
+F
+L
+L
+F
+L
+L
+ 
+The complement of credibility (C) is then calculated by combining the adjusted Class 1 loss costs by state 
+into a single Class 1 loss cost according to the proportion of class 1 risks in each state: 
+ 
+2.66.
+180
+190
+180
+2.67
+190
+2.65
+ˆ
+ˆ
+C
+1,
+B
+1,
+C
+1,
+C
+1,
+B
+1,
+B
+1,
+
+
+
+
+
+
+
+
+
+
+
+X
+X
+X
+L
+X
+L
+C
+ 
+Evaluation 
+The complement derived from this method is unbiased as it adjusts for the distributional differences.  The 
+use of multi-state data generally implies the complement is reasonably accurate as long as there is 
+sufficient countrywide data to minimize the process variance.  Also, since the subject experience and 
+related experience consider data from different states, the complement is considered mostly independent.  
+The data for the complement is usually available but the computations can be time-consuming and 
+complicated.  While the complement bears a logical relationship to the subject experience, the 
+complement may be harder to explain because of the computational complexity. 
+Trended Present Rates 
+In cases where there is no larger group to use for the complement, actuaries may rely on the current rates 
+as the best available proxy for the indicated rate.  Typically, two adjustments are made before using the 
+current rates to make this a suitable alternative.  
+First, insurers do not always implement the rate that is indicated (reasons for this are discussed in Chapter 
+13).  Thus, the current rates should be adjusted to what was previously indicated rather than what was 
+implemented. 
+Second, changes in loss cost level may have occurred between the time the current rates were 
+implemented and the time of the review.  Sources of such changes may be monetary inflation, 
+
+Chapter 12:  Credibility 
+230 
+ 
+distributional shifts, safety advances, etc.  The current rate therefore should be adjusted for any applicable 
+trends.  The actuary should select an appropriate annual loss trend, often consistent with the trend used in 
+the latest rate level indication, and apply it from the original target effective date of the current rates to the 
+target effective date of the new rates.  The original target effective date of the current rates is used as the 
+“trend from” date rather than the actual effective date to account for the fact that changes are not always 
+implemented when planned and rates may remain in effect for shorter or longer than planned.  By using 
+the target effective date, the actuary is trending from the date assumed in the prior actuarial analysis. 
+Combining these two adjustments, the complement of credibility (C) that is used to supplement the 
+indicated rate is calculated as follows:    
+.
+Review
+Last 
+ with 
+d
+Implemente
+Cost 
+ 
+Loss
+Cost
+  
+Loss
+ 
+Indicated
+Prior 
+ 
+Factor 
+ 
+Trend
+ 
+Loss
+ 
+ 
+Rate
+Present  
+
+
+
+C
+ 
+ 
+By way of example, assume the following: 
+ 
+Present average rate is $200. 
+ 
+The selected annual loss trend is 5%. 
+ 
+The rate change indicated in the last review was 10%, and the target effective date was January 1, 
+2011. 
+ 
+The rate change implemented with the last review was 6%, and the actual effective date was 
+February 1, 2011. 
+ 
+The proposed effective date of the next rate change is January 1, 2013. 
+Before calculating the complement of credibility, the loss trend length must be measured.  This is the 
+length from the target effective date of the last rate review (January 1, 2011) to the target effective date of 
+the next rate change (January 1, 2013), or two years. 
+Then the complement of credibility is calculated as follows: 
+$229.
+1.06
+1.10
+)
+05
+.1(
+$200
+2
+
+
+
+x
+C
+ 
+This procedure can also be used to calculate a complement for an indicated rate change factor when using 
+the loss ratio approach: 
+  
+.
+Factor
+ 
+Change
+ 
+Rate
+ d
+Implemente
+Prior 
+Factor
+ 
+Change
+ 
+Rate
+ 
+Indicated
+Prior 
+ 
+Factor
+ 
+Trend
+ 
+Premium
+Factor
+ 
+Trend
+ 
+Loss
+ 
+
+
+C
+ 
+Evaluation 
+The accuracy of this complement depends largely on the process variance of the historical loss costs.  
+That is why it is used primarily for indications with voluminous data.  This complement is unbiased since 
+pure trended loss costs (i.e., no updating for more recent experience) are unbiased.  This complement may 
+or may not be independent depending on the historical experience used to determine the subject 
+experience and complement.  For example, if the complement comes from a review that used data from 
+
+Chapter 12:  Credibility 
+231 
+ 
+years 2007 through 2010, and the subject experience is based on data from 2008 through 2011, then the 
+two are not independent.   
+The data required is readily available, the calculations are very straightforward, and the approach is easily 
+explainable.   
+Competitors’ Rates 
+New or small companies with small volumes of data often find their own data too unreliable for 
+ratemaking.  In such cases the actuary may use the competitors’ rates as a complement.  The 
+rationalization is that if the competitors have a much larger number of exposures, the competitors’ 
+statistics have less process error. 
+Evaluation 
+An actuary must consider that competitors’ manual rates are not only based on the competitors’ loss costs 
+but also reflect marketing considerations, judgment, and the effects of the regulatory process—all of 
+which can introduce inaccuracy to the rates.  Competitors may also have different underwriting and claim 
+practices than the subject company, which creates bias that may be difficult to quantify.  The competitors’ 
+rates will be independent of the company data. 
+While the calculations may be straightforward, the data needed for this complement may be difficult or 
+time-consuming to obtain.  Even with the potential differences between competitors, the rates of a similar 
+competitor bear a logical relationship and are generally accepted as a complement by regulators.  This 
+complement is often considered the only viable alternative. 
+Excess Ratemaking 
+Excess ratemaking usually deals with volatile and low volumes of data so the complement chosen is often 
+more important than the subject experience.  Complements for excess ratemaking are structured around 
+the special problems of excess ratemaking.  Typically there are very few claims in the excess layers; 
+consequently, actuaries try to predict the volume of excess loss costs using loss costs below the 
+attachment point.  Losses for some lines of business (e.g., liability) may also be slow to develop, and 
+inflation inherent in excess layers is different (usually higher) than that of the total limits experience.   
+Boor describes four methods that can be used to determine the complement of credibility for excess 
+ratemaking analyses: 
+ 
+Increased limits analysis 
+ 
+Lower limits analysis 
+ 
+Limits analysis 
+ 
+Fitted curves 
+The first three methods use available loss data and increased limits factors to calculate the complement of 
+credibility.  The last method relies on historical data to fit curves, and the complement is calculated from 
+the distribution. 
+
+Chapter 12:  Credibility 
+232 
+ 
+Increased Limits Factors (ILFs) 
+Actuaries use this first method when data is available for ground-up losses through the attachment point 
+(i.e., losses have not been truncated at any point below the bottom of the excess layer being priced).  
+Increased limits factors are used to adjust losses capped at the attachment point to produce an estimate of 
+losses in the specific excess layer. 
+The complement is defined as follows: 
+ 
+,
+0
+1
+ILF
+ILF
+ILF
+ILF
+ILF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.
+L
+L
+C
+A
+L
+A
+A
+A
+A
+L
+A
+A
+ 
+where 
+ 
+A
+L are the losses capped at the attachment point A; 
+ 
+ILFA is the increased limits factor for the attachment point A; 
+ 
+ILFA+L is the increased limits factor for the sum of the attachment point A and the excess insurer’s 
+limit of liability L. 
+For example, calculate the complement of credibility for the excess layer between $500,000 and $750,000 
+(i.e., $250,000 of coverage in excess of $500,000).  Assume the losses capped at $500,000 are $2,000,000 
+and the following increased limits factors apply:  
+ 
+The complement of credibility is calculated as follows: 
+400,000.
+1.0
+2.50
+3.00
+$2,000,000
+
+
+
+
+
+
+
+
+
+
+C
+ 
+Evaluation 
+If the subject experience has a different size of loss distribution than that used to develop the increased 
+limits factors, then the results of this procedure will be biased.  This is particularly relevant as the 
+increased limits factors may be based on industry data rather than the insurer’s own data.  Despite the 
+issues with the accuracy, this is often the best available estimate. 
+The error with this approach is not the process error but rather the parameter error associated with the 
+selection of the increased limits factors.  Thus, the error associated with this estimate tends to be 
+independent of the error associated with the base statistic.   
+12.6 ILFs
+ Limit of 
+Liability 
+Increased 
+Limits 
+Factor
+100,000
+$    
+1.00
+250,000
+$    
+1.75
+500,000
+$    
+2.50
+750,000
+$    
+3.00
+1,000,000
+$ 
+3.40
+
+Chapter 12:  Credibility 
+233 
+ 
+This procedure requires increased limits factors—preferably industry factors—and ground-up losses that 
+have not been truncated below the attachment point.  To the extent that information is available, the 
+procedure is practical.  In terms of acceptability, however, this estimate is more logically related to the 
+data below the attachment point (which is used for the projection) than to the data in the layer, and this 
+may be controversial. 
+Lower Limits Analysis 
+The complement discussed above uses losses capped at the attachment point to estimate the losses in the 
+excess layer being priced.  If those losses are too sparse to be reliable, the actuary may prefer to use losses 
+capped at a limit lower than the attachment point.  This lower limit can often be the basic limit.   
+The formula for this complement is:   
+,
+ILF
+ILF
+ILF
+
+
+
+
+
+
+
+
+
+
+d
+A
+L
+A
+d
+L
+C
+ 
+where 
+ 
+d
+L are the losses capped at the lower limit, d; 
+ 
+ILFA is the increased limits factor for the attachment point A; 
+ 
+ILFd  is the increased limits factor for the lower limit, d. 
+ 
+ILFA+L is the increased limits factor for the sum of the attachment point A and the excess insurer’s 
+limit of liability L (i.e., this sum represents the top of the excess layer being priced). 
+Note that the first excess procedure is a special case of this procedure where the lower limit, d, is equal to 
+the attachment point. 
+For example, calculate the complement of credibility for the layer between $500,000 and $750,000.  
+Assume the losses capped at $250,000 are $1,500,000, and the increased limits factors from Table 12.6 
+apply.  The complement of credibility is calculated as follows: 
+.
+571
+428
+75
+1
+50
+2
+00
+3
+000
+500
+1
+,
+$
+.
+.
+.
+,
+,
+$
+C
+
+
+
+
+
+
+
+
+
+
+ 
+Evaluation 
+It is difficult to determine whether this is more or less accurate than the previously discussed complement.  
+Intuitively, this complement will be more biased as the differences in size of loss distributions will be 
+exacerbated when using losses truncated at lower levels.  On the other hand, using losses capped at lower 
+limits may increase the stability of the estimate.  Like the previous complement, the error associated with 
+this complement is generally independent of the error of the base statistic.  
+Insurers generally code losses capped at basic limits for statistical reporting purposes.  Losses capped at 
+the attachment point are generally important for accounting, too.  If some other lower limit is chosen, the 
+data may not be as available.  The calculations are no more difficult than the previously discussed 
+
+Chapter 12:  Credibility 
+234 
+ 
+complement, and this complement suffers the criticism of being more logically related to the lower limits 
+losses rather than the losses in the layer being priced. 
+Limits Analysis 
+The previous approaches work well when losses capped at a single point are available, but sometimes 
+they are not.  Primary insurers generally sell policies with a wide variety of policy limits.  Some of the 
+individual policy limits fall below the attachment point, and some extend beyond the top of the excess 
+layer.  The implication is that each policy’s limit and increased limit factor needs to be considered in the 
+calculation of the complement.   
+For this approach the actuary analyzes the policies at each limit of coverage separately.  The actuary 
+calculates the estimated losses in a given layer using the premium volume and expected loss ratio in that 
+layer.  Then the actuary performs an increased limits factor analysis on each first dollar limit’s loss costs 
+separately.  The formula for the complement of credibility is as follows: 
+
+,
+ILF
+ILF
+ILF
+LR
+)
+min(
+A
+d
+d
+A
+L
+d,A
+dP
+C
+
+
+
+
+
+
+ 
+where   
+ 
+LR= Total limits loss ratio, 
+ 
+Pd= Total premium for policies with limit d. 
+ 
+The ILFs have the same meaning as previously discussed. 
+The following shows an example of the calculation of the expected loss for the layer between $500,000 
+and $750,000 assuming a total limits loss ratio of 60%. 
+ 
+12.7 Example Calculation for Limits Approach
+(1)
+(2)
+(3)
+(4)
+(5)
+(6)
+(7)
+(8)
+(9)
+Limit of 
+Liability (d )
+ Premium 
+Expected 
+Loss Ratio
+ Expected Total 
+Losses 
+ILF @ 
+d
+ILF @ 
+A
+ILF @ 
+A+L
+% Loss 
+In Layer
+Expected 
+Loss in 
+Layer
+100,000
+$      
+1,000,000
+$         
+60.0%
+600,000
+$           
+1.00
+2.50
+3.00
+0.0%
+-
+$             
+250,000
+$      
+500,000
+$            
+60.0%
+300,000
+$           
+1.75
+2.50
+3.00
+0.0%
+-
+$             
+500,000
+$      
+200,000
+$            
+60.0%
+120,000
+$           
+2.50
+2.50
+3.00
+0.0%
+-
+$             
+750,000
+$      
+200,000
+$            
+60.0%
+120,000
+$           
+3.00
+2.50
+3.00
+16.7%
+20,040
+$        
+1,000,000
+$   
+75,000
+$              
+60.0%
+45,000
+$             
+3.40
+2.50
+3.00
+14.7%
+6,615
+$          
+Total
+1,975,000
+$         
+1,185,000
+$        
+26,655
+$        
+(4)=
+(2) x (3)
+if d <=A  then 0.0%
+(8)= if A < d  <=A+L then [(5)- (6)]/(5)
+if d >A+L then [(7)- (6)]/(5)
+(9)=
+(4) x (8)
+
+Chapter 12:  Credibility 
+235 
+ 
+Evaluation 
+This complement is biased and inaccurate to the same extent as the prior two complements, and it 
+involves relying on the additional assumption that the expected loss ratio does not vary by limit.  
+Because this type of excess loss analysis is typically undertaken by reinsurers that do not have access to 
+the full loss distribution, this may be the only method available.  It is more time-consuming to compute, 
+but the calculations are straightforward.  It generates the same criticism as the other methods because it is 
+not based on actual data from the layer being priced. 
+Fitted Curves 
+As discussed in the increased limits section in Chapter 11, actual loss distributions can be very volatile, 
+especially in the tail of the distribution (i.e., the higher losses).  As such, any estimates based directly on 
+actual data are subject to inaccuracy due to the volatility.  Actuaries may fit curves to the actual data to 
+smooth out the volatility and to extrapolate the distribution to higher limits.  
+Once the curve is fitted, the techniques described in Chapter 11 can be used to determine the expected 
+losses in the layer being priced.  The following formula is used to determine the percentage of the curve’s 
+total losses that are expected in the excess layer: 
+.
+)
+(
+)
+(
+Layer 
+in 
+ 
+Losses
+ 
+%
+
+
+
+
+
+
+
+
+
+
+
+
+
+xf(x)dx
+Lf(x)dx
+f(x)dx
+A
+x
+L
+A, A
+L
+A
+A
+L
+A
+ 
+This percentage can be applied to the total limits loss costs to determine the expected losses in the layer. 
+Evaluation 
+This complement tends to be less biased and more stable than the other excess methods, assuming that the 
+fitted curve replicates the general shape of the actual data.  This approach tends to be significantly more 
+accurate than the others when there are relatively few claims in the higher layers.   
+Because the curve-fitting process involves the underlying data, it can be heavily dependent on the 
+existence or non-existence of larger claims.  Thus, the error associated with a complement developed 
+using this approach will tend to be less independent than complements determined from the other 
+approaches.   
+This approach tends to be the most computationally complex and requires data that may not be readily 
+available.  The complement developed using this approach tends to be the most logically related to the 
+losses in the layer than the others as the data is more fully used.  However, the computational complexity 
+may make it difficult to communicate. 
+ 
+ 
+
+Chapter 12:  Credibility 
+236 
+ 
+CREDIBILITY EXAMPLES 
+This chapter provided different techniques that can be used to blend an actuarial estimate based on 
+observed experience with related experience in order to improve the estimate of expected values.  The 
+actuarial estimate and the complement can take many forms, as demonstrated in the appendices.  The 
+actuarial estimate in Appendix A is the indicated rate change from the subject experience.  It is credibility 
+weighted with the trended present rates indicated rate change.  Appendix B credibility weights the 
+statewide ex-catastrophe pure premium with a regional ex-catastrophe pure premium.  The actuarial 
+estimate in Appendix C is the indicated rate change from the subject experience.  It is credibility-
+weighted with the countrywide indicated rate change.  Appendix E, a univariate classification analysis, 
+credibility weights the indicated pure premium relativities with the current pure premium relativities.  
+Before blending these two sets of relativities, each is normalized such that the weighted average relativity 
+is 1.00. 
+CREDIBILITY WHEN USING STATISTICAL METHODS 
+When performing a multivariate classification analysis using statistical techniques such as generalized 
+linear models (as discussed in Chapter 10), statistical diagnostics provided with the model results are used 
+to gauge to what extent the model results are meaningful given the data provided.  Examples of statistical 
+diagnostics include standard errors of the parameter estimates and standardized deviance tests (e.g., Chi-
+Square or F-test), as well as practical tests such as consistency of model results over time.  The modeler 
+considers this information when selecting the final model structure and the final rate 
+differentials.  Statistical methods also provide diagnostics that inform the modeler of the overall 
+appropriateness of the model assumptions (e.g., the link function or error term selected).  Examples of 
+such diagnostics include deviance residual plots and leverage plots.   
+Typically, the results of a multivariate classification analysis are not credibility-weighted with traditional 
+(univariate) actuarial estimates.  Some research has been conducted around incorporating Bayesian 
+analysis into the statistical modeling process (for example, the use of hierarchical models), but this is 
+beyond the scope of this text. 
+SUMMARY 
+The purpose of this chapter was to provide a broad overview of the credibility procedures used in 
+ratemaking.  As discussed, the credibility-weighted actuarial estimate is expressed by the following 
+formula: 
+ 
+.
+Experience
+  
+Related
+ x 
+)
+ - 
+(1
+ 
+  
+Experience
+   
+Observed
+ x 
+ 
+  
+Estimate
+Z
+Z
+
+
+ 
+The classical credibility method and least squares credibility method prescribe different procedures for 
+developing the credibility measure, Z.  Classical credibility is effective in developing results that 
+minimize the fluctuation from the related experience.  Least squares credibility is used to generate 
+accurate rates.  In Bayesian analysis, there is no specific calculation of Z; it is based on the fundamental 
+notion that the prior estimate is adjusted to reflect the new information, which is introduced into the prior 
+estimate in a probabilistic manner.  Once the method for developing the credibility measure is selected, 
+
+Chapter 12:  Credibility 
+237 
+ 
+the actuary should be careful to understand and appropriately document any simplifying assumptions that 
+are made. 
+The chapter also provided desirable qualities for the selection of the related experience, referred to as the 
+complement of credibility.  Finally, the chapter outlined several methods for developing the complement 
+of credibility for both first dollar and excess ratemaking, and evaluated each method within the context of 
+specified evaluation criteria. 
+ 
+ 
+
+Chapter 12:  Credibility 
+238 
+ 
+KEY CONCEPTS IN CHAPTER 12 
+ 
+1. Criteria for measures of credibility 
+ 
+2. Methods for determining credibility 
+a. Classical credibility 
+b. Bühlmann credibility 
+c. Bayesian analysis 
+ 
+3. Desirable qualities for the complement of credibility 
+a. Accurate 
+b. Unbiased 
+c. Independent  
+d. Available  
+e. Easy to calculate 
+f. Logical relationship to the base statistic  
+ 
+4. Methods for determining the complement of credibility 
+a. First dollar ratemaking 
+i. Loss costs of a larger group that includes the group being rated 
+ii. Loss costs of a larger related group 
+iii. Rate change from the larger group applied to present rates 
+iv. Harwayne’s method 
+v. Trended present rates 
+vi. Competitors’ rates 
+ 
+b. Excess ratemaking 
+i. Increased limits analysis 
+ii. Lower limits analysis 
+iii. Limits analysis 
+iv. Fitted curves 
+ 
+5. Credibility when using statistical modeling methods 

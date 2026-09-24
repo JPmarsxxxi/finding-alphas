@@ -1,0 +1,486 @@
+ 
+210
+Chapter 10.  RiskMetrics volatility and correlation ﬁles
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Table 10.2
+ 
+Currency and commodity identiﬁers
+ 
+Currency Codes
+ Americas
+Asia Paciﬁc
+Europe and Africa
+Commodity Codes
+ 
+ARS
+Argentine peso
+AUD 
+Australian dollar
+ATS 
+Austrian shilling
+ALU
+Aluminum
+CAD
+Canadian dollar
+HKD
+Hong Kong dollar
+BEF
+Belgian franc
+COP
+Copper
+MXN
+Mexican peso
+IDR
+Indonesian rupiah
+CHF
+Swiss franc
+GAS
+Natural gas
+USD
+U.S. dollar
+JPY
+Japanese yen
+DEM
+Deutsche mark
+GLD
+Gold
+EMB
+EMBI+
+ 
+*
+ 
+KRW
+Korean won
+DKK
+Danish kroner
+HTO
+NY Harbor #2 heating oil
+MYR
+Malaysian ringgit
+ESP
+Spanish peseta
+NIC
+Nickel
+NZD
+New Zealand dollar
+FIM
+Finnish mark
+PLA
+Platinum
+PHP
+Philippine peso
+FRF
+French franc
+SLV
+Silver
+SGD
+Singapore dollar
+GBP
+Sterling
+UNL
+Unleaded gas
+THB
+Thailand baht
+IEP
+Irish pound
+WTI
+Light Sweet Crude
+TWD
+Taiwan dollar
+ITL
+Italian lira
+ZNC
+Zinc
+NLG
+Dutch guilder
+NOK
+Norwegian kroner
+PTE
+Portuguese escudo
+SEK
+Swedish krona
+XEU
+ECU
+ZAR
+South African rand
+* EMBI+ stands for the J.P. Morgan Emerging Markets Bond Index Plus. 
+ 
+Table 10.3 
+ 
+Maturity and asset class identiﬁers
+ 
+Maturity
+Instrument Sufﬁx Codes
+Foreign
+exchange
+Equity 
+indices
+Money 
+market
+Swaps
+Gov’t bonds
+Commodities
+ 
+Spot
+XS
+SE
+–
+–
+–
+C00
+1m
+–
+–
+R030
+–
+–
+–
+3m
+–
+–
+R090
+–
+–
+C03
+6m
+–
+–
+R180
+–
+–
+C06
+12m
+–
+–
+R360
+–
+–
+C12
+15m
+–
+–
+–
+–
+–
+C15
+18m
+–
+–
+–
+–
+–
+C18
+24m (2y)
+–
+–
+–
+S02
+Z02
+C24
+27m
+–
+–
+–
+–
+–
+C27
+36m (3y)
+–
+–
+–
+S03
+Z03
+C36
+4y
+–
+–
+–
+S04
+Z04
+–
+5y
+–
+–
+–
+S05
+Z05
+–
+7y
+–
+–
+–
+S07
+Z07
+–
+9y
+–
+–
+–
+–
+Z09
+–
+10y
+–
+–
+–
+S10
+Z10
+–
+15y
+–
+–
+–
+–
+Z15
+–
+20y
+–
+–
+–
+–
+Z20
+–
+30y
+–
+–
+–
+–
+Z30
+–
+
+ 
+Sec. 10.4  Format of volatility files
+211
+Part IV:  RiskMetrics Data Sets
+ 
+For example, we identify the Singapore dollar foreign exchange rate by SGD.XS, the U.S. dollar 
+6-month money market rate by USD.R180, the CAC 40 index by FRF.SE, the 2-year sterling swap 
+rate by GBP.S02, the 10-year Japanese government bond (JGB) by JPY.Z10, and the 3-month nat-
+ural gas future by GAS.C03.
+ 
+10.4  Format of volatility ﬁles
+ 
+Each daily and monthly volatility ﬁle starts with a set of header lines that begin with an asterisk (*) 
+and describe the contents of the ﬁle. Following the header lines are a set of record lines (without 
+an asterisk) containing the daily or monthly data.
+ Table 10.4 shows a portion of a daily volatility ﬁle.
+In this table, each line is interpreted as follows:
+• Line 1 identiﬁes whether the ﬁle is a daily or monthly ﬁle.
+• Line 2 lists ﬁle characteristics in the following order:  the number of data columns, the num-
+ber of record lines, the ﬁle creation date, and the version number of the ﬁle format.
+• Lines 3–10 are a disclaimer.
+• Line 11 contains comma-separated column titles under which the volatility data is listed.
+• Lines 12 through the last line at the end of ﬁle (not shown) represent the record lines, which 
+contain the comma-separated volatility data formatted as shown in Table 10.5.
+ 
+Table 10.4
+ 
+Sample volatility ﬁle
+Line #
+Volatility ﬁle 
+ 
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+*Estimate of volatilities for a one day horizon
+*COLUMNS=2, LINES=418, DATE=11/14/96, VERSION 2.0
+*RiskMetrics is based on but differs signiﬁcantly from the market risk management systems
+*developed by J.P. Morgan for its own use. J.P. Morgan does not warranty any results obtained 
+*from use of the RiskMetrics methodology, documentation or any information derived from
+*the data (collectively the “Data”) and does not guarantee its sequence, timeliness, accuracy or
+*completeness. J.P. Morgan may discontinue generating the Data at any time without any prior 
+*notice. The Data is calculated on the basis of the historical observations and should not be relied 
+*upon to predict future market movements. The Data is meant to be used with systems developed
+*by third parties. J.P. Morgan does not guarantee the accuracy or quality of such systems.
+*SERIES, PRICE/YIELD,DECAYFCTR,PRICEVOL,YIELDVOL
+ATS.XS.VOLD,0.094150,0.940,0.554647,ND
+AUD.XS.VOLD, 0.791600,0.940,0.643127,ND
+BEF.XS.VOLD, 0.032152,0.940,0.546484,ND
+
+ 
+212
+Chapter 10.  RiskMetrics volatility and correlation ﬁles
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+For example, in Table 10.4, the ﬁrst value ATS.XS.VOLD in Line 12 corresponds to the 
+SERIES column title, and identiﬁes the series to be a USD/ATS daily volatility series. Simi-
+larly, the remaining values are interpreted as follows:  The value 0.094150 was used as the 
+price/yield level in the volatility calculation. The value 0.940 was used as the exponential 
+moving average decay factor. The value 0.554647% is the price volatility estimate. The value 
+“ND” indicates that the series has no yield volatility.
+ 
+10.5  Format of correlation ﬁles
+ 
+Daily and monthly correlation ﬁles are formatted similar to the volatility ﬁles (see Section 10.4), 
+and contain analogous header and record lines (see Table 10.6). Each ﬁle comprises the lower half 
+of the correlation matrix for the series being correlated, including the diagonal, which has a value 
+of “1.000.” (The upper half is not shown since the daily and monthly correlation matrices are sym-
+metrical around the diagonal. For example, 3-month USD LIBOR to 3-month DEM LIBOR has 
+the same correlation as 3-month DEM LIBOR to 3-month USD LIBOR.)
+ 
+Table 10.5
+ 
+Data columns and format in volatility ﬁles 
+ 
+Column title
+(header line)
+Data
+(record lines)
+Format of volatility data
+ 
+SERIES
+Series name
+See Section 10.3 for series naming conventions.
+In addition, each series name is given an extension, either 
+“.VOLD” (for daily volatility estimate), or “.VOLM” (for 
+monthly volatility estimate).
+PRICE/YIELD
+Price/Yield level
+#.###### or “NM” if the data cannot be published.
+DECAYFCTR
+Exponential moving
+average decay factor
+#.###
+PRICEVOL
+Price volatility estimate
+#.###### (% units)
+YIELDVOL
+Yield volatility estimate
+#.###### (% units) or “ND” if the series has no yield vola-
+tility (e.g., FX rates).
+
+ 
+Sec. 10.5  Format of correlation files
+213
+Part IV:  RiskMetrics Data Sets
+ 
+In Table 10.6, each line is interpreted as follows:
+• Line 1 identiﬁes whether the ﬁle is a daily or monthly ﬁle.
+• Line 2 lists ﬁle characteristics in the following order:  the number of data columns, the num-
+ber of record lines, the ﬁle creation date, and the version number of the ﬁle format.
+• Lines 3–10 are a disclaimer.
+• Line 11 contains comma-separated column titles under which the correlation data is listed.
+• Lines 12 through the last line at the end of the ﬁle (not shown) represent the record lines, 
+which contain the comma-separated correlation data formatted as shown in Table 10.7. 
+For example, Line 13 in Table 10.6 represents a USD/ATS to USD/AUD daily correlation 
+estimate of 
+ 
+−
+ 
+0.251566 measured using an exponential moving average decay factor of 0.940 
+(the default value for the 1-day horizon).
+ 
+Table 10.6
+ 
+Sample correlation ﬁle
+Line #
+Correlation ﬁle 
+ 
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+*Estimate of correlations for a one day horizon
+*COLUMNS=2, LINES=087571, DATE=11/14/96, VERSION 2.0
+*RiskMetrics is based on but differs signiﬁcantly from the market risk management systems
+*developed by J.P. Morgan for its own use. J.P. Morgan does not warranty any results obtained 
+*from use of the RiskMetrics methodology, documentation or any information derived from
+*the data (collectively the “Data”) and does not guarantee its sequence, timeliness, accuracy or
+*completeness. J.P. Morgan may discontinue generating the Data at any time without any prior 
+*notice. The Data is calculated on the basis of the historical observations and should not be relied 
+*upon to predict future market movements. The Data is meant to be used with systems developed
+*by third parties. J.P. Morgan does not guarantee the accuracy or quality of such systems.
+*SERIES, CORRELATION
+ATS.XS.ATS.XS.CORD,1.000000
+ATS.XS.AUD.XS.CORD, -0.251566
+ATS.XS.BEF.XS.CORD, 0.985189
+ 
+Table 10.7
+ 
+Data columns and format in correlation ﬁles
+ 
+Column title
+(header line)
+Correlation data
+(record lines)
+Format of correlation data
+ 
+SERIES
+Series name
+See Section 10.3 for series naming conventions.
+In addition, each series name is given an extension, either “.CORD” 
+(for daily correlation), or “.CORM” (for monthly correlation).
+ 
+CORRELATION
+Correlation 
+coefﬁcient
+#.######
+Correlation coefﬁcients are computed by using the same expo-
+nential moving average method as in the volatility ﬁles (i.e., 
+decay factor of 0.940 for a 1-day horizon, and 0.970 for a 
+1-month horizon.)
+
+ 
+214
+Chapter 10.  RiskMetrics volatility and correlation ﬁles
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+10.6  Data series order
+ 
+Data series in the volatility and correlation ﬁles are sorted ﬁrst alphabetically by SWIFT code and 
+commodity class indicator, and then by maturity within the following asset class hierarchy:  for-
+eign exchange, money markets, swaps, government bonds, equity indices, and commodities.
+ 
+10.7  Underlying price/rate availability
+ 
+Due to legal considerations, not all prices or yields are published in the volatility ﬁles. What is 
+published are energy future contract prices and the yields on foreign exchange, swaps, and govern-
+ment bonds. The current level of money market yields can be approximated from Eq. [10.1] by 
+using the published price volatilities and yield volatilities as well as the instruments’ modiﬁed 
+durations.
+[10.1]
+Current yield
+σPrice
+σYield Modified  Duration
+⋅
+(
+)
+⁄
+=

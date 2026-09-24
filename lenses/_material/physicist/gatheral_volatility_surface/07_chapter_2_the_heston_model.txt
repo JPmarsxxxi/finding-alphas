@@ -1,0 +1,562 @@
+CHAPTER2
+The Heston Model
+I
+n this chapter, we present the most well-known and popular of all stochas-
+tic volatility models, the Heston model, and provide a detailed derivation
+of the Heston European option valuation formula, implementation of which
+follows straightforwardly from the derivation. We also show how to dis-
+cretize the Heston process for Monte Carlo simulation and with some
+appreciation for the complexity and expense of numerical computations,
+suggest a main reason for the Heston model’s popularity.
+THE PROCESS
+The Heston model (Heston (1993)) corresponds to choosing α(S, vt, t) =
+−λ (vt −v) and β(S, v, t) = 1 in equations (1.1) and (1.2). These equations
+then become
+dSt = µt St dt + √vt St dZ1
+(2.1)
+and
+dvt = −λ (vt −v) dt + η √vt dZ2
+(2.2)
+with
+
+dZ1 dZ2
+
+= ρ dt
+where λ is the speed of reversion of vt to its long-term mean v.
+The process followed by the instantaneous variance vt may be recognized
+as a version of the square root process described by Cox, Ingersoll, and
+Ross (1985). It is a (jump-free) special case of a so-called afﬁne jump
+diffusion (AJD) that is roughly speaking a jump-diffusion process for which
+the drifts and covariances and jump intensities are linear in the state vector,
+15
+
+16
+THE VOLATILITY SURFACE
+which is {x, v} in this case with x = log(S). Dufﬁe, Pan, and Singleton
+(2000) show that AJD processes are analytically tractable in general. The
+solution technique involves computing an ‘‘extended transform’’, which in
+the Heston case is a conventional Fourier transform.
+We now substitute the above values for α(S, v, t) and β(S, v, t) into the
+general valuation equation (1.3). We obtain
+∂V
+∂t + 1
+2 v S2 ∂2V
+∂S2 + ρ η v S ∂2V
+∂v ∂S + 1
+2 η2 v ∂2V
+∂v2 + r S∂V
+∂S −r V
+= λ(v −v) ∂V
+∂v
+(2.3)
+In Heston’s original paper, the price of risk is assumed to be linear in the
+instantaneous variance v in order to retain the form of the equation under
+the transformation from the statistical (or real) measure to the risk-neutral
+measure. In contrast, as in Chapter 1, we assume that the Heston process,
+with parameters ﬁtted to option prices, generates the risk-neutral measure
+so the market price of volatility risk ϕ in the general valuation equation (1.3)
+is set to zero in equation (2.3). Since we are only interested in pricing, and
+we assume that the pricing measure is recoverable from European option
+prices, we are indifferent to the statistical measure.
+THE HESTON SOLUTION FOR EUROPEAN OPTIONS
+This section follows the original derivation of the Heston formula for the
+value of a European-style option in Heston (1993) pretty closely but with
+some changes in intermediate deﬁnitions as explained later on.
+Before solving equation (2.3) with the appropriate boundary conditions,
+we can simplify it by making some suitable changes of variable. Let K be
+the strike price of the option, T time to expiration, Ft,T the time T forward
+price of the stock index and x := log
+
+Ft,T/K
+
+.
+Further, suppose that we consider only the future value to expiration
+C of the European option price rather than its value today and deﬁne
+τ = T −t. Then equation (2.3) simpliﬁes to
+−∂C
+∂τ + 1
+2 v C11 −1
+2 v C1 + 1
+2 η2 v C22 + ρ η v C12 −λ(v −v) C2 = 0
+(2.4)
+where the subscripts 1 and 2 refer to differentiation with respect to x and v
+respectively.
+
+The Heston Model
+17
+According to Dufﬁe, Pan, and Singleton (2000), the solution of equa-
+tion (2.4) has the form
+C(x, v, τ) = K
+
+ex P1(x, v, τ) −P0(x, v, τ)
+
+(2.5)
+where, exactly as in the Black-Scholes formula, the ﬁrst term in the brack-
+ets represents the pseudo-expectation of the ﬁnal index level given that
+the option is in-the-money and the second term represents the pseudo-
+probability of exercise.
+Substituting the proposed solution (2.5) into equation (2.4) implies that
+P0 and P1 must satisfy the equation
+−∂Pj
+∂τ + 1
+2v∂2Pj
+∂x2 −
+1
+2 −j
+
+v∂Pj
+∂x + 1
+2η2v∂2Pj
+∂v2 + ρηv ∂2Pj
+∂x∂v
++ (a −bjv)∂Pj
+∂v = 0
+(2.6)
+for j = 0, 1 where
+a = λ v, bj = λ −j ρ η
+subject to the terminal condition
+lim
+τ→0 Pj(x, v, τ) =
+	 1 if x > 0
+0 if x ≤0
+:= θ(x)
+(2.7)
+We solve equation (2.6) subject to the condition (2.7) using a Fourier
+transform technique. To this end deﬁne the Fourier transform of Pj through
+˜P(u, v, τ) =
+
+ ∞
+−∞
+dx e−i u x P(x, v, τ)
+Then
+˜P(u, v, 0) =
+
+ ∞
+−∞
+dx e−i u x θ(x) = 1
+i u
+The inverse transform is given by
+P(x, v, τ) =
+
+ ∞
+−∞
+du
+2π ei u x ˜P(u, v, τ)
+(2.8)
+
+18
+THE VOLATILITY SURFACE
+Substituting this into equation (2.6) gives
+−∂˜Pj
+∂τ −1
+2 u2 v ˜Pj −
+1
+2 −j
+
+i u v ˜Pj
++ 1
+2 η2 v ∂2 ˜Pj
+∂v2 + ρ η i u v ∂˜Pj
+∂v + (a −bj v) ∂˜Pj
+∂v = 0
+(2.9)
+Now deﬁne
+α = −u2
+2 −i u
+2 + i j u
+β = λ −ρ η j −ρ η i u
+γ = η2
+2
+Then equation (2.9) becomes
+v
+
+α ˜Pj −β ∂˜Pj
+∂v + γ ∂2 ˜Pj
+∂v2
+
++ a ∂˜Pj
+∂v −∂˜Pj
+∂τ = 0
+(2.10)
+Now substitute
+˜Pj(u, v, τ) = exp {C(u, τ) v + D(u, τ) v} ˜Pj(u, v, 0)
+= 1
+i u exp {C(u, τ) v + D(u, τ) v}
+It follows that
+∂˜Pj
+∂τ =
+	
+v ∂C
+∂τ + v ∂D
+∂τ
+
+˜Pj
+∂˜Pj
+∂v = D ˜Pj
+∂2 ˜Pj
+∂v2 = D2 ˜Pj
+Then equation (2.10) is satisﬁed if
+∂C
+∂τ = λ D
+∂D
+∂τ = α −β D + γ D2
+= γ (D −r+)(D −r−)
+(2.11)
+
+The Heston Model
+19
+where we deﬁne
+r± = β ±
+
+β2 −4αγ
+2γ
+=: β ± d
+η2
+Integrating (2.11) with the terminal conditions C(u, 0) = 0 and D(u, 0)
+= 0 gives
+D(u, τ) = r−
+1 −e−d τ
+1 −g e−d τ
+C(u, τ) = λ
+
+r−τ −2
+η2 log
+
+1 −g e−d τ
+1 −g
+
+(2.12)
+where we deﬁne
+g := r−
+r+
+Taking the inverse transform using equation (2.8) and performing the
+complex integration carefully gives the ﬁnal form of the pseudo-probabilities
+Pj in the form of an integral of a real-valued function.
+Pj(x, v, τ) = 1
+2 + 1
+π
+
+ ∞
+0
+du Re
+	exp{Cj(u, τ) v + Dj(u, τ) v + i u x}
+i u
+
+(2.13)
+This integration may be performed using standard numerical methods.
+It is worth noting that taking derivatives of the Heston formula with
+respect to x or v in order to compute delta and vega is extremely straight-
+forward because the functions C(u, τ) and D(u, τ) are independent of x
+and v.
+A Digression: The Complex Logarithm in the Integration (2.13)
+In Heston’s original paper and in most other papers on the subject, C(u, τ)
+is written (almost) equivalently as
+C(u, τ) = λ
+
+r+τ −2
+η2 log
+
+e+d τ −g
+1 −g
+
+(2.14)
+
+20
+THE VOLATILITY SURFACE
+The reason for the qualiﬁcation ‘‘almost’’ is that this deﬁnition coincides
+with our previous one only if the imaginary part of the complex logarithm
+is chosen so that C(u, τ) is continuous with respect to u. It turns out
+that taking the principal value of the logarithm in (2.14) causes C(u, τ) to
+jump discontinuously each time the imaginary part of the argument of the
+logarithm crosses the negative real axis. The conventional resolution is to
+keep careful track of the winding number in the integration (2.13) so as to
+remain on the same Riemann sheet. This leads to practical implementation
+problems because standard numerical integration routines cannot be used.
+The paper of Kahl and J¨ackel (2005) concerns itself with this problem and
+provides an ingenious resolution.
+With our deﬁnition (2.12) of C(u, τ), however, it seems that whenever
+the imaginary part of the argument of the logarithm is zero, the real part
+is positive; plotted in the complex plane, it seems that the argument of the
+logarithm never cuts the negative real axis. It follows that with our deﬁnition
+of C(u, τ), taking the principal value of the logarithm seems to lead to a
+continuous integrand over the full range of integration. Unfortunately,
+a proof of this result remains elusive so it must retain the status of a
+conjecture.
+DERIVATION OF THE HESTON
+CHARACTERISTIC FUNCTION
+To anyone other than an option trader, it may seem perverse to ﬁrst derive
+the option pricing formula and then impute the characteristic function: The
+reverse might appear more natural. However, in the context of understand-
+ing the volatility surface, option prices really are primary and it makes just
+as much sense for us to deduce the characteristic function from the option
+pricing formula as it does for us to deduce the risk-neutral density from
+option prices.
+By deﬁnition, the characteristic function is given by
+φT(u) := E[eiuxT|xt = 0]
+The probability of the ﬁnal log-stock price xT being greater than the strike
+price is given by
+Pr(xT > x) = P0(x, v, τ)
+= 1
+2 + 1
+π
+
+ ∞
+0
+du Re
+	exp{C(u, τ) v + D(u, τ) v + i u x}
+iu
+
+
+The Heston Model
+21
+with x = log(St/K) and τ = T −t. Let the log-strike k be deﬁned by k =
+log(K/St) = −x. Then, the probability density function p(k) must be given by
+p(k) = −∂P0
+∂k
+= 1
+2π
+
+ ∞
+−∞
+du′ exp{C(u′, τ) v + D(u′, τ) v −i u′ k}
+Then
+φT(u) =
+
+ ∞
+−∞
+dk p(k) ei u k
+= 1
+2π
+
+ ∞
+−∞
+du′ exp{C(u′, τ) v + D(u′, τ) v}
+
+ ∞
+−∞
+du ei(u−u′)k
+=
+
+ ∞
+−∞
+du′ exp{C(u′, τ) v + D(u′, τ) v} δ(u −u′)
+= exp{C(u, τ) v + D(u, τ) v}
+(2.15)
+SIMULATION OF THE HESTON PROCESS
+Recall the Heston process
+dS = µ Sdt + √v S dZ1
+dv = −λ(v −v) dt + η √v dZ2
+(2.16)
+with
+
+dZ1 dZ2
+
+= ρ dt
+A simple Euler discretization of the variance process
+vi+1 = vi −λ (vi −v) t + η √vi
+√
+t Z
+(2.17)
+with Z ∼N(0, 1) may give rise to a negative variance. To deal with this
+problem, practitioners generally adopt one of two approaches: Either the
+absorbing assumption: if v < 0 then v = 0, or the reﬂecting assumption: if
+v < 0 then v = −v. In practice, with the parameter values that are required
+to ﬁt equity index option prices, a huge number of time steps is required to
+achieve convergence with this discretization.
+
+22
+THE VOLATILITY SURFACE
+Milstein Discretization
+It turns out to be possible to substantially alleviate the negative variance
+problem by implementing a Milstein discretization scheme.
+Speciﬁcally, by going to one higher order in the Itˆo-Taylor expansion∗
+of v(t + t), we arrive at the following discretization of the variance process:
+vi+1 = vi −λ (vi −v) t + η √vi
+√
+t Z + η2
+4 t
+
+Z2 −1
+
+(2.18)
+This can be rewritten as
+vi+1 =
+√vi + η
+2
+√
+t Z
+2
+−λ (vi −v) t −η2
+4 t
+We note that if vi = 0 and 4 λ v/η2 > 1, vi+1 > 0 indicating that the fre-
+quency of occurrence of negative variances should be substantially reduced.
+In practice, with typical parameters, even if 4 λ v/η2 < 1, the frequency
+with which the process goes negative is substantially reduced relative to the
+Euler case.
+As it is no more computationally expensive to implement the Milstein
+discretization (2.18) than it is to implement the Euler discretization (2.17),
+the Milstein discretization is always to be preferred. Also, the stock process
+should be discretized as
+xi+1 = xi −vi
+2 t +
+
+vi t W
+with xi := log(Si/S0) and W ∼N(0, 1), E[Z W] = ρ; if we discretize the
+equation for the log-stock price x rather than the equation for the stock
+price S, there are no higher order corrections to the Euler discretization.
+An Implicit Scheme
+We follow Alfonsi (2005) and consider
+vi+1 = vi −λ (vi −v) t + η √vi
+√
+t Z
+= vi −λ (vi+1 −v) t + η √vi+1
+√
+t Z
+−η
+√vi+1 −√vi
+ √
+t Z + higher order terms
+We note that
+√vi+1 −√vi = η
+2
+√
+t Z + higher order terms
+∗See Chapter 5 of Kloeden and Platen (1992) for a discussion of It ˆo-Taylor expan-
+sions.
+
+The Heston Model
+23
+and substitute (noting that E[Z2] = 1) to obtain the implicit discretization
+vi+1 = vi −λ (vi+1 −v) t + η √vi+1
+√
+t Z −η
+2 t
+(2.19)
+Then √vi+1 may be obtained as a root of the quadratic equation (2.19).
+Explicitly,
+√vi+1 =
+
+4 vi + t
+
+(λ v −η2/2) (1 + λ t) + η2 Z2
++ η
+√
+t Z
+2 (1 + λ t)
+If 2 λ v/η2 > 1, there is guaranteed to be a real root of this expression so
+variance is guaranteed to be positive. Otherwise, there’s no guarantee and
+this discretization doesn’t work.
+Given
+that
+Heston
+parameters
+in
+practice
+often
+don’t
+satisfy
+2 λ v/η2 > 1, we are led to prefer the Milstein discretization, which is
+in any case simpler.
+Sampling from the Exact Transition Law
+As Paul Glasserman (2004) points out in his excellent book on Monte Carlo
+methods, the problem of negative variances may be avoided altogether by
+sampling from the exact transition law of the process. Broadie and Kaya
+(2004) show in detail how this may be done for the Heston process but their
+method turns out also to be very time consuming as it involves integration
+of a characteristic function expressed in terms of Bessel functions.
+It is nevertheless instructive to follow their argument. The exact solution
+of (2.16) may be written as
+St = S0 exp
+	
+−1
+2
+
+ t
+0
+vs ds + ρ
+
+ t
+0
+√vs dZs +
+
+1 −ρ2
+
+ t
+0
+√vs dZ⊥
+s
+
+vt = v0 + λ v t −λ
+
+ t
+0
+vs ds + η
+
+ t
+0
+√vs dZs
+with
+
+dZs dZ⊥
+s
+
+= 0
+The Broadie-Kaya simulation procedure is as follows:
+■Generate a sample from the distribution of vt given v0.
+■Generate a sample from the distribution of
+ t
+0 vs ds given vt and v0.
+
+24
+THE VOLATILITY SURFACE
+■Recover
+ t
+0
+√vs dZs given
+ t
+0 vs ds, vt and v0.
+■Generate a sample from the distribution of St given
+ t
+0
+√vs dZs and
+ t
+0 vs ds.
+Note that in the ﬁnal step, the distribution of
+ t
+0
+√vs dZ⊥
+s is normal with
+variance
+ t
+0 vs ds because dZ⊥
+s and vs are independent by construction.
+Andersen and Brotherton-Ratcliffe (2001) suggest that processes like
+the square root variance process should be simulated by sampling from
+a distribution that is similar to the true distribution but not necessarily
+the same; this approximate distribution should have the same mean and
+variance as the true distribution.
+Applying their suggested approach to simulating the Heston process,
+we would have to ﬁnd the means and variances of
+ t
+0
+√vs dZs,
+ t
+0 vs ds, vt
+and v0.
+Why the Heston Model Is so Popular
+From the above remarks on Monte Carlo simulation, the reader can get
+a sense of how computationally expensive it can be to get accurate values
+of options in a stochastic volatility model; numerical solution of the PDE
+is not much easier. The great difference between the Heston model and
+other (potentially more realistic) stochastic volatility models is the existence
+of a fast and easily implemented quasi-closed form solution for European
+options. This computational efﬁciency in the valuation of European options
+becomes critical when calibrating the model to known option prices.
+As we shall see in subsequent chapters, although the dynamics of the
+Heston model are not realistic, with appropriate choices of parameters,
+all stochastic volatility models generate roughly the same shape of implied
+volatility surface and have roughly the same implications for the valuation
+of nonvanilla derivatives in the sense that they are all models of the joint
+process of the stock price and instantaneous variance. Given the relative
+cheapness of Heston computations, it’s easy to see why the model is so
+popular.

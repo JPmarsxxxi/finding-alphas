@@ -1,0 +1,1110 @@
+ 
+227
+Appendices
+Appendix A.
+Tests of conditional normality
+ 
+Peter Zangari
+Morgan Guaranty Trust Company
+Risk Management Research
+(1-212) 648-8641
+ 
+zangari_peter@jpmorgan.com
+ 
+A fundamental assumption in RiskMetrics is that the underlying returns on ﬁnancial prices are dis-
+tributed according to the conditional normal distribution. The main implication of this assumption 
+is that while the return distribution at each point in time is normally distributed, the return distribu-
+tion taken over the entire sample period is 
+ 
+not necessarily
+ 
+ normal. Alternatively expressed, the 
+standardized distribution rather than the observed return is assumed to be normal. 
+Chart A.1 shows the nontrivial consequence of the conditional normality assumption. The uncon-
+ditional distribution represents an estimate of the histogram of USD/DEM log price changes that 
+are standardized by the standard deviation taken over the entire sample (i.e., they are standardized 
+by the unconditional standard deviation). As mentioned above, relative to the normal distribution 
+with a constant mean and variance, this series has the typical thin waist, fat tail features. The 
+unconditional distribution represents the distribution of standardized returns which are constructed 
+by dividing each historical return by its corresponding standard deviation forecast
+ 
+1
+ 
+, i.e., divide 
+every return, 
+, by its standard deviation forecast, 
+ (i.e., conditional standard deviation).
+ 
+Chart A.1
+ 
+Standard normal distribution and histogram of returns on USD/DEM 
+ 
+The difference between these two lines underscores the importance of distinguishing between con-
+ditional and unconditional normality.
+ 
+1
+ 
+The exact construction of this forecast is presented in Chapter 5.
+rt
+σt t
+1
+–
+-5
+-4
+-3
+-2
+-1
+0
+1
+2
+3
+4
+5
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+PDF
+Returns
+standard normal
+conditional
+unconditional
+
+ 
+228
+Appendix A.  Tests of conditional normality
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+A.1  Numerical methods
+ 
+We now present some computational tools used to test for normality. We begin by showing how to 
+obtain sample estimates of the two parameters that describe the normal distribution. For a set of 
+returns, 
+, where 
+ 
+t 
+ 
+= 1,2…,
+ 
+T
+ 
+, we obtain estimates of the unconditional mean, , and standard 
+deviation, 
+, via the following estimators:
+[A.1]
+[A.2]
+Table A.1 presents sample estimates of the mean and standard deviation for the change series pre-
+sented in Table 4.1.
+Several popular tests for normality focus on measuring 
+ 
+skewness
+ 
+ and 
+ 
+kurtosis
+ 
+.
+ 
+ Skewness charac-
+terizes the asymmetry of a distribution around its mean. Positive skewness indicates an asymmet-
+ric tail extending toward positive values (right skewed). Negative skewness implies asymmetry 
+toward negative values (left skewed). A simple measure of skewness, the coefﬁcient of skewness, 
+ 
+, 
+ 
+is given by 
+[A.3]
+Computed values of skewness away from 0 point towards non-normality. Kurtosis characterizes 
+the relative peakedness or ﬂatness of a given distribution compared to a normal distribution. The 
+standardized measure of kurtosis, the coefﬁcient of kurtosis, 
+, is given by
+[A.4]
+The kurtosis for the normal distribution is 3. Often, instead of kurtosis, researchers talk about 
+excess kurtosis which is deﬁned as kurtosis minus 3 so that in a normal distribution excess kurtosis 
+is zero. Distributions with an excess kurtosis value greater than 0 are frequently referred to as hav-
+ing fat tails. 
+One popular test for normality that is based on skewness and kurtosis is presented in Kiefer and 
+Salmon (1983). Shapiro and Wilk (1965) and Bera and Jarcque (1980) offer more computationally 
+intensive tests. To give some idea about the values of the mean, standard deviation, skewness and 
+kurtosis coefﬁcients that are observed in practice, Table A.2 on page 230 presents estimates of 
+these statistics as well as two other measures—tail probability and tail values, to 48 foreign 
+ 
+Table A.1
+ 
+Sample mean and standard deviation estimates for USD/DEM FX
+ 
+Parameter estimates
+Absolute price 
+change
+ Relative price 
+change
+Log price 
+change 
+ 
+, mean (%)
+ 
+−
+ 
+0.060
+ 
+−
+ 
+0.089
+ 
+−
+ 
+0.090
+, standard deviation, (%)
+ 0.28
+0.42
+ 0.42
+rt
+r
+σˆ
+r
+ 1 
+T-----
+rt
+t
+1
+=
+T
+∑
+=
+σˆ
+ 1 
+T
+1
+–
+------------
+rt
+r
+–
+(
+)
+2
+t
+1
+=
+T
+∑
+=
+r
+σˆ
+γˆ
+γˆ
+1
+T---
+rt
+r
+–
+σˆ
+-----------
+
+
+
+
+t
+1
+=
+T
+∑
+=
+3
+κˆ
+κˆ
+1
+T---
+rt
+r
+–
+σˆ
+-----------
+
+
+
+4
+t
+1
+=
+T
+∑
+
+
+
+
+
+
+=
+
+ 
+Appendix A.  Tests of conditional normality
+229
+Appendices
+ 
+exchange series. For each of the 48 time series we used 86 historical weekly prices for the period 
+July 1, 1994 through March 1, 1996. (Note that many of the time series presented in Table A.2 are 
+not part of the RiskMetrics data set). Each return used in the analysis is standardized by its corre-
+sponding 1-week standard deviation forecast. Interpretations of each of the estimated statistics are 
+provided in the table footnotes.
+When large data samples are available, speciﬁc statistics can be constructed to test whether a given 
+sample is skewed or has excess kurtosis. This allows for formal hypothesis testing. The large sam-
+ple skewness and kurtosis measures and their distributions are given below:
+[A.5]
+[A.6]
+ 
+Skewness measure  Tγ
+T
+ 1
+T---
+rt
+r
+–
+(
+)
+3
+t
+1
+=
+T
+∑
+1
+T---
+rt
+r
+–
+(
+)
+2
+t
+1
+=
+T
+∑
+3
+2--
+--------------------------------------------
+N 0 6
+,
+(
+)
+∼
+≡
+Kurtosis measure  Tκ
+T
+ 1
+T---
+rt
+r
+–
+(
+)
+4
+t
+1
+=
+T
+∑
+1
+T---
+rt
+r
+–
+(
+)
+2
+t
+1
+=
+T
+∑
+2
+-------------------------------------------
+3
+–
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N 0 24
+,
+(
+)
+∼
+≡
+
+ 
+230
+Appendix A.  Tests of conditional normality
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Table A.2 
+ 
+Testing for univariate conditional normality
+ 
+1
+ 
+normalized return series; 85 total observations
+ 
+Tail Probability (%)
+ 
+8
+ 
+Tail value
+ 
+9
+ 
+Skewness
+ 
+2
+ 
+Kurtosis
+ 
+3
+ 
+Mean
+ 
+4
+ 
+Std. Dev.
+ 
+5
+ 
+< 
+ 
+−
+ 
+1.65
+> 1.65
+< 
+ 
+−
+ 
+1.65
+> 1.65
+Normal
+ 
+             
+ 
+ 0.000
+ 
+           
+ 
+0.000
+ 
+ 
+ - 
+          
+ 
+1.000
+ 
+ 
+          
+ 
+5.000
+ 
+ 
+         
+ 
+ 5.000
+ 
+ 
+       
+ 
+−
+ 
+2.067
+ 
+          
+ 
+2.067
+ 
+ 
+ 
+OECD
+ 
+Australia
+          0.314          3.397 
+          0.120
+          0.943
+          2.900
+          5.700
+       
+ 
+−
+ 
+2.586
+          2.306
+Austria
+          0.369           0.673 
+       
+ 
+−
+ 
+0.085
+          1.037
+          8.600
+          5.700
+       
+ 
+−
+ 
+1.975
+          2.499
+Belgium
+          0.157           2.961 
+       
+ 
+−
+ 
+0.089
+          0.866
+          8.600
+          2.900
+       
+ 
+−
+ 
+1.859
+          2.493
+Denmark
+          0.650           4.399 
+       
+ 
+−
+ 
+0.077
+          0.903
+        11.400
+          2.900
+       
+ 
+−
+ 
+1.915
+          2.576
+France
+          0.068           3.557 
+       
+ 
+−
+ 
+0.063
+          0.969
+          8.600
+          2.900
+       
+ 
+−
+ 
+2.140
+          2.852
+Germany
+          0.096           4.453 
+       
+ 
+−
+ 
+0.085
+          0.872
+          5.700
+          2.900
+       
+ 
+−
+ 
+1.821
+          2.703
+Greece
+          0.098           2.259 
+       
+ 
+−
+ 
+0.154
+          0.943
+        11.400
+          2.900
+       
+ 
+−
+ 
+1.971
+          2.658
+Holland
+          0.067           4.567 
+       
+ 
+−
+ 
+0.086
+          0.865
+          5.700
+          2.900
+       
+ 
+−
+ 
+1.834
+          2.671
+Italy
+          0.480           0.019 
+          0.101
+          0.763
+                0
+          2.900
+                0
+          1.853
+New Zealand
+          1.746           7.829 
+          0.068
+          1.075
+          2.900
+          2.900
+       
+ 
+−
+ 
+2.739
+          3.633
+Portugal
+          1.747           0.533 
+       
+ 
+−
+ 
+0.062
+          0.889
+        11.400
+          2.900
+       
+ 
+−
+ 
+1.909
+          2.188
+Spain
+          6.995           1.680 
+       
+ 
+−
+ 
+0.044
+          0.957
+          8.600
+          2.900
+       −2.293
+          1.845
+Turkey
+        30.566      118.749 
+       −0.761
+          1.162
+        11.400
+                0
+       −2.944
+                0
+UK
+          7.035           2.762 
+       −0.137
+          0.955
+          8.600
+          2.900
+       −2.516
+          1.811
+Switzerland
+          0.009           0.001 
+       −0.001
+          0.995
+          2.900
+          5.700
+       −2.415
+          2.110
+Latin Amer. Econ. System
+Brazil
+          0.880           1.549 
+       −0.224
+          0.282 
+                0   
+                0   
+                0                   0   
+Chile
+          1.049           0.512 
+       −0.291
+          0.904 
+          8.600 
+                0          −2.057
+                0   
+Colombia
+          2.010           4.231 
+       −0.536
+          1.289 
+        11.400 
+          2.900 
+       −3.305
+          2.958 
+Costa Rica
+          0.093         33.360 
+       −0.865
+          0.425 
+          5.700 
+                0   
+       −2.011
+                0   
+Dominican Rep
+          0.026         41.011           0.050 
+          1.183 
+          5.700 
+          5.700 
+       −3.053
+          3.013 
+El Salvador
+          2.708         49.717           0.014 
+          0.504 
+                0   
+          2.900 
+                0             1.776 
+Equador
+          0.002         50.097           0.085 
+          1.162 
+          5.700 
+          5.700 
+       −3.053
+          3.013 
+Guatemala
+          0.026           1.946 
+       −0.280
+          1.036 
+          8.600 
+          5.700 
+       −2.365
+          2.237 
+Honduras
+        42.420         77.277 
+       −0.575
+          1.415 
+        14.300 
+                0          −3.529
+                0   
+Jamaica
+        81.596      451.212 
+       −0.301
+          1.137 
+          2.900 
+          2.900 
+       −6.163
+          1.869 
+Mexico
+        13.71         30.237 
+       −0.158
+          0.597 
+          2.900 
+                0          −2.500
+                0   
+Nicaragua
+          0.051           2.847 
+       −0.508
+          0.117 
+                0   
+                0   
+                0                   0   
+Peru
+     122.807 
+     672.453 
+       −0.278
+          1.365 
+          5.700 
+                0          −5.069
+                0   
+Trinidad
+          0.813           0.339           0.146 
+          1.063 
+          8.600 
+        11.400 
+       −2.171
+          1.915 
+Uruguay
+          0.724           0.106 
+       −0.625
+          0.371 
+                0   
+                0   
+                0                   0   
+
+Appendix A.  Tests of conditional normality
+231
+Appendices
+1 Countries are grouped by major economic groupings as deﬁned in Political Handbook of the World:  1995–1996. New York:  CSA 
+Publishing, State University of New York, 1996. Countries not formally part of an economic group are listed in their respective geo-
+graphic areas.
+2 If returns are conditionally normal, the skewness value is zero.
+3 If returns are conditionally normal, the excess kurtosis value is zero.
+4 Sample mean of the return series.
+5 Sample standard deviation of the normalized return series.
+8 Tail probabilities give the observed probabilities of normalized returns falling below −1.65 and above +1.65. Under conditional nor-
+mality, these values are 5%.
+9 Tail values give the observed average value of normalized returns falling below −1.65 and above +1.65. Under conditional normality, 
+these values are −2.067 and +2.067, respectively.
+ASEAN
+Malaysia
+          1.495           0.265 
+       −0.318
+          0.926 
+          8.600 
+                0          −2.366
+               0   
+Philippines
+          1.654           0.494 
+       −0.082
+          0.393 
+              0   
+              0   
+               0   
+               0   
+Thailand
+          0.077           0.069 
+       −0.269
+          0.936 
+          8.600 
+          2.900 
+       −2.184
+          1.955 
+Fiji
+          4.073           6.471 
+      −0.129
+          0.868 
+          2.900 
+          2.900 
+       −3.102
+          1.737 
+Hong Kong
+          5.360         29.084           0.032 
+          1.001 
+          5.700 
+          5.700 
+       −2.233
+          2.726 
+Reunion Island
+          0.068           3.558 
+       −0.063
+          0.969 
+          8.600 
+          2.900 
+       −2.140
+          2.853 
+Southern African Dev. Comm. 
+Malawi
+          0.157           9.454 
+       −0.001
+          0.250 
+                0   
+                0   
+                0                   0   
+South Africa
+        34.464         58.844 
+       −0.333
+          1.555 
+          8.600 
+                0          −4.480
+                0   
+Zambia
+        22.686         39.073 
+       −0.007
+          0.011 
+                0   
+                0   
+                0                   0   
+Zimbabwe
+        20.831         29.234 
+      −0.487
+          0.762 
+          5.700 
+                0          −2.682
+                0   
+Ivory Coast
+          0.068           3.564 
+      −0.064
+          0.970 
+          8.600 
+          2.900 
+       −2.144
+          2.857 
+Uganda
+        40.815         80.115 
+       −0.203
+          1.399 
+          8.600 
+          2.900 
+       −4.092
+          1.953 
+Others
+China
+        80.314      567.012 
+          0.107 
+          1.521 
+          2.900 
+          2.900 
+       −3.616
+          8.092 
+Czech Repub
+          0.167         12.516 
+       −0.108
+          0.824 
+          5.700 
+          2.900 
+       −2.088
+          2.619 
+Hungary
+          1.961           0.006 
+       −0.342
+          0.741 
+          5.700 
+                0          −2.135
+                0   
+India
+          5.633           3.622 
+      −0.462
+          1.336 
+        17.100 
+          5.700 
+       −2.715
+          1.980 
+Romania
+        89.973      452.501 
+       −1.249
+          1.721 
+        14.300 
+                0          −4.078
+                0   
+Russia
+          0.248           2.819 
+       −0.120
+          0.369 
+                0   
+                0   
+                0                   0   
+Table A.2 (continued)
+Testing for univariate conditional normality1
+normalized return series; 85 total observations
+Tail Probability (%)8
+Tail value9
+Skewness2
+Kurtosis3
+Mean4
+Std. Dev.5
+< −1.65
+> 1.65
+< −1.65
+> 1.65
+
+232
+Appendix A.  Tests of conditional normality
+RiskMetrics —Technical Document
+Fourth Edition
+A.2  Graphical methods
+Q-Q (quantile-quantile) charts offer a visual assessment of the deviations from normality. Recall 
+that the qth quantile is the number that exceeds q percent of the observations. A Q-Q chart plots 
+the quantiles of the standardized distribution of observed returns (observed quantiles) against the 
+quantiles of the standard normal distribution (normal quantiles). Consider the sample of observed 
+returns, 
+. Denote the jth observed quantile by 
+ so that for all T observed quan-
+tiles we have
+[A.7]
+where 
+Denote the jth standard normal quantile by zj for j = 1…,T. For example, if T = 100, then 
+z5 = −1.645. In practice, the ﬁve steps to compute the Q-Q plot are given below:2
+1.
+Standardize the daily returns by their corresponding standard deviation forecast, i.e., com-
+pute 
+ for t = 1,…,T. 
+2.
+Order 
+ and compute their percentiles qj, j = 1,…,T. 
+3.
+Calculate the probabilities pj corresponding to each qj. 
+4.
+Calculate the standard normal quantiles, zj that correspond to each pj.
+5.
+Plot the pairs 
+. 
+Chart A.2 shows an example of a Q-Q plot for USD/DEM daily standardized returns for the period 
+January 1988 through September 1996. 
+Chart A.2
+Quantile-quantile plot of USD/DEM
+standardized returns
+2 For a complete description of this test see Johnson and Wichern (1992, pp. 153-158).
+rt t,
+1 … T
+,
+,
+=
+q j
+Probability r˜t
+q j
+<
+(
+)
+p j  
+≅
+p j
+j
+0.5
+–
+T
+---------------
+=
+r˜t from rt
+r˜t
+z1 q1
+,
+(
+)
+z2 q2
+,
+(
+) … zT qT
+,
+(
+)
+,
+,
+•
+• ••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+••••••• •
+•
+qj
+zt
+
+Appendix A.  Tests of conditional normality
+233
+Appendices
+The straighter the plot, the closer the distribution of returns is to a normal distribution. If all points 
+were to lie on a straight line, then the distribution of returns would be normal. As the chart above 
+shows, there is some deviation from normality in the distribution of daily returns of USD/DEM 
+over the last 7 years. 
+A good way to measure how much deviation from normality occurs is to calculate the correlation 
+coefﬁcient of the Q-Q plot,
+[A.8]
+ 
+For large sample sizes as in the USD/DEM example, 
+ needs to be at least 0.999 to pass a test of 
+normality at the 5% signiﬁcant.3 In this example, 
+= 0.987. The returns are not normal accord-
+ing to this test.
+Used across asset classes, 
+ can provide useful information as to how good the univariate nor-
+mality assumption approximates reality. In the example above, while the returns on the USD/DEM 
+exchange rate are not normal, their deviation is slight. 
+Deviations from normality can be much more signiﬁcant among other time series, especially 
+money market rates. This is intuitively easy to understand. Short-term interest rates move in a dis-
+cretionary fashion as a result of actions by central banks. Countries with exchange rate policies 
+that have deviated signiﬁcantly from economic fundamentals for some period often show money 
+market rate distributions that are clearly not normal. As a result they either change very little when 
+monetary policy remains unchanged (most of the time), or more signiﬁcantly when central banks 
+change policy, or the markets force them to do so. Therefore, the shape of the distribution results 
+from discrete “jumps” in the underlying returns. 
+A typical example of this phenomenon can be seen from the Q-Q chart of standardized price 
+returns on the 3-month sterling over the period 3-Jan-91 to 1-Sep-94. The 
+ calculated for that 
+particular series is 0.907. 
+3 See Johnson and Wichern (1992, p 158) for a table of critical values required to perform this test.
+ρQ
+q j
+q
+–
+(
+)
+z j
+z
+–
+(
+)
+j
+1
+=
+T
+∑
+q j
+q
+–
+(
+)
+2
+j
+1
+=
+T
+∑
+z j
+z
+–
+(
+)
+2
+j
+1
+=
+T
+∑
+-------------------------------------------------------------------------
+=
+ρQ
+ρQ
+ρQ
+ρQ
+
+234
+Appendix A.  Tests of conditional normality
+RiskMetrics —Technical Document
+Fourth Edition
+Chart A.3
+Quantile-quantile plot of 3-month sterling
+standardized returns
+The Q-Q charts are useful because they allow the researcher a visual depiction of departures from 
+normality. However, as stated before, there are several other tests for normality. It is important to 
+remember that when applied directly to ﬁnancial returns, conventional tests of normality should be 
+used with caution. A reason is that the assumptions that underlie these tests (e.g., constant vari-
+ance, nonautocorrelated returns) are often violated. For example, if a test for normality assumes 
+that the data is not autocorrelated over the sample period when, in fact, the data are autocorrelated, 
+then the test may incorrectly lead one to reject normality (Heuts and Rens, 1986). 
+The tests presented above are tests for univariate normality and not multivariate normality. In 
+ﬁnance, tests of multivariate normality are often most relevant since the focus is on the return dis-
+tribution of a portfolio that consists of a number of underlying securities. If each return series in a 
+portfolio is found to be univariate normal, then the set of returns taken as a whole are still not nec-
+essarily multivariate normal. Conversely, if any one return series is found not to be univariate nor-
+mal then multivariate normality can be ruled out. Recently, Richardson and Smith (1993) propose 
+a direct test for multivariate normality in stock returns. Also, Looney (1995) describes test for 
+univariate normality that can be used to determine to whether a data sample is multivariate nor-
+mality.
+• •••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••
+••••••
+••••••••••
+•
+•••
+•
+•
+qj
+zt

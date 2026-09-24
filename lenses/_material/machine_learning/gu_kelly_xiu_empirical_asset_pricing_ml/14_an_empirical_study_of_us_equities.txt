@@ -1,0 +1,3290 @@
+and each characteristic. Despite obvious limitations, such a plot is an eﬀective tool for visualizing
+the ﬁrst-order impact of covariates in a machine learning model.
+3
+An Empirical Study of US Equities
+3.1
+Data and Over-arching Model
+We obtain monthly total individual equity returns from CRSP for all ﬁrms listed in the NYSE,
+AMEX, and NASDAQ. Our sample begins in March 1957 (the start date of the S&P 500) and ends
+in December 2016, totaling 60 years. The number of stocks in our sample is almost 30,000, with
+the average number of stocks per month exceeding 6,200.28 We also obtain the Treasury-bill rate to
+proxy for the risk-free rate from which we calculate individual excess returns.
+In addition, we build a large collection of stock-level predictive characteristics based on the cross
+section of stock returns literature.
+These include 94 characteristics29 (61 of which are updated
+annually, 13 updated quarterly, and 20 updated monthly).
+In addition, we include 74 industry
+dummies corresponding to the ﬁrst two digits of Standard Industrial Classiﬁcation (SIC) codes. We
+provide the details of these characteristics in Table A.6.30
+We also construct eight macroeconomic predictors following the variable deﬁnitions detailed in
+Welch and Goyal (2008), including dividend-price ratio (dp), earnings-price ratio (ep), book-to-
+market ratio (bm), net equity expansion (ntis), Treasury-bill rate (tbl), term spread (tms), default
+spread (dfy), and stock variance (svar).31
+All of the machine learning methods we consider are designed to approximate the over-arching
+empirical model Et(ri,t+1) = g⋆(zi,t) deﬁned in equation (2). Throughout our analysis we deﬁne the
+baseline set of stock-level covariates zi,t as
+zi,t = xt ⊗ci,t,
+(21)
+28We include stocks with prices below $5, share codes beyond 10 and 11, and ﬁnancial ﬁrms. There are at least
+three important reasons why we select the largest possible pool of assets. First, these commonly used ﬁlters remove
+certain stocks that are components of the S&P 500 index, and we ﬁnd it clearly problematic to exclude such important
+stocks from an asset pricing analysis. Moreover, because we aggregate individual stock return predictions to predict
+the index, we cannot omit such stocks. Second, our results are less prone to sample selection or data snooping biases
+that the literature, e.g. Lo and MacKinlay (1990), cautions against. Third, using a larger sample helps avoid overﬁtting
+by increasing the ratio of observation count to parameter count. That said, our results are qualitatively identical and
+quantitively unchanged if we ﬁlter out these ﬁrms.
+29We cross-sectionally rank all stock characteristics period-by-period and map these ranks into the [-1,1] interval
+following Kelly et al. (2019) and Freyberger et al. (2019).
+30The 94 predictive characteristics are based on Green et al. (2017), and we adapt the SAS code available from
+Jeremiah Green’s website and extend the sample period back to 1957. Our data construction diﬀers by adhering more
+closely to variable deﬁnitions in original papers. For example, we construct book-equity and operating proﬁtability
+following Fama and French (2015). Most of these characteristics are released to the public with a delay. To avoid the
+forward-looking bias, we assume that monthly characteristics are delayed by at most 1 month, quarterly with at least
+4 months lag, and annual with at least 6 months lag. Therefore, in order to predict returns at month t + 1, we use
+most recent monthly characteristics at the end of month t, most recent quarterly data by end t −4, and most recent
+annual data by end t −6. Another issue is missing characteristics, which we replace with the cross-sectional median at
+each month for each stock, respectively.
+31The monthly data are available from Amit Goyal’s website.
+24
+
+where ci,t is a Pc × 1 matrix of characteristics for each stock i, and xt is a Px × 1 vector of macroe-
+conomic predictors (and are thus common to all stocks, including a constant). Thus, zi,t is a P × 1
+vector of features for predicting individual stock returns (with P = PcPx) and includes interac-
+tions between stock-level characteristics and macroeconomic state variables. The total number of
+covariates is 94 × (8 + 1) + 74 = 920.
+The over-arching model speciﬁed by (2) and (21) nests many models proposed in the literature
+(Rosenberg, 1974; Harvey and Ferson, 1999, among others). The motivating example for this model
+structure is the standard beta-pricing representation of the asset pricing conditional Euler equation,
+Et(ri,t+1) = β′
+i,tλt.
+(22)
+The structure of our feature set in (21) allows for purely stock-level information to enter expected
+returns via ci,t in analogy with the risk exposure function βi,t, and also allows aggregate economic
+conditions to enter in analogy with the dynamic risk premium λt. In particular, if βi,t = θ1ci,t, and
+λt = θ2xt, for some constant parameter matrices θ1 (K × Pc) and θ2 (K × Px), then the beta-pricing
+model in (22) becomes
+g⋆(zi,t) = Et(ri,t+1) = β′
+i,tλt = c′
+i,tθ′
+1θ2xt = (xt ⊗ci,t)′ vec(θ′
+1θ2) =: z′
+i,tθ,
+(23)
+where θ = vec(θ′
+1θ2). The over-arching model is more general than this example because g⋆(·) is
+not restricted to be a linear function. Considering nonlinear g⋆(·) formulations, for example via
+generalized linear models or neural networks, essentially expands the feature set to include a variety
+of functional transformations of the baseline zi,t predictor set.
+We divide the 60 years of data into 18 years of training sample (1957 - 1974), 12 years of validation
+sample (1975 - 1986), and the remaining 30 years (1987 - 2016) for out-of-sample testing. Because
+machine learning algorithms are computationally intensive, we avoid recursively reﬁtting models each
+month. Instead, we reﬁt once every year as most of our signals are updated once per year. Each time
+we reﬁt, we increase the training sample by one year. We maintain the same size of the validation
+sample, but roll it forward to include the most recent twelve months.32
+3.2
+The Cross Section of Individual Stocks
+Table 1 presents the comparison of machine learning techniques in terms of their out-of-sample
+predictive R2.
+We compare thirteen models in total, including OLS with all covariates, OLS-3
+(which pre-selects size, book-to-market, and momentum as the only covariates), PLS, PCR, elastic
+net (ENet), generalized linear model with group lasso (GLM), random forest (RF), gradient boosted
+regression trees (GBRT), and neural network architectures with one to ﬁve layers (NN1,...,NN5).
+For OLS, ENet, GLM, and GBRT, we present their robust versions using Huber loss, which perform
+better than the version without.
+The ﬁrst row of Table 1 reports R2
+oos for the entire pooled sample. The OLS model using all 920
+32Note that we do not use cross-validation in order to maintain the temporal ordering of the data.
+25
+
+Table 1: Monthly Out-of-sample Stock-level Prediction Performance (Percentage R2
+oos)
+OLS
+OLS-3
+PLS
+PCR
+ENet
+GLM
+RF
+GBRT
+NN1
+NN2
+NN3
+NN4
+NN5
++H
++H
++H
++H
++H
+All
+-3.46
+0.16
+0.27
+0.26
+0.11
+0.19
+0.33
+0.34
+0.33
+0.39
+0.40
+0.39
+0.36
+Top 1000
+-11.28
+0.31
+-0.14
+0.06
+0.25
+0.14
+0.63
+0.52
+0.49
+0.62
+0.70
+0.67
+0.64
+Bottom 1000
+-1.30
+0.17
+0.42
+0.34
+0.20
+0.30
+0.35
+0.32
+0.38
+0.46
+0.45
+0.47
+0.42
+OLS-3+H
+PLS
+PCR
+ENet+H
+GLM+H
+RF
+GBRT+H
+NN1
+NN2
+NN3
+NN4
+NN5
+R2
+oos
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+All
+Top
+Bottom
+Note: In this table, we report monthly R2
+oos for the entire panel of stocks using OLS with all variables (OLS), OLS using
+only size, book-to-market, and momentum (OLS-3), PLS, PCR, elastic net (ENet), generalize linear model (GLM),
+random forest (RF), gradient boosted regression trees (GBRT), and neural networks with one to ﬁve layers (NN1–NN5).
+“+H” indicates the use of Huber loss instead of the l2 loss. We also report these R2
+oos within subsamples that include
+only the top 1,000 stocks or bottom 1,000 stocks by market value. The lower panel provides a visual comparison of the
+R2
+oos statistics in the table (omitting OLS due to its large negative values).
+features produces an R2
+oos of −3.46%, indicating it is handily dominated by applying a naive forecast
+of zero to all stocks in all months. This may be unsurprising as the lack of regularization leaves OLS
+highly susceptible to in-sample overﬁt. However, restricting OLS to a sparse parameterization, either
+by forcing the model to include only three covariates (size, value, and momentum), or by penalizing
+the speciﬁcation with the elastic net—generates a substantial improvement over the full OLS model
+(R2
+oos of 0.16% and 0.11% respectively). Figure 3 summarizes the complexity of each model at each
+re-estimation date. The upper left panel shows the number of features to which elastic net assigns
+a non-zero loading. In the ﬁrst ten years of the test sample, the model typically chooses fewer than
+ﬁve features. After 2000, the number of selected features rises and hovers between 20 and 40.
+Regularizing the linear model via dimension reduction improves predictions even further. By
+forming a few linear combinations of predictors, PLS and especially PCR, raise the out-of-sample
+R2 to 0.27% and 0.26%, respectively. Figure 3 shows that PCR typically uses 20 to 40 components
+in its forecasts. PLS, on the other hand, fails to ﬁnd a single reliable component for much of the
+early sample, but eventually settles on three to six components. The improvement of dimension
+26
+
+Figure 3: Time-varying Model Complexity
+1985
+1990
+1995
+2000
+2005
+2010
+2015
+# of Char.
+0
+20
+40
+60
+ENet+H
+1985
+1990
+1995
+2000
+2005
+2010
+2015
+# of Comp.
+0
+50
+100
+PCR
+1985
+1990
+1995
+2000
+2005
+2010
+2015
+# of Comp.
+0
+5
+10
+PLS
+1985
+1990
+1995
+2000
+2005
+2010
+2015
+# of Char.
+0
+50
+100
+GLM+H
+1985
+1990
+1995
+2000
+2005
+2010
+2015
+Tree Depth
+0
+2
+4
+6
+RF
+1985
+1990
+1995
+2000
+2005
+2010
+2015
+# of Char.
+0
+50
+100
+GBRT+H
+Note: This ﬁgure demonstrates the model complexity for elastic net (ENet), PCR, PLS, generalized linear model with
+group lasso (GLM), random forest (RF) and gradient boosted regression trees (GBRT) in each training sample of
+our 30-year recursive out-of-sample analysis. For ENet and GLM we report the number of features selected to have
+non-zero coeﬃcients; for PCR and PLS we report the number of selected components; for RF we report the average
+tree depth; and for GBRT we report the number of distinct characteristics entering into the trees.
+reduction over variable selection via elastic net suggests that characteristics are partially redundant
+and fundamentally noisy signals. Combining them into low-dimension components averages out noise
+to better reveal their correlated signals.
+The generalized linear model with group lasso penalty fails to improve on the performance of
+purely linear methods (R2
+oos of 0.19%). The fact that this method uses spline functions of individual
+features, but includes no interaction among features, suggests that univariate expansions provide
+little incremental information beyond the linear model. Though it tends to select more features than
+elastic net, those additional features do not translate into incremental performance.
+Boosted trees and random forests are competitive with PCR, producing ﬁts of 0.34% and 0.33%,
+respectively. Random forests generally estimate shallow trees, with one to ﬁve layers on average.
+To quantify the complexity of GBRT, we report the number of features used in the boosted tree
+ensemble at each re-estimation point. In the beginning of the sample GBRT uses around 30 features
+to partition outcomes, with this number increasing to 50 later in the sample.
+Neural networks are the best performing nonlinear method, and the best predictor overall. The
+R2
+oos is 0.33% for NN1 and peaks at 0.40% for NN3. These results point to the value of incorporating
+complex predictor interactions, which are embedded in tree and neural network models but that are
+27
+
+Table 2: Annual Out-of-sample Stock-level Prediction Performance (Percentage R2
+oos)
+OLS
+OLS-3
+PLS
+PCR
+ENet
+GLM
+RF
+GBRT
+NN1
+NN2
+NN3
+NN4
+NN5
++H
++H
++H
++H
++H
+All
+-34.86
+2.50
+2.93
+3.08
+1.78
+2.60
+3.28
+3.09
+2.64
+2.70
+3.40
+3.60
+2.79
+Top
+-54.86
+2.48
+1.84
+1.64
+1.90
+1.82
+4.80
+4.07
+2.77
+4.24
+4.73
+4.91
+4.86
+Bottom
+-19.22
+4.88
+5.36
+5.44
+3.94
+5.00
+5.08
+4.61
+4.37
+3.72
+5.17
+5.01
+3.58
+OLS-3+H
+PLS
+PCR
+ENet+H
+GLM+H
+RF
+GBRT+H
+NN1
+NN2
+NN3
+NN4
+NN5
+R2
+oos
+0
+1
+2
+3
+4
+5
+6
+All
+Top
+Bottom
+Note: Annual return forecasting R2
+oos (see Table 1 notes).
+missed by other techniques. The results also show that in the monthly return setting, the beneﬁts
+of “deep” learning are limited, as four and ﬁve layer models fail to improve over NN3.33
+The second and third rows of Table 1 break out predictability for large stocks (the top 1,000 stocks
+by market equity each month) and small stocks (the bottom 1,000 each month). This is based on the
+full estimated model (using all stocks), but focuses on ﬁts among the two subsamples. The baseline
+patterns that OLS fares poorly, regularized linear models are an improvement, and nonlinear models
+dominate carries over into subsamples. Tree methods and neural networks are especially successful
+among large stocks, with R2
+oos ranging from 0.52% to 0.70%. This dichotomy provides reassurance
+that machine learning is not merely picking up small scale ineﬃciencies driven by illiquidity.34
+Table 2 conducts our analysis at the annual horizon. The comparative performance across dif-
+ferent methods is similar to the monthly results shown in Table 1, but the annual R2
+oos is nearly
+an order of magnitude larger. Their success in forecasting annual returns likewise illustrates that
+33Because we hold the ﬁve neural networks architectures ﬁxed and simply compare across them, we do not describe
+their estimated complexity in Figure 3.
+34As an aside, it is useful to know that there is a roughly 3% inﬂation in out-of-sample R2s if performance is
+benchmarked against historical averages.
+For OLS-3, the R2 relative to the historical mean forecast is 3.74% per
+month!
+Evidently, the historical mean is such a noisy forecaster that it is easily beaten by a ﬁxed excess return
+forecasts of zero.
+28
+
+Table 3: Comparison of Monthly Out-of-Sample Prediction using Diebold-Mariano Tests
+OLS-3
+PLS
+PCR
+ENet
+GLM
+RF
+GBRT
+NN1
+NN2
+NN3
+NN4
+NN5
++H
++H
++H
++H
+OLS+H
+3.26∗
+3.29∗
+3.35∗
+3.29∗
+3.28∗
+3.29∗
+3.26∗
+3.34∗
+3.40∗
+3.38∗
+3.37∗
+3.38∗
+OLS-3+H
+1.42
+1.87
+-0.27
+0.62
+1.64
+1.28
+1.25
+2.13
+2.13
+2.36
+2.11
+PLS
+-0.19
+-1.18
+-1.47
+0.87
+0.67
+0.63
+1.32
+1.37
+1.66
+1.08
+PCR
+-1.10
+-1.37
+0.85
+0.75
+0.58
+1.17
+1.19
+1.34
+1.00
+ENet+H
+0.64
+1.90
+1.40
+1.73
+1.97
+2.07
+1.98
+1.85
+GLM+H
+1.76
+1.22
+1.29
+2.28
+2.17
+2.68∗
+2.37
+RF
+0.07
+-0.03
+0.31
+0.37
+0.34
+0.00
+GBRT+H
+-0.06
+0.16
+0.21
+0.17
+-0.04
+NN1
+0.56
+0.59
+0.45
+0.04
+NN2
+0.32
+-0.03
+-0.88
+NN3
+-0.32
+-0.92
+NN4
+-1.04
+Note: This table reports pairwise Diebold-Mariano test statistics comparing the out-of-sample stock-level prediction
+performance among thirteen models. Positive numbers indicate the column model outperforms the row model. Bold
+font indicates the diﬀerence is signiﬁcant at 5% level or better for individual tests, while an asterisk indicates signiﬁcance
+at the 5% level for 12-way comparisons via our conservative Bonferroni adjustment.
+machine learning models are able to isolate risk premia that persist over business cycle frequencies
+and are not merely capturing short-lived ineﬃciencies.
+While Table 1 oﬀers a quantitative comparison of models’ predictive performance, Table 3 assesses
+the statistical signiﬁcance of diﬀerences among models at the monthly frequency. It reports Diebold-
+Mariano test statistics for pairwise comparisons of a column model versus a row model. Diebold-
+Mariano statistics are distributed N(0, 1) under the null of no diﬀerence between models, thus the test
+statistic magnitudes map to p-values in the same way as regression t-statistics. Our sign convention
+is that a positive statistic indicates the column model outperforms the row model. Bold numbers
+denote signiﬁcance at the 5% level for each individual test.
+The ﬁrst conclusion from Table 3 is that constrained linear models—including restricting OLS
+to only use three predictors, reducing dimension via PLS or PCA, and penalizing via elastic net—
+produce statistically signiﬁcant improvements over the unconstrained OLS model. Second, we see
+little diﬀerence in the performance of penalized linear methods and dimension reduction methods.
+Third, we ﬁnd that tree-based methods uniformly improve over linear models, but the improvements
+are at best marginally signiﬁcant.
+Neural networks are the only models that produce large and
+signiﬁcant statistical improvements over linear and generalized linear models. They also improve
+over tree models, but the diﬀerence is not statistically signiﬁcant.
+Table 3 makes multiple comparisons. We highlight how inference changes under a conservative
+Bonferroni multiple comparisons correction that divides the signiﬁcance level by the number of
+comparisons.35 For a signiﬁcance level of 5% amid 12 model comparisons, the adjusted one-sided
+35Multiple comparisons are a concern when the researcher conducts many hypotheses tests and draws conclusions
+based on only those that are signiﬁcant. This distorts the size of tests through a selection bias. This is not how we
+present our results—we report t-statistics for every comparison we consider—yet we report adjusted inference to err
+on the side of caution. We also note that false discoveries in multiple comparisons should be randomly distributed.
+29
+
+critical value in our setting is 2.64.
+In the table, tests that exceed this conservative threshold
+are accompanied by an asterisk. The main diﬀerence with a Bonferroni adjustment is that neural
+networks become only marginally signiﬁcant over penalized linear models.
+3.3
+Which Covariates Matter?
+We now investigate the relative importance of individual covariates for the performance of each model
+using the importance measures described in Section 2.9. To begin, for each method, we calculate the
+reduction in R2 from setting all values of a given predictor to zero within each training sample, and
+average these into a single importance measure for each predictor. Figure 4 reports the resulting
+importances of the top 20 stock-level characteristics for each method. Variable importances within a
+model are normalized to sum to one, giving them the interpretation of relative importance for that
+particular model.
+Figure 5 reports overall rankings of characteristics for all models. We rank the importance of
+each characteristic for each method, then sum their ranks. Characteristics are ordered so that the
+highest total ranks are on top and the lowest ranking characteristics are at the bottom. The color
+gradient within each column shows the model-speciﬁc ranking of characteristics from least to most
+important (lightest to darkest).36
+Figures 4 and 5 demonstrate that models are generally in close agreement regarding the most
+inﬂuential stock-level predictors, which can be grouped into four categories. The ﬁrst are based
+on recent price trends, including ﬁve of the top seven variables in Figure 5: short-term reversal
+(mom1m), stock momentum (mom12m), momentum change (chmom), industry momentum (ind-
+mom), recent maximum return (maxret), and long-term reversal (mom36m).
+Next are liquidity
+variables, including turnover and turnover volatility (turn, std turn), log market equity (mvel1),
+dollar volume (dolvol), Amihud illiquidity (ill), number of zero trading days (zerotrade), and bid-
+ask spread (baspread). Risk measures constitute the third inﬂuential group, including total and
+idiosyncratic return volatility (retvol, idiovol), market beta (beta), and beta-squared (betasq). The
+last group includes valuation ratios and fundamental signals, such as earnings-to-price (ep), sales-to-
+price (sp), asset growth (agr), and number of recent earnings increases (nincr). Figure 4 shows that
+characteristic importance magnitudes for penalized linear models and dimension reduction models
+are highly skewed toward momentum and reversal. Trees and neural networks are more democratic,
+drawing predictive information from a broader set of characteristics.
+We ﬁnd that our second measure of variable importance, SSD from Dimopoulos et al. (1995),
+produces very similar results to the simpler R2 measure. Within each model, we calculate the Pearson
+correlation between relative importances from SSD and the R2 measure. These correlations range
+from 84.0% on the low end (NN1) to 97.7% on the high end (random forest). That is, the two
+The statistically signiﬁcant t-statistics in our analyses do not appear random, but instead follow a pattern in which
+nonlinear models outperform linear ones.
+36Figure 5 is based on the average rank over 30 recursing training samples. Figure A.1 presents the ranks for each of
+the recursing sample, respectively. The rank of important characteristics (top third of the covariates) are remarkably
+stable over time. This is true for all models, though we show results for one representative model (NN3) in the interest
+of space.
+30
+
+Figure 4: Variable Importance By Model
+PLS
+PCR
+lev
+operprof
+retvol
+chcsho
+nincr
+cashpr
+agr
+rd_mve
+dolvol
+ep
+mvel1
+mom6m
+sp
+turn
+maxret
+std_turn
+mom12m
+indmom
+chmom
+mom1m
+0.0
+0.1
+0.2
+0.3
+mom36m
+bm_ia
+chinv
+lgr
+bm
+depr
+cashpr
+mom6m
+ep
+invest
+agr
+rd_mve
+chcsho
+mvel1
+sp
+maxret
+indmom
+mom12m
+chmom
+mom1m
+0.0
+0.1
+0.2
+0.3
+ENet+H
+GLM+H
+mom36m
+mom6m
+retvol
+mvel1
+ep
+turn
+chinv
+chmom
+nincr
+ps
+std_turn
+sp
+chcsho
+invest
+rd_mve
+dolvol
+agr
+indmom
+mom12m
+mom1m
+0.0
+0.2
+0.4
+0.6
+mom36m
+securedind
+sic2
+chinv
+lgr
+ep
+turn
+chmom
+dolvol
+cashpr
+chcsho
+ill
+invest
+agr
+rd_mve
+maxret
+mvel1
+indmom
+mom12m
+mom1m
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+RF
+GBRT+H
+mom36m
+dolvol
+ill
+betasq
+beta
+sp
+idiovol
+convind
+mom6m
+baspread
+mom12m
+chmom
+retvol
+nincr
+securedind
+indmom
+maxret
+mvel1
+dy
+mom1m
+0.00
+0.05
+0.10
+rd_mve
+turn
+mom36m
+age
+beta
+mom6m
+baspread
+idiovol
+sp
+convind
+chmom
+mvel1
+indmom
+retvol
+nincr
+maxret
+mom12m
+securedind
+mom1m
+dy
+0.00
+0.05
+0.10
+0.15
+0.20
+NN2
+NN3
+betasq
+sp
+mom36m
+securedind
+zerotrade
+nincr
+indmom
+std_turn
+idiovol
+ill
+baspread
+mom6m
+mom12m
+turn
+dolvol
+maxret
+chmom
+retvol
+mvel1
+mom1m
+0.00
+0.05
+0.10
+0.15
+0.20
+beta
+sp
+securedind
+mom36m
+zerotrade
+nincr
+indmom
+std_turn
+ill
+mom12m
+baspread
+mom6m
+idiovol
+turn
+dolvol
+chmom
+maxret
+retvol
+mvel1
+mom1m
+0.00
+0.05
+0.10
+0.15
+0.20
+Note: Variable importance for the top 20 most inﬂuential variables in each model. Variable importance is an average
+over all training samples. Variable importances within each model are normalized to sum to one.
+31
+
+Figure 5: Characteristic Importance
+sin
+divo
+divi
+stdcf
+stdacc
+pchcurrat
+realestate
+pchsale_pchrect
+pchquick
+cinvest
+pchsale_pchxsga
+pchgm_pchsale
+rsup
+aeavol
+tb
+chatoia
+chpmia
+chtx
+pchsaleinv
+pchsale_pchinvt
+ear
+chempia
+pchcapx_ia
+tang
+pchdepr
+secured
+salecash
+absacc
+pctacc
+gma
+grltnoa
+cfp_ia
+acc
+std_dolvol
+cash
+currat
+grcapx
+roeq
+roavol
+salerec
+pricedelay
+hire
+herf
+quick
+ms
+mve_ia
+sic2
+roic
+roaq
+sgr
+rd_sale
+cfp
+egr
+saleinv
+bm_ia
+operprof
+lev
+invest
+chinv
+cashdebt
+lgr
+bm
+orgcap
+dy
+zerotrade
+ps
+cashpr
+betasq
+beta
+depr
+rd
+convind
+ageill
+baspread
+idiovol
+securedind
+chcsho
+ep
+mom36m
+mom6m
+std_turn
+rd_mve
+nincr
+agr
+turn
+sp
+dolvol
+retvol
+indmom
+maxret
+chmom
+mom12m
+mvel1
+mom1m
+PLS
+PCR
+ENet+H
+GLM+H
+RF
+GBRT+H
+NN1
+NN2
+NN3
+NN4
+NN5
+Note: Rankings of 94 stock-level characteristics and the industry dummy (sic2) in terms of overall model contribution.
+Characteristics are ordered based on the sum of their ranks over all models, with the most inﬂuential characteristics on
+top and least inﬂuential on bottom. Columns correspond to individual models, and color gradients within each column
+indicate the most inﬂuential (dark blue) to least inﬂuential (white) variables.
+32
+
+Table 4: Variable Importance for Macroeconomic Predictors
+PLS
+PCR
+ENet+H
+GLM+H
+RF
+GBRT+H
+NN1
+NN2
+NN3
+NN4
+NN5
+dp
+12.52
+14.12
+2.49
+4.54
+5.80
+6.05
+15.57
+17.58
+14.84
+13.95
+13.15
+ep
+12.25
+13.52
+3.27
+7.37
+6.27
+2.85
+8.86
+8.09
+7.34
+6.54
+6.47
+bm
+14.21
+14.83
+33.95
+43.46
+10.94
+12.49
+28.57
+27.18
+27.92
+26.95
+27.90
+ntis
+11.25
+9.10
+1.30
+4.89
+13.02
+13.79
+18.37
+19.26
+20.15
+19.59
+18.68
+tbl
+14.02
+15.29
+13.29
+7.90
+11.98
+19.49
+17.18
+16.40
+17.76
+20.99
+21.06
+tms
+11.35
+10.66
+0.31
+5.87
+16.81
+15.27
+10.79
+10.59
+10.91
+10.38
+10.33
+dfy
+17.17
+15.68
+42.13
+24.10
+24.37
+22.93
+0.09
+0.06
+0.06
+0.04
+0.12
+svar
+7.22
+6.80
+3.26
+1.87
+10.82
+7.13
+0.57
+0.85
+1.02
+1.57
+2.29
+dp
+ep
+bm
+ntis
+tbl
+tms
+dfy
+svar
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+PLS
+PCR
+ENet+H
+GLM+H
+RF
+GBRT+H
+NN1
+NN2
+NN3
+NN4
+NN5
+Note: Variable importance for eight macroeconomic variables in each model. Variable importance is an average over
+all training samples. Variable importances within each model are normalized to sum to one. The lower panel provides
+a complementary visual comparison of macroeconomic variable importances.
+methods provide a highly consistent summary of which variables are most inﬂuential for forecast
+accuracy. The full set of SSD results are shown in appendix Figure A.2.
+For robustness, we re-run our analysis with an augmented set of characteristics that include ﬁve
+placebo “characteristics.” They are simulated according to the data generating process (A.1) in
+Appendix A. The parameters are calibrated to have similar behavior as our characteristics dataset
+but are independent of future returns by construction. Figure A.3 in Appendix F presents the variable
+importance plot (based on R2) with ﬁve noise characteristics highlighted. The table conﬁrms that the
+most inﬂuential characteristics that we identify in our main analysis are unaﬀected by the presence of
+irrelevant characteristics. Noise variables appear among the least informative characteristics, along
+with sin stocks, dividend initiation/omission, cashﬂow volatility, and other accounting variables.
+Table 4 shows the R2-based importance measure for each macroeconomic predictor variable (again
+normalized to sum to one within a given model). All models agree that the aggregate book-to-market
+ratio is a critical predictor, whereas market volatility has little role in any model. PLS and PCR
+place similar weights on all other predictors, potentially because these variables are highly correlated.
+Linear and generalized linear models strongly favor bond market variables including the default
+33
+
+spread and treasury rate. Nonlinear methods (trees and neural networks) place great emphasis on
+exactly those predictors ignored by linear methods, such as term spreads and issuance activity.
+Many accounting characteristics are not available at the monthly frequency, which might explain
+their low importance in Figure 5. To investigate this, appendix Figure A.6 presents the rank of
+variables based on the annual return forecasts. Price trend variables become less important compared
+to the liquidity and risk measures, although they are still quite inﬂuential. The characteristics that
+were ranked in the bottom half of predictors at the monthly horizon remain largely unimportant at
+the annual horizon. The exception is industry (sic2) which shows substantial predictive power at the
+annual frequency.
+3.3.1
+Marginal Association Between Characteristics and Expected Returns
+Figure 6 traces out the model-implied marginal impact of individual characteristics on expected
+excess returns. Our data transformation normalizes characteristics to the (-1,1) interval, and holds
+all other variables ﬁxed at their median value of zero. We choose four illustrative characteristics
+for the ﬁgure, including size (mvel1), momentum (mom12m), stock volatility (retvol), and accruals
+(acc).
+First, Figure 6 illustrates that machine learning methods identify patterns similar to some well
+known empirical phenomena. For example, expected stock returns are decreasing in size, increasing
+in past one-year return, and decreasing in stock volatility.
+And it is interesting to see that all
+methods agree on a nearly exact zero relationship between accruals and future returns. Second, the
+(penalized) linear model ﬁnds no predictive association between returns and either size or volatility,
+while trees and neural networks ﬁnd large sensitivity of expected returns to both of these variables.
+For example, a ﬁrm that drops from median size to the 20th percentile of the size distribution
+experiences an increase in its annualized expected return of roughly 2.4% (0.002×12×100), and a
+ﬁrm whose volatility rises from median to 80th percentile experiences a decrease of around 3.0% per
+year, according to NN3, and these methods detect nonlinear predictive associations. The inability
+of linear models to capture nonlinearities can lead them to prefer a zero association, and this can in
+part explain the divergence in the performance of linear and nonlinear methods.
+3.3.2
+Interaction Eﬀects
+The favorable performance of trees and neural networks indicates a beneﬁt to allowing for potentially
+complex interactions among predictors. Machine learning models are often referred to as “black
+boxes.” This is in some sense a misnomer, as the models are readily inspectable. They are, however,
+complex, and this is the source of both their power and their opacity. Any exploration of interaction
+eﬀect is vexed by vast possibilities for identity and functional forms for interacting predictors. In
+this section, we present a handful of interaction results to help illustrate the inner workings of one
+black box method, the NN3 model.
+As a ﬁrst example, we examine a set of pairwise interaction eﬀects in NN3. Figure 7 reports how
+expected returns vary as we simultaneously vary values of a pair of characteristics over their support
+34
+
+Figure 6: Marginal Association Between Expected Returns and Characteristics
+mvel1
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+×10 -3
+-4
+0
+4
+ENet+H
+GLM+H
+RF
+GBRT+H
+NN3
+mom12m
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+×10 -3
+-4
+0
+4
+retvol
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+×10 -3
+-4
+0
+4
+acc
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+×10 -3
+-4
+0
+4
+Note: Sensitivity of expected monthly percentage returns (vertical axis) to individual characteristics (holding all other
+covariates ﬁxed at their median values).
+[-1,1], while holding all other variables ﬁxed at their median value of zero. We show interactions of
+stock size (mvel1) with four other predictors: short-term reversal (mom1m), momentum (mom12m),
+and total and idiosyncratic volatility (retvol and idiovol, respectively).
+The upper-left ﬁgure shows that the short-term reversal eﬀect is strongest and is essentially
+linear among small stocks (blue line). Among large stocks (green line), reversal is concave, occurring
+primarily when the prior month return is positive. The upper-right ﬁgure shows the momentum
+eﬀect, which is most pronounced among large stocks for the NN3 model.37 Likewise, on the lower-
+left, we see that the low volatility anomaly is also strongest among large stocks. For small stocks, the
+volatility eﬀect is hump-shaped. Finally, the lower-right shows that NN3 estimates no interaction
+eﬀect between size and accruals—the size lines are simply vertical shifts of the univariate accruals
+curve.
+Figure 8 illustrates interactions between stock-level characteristics and macroeconomic indicator
+variables. It shows, for example, that the size eﬀect is more pronounced when aggregate valuations
+are low (bm is high) and when equity issuance (ntis) is low, while the low volatility anomaly is
+especially strong in high valuation and high issuance environments. Appendix Figure A.4 shows
+the 100 most important interactions of stock characteristics with macroeconomic indicators for each
+machine learning model. The most inﬂuential features come from interacting a stock’s recent price
+37Note that conclusions from our model can diverge from results in the literature because we jointly model hundreds
+of predictor variables, which can lead to new conclusions regarding marginal eﬀects, interaction eﬀects, and so on.
+35
+
+Figure 7: Expected Returns and Characteristic Interactions (NN3)
+mom1m
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-0.6
+0
+0.6
+mvel1=-1
+mvel1=-0.5
+mvel1=0
+mvel1=0.5
+mvel1=1
+mom12m
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-0.6
+0
+0.6
+retvol
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-0.6
+0
+0.6
+acc
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-0.6
+0
+0.6
+Note: Sensitivity of expected monthly percentage returns (vertical axis) to interactions eﬀects for mvel1 with mom1m,
+mom12m, retvol, and acc in model NN3 (holding all other covariates ﬁxed at their median values).
+trends (e.g., momentum, short-term reversal, or industry momentum) with aggregate asset price
+levels (e.g., valuation ratios of the aggregate stock market or Treasury bill rates). Furthermore, the
+dominant macroeconomic interactions are stable over time, as illustrated in appendix Figure A.5.
+3.4
+Portfolio Forecasts
+So far we have analyzed predictability of individual stock returns. Next, we compare forecasting
+performance of machine learning methods for aggregate portfolio returns. There are a number of
+beneﬁts to analyzing portfolio-level forecasts.
+First, because all of our models are optimized for stock-level forecasts, portfolio forecasts provide
+an additional indirect evaluation of the model and its robustness.
+Second, aggregate portfolios
+tend to be of broader economic interest because they represent the risky-asset savings vehicles most
+commonly held by investors (via mutual funds, ETFs, and hedge funds). We study value-weight
+portfolios to assess the extent to which a model’s predictive performance thrives in the most valuable
+(and most economically important) assets in the economy. Third, the distribution of portfolio returns
+is sensitive to dependence among stock returns, with the implication that a good stock-level prediction
+model is not guaranteed to produce accurate portfolio-level forecasts. Bottom-up portfolio forecasts
+allow us to evaluate a model’s ability to transport its asset predictions, which occur at the ﬁnest
+36
+
+Figure 8: Expected Returns and Characteristic/Macroeconomic Variable Interactions (NN3)
+mvel1
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-0.5
+0
+0.5
+bm=Quantile 10%
+bm=Quantile 30%
+bm=Quantile 50%
+bm=Quantile 70%
+bm=Quantile 90%
+mvel1
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-0.5
+0
+0.5
+ntis=Quantile 10%
+ntis=Quantile 30%
+ntis=Quantile 50%
+ntis=Quantile 70%
+ntis=Quantile 90%
+retvol
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-0.5
+0
+0.5
+bm=Quantile 10%
+bm=Quantile 30%
+bm=Quantile 50%
+bm=Quantile 70%
+bm=Quantile 90%
+retvol
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-0.5
+0
+0.5
+ntis=Quantile 10%
+ntis=Quantile 30%
+ntis=Quantile 50%
+ntis=Quantile 70%
+ntis=Quantile 90%
+Note: Sensitivity of expected monthly percentage returns (vertical axis) to interactions eﬀects for mvel1 and retvol
+with bm and ntis in model NN3 (holding all other covariates ﬁxed at their median values).
+asset level, into broader investment contexts. Last but not least, the portfolio results are one step
+further “out-of-sample” in that the optimization routine does not directly account for the predictive
+performance of the portfolios.
+Our assessment of forecast performance up to this point has been entirely statistical, relying on
+comparisons of predictive R2. The ﬁnal advantage of analyzing predictability at the portfolio level
+is that we can assess the economic contribution of each method via its contribution to risk-adjusted
+portfolio return performance.
+3.4.1
+Pre-speciﬁed Portfolios
+We build bottom-up forecasts by aggregating individual stock return predictions into portfolios.
+Given the weight of stock i in portfolio p (denoted wp
+i,t) and given a model-based out-of-sample
+forecast for stock i (denoted bri,t+1), we construct the portfolio return forecast as
+brp
+t+1 =
+n
+X
+i=1
+wp
+i,t × bri,t+1.
+This bottom-up approach works for any target portfolio whose weights are known a priori.
+We form bottom-up forecasts for 30 of the most well known portfolios in the empirical ﬁnance
+37
+
+Table 5: Monthly Portfolio-level Out-of-Sample Predictive R2
+OLS-3
+PLS
+PCR
+ENet
+GLM
+RF
+GBRT
+NN1
+NN2
+NN3
+NN4
+NN5
++H
++H
++H
++H
+Panel A: Common Factor Portfolios
+S&P 500
+-0.22
+-0.86
+-1.55
+0.75
+0.71
+1.37
+1.40
+1.08
+1.13
+1.80
+1.63
+1.17
+SMB
+0.81
+2.09
+0.39
+1.72
+2.36
+0.57
+0.35
+1.40
+1.16
+1.31
+1.20
+1.27
+HML
+0.66
+0.50
+1.21
+0.46
+0.84
+0.98
+0.21
+1.22
+1.31
+1.06
+1.25
+1.24
+RMW
+-2.35
+1.19
+0.41
+-1.07
+-0.06
+-0.54
+-0.92
+0.68
+0.47
+0.84
+0.53
+0.54
+CMA
+0.80
+-0.44
+0.03
+-1.07
+1.24
+-0.11
+-1.04
+1.88
+1.60
+1.06
+1.84
+1.31
+UMD
+-0.90
+-1.09
+-0.47
+0.47
+-0.37
+1.37
+-0.25
+-0.56
+-0.26
+0.19
+0.27
+0.35
+Panel B: Sub-components of Factor Portfolios
+Big Value
+0.10
+0.00
+-0.33
+0.25
+0.59
+1.31
+1.06
+0.85
+0.87
+1.46
+1.21
+0.99
+Big Growth
+-0.33
+-1.26
+-1.62
+0.70
+0.51
+1.32
+1.19
+1.00
+1.10
+1.50
+1.24
+1.11
+Big Neutral
+-0.17
+-1.09
+-1.51
+0.80
+0.36
+1.31
+1.28
+1.43
+1.24
+1.70
+1.81
+1.40
+Small Value
+0.30
+1.66
+1.05
+0.64
+0.85
+1.24
+0.52
+1.59
+1.37
+1.54
+1.40
+1.30
+Small Growth
+-0.16
+0.14
+-0.18
+-0.33
+-0.12
+0.71
+1.24
+0.05
+0.42
+0.48
+0.41
+0.50
+Small Neutral
+-0.27
+0.60
+0.19
+0.21
+0.28
+0.88
+0.36
+0.58
+0.62
+0.70
+0.58
+0.68
+Big Conservative
+-0.57
+-0.10
+-1.06
+1.02
+0.46
+1.11
+0.55
+1.15
+1.13
+1.59
+1.37
+1.07
+Big Aggressive
+0.20
+-0.80
+-1.15
+0.30
+0.67
+1.75
+2.00
+1.33
+1.51
+1.78
+1.55
+1.42
+Big Neutral
+-0.29
+-1.75
+-1.96
+0.83
+0.48
+1.13
+0.77
+0.85
+0.85
+1.51
+1.45
+1.16
+Small Conservative
+-0.05
+1.17
+0.71
+-0.02
+0.34
+0.96
+0.56
+0.82
+0.87
+0.96
+0.90
+0.83
+Small Aggressive
+-0.10
+0.51
+0.01
+-0.09
+0.14
+1.00
+1.46
+0.34
+0.64
+0.75
+0.62
+0.71
+Small Neutral
+-0.30
+0.45
+0.12
+0.42
+0.35
+0.76
+-0.01
+0.70
+0.69
+0.83
+0.66
+0.72
+Big Robust
+-1.02
+-1.08
+-2.06
+0.55
+0.35
+1.10
+0.33
+0.74
+0.79
+1.28
+1.03
+0.74
+Big Weak
+-0.12
+1.42
+1.07
+0.89
+1.10
+1.33
+1.77
+1.79
+1.79
+2.05
+1.66
+1.60
+Big Neutral
+0.86
+-1.22
+-1.26
+0.41
+0.13
+1.10
+0.91
+0.84
+0.94
+1.19
+1.15
+0.99
+Small Robust
+-0.71
+0.35
+-0.38
+-0.04
+-0.42
+0.70
+0.19
+0.24
+0.50
+0.63
+0.53
+0.55
+Small Weak
+0.05
+1.06
+0.59
+-0.13
+0.44
+1.05
+1.42
+0.71
+0.92
+0.99
+0.90
+0.89
+Small Neutral
+-0.51
+0.07
+-0.47
+-0.33
+-0.32
+0.60
+-0.08
+0.10
+0.25
+0.38
+0.32
+0.41
+Big Up
+0.20
+-0.25
+-1.24
+0.66
+1.17
+1.18
+0.90
+0.80
+0.76
+1.13
+1.12
+0.93
+Big Down
+-1.54
+-1.63
+-1.55
+0.44
+-0.33
+1.14
+0.71
+0.36
+0.70
+1.07
+0.90
+0.84
+Big Medium
+-0.04
+-1.51
+-1.94
+0.81
+-0.08
+1.57
+1.80
+1.29
+1.32
+1.71
+1.55
+1.23
+Small Up
+0.07
+0.78
+0.56
+-0.07
+0.25
+0.62
+-0.03
+0.06
+0.07
+0.21
+0.19
+0.25
+Small Down
+-0.21
+0.15
+-0.20
+0.15
+-0.01
+1.51
+1.38
+0.74
+0.82
+1.02
+0.91
+0.96
+Small Medium
+0.07
+0.82
+0.20
+0.59
+0.37
+1.22
+1.06
+1.09
+1.09
+1.18
+1.00
+1.03
+Note: In this table, we report the out-of-sample predictive R2s for 30 portfolios using OLS with size, book-to-market,
+and momentum, OLS-3, PLS, PCR, elastic net (ENet), generalized linear model with group lasso (GLM), random forest
+(RF), gradient boosted regression trees (GBRT), and ﬁve architectures of neural networks (NN1,...,NN5), respectively.
+“+H” indicates the use of Huber loss instead of the l2 loss. The six portfolios in Panel A are the S&P 500 index and the
+Fama-French SMB, HML, CMA, RMW, and UMD factors. The 24 portfolios in Panel B are 3 × 2 size double-sorted
+portfolios used in the construction of the Fama-French value, investment, proﬁtability, and momentum factors.
+literature, including the S&P 500, the Fama-French size, value, proﬁtability, investment, and momen-
+tum factor portfolios (SMB, HML, RMW, CMA, and UMD, respectively), and sub-components of
+these Fama-French portfolios, including six size and value portfolios, six size and investment portfo-
+lios, six size and proﬁtability portfolios, and six size and momentum portfolios. The sub-component
+portfolios are long-only and therefore have substantial overlap with the market index, while SMB,
+HML, RMW, CMA, and UMD are zero-net-investment long-short portfolios that are in large part
+38
+
+Table 6: Market Timing Sharpe Ratio Gains
+OLS-3
+PLS
+PCR
+ENet
+GLM
+RF
+GBRT
+NN1
+NN2
+NN3
+NN4
+NN5
++H
++H
++H
++H
+Panel A: Common Factor Portfolios
+S&P 500
+0.07
+0.05
+-0.06
+0.12
+0.19
+0.18
+0.19
+0.22
+0.20
+0.26
+0.22
+0.19
+SMB
+0.06
+0.17
+0.09
+0.24
+0.26
+0.00
+-0.07
+0.21
+0.18
+0.15
+0.09
+0.11
+HML
+0.00
+0.01
+0.04
+-0.03
+-0.02
+0.04
+0.02
+0.04
+0.06
+0.04
+0.02
+0.01
+RMW
+0.00
+-0.01
+-0.06
+-0.19
+-0.13
+-0.11
+-0.01
+-0.03
+-0.09
+0.01
+0.01
+-0.07
+CMA
+0.02
+0.02
+0
+-0.09
+-0.05
+0.08
+-0.01
+0.00
+0.01
+0.05
+0.04
+0.06
+UMD
+0.01
+-0.06
+-0.02
+-0.02
+-0.07
+-0.04
+-0.07
+-0.04
+-0.08
+-0.04
+-0.10
+-0.01
+Panel B: Sub-components of Factor Portfolios
+Big Value
+-0.01
+0.06
+-0.03
+0.09
+0.06
+0.09
+0.08
+0.11
+0.11
+0.13
+0.10
+0.11
+Big Growth
+0.08
+-0.01
+-0.08
+0.10
+0.17
+0.20
+0.21
+0.22
+0.20
+0.26
+0.22
+0.21
+Big Neutral
+0.06
+0.03
+-0.06
+0.11
+0.16
+0.13
+0.17
+0.23
+0.21
+0.23
+0.23
+0.21
+Small Value
+-0.04
+0.15
+0.09
+0.01
+0.08
+0.07
+0.08
+0.11
+0.11
+0.10
+0.11
+0.13
+Small Growth
+0.00
+0.03
+-0.06
+-0.03
+-0.05
+0.04
+0.05
+0.02
+0.03
+0.03
+0.02
+0.02
+Small Neutral
+0.02
+0.09
+0.05
+0.03
+0.04
+0.11
+0.11
+0.09
+0.08
+0.10
+0.09
+0.11
+Big Conservative
+0.08
+0.02
+-0.04
+0.08
+0.15
+0.09
+0.13
+0.17
+0.14
+0.19
+0.16
+0.14
+Big Aggressive
+0.08
+-0.01
+-0.11
+0.01
+0.13
+0.22
+0.18
+0.21
+0.19
+0.23
+0.20
+0.20
+Big Neutral
+0.04
+-0.01
+-0.08
+0.09
+0.11
+0.09
+0.11
+0.13
+0.12
+0.18
+0.18
+0.16
+Small Conservative
+0.04
+0.17
+0.12
+0.02
+0.05
+0.17
+0.15
+0.11
+0.11
+0.14
+0.13
+0.15
+Small Aggressive
+0.01
+0.05
+-0.06
+-0.05
+-0.03
+0.08
+0.06
+0.02
+0.05
+0.06
+0.04
+0.05
+Small Neutral
+0.01
+0.06
+0.03
+0.01
+0.04
+0.08
+0.09
+0.07
+0.06
+0.08
+0.07
+0.09
+Big Robust
+0.10
+0.07
+-0.07
+0.11
+0.18
+0.17
+0.18
+0.18
+0.16
+0.22
+0.19
+0.16
+Big Weak
+0.05
+0.12
+0.05
+0.09
+0.12
+0.21
+0.17
+0.22
+0.20
+0.21
+0.18
+0.19
+Big Neutral
+0.09
+0.00
+-0.04
+0.09
+0.20
+0.19
+0.17
+0.22
+0.21
+0.24
+0.21
+0.20
+Small Robust
+0.09
+0.04
+-0.03
+0.00
+0.00
+0.10
+0.07
+0.04
+0.05
+0.08
+0.08
+0.08
+Small Weak
+-0.03
+0.09
+0.00
+-0.03
+-0.02
+0.07
+0.07
+0.06
+0.06
+0.06
+0.05
+0.06
+Small Neutral
+0.04
+0.04
+-0.03
+0.00
+0.01
+0.11
+0.09
+0.04
+0.04
+0.07
+0.07
+0.08
+Big Up
+0.10
+0.05
+-0.06
+0.10
+0.21
+0.16
+0.14
+0.17
+0.14
+0.17
+0.18
+0.17
+Big Down
+-0.02
+0.09
+-0.08
+-0.02
+0.02
+0.08
+0.10
+0.10
+0.07
+0.12
+0.11
+0.09
+Big Medium
+-0.01
+0.04
+-0.06
+0.14
+0.09
+0.17
+0.20
+0.22
+0.21
+0.25
+0.22
+0.19
+Small Up
+0.08
+0.13
+0.10
+0.05
+0.07
+0.16
+0.12
+0.07
+0.06
+0.08
+0.07
+0.10
+Small Down
+-0.14
+0.04
+-0.05
+-0.09
+-0.05
+0.06
+0.04
+0.01
+0.01
+0.02
+0.01
+0.01
+Small Medium
+0.05
+0.11
+0.07
+0.08
+0.09
+0.13
+0.15
+0.13
+0.12
+0.14
+0.13
+0.15
+Note: Improvement in annualized Sharpe ratio (SR∗−SR). We compute the SR∗by weighting the portfolios based
+on a market timing strategy Campbell and Thompson (2007). Cases with Sharpe ratio deterioration are omitted.
+purged of market exposure. In all cases, we create the portfolios ourselves using CRSP market eq-
+uity value weights. Our portfolio construction diﬀers slightly from the actual S&P 500 index and
+the characteristic-based Fama-French portfolios (Fama and French, 1993, 2015), but has the virtue
+that we can exactly track the ex ante portfolio weights of each.38
+Table 5 reports the monthly out-of-sample R2 over our 30-year testing sample. Regularized linear
+methods fail to outperform naive constant forecasts of the S&P 500. In contrast, all nonlinear models
+have substantial positive predictive performance. The one month out-of-sample R2 is 0.71% for the
+38Our replication of S&P500 returns has a correlation with the actual index of more than 0.99.
+For the other
+portfolios (SMB, HML, RMW, CMA, UMD), the return correlations between our replication and the version from Ken
+French’s website are 0.99, 0.97, 0.95, 0.99, 0.96, respectively.
+39
+
+generalized linear model and reaches as high as 1.80% for the three-layer neural network.
+As a
+benchmark for comparison, nearly all of the macroeconomic return predictor variables in the survey
+of Welch and Goyal (2008) fail to produce a positive out-of-sample forecast R2. Kelly and Pruitt
+(2013) ﬁnd that PLS delivers an out-of-sample forecasting R2 around 1% per month for the aggregate
+market index, though their forecasts directly target the market return as opposed to being bottom-
+up forecasts. And the most well-studied portfolio predictors, such as the aggregate price-dividend
+ratio, typically produce an in-sample predictive R2 of around 1% per month (e.g., Cochrane, 2007),
+smaller than what we ﬁnd out-of-sample.
+The patterns in S&P 500 forecasting performance across models carry over to long-only characteristic-
+sorted portfolios (rows 2–25) and long-short factor portfolios (SMB, HML, RMW, CMA, and UMD).
+Nonlinear methods excel. NN3–NN5 produce a positive R2
+oos for every portfolio analyzed, with NN3
+dominating. NN1 and NN2 also produce a positive R2
+oos for all but UMD (which is by and large the
+hardest strategy to forecast). The generalized linear model R2
+oos is positive for 22 out of 30 portfolios.
+Linear methods, on the other hand, are on balance unreliable for bottom-up portfolio return fore-
+casting, though their performance tends to be better for “big” portfolios compared to “small.” For
+select long-short factor portfolios (e.g., SMB), constrained linear methods such as PLS perform com-
+paratively well (consistent with the ﬁndings of Kelly and Pruitt, 2013). In short, machine learning
+methods, and nonlinear methods in particular, produce unusually powerful out-of-sample portfolio
+predictions.
+We next assess the economic magnitudes of portfolio predictability. Campbell and Thompson
+(2008) show that small improvements in R2 can map into large utility gains for a mean-variance
+investor. They show that the Sharpe ratio (SR∗) earned by an active investor exploiting predictive
+information (summarized as a predictive R2) improves over the Sharpe ratio (SR) earned by a
+buy-and-hold investor according to
+SR∗=
+r
+SR2 + R2
+1 −R2
+.
+We use this formula to translate the predictive R2
+oos of Table 5 (along with the full-sample Sharpe
+ratio of each portfolio) into an improvement in annualized Sharpe ratio, SR∗−SR, for an investor
+exploiting machine learning predictions for portfolio timing. The results are presented in appendix
+Table A.7. For example, the buy-and-hold Sharpe ratio of the S&P 500, which is 0.51 in our 30-year
+out-of-sample period, can be improved to 0.71 by a market-timer exploiting forecasts from the NN3
+model. For characteristic-based portfolios, nonlinear machine learning methods help improve Sharpe
+ratios by anywhere from a few percentage points to over 24 percentage points.
+Campbell and Thompson (2008) also propose evaluating the economic magnitude of portfolio
+predictability with a market timing trading strategy. We follow their out-of-sample trading strategy
+exactly, scaling up/down positions each month as expected returns rise/fall, while imposing a maxi-
+mum leverage constraint of 50% and excluding short sales for long-only portfolios (we do not impose
+these constraints for long-short factor portfolios). Table 6 reports the annualized Sharpe ratio gains
+(relative to a buy-and-hold strategy) for timing strategies based on machine learning forecasts. Con-
+40
+
+sistent with our other results, the strongest and most consistent trading strategies are those based on
+nonlinear models, with neural networks the best overall. In the case of NN3, the Sharpe ratio from
+timing the S&P 500 index 0.77, or 26 percentage points higher than a buy-and-hold position. Long-
+short factor portfolios are harder to time than the S&P 500 and the other 24 long-only portfolios,
+and all methods fail to outperform the static UMD strategy.
+As a robustness test, we also analyze bottom-up predictions for annual rather than monthly
+returns. The comparative patterns in predictive performance across methods is the same in annual
+and monthly data. Appendix Table A.8 demonstrates the superiority of nonlinear methods, and in
+particular neural networks. NN3 continues to dominate for the market portfolio, achieving an annual
+R2
+oos of 15.7%.
+3.4.2
+Machine Learning Portfolios
+Next, rather than assessing forecast performance among pre-speciﬁed portfolios, we design a new set
+of portfolios to directly exploit machine learning forecasts. At the end of each month, we calculate
+one-month-ahead out-of-sample stock return predictions for each method. We then sort stocks into
+deciles based on each model’s forecasts. We reconstitute portfolios each month using value weights.
+Finally, we construct a zero-net-investment portfolio that buys the highest expected return stocks
+(decile 10) and sells the lowest (decile 1).
+Table 7 reports results. Out-of-sample portfolio performance aligns very closely with results on
+machine learning forecast accuracy reported earlier. Realized returns generally increase monotoni-
+cally with machine learning forecasts from every method (with occasional exceptions, such as decile
+8 of NN1). Neural network models again dominate linear models and tree-based approaches. In
+particular, for all but the most extreme deciles, the quantitative match between predicted returns
+and average realized returns using neural networks is extraordinarily close. The best 10–1 strategy
+comes from NN4, which returns on average 2.3% per month (27.1% on an annualized basis). Its
+monthly volatility is 5.8% (20.1% annualized), amounting to an annualized out-of-sample Sharpe
+ratio of 1.35.
+While value-weight portfolios are less sensitive to trading cost considerations, it is perhaps more
+natural to study equal weights in our analysis because our statistical objective functions minimize
+equally weighted forecast errors. Appendix Table A.9 reports the performance of machine learning
+portfolios using an equal-weight formation. The qualitative conclusions of this table are identical
+to those of Table 7, but the Sharpe ratios are substantially higher. For example, the long-short
+decile spread portfolio based on the NN4 model earns an annualized Sharpe ratio of 2.45 with equal
+weighting. To identify the extent to which equal-weight results are driven by micro-cap stocks, Table
+A.10 reports equal-weight portfolio results excluding stocks that fall below the 20th percentile of the
+NYSE size distribution. In this case, the NN4 long-short decile spread earns a Sharpe ratio of 1.69.
+As recommended by Lewellen (2015), the OLS-3 model is an especially parsimonious and robust
+benchmark model. He also recommends somewhat larger OLS benchmark models with either seven
+or 15 predictors, which we report in appendix Table A.11. The larger OLS models improve over
+41
+
+Table 7: Performance of Machine Learning Portfolios
+OLS-3+H
+PLS
+PCR
+Pred
+Avg
+Std
+SR
+Pred
+Avg
+Std
+SR
+Pred
+Avg
+Std
+SR
+Low(L)
+-0.17
+0.40
+5.90
+0.24
+-0.83
+0.29
+5.31
+0.19
+-0.68
+0.03
+5.98
+0.02
+2
+0.17
+0.58
+4.65
+0.43
+-0.21
+0.55
+4.96
+0.38
+-0.11
+0.42
+5.25
+0.28
+3
+0.35
+0.60
+4.43
+0.47
+0.12
+0.64
+4.63
+0.48
+0.19
+0.53
+4.94
+0.37
+4
+0.49
+0.71
+4.32
+0.57
+0.38
+0.78
+4.30
+0.63
+0.42
+0.68
+4.64
+0.51
+5
+0.62
+0.79
+4.57
+0.60
+0.61
+0.77
+4.53
+0.59
+0.62
+0.81
+4.66
+0.60
+6
+0.75
+0.92
+5.03
+0.63
+0.84
+0.88
+4.78
+0.64
+0.81
+0.81
+4.58
+0.61
+7
+0.88
+0.85
+5.18
+0.57
+1.06
+0.92
+4.89
+0.65
+1.01
+0.87
+4.72
+0.64
+8
+1.02
+0.86
+5.29
+0.56
+1.32
+0.92
+5.14
+0.62
+1.23
+1.01
+4.77
+0.73
+9
+1.21
+1.18
+5.47
+0.75
+1.66
+1.15
+5.24
+0.76
+1.52
+1.20
+4.88
+0.86
+High(H)
+1.51
+1.34
+5.88
+0.79
+2.25
+1.30
+5.85
+0.77
+2.02
+1.25
+5.60
+0.77
+H-L
+1.67
+0.94
+5.33
+0.61
+3.09
+1.02
+4.88
+0.72
+2.70
+1.22
+4.82
+0.88
+ENet+H
+GLM+H
+RF
+Pred
+Avg
+Std
+SR
+Pred
+Avg
+Std
+SR
+Pred
+Avg
+Std
+SR
+Low(L)
+-0.04
+0.24
+5.44
+0.15
+-0.47
+0.08
+5.65
+0.05
+0.29
+-0.09
+6.00
+-0.05
+2
+0.27
+0.56
+4.84
+0.40
+0.01
+0.49
+4.80
+0.35
+0.44
+0.38
+5.02
+0.27
+3
+0.44
+0.53
+4.50
+0.40
+0.29
+0.65
+4.52
+0.50
+0.53
+0.64
+4.70
+0.48
+4
+0.59
+0.72
+4.11
+0.61
+0.50
+0.72
+4.59
+0.55
+0.60
+0.60
+4.56
+0.46
+5
+0.73
+0.72
+4.42
+0.57
+0.68
+0.70
+4.55
+0.53
+0.67
+0.57
+4.51
+0.44
+6
+0.87
+0.85
+4.60
+0.64
+0.84
+0.84
+4.53
+0.65
+0.73
+0.64
+4.54
+0.49
+7
+1.01
+0.87
+4.75
+0.64
+1.00
+0.86
+4.82
+0.62
+0.80
+0.67
+4.65
+0.50
+8
+1.16
+0.88
+5.20
+0.59
+1.18
+0.87
+5.18
+0.58
+0.87
+1.00
+4.91
+0.71
+9
+1.36
+0.80
+5.61
+0.50
+1.40
+1.04
+5.44
+0.66
+0.96
+1.23
+5.59
+0.76
+High(H)
+1.66
+0.84
+6.76
+0.43
+1.81
+1.14
+6.33
+0.62
+1.12
+1.53
+7.27
+0.73
+H-L
+1.70
+0.60
+5.37
+0.39
+2.27
+1.06
+4.79
+0.76
+0.83
+1.62
+5.75
+0.98
+GBRT+H
+NN1
+NN2
+Pred
+Avg
+Std
+SR
+Pred
+Avg
+Std
+SR
+Pred
+Avg
+Std
+SR
+Low(L)
+-0.45
+0.18
+5.60
+0.11
+-0.38
+-0.29
+7.02
+-0.14
+-0.23
+-0.54
+7.83
+-0.24
+2
+-0.16
+0.49
+4.93
+0.35
+0.16
+0.41
+5.89
+0.24
+0.21
+0.36
+6.08
+0.20
+3
+0.02
+0.59
+4.75
+0.43
+0.44
+0.51
+5.07
+0.35
+0.44
+0.65
+5.07
+0.44
+4
+0.17
+0.63
+4.68
+0.46
+0.64
+0.70
+4.56
+0.53
+0.59
+0.73
+4.53
+0.56
+5
+0.34
+0.57
+4.70
+0.42
+0.80
+0.77
+4.37
+0.61
+0.72
+0.81
+4.38
+0.64
+6
+0.46
+0.77
+4.48
+0.59
+0.95
+0.78
+4.39
+0.62
+0.84
+0.84
+4.51
+0.65
+7
+0.59
+0.52
+4.73
+0.38
+1.11
+0.81
+4.40
+0.64
+0.97
+0.95
+4.61
+0.71
+8
+0.72
+0.72
+4.92
+0.51
+1.31
+0.75
+4.86
+0.54
+1.13
+0.93
+5.09
+0.63
+9
+0.88
+0.99
+5.19
+0.66
+1.58
+0.96
+5.22
+0.64
+1.37
+1.04
+5.69
+0.63
+High(H)
+1.11
+1.17
+5.88
+0.69
+2.19
+1.52
+6.79
+0.77
+1.99
+1.38
+6.98
+0.69
+H-L
+1.56
+0.99
+4.22
+0.81
+2.57
+1.81
+5.34
+1.17
+2.22
+1.92
+5.75
+1.16
+NN3
+NN4
+NN5
+Pred
+Avg
+Std
+SR
+Pred
+Avg
+Std
+SR
+Pred
+Avg
+Std
+SR
+Low(L)
+-0.03
+-0.43
+7.73
+-0.19
+-0.12
+-0.52
+7.69
+-0.23
+-0.23
+-0.51
+7.69
+-0.23
+2
+0.34
+0.30
+6.38
+0.16
+0.30
+0.33
+6.16
+0.19
+0.23
+0.31
+6.10
+0.17
+3
+0.51
+0.57
+5.27
+0.37
+0.50
+0.42
+5.18
+0.28
+0.45
+0.54
+5.02
+0.37
+4
+0.63
+0.66
+4.69
+0.49
+0.62
+0.60
+4.51
+0.46
+0.60
+0.67
+4.47
+0.52
+5
+0.71
+0.69
+4.41
+0.55
+0.72
+0.69
+4.26
+0.56
+0.73
+0.77
+4.32
+0.62
+6
+0.79
+0.76
+4.46
+0.59
+0.81
+0.84
+4.46
+0.65
+0.85
+0.86
+4.35
+0.68
+7
+0.88
+0.99
+4.77
+0.72
+0.90
+0.93
+4.56
+0.70
+0.96
+0.88
+4.76
+0.64
+8
+1.00
+1.09
+5.47
+0.69
+1.03
+1.08
+5.13
+0.73
+1.11
+0.94
+5.17
+0.63
+9
+1.21
+1.25
+5.94
+0.73
+1.23
+1.26
+5.93
+0.74
+1.34
+1.02
+6.02
+0.58
+High(H)
+1.83
+1.69
+7.29
+0.80
+1.89
+1.75
+7.51
+0.81
+1.99
+1.46
+7.40
+0.68
+H-L
+1.86
+2.12
+6.13
+1.20
+2.01
+2.26
+5.80
+1.35
+2.22
+1.97
+5.93
+1.15
+Note: In this table, we report the performance of prediction-sorted portfolios over the 30-year out-of-sample testing
+period. All stocks are sorted into deciles based on their predicted returns for the next month. Column “Pred”, “Avg”,
+“Std”, and “SR” provide the predicted monthly returns for each decile, the average realized monthly returns, their
+standard deviations, and Sharpe ratios, respectively. All portfolios are value weighted.
+42
+
+Table 8: Drawdowns, Turnover, and Risk-adjusted Performance of Machine Learning Portfolios
+OLS-3
+PLS
+PCR
+ENet
+GLM
+RF
+GBRT
+NN1
+NN2
+NN3
+NN4
+NN5
++H
++H
++H
++H
+Drawdowns and Turnover (Value Weighted)
+Max DD(%)
+69.60
+41.13
+42.17
+60.71
+37.09
+52.27
+48.75
+61.60
+55.29
+30.84
+51.78
+57.52
+Max 1M Loss(%)
+24.72
+27.40
+18.38
+27.40
+15.61
+26.21
+21.83
+18.59
+37.02
+30.84
+33.03
+38.95
+Turnover(%)
+58.20
+110.87
+125.86
+151.59
+145.26
+133.87
+143.53
+121.02
+122.46
+123.50
+126.81
+125.37
+Drawdowns and Turnover (Equally Weighted)
+Max DD(%)
+84.74
+32.35
+31.39
+33.70
+21.01
+46.42
+37.19
+18.25
+25.81
+17.34
+14.72
+21.78
+Max 1M Loss(%)
+37.94
+32.35
+22.33
+32.35
+15.74
+34.63
+22.34
+12.79
+25.81
+12.50
+9.01
+21.78
+Turnover(%)
+57.24
+104.47
+118.07
+142.78
+137.97
+120.29
+134.24
+112.35
+112.43
+113.76
+114.17
+114.34
+Risk-adjusted Performance (Value Weighted)
+Mean Ret.
+0.94
+1.02
+1.22
+0.60
+1.06
+1.62
+0.99
+1.81
+1.92
+1.97
+2.26
+2.12
+FF5+Mom α
+0.39
+0.24
+0.62
+-0.23
+0.38
+1.20
+0.66
+1.20
+1.33
+1.52
+1.76
+1.43
+t-stats
+2.76
+1.09
+2.89
+-0.89
+1.68
+3.95
+3.11
+4.68
+4.74
+4.92
+6.00
+4.71
+R2
+78.60
+34.95
+39.11
+28.04
+30.78
+13.43
+20.68
+27.67
+25.81
+20.84
+20.47
+18.23
+IR
+0.54
+0.21
+0.57
+-0.17
+0.33
+0.77
+0.61
+0.92
+0.93
+0.96
+1.18
+0.92
+Risk-adjusted Performance (Equally Weighted)
+Mean Ret.
+1.34
+2.08
+2.45
+2.11
+2.31
+2.38
+2.14
+2.91
+3.31
+3.27
+3.33
+3.09
+FF5+Mom α
+0.83
+1.40
+1.95
+1.32
+1.79
+1.88
+1.87
+2.60
+3.07
+3.02
+3.08
+2.78
+t(α)
+6.64
+5.90
+9.92
+4.77
+8.09
+6.66
+8.19
+10.51
+11.66
+11.70
+12.28
+10.68
+R2
+84.26
+26.27
+40.50
+20.89
+21.25
+19.91
+11.19
+13.98
+10.60
+9.63
+11.57
+14.54
+IR
+1.30
+1.15
+1.94
+0.93
+1.58
+1.30
+1.60
+2.06
+2.28
+2.29
+2.40
+2.09
+Note: The top two panels report a value-weight and equal-weight portfolio maximum drawdown (“Max DD”), most
+extreme negative monthly return (“Max 1M Loss”), and average monthly percentage change in holdings (“Turnover”).
+The bottom panel report average monthly returns in percent as well as alphas, information ratios (IR), and R2 with
+respect to the Fama-French ﬁve-factor model augmented to include the momentum factor.
+OLS-3, but are nonetheless handily outperformed by tree-based models and neural networks.
+The top panel of Table 8 reports drawdowns, portfolio turnover, and risk-adjusted performance
+of 10–1 spread portfolios from each machine learning model, for both value and equally weighted
+strategies. We deﬁne maximum drawdown of a strategy as
+MaxDD =
+max
+0≤t1≤t2≤T(Yt1 −Yt2)
+where Yt is the cumulative log return from date 0 through t.
+Not only do neural network portfolios have higher Sharpe ratios than alternatives, they also have
+comparatively small drawdowns, particularly for equal-weight portfolios. The maximum drawdown
+experienced for the NN4 strategy is 51.8% and 14.7% for value and equal weights, respectively. In
+contrast, the maximum drawdown for OLS-3 are 69.6% and 84.7%, respectively. Equal-weight neural
+network strategies also experience the most mild one-month losses. For example, for NN4, the worst
+one-month performance is a −9.01% return, which is the least extreme monthly loss among all models
+with either weighting scheme.
+43
+
+We deﬁne the strategy’s average monthly turnover as
+Turnover = 1
+T
+T
+X
+t=1
+ X
+i
+wi,t+1 −
+wi,t(1 + ri,t+1)
+P
+j wj,t(1 + rj,t+1)
+
+!
+,
+where wi,t is the weight of stock i in the portfolio at time t. For NN1 through NN5, turnover is
+consistently between 110% and 130% per month, and turnover for tree-based methods and penalized
+regression is slightly higher. As a frame of reference, the monthly turnover of a short-term reversal
+decile spread is 172.6% per month while for a size decile spread it is 22.9%. Given the large role of
+price trend predictors selected by all machine learning approaches, it is perhaps unsurprising that
+their outperformance is accomplished with comparatively high portfolio turnover.
+The bottom panel of Table 8 reports risk-adjusted performance of machine learning portfolios
+based on factor pricing models.
+In a linear factor model, the tangency portfolio of the factors
+themselves represents the maximum Sharpe ratio portfolio in the economy. Any portfolio with a
+higher Sharpe ratio than the factor tangency portfolio possesses alpha with respect to the model.
+From prior work, the out-of-sample factor tangency portfolios of the Fama-French three and ﬁve-
+factor models have Sharpe ratios of roughly 0.8 and 1.3, respectively (Kelly et al., 2019).
+It is
+unsurprising then that portfolios formed on the basis of machine learning forecasts earn large and
+signiﬁcant alphas versus these models. A six-factor model (that appends a momentum factor to
+the Fama-French ﬁve-factor model) explains as much as 40% of the average return for strategies
+based on linear models, but explains only about 10% to 30% of variation in neural network-based
+portfolios. As a result, neural networks have information ratios ranging from 0.9 to 2.4 depending
+on the number of layers and the portfolio weighting scheme. Test statistics for the associated alphas
+are highly signiﬁcant for both tree models and all neural network models.
+The results of Table 8 are visually summarized in Figure 9, which reports cumulative performance
+for the long and short sides for select strategies, along with the cumulative market excess return as
+a benchmark. NN4 dominates the other models by a large margin in both directions. Interestingly,
+the short side of all portfolios is essentially ﬂat in the post-2000 sample.39
+Finally, we consider two meta-strategies that combine forecasts of all machine learning portfolios.
+The ﬁrst is a simple equally weighted average of decile long-short portfolios from our 11 machine
+learning methods. This achieves a stock-level predictive R2 of 0.43% per month and an equally
+weighted decile spread Sharpe ratio of 2.49, both of which are higher than any single method on its
+own. The value weighted decile spread Sharpe ratio is 1.33, which is slightly lower than that for the
+NN4 model.
+The second meta-strategy rotates among machine learning methods by selecting the best machine
+learning model for each one-year test sample based on the predictive R2 during the corresponding val-
+idation sample. Over our 30-year out-of-sample period, this method selects NN3 11 times, NN1 seven
+times, GBRT six times, NN2 ﬁve times, and NN4 one time. This method delivers the highest overall
+panel R2 (0.45%), but underperforms the standalone NN4 model in terms of decile spread Sharpe
+39The corresponding plot of cumulative returns for equal-weight strategies is shown in appendix Figure A.7.
+44

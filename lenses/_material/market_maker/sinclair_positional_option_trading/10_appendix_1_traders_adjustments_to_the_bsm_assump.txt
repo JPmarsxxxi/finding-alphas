@@ -1,0 +1,305 @@
+APPENDIX 1
+Traders' Adjustments to the BSM
+Assumptions
+The Existence of a Single, Constant Interest
+Rate
+The BSM model assumes a constant risk-free interest rate. There is no such
+thing as an interest rate. Interest rates have a bid-ask spread. We borrow and
+lend at different rates. Further, there is a different interest rate for each
+maturity: the yield curve. All these rates change over time. And no interest
+rate is risk free.
+Before we even discuss the effects of any mispricings due to interest rates,
+it is important to note that very few traders hedge their own interest rate
+risk. At a large firm, this will be handled by the risk management group,
+which will hedge the firm's net exposure by aggregating the exposures of all
+positions denominated in each currency. Independent traders generally don't
+hedge interest rate risk at all. It is too expensive in terms of transaction
+costs and ties up margin. If independent traders start to accumulate too
+much rho, they will reduce it by trading options. Market-makers will shade
+their rate input so they trade out of their rho position in the same way that
+they shade their volatility inputs if they want to reduce volatility risks.
+Positional traders will either trade a reversal, conversion, or a box. This
+somewhat lax attitude toward rho is an indication of how robust the BSM
+model is with respect to interest rate inaccuracy.
+Different maturity loans and bonds have different interest rates. This forms
+the yield curve. In theory this is no problem at all. We just hedge with the
+bond (or in practice the Eurodollar strip) corresponding to the lifetime of
+the option. However, the steeper this curve is the higher the chances are that
+we will be using an incorrect interest rate. How incorrect does the rate have
+to be before we develop significant price errors or, more important, delta
+errors? And what size is the likely input error?
+A 1-year European call on a $100 stock that pays no dividends, struck at
+130, priced with a volatility of 30% and 5% interest rate, has a value of
+$4.67 and a delta of 0.288. If we incorrectly used a rate of 4%, we would
+get a value of $4.44 and a delta of 0.277. A delta difference of 0.011 isn't
+totally insignificant, but the same size error would result if we used an
+incorrect implied volatility of 29%, an input error that is far more likely.
+Further, in the current environment a trader would need to be extremely
+inattentive to have an interest rate input that is incorrect by 1%. On March
+18, 2019, the US 1-month zero coupon rate was 2.47% and the 1-year rate
+was 2.52%. The effect of pricing options off the wrong spot in the yield
+curve was practically zero.
+Interest rates are also volatile. Although the BSM model can handle a static
+yield curve, one where different maturities have different rates but they are
+unchanging, stochastic interest rates are more of an issue. When the
+underlying's volatility is constant, Merton (1973) showed that the current
+zero-coupon bond yield will still work, even when rates are stochastic.
+However, this does not work if volatility is also stochastic. But the effects
+of rate volatility are also negligible.
+Just as the absolute size of rate errors is small, so is the volatility of rates. In
+particular, the volatility of rates is much lower than the volatility of
+volatility. The absolute daily changes of the VIX, and the 1-year rate, are
+shown in Figures A1.1 and A1.2.
+The standard deviation of daily VIX changes has been 1.7 points. The
+standard deviation of daily changes in the 1-year rate was 0.037%.
+FIGURE A1.1 The daily VIX changes from 2000 to 2018.
+FIGURE A1.2 The daily 1-year rate changes from 2000 to 2018.
+Because the volatility of rates is so comparatively low, it isn't necessary to
+use a model that incorporates stochastic interest rates. This has been
+confirmed by several empirical studies. Bakshi et al. (1997, 2000) showed
+that, after accounting for stochastic volatility, adding stochastic rates did
+little to improve pricing and hedging for options, even LEAPs with up to
+(A1.1)
+(A1.2)
+three years to expiration. Kim (2002) found an even stronger result:
+incorporating stochastic rates into an equity option pricing model offered no
+improvement over the BSM model.
+One situation in which an incorrect rate can cause problems is when making
+early exercise decisions. When exercising a put on a stock we need to
+decide if interest income on the proceeds from a short stock position is
+greater than the amount of optionality value we are losing. If rates are
+stochastic, we might get this calculation wrong. There isn't a lot we can do
+about this. Certainly, no model can help.
+Finally, interest rates have a bid-ask spread. It is possible to modify the
+BSM model to take this into account (Bergman, 1995). The analysis is
+similar to the modification necessary when the underlying has a bid-ask
+spread. And, as in that case, differential interest rates imply that the option
+has a band of values rather than a single price. But again, the effects are
+very, very small in practice.
+The Stock Pays No Dividends
+The BSM model assumes the underlying stock pays no dividends.
+Correcting this is trivial. We simply price the option off the stock minus the
+discounted value of the dividend. So, in the case of a single discrete
+dividend, D,
+In some cases, a continuous dividend yield, q, is a fair approximation. In
+this case,
+A similar adjustment is needed if a stock becomes hard to borrow. The BSM
+assumes that sale proceeds can be invested at the risk-free rate but if a stock
+is hard to borrow, the trader receives a lower rate, r-λ, where λ is the
+borrowing penalty.
+Absence of Taxes
+The BSM model ignores taxes. Some traders are taxed as individuals and
+some as corporations. Sometimes profits will be taxed at the short-term
+capital gains rate, sometimes at the long-term capital gains rate, and
+sometimes at a mix of the two rates. Tax cheats pay no taxes. Foreign
+investors may have other tax complications.
+If all investors had the same tax rate, BSM could be adjusted by using a
+modified interest rate. The problem isn't the difficulty of including taxes in
+a pricing model; it is that different people have different taxes. An investor's
+tax situation will affect his trading strategies (Scholes, 1976), but it is
+impossible to construct a pricing model that considers different, unknown
+tax obligations. Options will be worth different amounts to different people,
+but we can't value the effect.
+Probably due to the difficulty of estimating the aggregate marginal tax rate,
+little empirical work has been done on this issue, either. Mason and Utke
+(2019) compared SPX and SPY options. ASPX option profits are taxed 60%
+at the long-term capital gains rate and 40% at the short-term rate. SPY
+options are taxed at the higher short-term rate. After controlling for
+dividends and American/European exercise features they concluded that
+there was a persistent price difference where SPY options were cheaper.
+Their conclusion was that this could be attributed to people being less
+inclined to buy options with higher tax rates. However, the effect was so
+small that it could be explained by dirty data or data processing procedures
+(H. Contini, personal communication, 2019).
+The Ability to Trade and Short the Underlying
+The BSM formalism relies on the ability to hedge in the underlying.
+Sometimes we will need to be able to short the underlying. Sometimes this
+isn't possible. If we cannot short, then the BSM hedging strategy clearly
+won't work. To see how pricing is affected, think about pricing a forward,
+F. The current price of the underlying is S, time until delivery is T, and
+interest rates are r.
+If 
+, sell the forward contract and buy the underlying for S
+with borrowed money.
+(A1.3)
+On the expiration date, we deliver the underlying, and receive the agreed
+forward price, F.
+We then repay the lender the borrowed amount plus interest. This amount
+totals 
+. The difference between the two amounts is the arbitrage
+profit. The principle of no-arbitrage means this can't happen so
+But if 
+we can't form the arbitrage portfolio. In this case
+we would need to buy a forward and short the underlying, so we cannot rule
+out the inequality.
+If we can't short the underlying, the forward price can be less than the no-
+arbitrage value. Consequently, call values can be less than the BSM value
+and put values can be more than the BSM values. The put-call parity
+relationship is “shifted” as well. This means that pricing in the risk-neutral
+world isn't possible. If we can't trade the underlying at all, then we are even
+more lost.
+It is unlikely that most traders will trade options on completely untradeable
+options, but there are cases where the underlying is, or becomes, illiquid, so
+it is worth knowing how to deal with an untradeable underlying as a
+limiting case.
+Before an exchange lists options, the underlying has to have a certain
+amount of liquidity. For example, to have options on a stock in the United
+States the company must be listed on either the NYSE, AMEX, or
+NASDAQ. The company must have at least 7 million shares and the
+company must have more than 2,000 shareholders. But after the listing it is
+quite possible for the underlying to become less liquid.
+There are also instances where we want to price employee options on a non-
+traded company. This stock is impossible to trade.
+Finally, there are cases where the underlying becomes impossible to short
+either through lack of a borrow or through a regulatory change. Although
+this illiquidity is only on one side of the market it is still enough to create
+problems.
+One way to approach this problem is to use the “real option” approach.
+Although the term real option is new, the idea isn't. In 1930, Irving Fisher
+explicitly wrote about the options that a business owner had (although his
+credibility may have been lessened due to his famous 1929 statement that
+“stocks have reached what looks like a permanently high plateau”).
+However, the publication of the BSM model has enabled the concept to be
+quantified.
+An example of a real option is the decision to invest in a project.
+Preliminary research costs are the price of the option. The exercise price is
+the future profits. The payoff is the difference between these two.
+There are some important distinctions between real options and financial
+options:
+They are untraded in a conventional sense although they can be
+“bought” or “sold” by buying or selling the business units that create
+them.
+The value of the option is directly dependent on the actions of
+management because their actions control the initial premium.
+These options are often more dependent on uncertainty than on the
+measurable volatility of the underlying.
+Some real options can be priced by using the BSM framework because they
+involve an underlying that is a traded asset. An example of this situation
+would be the option to start producing oil. The premium would be the cost
+of equipment and exploration. The underlying asset is oil. Because oil is
+traded, this option can be hedged and the risk-neutrality arguments of BSM
+can be applied.
+But many real options are not on a traded asset. For example, if the
+underlying is some sort of intellectual property, it will be impossible to
+hedge, and hence the BSM formalism will be inapplicable. The principle of
+no-arbitrage cannot be used. It is common in these circumstances to assume
+the existence of a traded security that is perfectly correlated with the
+underlying. This is almost always a very unrealistic assumption.
+However, if there are traded securities with imperfect correlation to the
+underlying (obviously the higher the better), we can find bounds on our real
+option prices. This was done by Capinski and Patena (2003) (an application
+of the no-good-deal theory of Cerny and Hodges, 2000), and, in the case of
+a perfectly correlated asset, their model gives the BSM option price.
+Their main assumption is that adding an option to a portfolio won't change
+the Sharpe ratio. This isn't always true, but it is generally a good
+approximation (and is the same assumption that Black and Scholes used in
+their derivation). Unfortunately, the bounds produced are too large for any
+practical valuation processes (the range is generally from zero to the BSM
+price assuming perfect correlation).
+Hedging options with a correlated underlying produces a large dispersion of
+P/L. In Figure A1.3 we show the effect on the P/L of an option that is
+hedged daily with the underlying. The duration is one year. Both realized
+and implied volatility are 30%, rates a zero, and total vega is $1.000. One
+thousand paths of GBM were used to find the dispersion.
+In conclusion, when the underlying is untraded the best you can do is find
+another product that should be similar (in the co-integrated sense). This will
+let you value the option using the BSM concept because you can now
+hedge. It probably won't be a good hedge, but you need to do the best you
+can, accept the variance, and ask for enough edge. You can't create
+information from nothing, but you can get someone else to accept some of
+the uncertainty through the hedge.
+FIGURE A1.3 The standard deviation pf the P/L for an option hedged with
+an imperfectly correlated underlying.
+Nonconstant Volatility
+The volatility of the underlying is not constant. The rolling 30-day close-to-
+close volatility of the S&P 500 is shown in Figure A1.4.
+Any nonconstancy of volatility creates a non-normal return distribution.
+The simplest example is if the true return process is a mixture of normal
+distributions with different volatilities. The kurtosis of a mixture of normal
+distributions, with zero means, is given by
+(A1.4)
+FIGURE A1.4 S&P 500 30-day volatility from January 2000 through to the
+end of 2018.
+where p
+x
+is the probability of being in the state with volatility, σ
+x
+. So, if
+there is a 50% chance of being in a state with a volatility of 20%, and a
+50% chance of being in a state with a volatility of 80%, the distribution will
+have a kurtosis of 5.3.
+We could price options off the resulting distribution and then back out the
+equivalent BSM implied volatilities to see how stochasticity leads to a
+volatility smile, but we can also show this by directly thinking about
+implied volatility as the stochastic variable.
+The implied volatility of an option is the forward-looking estimate of the
+average underlying volatility over the lifetime of the option. If volatility is
+not constant, an implied volatility smile will appear.
+Consider a case in which a $100 stock has a volatility with a 50% chance of
+being 20% and a 50% chance of being 80%. So, half the time the 30-day,
+100 call will be worth $2.29 and half the time it will be worth $9.13. The
+average value is $5.71. This corresponds to an implied volatility of 50%,
+the average of the two possible volatility states. Now consider a 120 call. In
+the low volatility state, it is worth nothing and in the high volatility state it
+is worth $3.04. In this case the average value is $1.52, which corresponds to
+an implied volatility of about 62%.
+This situation would create a symmetric smile, but extending the idea so
+that underlying moves are negatively correlated to volatility moves gives
+the asymmetric implied volatility skew found in most products. Imagine we
+have the same two volatility states (20% and 80%) but now the low
+volatility is associated with a stock price of $102, and the high volatility
+state corresponds to a stock price of $98. Going through the same exercise
+as just described we find the 80 strike has an implied volatility of 68%, the
+100 strike has an implied volatility of slightly over 50%, and the 120 strike
+has an implied volatility of 59%.
+Nonconstant volatility creates the convexity of the smile. The correlation
+between volatility moves and stock moves creates the slope of the smile.
+Other causes also exist, but stochastic volatility is clearly a contributor to
+the implied volatility structure.
+Many pricing models that address this effect have been developed. For
+example, as of January 4, 2019, ssrn.com listed 717 papers with stochastic
+volatility in their title and 3,287 with those words in their title, abstract, or
+keywords.
+Market-makers also know about this effect. They typically use a modified
+BSM model that has a different volatility for each strike, which they
+periodically update. Is using a deterministic volatility model and
+sporadically changing the parameter inferior to using an explicitly
+stochastic volatility model?
+A number of studies that compare the performance of the modified BSM
+model to different correctly specified models have reached the same
+conclusion, including Jung (2000), Engle and Rosenberg (2002), Bollen and
+Raisel (2003), Yung and Zhang (2003), Li and Pearson (2007), Jung and
+Corrado (2009), and Hull and White, 2017. A stochastic volatility model
+that captures the true stochastic process offers practically no improvement
+over the tweaked BSM model used by traders. In each case, the hedging
+errors due to using BSM are economically insignificant.
+A further consideration is that even a stochastic process that is fairly
+effective at modeling the dynamics of the underlying will not be able to
+exactly match all of the implied volatilities. The variance-reducing effect of
+hedging at the implied volatilities (Ahmad and Wilmott, 2005) will be
+reduced. Even if a stochastic volatility model gives a higher terminal profit,
+it will always lead to a more variable day-to-day PL.
+Given that we won't ever know the true volatility generating process, using
+the simpler, better understood, and non-parametric-modified BSM model is
+probably the best solution.
+Conclusion
+Although the BSM model is based on many clearly incorrect assumptions,
+most of these can be corrected for with simple adjustments (some more ad-
+hoc than others). BSM has three large advantages over more complex
+models. It is an industry-wide standard that forms the basis for trader
+communication. Most traders have based all of their learned intuition on the
+BSM model. It is simple and implemented in all trading programs. Given
+these advantages, there is no compelling reason to use a more “correct”
+model over the BSM with the various adjustments.
+Summary
+BSM doesn't handle stochastic interest rates or interest rates with
+transaction costs, but in practice this doesn't really matter because the
+effect is typically small.
+Adding dividends and carry rates to BSM is easy.
+Very little research has been done on taxes and BSM, but this is true of
+all other models as well.
+It is possible to trade options on illiquid underlyings if there is a
+correlated hedging instrument.
+Volatility is stochastic, but BSM with periodically adjusted volatility
+inputs works as well as stochastic volatility pricing models.
+...

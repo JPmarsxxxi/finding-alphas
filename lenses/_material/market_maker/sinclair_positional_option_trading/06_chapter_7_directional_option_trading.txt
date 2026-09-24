@@ -1,0 +1,650 @@
+CHAPTER 7
+Directional Option Trading
+The genius of the BSM model is the idea that the direction of the
+underlying doesn't matter when pricing an option. But although this
+methodology leads to an arbitrage-free replication value, it is still possible
+to trade options to make bets on the underlying direction. If one believes the
+story of Thales and the olive presses, this was the original point of options.
+Even now most traders use options directionally. Indeed, many retail traders
+can only buy options, and directional trading is essentially their only
+available tactic.
+In this chapter, I will discuss directional option speculation, starting with
+the theory of pricing with a directional view and then discussing the choice
+of strikes, structures, and expirations. All examples will be given in terms of
+long calls, assuming a bullish bias, but the ideas are trivially generalizable
+to both puts and short option positions. I'm also going to assume each
+option is on one share.
+Subjective Option Pricing
+Options offer many advantages over trading the underlying. The main
+advantage is the ability to speculate on a more nuanced view than just “up
+or down.” Also, leverage and the possibility of highly skewed payoffs can
+be useful. However, these all add considerable complexity.
+Here I'm going to (possibly optimistically) assume that the trader has a
+valid prediction method for the underlying and show how she should
+monetize this view. It is never easy to predict the direction of the
+underlying. But when trading options, it is easy to be right in your
+prediction of the underlying and still lose money. It is never good to solve
+the hardest part of a problem and still fail.
+The simplest directional option trading strategy is to buy a call if you think
+the underlying will expire above the strike by more than the option
+premium. This can be kindly characterized as “model-free directional
+trading” and more realistically as “guessing.”
+Consider this set of call prices on a $100 stock:
+Strik
+e
+Pric
+e
+95
+8.7
+100
+5.6
+105
+3.2
+110
+1.5
+If we know the stock will expire at $120, our strike choice is trivial.
+Investing $100 in each option would give the following profits:
+Strik
+e
+Profi
+t
+95
+$187
+100
+$257
+105
+$369
+110
+$567
+But the problems with trading are never about optimizing results when
+predictions are correct. The real issue is how to control risk when we are
+wrong. If the stock only goes to $106, our profits will be completely
+different:
+Strik
+e
+Profit
+95
+$26
+100
+$7
+105
+−$68
+110
+−
+$100
+These extreme differences illustrate the need for a better plan.
+(7.1)
+(7.2)
+(7.3)
+A Theory of Subjective Option Pricing
+The dynamic hedging strategy used in the BSM model removes the need to
+use a drift parameter. But that isn't to say that we can't include drift in our
+personal pricing. We won't be in the risk-neutral paradigm anymore and our
+theoretical values will disagree with market prices, but that is to be
+expected. If we agreed with market prices, we wouldn't be speculating.
+BSM showed that the rate of return of the underlying is not relevant for
+pricing options. But the underlying return obviously does affect the return
+of the unhedged option.
+If we have a valuation model that explicitly includes drift, we can use it to
+compare the theoretical values to market prices and find the most attractive
+opportunities.
+Luckily, several pre-BSM pricing models did include the return on the
+stock. Boness (1962, 1964) found an option pricing model that is
+functionally the same as BSM but is based in the real, rather than the risk-
+neutral, world. It isn't arbitrage free, but it answers the most important
+question a directional speculator has: If she thinks the stock is going up,
+what option should she buy?
+Instead of calculating the call value by taking the expectation of the payoff
+in the risk-neutral world, Boness's result is the expectation in the physical
+world.
+With the normal notation:
+where
+(7.4)
+To arrive at this formula, Boness had to make an assumption about returns.
+He needed to say that the stock return is the rate used to discount the strike
+in the put-call relationship, that is, all cash flows would be invested in the
+stock.
+In the normal derivation of put-call parity, we form a portfolio that is long a
+put, short a call, and long a share. At expiration this portfolio is worth the
+strike price, which means the portfolio is currently worth the discounted
+strike value. Since the middle ages (where the idea was used as the basis for
+mortgage lending) it has been known that the correct discount factor is the
+interest rate. Drift is irrelevant. If anything other than the interest rate is
+used as a discount factor, an arbitrage opportunity exists.
+Even if we accept that drift is a real phenomenon, it is also reasonable to
+include an interest rate as an alternative investment opportunity. The stock
+appreciates at μ and cash is stored at r. It might appear that no investor
+would operate like this. If μ > r, why would he not invest all money in the
+stock and ignore the interest rate completely (Boness's model does this)? In
+reality, people generally do split investments between assets with different
+returns and risks. The stock has a higher return but also higher risk, which is
+reflected in the volatility parameter.
+It is possible to construct a pricing model that does this with a formal
+argument from a modified BSM PDE. But this isn't necessary. Our model
+needs to assume cash is invested at a risk-free interest rate and the forward
+price of the stock is driven by a (physical world) drift.
+If we slightly reinterpret some parameters, this model already exists: the
+generalized BSM prices (European) options when the underlying pays a
+continuous dividend yield. We use this, and the interest rate, to price options
+of the forward value of the stock while also assuming that cash flows are
+discounted at the risk-free rate. Traders use this model now and interpret the
+dividend yield and interest rate to be (imperfectly known) objective
+variables. (Note that in practice different traders will have different
+(7.5)
+(7.6)
+(7.7)
+(7.8)
+dividend estimates and marginal rates. This could, and in rare cases does,
+allow arbitrage.)
+We turn this into a model that incorporates drift by reinterpreting the
+dividend yield as a subjective drift estimate. We use our drift estimate to
+give a subjective estimate of the underlying's forward price. This model will
+also allow arbitrage, but it will be consistent with our opinions of the real
+world.
+The prices of calls in this model are
+where
+As with any other pricing variable or parameter, it helps to have a greek to
+measure the impact of an incorrect estimate. The partial derivative of the
+subjective option price with respect to the drift is given by
+Now we can derive subjective values for options and see which are most
+mispriced. In this example, we consider 1-year options on a $100 stock,
+with a volatility of 30%, a drift of 10%, and zero interest rates. The risk-
+neutral BSM prices and the subjective prices are shown in Table 7.1.
+(7.9)
+As the drift is primarily going to be a delta effect, it should be no surprise
+that the greatest absolute difference in values is in the lower strikes. If an
+investor wants to buy a fixed number of options, these might be the best
+choice, but in this case, it is probably better to just buy the underlying
+because the discrepancy would be greatest there. The largest percentage
+edge (“bang for the buck”) is in the highest strikes, so these appear best for
+a trader who wants to invest a certain dollar amount.
+TABLE 
+7.1 A 
+Comparison 
+of 
+Risk-Neutral 
+and 
+Subjective 
+Option
+Prices
+Call
+Strike
+BSM
+Price
+Subjective
+Price
+Difference in $ from
+BSM Value
+Difference as % of
+BSM Value
+80
+22.53
+32.53
+8.99
+0.38
+85
+20.09
+28.55
+8.46
+0.42
+90
+17.01
+24.88
+7.86
+0.46
+95
+14.29
+21.52
+7.23
+0.51
+100
+11.92
+18.49
+6.57
+0.55
+105
+9.88
+15.79
+5.91
+0.60
+110
+8.14
+13.41
+5.27
+0.65
+115
+6.67
+11.32
+4.65
+0.70
+120
+5.44
+9.51
+4.07
+0.75
+However, this analysis doesn't consider the different risk characteristics of
+options with different strikes.
+Now that we have a theoretical model, we can talk about the distribution of
+subjective option returns (assuming our drift and volatility estimates are
+correct).
+Distribution of Option Returns: Summary
+Statistics
+(7.10)
+is the true probability of expiring in the money, as opposed to the
+incorrect but frequently stated number, 
+, which is the risk-neutral
+probability. And the drift is a large determinant of whether an option expires
+in the money. As an example of the size of the difference, consider a 1-year
+110 strike call on a $100 stock, with volatility of 30%, a drift of 10%, and
+an interest rate of zero. The risk-neutral probability of exercise is 32%,
+whereas the subjective probability is 45%. At very short timescales the
+volatility will overwhelm the drift, but in general it is bad to assume that the
+risk-neutral probabilities are indicative of anything in the real world.
+Figures 7.1 and 7.2 show how N(d
+4
+) depends on the drift and how it varies
+with strike.
+FIGURE 7.1 Probability of the 3-month 150 strike call expiring in the
+money. Stock is $100, volatility is 30%, and rates are zero.
+(7.11)
+(7.12)
+(7.13)
+(7.14)
+FIGURE 7.2 Probability of the 3-month calls expiring in the money when
+the return is 20%. Stock is $100, volatility is 30%, and rates are zero.
+Chance of Profit = N(d
+5
+)
+Also, by assuming the underlying price is lognormally distributed, we can
+easily calculate the median intrinsic value and hence profit.
+Further,
+(7.15)
+An example is shown in Figure 7.3.
+It is possible to calculate the moments of the options returns (Ben-Meir and
+Schiff, 2012; Boyer and Vorkink, 2014; Sinclair and Brooks, 2017), but the
+equations are complicated and give no real insight. The most important fact
+is that options have significantly positive skew. It is also important to note
+that this extreme skewness occurs even when the underlying has normally
+distributed returns. This skewness is intrinsic to options and is not inherited
+from skewness of the underlying. If the underlying has non-normal returns,
+the effects on the options will be magnified. In this case, there won't be
+analytic expressions for the option moments and simulations will be
+necessary to understand the option return moments.
+FIGURE 7.3 Ninetieth percentile of the profit of the 3-month 100-strike
+call. Stock is $100, volatility is 30%, and rates are zero (the risk-neutral call
+value is $5.98).
+Strike Choice
+All of the individual risk measurements given above need to be considered.
+None is sufficient on its own to determine that a particular option is “best.”
+And this is probably a good thing, because “best” or “optimal” is only
+optimal with respect to a given criterion, and trading decisions need to be
+based on more than just one criterion.
+In the specific case of strike selection (or investment selection in general) it
+will be impossible to give a single optimal solution. Some problems can't
+sensibly be solved this way. Think about the question, “What is the best car
+in the world?” Here, there are many plausible definitions of best. Does best
+mean fastest? Most luxurious? Safest? Greenest? Cheapest to buy?
+Cheapest to run? Most reliable? Within each category it is possible to make
+valid comparisons. A Ferrari is better than a Lamborghini. A Toyota is better
+than a Geo. But the argument over whether a Ferrari is better than a Toyota
+is unresolvable, because different car users have different goals and
+preferences.
+In some other situations, it is possible to define a clear and unambiguous
+definition of best. Consider baseball. The goal of a baseball team is to win
+games. The best player is the one who most helps his team to do this. The
+individual skills of hitting, throwing, catching, and running are now seen as
+components of the ability to create wins, rather than unrelated goals in
+themselves. So here, a statistic that aggregates the component skills by
+putting them on a consistent scale and converting them into a measure of
+wins created is very useful. You can then meaningfully compare a power-
+hitting catcher to a fast, agile shortstop. But this introduces the danger of
+overreliance on the power of this single statistic. This number will still have
+methodological issues, and there will always be sampling problems with the
+individual component measurements. Even the best composite statistic
+should be a starting point rather than a definitive answer.
+Trading is somewhere in between these situations. The goal of making
+money is absolute but risk is personal, both in terms of how it relates to a
+given trader's edges and abilities but also in terms of risk tolerances and
+aversions. It should be obvious that different people have different levels of
+risk aversion. This could be personal or it could be because of an external
+mandate. Anyone trading someone else's money will have to conform to the
+risk preferences of the capital provider. But it is also important to remember
+that risk depends on the skills of a specific trader. Risk is all of the things
+outside our control. So, traders with different sources of edge will have
+different remaining risk factors. If one trader has an edge in volatility
+prediction and another doesn't, volatility is an edge for the first and a risk to
+the second. This is true in most of life. For a heart surgeon, doing a bypass
+is a low-risk operation. For a random person, it would be murder.
+So, a composite statistic for comparing risk and reward will be useful, but
+we should also not expect too much of it.
+The most well-known of these statistics is the Sharpe ratio, the ratio of
+(excess) return to the volatility of the return. It is also well-known that the
+Sharpe ratio is not perfect. It has a large sampling error, generally
+comparable in size to the estimate. It doesn't distinguish between downside
+and upside volatility. It doesn't take higher-order moments into account at
+all. These are all problems, but the specific option-related issue is that we
+will be dealing with heavily skewed returns. (Skew can be a feature, not a
+bug. Positive skew is a good reason to include long options in a portfolio.)
+The first work to address this failing was done by Hodges (1998), who
+showed the nature of the problem with a very simple example. We have two
+probability distributions, A and B, of excess returns.
+Distribution A
+Return
+−25
+%
+−15
+%
+−5
+%
+5% 15
+%
+25
+%
+35
+%
+Probabilit
+y
+0.01
+0.04 0.25
+0.4
+0
+0.25 0.04 0.01
+Distribution B
+Return
+−25
+%
+−15
+%
+−5
+%
+5% 15
+%
+25
+%
+45
+%
+Probabilit
+y
+0.01
+0.04 0.25
+0.4
+0
+0.25 0.04 0.01
+Summary Statistics
+(7.16)
+Distribution
+A
+B
+Mean return
+
+5.00%
+
+5.10%
+Standard
+deviation
+10.00
+%
+10.34
+%
+Sharpe ratio
+0.50
+0.493
+Clearly distribution B is better than distribution A. The only difference is
+that the outcome of 35% has been increased to 45%. But this (good) change
+has increased the standard deviation more than the return, so the Sharpe
+ratio of distribution B is lower than that of distribution A.
+Hodges derived a generalized Sharpe ratio (GSR) for an investor with
+exponential utility, but it was necessary to know the complete distribution
+of payoffs to make the calculation.
+Pézier (2004) applied similar reasoning to create a GSR that only requires
+the moments of the distribution (see Maillard, 2018, for a full derivation
+and discussion). His GSR is
+TABLE 7.2 Projected Performance Numbers for Long Positions in
+Different Strike 3-Month Calls on a $100 Stock with a Drift of 10%,
+Volatility of 30%, and Zero Interest Rates
+Strik
+e
+Average
+Dollar
+Profit
+Average
+Percentage
+Return
+Median
+Percentage
+Profit
+90th
+Percentile
+Percentage
+Profit
+Probability
+of Profit
+GS
+R
+80
+$2.41
+11.8%
+10.4%
+116.9%
+52%
+0.34
+85
+$2.26
+14.1%
+9.7%
+145.7%
+50%
+0.33
+90
+$2.04
+16.9%
+4.2%
+185.0%
+48%
+0.32
+95
+$1.75
+20.2%
+−13.1%
+237.6%
+44%
+0.31
+100
+$1.43
+23.8%
+−57.6%
+305.8%
+37%
+0.27
+Strik
+e
+Average
+Dollar
+Profit
+Average
+Percentage
+Return
+Median
+Percentage
+Profit
+90th
+Percentile
+Percentage
+Profit
+Probability
+of Profit
+GS
+R
+105
+$1.10
+27.8%
+−100%
+387.8%
+31%
+0.25
+110
+$0.80
+32.0%
+−100%
+470.4%
+24%
+0.23
+115
+$0.56
+36.6%
+−100%
+509.0%
+17%
+0.20
+120
+$0.37
+41.3%
+−100%
+378.3%
+12%
+0.16
+where SR is the standard Sharpe ratio, λ
+3
+is the skewness of returns, and λ
+4
+is the kurtosis. For normal returns, the GSR reduces to the Sharpe ratio.
+Positive skewness increases the GSR. Negative skewness lowers the GSR.
+Any kurtosis lowers the GSR.
+Table 7.2 gives the various statistics for different 3-month call options on a
+$100 stock with a return of 10%. Both realized and implied volatilities are
+30% and rates are zero. Each trader needs to choose the strike that most
+closely matches what they are looking for.
+This analysis assumes we have paid the correct volatility level for the
+options. If we pay too much, our results look much worse. Even when
+trading purely directionally, implied volatility is very important. This is
+shown in Table 7.3 where we assume that the implied volatility was 30%
+but realized volatility was only 22% (this roughly corresponds to the typical
+variance premium). This effect needs to be considered if the implied
+volatility of the strike under consideration is very different from the ATM
+volatility.
+(Interestingly, the GSR of the 120 strike is better than that of the 105, 110,
+and 115 strikes. This is because of the extreme skew of the results.)
+TABLE 7.3 Projected Performance Numbers for Long Positions in
+Different Strike 3-Month Calls on a $100 Stock with a Drift of 10%,
+Implied Volatility of 30%, Realized Volatility of 22%, and Zero Interest
+Rates
+Strik
+e
+Average
+Dollar
+Profit
+Average
+Percentage
+Return
+Median
+Percentage
+Profit
+90th
+Percentile
+Percentage
+Profit
+Probability
+of Profit
+GSR
+80
+$2.16
+10.6%
+10.4%
+86.5%
+54%
+
+0.37
+85
+$1.74
+10.8%
+9.7%
+106.8%
+53%
+
+0.33
+90
+$1.12
+9.3%
+4.2%
+133.4%
+50%
+
+0.24
+95
+$0.43
+4.9%
+−13.1%
+166.3%
+43%
+
+0.10
+100
+−$0.17
+−2.6%
+−57.6%
+201.9%
+36%
+−0.0
+4
+105
+−$0.53
+−13.3%
+−100%
+230.6%
+26%
+−0.1
+9
+110
+−$0.65
+−26.0%
+−100%
+222.1%
+18%
+−0.2
+1
+115
+−$0.60
+−39.8%
+−100%
+100.7%
+11%
+−0.2
+1
+120
+−$0.47
+−53.1%
+−100%
+−100%
+6%
+−0.0
+6
+Fundamental Considerations
+So far, we have assumed our forecast was only of the mean and variance.
+Sometimes we may have a more complex view. For example, this is
+common in the Eurodollar market. Traders tend to forecast in discrete
+increments; for example, a 25 bp cut has a 40% chance of occurrence,
+instead of continuous outcomes, that is, a mean return of 5%.
+In these cases, each strike should be evaluated with a different subjective
+drift parameter. Although, given the trader's bias toward a certain
+probability distribution, the analysis will probably confirm only preexisting
+opinions (opinions in, opinions out).
+Traders in most other products should be careful to ask themselves if their
+forecasts of the distribution lead to expected value. It is hard to predict
+volatility. It is harder to predict return. Predicting the full distribution is
+probably a manifestation of overconfidence.
+Conclusion
+There is no simple answer to the question, “What strike should I buy?”
+Basing the decision on maximizing average return, median return, or
+probability of profit will lead to different answers. And there are many other
+statistics that could be sensibly considered. It is also quite likely that a
+trader's criteria will change based on the rest of her portfolio. The decision
+needs to be made based on personal utility and on a case-by-case basis.
+Summary
+By interpreting the dividend yield term in the generalized BSM model
+to be a drift parameter we can get subjective option values that depend
+on return.
+These prices are not arbitrage free but can be used to derive real-world
+statistics (as opposed to risk-neutral statistics).
+Different evaluation criteria will suggest very different “optimal”
+strikes.
+...

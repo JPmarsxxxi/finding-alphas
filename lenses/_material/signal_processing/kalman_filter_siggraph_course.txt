@@ -1,0 +1,7749 @@
+ 
+SIGGRAPH 2001
+Course 8
+ 
+An Introduction to the Kalman Filter
+ 
+Gary Bishop
+University of North Carolina at Chapel Hill
+Department of Computer Science
+Chapel Hill, NC 27599-3175
+http://www.cs.unc.edu/~{welch, gb}
+Greg Welch
+{welch, gb}@cs.unc.edu
+©Copyright 2001 by ACM, Inc.
+http://info.acm.org/pubs/toc/CRnotice.html
+
+ 
+2
+
+ 
+Course 8—An Introduction to the Kalman Filter
+1
+ 
+TABLE OF CONTENTS
+ 
+TABLE OF CONTENTS . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 1
+Preface. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 3
+Course Syllabus  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 4
+ 
+1. Introduction . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+ 
+1.1 Course Description . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 5
+1.2 Speaker/Author Biographies. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 6
+ 
+2. Probability and Random Variables  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+ 
+2.1 Probability. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+2.2 Random Variables. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 7
+2.3 Mean and Variance . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 9
+2.4 Normal or Gaussian Distribution . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 10
+2.5 Continuous Independence and Cond. Probability. . . . . . . . . . . . . . . . . . . . . . 11
+2.6 Spatial vs. Spectral Signal Characteristics . . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+ 
+3. Stochastic Estimation. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+ 
+3.1 State-Space Models. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+3.2 The Observer Design Problem . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 16
+ 
+4. The Kalman Filter . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+ 
+4.1 The Discrete Kalman Filter. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+4.2 The Extended Kalman Filter (EKF) . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 24
+4.3 An Example: Estimating a Random Constant  . . . . . . . . . . . . . . . . . . . . . . . . 29
+ 
+5. Other Topics. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+ 
+5.1 Parameter Estimation or Tuning. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 35
+5.2 Multi-Modal (Multiple Model) Filters . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 36
+5.3 Hybrid or Multi-Sensor Fusion. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+5.4 Single-Constraint-at-a-Time (SCAAT)  . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 41
+ 
+A. Bibliography . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 43
+B. Related Papers. . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 47
+
+ 
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+2
+
+ 
+3
+ 
+Preface
+ 
+In putting together this course pack we decided not to simply include copies of the slides
+for the course presentation, but to attempt to put together a small booklet of information
+that could stand by itself. The course slides and other useful information, including a new
+Java-based 
+ 
+Kalman Filter Learning Tool
+ 
+ are available at
+ 
+http://www.cs.unc.edu/~tracker/ref/s2001/kalman/
+ 
+In addition, we maintain a popular web site dedicated to the Kalman ﬁlter. This site
+contains links to related work, papers, books, and even some software.
+ 
+http://www.cs.unc.edu/~welch/kalman/
+ 
+We expect that you (the reader) have a basic mathematical background, sufﬁcient to
+understand explanations involving basic linear algebra, statistics, and random signals.
+
+ 
+4
+ 
+Course Syllabus
+ 
+Time
+Speaker
+Topic
+ 
+Time
+ 
+10:00 AM
+Bishop
+Welcome, Introduction, Intuition
+0:30
+10:30 AM
+Welch
+Concrete examples
+0:30
+11:00 AM
+Bishop
+Non-linear estimation
+0:15
+11:15 AM
+Welch
+System identiﬁcation and multi-modal ﬁlters
+0:30
+11:45 AM
+Welch
+Conclusions (summary, resources, etc.)
+0:15
+12:00 PM
+ 
+Total time
+ 
+2:00
+
+ 
+5
+ 
+1. Introduction
+ 
+The Kalman ﬁlter is a mathematical power tool that is playing an increasingly important
+role in computer graphics as we include sensing of the real world in our systems. The good
+news is you don’t have to be a mathematical genius to understand and effectively use
+Kalman ﬁlters. This tutorial is designed to provide developers of graphical systems with a
+basic understanding of this important mathematical tool. 
+ 
+1.1 Course Description
+ 
+While the Kalman ﬁlter has been around for about 30 years, it (and related optimal
+estimators) have recently started popping up in a wide variety of computer graphics
+applications. These applications span from simulating musical instruments in VR, to head
+tracking, to extracting lip motion from video sequences of speakers, to ﬁtting spline
+surfaces over collections of points. 
+The Kalman ﬁlter is the best possible (optimal) estimator for a large class of problems and
+a very effective and useful estimator for an even larger class. With a few conceptual tools,
+the Kalman ﬁlter is actually very easy to use. We will present an intuitive approach to this
+topic that will enable developers to approach the extensive literature with conﬁdence.
+
+ 
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+6
+ 
+1.2 Speaker/Author Biographies
+ 
+Greg Welch
+ 
+ is a Research Assistant Professor in the Department of Computer Science at
+the University of North Carolina at Chapel Hill. His research interests include hardware
+and software for man-machine interaction, 3D interactive computer graphics, virtual
+environments, tracking technologies, tele-immersion, and projector-based graphics. Welch
+graduated with 
+ 
+highest distinction
+ 
+ from Purdue University with a degree in Electrical
+Engineering Technology in 1986 and received a Ph.D. in computer science from UNC-
+Chapel Hill in 1996. Before coming to UNC he worked at NASA's Jet Propulsion
+Laboratory and Northrop-Grumman's Defense Systems Division. He is a member of the
+IEEE Computer Society and the Association of Computing Machinery.
+ 
+Gary Bishop
+ 
+ is an Associate Professor in the Department of Computer Science at the
+University of North Carolina at Chapel Hill. His research interests include hardware and
+software for man-machine interaction, 3D interactive computer graphics, virtual
+environments, tracking technologies, and image-based rendering. Bishop graduated with
+highest honors from the Southern Technical Institute in Marietta, Georgia, with a degree in
+Electrical Engineering Technology in 1976. He completed his Ph.D. in computer science
+at UNC-Chapel Hill in 1984. Afterwards he worked for Bell Laboratories and Sun
+Microsystems before returning to UNC in 1991.
+
+ 
+7
+ 
+2. Probability and Random Variables
+ 
+What follows is a very basic introduction to probability and random variables. For more
+extensive coverage see for example (Maybeck 1979; Brown and Hwang 1996; Kailath,
+Sayed et al. 2000).
+ 
+2.1 Probability
+ 
+Most of us have some notion of what is meant by a “random” occurrence, or the
+probability that some event in a 
+ 
+sample space 
+ 
+will occur. Formally, the probability that the
+outcome of a discrete event (e.g., a coin ﬂip) will favor a particular event is deﬁned as
+.
+The probability of an outcome favoring either 
+ 
+ 
+or
+ 
+ 
+ is given by
+.
+(2.1)
+If the probability of two outcomes is 
+ 
+independent
+ 
+ (one does not affect the other) then the
+probability of 
+ 
+both
+ 
+ occurring is the product of their individual probabilities:
+.
+(2.2)
+For example, if the probability of seeing a “heads” on a coin ﬂip is 1/2, then the
+probability of seeing “heads” on both of two coins ﬂipped at the same time is 1/4. (Clearly
+the outcome of one coin ﬂip does not affect the other.)
+Finally, the probability of outcome 
+ given an occurrence of outcome 
+ is called the
+ 
+conditional probability
+ 
+ of 
+ given 
+, and is deﬁned as
+.
+(2.3)
+ 
+2.2 Random Variables
+ 
+As opposed to discrete events, in the case of tracking and motion capture, we are more
+typically interested with the randomness associated with a 
+ 
+continuous
+ 
+ electrical voltage or
+perhaps a user’s motion. In each case we can think of the item of interest as a 
+ 
+continuous
+p A
+(
+)
+Possible outcomes favoring event A
+Total number of possible outcomes
+--------------------------------------------------------------------------------------
+=
+A
+B
+p A
+B
+∪
+(
+)
+p A
+(
+)
+p B
+( )
++
+=
+p A
+B
+∩
+(
+)
+p A
+(
+)p B
+( )
+=
+A
+B
+A
+B
+p A B
+(
+)
+p A
+B
+∩
+(
+)
+p B
+( )
+-----------------------
+=
+
+ 
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+8
+ 
+random variable
+ 
+. A random variable is essentially a function that maps all points in the
+sample space to real numbers. For example, the continuous random variable 
+ might
+map time to position. At any point in time, 
+ would tell us the expected position.
+In the case of continuos random variables, the probability of any 
+ 
+single 
+ 
+discrete event 
+ is
+in fact 0. That is, 
+. Instead we can only evaluate the probability of events within
+some interval. A common function representing the probability of random variables is
+deﬁned as the 
+ 
+cumulative distribution function
+ 
+:
+.
+(2.4)
+This function represents the cumulative probability of the continuous random variable 
+for all (uncountable) events up to and including . Important properties of the cumulative
+density function are
+Even more commonly used than equation (2.4) is its derivative, known as the 
+ 
+probability
+density function
+ 
+:
+.
+(2.5)
+Following on the above given properties of the cumulative probability function, the
+density function also has the following properties:
+Finally note that the probability over any interval 
+ is deﬁned as
+.
+So rather than summing the probabilities of discrete events as in equation (2.1), for
+continuous random variables one integrates the probability density function over the
+interval of interest.
+X t( )
+X t( )
+A
+p A
+(
+)
+0
+=
+FX x
+( )
+p
+∞
+–
+x]
+,
+(
+=
+X
+x
+1. FX x
+( )
+0 as x
+∞
+–
+→
+→
+2. FX x
+( )
+1 as x
++∞
+→
+→
+3. FX x
+( ) is a non-decreasing function of x.
+f X x
+( )
+x
+d
+d FX x
+( )
+=
+1. f X x
+( ) is a non-negative function
+2. 
+f X x
+( ) x
+d
+∞
+–
+∞∫
+1.
+=
+a b
+,
+[
+]
+pX a b
+,
+[
+]
+f X x
+( ) x
+d
+a
+b∫
+=
+
+Course 8—An Introduction to the Kalman Filter
+9
+2.3 Mean and Variance
+Most of us are familiar with the notion of the average of a sequence of numbers. For some
+ samples of a discrete random variable 
+, the average or sample mean is given by
+.
+Because in tracking we are dealing with continuous signals (with an uncountable sample
+space) it is useful to think in terms of an inﬁnite number of trials, and correspondingly the
+outcome we would expect to see if we sampled the random variable inﬁnitely, each time
+seeing one of  possible outcomes 
+. In this case, the expected value of the discrete
+random variable could be approximated by averaging probability-weighted events:
+.
+In effect, out of 
+ trials, we would expect to see 
+ occurrences of event 
+, etc. This
+notion of inﬁnite trials (samples) leads to the conventional deﬁnition of expected value for
+discrete random variables
+(2.6)
+for  possible outcomes 
+ and corresponding probabilities 
+. Similarly for
+the continuous random variable the expected value is deﬁned as
+.
+(2.7)
+Finally, we note that equation (2.6) and equation (2.7) can be applied to functions of the
+random variable 
+ as follows:
+(2.8)
+and
+.
+(2.9)
+N
+X
+X
+X1
+X2
+…
+XN
++
++
++
+N
+----------------------------------------------
+=
+n
+x1…xn
+X
+p1N
+(
+)x1
+p2N
+(
+)x2
+…
+pnN
+(
+)xN
++
++
++
+N
+-------------------------------------------------------------------------------------------
+≈
+N
+p1N
+(
+)
+x1
+Expected value of X
+E X
+(
+)
+pixi
+i
+1
+=
+n
+∑
+=
+=
+n
+x1…xn
+p1…pn
+Expected value of X
+E X
+(
+)
+x f X x
+( ) x
+d
+∞
+–
+∞∫
+=
+=
+X
+E g X
+(
+)
+(
+)
+pig xi
+(
+)
+i
+1
+=
+n
+∑
+=
+E g X
+(
+)
+(
+)
+g x
+( ) f X x
+( ) x
+d
+∞
+–
+∞∫
+=
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+10
+The expected value of a random variable is also known as the ﬁrst statistical moment. We
+can apply the notion of equation (2.8) or (2.9), letting 
+, to obtain the 
+th
+statistical moment. The 
+th statistical moment of a continuous random variable 
+ is given
+by
+.
+(2.10)
+Of particular interest in general, and to us in particular, is the second moment of the
+random variable. The second moment is given by
+.
+(2.11)
+When we let 
+ and apply equation (2.11), we get the variance of the
+signal about the mean. In other words,
+Variance is a very useful statistical property for random signals, because if we knew the
+variance of a signal that was otherwise supposed to be “constant” around some value—the
+mean, the magnitude of the variance would give us a sense how much jitter or “noise” is in
+the signal.
+The square root of the variance, known as the standard deviation, is also a useful statistical
+unit of measure because while being always positive, it has (as opposed to the variance)
+the same units as the original signal. The standard deviation is given by
+.
+2.4 Normal or Gaussian Distribution
+A special probability distribution known as the Normal or Gaussian distribution has
+historically been popular in modeling random systems for a variety of reasons. As it turns
+out, many random processes occurring in nature actually appear to be normally
+distributed, or very close. In fact, under some moderate conditions, it can be proved that a
+sum of random variables with any distribution tends toward a normal distribution. The
+theorem that formally states this property is called the central limit theorem (Maybeck
+1979; Brown and Hwang 1996). Finally, the normal distribution has some nice properties
+that make it mathematically tractable and even attractive.
+g X
+(
+)
+Xk
+=
+k
+k
+X
+E Xk
+(
+)
+xk f X x
+( ) x
+d
+∞
+–
+∞∫
+=
+E X2
+(
+)
+x2 f X x
+( ) x
+d
+∞
+–
+∞∫
+=
+g X
+(
+)
+X
+E X
+(
+)
+–
+=
+Variance X
+E
+X
+E X
+(
+)
+–
+(
+)2
+[
+]
+=
+E X2
+(
+)
+E X
+(
+)2.
+–
+=
+Standard deviation of X
+σX
+Variance of X
+=
+=
+
+Course 8—An Introduction to the Kalman Filter
+11
+Given a random process 
+, i.e. a continuous random process 
+ that is
+normally distributed with mean 
+ and variance 
+ (standard deviation 
+), the probability
+density function for 
+ is given by
+for 
+. Any linear function of a normally distributed random process (variable) is
+also a normally distributed random process. In particular if 
+ and
+, then
+.
+(2.12)
+The probability density function for 
+ is then given by
+.
+(2.13)
+Finally, if 
+ and 
+ are independent (see Section 2.5 below), 
+, and
+, then
+,
+(2.14)
+and the density function becomes
+.
+(2.15)
+See (Kelly 1994) pp. 351-358 for further explanation and proofs of the above. Graphically,
+the normal distribution is what is likely to be familiar as the “bell-shaped” curve shown
+below in Figure 2.1.
+2.5 Continuous Independence and Cond. Probability
+Finally we note that as with the discrete case and equations (2.2) and (2.3), independence
+and conditional probability are deﬁned for continuous random variables. Two continuous
+random variables 
+ and 
+ are said to be statistically independent if their joint probability
+ is equal to the product of their individual probabilities. In other words, they are
+considered independent if
+.
+X
+N µ σ2
+,
+(
+)
+∼
+X
+µ
+σ2
+σ
+X
+f X x
+( )
+1
+2πσ2
+-----------------e
+1
+2-- x
+µ
+–
+(
+)2
+σ2
+------------------
+–
+=
+∞
+–
+x
+∞
+<
+<
+X
+N µ σ2
+,
+(
+)
+∼
+Y
+aX
+b
++
+=
+Y
+N aµ
+b
++
+a2σ2
+,
+(
+)
+∼
+Y
+f Y y
+( )
+1
+2πa2σ2
+-----------------------e
+1
+2-- y
+aµ
+b
++
+(
+)
+–
+(
+)
+a2σ2
+----------------------------------
+2
+–
+=
+X1
+X2
+X1
+N µ1 σ1
+2
+,
+(
+)
+∼
+X2
+N µ2 σ2
+2
+,
+(
+)
+∼
+X1
+X2
++
+N µ1
+µ2
++
+σ1
+2
+σ2
+2
++
+,
+(
+)
+∼
+f X x1
+x2
++
+(
+)
+1
+2π σ1
+2
+σ2
+2
++
+(
+)
+-----------------------------------e
+1
+2-- x
+µ1
+µ2
++
+(
+)
+–
+(
+)2
+σ12
+σ22
++
+(
+)
+--------------------------------------
+–
+=
+X
+Y
+f XY x y
+,
+(
+)
+f XY x y
+,
+(
+)
+f X x
+( ) f Y y
+( )
+=
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+12
+Bayes’ Rule
+In addition, Bayes’ rule follows from (2.3), offering a way to specify the probability
+density of the random variable 
+ given (in the presence of) random variable 
+. Bayes’
+rule is given as
+.
+Continuous-Discrete
+Given a discrete process 
+ and a continuous process 
+, the discrete probability mass
+function for 
+ conditioned on 
+ is given by
+.
+(2.16)
+Note that this formula provides a discrete probability based on the conditioning density,
+without any integration. See (Kelly 1994) p. 546 for further explanation and proofs of the
+above.
+2.6 Spatial vs. Spectral Signal Characteristics
+In the previous sections we looked only at the spatial characteristics of random signals. As
+stated earlier, the magnitude of the variance of a signal can give us a sense of how much
+jitter or “noise” is in the signal. However a signal’s variance says nothing about the
+f X x
+( )
+σ
+x
+∞
+→
+x
+∞
+–
+→
+mx
+0
+Figure 2.1:  The Normal or Gaussian probability distribution function.
+X
+Y
+f X Y x
+( )
+f Y X y
+( ) f X x
+( )
+f Y y
+( )
+-----------------------------------
+=
+X
+Y
+X
+Y
+y
+=
+pX x | Y
+y
+=
+(
+)
+f Y y | X
+x
+=
+(
+)pX x
+( )
+f Y y | X
+z
+=
+(
+)pX z( )
+z∑
+-------------------------------------------------------
+=
+
+Course 8—An Introduction to the Kalman Filter
+13
+spacing or the rate of the jitter over time. Here we brieﬂy discuss the temporal and hence
+spectral characteristics of a random signal. Such discussion can be focused in the time or
+the frequency domain. We will look brieﬂy at both.
+A useful time-related characteristic of a random signal is its autocorrelation—its
+correlation with itself over time. Formally the autocorrelation of a random signal 
+ is
+deﬁned as
+(2.17)
+for sample times 
+ and 
+. If the process is stationary (the density is invariant with time)
+then equation (2.17) depends only on the difference 
+. In this common case the
+autocorrelation can be re-written as
+.
+(2.18)
+Two hypothetical autocorrelation functions are shown below in Figure 2.1. Notice how
+compared to random signal 
+, random signal 
+ is relatively short and wide. As 
+increases (as you move away from 
+ at the center of the curve) the autocorrelation
+signal for 
+ drops off relatively quickly. This indicates that 
+ is less correlated with
+itself than 
+. 
+Clearly the autocorrelation is a function of time, which means that it has a spectral
+interpretation in the frequency domain also. Again for a stationary process, there is an
+important temporal-spectral relationship known as the Wiener-Khinchine relation:
+X t( )
+RX t1 t2
+,
+(
+)
+E X t1
+(
+)X t2
+(
+)
+[
+]
+=
+t1
+t2
+τ
+t1
+t2
+–
+=
+RX τ
+( )
+E X t( )X t
+τ
++
+(
+)
+[
+]
+=
+X2
+X1
+τ
+τ
+0
+=
+X2
+X2
+X1
+RX τ
+( )
+0
+Figure 2.2:  Two example (hypothetical) autocorrelation functions 
+ and 
+.
+X1
+X2
+τ
+τ
+–
+X1
+X2
+SX jω
+(
+)
+ℑRX τ
+( )
+[
+]
+RX τ
+( )e jωτ
+–
+τ
+d
+∞
+–
+∞∫
+=
+=
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+14
+where 
+ indicates the Fourier transform, and 
+ indicates the number of (
+) cycles
+per second. The function 
+ is called the power spectral density of the random
+signal. As you can see, this important relationship ties together the time and frequency
+spectrum representations of the same signal.
+White Noise
+An important case of a random signal is the case where the autocorrelation function is a
+dirac delta function 
+ which has zero value everywhere except when 
+. In other
+words, the case where
+for some constant magnitude 
+. In this special case where the autocorrelation is a “spike”
+the Fourier transform results in a constant frequency spectrum. as shown in Figure 2.3.
+This is in fact a description of white noise, which be thought of both as having power at all
+frequencies in the spectrum, and being completely uncorrelated with itself at any time
+except the present (
+). This latter interpretation is what leads white noise signals to
+be called independent. Any sample of the signal at one time is completely independent
+(uncorrelated) from a sample at any other time.
+While impossible to achieve or see in practice (no system can exhibit inﬁnite energy
+throughout an inﬁnite spectrum), white noise is an important building block for design and
+analysis. Often random signals can be modeled as ﬁltered or shaped white noise. Literally
+this means that one could ﬁlter the output of a (hypothetical) white noise source to achieve
+a non-white or colored noise source that is both band-limited in the frequency domain, and
+more correlated in the time domain.
+ℑ•[ ]
+ω
+2π
+SX jω
+(
+)
+δ τ
+( )
+τ
+0
+=
+RX τ
+( )
+if τ
+0
+=
+ then A
+else 0
+
+
+
+=
+A
+RX τ
+( )
+0
+Figure 2.3:  White noise shown in both the time (left) and frequency domain (right).
+τ
+τ
+–
+0
+ω
+SX jω
+(
+)
+τ
+0
+=
+
+15
+3. Stochastic Estimation
+While there are many application-speciﬁc approaches to “computing” (estimating) an
+unknown state from a set of process measurements, many of these methods do not
+inherently take into consideration the typically noisy nature of the measurements. For
+example, consider our work in tracking for interactive computer graphics. While the
+requirements for the tracking information varies with application, the fundamental source
+of information is the same: pose estimates are derived from noisy electrical measurements
+of mechanical, inertial, optical, acoustic, or magnetic sensors. This noise is typically
+statistical in nature (or can be effectively modeled as such), which leads us to stochastic
+methods for addressing the problems. Here we provide a very basic introduction to the
+subject, primarily aimed at preparing the reader for Chapter 4. For a more extensive
+discussion of stochastic estimation see for example (Lewis 1986; Kailath, Sayed et al.
+2000).
+3.1 State-Space Models
+State-space models are essentially a notational convenience for estimation and control
+problems, developed to make tractable what would otherwise be a notationally-intractable
+analysis. Consider a dynamic process described by an n-th order difference equation
+(similarly a differential equation) of the form
+, 
+,
+where 
+ is a zero-mean (statistically) white (spectrally) random “noise” process with
+autocorrelation
+,
+and initial values 
+ are zero-mean random variables with a known
+ covariance matrix
+, 
+.
+Also assume that
+ for 
+ and 
+,
+which ensures (Kailath, Sayed et al. 2000) that
+yi
+1
++
+a0 i, yi
+…
+an
+1
+–
+i, yi
+n
+–
+1
++
+ui
++
++
++
+=
+i
+0
+≥
+ui
+{
+}
+E ui u j
+,
+(
+)
+Ru
+Qiδij
+=
+=
+y0 y 1
+–
+… y n
+–
+1
++
+,
+,
+,
+{
+}
+n
+n
+×
+P0
+E y j
+–
+y k
+–
+,
+(
+)
+=
+j k
+,
+0 n
+1
+–
+,
+{
+}
+∈
+E ui yi
+,
+(
+)
+0
+=
+n
+–
+1
+j
+0
+≤
+≤
++
+i
+0
+≥
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+16
+, 
+.
+In other words, that the noise is statistically independent from the process to be estimated.
+Under some other basic conditions (Kailath, Sayed et al. 2000) this difference equation
+can be re-written as
+which leads to the state-space model
+or the more general form
+(3.1)
+.
+(3.2)
+Equation (3.1) represents the way a new state 
+ is modeled as a linear combination of
+both the previous state 
+ and some process noise 
+. Equation (3.2) describes the way the
+process measurements or observations 
+ are derived from the internal state 
+. These two
+equations are often referred to respectively as the process model and the measurement
+model, and they serve as the basis for virtually all linear estimation methods, such as the
+Kalman ﬁlter described below.
+3.2 The Observer Design Problem
+There is a related general problem in the area of linear systems theory generally called the
+observer design problem. The basic problem is to determine (estimate) the internal states
+of a linear system, given access only to the system’s outputs. (Access to the system’s
+control inputs is also presumed, but we omit that aspect here. See for example (Kailath,
+Sayed et al. 2000) for more information.) This is akin to what people often think of as the
+“black box” problem where you have access to some signals coming from the box (the
+outputs) but you cannot directly observe what’s inside.
+E ui yi
+,
+(
+)
+0
+=
+i
+j
+0
+≥
+≥
+xi
+1
++
+yi
+1
++
+yi
+yi
+1
+–
+ 
+yi
+n
+–
+2
++
+≡
+a0 a1 … an
+2
+–
+an
+1
+–
+1
+0 …
+0
+0
+0
+1 …
+0
+0
+ 
+ …
+ 
+ 
+0
+0 …
+1
+0
+yi
+yi
+1
+–
+yi
+2
+–
+ 
+yi
+n
+–
+1
++
+1
+0
+0
+ 
+0
+ui
++
+=
+…
+…
+…
+…
+…
+…
+…
+{
+{
+{
+A
+xi
+G
+xi
+1
++
+Axi
+Gui
++
+=
+yi
+1 0 … 0 xi
+=
+xi
+1
++
+Axi
+Gui
++
+=
+yi
+Hixi
+=
+xi
+1
++
+xi
+ui
+yi
+xi
+
+Course 8—An Introduction to the Kalman Filter
+17
+The many approaches to this basic problem are typically based on the state-space model
+presented in the previous section. There is typically a process model that models the
+transformation of the process state. This can usually be represented as a linear stochastic
+difference equation similar to equation (3.1):
+.
+(3.3)
+In addition there is some form of measurement model that describes the relationship
+between the process state and the measurements. This can usually be represented with a
+linear expression similar to equation (3.2):
+.
+(3.4)
+The terms 
+ and 
+ are random variables representing the process and measurement
+noise respectively. Note that in equation (3.4) we changed the dependent variable to 
+instead of 
+ as in equation (3.2). The rationale is to reinforce the notion that the
+measurements to not have to be of elements of the state speciﬁcally, but can be any linear
+combination of the state elements.
+Measurement and Process Noise
+We consider here the common case of noisy sensor measurements. There are many
+sources of noise in such measurements. For example, each type of sensor has fundamental
+limitations related to the associated physical medium, and when pushing the envelope of
+these limitations the signals are typically degraded. In addition, some amount of random
+electrical noise is added to the signal via the sensor and the electrical circuits. The time-
+varying ratio of “pure” signal to the electrical noise continuously affects the quantity and
+quality of the information. The result is that information obtained from any one sensor
+must be qualiﬁed as it is interpreted as part of an overall sequence of estimates, and
+analytical measurement models typically incorporate some notion of random
+measurement noise or uncertainty as shown above.
+There is the additional problem that the actual state transform model is completely
+unknown. While we can make predictions over relatively short intervals using models
+based on recent state transforms, such predictions assume that the transforms are
+predictable, which is not always the case. The result is that like sensor information,
+ongoing estimates of the state must be qualiﬁed as they are combined with measurements
+in an overall sequence of estimates. In addition, process models typically incorporate
+some notion of random motion or uncertainty as shown above.
+xk
+Axk
+1
+–
+Buk
+wk
+1
+–
++
++
+=
+zk
+Hxk
+vk
++
+=
+wk
+vk
+zk
+yk
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+18
+
+19
+4. The Kalman Filter
+Within the signiﬁcant toolbox of mathematical tools that can be used for stochastic
+estimation from noisy sensor measurements, one of the most well-known and often-used
+tools is what is known as the Kalman ﬁlter. The Kalman ﬁlter is named after Rudolph E.
+Kalman, who in 1960 published his famous paper describing a recursive solution to the
+discrete-data linear ﬁltering problem (Kalman 1960). A very “friendly” introduction to the
+general idea of the Kalman ﬁlter is offered in Chapter 1 of (Maybeck 1979)—which is
+available from the above Kalman ﬁlter web site, and we have included it (with permission)
+in this course pack. A more complete introductory discussion can be found in (Sorenson
+1970), which also contains some interesting historical narrative. More extensive
+references include (Gelb 1974; Maybeck 1979; Lewis 1986; Jacobs 1993; Brown and
+Hwang 1996; Grewal and Andrews 2001). In addition, for many years we have maintained
+a web site dedicated to the Kalman ﬁlter. This site contains links to related work, papers,
+books, and even some software including a new Java-based Kalman Filter Learning Tool.
+http://www.cs.unc.edu/~welch/kalman/
+The Kalman ﬁlter is essentially a set of mathematical equations that implement a
+predictor-corrector type estimator that is optimal in the sense that it minimizes the
+estimated error covariance—when some presumed conditions are met. Since the time of
+its introduction, the Kalman ﬁlter has been the subject of extensive research and
+application, particularly in the area of autonomous or assisted navigation. This is likely
+due in large part to advances in digital computing that made the use of the ﬁlter practical,
+but also to the relative simplicity and robust nature of the ﬁlter itself. Rarely do the
+conditions necessary for optimality actually exist, and yet the ﬁlter apparently works well
+for many applications in spite of this situation.
+Of particular note here, the Kalman ﬁlter has been used extensively for tracking in
+interactive computer graphics. We use a single-constraint-at-a-time Kalman ﬁlter (see
+Section 5.4 on page 41) in our HiBall Tracking System (Welch, Bishop et al. 1999; Welch,
+Bishop et al. 2001) which is commercially available from 3rdTech (3rdTech 2000). It has
+also been used for motion prediction (Azuma and Bishop 1994; Azuma 1995), and it is
+used for multi-sensor (inertial-acoustic) fusion in the commercial Constellation™ wide-
+area tracking system by Intersense (Foxlin, Harrington et al. 1998; Intersense 2000). See
+also (Fuchs (Foxlin) 1993; Van Pabst and Krekel 1993; Azarbayejani and Pentland 1994;
+Emura and Tachi 1994; Emura and Tachi 1994; Mazuryk and Gervautz 1995). 
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+20
+4.1 The Discrete Kalman Filter
+This section describes the ﬁlter in its original formulation (Kalman 1960) where the
+measurements occur and the state is estimated at discrete points in time.
+4.1.1 The Process to be Estimated
+The Kalman ﬁlter addresses the general problem of trying to estimate the state 
+ of
+a discrete-time controlled process that is governed by the linear stochastic difference
+equation
+,
+(4.1)
+with a measurement 
+ that is
+.
+(4.2)
+The random variables 
+ and 
+ represent the process and measurement noise
+(respectively). They are assumed to be independent (of each other), white, and with
+normal probability distributions
+,
+(4.3)
+.
+(4.4)
+In practice, the process noise covariance 
+ and measurement noise covariance 
+matrices might change with each time step or measurement, however here we assume they
+are constant.
+The 
+ matrix 
+ in the difference equation equation (4.1) relates the state at the
+previous time step 
+ to the state at the current step , in the absence of either a driving
+function or process noise. Note that in practice 
+ might change with each time step, but
+here we assume it is constant. The 
+ matrix B relates the optional control input 
+to the state x. The 
+ matrix 
+ in the measurement equation equation (4.2) relates the
+state to the measurement zk. In practice 
+ might change with each time step or
+measurement, but here we assume it is constant.
+4.1.2 The Computational Origins of the Filter
+We deﬁne 
+ (note the “super minus”) to be our a priori state estimate at step k
+given knowledge of the process prior to step k, and 
+ to be our a posteriori state
+estimate at step k given measurement 
+. We can then deﬁne a priori and a posteriori
+estimate errors as
+x
+ℜn
+∈
+xk
+Axk
+1
+–
+Buk
+wk
+1
+–
++
++
+=
+z
+ℜm
+∈
+zk
+Hxk
+vk
++
+=
+wk
+vk
+p w
+(
+)
+N 0 Q
+,
+(
+)
+∼
+p v
+( )
+N 0 R
+,
+(
+)
+∼
+Q
+R
+n
+n
+×
+A
+k
+1
+–
+k
+A
+n
+l
+×
+u
+ℜl
+∈
+m
+n
+×
+H
+H
+xˆk
+-
+ℜn
+∈
+xˆk
+ℜn
+∈
+zk
+ek
+-
+xk
+xˆk
+- , and
+–
+≡
+ek
+xk
+xˆk.
+–
+≡
+
+Course 8—An Introduction to the Kalman Filter
+21
+The a priori estimate error covariance is then
+,
+(4.5)
+and the a posteriori estimate error covariance is
+.
+(4.6)
+In deriving the equations for the Kalman ﬁlter, we begin with the goal of ﬁnding an
+equation that computes an a posteriori state estimate 
+ as a linear combination of an a
+priori estimate 
+ and a weighted difference between an actual measurement 
+ and a
+measurement prediction 
+ as shown below in equation (4.7). Some justiﬁcation for
+equation (4.7) is given in “The Probabilistic Origins of the Filter” found below.
+(4.7)
+The difference 
+ in equation (4.7) is called the measurement innovation, or the
+residual. The residual reﬂects the discrepancy between the predicted measurement 
+and the actual measurement 
+. A residual of zero means that the two are in complete
+agreement. 
+The 
+ matrix K in equation (4.7) is chosen to be the gain or blending factor that
+minimizes the a posteriori error covariance equation (4.6). This minimization can be
+accomplished by ﬁrst substituting equation (4.7) into the above deﬁnition for 
+,
+substituting that into equation (4.6), performing the indicated expectations, taking the
+derivative of the trace of the result with respect to K, setting that result equal to zero, and
+then solving for K. For more details see (Maybeck 1979; Jacobs 1993; Brown and Hwang
+1996). One form of the resulting K that minimizes equation (4.6) is given by1
+.
+(4.8)
+Looking at equation (4.8) we see that as the measurement error covariance 
+ approaches
+zero, the gain K weights the residual more heavily. Speciﬁcally,
+.
+1. All of the Kalman ﬁlter equations can be algebraically manipulated into to several forms. 
+Equation equation (4.8) represents the Kalman gain in one popular form.
+Pk
+-
+E ek
+- ek
+- T
+[
+]
+=
+Pk
+E ekek
+T
+[
+]
+=
+xˆk
+xˆk
+-
+zk
+Hxˆk
+-
+xˆk
+xˆk
+-
+K zk
+Hxˆk
+-
+–
+(
+)
++
+=
+zk
+Hxˆk
+-
+–
+(
+)
+Hxˆk
+-
+zk
+n
+m
+×
+ek
+Kk
+Pk
+- HT HPk
+- HT
+R
++
+(
+) 1
+–
+=
+Pk
+- HT
+HPk
+- HT
+R
++
+-----------------------------
+=
+R
+Kk
+Rk
+0
+→
+lim
+H 1
+–
+=
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+22
+On the other hand, as the a priori estimate error covariance 
+ approaches zero, the gain
+K weights the residual less heavily. Speciﬁcally,
+.
+Another way of thinking about the weighting by K is that as the measurement error
+covariance 
+ approaches zero, the actual measurement 
+ is “trusted” more and more,
+while the predicted measurement 
+ is trusted less and less. On the other hand, as the a
+priori estimate error covariance 
+ approaches zero the actual measurement 
+ is trusted
+less and less, while the predicted measurement 
+ is trusted more and more.
+4.1.3 The Probabilistic Origins of the Filter
+The justiﬁcation for equation (4.7) is rooted in the probability of the a priori estimate 
+conditioned on all prior measurements 
+ (Bayes’ rule). For now let it sufﬁce to point out
+that the Kalman ﬁlter maintains the ﬁrst two moments of the state distribution,
+The a posteriori state estimate equation (4.7) reﬂects the mean (the ﬁrst moment) of the
+state distribution— it is normally distributed if the conditions of equation (4.3) and
+equation (4.4) are met. The a posteriori estimate error covariance equation (4.6) reﬂects
+the variance of the state distribution (the second non-central moment). In other words,
+.
+For more details on the probabilistic origins of the Kalman ﬁlter, see (Brown and Hwang
+1996).
+4.1.4 The Discrete Kalman Filter Algorithm
+We will begin this section with a broad overview, covering the “high-level” operation of
+one form of the discrete Kalman ﬁlter (see the previous footnote). After presenting this
+high-level view, we will narrow the focus to the speciﬁc equations and their use in this
+version of the ﬁlter.
+The Kalman ﬁlter estimates a process by using a form of feedback control: the ﬁlter
+estimates the process state at some time and then obtains feedback in the form of (noisy)
+measurements. As such, the equations for the Kalman ﬁlter fall into two groups: time
+update equations and measurement update equations. The time update equations are
+responsible for projecting forward (in time) the current state and error covariance
+Pk
+-
+Kk
+Pk
+-
+0
+→
+lim
+0
+=
+R
+zk
+Hxˆk
+-
+Pk
+-
+zk
+Hxˆk
+-
+xˆk
+-
+zk
+E xk
+[
+]
+xˆk
+=
+E
+xk
+xˆk
+–
+(
+) xk
+xˆk
+–
+(
+)T
+[
+]
+Pk.
+=
+p xk zk
+(
+)
+N E xk
+[
+] E
+xk
+xˆk
+–
+(
+) xk
+xˆk
+–
+(
+)T
+[
+]
+,
+(
+)
+∼
+N xˆk Pk
+,
+(
+).
+=
+
+Course 8—An Introduction to the Kalman Filter
+23
+estimates to obtain the a priori estimates for the next time step. The measurement update
+equations are responsible for the feedback—i.e. for incorporating a new measurement into
+the a priori estimate to obtain an improved a posteriori estimate.
+The time update equations can also be thought of as predictor equations, while the
+measurement update equations can be thought of as corrector equations. Indeed the ﬁnal
+estimation algorithm resembles that of a predictor-corrector algorithm for solving
+numerical problems as shown below in Figure 4.1.
+The speciﬁc equations for the time and measurement updates are presented below in
+table 4.1 and table 4.2.
+Again notice how the time update equations in table 4.1 project the state and covariance
+estimates forward from time step 
+ to step . 
+ and B are from equation (4.1), while
+ is from equation (4.3). Initial conditions for the ﬁlter are discussed in the earlier
+references.
+Table 4.1: Discrete Kalman ﬁlter time update equations. 
+(4.9)
+(4.10)
+Table 4.2: Discrete Kalman ﬁlter measurement update equations. 
+(4.11)
+(4.12)
+(4.13)
+Time Update
+(“Predict”)
+Measurement Update
+(“Correct”)
+Figure 4.1: The ongoing discrete Kalman ﬁlter cycle. The
+time update projects the current state estimate ahead in
+time. The measurement update adjusts the projected
+estimate by an actual measurement at that time. 
+xˆk
+-
+Axˆk
+1
+–
+Buk
++
+=
+Pk
+-
+APk
+1
+– AT
+Q
++
+=
+k
+1
+–
+k A
+Q
+Kk
+Pk
+- HT HPk
+- HT
+R
++
+(
+) 1
+–
+=
+xˆk
+xˆk
+-
+Kk zk
+Hxˆk
+-
+–
+(
+)
++
+=
+Pk
+I
+KkH
+–
+(
+)Pk
+-
+=
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+24
+The ﬁrst task during the measurement update is to compute the Kalman gain, 
+. Notice
+that the equation given here as equation (4.11) is the same as equation (4.8). The next step
+is to actually measure the process to obtain 
+, and then to generate an a posteriori state
+estimate by incorporating the measurement as in equation (4.12). Again equation (4.12) is
+simply equation (4.7) repeated here for completeness. The ﬁnal step is to obtain an a
+posteriori error covariance estimate via equation (4.13).
+After each time and measurement update pair, the process is repeated with the previous a
+posteriori estimates used to project or predict the new a priori estimates. This recursive
+nature is one of the very appealing features of the Kalman ﬁlter—it makes practical
+implementations much more feasible than (for example) an implementation of a Wiener
+ﬁlter (Brown and Hwang 1996) which is designed to operate on all of the data directly for
+each estimate. The Kalman ﬁlter instead recursively conditions the current estimate on all
+of the past measurements. Figure 4.2 below offers a complete picture of the operation of
+the ﬁlter, combining the high-level diagram of Figure 4.1 with the equations from table 4.1
+and table 4.2.
+4.2 The Extended Kalman Filter (EKF)
+4.2.1 The Process to be Estimated
+As described above in Section 4.1.1, the Kalman ﬁlter addresses the general problem of
+trying to estimate the state 
+ of a discrete-time controlled process that is governed
+by a linear stochastic difference equation. But what happens if the process to be estimated
+and (or) the measurement relationship to the process is non-linear? Some of the most
+Kk
+zk
+Kk
+Pk
+- HT HPk
+- HT
+R
++
+(
+) 1
+–
+=
+(1) Compute the Kalman gain
+xˆk
+1
+–
+Initial estimates for 
+and Pk
+1
+–
+xˆk
+xˆk
+-
+Kk zk
+Hxˆk
+-
+–
+(
+)
++
+=
+(2) Update estimate with measurement zk
+(3) Update the error covariance
+Pk
+I
+KkH
+–
+(
+)Pk
+-
+=
+Measurement Update (“Correct”)
+(1) Project the state ahead
+(2) Project the error covariance ahead
+Time Update (“Predict”)
+xˆk
+-
+Axˆk
+1
+–
+Buk
++
+=
+Pk
+-
+APk
+1
+– AT
+Q
++
+=
+Figure 4.2: A complete picture of the operation of the Kalman ﬁlter, combining the
+high-level diagram of Figure 4.1 with the equations from table 4.1 and table 4.2. 
+x
+ℜn
+∈
+
+Course 8—An Introduction to the Kalman Filter
+25
+interesting and successful applications of Kalman ﬁltering have been such situations. A
+Kalman ﬁlter that linearizes about the current mean and covariance is referred to as an
+extended Kalman ﬁlter or EKF.
+In something akin to a Taylor series, we can linearize the estimation around the current
+estimate using the partial derivatives of the process and measurement functions to
+compute estimates even in the face of non-linear relationships. To do so, we must begin by
+modifying some of the material presented in Section 4.1. Let us assume that our process
+again has a state vector 
+, but that the process is now governed by the non-linear
+stochastic difference equation
+,
+(4.14)
+with a measurement 
+ that is
+,
+(4.15)
+where the random variables 
+ and 
+ again represent the process and measurement
+noise as in equation (4.3) and equation (4.4). In this case the non-linear function  in the
+difference equation equation (4.14) relates the state at the previous time step 
+ to the
+state at the current time step . It includes as parameters any driving function uk and the
+zero-mean process noise wk. The non-linear function  in the measurement equation
+equation (4.15) relates the state 
+ to the measurement 
+.
+In practice of course one does not know the individual values of the noise 
+ and 
+ at
+each time step. However, one can approximate the state and measurement vector without
+them as
+(4.16)
+and
+,
+(4.17)
+where 
+ is some a posteriori estimate of the state (from a previous time step k).
+It is important to note that a fundamental ﬂaw of the EKF is that the distributions (or
+densities in the continuous case) of the various random variables are no longer normal
+after undergoing their respective nonlinear transformations. The EKF is simply an ad hoc
+state estimator that only approximates the optimality of Bayes’ rule by linearization. Some
+interesting work has been done by Julier et al. in developing a variation to the EKF, using
+methods that preserve the normal distributions throughout the non-linear transformations
+(Julier and Uhlmann 1996).
+x
+ℜn
+∈
+xk
+f xk
+1
+–
+uk wk
+1
+–
+,
+,
+(
+)
+=
+z
+ℜm
+∈
+zk
+h xk vk
+,
+(
+)
+=
+wk
+vk
+f
+k
+1
+–
+k
+h
+xk
+zk
+wk
+vk
+x˜k
+f xˆk
+1
+–
+uk 0
+,
+,
+(
+)
+=
+z˜k
+h x˜k 0
+,
+(
+)
+=
+xˆk
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+26
+4.2.2 The Computational Origins of the Filter
+To estimate a process with non-linear difference and measurement relationships, we begin
+by writing new governing equations that linearize an estimate about equation (4.16) and
+equation (4.17),
+,
+(4.18)
+.
+(4.19)
+where
+•
+ and 
+ are the actual state and measurement vectors,
+•
+ and 
+ are the approximate state and measurement vectors from 
+equation (4.16) and equation (4.17),
+•
+ is an a posteriori estimate of the state at step k,
+•
+the random variables 
+ and 
+ represent the process and measurement noise 
+as in equation (4.3) and equation (4.4). 
+•
+A is the Jacobian matrix of partial derivatives of  with respect to x, that is
+,
+•
+W is the Jacobian matrix of partial derivatives of  with respect to w,
+,
+•
+H is the Jacobian matrix of partial derivatives of  with respect to x,
+,
+•
+V is the Jacobian matrix of partial derivatives of  with respect to v,
+.
+Note that for simplicity in the notation we do not use the time step subscript  with the
+Jacobians 
+, 
+, 
+, and 
+, even though they are in fact different at each time step.
+xk
+x˜k
+A xk
+1
+–
+xˆk
+1
+–
+–
+(
+)
+Wwk
+1
+–
++
++
+≈
+zk
+z˜k
+H xk
+x˜k
+–
+(
+)
+Vvk
++
++
+≈
+xk
+zk
+x˜k
+z˜k
+xˆk
+wk
+vk
+f
+A i j
+,
+[
+]
+x j
+[ ]
+∂
+∂f i[ ] xˆk
+1
+–
+uk 0
+,
+,
+(
+)
+=
+f
+W i j
+,
+[
+]
+w j
+[ ]
+∂
+∂f i[ ] xˆk
+1
+–
+uk 0
+,
+,
+(
+)
+=
+h
+H i j
+,
+[
+]
+x j
+[ ]
+∂
+∂h i[ ] x˜k 0
+,
+(
+)
+=
+h
+V i j
+,
+[
+]
+v j
+[ ]
+∂
+∂h i[ ] x˜k 0
+,
+(
+)
+=
+k
+A W H
+V
+
+Course 8—An Introduction to the Kalman Filter
+27
+Now we deﬁne a new notation for the prediction error,
+,
+(4.20)
+and the measurement residual,
+.
+(4.21)
+Remember that in practice one does not have access to 
+ in equation (4.20), it is the
+actual state vector, i.e. the quantity one is trying to estimate. On the other hand, one does
+have access to 
+ in equation (4.21), it is the actual measurement that one is using to
+estimate 
+. Using equation (4.20) and equation (4.21) we can write governing equations
+for an error process as
+,
+(4.22)
+,
+(4.23)
+where 
+ and 
+ represent new independent random variables having zero mean and
+covariance matrices 
+ and 
+, with 
+ and 
+ as in (4.3) and (4.4) respectively.
+Notice that the equations equation (4.22) and equation (4.23) are linear, and that they
+closely resemble the difference and measurement equations equation (4.1) and
+equation (4.2) from the discrete Kalman ﬁlter. This motivates us to use the actual
+measurement residual 
+ in equation (4.21) and a second (hypothetical) Kalman ﬁlter to
+estimate the prediction error 
+ given by equation (4.22). This estimate, call it 
+, could
+then be used along with equation (4.20) to obtain the a posteriori state estimates for the
+original non-linear process as
+.
+(4.24)
+The random variables of equation (4.22) and equation (4.23) have approximately the
+following probability distributions (see the previous footnote):
+Given these approximations and letting the predicted value of 
+ be zero, the Kalman
+ﬁlter equation used to estimate 
+ is
+.
+(4.25)
+e˜xk
+xk
+x˜k
+–
+≡
+e˜zk
+zk
+z˜k
+–
+≡
+xk
+zk
+xk
+e˜xk
+A xk
+1
+–
+xˆk
+1
+–
+–
+(
+)
+εk
++
+≈
+e˜zk
+He˜xk
+ηk
++
+≈
+εk
+ηk
+WQWT
+VRV T
+Q
+R
+e˜zk
+e˜xk
+eˆk
+xˆk
+x˜k
+eˆk
++
+=
+p e˜xk
+(
+)
+N 0 E e˜xke˜xk
+T
+[
+]
+,
+(
+)
+∼
+p εk
+(
+)
+N 0 WQkWT
+,
+(
+)
+∼
+p ηk
+(
+)
+N 0 VRkV T
+,
+(
+)
+∼
+eˆk
+eˆk
+eˆk
+Kke˜zk
+=
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+28
+By substituting equation (4.25) back into equation (4.24) and making use of
+equation (4.21) we see that we do not actually need the second (hypothetical) Kalman
+ﬁlter:
+(4.26)
+Equation equation (4.26) can now be used for the measurement update in the extended
+Kalman ﬁlter, with 
+ and 
+ coming from equation (4.16) and equation (4.17), and the
+Kalman gain 
+ coming from equation (4.11) with the appropriate substitution for the
+measurement error covariance.
+The complete set of EKF equations is shown below in table 4.3 and table 4.4. Note that we
+have substituted 
+ for 
+ to remain consistent with the earlier “super minus” a priori
+notation, and that we now attach the subscript  to the Jacobians 
+, 
+, 
+, and 
+, to
+reinforce the notion that they are different at (and therefore must be recomputed at) each
+time step. 
+As with the basic discrete Kalman ﬁlter, the time update equations in table 4.3 project the
+state and covariance estimates from the previous time step 
+ to the current time step
+. Again  in equation (4.27) comes from equation (4.16), 
+ and 
+ are the process
+Jacobians at step k, and 
+ is the process noise covariance equation (4.3) at step k.
+As with the basic discrete Kalman ﬁlter, the measurement update equations in table 4.4
+correct the state and covariance estimates with the measurement 
+. Again 
+ in
+equation (4.30) comes from equation (4.17), 
+ and V are the measurement Jacobians at
+step k, and 
+ is the measurement noise covariance equation (4.4) at step k. (Note we now
+subscript 
+ allowing it to change with each measurement.)
+Table 4.3: EKF time update equations. 
+(4.27)
+(4.28)
+Table 4.4: EKF measurement update equations. 
+(4.29)
+(4.30)
+(4.31)
+xˆk
+x˜k
+Kke˜zk
++
+=
+x˜k
+Kk zk
+z˜k
+–
+(
+)
++
+=
+x˜k
+z˜k
+Kk
+xˆk
+-
+x˜k
+k
+A
+W
+H
+V
+xˆk
+- 
+f xˆk
+1
+–
+uk 0
+,
+,
+(
+)
+=
+Pk
+-
+AkPk
+1
+– Ak
+T
+WkQk
+1
+– Wk
+T
++
+=
+k
+1
+–
+k
+f
+Ak
+Wk
+Qk
+Kk
+Pk
+- Hk
+T HkPk
+- Hk
+T
+VkRkVk
+T
++
+(
+) 1
+–
+=
+xˆk
+xˆk
+-
+Kk zk
+h xˆk
+- 0
+,
+(
+)
+–
+(
+)
++
+=
+Pk
+I
+KkHk
+–
+(
+)Pk
+-
+=
+zk
+h
+Hk
+Rk
+R
+
+Course 8—An Introduction to the Kalman Filter
+29
+The basic operation of the EKF is the same as the linear discrete Kalman ﬁlter as shown in
+Figure 4.1. Figure 4.3 below offers a complete picture of the operation of the EKF,
+combining the high-level diagram of Figure 4.1 with the equations from table 4.3 and
+table 4.4.
+Figure 4.3: A complete picture of the operation of the extended Kal-
+man filter, combining the high-level diagram of Figure 4.1 with the 
+equations from table 4.3 and table 4.4.
+An important feature of the EKF is that the Jacobian 
+ in the equation for the Kalman
+gain 
+ serves to correctly propagate or “magnify” only the relevant component of the
+measurement information. For example, if there is not a one-to-one mapping between the
+measurement 
+ and the state via , the Jacobian 
+ affects the Kalman gain so that it
+only magniﬁes the portion of the residual 
+ that does affect the state. Of
+course if over all measurements there is not a one-to-one mapping between the
+measurement 
+ and the state via 
+, then as you might expect the ﬁlter will quickly
+diverge. In this case the process is unobservable.
+4.3 An Example: Estimating a Random Constant
+In the previous two sections we presented the basic form for the discrete Kalman ﬁlter, and
+the extended Kalman ﬁlter. To help in developing a better feel for the operation and
+capability of the ﬁlter, we present a very simple example here.
+Kk
+Pk
+- Hk
+T HkPk
+- Hk
+T
+VkRkVk
+T
++
+(
+) 1
+–
+=
+(1) Compute the Kalman gain
+xˆk
+xˆk
+-
+Kk zk
+h xˆk
+- 0
+,
+(
+)
+–
+(
+)
++
+=
+(2) Update estimate with measurement zk
+(3) Update the error covariance
+Pk
+I
+KkHk
+–
+(
+)Pk
+-
+=
+Measurement Update (“Correct”)
+(1) Project the state ahead
+(2) Project the error covariance ahead
+Time Update (“Predict”)
+xˆk
+-
+f xˆk
+1
+–
+uk 0
+,
+,
+(
+)
+=
+Pk
+-
+AkPk
+1
+– Ak
+T
+WkQk
+1
+– Wk
+T
++
+=
+xˆk
+1
+–
+Initial estimates for 
+and Pk
+1
+–
+Hk
+Kk
+zk
+h
+Hk
+zk
+h xˆk
+- 0
+,
+(
+)
+–
+zk
+h
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+30
+4.3.1 The Process Model
+In this simple example let us attempt to estimate a scalar random constant, a voltage for
+example. Let’s assume that we have the ability to take measurements of the constant, but
+that the measurements are corrupted by a 0.1 volt RMS white measurement noise (e.g. our
+analog to digital converter is not very accurate). In this example, our process is governed
+by the linear difference equation
+,
+with a measurement 
+ that is
+.
+The state does not change from step to step so 
+. There is no control input so
+. Our noisy measurement is of the state directly so 
+. (Notice that we
+dropped the subscript k in several places because the respective parameters remain
+constant in our simple model.)
+4.3.2 The Filter Equations and Parameters
+Our time update equations are
+,
+,
+and our measurement update equations are
+,
+(4.32)
+,
+.
+Presuming a very small process variance, we let 
+. (We could certainly let
+ but assuming a small but non-zero value gives us more ﬂexibility in “tuning” the
+ﬁlter as we will demonstrate below.) Let’s assume that from experience we know that the
+xk
+Axk
+1
+–
+Buk
+wk
++
++
+=
+xk
+1
+–
+wk
++
+=
+z
+ℜ1
+∈
+zk
+Hxk
+vk
++
+=
+xk
+vk
++
+=
+A
+1
+=
+u
+0
+=
+H
+1
+=
+xˆk
+-
+xˆk
+1
+–
+=
+Pk
+-
+Pk
+1
+–
+Q
++
+=
+Kk
+Pk
+- Pk
+-
+R
++
+(
+) 1
+–
+=
+Pk
+-
+Pk
+-
+R
++
+---------------
+=
+xˆk
+xˆk
+-
+Kk zk
+xˆk
+-
+–
+(
+)
++
+=
+Pk
+1
+Kk
+–
+(
+)Pk
+-
+=
+Q
+1e
+5
+–
+=
+Q
+0
+=
+
+Course 8—An Introduction to the Kalman Filter
+31
+true value of the random constant has a standard normal probability distribution, so we
+will “seed” our ﬁlter with the guess that the constant is 0. In other words, before starting
+we let 
+.
+Similarly we need to choose an initial value for 
+, call it 
+. If we were absolutely
+certain that our initial state estimate 
+ was correct, we would let 
+. However
+given the uncertainty in our initial estimate 
+, choosing 
+ would cause the ﬁlter to
+initially and always believe 
+. As it turns out, the alternative choice is not critical.
+We could choose almost any 
+ and the ﬁlter would eventually converge. We’ll start
+our ﬁlter with 
+. 
+4.3.3 The Simulations
+To begin with, we randomly chose a scalar constant 
+ (there is no “hat” on
+the z because it represents the “truth”). We then simulated 50 distinct measurements 
+that had error normally distributed around zero with a standard deviation of 0.1 (remember
+we presumed that the measurements are corrupted by a 0.1 volt RMS white measurement
+noise). We could have generated the individual measurements within the ﬁlter loop, but
+pre-generating the set of 50 measurements allowed me to run several simulations with the
+same exact measurements (i.e. same measurement noise) so that comparisons between
+simulations with different parameters would be more meaningful.
+In the ﬁrst simulation we ﬁxed the measurement variance at 
+. Because
+this is the “true” measurement error variance, we would expect the “best” performance in
+terms of balancing responsiveness and estimate variance. This will become more evident
+in the second and third simulation. Figure 4.4 depicts the results of this ﬁrst simulation.
+The true value of the random constant 
+ is given by the solid line, the noisy
+measurements by the cross marks, and the ﬁlter estimate by the remaining curve.
+xˆk
+1
+–
+0
+=
+Pk
+1
+–
+P0
+xˆ0
+0
+=
+P0
+0
+=
+xˆ0
+P0
+0
+=
+xˆk
+0
+=
+P0
+0
+≠
+P0
+1
+=
+z
+0.37727
+–
+=
+zk
+R
+0.1
+(
+)2
+0.01
+=
+=
+x
+0.37727
+–
+=
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+32
+Figure 4.4: The first simulation:
+. The true val-
+ue of the random constant 
+ is given by the solid line, 
+the noisy measurements by the cross marks, and the filter estimate 
+by the remaining curve.
+When considering the choice for 
+ above, we mentioned that the choice was not critical
+as long as 
+ because the ﬁlter would eventually converge. Below in Figure 4.5 we
+have plotted the value of 
+ versus the iteration. By the 50th iteration, it has settled from
+the initial (rough) choice of 1 to approximately 0.0002 (Volts2).
+Figure 4.5: After 50 iterations, our initial (rough) error covariance 
+ choice of 1 has settled to about 0.0002 (Volts2).
+In Section 5.1 under the topic “Parameter Estimation or Tuning” we brieﬂy discussed
+changing or “tuning” the parameters Q and R to obtain different ﬁlter performance. In
+Figure 4.6 and Figure 4.7 below we can see what happens when R is increased or
+50
+40
+30
+20
+10
+-0.2
+-0.3
+-0.4
+-0.5
+Iteration
+Voltage
+R
+0.1
+(
+)2
+0.01
+=
+=
+x
+0.37727
+–
+=
+P0
+P0
+0
+≠
+Pk
+50
+40
+30
+20
+10
+0.01
+.008
+.006
+.004
+.002
+Iteration
+(Voltage)2
+Pk
+-
+
+Course 8—An Introduction to the Kalman Filter
+33
+decreased by a factor of 100 respectively. In Figure 4.6 the ﬁlter was told that the
+measurement variance was 100 times greater (i.e. 
+) so it was “slower” to believe
+the measurements.
+Figure 4.6: Second simulation: 
+. The filter is slower to re-
+spond to the measurements, resulting in reduced estimate variance.
+In Figure 4.7 the ﬁlter was told that the measurement variance was 100 times smaller (i.e.
+) so it was very “quick” to believe the noisy measurements.
+Figure 4.7: Third simulation: 
+. The filter responds to 
+measurements quickly, increasing the estimate variance.
+While the estimation of a constant is relatively straight-forward, it clearly demonstrates
+the workings of the Kalman ﬁlter. In Figure 4.6 in particular the Kalman “ﬁltering” is
+evident as the estimate appears considerably smoother than the noisy measurements.
+R
+1
+=
+50
+40
+30
+20
+10
+-0.2
+-0.3
+-0.4
+-0.5
+Voltage
+R
+1
+=
+R
+0.0001
+=
+50
+40
+30
+20
+10
+-0.2
+-0.3
+-0.4
+-0.5
+Voltage
+R
+0.0001
+=
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+34
+
+35
+5. Other Topics
+5.1 Parameter Estimation or Tuning
+In the actual implementation of the filter, the measurement noise covariance 
+ is usually
+measured prior to operation of the filter. Measuring the measurement error covariance 
+ is
+generally practical (possible) because we need to be able to measure the process anyway
+(while operating the filter) so we should generally be able to take some off-line sample
+measurements in order to determine the variance of the measurement noise.
+The determination of the process noise covariance 
+ is generally more difficult as we typ-
+ically do not have the ability to directly observe the process we are estimating. Sometimes
+a relatively simple (poor) process model can produce acceptable results if one “injects”
+enough uncertainty into the process via the selection of 
+. Certainly in this case one would
+hope that the process measurements are reliable.
+In either case, whether or not we have a rational basis for choosing the parameters, often
+times superior ﬁlter performance (statistically speaking) can be obtained by tuning the
+ﬁlter parameters 
+ and 
+. The tuning is usually performed off-line, frequently with the
+help of another (distinct) Kalman ﬁlter in a process generally referred to as system
+identiﬁcation.
+Under conditions where 
+ and 
+.are in fact constant, both the estimation error
+covariance 
+ and the Kalman gain 
+ will stabilize quickly and then remain constant. If
+this is the case, these parameters can be pre-computed by either running the ﬁlter off-line,
+or for example by determining the steady-state value of 
+ as described in (Grewal and
+Andrews 2001).
+It is frequently the case however that the measurement error (in particular) does not remain
+constant. For example, when sighting beacons in our optoelectronic tracker ceiling panels,
+the noise in measurements of nearby beacons will be smaller than that in far-away beacons.
+Also, the process noise 
+ is sometimes changed dynamically during filter operation—be-
+coming 
+—in order to adjust to different dynamics. For example, in the case of tracking
+the head of a user of a 3D virtual environment we might reduce the magnitude of 
+ if the
+user seems to be moving slowly, and increase the magnitude if the dynamics start changing
+rapidly. In such cases 
+ might be chosen to account for both uncertainty about the user’s
+intentions and uncertainty in the model.
+See (Welch 1996) for more information on this topic.
+R
+R
+Q
+Q
+Q
+R
+Q
+R
+Pk
+Kk
+Pk
+Q
+Qk
+Qk
+Qk
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+36
+5.2 Multi-Modal (Multiple Model) Filters
+5.2.1 Random Processes and the Kalman Filter
+The Kalman ﬁlter is based on the assumption of a continuous system that can be modeled
+as a normally distributed random process 
+, with mean  (the state) and variance 
+ (the
+error covariance). In other words,
+.
+Similarly the Kalman ﬁlter is based on the assumption that the output of the system can be
+modeled as a random process 
+ which is a linear function of the state  plus an
+independent, normally distributed, zero-mean white noise process 
+,1
+(5.1)
+where 
+, 
+, and 
+. From equations (2.12) and (2.14)
+we have
+.
+However, the expression 
+ reﬂects the ﬁlter’s estimate of the measurement
+residuals (innovations), not the actual residuals. This becomes clear when one examines
+the update expressions for 
+ in the Kalman ﬁlter: 
+ does not depend on the measurement
+residual. The effect of this is that the expression 
+ may indicate some small
+residual variance, when in fact at particular points in time the variance is relatively large.
+This is indeed exactly the case when one is simultaneously considering multiple models
+for a process—one of the models, or some combination of them, is “right” and actually
+has small residuals, while others are “wrong” and will suffer from large residuals. Thus
+when one is computing the likelihood of a residual for the purpose of comparing model
+performance, one must consider the liklihood of the actual measurement  at each time
+step, given the expected performance of each model.
+The Likelihood of the Measurements Given a Particular Model
+Given equations (2.13) and (2.15), we can use the following conditional probability
+density function as an indicator of the likelihood of a measurement  at step :
+,
+(5.2)
+1. Recall that “white” means that the spectral density is constant and the autocorrelation is a delta 
+function. In other words, the output of the noise source at any one instant in time is independent 
+from that at any other instant in time.
+X
+x
+P
+X
+N x P
+,
+(
+)
+∼
+Z
+x
+V
+z
+Hx
+v
++
+=
+X
+N x P
+,
+(
+)
+∼
+V
+N 0 R
+,
+(
+)
+∼
+E XV
+{
+}
+0
+=
+Z
+N Hx HPHT
+R
++
+,
+(
+)
+∼
+HPHT
+R
++
+P
+P
+HPHT
+R
++
+z
+z
+k
+f z µ
+(
+)
+1
+2π Cµ
+(
+)nµ 2
+⁄
+--------------------------------e
+1
+2-- z
+Hµxµ
+- 
+–
+(
+)TCµ1
+–
+z
+Hµxµ
+–
+(
+)
+–
+=
+
+Course 8—An Introduction to the Kalman Filter
+37
+where
+.
+We have omitted the subscript  for clarity. Note again that the state vector 
+ and error
+covariance matrix 
+ are the a priori (predicted) versions at step , already computed at
+each ﬁlter prediction step using equation (4.9) and equation (4.10). In other words, the
+density is conditioned on the model 
+ and all of its associated a priori (predicted)
+parameters.
+5.2.2 Fixed Multiple Models
+We begin with the case where we believe that there is one correct model for the process,
+and that the model is ﬁxed or does not change over time, however we don’t know what that
+model is. Over time, as the ﬁlter reaches a steady state, we want to converge on a choice
+for the single most likely model. For this approach let us assume that the correct model 
+is one of  possible known ﬁxed models,
+.
+The Probability of a Particular Model Given the Measurements
+Given a new measurement  at time step , and associated a priori state and covariance
+estimates from equation (4.9) and equation (4.10), we can use equation (5.2) to compute
+the recursive probability 
+ that candidate model 
+ is the correct model at that time:
+.
+(5.3)
+One would initialize 
+ with some a priori estimate of the probability that 
+ is the
+correct model. For example, one could consider all models equally likely to begin with,
+and set
+, 
+.
+Note that 
+ and 
+ are scalars, and at every time step ,
+.
+Cµ
+HµPµ
+- Hµ
+T
+Rµ
++
+=
+k
+xµ
+Pµ
+-
+k
+µ
+M
+r
+M
+µ j
+{
+} j
+1
+=
+r
+∈
+z
+k
+p j k
+( )
+µ j
+p j k
+( )
+f z µ j
+(
+)p j k
+1
+–
+(
+)
+f z µh
+(
+)ph k
+1
+–
+(
+)
+h
+1
+=
+r
+∑
+------------------------------------------------------
+=
+p j 0
+( )
+µ j
+p j 0
+( )
+1
+r--
+=
+j
+1 2 … r
+, ,
+,
+=
+f z µ j
+(
+)
+p j 0
+( )
+k
+p j k
+( )
+j
+1
+=
+r
+∑
+1
+=
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+38
+The Final Model-Conditioned Estimate
+The ﬁnal combined or model-conditioned estimate of the state 
+ and error covariance 
+are computed as a weighted combination of each candidate ﬁlter’s a posteriori state and
+error covariance estimates. The weight for each candidate model is the model probability
+given by equation (5.3). The ﬁnal model-conditioned state estimate is computed as
+, and
+(5.4)
+the ﬁnal model-conditioned error covariance as
+,
+(5.5)
+where 
+.
+The Algorithm
+To begin with, one would instantiate  independent Kalman ﬁlters, one for each of the 
+candidate models. Each of these ﬁlters would then be run independently, in parallel, with
+the addition of the necessary individual density and ﬁnal probability computations.
+At each time update (see Figure 4.1) one would compute the normal a priori Kalman ﬁlter
+elements (see table 4.1), and then
+a.
+using the conditional density function given in equation (5.2), compute
+the liklihood of the current (actual) measurement  for each candidate
+model 
+;
+b. using the previous probability 
+ for each candidate model 
+,
+use the recursive equation (5.3) to compute the probability 
+ that
+each individual model 
+ is correct;
+c.
+for each candidate model 
+, compute the a posteriori (corrected) state
+estimate 
+ and error covariance 
+ using equation (4.12) and
+equation (4.13);
+d. given each candidate ﬁlter’s a posteriori (corrected) state estimate
+, compute the ﬁnal model-conditioned state estimate 
+ using
+equation (5.4); and
+xˆk
+Pk
+x k
+p j k
+( )xˆk µ j
+,
+j
+1
+=
+r
+∑
+=
+)
+Pk
+p j k
+( ) Pk µ j
+,
+εµ jεµ j
+T
++
+[
+]
+j
+1
+=
+r
+∑
+=
+εµ j
+x k
+xˆk µ j
+,
+–
+=
+)
+r
+r
+z
+µ j
+p j k
+1
+–
+(
+)
+µ j
+p j k
+( )
+µ j
+µ j
+xˆk µ j
+,
+Pk µ j
+,
+xˆk µ j
+,
+x k
+)
+
+Course 8—An Introduction to the Kalman Filter
+39
+e.
+if desired, given each candidate ﬁlter’s a posteriori (corrected) error
+covariance estimate 
+, compute the ﬁnal model-conditioned error
+covariance 
+ using equation (5.5).
+Convergence of the Mode Estimates
+As described in (Bar-Shalom and Li 1993), the ﬁnal mode-conditioned state estimate will
+converge to agree with one of the models, if one of the models is the correct one. In any
+case, it will converge to some constant mode represented by a ﬁxed weighting of the
+individual multiple models.
+If the actual mode is not constant, i.e. if the process can be switching or varying between
+different models, one can use various ad hoc methods to prevent convergence on a single
+mode. For example,
+a.
+One can impose an artiﬁcial lower bound on the model probabilities,
+b. impose a ﬁnite memory (sliding window) on the likelihood function, or
+c.
+impose an exponential decay on the likelihood function.
+A problem with using ad hoc means of varying the blending of ﬁxed multiple models is
+that the error in the incorrect models (at any moment) can grow unbounded, i.e. the
+incorrect ﬁlters can get lost. Thus the ﬁlters might have to be re-initialized.
+5.2.3 Dynamic Multiple Model Method
+The multiple-model approach described in Section 5.2.2 is appropriate for systems where
+we believe there is one correct model for the process, and that the model is ﬁxed. However
+there are situations where the choice from a set of candidate models varies continuously
+while the ﬁlter is in operation.´In such a case one cannot make a ﬁxed a priori choice of
+ﬁlter parameters. Instead one could operate a set of candidate ﬁlters in parallel (similar to
+Section 5.2.2) and use a continuously varying model-conditioned combination of the
+candidate state and error covariance estimates.
+The dynamic multiple model approach is virtually identical to the ﬁxed approach outlined
+in Section 5.2.2, with the exception of the model probability given by equation (5.3). In
+the dynamic case we do not want the probabilities to converge to ﬁxed values, but to
+remain free to change with each new measurement. Given a new measurement  at time
+Pk µ j
+,
+Pk
+z
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+40
+step , and associated a priori state and covariance estimates from equation (4.9) and
+equation (4.10), one could compute the probability 
+ that candidate model 
+ is the
+correct model at that time simply using
+.
+(5.6)
+The algorithm would remain the same as in Section 5.2.2, except that in step (b) one
+would use equation (5.6) instead of equation (5.3).
+5.3 Hybrid or Multi-Sensor Fusion
+Stochastic estimation tools such as the Kalman ﬁlter can be used to combine or fuse
+information from different “mediums or sensors for hybrid systems. The basic idea is to
+use the Kalman ﬁlter to weight the different mediums most heavily in the circumstances
+where they each perform best, thus providing more accurate and stable estimates than a
+system based on any one medium alone. In particular, the indirect feedback Kalman ﬁlter
+shown in Figure 5.1 (also called a complementary or error-state Kalman ﬁlter) is often
+used to combined the two mediums (Maybeck 1979). In such a conﬁguration, the Kalman
+ﬁlter is used to estimate the difference between the current inertial and optical (or acoustic)
+outputs, i.e. it continually estimates the error in the inertial estimates by using the optical
+system as a second (redundant) reference. This error estimate is then used to correct the
+inertial estimates. The tuning of the Kalman ﬁlter parameters (see “Parameter Estimation
+or Tuning” on page 35) then adjusts the weight of the correction as a function of
+frequency. By slightly modifying the Kalman ﬁlter, adaptive velocity response can be
+incorporated also. This can be accomplished by adjusting (in real time) the expected
+optical measurement error as a function of the magnitude of velocity. The dashed line in
+Figure 5.1 also indicates the use of inertial estimates to help a image-based optical system
+to prevent tracking of moving scene objects (i.e. unrelated motion in the environment).
+In such a conﬁguration, the Kalman ﬁlter uses a common process model, but a distinct
+measurement model for each of the inertial and optical subsystems.
+k
+p j k
+( )
+µ j
+p j k
+( )
+f z µ j
+(
+)
+f z µh
+(
+)
+h
+1
+=
+r
+∑
+------------------------------
+=
+Inertial
+Kalman
+filter
+Corrections
+Inertial estimate (corrected)
+Optical
+Optical estimate
+(redundant)
+to inertial
+Figure 5.1: The Kalman ﬁlter used in an indirect-feedback
+conﬁguration to optimally weight inertial and optical information. 
+
+Course 8—An Introduction to the Kalman Filter
+41
+5.4 Single-Constraint-at-a-Time (SCAAT)
+A conventional approach to pose estimation is to collect a group of sensor measurements
+and then to attempt to simultaneously solve a system of equations that together completely
+constrain the solution. For example, the 1991 UNC-Chapel Hill wide-area opto-electronic
+tracking system (Wang 1990; Ward, Azuma et al. 1992) collected a group of diverse
+measurements for a variety of LEDs and sensors, and then used a method of simultaneous
+non-linear equations called Collinearity to estimate the pose of the head-worn sensor
+ﬁxture (Azuma and Ward 1991). There was one equation for each measurement,
+expressing the constraint that a ray from the front principal point of the sensor lens to the
+LED, must be collinear with a ray from the rear principal point to the intersection with the
+sensor. Each estimate made use of typically 20 (or more) measurements that together over-
+constrained the solution. 
+This multiple constraint method had several drawbacks. First, it had a signiﬁcantly lower
+estimate rate due to the need to collect multiple measurements per estimate. Second, the
+system of non-linear equations did not account for the fact that the sensor ﬁxture
+continued to move throughout the collection of the sequence of measurements. Instead the
+method effectively assumes that the measurements were taken simultaneously. The
+violation of this simultaneity assumption could introduce signiﬁcant error during even
+moderate motion. Finally, the method provided no means to identify or handle unusually
+noisy individual measurements. Thus, a single erroneous measurement could cause an
+estimate to jump away from an otherwise smooth track.
+In contrast, there is typically nothing about typical solutions to the observer design
+problem in general (Section 3.2), or the Kalman ﬁlter in particular (see “Parameter
+Estimation or Tuning” on page 35), that dictates the ordering of measurement information.
+In 1996 we introduced a new approach to tracking with a Kalman ﬁlter, an approach that
+exploits this ﬂexibility in measurement processing. The basic idea is to update the pose
+estimate as each new measurement is made, rather than waiting to form a complete
+collection of measurement. Because single measurements under-constrain the
+mathematical solution, we refer to the approach as single-constraint-at-a-time or SCAAT
+tracking (Welch 1996; Welch and Bishop 1997). The key is that the single measurements
+provide some information about the tracker state, and thus can be used to incrementally
+improve a previous estimate. We intentionally fuse each individual “insufﬁcient”
+measurement immediately as it is obtained. With this approach we are able to generate
+estimates more frequently, with less latency, with improved accuracy, and we are able to
+estimate the LED positions on-line concurrently while tracking.
+This approach is used in our laboratory-based HiBall Tracking System (Welch, Bishop et
+al. 1999; Welch, Bishop et al. 2001), the commercial version of the same system (3rdTech
+2000), and the commercial systems manufactured by Intersense (Foxlin, Harrington et al.
+1998; Intersense 2000). For more information see (Welch 1996; Welch and Bishop 1997),
+the former which is included at the end of this course pack.
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+42
+
+43
+A. Bibliography
+3rdTech. (2000, July 15). 3rdTech™, [HTML]. 3rdTech. Available: http://
+www.3rdtech.com/ [2000, July 19].
+Azarbayejani, A., & Pentland, A. (1994). Recursive estimation of motion, structure, and fo-
+cal length (Technical report 243). Cambridge, MA: Massachusetts Institute of 
+Technology (MIT).
+Azuma, R. T. (1995). Predictive Tracking for Augmented Reality. Unpublished Ph.D. Dis-
+sertation, University of North Carolina at Chapel Hill, Chapel Hill, NC USA.
+Azuma, R. T., & Bishop, G. (1994). Improving Static and Dynamic Registration in an Op-
+tical See-Through HMD, Computer Graphics (SIGGRAPH 94 Conference Pro-
+ceedings ed., pp. 197-204). Orlando, FL USA: ACM Press, Addison-Wesley.
+Azuma, R. T., & Ward, M. (1991). Space-Resection by Collinearity: Mathematics Behind 
+the Optical Ceiling Head-Tracker (Technical Report 91-048). Chapel Hill, NC 
+USA: University of North Carolina at Chapel Hill.
+Bar-Shalom, Y., & Li, X.-R. (1993). Estimation and Tracking: Principles, Techniques, and 
+Software: Artec House, Inc.
+Brown, R. G., & Hwang, P. Y. C. (1996). Introduction to Random Signals and Applied Kal-
+man Filtering: with MATLAB Exercises and Solutions (Third ed.): Wiley & Sons, 
+Inc.
+Emura, S., & Tachi, S. (1994a). Compensation of time lag between actual and virtual spac-
+es by multi-sensor integration, 1994 IEEE International Conference on Multisensor 
+Fusion and Integration for Intelligent Systems (pp. 363-469). Las Vegas, NV: In-
+stitute of Electrical and Electronics Engineers.
+Emura, S., & Tachi, S. (1994b). Sensor Fusion based Measurement of Human Head Mo-
+tion. Paper presented at the 3rd IEEE International Workshop on Robot and Human 
+Communication (RO-MAN 94 NAGOYA), Nagoya University, Nagoya, Japan.
+Foxlin, E., Harrington, M., & Pfeifer, G. (1998). Constellation™: A Wide-Range Wireless 
+Motion-Tracking System for Augmented Reality and Virtual Set Applications. In 
+M. F. Cohen (Ed.), Computer Graphics (SIGGRAPH 98 Conference Proceedings 
+ed., pp. 371-378). Orlando, FL USA: ACM Press, Addison-Wesley.
+Fuchs (Foxlin), E. (1993). Inertial Head-Tracking. Unpublished M.S. Thesis, Massachu-
+setts Institute of Technology, Cambridge, MA USA.
+Gelb, A. (1974). Applied Optimal Estimation. Cambridge, MA: MIT Press.
+Grewal, M., S., & Andrews, A., P. (2001). Kalman Filtering Theory and Practice Using 
+MATLAB (Second ed.). New York, NY  USA: John Wiley & Sons, Inc.
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+44
+Intersense. (2000). Intersense IS-900, [html]. Intersense. Available: http://
+www.isense.com/ [2000, April 27].
+Jacobs, O. L. R. (1993). Introduction to Control Theory (Second ed.): Oxford University 
+Press.
+Julier, S., J., & Uhlmann, J., K. (1996). A General Method for Approximating Nonlinear 
+Transformations of Probability Distributions (Technical Report). Oxford, UK: Ro-
+botics Research Group, Department of Engineering Science, University of Oxford.
+Kailath, T., Sayed, A., H., & Hassibi, B. (2000). Linear Estimation. Upper Saddle River, 
+NJ USA: Prentice Hall.
+Kalman, R. E. (1960). A New Approach to Linear Filtering and Prediction Problems. 
+Transaction of the ASME—Journal of Basic Engineering, 82(Series D), 35-45.
+Kelly, D. G. (1994). Introduction to Probability: Macmillan Publishing Company.
+Lewis, F. L. (1986). Optimal Estimation with an Introductory to Stochastic Control Theo-
+ry: John Wiley & Sons, Inc.
+Maybeck, P. S. (1979). Stochastic models, estimation, and control (Vol. 141).
+Mazuryk, T., & Gervautz, M. (1995). Two-Step Prediction and Image Deflection for Exact 
+Head Tracking in Virtual Environments, Proceedings of EUROGRAPHICS 95 
+(EUROGRAPHICS 95 ed., Vol. 14 (3), pp. 30-41).
+Sorenson, H. W. (1970, July). Least-Squares estimation: from Gauss to Kalman. IEEE 
+Spectrum, 7, 63-68.
+Van Pabst, J. V. L., & Krekel, P. F. C. (1993). Multi Sensor Data Fusion of Points, Line 
+Segments and Surface Segments in 3D Space, 7th International Conference on Im-
+age Analysis and Processing— (pp. 174-182). Capitolo, Monopoli, Italy: World 
+Scientific, Singapore.
+Wang, J.-F. (1990). A real-time optical 6D tracker for head-mounted display systems. Un-
+published Ph.D. Dissertation, University of North Carolina at Chapel Hill, Chapel 
+Hill, NC USA.
+Ward, M., Azuma, R. T., Bennett, R., Gottschalk, S., & Fuchs, H. (1992). A Demonstrated 
+Optical Tracker With Scalable Work Area for Head-Mounted Display Systems, 
+Symposium on Interactive 3D Graphics (I3D 99 Conference Proceedings ed., pp. 
+43-52). Cambridge, MA USA: ACM Press, Addison-Wesley.
+Welch, G. (1996). SCAAT: Incremental Tracking with Incomplete Information. Unpub-
+lished Ph.D. Dissertation, University of North Carolina at Chapel Hill, Chapel Hill, 
+NC, USA.
+Welch, G., & Bishop, G. (1997). SCAAT: Incremental Tracking with Incomplete Informa-
+tion. In T. Whitted (Ed.), Computer Graphics (SIGGRAPH 97 Conference Pro-
+ceedings ed., pp. 333-344). Los Angeles, CA, USA (August 3 - 8): ACM Press, 
+Addison-Wesley.
+Welch, G., Bishop, G., Vicci, L., Brumback, S., Keller, K., & Colucci, D. n. (1999). The 
+HiBall Tracker: High-Performance Wide-Area Tracking for Virtual and Augment-
+ed Environments, Proceedings of the ACM Symposium on Virtual Reality Software 
+and Technology (pp. 1-11). University College London, London, United Kingdom 
+(December 20 - 23): ACM SIGGRAPH, Addison-Wesley.
+
+Course 8—An Introduction to the Kalman Filter
+45
+Welch, G., Bishop, G., Vicci, L., Brumback, S., Keller, K., & Colucci, D. n. (2001). High-
+Performance Wide-Area Optical Tracking—The HiBall Tracking System. Pres-
+ence: Teleoperators and Virtual Environments, 10(1).
+
+SIGGRAPH 2001, Los Angeles, CA, August 12-17, 2001
+46
+
+47
+B. Related Papers
+This appendix includes a sample of some relevant papers that we have permission to
+reproduce.
+
+ 
+Stochastic models,
+estimation,
+and control
+ 
+VOLUME 1
+ 
+PETER S. MAYBECK
+ 
+DEPARTMENT OF ELECTRICAL ENGINEERING
+AIR FORCE INSTITUTE OF TECHNOLOGY
+WRIGHT-PATTERSON AIR FORCE BASE
+OHIO
+ACADEMIC PRESS     New York     San Francisco     London         1979
+A Subsidiary of Harcourt Brace Jovanovich, Publishers
+Chapter 1, "Introduc tion" from STOCHASTIC MODELS, ESTIMATION, AND CONTROL,
+Volume 1, by Peter S. Maybeck, copyright © 1979 by Academic Press, reproduced by
+permission of the publisher. All rights of reproduction in any form reserved.
+
+ 
+C
+ 
+OPYRIGHT
+ 
+ © 1979, 
+ 
+BY
+ 
+ A
+ 
+CADEMIC
+ 
+ P
+ 
+RESS
+ 
+, I
+ 
+NC
+ 
+.
+ALL RIGHTS RESERVED.
+NO PART OF THIS PUBLICATION MAY BE REPRODUCED OR
+TRANSMITTED IN ANY FORM OR BY ANY MEANS, ELECTRONIC
+OR MECHANICAL, INCLUDING PHOTOCOPY, RECORDING, OR ANY
+INFORMATION STORAGE AND RETRIEVAL SYSTEM, WITHOUT
+PERMISSION IN WRITING FROM THE PUBLISHER.
+ACADEMIC PRESS, INC.
+111 Fifth Avenue, New York, New York 10003
+ 
+United Kingdom Edition published by
+ 
+ACADEMIC PRESS, INC. (LONDON) LTD.
+24/28 Oval Road, London NW1   7DX
+Library of Congress Cataloging in Publication Data
+Maybeck, Peter S
+Stochastic models, estimation and control.
+(Mathematics in science and engineering ; v. )
+Includes bibliographies.
+1.   System analysis    2.  Control theory.   3.   Estimation
+theory.   I.   Title.   II.   Series.
+QA402.M37               519.2           78-8836
+ISBN   0-12-480701-1 (v. 1)
+PRINTED IN THE UNITED STATES OF AMERICA
+79 80 81 82      9 8 7 6 5 4 3 2 1
+
+ 
+To Beverly
+
+ 
+Maybeck, Peter S., 
+ 
+Stochastic Models, Estimation, and Control
+ 
+, Vol. 1
+1
+ 
+C
+ 
+OPYRIGHT
+ 
+ © 1979, 
+ 
+BY
+ 
+ A
+ 
+CADEMIC
+ 
+ P
+ 
+RESS
+ 
+, I
+ 
+NC
+ 
+.
+D
+ 
+ECEMBER
+ 
+ 25, 1999 11:00 
+ 
+AM
+ 
+CHAPTER
+ 
+ 1
+Introduction
+ 
+1.1
+WHY STOCHASTIC MODELS, ESTIMATION,
+AND CONTROL?
+ 
+When considering system analysis or controller design, the engineer has at
+his disposal a wealth of knowledge derived from deterministic system and
+control theories. One would then naturally ask, why do we have to go beyond
+these results and propose stochastic system models, with ensuing concepts of
+estimation and control based upon these stochastic models? To answer this
+question, let us examine what the deterministic theories provide and deter-
+mine where the shortcomings might be.
+Given a physical system, whether it be an aircraft, a chemical process, or
+the national economy, an engineer ﬁrst attempts to develop a mathematical
+model that adequately represents some aspects of the behavior of that system.
+Through physical insights, fundamental “laws,” and empirical testing, he tries
+to establish the interrelationships among certain variables of interest, inputs to
+the system, and outputs from the system.
+With such a mathematical model and the tools provided by system and con-
+trol theories, he is able to investigate the system structure and modes of
+response. If desired, he can design compensators that alter these characteris-
+tics and controllers that provide appropriate inputs to generate desired system
+responses.
+In order to observe the actual system behavior, measurement devices are
+constructed to output data signals proportional to certain variables of interest.
+These output signals and the known inputs to the system are the only informa-
+tion that is directly discernible about the system behavior. Moreover, if a feed-
+back controller is being designed, the measurement device outputs are the
+only signals directly available for inputs to the controller.
+There are three basic reasons why deterministic system and control theories
+do not provide a totally sufﬁcient means of performing this analysis and
+
+ 
+Maybeck, Peter S., 
+ 
+Stochastic Models, Estimation, and Control
+ 
+, Vol. 1
+2
+ 
+C
+ 
+OPYRIGHT
+ 
+ © 1979, 
+ 
+BY
+ 
+ A
+ 
+CADEMIC
+ 
+ P
+ 
+RESS
+ 
+, I
+ 
+NC
+ 
+.
+D
+ 
+ECEMBER
+ 
+ 25, 1999 11:00 
+ 
+AM
+ 
+design. First of all, 
+ 
+no mathematical system model is perfect
+ 
+. Any such model
+depicts only those characteristics of direct interest to the engineer’s purpose.
+For instance, although an endless number of bending modes would be required
+to depict vehicle bending precisely, only a ﬁnite number of modes would be
+included in a useful model. The objective of the model is to represent the
+dominant or critical modes of system response, so many effects are knowingly
+left unmodeled. In fact, models used for generating online data processors or
+controllers must be pared to only the basic essentials in order to generate a
+computationally feasible algorithm.
+Even effects which are modeled are necessarily 
+ 
+approximated
+ 
+ by a mathe-
+matical model. The “laws” of Newtonian physics are adequate approximations
+to what is actually observed, partially due to our being unaccustomed to
+speeds near that of light. It is often the case that such “laws” provide adequate
+system 
+ 
+structures
+ 
+, but various 
+ 
+parameters
+ 
+ within that structure are not deter-
+mined absolutely. Thus, there are many sources of uncertainty in any mathe-
+matical model of a system.
+A second shortcoming of deterministic models is that dynamic systems are
+driven not only by our own control inputs, but also by 
+ 
+disturbances which we
+can neither control nor model deterministically
+ 
+. If a pilot tries to command a
+certain angular orientation of his aircraft, the actual response will differ from
+his expectation due to wind buffeting, imprecision of control surface actuator
+responses, and even his inability to generate exactly the desired response from
+his own arms and hands on the control stick.
+A ﬁnal shortcoming is that sensors 
+ 
+do not provide perfect and complete
+data
+ 
+ about a system. First, they generally do not provide all the information
+we would like to know: either a device cannot be devised to generate a mea-
+surement of a desired variable or the cost (volume, weight, monetary, etc.) of
+including such a measurement is prohibitive. In other situations, a number of
+different devices yield functionally related signals, and one must then ask how
+to generate a best estimate of the variables of interest based on partially
+redundant data. Sensors do not provide exact readings of desired quantities,
+but introduce their own system dynamics and distortions as well. Furthermore,
+these devices are also always noise corrupted.
+As can be seen from the preceding discussion, to assume perfect knowledge
+of all quantities necessary to describe a system completely and/or to assume
+perfect control over the system is a naive, and often inadequate, approach.
+This motivates us to ask the following four questions:
+(1) How do you develop system models that account for these uncertainties
+in a direct and proper, yet practical, fashion?
+(2) Equipped with such models and incomplete, noise-corrupted data from
+available sensors, how do you optimally estimate the quantities of interest to
+you?
+
+ 
+Maybeck, Peter S., 
+ 
+Stochastic Models, Estimation, and Control
+ 
+, Vol. 1
+3
+ 
+C
+ 
+OPYRIGHT
+ 
+ © 1979, 
+ 
+BY
+ 
+ A
+ 
+CADEMIC
+ 
+ P
+ 
+RESS
+ 
+, I
+ 
+NC
+ 
+.
+D
+ 
+ECEMBER
+ 
+ 25, 1999 11:00 
+ 
+AM
+ 
+(3) In the face of uncertain system descriptions, incomplete and noise-cor-
+rupted data, and disturbances beyond your control, how do you optimally con-
+trol a system to perform in a desirable manner?
+(4) How do you evaluate the performance capabilities of such estimation
+and control systems, both before and after they are actually built? This book
+has been organized speciﬁcally to answer these questions in a meaningful and
+useful manner.
+ 
+1.2
+OVERVIEW OF THE TEXT
+ 
+Chapters 2-4 are devoted to the stochastic modeling problem. First Chapter
+2 reviews the pertinent aspects of deterministic system models, to be exploited
+and generalized subsequently. Probability theory provides the basis of all of
+our stochastic models, and Chapter 3 develops both the general concepts and
+the natural result of static system models. In order to incorporate dynamics
+into the model, Chapter 4 investigates stochastic processes, concluding with
+practical linear dynamic system models. The basic form is a linear system
+driven by white Gaussian noise, from which are available linear measurements
+which are similarly corrupted by white Gaussian noise. This structure is justi-
+ﬁed extensively, and means of describing a large class of problems in this con-
+text are delineated.
+Linear estimation is the subject of the remaining chapters. Optimal ﬁltering
+for cases in which a linear system model adequately describes the problem
+dynamics is studied in Chapter 5. With this background, Chapter 6 describes
+the design and performance analysis of practical online Kalman ﬁlters. Square
+root ﬁlters have emerged as a means of solving some numerical precision dif-
+ﬁculties encountered when optimal ﬁlters are implemented on restricted word-
+length online computers, and these are detailed in Chapter 7.
+Volume 1 is a complete text in and of itself. Nevertheless, Volume 2 will
+extend the concepts of linear estimation to smoothing, compensation of model
+inadequacies, system identiﬁcation, and adaptive ﬁltering. Nonlinear stochas-
+tic system models and estimators based upon them will then be fully devel-
+oped. Finally, the theory and practical design of stochastic controllers will be
+described.
+ 
+1.3
+THE KALMAN FILTER:
+AN INTRODUCTION TO CONCEPTS
+ 
+Before we delve into the details of the text, it would be useful to see where
+we are going on a conceptual basis. Therefore, the rest of this chapter will
+provide an overview of the optimal linear estimator, the Kalman ﬁlter. This
+will be conducted at a very elementary level but will provide insights into the
+
+ 
+Maybeck, Peter S., 
+ 
+Stochastic Models, Estimation, and Control
+ 
+, Vol. 1
+4
+ 
+C
+ 
+OPYRIGHT
+ 
+ © 1979, 
+ 
+BY
+ 
+ A
+ 
+CADEMIC
+ 
+ P
+ 
+RESS
+ 
+, I
+ 
+NC
+ 
+.
+D
+ 
+ECEMBER
+ 
+ 25, 1999 11:00 
+ 
+AM
+ 
+underlying concepts. As we progress through this overview, contemplate the
+ideas being presented: try to conceive of graphic 
+ 
+images
+ 
+ to portray the con-
+cepts involved (such as time propagation of density functions), and to gener-
+ate a 
+ 
+logical structure
+ 
+ for the component pieces that are brought together to
+solve the estimation problem. If this basic conceptual framework makes sense
+to you, then you will better understand the need for the details to be developed
+later in the text. Should the idea of where we are going ever become blurred
+by the development of detail, refer back to this overview to regain sight of the
+overall objectives.
+First one must ask, what is a Kalman ﬁlter? A Kalman ﬁlter is simply an
+ 
+optimal recursive data processing algorithm
+ 
+. There are many ways of deﬁning
+ 
+optimal
+ 
+, dependent upon the criteria chosen to evaluate performance. It will
+be shown that, under the assumptions to be made in the next section, the Kal-
+man ﬁlter is optimal with respect to virtually any criterion that makes sense.
+One aspect of this optimality is that the Kalman ﬁlter incorporates all infor-
+mation that can be provided to it. It processes all available measurements,
+regardless of their precision, to estimate the current value of the variables of
+interest, with use of (1) knowledge of the system and measurement device
+dynamics, (2) the statistical description of the system noises, measurement
+errors, and uncertainty in the dynamics models, and (3) any available informa-
+tion about initial conditions of the variables of interest. For example, to deter-
+mine the velocity of an aircraft, one could use a Doppler radar, or the velocity
+indications of an inertial navigation system, or the pitot and static pressure
+and relative wind information in the air data system. Rather than ignore any of
+these outputs, a Kalman ﬁlter could be built to combine all of this data and
+knowledge of the various systems’ dynamics to generate an overall best esti-
+mate of velocity.
+The word 
+ 
+recursive
+ 
+ in the previous description means that, unlike certain
+data processing concepts, the Kalman ﬁlter does not require all previous data
+to be kept in storage and reprocessed every time a new measurement is taken.
+This will be of vital importance to the practicality of ﬁlter implementation.
+The “ﬁlter” is actually a 
+ 
+data processing algorithm
+ 
+. Despite the typical con-
+notation of a ﬁlter as a “black box” containing electrical networks, the fact is
+that in most practical applications, the “ﬁlter” is just a computer program in a
+central processor. As such, it inherently incorporates discrete-time measure-
+ment samples rather than continuous time inputs.
+Figure 1.1 depicts a typical situation in which a Kalman ﬁlter could be used
+advantageously. A system of some sort is driven by some known controls, and
+measuring devices provide the value of certain pertinent quantities. Knowl-
+edge of these system inputs and outputs is all that is explicitly available from
+the physical system for estimation purposes.
+The 
+ 
+need
+ 
+ for a ﬁlter now becomes apparent. Often the variables of interest,
+some ﬁnite number of quantities to describe the “state” of the system, cannot
+
+ 
+Maybeck, Peter S., 
+ 
+Stochastic Models, Estimation, and Control
+ 
+, Vol. 1
+5
+ 
+C
+ 
+OPYRIGHT
+ 
+ © 1979, 
+ 
+BY
+ 
+ A
+ 
+CADEMIC
+ 
+ P
+ 
+RESS
+ 
+, I
+ 
+NC
+ 
+.
+D
+ 
+ECEMBER
+ 
+ 25, 1999 11:00 
+ 
+AM
+ 
+be measured directly, and some means of inferring these values from the avail-
+able data must be generated. For instance, an air data system directly provides
+static and pitot pressures, from which velocity must be inferred. This infer-
+ence is complicated by the facts that the system is typically driven by inputs
+other than our own known controls and that the relationships among the vari-
+ous “state” variables and measured outputs are known only with some degree
+of uncertainty. Furthermore, any measurement will be corrupted to some
+degree by noise, biases, and device inaccuracies, and so a means of extracting
+valuable information from a noisy signal must be provided as well. There may
+also be a number of different measuring devices, each with its own particular
+dynamics and error characteristics, that provide some information about a par-
+ticular variable, and it would be desirable to combine their outputs in a sys-
+tematic and optimal manner. A Kalman ﬁlter combines all available
+measurement data, plus prior knowledge about the system and measuring
+devices, to produce an estimate of the desired variables in such a manner that
+the error is minimized statistically. In other words, if we were to run a number
+of candidate ﬁlters many times for the same application, then the average
+results of the Kalman ﬁlter would be better than the average results of any
+other.
+Conceptually, what any type of ﬁlter tries to do is obtain an “optimal” esti-
+mate of desired quantities from data provided by a noisy environment, “opti-
+mal” meaning that it minimizes errors in some respect. There are many means
+of accomplishing this objective. If we adopt a Bayesian viewpoint, then we
+want the ﬁlter to propagate the 
+ 
+conditional probability density 
+ 
+of the desired
+FIG. 1. 1 Typical Kalman ﬁlter application
+
+ 
+Maybeck, Peter S., 
+ 
+Stochastic Models, Estimation, and Control
+ 
+, Vol. 1
+6
+ 
+C
+ 
+OPYRIGHT
+ 
+ © 1979, 
+ 
+BY
+ 
+ A
+ 
+CADEMIC
+ 
+ P
+ 
+RESS
+ 
+, I
+ 
+NC
+ 
+.
+D
+ 
+ECEMBER
+ 
+ 25, 1999 11:00 
+ 
+AM
+ 
+quantities, conditioned on knowledge of the actual data coming from the mea-
+suring devices. To understand this concept, consider Fig. 1.2, a portrayal of a
+conditional probability density of the value of a scalar quantity 
+ at time
+instant  (
+), conditioned on knowledge that the vector measurement 
+ at
+time instant 1 took on the value 
+ (
+) and similarly for instants 2
+through , plotted as a function of possible 
+ values. This is denoted as
+. For example, let 
+ be the one-dimensional
+position of a vehicle at time instant 1, and let 
+ be a two-dimensional vector
+describing the measurements of position at time  by two separate radars.
+Such a conditional probability density contains all the available information
+about 
+: it indicates, for the given value of all measurements taken up
+through time instant , what the probability would be of 
+ assuming any
+particular value or range of values.
+It is termed a “conditional” probability density because its shape and loca-
+tion on the  axis is dependent upon the values of the measurements taken. Its
+shape conveys the amount of certainty you have in the knowledge of the value
+of 
+. If the density plot is a narrow peak, then most of the probability
+“weight” is concentrated in a narrow band of  values. On the other hand, if
+the plot has a gradual shape, the probability “weight” is spread over a wider
+range of , indicating that you are less sure of its value.
+FIG. 1. 2 Conditional probability density.
+f x i( ) z 1
+( ) z 2
+( ) … z i( )
+,
+,
+,
+x z1 z2 … zi
+,
+,
+,
+(
+)
+x
+i
+x i( )
+z 1
+( )
+z1
+z 1
+( )
+z1
+=
+i
+x i( )
+f x i( ) z 1
+( ) z 2
+( ) … z i( )
+,
+,
+,
+x z1 z2 … zi
+,
+,
+,
+(
+)
+x i( )
+z j
+( )
+j
+x i( )
+i
+x i( )
+x
+x
+x
+x
+
+Maybeck, Peter S., Stochastic Models, Estimation, and Control, Vol. 1
+7
+COPYRIGHT © 1979, BY ACADEMIC PRESS, INC.
+DECEMBER 25, 1999 11:00 AM
+Once such a conditional probability density function is propagated, the
+“optimal” estimate can be deﬁned. Possible choices would include
+(1) the mean—the “center of probability mass” estimate;
+(2) the mode—the value of  that has the highest probability, locating the
+peak of the density; and
+(3) the median—the value of  such that half of the probability weight lies
+to the left and half to the right of it.
+A Kalman ﬁlter performs this conditional probability density propagation
+for problems in which the system can be described through a linear model and
+in which system and measurement noises are white and Gaussian (to be
+explained shortly). Under these conditions, the mean, mode, median, and vir-
+tually any reasonable choice for an “optimal” estimate all coincide, so there is
+in fact a unique “best” estimate of the value of . Under these three restric-
+tions, the Kalman ﬁlter can be shown to be the best ﬁlter of any conceivable
+form. Some of the restrictions can be relaxed, yielding a qualiﬁed optimal ﬁl-
+ter. For instance, if the Gaussian assumption is removed, the Kalman ﬁlter can
+be shown to be the best (minimum error variance) ﬁlter out of the class of lin-
+ear unbiased ﬁlters. However, these three assumptions can be justiﬁed for
+many potential applications, as seen in the following section.
+1.4
+BASIC ASSUMPTIONS
+At this point it is useful to look at the three basic assumptions in the Kal-
+man ﬁlter formulation. On ﬁrst inspection, they may appear to be overly
+restrictive and unrealistic. To allay any misgivings of this sort, this section
+will brieﬂy discuss the physical implications of these assumptions.
+A linear system model is justiﬁable for a number of reasons. Often such a
+model is adequate for the purpose at hand, and when nonlinearities do exist,
+the typical engineering approach is to linearize about some nominal point or
+trajectory, achieving a perturbation model or error model. Linear systems are
+desirable in that they are more easily manipulated with engineering tools, and
+linear system (or differential equation) theory is much more complete and
+practical than nonlinear. The fact is that there are means of extending the Kal-
+man ﬁlter concept to some nonlinear applications or developing nonlinear ﬁl-
+ters directly, but these are considered only if linear models prove inadequate.
+“Whiteness” implies that the noise value is not correlated in time. Stated
+more simply, if you know what the value of the noise is now, this knowledge
+does you no good in predicting what its value will be at any other time. White-
+ness also implies that the noise has equal power at all frequencies. Since this
+results in a noise with inﬁnite power, a white noise obviously cannot really
+exist. One might then ask, why even consider such a concept if it does not
+x
+x
+x
+
+Maybeck, Peter S., Stochastic Models, Estimation, and Control, Vol. 1
+8
+COPYRIGHT © 1979, BY ACADEMIC PRESS, INC.
+DECEMBER 25, 1999 11:00 AM
+exist in real life? The answer is twofold. First, any physical system of interest
+has a certain frequency “bandpass”—a frequency range of inputs to which it
+can respond. Above this range, the input either has no effect, or the system so
+severely attenuates the effect that it essentially does not exist. In Fig. 1.3, a
+typical system bandpass curve is drawn on a plot of “power spectral density”
+(interpreted as the amount of power content at a certain frequency) versus fre-
+quency. Typically a system will be driven by wideband noise—one having
+power at frequencies above the system bandpass, and essentially constant
+power at all frequencies within the system bandpass—as shown in the ﬁgure.
+On this same plot, a white noise would merely extend this constant power
+level out across all frequencies. Now, within the bandpass of the system of
+interest, the ﬁctitious white noise looks identical to the real wideband noise.
+So what has been gained? That is the second part of the answer to why a white
+noise model is used. It turns out that the mathematics involved in the ﬁlter are
+vastly simpliﬁed (in fact, made tractable) by replacing the real wideband noise
+with a white noise which, from the system’s “point of view,” is identical.
+Therefore, the white noise model is used.
+One might argue that there are cases in which the noise power level is not
+constant over all frequencies within the system bandpass, or in which the
+noise is in fact time correlated. For such instances, a white noise put through a
+small linear system can duplicate virtually any form of time-correlated noise.
+This small system, called a “shaping ﬁlter,” is then added to the original sys-
+tem, to achieve an overall linear system driven by white noise once again.
+Whereas whiteness pertains to time or frequency relationships of a noise,
+Gaussianness has to do with its amplitude. Thus, at any single point in time,
+the probability density of a Gaussian noise amplitude takes on the shape of a
+normal bell-shaped curve. This assumption can be justiﬁed physically by the
+fact that a system or measurement noise is typically caused by a number of
+small sources. It can be shown mathematically that when a number of inde-
+pendent random variables are added together, the summed effect can be de-
+scribed very closely by a Gaussian probability density, regardless of the shape
+of the individual densities.
+FIG. 1. 3 Power spectral density bandwidths.
+
+Maybeck, Peter S., Stochastic Models, Estimation, and Control, Vol. 1
+9
+COPYRIGHT © 1979, BY ACADEMIC PRESS, INC.
+DECEMBER 25, 1999 11:00 AM
+There is also a practical justiﬁcation for using Gaussian densities. Similar
+to whiteness, it makes the mathematics tractable. But more than that, typically
+an engineer will know, at best, the ﬁrst and second order statistics (mean and
+variance or standard deviation) of a noise process. In the absence of any
+higher order statistics, there is no better form to assume than the Gaussian
+density. The ﬁrst and second order statistics completely determine a Gaussian
+density, unlike most densities which require an endless number of orders of
+statistics to specify their shape entirely. Thus, the Kalman ﬁlter, which propa-
+gates the ﬁrst and second order statistics, includes all information contained
+in the conditional probability density, rather than only some of it, as would be
+the case with a different form of density.
+The particular assumptions that are made are dictated by the objectives of,
+and the underlying motivation for, the model being developed. If our objective
+were merely to build good descriptive models, we would not conﬁne our atten-
+tion to linear system models driven by white Gaussian noise. Rather, we
+would seek the model, of whatever form, that best ﬁts the data generated by
+the “real world.” It is our desire to build estimators and controllers based upon
+our system models that drives us to these assumptions: other assumptions gen-
+erally do not yield tractable estimation or control problem formulations. For-
+tunately, the class of models that yields tractable mathematics also provides
+adequate representations for many applications of interest. Later, the model
+structure will be extended somewhat to enlarge the range of applicability, but
+the requirement of model usefulness in subsequent estimator or controller
+design will again be a dominant inﬂuence on the manner in which the exten-
+sions are made.
+1.5
+A SIMPLE EXAMPLE
+To see how a Kalman ﬁlter works, a simple example will now be developed.
+Any example of a single measuring device providing data on a single variable
+would sufﬁce, but the determination of a position is chosen because the proba-
+bility of one’s exact location is a familiar concept that easily allows dynamics
+to be incorporated into the problem.
+Suppose that you are lost at sea during the night and have no idea at all of
+your location. So you take a star sighting to establish your position (for the
+sake of simplicity, consider a one-dimensional location). At some time 
+ you
+determine your location to be 
+. However, because of inherent measuring
+device inaccuracies, human error, and the like, the result of your measurement
+is somewhat uncertain. Say you decide that the precision is such that the stan-
+dard deviation (one-sigma value) involved is 
+ (or equivalently, the variance,
+or second order statistic, is 
+,). Thus, you can establish the conditional prob-
+ability of 
+, your position at time 
+, conditioned on the observed value of
+t1
+z1
+σz1
+σz1
+2
+x t1
+(
+)
+t1
+
+Maybeck, Peter S., Stochastic Models, Estimation, and Control, Vol. 1
+10
+COPYRIGHT © 1979, BY ACADEMIC PRESS, INC.
+DECEMBER 25, 1999 11:00 AM
+the measurement being 
+, as depicted in Fig. 1.4. This is a plot of
+ as a function of the location : it tells you the probability of
+being in any one location, based upon the measurement you took. Note that
+ is a direct measure of the uncertainty: the larger 
+ is, the broader the
+probability peak is, spreading the probability “weight” over a larger range of
+ values. For a Gaussian density, 68.3% of the probability “weight” is con-
+tained within the band  units to each side of the mean, the shaded portion in
+Fig. 1.4.
+Based on this conditional probability density, the best estimate of your
+position is
+(1-1)
+and the variance of the error in the estimate is
+(1-2)
+Note that  is both the mode (peak) and the median (value with 
+ of the
+probability weight to each side), as well as the mean (center of mass).
+Now say a trained navigator friend takes an independent ﬁx right after you
+do, at time 
+ (so that the true position has not changed at all), and obtains
+a measurement 
+ with a variance 
+. Because he has a higher skill, assume
+the variance in his measurement to be somewhat smaller than in yours. Figure
+1.5 presents the conditional density of your position at time 
+, based only on
+the measured value 
+. Note the narrower peak due to smaller variance, indi-
+cating that you are rather certain of your position based on his measurement.
+At this point, you have two measurements available for estimating your
+position. The question is, how do you combine these data? It will be shown
+subsequently that, based on the assumptions made, the conditional density of
+FIG. 1. 4 Conditional density of position based on measured value 
+.
+z1
+f x t1
+(
+) z t1
+(
+) x z1
+(
+)
+z1
+f x t1
+(
+) z t1
+(
+) x z1
+(
+)
+x
+σz1
+σz1
+x
+σ
+xˆ t1
+(
+)
+z1
+=
+σx2 t1
+(
+)
+σz1
+2
+=
+xˆ
+1 2
+⁄
+t2
+t1
+≅
+z2
+σz2
+t2
+z2
+
+Maybeck, Peter S., Stochastic Models, Estimation, and Control, Vol. 1
+11
+COPYRIGHT © 1979, BY ACADEMIC PRESS, INC.
+DECEMBER 25, 1999 11:00 AM
+FIG. 1. 5 Conditional density of position based on measurement 
+ alone.
+z2
+FIG. 1. 6 Conditional density of position based on data 
+ and 
+.
+z1
+z2
+f x t2
+(
+) z t2
+(
+) x z2
+(
+)
+f x t2
+(
+) z t1
+(
+) z t2
+(
+)
+,
+x z1 z2
+,
+(
+)
+
+Maybeck, Peter S., Stochastic Models, Estimation, and Control, Vol. 1
+12
+COPYRIGHT © 1979, BY ACADEMIC PRESS, INC.
+DECEMBER 25, 1999 11:00 AM
+your position at time 
+, 
+, given both 
+ and 
+, is a Gaussian density
+with mean  and variance 
+ as indicated in Fig. 1.6, with
+(1-3)
+(1-4)
+Note that, from (l-4), 
+ is less than either 
+ or 
+, which is to say that the
+uncertainty in your estimate of position has been decreased by combining the
+two pieces of information.
+Given this density, the best estimate is
+(1-5)
+with an associated error variance 
+. It is the mode and the mean (or, since it
+is the mean of a conditional density, it is also termed the conditional mean).
+Furthermore, it is also the maximum likelihood estimate, the weighted least
+squares estimate, and the linear estimate whose variance is less than that of
+any other linear unbiased estimate. In other words, it is the “best” you can do
+according to just about any reasonable criterion.
+After some study, the form of  given in Eq. (1-3) makes good sense. If 
+were equal to 
+, which is to say you think the measurements are of equal
+precision, the equation says the optimal estimate of position is simply the
+average of the two measurements, as would be expected. On the other hand, if
+ were larger than 
+, which is to say that the uncertainty involved in the
+measurement 
+ is greater than that of 
+, then the equation dictates “weight-
+ing” 
+ more heavily than 
+. Finally, the variance of the estimate is less than
+, even if 
+ is very large: even poor quality data provide some information,
+and should thus increase the precision of the ﬁlter output.
+The equation for 
+ can be rewritten as
+(1-6)
+or, in ﬁnal form that is actually used in Kalman ﬁlter implementations [noting
+that 
+]
+(1-7)
+where
+(1-8)
+These equations say that the optimal estimate at time 
+, 
+, is equal to the
+best prediction of its value before 
+ is taken, 
+, plus a correction term of
+an optimal weighting value times the difference between 
+ and the best pre-
+diction of its value before it is actually taken, 
+. It is worthwhile to under-
+stand this “predictor-corrector” structure of the ﬁlter. Based on all previous
+t2
+t1
+≅
+x t2
+(
+)
+z1
+z2
+µ
+σ2
+µ
+σz2
+2
+σz1
+2
+σz2
+2
++
+(
+)
+⁄
+[
+]z1
+σz1
+2
+σz1
+2
+σz2
+2
++
+(
+)
+⁄
+[
+]z2
++
+=
+1 σ2
+⁄
+1 σz1
+2
+⁄
+(
+)
+1 σz2
+2
+⁄
+(
+)
++
+=
+σ
+σz1
+σz2
+xˆ t2
+(
+)
+µ
+=
+σ2
+µ
+σz1
+σz2
+σz1
+σz2
+z1
+z2
+z2
+z1
+σz1
+σz2
+xˆ t2
+(
+)
+xˆ t2
+(
+)
+σz2
+2
+σz1
+2
+σz2
+2
++
+(
+)
+⁄
+[
+]z1
+σz1
+2
+σz1
+2
+σz2
+2
++
+(
+)
+⁄
+[
+]z2
++
+=
+z1
+σz1
+2
+σz1
+2
+σz2
+2
++
+(
+)
+⁄
+[
+] z2
+z1
+–
+[
+]
++
+=
+xˆ t1
+(
+)
+z1
+=
+xˆ t2
+(
+)
+xˆ t1
+(
+)
+K t2
+(
+) z2
+xˆ t1
+(
+)
+–
+[
+]
++
+=
+K t2
+(
+)
+σz1
+2
+σz1
+2
+σz2
+2
++
+(
+)
+⁄
+=
+t2
+xˆ t2
+(
+)
+z2
+xˆ t1
+(
+)
+z2
+xˆ t1
+(
+)
+
+Maybeck, Peter S., Stochastic Models, Estimation, and Control, Vol. 1
+13
+COPYRIGHT © 1979, BY ACADEMIC PRESS, INC.
+DECEMBER 25, 1999 11:00 AM
+information, a prediction of the value that the desired variables and measure-
+ment will have at the next measurement time is made. Then, when the next
+measurement is taken, the difference between it and its predicted value is used
+to “correct” the prediction of the desired variables.
+Using the 
+ in Eq. (l-8), the variance equation given by Eq. (1-4) can be
+rewritten as
+(1-9)
+Note that the values of 
+ and 
+ embody all of the information in
+. Stated differently, by propagating these two variables, the
+conditional density of your position at time 
+, given 
+ and 
+, is completely
+speciﬁed.
+Thus we have solved the static estimation problem. Now consider incorpo-
+rating dynamics into the problem.
+Suppose that you travel for some time before taking another measurement.
+Further assume that the best mode1 you have of your motion is of the simple
+form
+(1-10)
+where  is a nominal velocity and 
+ is a noise term used to represent the un-
+certainty in your knowledge of the actual velocity due to disturbances, off-
+nominal conditions, effects not accounted for in the simple ﬁrst order equa-
+tion, and the like. The “noise” 
+ will be modeled as a white Gaussian noise
+with a mean of zero and variance of 
+.
+Figure 1.7 shows graphically what happens to the-conditional density of
+position, given 
+ and 
+. At time 
+ it is as previously derived. As time
+progresses, the density travels along the  axis at the nominal speed , while
+simultaneously spreading out about its mean. Thus, the probability density
+starts at the best estimate, moves according to the nominal model of dynamics,
+K t2
+(
+)
+σx2 t2
+(
+)
+σx2 t1
+(
+)
+K t2
+(
+)σx2 t1
+(
+)
+–
+=
+xˆ t2
+(
+)
+σx2 t2
+(
+)
+f x t2
+(
+) z t1
+(
+) z t2
+(
+)
+,
+x z1 z2
+,
+(
+)
+t2
+z1
+z2
+dx dt
+⁄
+u
+w
++
+=
+u
+w
+w
+σw
+2
+FIG. 1. 7 Propagation of conditional probability density.
+f x t( ) z t1
+(
+) z t2
+(
+)
+,
+x z1 z2
+,
+(
+)
+z1
+z2
+t2
+x
+u
+
+Maybeck, Peter S., Stochastic Models, Estimation, and Control, Vol. 1
+14
+COPYRIGHT © 1979, BY ACADEMIC PRESS, INC.
+DECEMBER 25, 1999 11:00 AM
+and spreads out in time because you become less sure of your exact position
+due to the constant addition of uncertainty over time. At the time 
+, just
+before the measurement is taken at time 
+, the density 
+ is
+as shown in Fig. 1.7, and can be expressed mathematically as a Gaussian den-
+sity with mean and variance given by
+(1-11)
+(1-12)
+Thus, 
+ is the optimal prediction of what the  value is at 
+, before the
+measurement is taken at 
+, and 
+ is the expected variance in that
+prediction.
+Now a measurement is taken, and its value turns out to be 
+, and its vari-
+ance is assumed to be 
+. As before, there are now two Gaussian densities
+available that contain information about position, one encompassing all the
+information available before the measurement, and the other being the infor-
+mation provided by the measurement itself. By the same process as before, the
+density with mean 
+ and variance 
+ is combined with the density
+with mean 
+ and variance 
+ to yield a Gaussian density with mean
+(1-13)
+and variance
+(1-14)
+where the gain 
+ is given by
+(1-15)
+The optimal estimate, 
+, satisﬁes the same form of equation as seen previ-
+ously in (1-7). The best prediction of its value before 
+ is taken is corrected
+by an optimal weighting value times the difference between 
+ and the predic-
+tion of its value. Similarly, the variance and gain equations are of the same
+form as (1-8) and (1-9).
+Observe the form of the equation for 
+. If 
+, the measurement noise
+variance, is large, then 
+ is small; this simply says that you would tend to
+put little conﬁdence in a very noisy measurement and so would weight it
+lightly. In the limit as 
+, 
+ becomes zero, and 
+ equals 
+; an
+inﬁnitely noisy measurement is totally ignored. If the dynamic system noise
+variance 
+ is large, then 
+ will be large [see Eq. (l-12)] and so will
+; in this case, you are not very certain of the output of the system mode1
+within the ﬁlter structure and therefore would weight the measurement
+heavily. Note that in the limit as 
+, 
+ and 
+, so Eq. (1-
+13) yields
+(1-16)
+t3
+—
+t3
+f x t3
+(
+) z t1
+(
+) z t2
+(
+)
+,
+x z1 z2
+,
+(
+)
+xˆ t3—
+(
+)
+xˆ t2
+(
+)
+u t3
+t2
+–
+[
+]
++
+=
+σx
+2 t3
+—
+(
+)
+σx
+2 t2
+(
+)
+σw
+2 t3
+t2
+–
+[
+]
++
+=
+xˆ t3—
+(
+)
+x
+t3—
+t3
+σx2 t3—
+(
+)
+z3
+σz3
+2
+xˆ t3—
+(
+)
+σx2 t3—
+(
+)
+z3
+σz3
+2
+xˆ t3
+(
+)
+xˆ t3
+—
+(
+)
+K t3
+(
+) z3
+xˆ t3
+—
+(
+)
+–
+[
+]
++
+=
+σx2 t3
+(
+)
+σx2 t3—
+(
+)
+K t3
+(
+)σx2 t3—
+(
+)
+–
+=
+K t3
+(
+)
+K t3
+(
+)
+σx2 t3—
+(
+)
+σx2 t3—
+(
+)
+σz3
+2
++
+[
+]
+⁄
+=
+xˆ t3
+(
+)
+z3
+z3
+K t3
+(
+)
+σz3
+K t3
+(
+)
+σz3
+2
+∞
+→
+K t3
+(
+)
+xˆ t3
+(
+)
+xˆ t3
+—
+(
+)
+σw
+2
+σx
+2 t3
+—
+(
+)
+K t3
+(
+)
+σw
+2
+∞
+→
+σx
+2 t3
+—
+(
+)
+∞
+→
+K t3
+(
+)
+1
+→
+xˆ t3
+(
+)
+xˆ t3—
+(
+)
+1
+z3
+xˆ t3—
+(
+)
+–
+[
+]
+⋅
++
+=
+  
+z3
+=
+
+Maybeck, Peter S., Stochastic Models, Estimation, and Control, Vol. 1
+15
+COPYRIGHT © 1979, BY ACADEMIC PRESS, INC.
+DECEMBER 25, 1999 11:00 AM
+Thus in the limit of absolutely no conﬁdence in the system model output, the
+optimal policy is to ignore the output and use the new measurement as the
+optimal estimate. Finally, if 
+ should ever become zero, then so does
+; this is sensible since if 
+, you are absolutely sure of your esti-
+mate before 
+ becomes available and therefore can disregard the measure-
+ment.
+Although we have not as yet derived these results mathematically, we have
+been able to demonstrate the reasonableness of the ﬁlter structure.
+1.6
+A PREVIEW
+Extending Eqs. (1-11) and (1-12) to the vector case and allowing time vary-
+ing parameters in the system and noise descriptions yields the general Kalman
+ﬁlter algorithm for propagating the conditional density and optimal estimate
+from one measurement sample time to the next. Similarly, the Kalman ﬁlter
+update at a measurement time is just the extension of Eqs. (l-13)-(1-15). Fur-
+ther logical extensions would include estimation with data beyond the time
+when variables are to be estimated, estimation with nonlinear system models
+rather than linear, control of systems described through stochastic models, and
+both estimation and control when the noise and system parameters are not
+known with absolute certainty. The sequel provides a thorough investigation
+of those topics, developing both the theoretical mathematical aspects and
+practical engineering insights necessary to resolve the problem formulations
+and solutions fully.
+GENERAL REFERENCES
+1.
+Aoki, M., Optimization of Stochastic Systems—Topics in Discrete-Time Systems. Academic
+Press, New York, 1967.
+2.
+Aström. K. J., Introduction to Stochastic Control Theory. Academic Press, New York, 1970.
+3.
+Bryson, A. E. Jr., and Ho. Y., Applied Optimal Control. Blaisdell, Wahham, Massachusetts,
+1969.
+4.
+Bucy, R. S., and Joseph, P. D., Filtering for Stochastic Processes with Applications to Guidance.
+Wiley, New York, 1968.
+5.
+Deutsch, R., Estimation Theory. Prentice-Hall, Englewood Cliffs, New Jersey, 1965.
+6.
+Deyst, J. J., “Estimation and Control of Stochastic Processes,” unpublished course notes. M.I.T.
+Dept. of Aeronautics and Astronautics, Cambridge, Massachusetts, 1970.
+7.
+Gelb, A. (ed.), Applied Optimal Estimation. M.I.T. Press, Cambridge, Massachusetts, 1974.
+8.
+Jazwinski, A. H., Stochastic Processes and Filtering Theory. Academic Press, New York, 1970.
+9.
+Kwakernaak. H., and Sivan. R., Linear Optimal Control Systems. Wiley, New York, 1972.
+10.
+Lee, R. C. K., Optimal Estimation, Identiﬁcation and Control. M. I. T. Press, Cambridge, Mas-
+sachusetts, 1964.
+11.
+Liebelt, P. B., An Introduction to Optimal Estimation. Addison-Wesley, Reading, Massachusetts,
+1967.
+12.
+Maybeck, P. S., “The Kalman Filter—An Introduction for Potential Users,” TM-72-3, Air Force
+Flight Dynamics Laboratory, Wright-Patterson AFB, Ohio, June 1972.
+σx
+2 t3
+—
+(
+)
+K t3
+(
+)
+σx
+2 t3
+—
+(
+)
+0
+=
+z3
+
+Maybeck, Peter S., Stochastic Models, Estimation, and Control, Vol. 1
+16
+COPYRIGHT © 1979, BY ACADEMIC PRESS, INC.
+DECEMBER 25, 1999 11:00 AM
+13.
+Maybeck, P. S., “Applied Optimal Estimation—Kalman Filter Design and Implementation,”
+notes for a continuing education course offered by the Air Force Institute of Technology,
+Wright-Patterson AFB, Ohio, semiannually since December 1974.
+14.
+Meditch, J. S., Stochastic Optimal Linear Estimation and Control. McGraw-Hill, New York,
+1969.
+15.
+McGarty, T. P., Stochastic Systems and State Estimation. Wiley, New York, 1974.
+16.
+Sage, A. P., and Melsa, J. L., Estimation Theory with Application to Communications and Con-
+trol. McGraw-Hill, New York, 1971.
+17.
+Schweppe, F. C., Uncertain Dynamic Systems. Prentice-Hall, Englewood Cliffs, New Jersey,
+1973.
+18.
+Van Trees, H. L., Detection, Estimation and Modulation Theory, Vol. 1. Wiley, New York, 1968.
+
+ 
+SCAAT: Incremental Tracking with Incomplete Information
+ 
+Greg Welch and Gary Bishop
+University of North Carolina at Chapel Hill
+ 
+†
+ 
+Abstract
+ 
+We present a promising new mathematical method for tracking a
+user's pose (position and orientation) for interactive computer
+graphics. The method, which is applicable to a wide variety of both
+commercial and experimental systems, improves accuracy by
+properly assimilating sequential observations, ﬁltering sensor
+measurements, and by concurrently autocalibrating source and
+sensor devices. It facilitates user motion prediction, multisensor
+data fusion, and higher report rates with lower latency than
+previous methods.
+Tracking systems determine the user's pose by measuring
+signals from low-level hardware sensors. For reasons of physics
+and economics, most systems make multiple sequential
+measurements which are then combined to produce a single tracker
+report. For example, commercial magnetic trackers using the
+SPASYN (
+ 
+Space Synchro
+ 
+) system sequentially measure three
+magnetic vectors and then combine them mathematically to
+produce a report of the sensor pose.
+Our new approach produces tracker reports as each new low-
+level sensor measurement is made rather than waiting to form a
+complete collection of observations. Because single observations
+under-constrain the mathematical solution, we refer to our
+approach as single-constraint-at-a-time or SCAAT tracking. The
+key is that the single observations provide some information about
+the user's state, and thus can be used to incrementally improve a
+previous estimate. We recursively apply this principle,
+incorporating new sensor data as soon as it is measured. With this
+approach we are able to generate estimates more frequently, with
+less latency, and with improved accuracy. We present results from
+both an actual implementation, and from extensive simulations.
+ 
+CR Categories and Subject Descriptors
+ 
+: I.3.7 [Computer
+Graphics] Three-Dimensional Graphics and Realism—Virtual
+reality; I.4.4 [Image Processing] Restoration—Kalman ﬁltering;
+I.4.8 [Image Processing] Scene Analysis—Sensor fusion; G.0
+[Mathematics of Computing] General—Numerical Analysis,
+Probability and Statistics, Mathematical Software.
+ 
+Additional Key Words and Phrases
+ 
+: virtual environments
+tracking, feature tracking, calibration, autocalibration, delay,
+latency, sensor fusion, Kalman ﬁlter.
+ 
+1 INTRODUCTION
+ 
+The method we present requires, we believe, a fundamental change
+in the way people think about estimating a set of unknowns in
+general, and tracking for virtual environments in particular. Most
+of us have the preconceived notion that to estimate a set of
+unknowns we need as many constraints as there are degrees of
+freedom at any particular instant in time. What we present instead
+is a method to constrain the unknowns 
+ 
+over time
+ 
+, continually
+reﬁning an estimate for the solution, a 
+ 
+single constraint at a time
+ 
+.
+For applications in which the constraints are provided by real-
+time observations of physical devices, e.g. through measurements
+of sensors or visual sightings of landmarks, the SCAAT method
+isolates the effects of error in individual measurements. This
+isolation can provide improved ﬁltering as well as the ability to
+individually calibrate the respective devices or landmarks
+concurrently and continually while tracking. The method
+facilitates user motion prediction, multisensor or multiple modality
+data fusion, and in systems where the constraints can only be
+determined sequentially, it provides estimates at a higher rate and
+with lower latency than multiple-constraint (batch) approaches.
+With respect to tracking for virtual environments, we are
+currently using the SCAAT method with a new version of the UNC
+wide-area optoelectronic tracking system (section 4). The method
+could also be used by developers of commercial tracking systems
+to improve their existing systems or it could be employed by end-
+users to improve custom multiple modality hybrid systems. With
+respect to the more general problem of estimating a set of
+unknowns that are related by some set of mathematical constraints,
+one could use the method to trade estimate quality for computation
+time. For example one could incorporate individual constraints,
+one at a time, stopping when the uncertainty in the solution
+reached an acceptable level.
+ 
+1.1 Incomplete Information
+ 
+The idea that one might build a tracking system that generates a
+new estimate with each individual sensor measurement or
+ 
+observation
+ 
+ is a very interesting one. After all, individual
+observations usually provide only partial information about a
+user’s complete state (pose), i.e. they are “incomplete”
+observations. For example, for a camera observing landmarks in a
+scene, only limited information is obtained from observations of
+any single landmark. In terms of control theory, a system designed
+to operate with only such incomplete measurements is
+characterized as 
+ 
+unobservable
+ 
+ because the user state cannot be
+observed (determined) from the measurements.
+The notion of observability can also be described in terms of
+constraints on the unknown parameters of the system being
+estimated, e.g. constraints on the unknown elements of the system
+state. Given a particular system, and the corresponding set of
+unknowns that are to be estimated, let 
+ be deﬁned as the minimal
+number of independent simultaneous constraints necessary to
+uniquely determine a solution, let 
+ be the number actually used
+to generate a new estimate, and let 
+ be the number of
+ 
+independent
+ 
+ constraints that can be formed from the 
+constraints. For any 
+ constraints, if 
+ the
+problem is 
+ 
+well constrained
+ 
+, if 
+ it is 
+ 
+over constrained
+ 
+,
+and if 
+ it is 
+ 
+under-constrained
+ 
+. (See Figure 1.)
+C
+N
+Nind
+N
+N
+Nind
+≥
+Nind
+C
+=
+Nind
+C
+>
+Nind
+C
+<
+ 
+† CB 3175, Sitterson Hall, Chapel Hill, NC, 27599-3175
+welch@cs.unc.edu, http://www.cs.unc.edu/~welch
+gb@cs.unc.edu, http://www.cs.unc.edu/~gb
+
+ 
+1.2 Landmark Tracking
+ 
+Consider for example a system in which a single camera is used to
+observe known scene points to determine the camera position and
+orientation. In this case, the constraints provided by the
+observations are multi-dimensional: 2D image coordinates of 3D
+scene points. Given the internal camera parameters, a set of four
+known coplanar scene points, and the corresponding image
+coordinates, the camera position and orientation can be uniquely
+determined in closed-form [16]. In other words if 
+constraints (2D image points) are used to estimate the camera
+position and orientation, the system is completely observable. On
+the other hand, if 
+ then there are multiple solutions. For
+example with only 
+ non-collinear points, there are up to 4
+solutions. Even worse, with 
+ or 
+ points, there are
+inﬁnite combinations of position and orientation that could result
+in the same camera images.
+In general, for closed-form tracking approaches, a well or
+over-constrained system with 
+ is observable, an under-
+constrained system with 
+ is not. Therefore, if the individual
+observations provide only partial information, i.e. the
+measurements provide insufﬁcient constraints, then multiple
+devices or landmarks must be excited and (or) sensed prior to
+estimating a solution. Sometimes the necessary observations can
+be obtained simultaneously, and sometimes they can not. Magnetic
+trackers such as those made by Polhemus and Ascension perform
+three 
+ 
+sequential
+ 
+ source excitations, each in conjunction with a
+complete sensor unit observation. And while a camera can indeed
+observe multiple landmarks simultaneously in a single image, the
+image processing to identify and locate the individual landmarks
+must be done sequentially for a single CPU system. If the
+landmarks can move independently over time, for example if they
+are artiﬁcial marks placed on the skin of an ultrasound patient for
+the purpose of landmark-based tracking [41], batch processing of
+the landmarks can reduce the effectiveness of the system. A
+SCAAT implementation might grab an image, extract a 
+ 
+single
+ 
+landmark, update the estimates of both the camera 
+ 
+and
+ 
+ landmark
+positions, and then throw-away the image. In this way estimates
+are generated faster and with the most recent landmark
+conﬁgurations.
+ 
+1.3 Putting the Pieces Together
+ 
+Given a tracker that uses multiple constraints that are each
+individually incomplete, a 
+ 
+measurement model
+ 
+ for any one of
+incomplete constraints would be characterized as 
+ 
+locally
+unobservable
+ 
+. Such a system must incorporate a sufﬁcient set of
+these incomplete constraints so that the resulting overall system is
+observable. The corresponding aggregate measurement model can
+then be characterized as 
+ 
+globally observable
+ 
+. Global observability
+can be obtained over 
+ 
+space
+ 
+ or over 
+ 
+time
+ 
+. The SCAAT method
+adopts the latter scheme, even in some cases where the former is
+possible.
+ 
+2 MOTIVATION
+2.1 The Simultaneity Assumption
+ 
+Several well-known virtual environment tracking systems collect
+position and orientation constraints (sensor measurements)
+sequentially. For example, tracking systems developed by
+Polhemus and Ascension depend on sensing a sequence of
+variously polarized electromagnetic waves or ﬁelds. A system that
+facilitated simultaneous polarized excitations would be very
+difﬁcult if not impossible to implement. Similarly both the original
+UNC optoelectronic tracking system and the newer HiBall version
+are designed to observe only one ceiling-mounted LED at a time.
+Based on the available literature [25,27,37] these systems currently
+assume (mathematically) that their sequential observations were
+collected simultaneously. We refer to this as the 
+ 
+simultaneity
+assumption
+ 
+. If the target remains motionless this assumption
+introduces no error. However if the target is moving, the violation
+of the assumption introduces error.
+To put things into perspective, consider that typical arm and
+wrist motion can occur in as little as 1/2 second, with typical “fast”
+wrist tangential motion occurring at 3 meters/second [1]. For the
+current versions of the above systems such motion corresponds to
+approximately 2 to 6 centimeters of translation 
+ 
+throughout
+ 
+ the
+sequence of measurements required for a single estimate. For
+systems that attempt sub-millimeter accuracies, even slow motion
+occurring during a sequence of sequential measurements impacts
+the accuracy of the estimates.
+N
+C
+4
+=
+=
+N
+C
+<
+N
+3
+=
+N
+2
+=
+N
+1
+=
+N
+C
+≥
+N
+C
+<
+observable
+unobservable
+well-constrained
+under-constrained
+over-constrained
+SCAAT
+SCAAT
+Nind
+C
+>
+Nind
+C
+=
+Nind
+C
+<
+Nind
+1
+=
+Figure 1: SCAAT and constraints on a system of simultaneous equations. 
+ is the minimal number of independent simultaneous 
+constraints necessary to uniquely determine a solution, 
+ is the number of given constraints, and 
+ is the number of independent 
+constraints that can be formed from the 
+. (For most systems of interest 
+). The conventional approach is to ensure 
+ and 
+, i.e. to use enough measurements to well-constrain or even over-constrain the estimate. The SCAAT approach is to employ the 
+smallest number of constraints available at any one time, generally 
+ constraint. From this viewpoint, each SCAAT 
+estimate is severely under-constrained.
+C
+N
+Nind
+N
+C
+1
+>
+N
+Nind
+≥
+Nind
+C
+≥
+N
+Nind
+1
+=
+=
+
+ 
+The error introduced by violation of the simultaneity
+assumption is of greatest concern perhaps when attempting any
+form of system 
+ 
+autocalibration
+ 
+. Gottschalk and Hughes note that
+motion during their autocalibration procedure must be severely
+restricted in order to avoid such errors [19]. Consider that for a
+multiple-measurement system with 30 milliseconds total
+measurement time, motion would have to be restricted to
+approximately 1.5 centimeters/second to conﬁne the translation
+(throughout a measurement sequence) to 0.5 millimeters. For
+complete autocalibration of a large (wide-area) tracking system,
+this restriction results in lengthy specialized sessions.
+ 
+2.2 Device Isolation & Autocalibration
+ 
+Knowledge about source and sensor imperfections can be used to
+improve the accuracy of tracking systems. While intrinsic sensor
+parameters can often be determined off-line, e.g. by the
+manufacturer, this is generally not the case for extrinsic
+parameters. For example it can be difﬁcult to determine the exact
+geometric relationship between the various sensors of a hybrid
+system. Consider that the coordinate system of a magnetic sensor
+is located at some unknown location inside the sensor unit.
+Similarly the precise geometric relationship between visible
+landmarks used in a vision-based system is often difﬁcult to
+determine. Even worse, landmark positions can change over time
+as, for example, a patient’s skin deforms with pressure from an
+ultrasound probe. In general, goals such as ﬂexibility, ease of use,
+and lower cost, make the notion of self-calibration or
+ 
+autocalibration
+ 
+ attractive.
+The general idea for autocalibration is not new. See for
+example [19,45]. However, because the SCAAT method 
+ 
+isolates
+ 
+the measurements provided by each sensor or modality, the
+method provides a new and elegant means to autocalibrate
+concurrently while tracking. Because the SCAAT method isolates
+the individual measurements, or measurement dimensions,
+individual source and sensor imperfections are more easily
+identiﬁed and dealt with. Furthermore, because the simultaneity
+assumption is avoided, the motion restrictions discussed in
+section 2.1 would be removed, and autocalibration could be
+performed 
+ 
+while concurrently tracking a target
+ 
+.
+The isolation enforced by the SCAAT approach can improve
+results even if the constraints are obtained simultaneously through
+multidimensional measurements. An intuitive explanation is that if
+the elements (dimensions) are corrupted by independent noise,
+then incorporating the elements independently can offer improved
+ﬁltering over a batch or ensemble estimation scheme. 
+ 
+2.3 Temporal Improvements
+ 
+Per Shannon’s sampling theorem [24] the measurement
+ 
+ 
+ 
+or
+ 
+sampling
+ 
+ frequency should be at least twice the true target motion
+bandwidth, or an estimator may track an alias of the true motion.
+Given that common arm and head motion bandwidth speciﬁcations
+range from 2 to 20 Hz [13,14,36], the 
+ 
+sampling
+ 
+ rate should ideally
+be greater than 40 Hz. Furthermore, the 
+ 
+estimate 
+ 
+rate should be as
+high as possible so that normally-distributed white estimate error
+can be discriminated from any non-white error that might be
+observed during times of signiﬁcant target dynamics, and so
+estimates will always reﬂect the most recent user motion.
+In addition to increasing the estimate rate, we want to reduce
+the latency associated with generating an improved estimate, thus
+reducing the overall latency between target motion and visual
+feedback in virtual environment systems [34]. If too high, such
+latency can impair adaptation and the illusion of presence [22], and
+can cause motion discomfort or sickness. Increased latency also
+contributes to problems with head-mounted display registration
+[23] and with motion prediction [4,15,29]. Finally, post-rendering
+image deﬂection techniques are sometimes employed in an attempt
+to address latency variability in the rendering pipeline [32,39].
+Such methods are most effective when they have access to (or
+generate) accurate motion predictions and low-latency tracker
+updates. With accurate prediction the best possible position and
+orientation information can be used to render a preliminary image.
+With fast tracker updates there is higher probability that when the
+preliminary image is ready for ﬁnal deﬂection, recent user motion
+has been detected and incorporated into the deﬂection.
+With these requirements in mind, let us examine the effect of
+the measurements on the estimate latency and rate. Let 
+ be the
+time needed to determine one constraint, e.g. to measure a sensor
+or extract a scene landmark, let 
+ be the number of (sequential)
+constraints used to compute a complete estimate, and let 
+ be the
+time needed to actually compute that estimate. Then the estimate
+latency 
+ and rate 
+ are
+ 
+(1)
+ 
+As the number of constraints 
+ increases, equation (1) shows how
+the estimate latency and rate increase and decrease respectively.
+For example the Polhemus Fastrak, which uses the SPASYN
+(
+ 
+Space Synchro
+ 
+) method for determining relative position and
+orientation, employs 
+ sequential electromagnetic
+excitations and measurements per estimate [25,27,37], the original
+University of North Carolina (UNC) optoelectronic tracking
+system sequentially observed 
+ beacons per estimate
+[3,44], and the current UNC hybrid landmark-magnetic tracking
+system extracts (from a camera image) and then incorporates
+ landmarks per update. The SCAAT method seeks to
+improve the latencies and data rates of such systems by updating
+the current estimate with each new (individual) constraint, i.e. by
+ﬁxing 
+ 
+ 
+ 
+at 1. In other words, it increases the estimate rate to
+approximately the rate that individual constraints can be obtained
+and likewise decreases the estimate latency to approximately the
+time required to obtain a single constraint, e.g. to perform a single
+measurement of a single sensor, or to extract a single landmark.
+Figure 2 illustrates the increased data rate with a timing
+diagram that compares the SPASYN (Polhemus Navigation
+Systems) magnetic position and orientation tracking system with a
+hypothetical SCAAT implementation. In contrast to the SPASYN
+system, a SCAAT implementation would generate a new estimate
+after sensing each 
+ 
+individual
+ 
+ excitation vector rather than waiting
+for a complete pattern.
+tm
+N
+tc
+te
+re
+te
+Ntm
+tc
++
+=
+  ,
+re
+1
+te
+---
+1
+Ntm
+tc
++
+-------------------  . 
+=
+=
+N
+N
+3
+=
+10
+N
+20
+≤
+≤
+N
+4
+=
+N
+Source Excitation
+SPASYN Estimate
+time
+Sensor Measurement
+x
+y
+z
+Figure 2: A timing diagram comparing the SPASYN 
+(Polhemus Navigation Systems) magnetic position and 
+orientation tracking system with a hypothetical SCAAT 
+implementation.
+SCAAT Estimate
+x
+y
+z
+x
+y
+z
+
+ 
+2.4 Data Fusion & Hybrid Systems
+ 
+The Kalman ﬁlter [26] has been widely used for data fusion. For
+example in navigation systems [17,30], virtual environment
+tracking systems [5,12,14], and in 3D scene modeling [20,42].
+However the SCAAT method represents a new approach to
+Kalman ﬁlter based 
+ 
+multi-sensor data fusion
+ 
+. Because constraints
+are intentionally
+ 
+ 
+ 
+incorporated one at a time, one can pick and
+choose which ones to add, and when to add them. This means that
+information from different sensors or modalities can be woven
+together in a common, ﬂexible, and expeditious fashion.
+Furthermore, one can use the approach to ensure that each estimate
+is computed from the most recently obtained constraint.
+Consider for a moment the UNC hybrid landmark-magnetic
+presented at SIGGRAPH 96 [41]. This system uses an off-the-shelf
+Ascension magnetic tracking system along with a vision-based
+landmark recognition system to achieve superior synthetic and real
+image registration for augmented reality assisted medical
+procedures. The vision-based component attempts to identify and
+locate multiple known landmarks in a single image before
+applying a correction to the magnetic readings. A SCAAT
+implementation would instead identify and locate only one
+landmark per update, using a new image (frame) each time. Not
+only would this approach increase the frequency of landmark-
+based correction (given the necessary image processing) but it
+would offer the added beneﬁt that unlike the implementation
+presented in [41], no special processing would be needed for the
+cases where the number of visible landmarks falls below the
+number 
+ necessary to determine a complete position and
+orientation solution. The SCAAT implementation would simply
+cycle through any available landmarks, one at a time. Even with
+only one visible landmark the method would continue to operate as
+usual, using the information provided by the landmark sighting to
+reﬁne the estimate where possible, while increasing the uncertainty
+where not.
+ 
+3 METHOD
+ 
+The SCAAT method employs a 
+ 
+Kalman ﬁlter
+ 
+ (KF) in an unusual
+fashion. The Kalman ﬁlter is a mathematical procedure that
+provides an efﬁcient computational (recursive) method for the
+least-squares estimation of a linear system. It does so in a
+ 
+predictor-corrector
+ 
+ fashion, predicting short-term (since the last
+estimate) changes in the state using a 
+ 
+dynamic model
+ 
+, and then
+correcting them with a measurement and a corresponding
+ 
+measurement model
+ 
+. The 
+ 
+extended 
+ 
+Kalman ﬁlter (EKF) is a
+variation of the Kalman ﬁlter that supports estimation of 
+ 
+nonlinear
+ 
+systems, e.g. 3D position and orientation tracking systems. A basic
+introduction to the Kalman filter can be found in Chapter 1 of [31],
+while a more complete introductory discussion can be found in
+[40], which also contains some interesting historical narrative.
+More extensive references can be found in [7,18,24,28,31,46].
+The Kalman ﬁlter has been employed previously for virtual
+environment tracking estimation and prediction. For example see
+[2,5,12,14,42], and most recently [32]. In each of these cases
+however the ﬁlter was applied directly and only to the 6D pose
+estimates delivered by the off-the-shelf tracker. The SCAAT
+approach could be applied to either a hybrid system using off-the-
+shelf and/or custom trackers, or it could be employed by tracker
+developers to improve the existing systems for the end-user
+graphics community.
+In this section we describe the method in a manner that does
+not imply a speciﬁc tracking system. (In section 3.4 we present
+experimental results of a speciﬁc implementation, a SCAAT wide-
+area optoelectronic tracking system.) In section 3.1 we describe
+the method for tracking, and in section 3.2 we describe one
+possible method for concurrent autocalibration.
+Throughout we use the following conventions.
+ 
+3.1 Tracking
+ 
+3.1.1 Main Tracker Filter
+ 
+The use of a Kalman ﬁlter requires a mathematical (state-space)
+model for the dynamics of the process to be estimated, the target
+motion in this case. While several possible dynamic models and
+associated state conﬁgurations are possible, we have found a
+simple 
+ 
+position-velocity
+ 
+ model to sufﬁce for the dynamics of our
+applications. In fact we use this same form of model, with different
+parameters, for all six of the position and orientation components
+. Discussion of some other potential models and
+the associated trade-offs can be found in [7] pp. 415-420. Because
+our implementation is discrete with inter sample time 
+ we
+model the target’s dynamic motion with the following linear
+difference equation:
+ 
+.
+(2)
+ 
+In the standard model corresponding to equation (2), the
+ 
+ 
+ 
+dimensional Kalman ﬁlter 
+ 
+state vector
+ 
+ 
+ would completely
+describe the target position and orientation at any time . In
+practice we use a method similar to [2,6] and maintain the
+complete target orientation externally to the Kalman ﬁlter in order
+to avoid the nonlinearities associated with orientation
+computations. In the internal state vector 
+ we maintain the
+target position as the Cartesian coordinates 
+, and the
+ 
+incremental 
+ 
+orientation as small rotations 
+ about the
+ axis. Externally we maintain the target orientation as the
+ 
+external quaternion 
+ 
+. (See [9] for
+discussion of quaternions.) At each ﬁlter update step, the
+incremental orientations 
+ are factored into the external
+quaternion 
+, and then zeroed as shown below. Thus the
+incremental orientations are linearized for the EKF, centered about
+zero. We maintain the derivatives of the target position and
+orientation internally, in the state vector 
+. We maintain the
+angular velocities internally because the angular velocities behave
+like orthogonal vectors and do not exhibit the nonlinearities of the
+angles themselves. The target state is then represented by the
+ element internal state vector
+ 
+(3)
+ 
+and the four-element external orientation quaternion
+ 
+,
+(4)
+ 
+where the time designations have been omitted for clarity.
+C
+x
+scalar (lower case)
+=
+x
+general vector (lower case, arrow) indexed as x r[ ]
+=
+xˆ
+filter estimate vector (lower case, hat)
+=
+A
+matrix (capital letters) indexed as A r c
+,
+[
+]
+=
+A 1
+–
+matrix inverse
+=
+I
+the identity matrix
+=
+β-
+matrix/vector prediction (super minus)
+=
+βT
+matrix/vector transpose (super T)   
+=
+αi
+matrix/vector/scalar identifier (subscript)
+=
+E •
+{ }
+mathematical expectation 
+=
+x y z φ θ ψ
+, , , , ,
+(
+)
+δt
+x t
+δt
++
+(
+)
+A δt
+(
+)x t( )
+w δt
+(
+)
++
+=
+n
+x t( )
+t
+x t( )
+x y z
+, ,
+(
+)
+φ θ ψ
+, ,
+(
+)
+x y z
+, ,
+(
+)
+α
+αw
+αx αy αz
+,
+,
+(
+)
+,
+(
+)
+=
+φ θ ψ
+, ,
+(
+)
+α
+x t( )
+n
+12
+=
+x
+x y z x˙ y˙ z˙ φ θ ψ φ˙ θ˙ ψ˙
+T
+=
+α
+αw
+αx αy αz
+,
+,
+(
+)
+,
+(
+)
+=
+
+The 
+ state transition matrix 
+ in (2) projects the
+state forward from time  to time 
+. For our linear model, the
+matrix implements the relationships
+(5)
+and likewise for the remaining elements of (3).
+The 
+ process noise vector 
+ in (2) is a normally-
+distributed zero-mean sequence that represents the uncertainty in
+the target state over any time interval 
+. The corresponding 
+process noise covariance matrix is given by
+.
+(6)
+Because our implementation is discrete with inter sample time 
+,
+we can use the transfer function method illustrated by [7] pp. 221-
+222 to compute a sampled process noise covariance matrix.
+(Because the associated random processes are presumed to be time
+stationary, we present the process noise covariance matrix as a
+function of the inter-sample duration 
+ only.) The non-zero
+elements of 
+ are given by
+(7)
+for each pair
+.
+The 
+ in (7) are the correlation kernels of the (assumed
+constant) noise sources presumed to be driving the dynamic
+model. We determined a set of values using Powell’s method, and
+then used these in both simulation and our real implementation.
+The values can be “tuned” for different dynamics, though we have
+found that the tracker works well over a broad range of values. 
+The use of a Kalman ﬁlter requires not only a dynamic model
+as described above, but also a measurement model for each
+available type of measurement. The measurement model is used to
+predict the ideal noise-free response of each sensor and source
+pair, given the ﬁlter’s current estimate of the target state as in
+equations (3) and (4).
+It is the nature of the measurement models and indeed 
+the actual sensor measurements that distinguishes a 
+SCAAT Kalman ﬁlter from a well-constrained one.
+For each sensor type σ we deﬁne the 
+ measurement
+vector 
+ and corresponding measurement function 
+ such
+that
+.
+(8)
+Note that in the “purest” SCAAT implementation 
+ and the
+measurements are incorporated as single scalar values. However if
+it is not possible or necessary to isolate the measurements, e.g. to
+perform autocalibration, then multi-dimensional measurements
+can be incorporated also. Guidelines presented in [47] lead to the
+following heuristic for choosing the SCAAT Kalman ﬁlter
+measurement elements (constraints):
+During each SCAAT Kalman ﬁlter measurement update 
+one should observe a single sensor and source pair only.
+For example, to incorporate magnetic tracker data as an end-user,
+ for the three position and four orientation (quaternion)
+elements, while if the manufacturer were to use the SCAAT
+implementation, 
+ for each 3-axis electromagnetic
+response to a single excitation. For an image-based landmark
+tracker such as [41] the measurement function would, given
+estimates of the camera pose and a single landmark location,
+transform the landmark into camera space and then project it onto
+the camera image plane. In this case 
+ for the 2D image
+coordinates of the landmark.
+The 
+ measurement noise vector 
+ in (8) is a
+normally-distributed zero-mean sequence that represents any
+random error (e.g. electrical noise) in the measurement. This
+parameter can be determined from component design
+speciﬁcations, and (or) conﬁrmed by off-line measurement. For
+our simulations we did both. The corresponding 
+measurement noise covariance matrix is given by
+.
+(9)
+For each measurement function 
+ we determine the
+corresponding Jacobian function
+,
+(10)
+where 
+ and 
+. Finally, we note the use of the
+standard (Kalman ﬁlter) 
+ error covariance matrix 
+which maintains the covariance of the error in the estimated state.
+3.1.2 Tracking Algorithm
+Given an initial state estimate 
+ and error covariance estimate
+, the SCAAT algorithm proceeds similarly to a conventional
+EKF, cycling through the following steps whenever a discrete
+measurement 
+ from some sensor (type σ) and source becomes
+available at time :
+a. Compute the time 
+ since the previous estimate.
+b. Predict the state and error covariance.
+(11)
+c. Predict the measurement and compute the corresponding Jaco-
+bian.
+(12)
+d. Compute the Kalman gain.
+(13)
+e. Compute the residual between the actual sensor measurement
+ and the predicted measurement from (12).
+(14)
+f. Correct the predicted tracker state estimate and error covariance
+from (11).
+(15)
+n
+n
+×
+A δt
+(
+)
+t
+t
+δt
++
+x t
+δt
++
+(
+)
+x t( )
+x˙ t( )δt
++
+=
+x˙ t
+δt
++
+(
+)
+x˙ t( )
+=
+n
+1
+×
+w δt
+(
+)
+δt
+n
+n
+×
+E w δt
+(
+)wT δt
+ε
++
+(
+)
+{
+}
+Q δt
+(
+),
+ε
+0
+=
+0,
+ε
+0
+≠
+
+
+
+=
+δt
+δt
+Q δt
+(
+)
+Q δt
+(
+) i i,
+[
+]
+η i[ ] δt
+(
+)3
+3
+-----------
+=
+Q δt
+(
+) i j
+,
+[
+]
+Q δt
+(
+) j i,
+[
+]
+η i[ ] δt
+(
+)2
+2
+-----------
+=
+=
+Q δt
+(
+) j j
+,
+[
+]
+η i[ ] δt
+(
+) 
+=
+i j
+,
+(
+)
+x x˙
+,
+(
+)
+y y˙
+,
+(
+)
+z z˙
+,
+(
+)
+φ φ˙
+,
+(
+)
+θ θ˙
+,
+(
+)
+ψ ψ˙
+,
+(
+)
+,
+,
+,
+,
+,
+{
+}
+∈
+η i[ ]
+mσ
+1
+×
+zσ t( )
+hσ •( )
+zσ t,
+hσ x t( ) bt ct
+,
+,
+(
+)
+vσ t( )
++
+=
+mσ
+1
+=
+mσ
+7
+=
+mσ
+3
+=
+mσ
+2
+=
+mσ
+1
+×
+vσ t( )
+mσ
+mσ
+×
+E vσ t( )vσ
+T t
+ε
++
+(
+)
+{
+}
+Rσ t( ),
+ε
+0
+=
+0,
+ε
+0
+≠
+
+
+
+=
+hσ •( )
+Hσ x t( ) bt ct
+,
+,
+(
+) i j
+,
+[
+]
+x j[ ]
+∂
+∂
+hσ x t( ) bt ct
+,
+,
+(
+) i[ ]
+≡
+1
+i
+mσ
+≤≤
+1
+j
+n
+≤
+≤
+n
+n
+×
+P t( )
+xˆ 0
+( )
+P 0
+( )
+zσ t,t
+δt
+xˆ -
+A δt
+(
+)xˆ t
+δt
+–
+(
+)
+=
+P-
+A δt
+(
+)P t
+δt
+–
+(
+)AT δt
+(
+)
+Q δt
+(
+)
++
+=
+zˆ
+hσ xˆ - bt ct
+,
+,
+(
+)
+=
+H
+Hσ xˆ - bt ct
+,
+,
+(
+)
+=
+K
+P-HT HP-HT
+Rσ t( )
++
+(
+) 1
+–
+=
+zσ t,
+∆z
+zσ t,
+zˆ
+–
+=
+xˆ t( )
+xˆ -
+K∆z
++
+=
+P t( )
+I
+KH
+–
+(
+)P-
+=
+
+g. Update the external orientation of equation (4) per the change
+indicated by the 
+ elements of the state.*
+(16)
+h. Zero the orientation elements of the state vector.
+(17)
+The equations (11)-(17) may seem computationally complex,
+however they can be performed quite efﬁciently. The computations
+can be optimized to eliminate operations on matrix and vector
+elements that are known to be zero. For example, the elements of
+the Jacobian 
+ in (12) that correspond to the velocities in the state
+ will always be zero. In addition, the matrix inverted in the
+computation of 
+ in (13) is of rank 
+ (
+ for our example in
+section 3.4) which is smaller for a SCAAT ﬁlter than for a
+corresponding conventional EKF implementation. Finally, the
+increased data rate allows the use of the small angle
+approximations 
+ and 
+ in 
+ and
+. The total per estimate computation time can therefore
+actually be less than that of a corresponding conventional
+implementation. (We are able to execute the SCAAT ﬁlter
+computations, with the autocalibration computations discussed in
+the next section, in approximately 
+ on a 200 MHz PC-
+compatible computer.)
+3.1.3 Discussion
+The key to the SCAAT method is the number of constraints
+provided by the measurement vector and measurement function in
+equation (8). For the 3D-tracking problem being solved, a unique
+solution requires 
+ non-degenerate constraints to resolve six
+degrees of freedom. Because individual sensor measurements
+typically provide less than six constraints, conventional
+implementations usually construct a complete measurement vector
+from some group of 
+ individual sensor measurements over
+time 
+, and then proceed to compute an estimate. Or a
+particular implementation may operate in a moving-window
+fashion, combining the most recent measurement with the 
+previous measurements, possibly implementing a form of a ﬁnite-
+impulse-response ﬁlter. In any case, for such well-constrained
+systems complete observability is obtained at each step of the
+ﬁlter. Systems that collect measurements sequentially in this way
+inherently violate the simultaneity assumption, as well as increase
+the time 
+ between estimates.
+In contrast, the SCAAT method blends individual
+measurements that each provide incomplete constraints into a
+complete state estimate. The EKF inherently provides the means
+for this blending, no matter how complete the information content
+of each individual measurement 
+. The EKF accomplishes this
+through the Kalman gain 
+ which is computed in (13). The
+Kalman gain, which is used to adjust the state and the error
+covariance in (15), is optimal in the sense that it minimizes the
+error covariance if certain conditions are met. Note that the
+inversion in (13) forms a ratio that reﬂects the relative uncertainties
+of the state and the measurement. Note too that the ratio is affected
+by the use of the measurement function Jacobian 
+. Because the
+Jacobian reﬂects the rate of change of each measurement with
+respect to the current state, it indicates a direction in state space
+along which a measurement could possibly affect the state.
+Because the gain is recomputed at each step with the appropriate
+*  The operation 
+ is used to indicate a quaternion multiply [9].
+measurement function and associated Jacobian, it inherently
+reﬂects the amount and direction of information provided by the
+individual constraint. 
+3.2 Autocalibration
+The method we use for autocalibration involves augmenting the
+main tracker ﬁlter presented in section 3.1 to effectively
+implement a distinct device ﬁlter, a Kalman ﬁlter, for each source
+or sensor to be calibrated. (We use the word “device” here to
+include for example scene landmarks which can be thought of as
+passive sources, and cameras which are indeed sensors.) In
+general, any constant device-related parameters used by a
+measurement function 
+ from (8) are candidates for this
+autocalibration method. We assume that the parameters to be
+estimated are contained in the device parameter vectors 
+ and 
+,
+and we also present the case where both the source and sensor are
+to be calibrated since omission of one or the other is trivial. We
+note the following new convention.
+3.2.1 Device Filters
+For each device (source, sensor, landmark, etc.) we create a
+distinct device ﬁlter as follows. Let 
+ represent the corresponding
+device parameter vector and 
+.
+a. Allocate an 
+ state vector 
+ for the device, initialize
+with the best a priori device parameter estimates, e.g. from design.
+b. Allocate an 
+ noise covariance matrix 
+, initialize
+with the expected parameter variances.
+c. Allocate an 
+ error covariance matrix 
+, initialize to
+indicate the level of conﬁdence in the a priori device parameter
+estimates from (a) above.
+3.2.2 Revised Tracking Algorithm
+The algorithm for tracking with concurrent autocalibration is the
+same as that presented in section 3.1, with the following
+exceptions. After step (a) in the original algorithm, we form
+augmented versions of the state vector
+,
+(18)
+the error covariance matrix
+,
+(19)
+the state transition matrix
+,
+(20)
+and the process noise matrix
+.
+(21)
+φ θ ψ
+, ,
+(
+)
+α
+∆α
+⊗
+∆αˆ
+quaternion xˆ φ
+[ ] xˆ θ
+[ ] xˆ ψ
+[
+]
+,
+,
+(
+)
+=
+αˆ
+αˆ
+∆αˆ
+⊗
+=
+xˆ φ
+[ ]
+xˆ θ
+[ ]
+xˆ ψ
+[
+]
+0
+=
+=
+=
+H
+xˆ t( )
+K
+mσ
+2
+2
+×
+θ
+( )
+sin
+θ
+=
+θ
+( )
+cos
+1
+=
+hσ •( )
+Hσ •( )
+100µs
+C
+6
+=
+zt
+zσ1 t1
+,
+T
+… zσN tN
+,
+T
+T
+=
+N
+C
+≥
+t1…tN
+N
+1
+–
+δt
+zσ t,
+K
+H
+hσ •( )
+bt
+ct
+α
+augmented matrix/vector (wide hat)
+=
+)
+π
+nπ
+length π
+( )
+=
+nπ
+1
+×
+xˆπ
+nπ
+nπ
+×
+Qπ δt
+(
+)
+nπ
+nπ
+×
+Pπ t( )
+x t
+δt
+–
+(
+)
+xˆ T t
+δt
+–
+(
+) xˆb t,
+T
+t
+δt
+–
+(
+) xˆc t,
+T
+t
+δt
+–
+(
+)
+T
+=
+)
+P t
+δt
+–
+(
+)
+P t
+δt
+–
+(
+)
+0
+0
+0
+Pb t,
+t
+δt
+–
+(
+)
+0
+0
+0
+Pc t,
+t
+δt
+–
+(
+)
+=
+)
+A δt
+(
+)
+A δt
+(
+)
+0
+0
+0
+I
+0
+0
+0
+I
+=
+)
+Q δt
+(
+)
+Q δt
+(
+)
+0
+0
+0
+Qb t,
+δt
+(
+)
+0
+0
+0
+Qc t,
+δt
+(
+)
+=
+)
+
+We then follow steps (b)-(h) from the original algorithm, making
+the appropriate substitutions of (18)-(21), and noting that the
+measurement and Jacobian functions used in step (c) have become
+ and 
+ because the estimates of parameters 
+and 
+ (
+ and 
+) are now contained in the augmented state
+vector 
+ per (18). After step (h) we ﬁnish by extracting and
+saving the device ﬁlter portions of the augmented state vector and
+error covariance matrix
+(22)
+where
+and 
+, 
+, and 
+ are the dimensions of the state vectors for the
+main tracker ﬁlter, the source ﬁlter, and the sensor ﬁlter
+(respectively). We leave the main tracker ﬁlter state vector and
+error covariance matrix in their augmented counterparts, while we
+swap the device ﬁlter components in and out with each estimate.
+The result is that individual device ﬁlters are updated less
+frequently than the main tracker ﬁlter. The more a device is used,
+the more it is calibrated. If a device is never used, it is never
+calibrated.
+With respect to added time complexity, the computations can
+again be optimized to eliminate operations on matrix and vector
+elements that are known to be zero: those places mentioned in
+section 3.1, and see (19)-(21). Also note that the size of and thus
+time for the matrix inversion in (13) has not changed. With respect
+to added space complexity, the autocalibration method requires
+storing a separate state vector and covariance matrix for each
+device—a ﬁxed amount of (generally small) space per device. For
+example, consider autocalibrating the beacon (LED) positions for
+an optical tracking system with 3,000 beacons. For each beacon
+one would need 3 words for the beacon state (its 3D position),
+ words for the noise covariance matrix, and 
+words for the error covariance matrix. Assuming 8 bytes per word,
+this is only 
+ bytes.
+3.2.3 Discussion
+The ability to simultaneously estimate two dependent sets of
+unknowns (the target and device states) is made possible by several
+factors. First, the dynamics of the two sets are very different as
+would be reﬂected in the process noise matrices. We assume the
+target is undergoing some random (constant) acceleration,
+reﬂected in the noise parameter 
+ of 
+ in (6). Conversely, we
+assume the device parameters are constant, and so the elements of
+ for a source or sensor simply reﬂect any allowed variances
+in the corresponding parameters: usually zero or extremely small.
+In addition, while the target is expected to be moving, the ﬁlter
+expects the motion between any two estimations to closely
+correspond to the velocity estimates in the state (3). If the tracker
+estimate rate is high enough, poorly estimated device parameters
+will result in what appears to be almost instantaneous target
+motion. The increased rate of the SCAAT method allows such
+motion to be recognized as unlikely, and attributed to poorly
+estimated device parameters.
+3.3 Stability
+Because the SCAAT method uses individual measurements with
+insufﬁcient information, one might be concerned about the
+potential for instability or divergence. A linear system is said to be
+stable if its response to any input tends to a ﬁnite steady value after
+the input is removed [24]. For the Kalman ﬁlter in general this is
+certainly not a new concern, and there are standard requirements
+and corresponding tests that ensure or detect stability (see [18],
+p. 132):
+a. The ﬁlter must be uniformly completely observable, 
+b. the dynamic and measurement noise matrices in equations (6)
+and (9) must be bounded from above and below, and
+c. the dynamic behavior represented by 
+ in equation (2)
+must be bounded from above.
+As it turns out, these conditions and their standard tests are equally
+applicable to a SCAAT implementation. For the SCAAT method
+the conditions mean that the user dynamics between estimates
+must be bounded, the measurement noise must be bounded, one
+must incorporate a sufﬁcient set of non-degenerate constraints over
+time. In particular, the constraints must be incorporated in less than
+1/2 the time of the user motion time-constant in order to avoid
+tracking an alias of the true motion. In general these conditions are
+easily met for systems and circumstances that would otherwise be
+stable with a multiple-constraint implementation. A complete
+stability analysis is beyond the scope of this paper, and is presented
+in [47].
+3.4 Measurement Ordering
+Beyond a simple round-robin approach, one might envision a
+measurement scheduling algorithm that makes better use of the
+available resources. In doing so one would like to be able to
+monitor and control uncertainty in the state vector. By periodically
+observing the eigenvalues and eigenvectors of the error covariance
+matrix 
+, one can determine the directions in state-space along
+which more or less information is needed [21]. This approach can
+be used to monitor the stability of the tracker, and to guide the
+source/sensor ordering.
+4 EXPERIMENTS
+We are using the SCAAT approach in the current version of the
+UNC wide-area optoelectronic tracking system known as the
+HiBall tracker. The HiBall, shown below in Figure 3, incorporates
+six optical sensors and six lenses with infrared ﬁlters into one golf
+ball sized sensing unit that can be worn on a user’s head or hand.
+The principal mechanical component of the HiBall, the senor
+housing unit, was fabricated by researchers at the University of
+Utah using their 
+ modeling environment.
+Because the HiBall sensors and lenses share a common
+transparent space in the center of the housing, a single sensor can
+actually sense light through more than one lens. By making use of
+all of these views we end up with effectively 26 “cameras”. These
+cameras are then used to observe ceiling-mounted light-emitting
+diodes (LEDs) to track the position and orientation of the HiBall.
+This inside-looking-out approach was ﬁrst used with the previous
+UNC optoelectronic tracking system [44] which spanned most of
+the user’s head and weighed approximately ten pounds, not
+including a backpack containing some electronics. In contrast, the
+HiBall sensing unit is the size of a golf ball and weighs only ﬁve
+ounces, including the electronics. The combination of reduced
+weight, smaller packaging, and the new SCAAT algorithm results
+in a very ergonomic, fast, and accurate system.
+In this section we present results from both simulations
+performed during the design and development of the HiBall, and
+hσ x t( )
+(
+)
+)
+Hσ x t( )
+(
+)
+)
+bt
+ct
+xˆb t,
+xˆc t,
+x
+)
+xˆb t,
+t( )
+x t( ) i…j
+[
+]
+=
+Pb t,
+t( )
+P t( ) i…j i…j
+,
+[
+]
+=
+xˆc t,
+t( )
+x t( ) k…l
+[
+]
+=
+Pc t,
+t( )
+P t( ) k…l k…l
+,
+[
+]
+=
+)
+)
+)
+)
+i
+n
+1
++
+=
+j
+n
+nb
++
+=
+k
+n
+nb
+1
++
++
+=
+l
+n
+nb
+nc
++
++
+=
+n
+nb
+nc
+3
+3
+×
+9
+=
+3
+3
+×
+9
+=
+3,000
+8
+3
+9
+9
++
++
+(
+)
+×
+×
+504,000
+=
+η
+Q δt
+(
+)
+Qπ δt
+(
+)
+A δt
+(
+)
+P t( )
+α1
+
+preliminary results from the actual implementation. The
+simulations are useful because we have control over the “truth”
+and can perform controlled experiments. The results from the
+actual implementation serve to demonstrate actual operation and to
+provide some support for our accuracy and stability claims.
+With respect to the SCAAT implementation, the tracker
+sensors are the HiBall cameras and the tracker sources are the
+ceiling-mounted 2D array of approximately 3000 electronic
+beacons (LEDs). The cameras provide a single 2D measurement
+vector, i.e. a 2D constraint, which is the 
+ image coordinates
+of the beacon as seen by the camera. So for this example, 
+and 
+. The measurement function 
+ transforms
+the beacon into camera coordinates and then projects it onto the
+camera’s image plane in order to predict the camera response.
+For the simulations we generated individual measurement
+events (a single beacon activation followed by a single camera
+reading) at a rate of 1000 Hz, and corrupted the measurements
+using the noise models detailed in [8]. We tested components of
+our real system in a laboratory and found the noise models in [8] to
+be reasonably accurate, if not pessimistic. We also perturbed the
+3D beacon positions prior to simulations with a normally-
+distributed noise source with approximately 1.7 millimeters
+standard deviation. We controlled all random number generators to
+facilitate method comparisons with common random sequences.
+To evaluate the ﬁlter performance we needed some reference
+data. Our solution was to collect motion data from real-user
+sessions with a conventional tracking system, and then to ﬁlter the
+data to remove high frequency noise. We then deﬁned this data to
+be the “truth”. We did this for seven such sessions.
+The simulator operated by sampling the truth data, choosing
+one beacon and camera (round-robin from within the set of valid
+combinations), computing the corresponding camera measurement
+vector 
+, and then adding some measurement noise. The (noisy)
+measurement vector, the camera parameter vector 
+ (position and
+orientation in user coordinates), and the beacon parameter vector
+ (position in world coordinates) were then sent to the tracker.
+For the tracking algorithm, we simulated both the SCAAT
+method (section 3.1, modiﬁed per section 3.2 for autocalibration)
+and several multiple-constraint methods, including the Collinearity
+method [3] and several variations of moving window (ﬁnite
+impulse response) methods. For each of the methods we varied the
+measurement noise, the measurement frequency, and the beacon
+position error. For the multiple constraint methods we also varied
+the number of constraints (beacon observations) per estimate 
+.
+In each case the respective estimates were compared with the truth
+data set for performance evaluation.
+4.1 Tracker Filter
+The 12 element state vector 
+ for the main tracker ﬁlter
+contained the elements shown in (3). Each of the 3000 beacon
+ﬁlters was allocated a 3 element state vector
+where 
+ represents the beacon’s estimated position in
+cartesian (world) coordinates. The 
+ state transition matrix
+for the main tracker ﬁlter was formed as discussed section 3.1, and
+for each beacon ﬁlter it was the 
+ identity matrix. The
+ process noise matrix for the main tracker was computed
+using (7), using elements of 
+ that were determined off-line using
+Powell’s method and a variety of real motion data. For each beacon
+ﬁlter we used an identical noise covariance matrix
+for 
+, with beacon position variance 
+ also determined
+off-line. (See [47] for the complete details.) At each estimate step,
+the augmented 15 element state vector, 
+ process noise
+matrix, 
+ state transition matrix, and 
+ error
+covariance matrix all resembled (18)-(21) (without the camera
+parameter components). The measurement noise model was
+distance dependent (beacon light falls-off with distance) so 
+from (9) was computed prior to step (d), by using a beacon
+distance estimate (obtained from the user and beacon positions in
+the predicted state 
+) to project a distance-dependent electrical
+variance onto the camera.
+4.2 Initialization
+The position and orientation elements of the main tracker state
+were initialized with the true user position and orientation, and the
+velocities were initialized to zero. The 3000 beacon ﬁlter state
+vectors were initialized with (potentially erroneous) beacon
+position estimates. The main tracker error covariance matrix was
+initialized to the null matrix. All beacon ﬁlter error covariance
+matrices were initialized to
+for 
+, to reﬂect 1 millimeter of uncertainty in the initial
+beacon positions.
+While for the presented simulations we initialized the ﬁlter
+state with the true user pose information, we also performed (but
+will not show here) simulations in which the state elements were
+initialized to arbitrary values, e.g. all zeros. It is a testament to the
+stability of the method that in most cases the ﬁlter completely
+converged in under a tenth of a second, i.e. with fewer than 100
+measurements. (In a few cases the camera was facing away from
+the beacon, a condition not handled by our simulator.)
+Figure 3: The HiBall is shown here with the internal circuitry 
+exposed and the lenses removed. The sensors, which can be seen 
+through the lens openings, are mounted on PC boards that fold-
+up into the HiBall upon assembly. The mechanical pencil at the 
+bottom conveys an indication of the relative size of the unit.
+u v
+,
+(
+)
+mσ
+2
+=
+zσ
+u v
+,
+[
+]T
+=
+hσ •( )
+zσ t,
+ct
+bt
+N
+xˆ t( )
+xˆb
+xb yb zb
+T
+=
+xb yb zb
+,
+,
+(
+)
+12
+12
+×
+3
+3
+×
+12
+12
+×
+η
+Qb δt
+(
+) i j
+,
+[
+]
+ηb
+if i
+j
+=
+0
+otherwise
+
+
+
+=
+1
+i j
+,
+3
+≤
+≤
+ηb
+15
+15
+×
+15
+15
+×
+15
+15
+×
+Rσ t( )
+x -
+)
+Pb 0
+( ) i j
+,
+[
+]
+0.001
+(
+)2
+if i
+j
+=
+0
+otherwise
+
+
+
+=
+1
+i j
+,
+3
+≤
+≤
+
+4.3 Simulation Results
+We present here only comparisons of the SCAAT method with the
+Collinearity method, the “conventional approach” mentioned in
+the accompanying video. More extensive simulation results can be
+found in [47], including tests for stability under “cold starts” and
+periodic loss of data. All error measures reﬂect the RMS position
+error for a set of three imaginary points located approximately at
+arms length. This approach combines both position and orientation
+error into a metric that is related to the error a user would
+encounter in [HMD] screen space.
+Figure 4 contains two related plots. The upper plot shows the
+entire three minutes (180 seconds) of the x-axis position for the
+ﬁrst of seven data sets, data set ‘a’. The lower plot shows a close-
+up of a particular segment of 300 milliseconds near the end. Notice
+that the Collinearity estimates appear very jerky. This is partially a
+result of the lower estimate rate, it is using 
+ beacon
+observations to compute an estimate, and partially due to the
+method’s inability to deal with the erroneous beacon position data.
+In contrast, the SCAAT method hugs the actual motion track,
+appearing both smooth and accurate. This is partly a result of the
+higher update rate (10 times Collinearity here), and partly the
+effects of Kalman ﬁltering, but mostly the accuracy is a result of
+the SCAAT autocalibration scheme. With the autocalibration
+turned on, the initially erroneous beacon positions are being
+reﬁned at the same high rate that user pose estimates are generated.
+Figure 5 shows progressively improving estimates as the
+number of beacons 
+ is reduced from 15 (Collinearity) down to 1
+(SCAAT), and a clear improvement in the accuracy when
+autocalibration is on. Consider for a moment that the motion
+prediction work of Azuma and Bishop [4] was based on jerky
+Collinearity estimates similar to those in Figure 4. The smooth and
+accurate SCAAT estimation should provide a much better basis for
+motion prediction, which could in turn provide a more effective
+means for addressing other system latencies such as those in the
+rendering pipeline. The improved accuracy should also improve
+post-rendering warping or image deﬂection [32,39]. 
+ 
+0
+10
+20
+30
+40
+50
+60
+179.3
+179.4
+179.5
+179.6
+position (millimeters)
+time (seconds)
+Actual
+SCAAT
+Collinearity
+Figure 4: The upper plot depicts the entire 3 minutes of x-axis 
+position data from user motion data set ‘a’ of sets ‘a’-’f’. The 
+lower plot shows a close-up of a short portion of the simulation. 
+Collinearity here used 
+ beacons per observation, hence 
+its lower estimate rate. On the other hand, notice that the SCAAT 
+estimates and the actual (truth) data are almost indistinguishable.
+N
+10
+=
+ 
+1.5
+2
+2.5
+3
+3.5
+4
+0
+60
+120
+180
+position (meters)
+time (seconds)
+region of the
+ﬁgure below
+N
+10
+=
+N
+ 
+B
+B
+B
+J
+1
+0
+0.5
+1
+1.5
+2
+2.5
+3
+3.5
+4
+4.5
+0
+0.5
+1
+1.5
+2
+2.5
+3
+3.5
+4
+4.5
+1
+3
+5
+7
+9
+11
+13
+15
+RMS error (mm)
+number of beacons (N)
+B
+Collinearity
+J
+SCAAT
+1
+Autocalibration
+Figure 5: As the number of beacons 
+ is reduced from 15 to 5, 
+the Collinearity results improve slightly. (The Collinearity 
+algorithm generally becomes unstable with 
+.) The 
+SCAAT results, with 
+ beacons, are better, and 
+especially good once autocalibration is turned on.
+N
+N
+4
+≤
+N
+1
+=
+
+As further evidence of the smoothing offered by the SCAAT
+approach, Figure 6 presents an error spectra comparison between a
+Collinearity implementation with 
+, and a SCAAT
+implementation with and without autocalibration. Even without
+autocalibration the SCAAT output has signiﬁcantly less noise than
+collinearity, and with autocalibration it is better by more than a
+factor of 10. These reductions in noise are clearly visible to the
+HMD user as a reduction in the amount of jitter in virtual-world
+objects.
+Figure 7 provides results for all seven of the real-user motion
+data sets. Again the Collinearity implementations observe
+ beacons per estimate, while the SCAAT implementations
+observe only 
+. Because the beacon positions were being
+autocalibrated during the SCAAT run, we repeated each run, the
+second time using the beacon position estimation results from the
+ﬁrst simulation. The more beacons are sighted during tracking, the
+better they are located. The second-pass simulation results are
+identiﬁed with the dagger (†) in Figure 7.
+Figure 8 presents results that support the claim that the
+beacon location estimates are actually improving during tracking
+with autocalibration, as opposed to simply shifting to reduce
+spectral noise. Note that in the case of data set ‘d’, the beacon error
+was reduced nearly 60%.
+Finally, we simulated using the SCAAT approach with
+tracking hardware that allowed truly simultaneous observations of
+beacons. For the Collinearity and other multiple-constraint
+methods we simply used the methods as usual, except that we
+passed them truly simultaneous measurements. For the SCAAT
+method we took the 
+ simultaneous observations, and simply
+processed them one at a time with 
+. (See equation (2).) We
+were, at ﬁrst, surprised to see that even under these ideal
+circumstances the SCAAT implementation could perform better,
+even signiﬁcantly better than a multiple-constraint method with
+simultaneous constraints. The reason seems to be autocalibration.
+Even though the multiple-constraint methods were “helped” by the
+truly simultaneous observations, the SCAAT method still had the
+advantage in that it could still autocalibrate the beacons more
+effectively that any multiple-constraint method. This again arises
+from the method’s inherent isolation of individual observations. 
+4.4 Real Results
+We have demonstrated the SCAAT algorithm with the HiBall
+tracker, a head-mounted display, and a real application. However,
+at the time of the submission of this publication we have yet to
+perform extensive optimization and analysis. As such we present
+here only limited, albeit compelling results.
+The SCAAT code runs on a 200 MHz PC-compatible
+computer with a custom interface board. With unoptimized code,
+the system generates new estimates at approximately 700 Hz. We
+expect the optimized version to operate at over 1000 Hz. Out of the
+approximately 1.4 millisecond period, the unoptimized SCAAT
+code takes approximately 100 microseconds and sampling of the
+sensors takes approximately 200 microseconds. The remaining
+N
+10
+=
+ 
+0.001
+0.01
+0.1
+1
+10
+0.001
+0.01
+0.1
+1
+10
+1
+10
+100
+millimeters
+frequency (Hz)
+Collinearity
+SCAAT
+Autocalibration
+Figure 6: Here we show an error spectra comparison for the 
+Collinearity method with 
+ beacons, and the SCAAT 
+method with and without autocalibration.
+N
+10
+=
+N
+10
+=
+N
+1
+=
+N
+δt
+0
+=
+ 
+a
+b
+c
+d
+e
+f
+g
+0.1
+1
+10
+100
+RMS error (millimeters)
+data set
+Collinearity
+SCAAT
+SCAAT †
+Figure 7: RMS error results for simulations of all seven real 
+user motion data sets. The † symbol indicates a second pass 
+through the motion data set, this time using the already 
+autocalibrated beacons.
+a
+b
+c
+d
+e
+f
+g
+0
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+1.4
+1.6
+1.8
+RMS error (millimeters)
+data set
+initial beacon error
+1.73 mm RMS (measured)
+Figure 8: Autocalibration in action. Here we show the ﬁnal 
+beacon position error for runs through each of the seven user 
+motion data sets.
+
+time is spent on overhead including a signiﬁcant amount of
+unoptimized code to choose an LED and to gather results.
+In one experiment we set the HiBall on a ﬂat surface under
+the ceiling beacons and collected several minutes worth of data.
+Given that the platform was relatively stable, we believe that the
+deviation of the estimates provides an indication of the noise in the
+system. Also, because the HiBall was not moving, we were able to
+observe the progressive effects of the autocalibration. The standard
+deviation of the position estimates for the ﬁrst 15 seconds is shown
+in Figure 9. With autocalibration off, the estimates deviate
+approximately 6.0 millimeters in translation and 0.25 degrees in
+orientation (not shown). With autocalibration on, notice in Figure 9
+how the deviation decreases with time, settling at approximately
+0.3 millimeters in translation and 0.01 degrees in orientation (again
+not shown).
+In another experiment we mounted the HiBall on a calibrated
+translation rail of length one meter, and slid (by hand) the HiBall
+from one end to the other and then back again. The disagreement
+between the HiBall and the calibrated position on the rail was less
+than 0.5 millimeters. The deviation of the measured track from co-
+linearity was 0.9 millimeters. Because the tolerances of our simple
+test ﬁxture are of similar magnitude, we are unable to draw
+conclusions about how much of this disagreement should be
+attributed to error in the tracking system.
+5 CONCLUSIONS
+Stepping back from the details of the SCAAT method, we see an
+interesting relationship: Because the method generates estimates
+with individual measurements, it not only avoids the simultaneity
+assumption but it operates faster; by operating faster, it decreases
+the elapsed time since the previous state estimate; the more recent
+the previous estimate, the better the prediction in (12); the better
+the prediction, the more likely we can discriminate bad
+measurements; if we can discriminate bad measurements, we can
+autocalibrate the measurement devices; and if we can calibrate the
+measurement devices, we can improve the individual
+measurements, thus improving predictions, etc. In other words, the
+faster, the better.
+Looking more closely, it is amazing that such a tracker can
+function at all. Consider for example the system presented in
+section 4. Any single beacon sighting offers so few constraints—
+the user could be theoretically anywhere. Similarly, knowledge
+about where the user was a moment ago is only an indicator of
+where the user might be now. But used together, these two sources
+of information can offer more constraints than either alone. With a
+Kalman ﬁlter we can extract the information from the previous
+state and a new (individual) measurement, and blend them to form
+a better estimate than would be possible using either alone.
+The SCAAT method is accurate, stable, fast, and ﬂexible, and
+we believe it can be used to improve the performance of a wide
+variety of commercial and custom tracking systems.
+Acknowledgements
+We would like to thank the tracker team at UNC, in particular
+Vernon Chi, Steve Brumback, Kurtis Keller, Pawan Kumar, and
+Phillip Winston. This work was supported by DARPA/ETO
+contract no. DABT 63-93-C-0048, “Enabling Technologies and
+Application Demonstrations for Synthetic Environments”,
+Principle Investigators Frederick P. Brooks Jr. and Henry Fuchs
+(University of North Carolina at Chapel Hill), and by the National
+Science Foundation Cooperative Agreement no. ASC-8920219:
+“Science and Technology Center for Computer Graphics and
+Scientiﬁc Visualization”, Center Director Andy van Dam (Brown
+University). Principle Investigators Andy van Dam, Al Barr
+(California Institute of Technology), Don Greenberg (Cornell
+University), Henry Fuchs (University of North Carolina at Chapel
+Hill), Rich Riesenfeld (University of Utah).
+References
+[1] C.G. Atkeson and J.M. Hollerbach. 1985. “Kinematic features 
+of unrestrained vertical arm movements,” Journal of Neuroscience, 
+5:2318-2330.
+[2] Ali Azarbayejani and Alex Pentland. June 1995. “Recursive Es-
+timation of Motion, Structure, and Focal Length,” IEEE Trans. Pat-
+tern Analysis and Machine Intelligence, June 1995, 17(6).
+[3] Ronald Azuma and Mark Ward. 1991. “Space-Resection by 
+Collinearity: Mathematics Behind the Optical Ceiling Head-Track-
+er,” UNC Chapel Hill Department of Computer Science technical 
+report TR 91-048 (November 1991).
+[4] Ronald Azuma and Gary Bishop. 1994. “Improving Static and 
+Dynamic Registration in an Optical See-Through HMD,” SIG-
+GRAPH 94 Conference Proceedings, Annual Conference Series, 
+pp. 197-204, ACM SIGGRAPH, Addison Wesley, July 1994. ISBN 
+0-201-60795-6
+[5] Ronald Azuma. 1995. “Predictive Tracking for Augmented Re-
+ality,” Ph.D. dissertation, University of North Carolina at Chapel 
+Hill, TR95-007.
+[6] Ted J. Broida and Rama Chellappa. 1986. “Estimation of object 
+motion parameters from noisy images,” IEEE Trans. Pattern Anal-
+ysis and Machine Intelligence, January 1986, 8(1), pp. 90-99.
+[7] R. G. Brown and P. Y. C. Hwang. 1992. Introduction to Random 
+Signals and Applied Kalman Filtering, 2nd Edition, John Wiley & 
+Sons, Inc.
+[8] Vernon L. Chi. 1995. “Noise Model and Performance Analysis 
+of Outward-looking Optical Trackers Using Lateral Effect Photo 
+Diodes,” University of North Carolina, Department of Computer 
+Science, TR 95-012 (April 3, 1995)
+[9] Jack C.K. Chou. 1992. “Quaternion Kinematic and Dynamic 
+Differential Equations,” IEEE Transactions on Robotics and Auto-
+mation, Vol. 8, No. 1, pp. 53-64.
+[10] J. L. Crowley and Y. Demazeau. 1993. “Principles and Tech-
+niques for Sensor Data Fusion,” Signal Processing (EURASIP) Vol. 
+32. pp. 5-27.
+[11] J. J. Deyst and C. F. Price. 1968. “Conditions for Asymptotic 
+Stability of the Discrete Minimum-Variance Linear Estimator,” 
+IEEE Transactions on Automatic Control, December, 1968.
+ 
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+0
+2
+4
+6
+8
+10
+12
+14
+deviation (millimeters)
+time (seconds)
+autocalib OFF
+autocalib ON
+Figure 9: SCAAT position (only) estimate deviation for a Hiball 
+sitting still on a ﬂat surface, with and without autocalibration.
+
+[12] S. Emura and S. Tachi. 1994. “Sensor Fusion based Measure-
+ment of Human Head Motion,” Proceedings 3rd IEEE Internation-
+al Workshop on Robot and Human Communication, RO-MAN’94 
+NAGOYA (Nagoya University, Nagoya, Japan).
+[13] P. Fischer, R. Daniel and K. Siva. 1990. “Speciﬁcation and De-
+sign of Input Devices for Teleoperation,” Proceedings of the IEEE 
+Conference on Robotics and Automation (Cincinnati, OH), pp. 540-
+545.
+[14] Eric Foxlin. 1993. “Inertial Head Tracking,” Master’s Thesis, 
+Electrical Engineering and Computer Science, Massachusetts Insti-
+tute of Technology.
+[15] M. Friedman, T. Starner, and A. Pentland. 1992. “Synchroni-
+zation in Virtual Realities,” Presence: Teleoperators and Virtual 
+Environments, 1:139-144.
+[16] S. Ganapathy. November 1984. “Camera Location Determina-
+tion Problem,” AT&T Bell Laboratories Technical Memorandum, 
+11358-841102-20-TM.
+[17] G. J. Geier, P. V. W. Loomis and A. Cabak. 1987. “Guidance 
+Simulation and Test Support for Differential GPS (Global Position-
+ing System) Flight Experiment,” National Aeronautics and Space 
+Administration (Washington, DC) NAS 1.26:177471.
+[18] A. Gelb. 1974. Applied Optimal Estimation, MIT Press, Cam-
+bridge, MA.
+[19] Stefan Gottschalk and John F. Hughes. 1993. “Autocalibration 
+for Virtual Environments Tracking Hardware,” Proceedings of 
+ACM SIGGRAPH 93 (Anaheim, CA, 1993), Computer Graphics, 
+Annual Conference Series.
+[20] A Robert De Saint Vincent Grandjean. 1989. “3-D Modeling of 
+Indoor Scenes by Fusion of Noisy Range and Stereo Data,” IEEE 
+International Conference on Robotics and Automation (Scottsdale, 
+AZ), 2:681-687.
+[21] F. C. Ham and R. G. Brown. 1983. “Observability, Eigenval-
+ues, and Kalman Filtering,” IEEE Transactions on Aerospace and 
+Electronic Systems, Vol. AES-19, No. 2, pp. 269-273.
+[22] R. Held and N. Durlach. 1987. Telepresence, Time Delay, and 
+Adaptation. NASA Conference Publication 10023.
+[23] Richard L. Holloway. 1995. “Registration Errors in Augment-
+ed Reality Systems,” Ph.D. dissertation, The University of North 
+Carolina at Chapel Hill, TR95-016.
+[24] O. L. R. Jacobs. 1993. Introduction to Control Theory, 2nd 
+Edition. Oxford University Press.
+[25] Roy S. Kalawsky. 1993. The Science of Virtual Reality and Vir-
+tual Environments, Addison-Wesley Publishers.
+[26] R. E. Kalman. 1960. “A New Approach to Linear Filtering and 
+Prediction Problems,” Transaction of the ASME—Journal of Basic 
+Engineering, pp. 35-45 (March 1960).
+[27] J. B. Kuipers. 1980 “SPASYN—An Electromagnetic Relative 
+Position and Orientation Tracking System,” IEEE Transactions on 
+Instrumentation and Measurement, Vol. IM-29, No. 4, pp. 462-466.
+[28] Richard Lewis. 1986. Optimal Estimation with an Introduction 
+to Stochastic Control Theory, John Wiley & Sons, Inc.
+[29] J. Liang, C. Shaw and M. Green. 1991. “On Temporal-spatial 
+Realism in the Virtual Reality Environment,” Fourth Annual Sym-
+posium on User Interface Software and Technology, pp. 19-25.
+[30] R. Mahmoud, O. Loffeld and K. Hartmann. 1994. “Multisen-
+sor Data Fusion for Automated Guided Vehicles,” Proceedings of 
+SPIE - The International Society for Optical Engineering, Vol. 
+2247, pp. 85-96.
+[31] Peter S. Maybeck. 1979. Stochastic Models, Estimation, and 
+Control, Volume 1, Academic Press, Inc.
+[32] Thomas Mazuryk and Michael Gervautz. 1995. “Two-Step 
+Prediction and Image Deﬂection for Exact Head Tracking in Virtual 
+Environments,” EUROGRAPHICS ‘95, Vol. 14, No. 3, pp. 30-41.
+[33] K. Meyer, H. Applewhite and F. Biocca. 1992. A Survey of 
+Position Trackers. Presence, a publication of the Center for Re-
+search in Journalism and Mass Communication, The University of 
+North Carolina at Chapel Hill.
+[34] Mark Mine. 1993. “Characterization of End-to-End Delays in 
+Head-Mounted Display Systems,” The University of North Caroli-
+na at Chapel Hill, TR93-001.
+[35] National Research Council. 1994. “Virtual Reality, Scientiﬁc 
+and Technological Challenges,” National Academy Press (Wash-
+ington, DC).
+[36] P.D. Neilson. 1972. “Speed of Response or Bandwidth of Vol-
+untary System Controlling Elbow Position in Intact Man,” Medical 
+and Biological Engineering, 10:450-459.
+[37] F. H. Raab, E. B. Blood, T. O. Steiner, and H. R. Jones. 1979. 
+“Magnetic Position and Orientation Tracking System,” IEEE 
+Transactions on Aerospace and Electronic Systems, Vol. AES-15, 
+709-718.
+[38] Selspot Technical Speciﬁcations, Selcom Laser Measure-
+ments, obtained from Innovision Systems, Inc. (Warren, MI).
+[39] Richard H. Y. So and Michael J. Grifﬁn. July-August 1992. 
+“Compensating Lags in Head-Coupled Displays Using Head Posi-
+tion Prediction and Image Deﬂection,” AIAA Journal of Aircraft, 
+Vol. 29, No. 6, pp. 1064-1068
+[40] H. W. Sorenson. 1970. “Least-Squares estimation: from Gauss 
+to Kalman,” IEEE Spectrum, Vol. 7, pp. 63-68, July 1970.
+[41] Andrei State, Gentaro Hirota, David T. Chen, Bill Garrett, 
+Mark Livingston. 1996. “Superior Augmented Reality Registration 
+by Integrating Landmark Tracking and Magnetic Tracking,” SIG-
+GRAPH 96 Conference Proceedings, Annual Conference Series, 
+ACM SIGGRAPH, Addison Wesley, August 1996.
+[42] J. V. L. Van Pabst and Paul F. C. Krekel. “Multi Sensor Data 
+Fusion of Points, Line Segments and Surface Segments in 3D 
+Space,” TNO Physics and Electronics Laboratory, The Hague, The 
+Netherlands. [cited 19 November 1995]. Available from http://
+www.bart.nl/~lawick/index.html.
+[43] J. Wang, R. Azuma, G. Bishop, V. Chi, J. Eyles, and H. Fuchs. 
+1990. “Tracking a head-mounted display in a room-sized environ-
+ment with head-mounted cameras,” Proceeding: SPIE'90 Technical 
+Symposium on Optical Engineering & Photonics in Aerospace 
+Sensing (Orlando, FL).
+[44] Mark Ward, Ronald Azuma, Robert Bennett, Stefan 
+Gottschalk, and Henry Fuchs. 1992. “A Demonstrated Optical 
+Tracker With Scalable Work Area for Head-Mounted Display Sys-
+tems,” Proceedings of 1992 Symposium on Interactive 3D Graphics 
+(Cambridge, MA, 29 March - 1 April 1992), pp. 43-52.
+[45] Wefald, K.M., and McClary, C.R. “Autocalibration of a laser 
+gyro strapdown inertial reference/navigation system,” IEEE PLANS 
+'84. Position Location and Navigation Symposium Record.
+[46] Greg Welch and Gary Bishop. 1995. “An Introduction to the 
+Kalman Filter,” University of North Carolina, Department of Com-
+puter Science, TR 95-041.
+[47] Greg Welch, 1996. “SCAAT: Incremental Tracking with In-
+complete Information,” University of North Carolina at Chapel 
+Hill, doctoral dissertation, TR 96-051.
+[48] H. J. Woltring. 1974. “New possibilities for human motion 
+studies by real-time light spot position measurement,” Bioteleme-
+try, Vol. 1.

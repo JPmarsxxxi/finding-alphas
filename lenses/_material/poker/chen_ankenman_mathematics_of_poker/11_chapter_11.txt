@@ -1,0 +1,722 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         110 
+ 
+Chapter 11 
+One Side of the Street: Half-Street Games 
+ 
+We begin our investigations into poker toy games by considering a class of simplified games, 
+which we call half-street games. Half-street games have the following characteristics: 
+ 
+• The first player (conventionally called X) checks in the dark.  
+• The second player (conventionally called Y) then has the option to either check or may 
+bet some amount according to the rules of the game. 
+• If Y bets, X always has the option to call, in which case there is a showdown, and may 
+additionally have the option to fold (but not raise). If Y checks, there is a showdown.  
+ 
+We will make reference to the value of the game. This is the expectation for the second player, 
+Y, assuming both sides play optimally. We will also only consider money that changes hands as 
+a result of the betting in our game. This value is the ex-showdown value. This can include bets 
+and calls that X and Y make on the streets of our game. It can also include the swing of a pot that 
+moves from one player to the other as the result of a successful bluff. 
+ 
+The reason that we use ex-showdown value in studying these games is that we're not particularly 
+concerned with the value to the player of action that occurred before our game. We're trying to 
+capture the value of the betting that takes place on the half-street we are examining. The fact that 
+the pot is five or ten or eighteen bets isn't important except as it relates to the way that the action 
+plays in our game. We should also note that Y can't have a negative value in a half-street game, 
+since he can simply check behind and achieve a value of zero. 
+ 
+Half-street toy games have at least one feature that is exceptionally valuable; we can solve them 
+- in fact, we can solve just about any half-street game - as the complexity remains manageable 
+throughout. As we will see, multi-street games often turn out to be intractable, or we can only 
+obtain approximate answers. Being able to solve a game is of great benefit, as we can use the 
+solution to gain insight into more difficult problems. 
+ 
+The first game we consider is a quite simple game involving a concept called clairvoyance -
+throughout Part III, players will be referred to as partially clairvoyant if they can see their 
+opponents' cards (but not cards to come, if there are any), and simply clairvoyant if they can see 
+both then opponent's cards and the cards to come. In this example, there are no cards to come, so 
+either definition serves. 
+ 
+Example 11.1 - The Clairvoyance Game 
+One half-street.  
+Pot size of P bets.  
+Limit betting.  
+Y is clairvoyant. 
+ 
+Y's concealed hand is drawn randomly from a distribution that is one-half hands that b cat X's 
+hand and one-half hands that do not. 
+ 
+In this game, X and Y each have only one decision to make. This is a common element of all 
+limit half-street games; Y must decide on a range of hands to bet, while X must decide on a 
+range of hands with which to call. X's "range" in this game is going to consist of all the same 
+hand, since he is only dealt one hand. This doesn't pose a problem, however - betting and calling 
+distributions can just as easily contain mixed strategies with particular hands as they can pure 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         111 
+ 
+strategies. 
+We can immediately see that Y has the informational advantage in this game; he can value bet all 
+his winning hands (call these hands the nuts) and bluff some of his losing hands (call these dead 
+hands) with perfect accuracy. 
+ 
+The ex-showdown payoff matrix for this game is as follows: 
+ 
+ 
+Player X 
+Check-Call 
+Check-Fold 
+Player Y 
+ 
+ 
+ 
+Nuts 
+Bet 
++1 
+0 
+Check 
+0 
+0 
+Bluff 
+Bet 
+-1 
++P 
+Check 
+0 
+0 
+ 
+In finding the optimal strategies for this game, we should keep in mind some of the principles 
+from the last chapter. First, we should consider pure strategies. Presume that Y value bets all his 
+strong hands but checks all his weak ones. Then X can exploit him by folding all the time. If X 
+does this, however, Y can switch to betting all his hands (value bets and bluffs). If Y does that, X 
+switches to calling all the time, in which case Y can exploit him by value betting all his strong 
+hands and checking weak ones. 
+ 
+So we have the familiar pattern of oscillating pure strategies; this indicates that the optimal 
+strategies will be mixed. There are two strategy choices - one for X (how often to call a bet from 
+Y), and one for Y (how often to bluff). Y should always bet his nut hands because this option 
+dominates checking. X will call with some fraction of his hands. We will call this fraction c. 
+Likewise. Y will bluff with some fraction of his dead hands. We will call this fraction b. If we 
+find values for b and c, then we will have the optimal strategies for the game. 
+ 
+We can consider each of these decisions in turn. 
+ 
+First we consider how often X must call. When X plays his optimal strategy, Y will be 
+indifferent to bluffing (that is, checking and bluffing his dead hands will have the same 
+expectation). When bluffing, Y wins p bets by bluffing successfully (if X folds) and loses one 
+bet when X calls. Recalling that c is the calling frequency, and 1 - c is the frequency that X folds, 
+we have: 
+ 
+(pot size) (frequency X folds) = (bluff bet)(frequency X calls)  
+P(1 - c) = c 
+c = P/(P+1) 
+ 
+Notice that as the pot size grows, the calling ratio grows. This is in some sense an extension of 
+the pot odds principle; the more there is in the pot, the more often X must call to keep Y from 
+bluffing. 
+ 
+Y, likewise, must bluff often enough to make X indifferent to calling or folding. When calling, X 
+loses 1 bet by calling a value bet, and gains P + 1 bets by calling a bluff. If b is the ratio of bluffs 
+to bets, then we have: 
+ 
+1 = (P+ 1)b  
+b = 1/(P+ 1) 
+ 
+This value 1/(P+ 1) is an extremely important value in analyzing poker. It is so important that we 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         112 
+ 
+assign it its own Greek letter, α (alpha). 
+α = 1/(P+ 1)  (limit cases)  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(11.1) 
+ 
+α represents two things in this game. First, X must call enough to make Y indifferent to bluffing 
+and checking his weak hands. X's calling frequency is P/(P+1), or 1 - α. Therefore α is X's 
+folding frequency when faced with a bet from Y. In addition, Y bluffs with α of his dead hands. 
+Since he will bet with 100% of his nut hands, this makes α equal to the ratio of bluffs to value 
+bets to keep the opponent indifferent between betting and calling. 
+ 
+Likewise, the ratio 1 - α is of some interest: 
+ 
+1 – α = 1 - 1/(P+1)  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(11.2)  
+1 – α = P/(P + 1) 
+ (limit cases) 
+ 
+Even though we have only introduced cases with limit betting, we can generalize the expression 
+of α to include games with different bet sizes: 
+ 
+For games with variable bet sizes: 
+ 
+α = s/(1 + s) (variable bet sizes) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(11.3) 
+ 
+where s is the bet size in pots. (For example, betting $50 into a $100 pot makes s = 1 2
+  ) 
+ 
+Notice that here, as the pot size grows, α, the bluffing ratio becomes smaller: that is. Y bluffs less 
+often into larger pots. This may seem counter-intuitive to you as there is more to gain by 
+successfully bluffing into a large pot, but this is an important principle of optimal play: 
+ 
+Bluffing in optimal poker play is often not a profitable play in and of itself. Instead, the 
+combination of bluffing and value betting is designed to ensure the optimal strategy gains value 
+no matter how the opponent responds. Opponents who fold too often surrender value to bluffs 
+while opponents who call too often surrender value to value bets. 
+ 
+We can now state that the optimal strategies for this game are: 
+ 
+Solution: 
+ 
+Y bets all his nut hands and bluffs α of his dead hands, or α/2 of his total hands.  
+X calls with 1 - α of his hands total. 
+ 
+ 
+The ex-showdown expectation of the game to Y is as follows. He wins 1 bet when he value bets 
+and gets called. Recall that he holds half nut hands and half dead hands; hence, his value betting 
+frequency will be 1 2
+ . He wins the entire pot when he bluffs successfully, and loses 1 bet when 
+he bluffs and gets called. We know that X will call frequently enough to make him indifferent to 
+bluffing. His EV from bluffing is therefore zero and his expectation from the game is: 
+ 
+<Y> = (frequency of value betting) (one bet) (frequency of getting called) 
+<Y> = (1 2
+ )(P/(P+ 1)) 
+<Y> = P/2(P+ 1) 
+ 
+Notice that as the pot grows. X's disadvantage grows; he must pay off the second player's value 
+bets more and more often, and the number of bluffs that Y is required to make in order to keep X 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         113 
+ 
+calling is smaller and smaller. Also note that Y cannot have expectation of a half bet, no matter 
+how large the pot is - this is because Y would have to be called all the time when he value bet to 
+have such a value. 
+ 
+The important features of the clairvoyance game are the existence of betting to bluffing and 
+calling ratios, their dependence on the pot size, and the idea that Y's ability to bet is worth more 
+as the pot grows. Changing the size of the pot and seeing how it affects strategy is a useful tool 
+in understanding poker. We can even examine what happens when we make the pot extremely 
+large, such that neither player will fold any hand with any value at all. 
+ 
+The [0,1] Distribution 
+We introduce here for the first time the [0,1] distribution. Throughout Part III, we discuss 
+various games using this distribution. In [0,1] games, instead of discrete cards, both players are 
+"dealt" a uniformly random real number between 0 and 1. This means that each player has an 
+equal chance of being dealt any number between 0 and 1. These numbers function for these 
+players as poker hands. The convention that we use is that if there is a showdown, then the 
+lowest hand wins (this simplifies calculations). That means that 0 and numbers approaching it 
+are the strongest hands, while 1 and numbers approaching it are the weakest. 
+ 
+Strategies for this type of game have a different structure than the strategy for the clairvoyant 
+game. The primary way in which they are different is that in most cases, mixing is not strictly 
+required. Since there are an infinite number of different hands, mixing on any particular hand is 
+irrelevant, and for any interval, we can play more effectively with pure strategies, separated by a 
+threshold. These are points along the [0,1] continuum that mark the boundaries between one 
+action and another, 
+ 
+When solving [0,1] games, we will often employ the following technique: 
+ 
+1) Guess at the structure of the solution, 
+2) Solve the game as if the guessed structure were the correct one, 
+3) Verify that our guess was correct by showing that neither player can improve his or her 
+strategy unilaterally. 
+ 
+We use the term parameterization to refer to a guess at the structure of the solution of a game. 
+For example, one possible solution to a hypothetical [0,1] game might involve a player Y betting 
+his best hands between 0 and y1, checking his intermediate hands between y1 and y0, and betting 
+his worst hands between y0 and 1. A different parameterization might be that Y bets his 
+intermediate strength hands while checking his best and worst hands. Many structures of a 
+solution are possible; if we guess at a parameterization, we can then solve the game for that 
+parameterization only. 
+ 
+Once we have identified a parameterization, we will find the optimal solution for that particular 
+parameterization. We generate equations based on principles of being indifferent at all the 
+thresholds. Instead of the indifference for hands that utilize mixed strategies (as we saw before), 
+we find that at the thresholds between one action and the next, the player will be indifferent. 
+ 
+It may not be obvious why this is true; here is an intuitive argument. First, we know that as we 
+move very small distances along the line (from one hand to a very slightly stronger hand) that  
+our showdown equities are continuous - that is, the showdown equity of one hand is very close to 
+the showdown equity of its close neighbors. If this is true, then the value of playing hands must 
+be continuous also, since a hand's value will be composed of its equity when there's a showdown 
+plus its equity when there is no showdown (which is constant). For example, the  value of check-
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         114 
+ 
+calling with the hand 0.6 should be very close to the value of check-calling with the hand 
+0.60001. Now consider the threshold value. Suppose the equity of one option at the threshold is 
+higher than the equity of the other option. Then in the region of the lower-valued option, we can 
+find a very small region very close to the threshold where we could switch from the lower-
+valued threshold to the higher-valued one and gain equity. If we can do this, the strategy isn't 
+optimal. Hence optimal strategies are indifferent at the thresholds. 
+ 
+In most of our parameterizations, there are a fixed number of thresholds (between different 
+strategies). For each threshold, we write an equation that relates the strategy elements that force 
+that threshold to be indifferent. We call these indifference equations. By solving these systems 
+of equations, we can solve for each of the threshold values and find the optimal strategy for a 
+given parameterization. 
+ 
+In some cases, a better strategy can be found that utilizes a different parameterization. Often, if 
+we try to solve the equations generated from a particular parameterization that is incorrect, we 
+encounter inconsistencies (impossible thresholds, for example). Therefore, it is necessary for us 
+to confirm the strategies after solving for the solution to a particular parameterization in order to 
+show that it is indeed the best one. 
+ 
+Example 11.2 - [0,1] Game #1 
+This very simple game consists of a single half-street of betting with no folding allowed, where 
+player X is forced to check and must call Y's bet, if Y chooses to bet. For this type of game 
+(where no folding is allowed) the pot size is irrelevant. 
+ 
+X has no decisions to make. Y's strategy consists of a single decision - to bet or not to bet? Y 
+knows X's response will be to call any bets, so Y can simply bet all hands that have positive or 
+zero expectation and check all hands with negative expectation. 
+ 
+We will frequently create tables such as the follow to show various types of outcomes as we 
+have done at other points in the text. 
+ 
+Y's EV of betting a hand of value y is: 
+ 
+X’s band  
+Result 
+[0, y] 
+1 (Y bets and X calls with a better hand) 
+[y, 1] 
++1 (Y bets and X calls with a worse hand) 
+ 
+Recall that X's chance of having any hand is uniformly distributed, so the probability of each line 
+of the table is equal to the size of the interval on which X holds that hand. 
+ 
+<Y, bet > = p(X has a better hand)(-l) + p(X has a worse hand)(+l)  
+<Y, bet > = (y – 0)(-l) + (l – y)(l)  
+<Y, bet > = 1 – 2y 
+ 
+Now we find all the hands where Y's EV is greater than 0:  
+ 
+1 - 2y > = 0 
+Y < = 1 2
+  
+ 
+So Y should bet the best half of his hands; X is forced to call. When X has a hand in the range 
+[0, 1 2
+ ] Y breaks even overall, and when X has a hand in [1 2
+ ,1], Y gains 1 bet. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         115 
+ 
+Half the time, Y bets, and half that time, he gains a bet, making his overall equity from this game 
+1 4
+ . 
+ 
+The no-folding game is a very simple one, but it introduces the idea of [0,1] games, as well as 
+illustrating some key principles. The first of these principles is that if the opponent has no 
+decisions to make, simply maximizing expectation against his static strategy is optimal. The 
+second is that if you hold a distribution similar to your opponent's, you cannot be raised, and 
+your opponent must always call, you should bet half your hands. We will see this in all types of 
+cases where there is no more betting. 
+ 
+Example 11.3 - [0,1] Game #2 
+In the preceding example, we made a special rule that does not normally apply to poker 
+situations - that no folding was allowed. We found that in this "no fold" game there was no 
+bluffing - the betting region for Y was simply his top half of hands by value. Poker is often 
+perceived to be fundamentally a game of bluffing, and so we turn our attention to games where 
+one or the other player may fold. 
+ 
+[0.1] Game #2 is identical to Game #1 (Example 11.2), except that instead of being forced to 
+call, X may instead fold. It is in this case that the pot size again becomes relevant, as X's decision 
+about whether to call depends on the value he stands to gain by calling. We use the convention 
+(as we generally will in limit poker) of calling the pot size P and the size of the bet 1 unit. 
+ 
+In Game #1, we expressed Y's strategy as a single threshold; however, as games become more 
+complex, we will have multiple thresholds to consider. We will assign these values to variables 
+in a consistent way: 
+ 
+• xn as the threshold between strategies which put in the nth bet and strategies which only 
+put in the (n - l)th bet for value. (When more bets and check-raising are allowed, we will 
+see that the threshold x2, for example, is a threshold between checking and betting 
+X-Actions 
+Y-Actions 
+Figure 11.1 Game #1--Half Street, no fold 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         116 
+ 
+initially.) 
+• 
+X0 as a specific threshold (the threshold between bluffing and checking).  
+• Xn* as the threshold between calling the nth bet and folding to it. 
+ 
+By the first of these rules, the Game #1 strategy for y would be expressed as y1, since Y is betting 
+hands above that for value. There is no y0 value, or perhaps it can be thought of as being at 1. 
+Since X was forced to call all the time, x1* was also 1. 
+ 
+In Game #2, X actually has a strategy, and it is made up of a single threshold value x1*, which 
+separates the region where X calls from the region where X folds to a bet from Y. The calling 
+region for X will be an interval [0, x1*], and the folding region an interval [x1*, 1]. 
+ 
+We can show that Y plays a strategy that includes some bluffs as follows: 
+ 
+If X and Y are playing optimally, x1* will be chosen such that it maximizes expectation against 
+Y’s strategy. Let's see what happens if Y uses a strategy similar to his strategy from Game #1 -
+using a betting region from 0 to some threshold y1 and a checking region from y1  to 1. 
+ 
+X's best response is to call with hands that have positive equity against Y's betting range. X's 
+calling threshold x1* will then be chosen so that X's equity is positive. 
+ 
+X's equity is determined by his calling threshold. If he calls at x, he will beat Y's hand and win 
+the pot when Y is between y1 and x1*, and lose a bet when Y is between 0 and x1*. So his overall 
+equity is: 
+ 
+<X> = (pot value when he wins)(chance of winning) - (one bet) (chance of losing)  
+<X> = (P+1)(y1 – x1*) – 1(x1*) 
+ 
+ 
+When this is positive, he will call. 
+ 
+(P+1)(y1 – x1*) – 1(x1*) > 0 
+(P+1)(y1) – (P+2) x1* > 0 
+x1* > y1 (P+1)/(P+2) 
+ 
+So X would call with a fraction of Y's betting hands, such that the ratio of Y's bets to X's calls 
+would be (P+ l)/(P+2), 
+ 
+Intuitively, this makes sense. Let's say that the pot is 1, so the bet is pot-sized. Then X would 
+need to have a 1 3 
+ chance of having the best hand in order to call. The threshold such that he 
+would have such a chance is 2 3 
+  of the way from 0 to y1. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         117 
+ 
+ 
+X-Actions  
+ 
+Y-Actions  
+Figure 11.2. Anon-optimal strategy for Y in [0,1] Game#2 
+ 
+However, if X played this way, Y could unilaterally improve his equity by checking hands from 
+x1 to y1 and instead bluffing an equal amount of hands near 1. By doing this, he improves the 
+equity of those bluffs because X will more often fold the winning hand against those bluffs than 
+against the hands on x1, y1. 
+ 
+Since Y can unilaterally improve his equity by changing his strategy, then his strategy cannot be 
+optimal. But the assumption that led to this was that Y's strategy was optimal. So something 
+must be wrong with our assumption that Y should only value bet. Y must have a bluffing region. 
+ 
+We can parameterize Y's strategy as follows: 
+ 
+Y bets in a region of strong hands from 0 to some threshold y1. 
+Y checks in an intermediate region from y1 to some threshold y0. 
+Y bets weak hands in a region from y0 to 1. 
+We also guess for this parameterization that x1* lies to the right of y1. 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         118 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 11.3. Optimal strategy for [0,1] Game #2 
+ 
+We know that if X and Y are playing optimal strategies, then at x1*, X will be indifferent 
+between calling and folding. 
+ 
+The indifference at x1* (X indifferent between calling and folding): 
+ 
+Y's hand 
+p(Y’s hand) 
+<X, call> 
+Product 
+<X, fold> 
+Product 
+[0, y1] 
+y1 
+-1 
+- y1 
+0 
+0 
+[y0,1] 
+1 - y0 
+P + 1 
+(P + 1)(1 – y0) 
+0 
+0 
+Total 
+ 
+ 
+- y1 + (P + 1)(1 – y0) 
+ 
+0 
+ 
+Note that we omit Y's hands on [y1, y0] as with those hands he has not bet and so we are not 
+faced with this decision. The sums of the "Product" columns must then be equal - these are the 
+weighted average equities across all of Y's hands. 
+ 
+- y1 + (P + 1)(1 – y0) = 0 
+y1 = (P + 1)(1 – y0) 
+1 – y0 = y1 (1/(P + 1)) 
+ 
+1 – y0 = αy1 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(11.4) 
+ 
+In our parameterization, 1 – y0 represents the length of the interval of bluffing hands, just as y1 
+represents the number of hands that will be value bet. The relationship between these two 
+quantities is the same as it was in the clairvoyant game - the betting to bluffing ratio is still α. 
+ 
+We can then look at the indifference at the Y's two thresholds. 
+ 
+The indifference at y1 (Y indifferent between betting and checking): 
+ 
+X's hand 
+p(X’s hand) 
+<Y, bet> 
+Product 
+<Y, check> 
+Product 
+[0, y1] 
+y1 
+-1 
+- y1 
+0 
+0 
+[y1, x1*] 
+x1* - y1 
++ 1 
+x1* - y1 
+0 
+0 
+[x1*, 1] 
+1 - x1* 
+0 
+0 
+0 
+0 
+Total 
+ 
+ 
+x1* - 2y1 
+ 
+0 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         119 
+ 
+Setting the expected values equal:  
+ 
+x1* - 2y1 = 0 
+ 
+y1 = x1* / 2 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(11.5) 
+ 
+The indifference at y0 (Y indifferent between betting and checking): 
+ 
+X's hand 
+p(X’s hand) 
+<Y, bet> 
+Product 
+<Y, check>
+Product 
+[0, x1*] 
+x1* 
+-1 
+- x1 
+0 
+0 
+[x1*, y0] 
+y0 - x1* 
++ P 
+(y0 - x1*)P 
+0 
+0 
+[y0, 1] 
+1 - x1* 
+0 
+0 
+0 
+0 
+Total 
+ 
+ 
+Py0 – (P + 1) x1* 
+ 
+0 
+ 
+Py0 – (P + 1) x1* = 0 
+ 
+Recalling from Equation 11.3 that 1 – y0 = αy1, we have: 
+ 
+P(1 –  αy1) = (P + 1) x1* 
+x1* = P/(P+1) (1 –  αy1)  
+ 
+Remembering that (1 - α) = P/(P + 1), we have: 
+ 
+x1* = (1 - α) (1 – αy1)  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(11.6) 
+ 
+This result is of equal importance as it determines the calling ratio in continuous cases. To make 
+Y indifferent to bluffing at y0, X must call with a fraction of his hands that can beat a bluff equal 
+to P/(P + 1), or (1 - α). Alternatively, we can say that X can fold α of his hands that can beat a 
+bluff and that will make Y indifferent to bluffing. 
+ 
+Combining the three indifference equations, we can find a solution to the game.  
+ 
+x1* = (1 - α) (1 – αy1)  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(11.6) 
+ 
+y1 = x1* / 2 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(11.5) 
+ 
+x1* = 2y1 
+2y1 = (1 – αy1) (1 - α) 
+2y1 =  1 – αy1 – α + α2y1 
+1 - α = 2y1 + αy1 - α2y1 
+1 - α = y1(2 - α)(α + 1) 
+y1 = (1 - α) / (2 - α)(α + 1) 
+ 
+Since x1* = 2y1: 
+ 
+x1* = 2 (1 - α) / (2 - α)(α + 1) 
+1 – y0 = αy1 
+1 – y0 = α (1 - α) / (2 - α)(α + 1) 
+ 
+This game was one of the games solved by John von Neumann and Oskar Morganstern in their 
+seminal work Gam Theory and Economic Behavior (1944). 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         120 
+ 
+We see in this game a number of important points. First, we see that X's ability to fold or call 
+changes the basic structure of Y's strategy. In Game #1, Y simply bet his best hands for value. 
+However, in Game #2, if Y employs such a strategy, X simply folds all his weaker hands, and Y 
+never makes any money. Y's response is to begin to bluff his weakest hands, forcing X to call 
+with hands between Y's value bets and Y's bluffs in order to keep Y from bluffing. 
+ 
+In this game, we also see α play a prominent role. Just as in the clairvoyant game, X folds α of 
+his hands that can beat a bluff, making Y indifferent to bluffing, and Y makes his ratio of bluffs 
+to bets α to make X indifferent to calling with hands between y1 and y0. 
+ 
+A third important idea here is the following. What is the value of bluffing? In the clairvoyant 
+game, the answer was zero; if Y checked, he simply lost the pot. In this game, however, the 
+answer is not quite so simple. At y0, Y is indifferent between bluffing and checking - that is, the 
+situation is the same as the clairvoyant game (from an ex-showdown perspective). But at, for 
+example, 1, Y's equity from bluffing is the same as his equity at y0 (since X will only call with 
+hands above x1*). So Y is not indifferent to bluffing at 1 - in fact, for all the hands he bluffs 
+which are worse than y0, he increases his equity by doing so! 
+ 
+In this chapter, we presented two very simple half-street games and a third that was more 
+complex. In the clairvoyant game, we saw that the clairvoyant player bluffs and value bets hi a 
+precise ratio optimally, while the player whose hand is exposed calls and folds hi a related ratio 
+to make the clairvoyant player indifferent to bluffing. In [0.1] Game #1, we introduced the [0,1] 
+distribution and saw that when one player has no strategic options, the other player simply 
+maximizes his equity. In [0,1] Game #2, we saw a similar pattern of betting best hands and 
+bluffing worst hands, and we saw the effect that bluffs have on the calling threshold, forcing X to 
+call with hands worse than Y's worst value bet. 
+ 
+Key Concepts 
+• Value betting and bluffing in optimal strategies are directly related to each other in half-
+street games by the ratio α = 1(P+ 1). By bluffing in this ratio, the bettor makes the caller 
+indifferent to calling. 
+• α is also the proper folding ratio for X in half-street games. By folding this ratio, the 
+caller makes the bettor indifferent to bluffing. 
+• When one player has no strategic options, the other player should simply maximize his 
+expectation. 
+• Balancing value bets with bluffs properly ensures that a player extracts value from the 
+opponent no matter how the opponent plays; if he folds too often, the bettor gains on his 
+bluffs, and if he calls to often, the bettor gains on his value bets. 
+• Optimal strategies are not always indifferent to bluffing; only the threshold hands are 
+truly indifferent. Often the weakest bluffs have positive value (compared to checking). 
+ 
+ 

@@ -1,0 +1,264 @@
+order chaotic system on a computer, we ﬁrst truncate the
+system  so  it  is  a  low-order  chaotic  system  and  then  add
+noise to represent the scales of motion (the tiny whirls) that
+have been excised by the truncation.
+The  consequences  of  using  noise  to  model  high-order
+chaotic systems extend well beyond weather prediction, as
+we will see.
+«  »
+IF WE SAY THAT noise is created by random numbers, then
+this raises the question: What are random numbers? That’s
+a diﬀicult question to answer. It’s easier to say what
+randomness isn’t. The sequence of numbers (0, 1, 2, 3, 4,
+5… ) is not random because there is an obvious pattern to
+the sequence: the next number is one more than the last.
+So,  certainly,  a  sequence  of  random  numbers  should  not
+exhibit any pattern like this.
+In  computer  science,  we  create  random  numbers  using
+“pseudorandom-number  generators”,  or  PRNGs  for  short.
+PRNGs  are  in  fact  deterministic  pieces  of  computer  code
+that  produce  sequences  of  numbers  without  any  obvious
+patterns.  Now,  this  might  seem  like  a  contradiction  in
+terms: 
+How 
+can 
+you 
+generate 
+randomness 
+from
+determinism? Indeed, it is a contradiction, and the
+contradiction  has  consequences.  A  computationally  cheap
+PRNG  will  spit  out  numbers  that  may  superﬁcially  look
+random, but when analysed in more detail will reveal
+patterns.  Worst  of  all,  the  numbers  from  a  PRNG  will
+eventually start to repeat themselves, a sure-ﬁre guarantee
+that the PRNG isn’t truly random. The cure is to increase
+the complexity of the computer code for the PRNG.
+However, if we keep increasing the complexity of the
+PRNG, it will eventually be as computationally expensive to
+
+run as representing the butterﬂies that we truncated away
+in the ﬁrst place! We therefore have to make a judgement.
+We  need  a  PRNG  that  is  suﬀiciently  complex  to  emulate
+randomness  well  enough,  but  still  computationally  cheap
+compared  with  simulating  the  processes  the  randomness
+represents.
+However, there may be a fascinating alternative to
+PRNGs in future-generation computers: using noise created
+directly by the computer hardware. For example, as
+mentioned in the introduction, if we turn the voltage down
+across  a  transistor  in  a  computer,  it  will  start  to  become
+rather  “noisy”  in  the  way  it  operates.  The  transistor  will
+become sensitive to the seemingly random motion of atoms
+and molecules associated with their thermal energy.
+Indeed,  as  discussed,  if  the  transistors  are  small  enough,
+then the noise will start to become directly associated with
+quantum  physics  (for  example,  through  a  process  called
+quantum  tunnelling).  In  this  way,  the  ultimate  source  of
+such  hardware-based  noise  is  quantum  noise,  believed  to
+be the purest form of randomness possible in the universe.
+In this way, it may be possible to generate almost
+perfectly random noise for truncating our high-order
+chaotic  models,  not  at  some  small  computational  cost  as
+would be the case with a PRNG, but at negative
+computational cost. That is to say, by turning the voltages
+down, we can run the computer using less energy than we
+did  when  the  computer  was  operating  deterministically.  I
+hope 
+this 
+is 
+the 
+way 
+some 
+future-generation
+supercomputers  will  work 14—many  of  their  chips  being
+low-energy indeterministic processors.
+But hang on. Why are we trying to generate noise? We
+normally  think  of  noise  as  a  nuisance,  something  to  be
+eliminated or at least minimised. In signal detection theory
+we often speak about a “signal to noise” ratio, and try hard
+
+to  maximise  this  ratio  by  boosting  the  signal  or  reducing
+the noise as much as possible.
+However, in chaotic systems, noise can be a positive and
+useful resource and not one we should be trying to
+eliminate or minimise. This is perhaps a paradoxical
+message,  but  one  that  lies  at  the  heart  of  the  nonlinear
+philosophy that underpins this book. This is such an
+important point that I want to give some examples of when
+noise  can  play  an  important  role,  not  in  making  a  signal
+harder to see—the intuitive picture we have of noise—but
+in making it easier to see. In all the examples next,
+nonlinearity plays a crucial role.
+Look at the percentage ﬁgures on the left of Fig. 17. The
+pixels in the ﬁgures are made from diﬀerent shades of grey
+(where  solid  black  would  correspond  to  100  percent  and
+plain white would correspond to 0 percent).
+Let’s suppose we want to transmit the greyness of one of
+the ﬁgures, but we can transmit only one bit of information
+per pixel: 0 (white) or 1 (black). For the percentages in the
+middle  of  Fig.  17,  the  lighter  shades  of  grey  are  simply
+truncated to 0, and the darker shades truncated to 1. We
+have clearly lost a lot of information. In fact, we now can’t
+see half of the ﬁgures, because they have been truncated to
+the same whiteness as that of the page.
+However, there is an alternative way to truncate a shade
+of  grey  to  1  bit,  and  that  is  to  use  noise.  The  results  are
+almost magical—see the right-hand ﬁgures in Fig. 17. As an
+example,  consider  a  pixel  element  in  the  “30  percent”
+ﬁgure. Instead of deterministically truncating to 0, we ﬁrst
+randomly choose a fraction between 0 and 1 (e.g., using a
+PRNG)  assuming  all  fractions  are  equally  likely.  If  the
+randomly  chosen  number  is  greater  than  0.3,  then  we
+truncate the shading of the pixel to 0 (white). If the
+randomly chosen number is less than (or equal to) 0.3, then
+we truncate the value of the pixel to 1 (black). There is a 70
+percent  chance  that  the  randomly  chosen  number  will  be
+
+greater than 0.3. Hence it is more likely than not that the
+pixel  will  be  truncated  to  white.  By  contrast,  consider  a
+pixel element in the “70 percent” ﬁgure. We now truncate
+to white if the randomly chosen number is greater than 0.7.
+It is more likely than not that the pixel will be truncated to
+black.
+FIG. 17. Stochastic rounding. On the left are percentage ﬁgures shown in
+diﬀerent shades of grey. In the middle, the shade of grey is rounded to one
+bit (black or white) in a systematic way. On the right, the shade of grey is
+also rounded to one bit (black or white) but in a more stochastic way, i.e.,
+using random noise. There is clearly more information on the right-hand
+side than in the middle.
+If 
+we 
+use 
+a 
+similar 
+procedure, 
+performing 
+this
+“stochastic rounding” to all the pixels and choosing
+independent  random  numbers  for  each  pixel,  we  end  up
+with something looking like the right-hand side of Fig. 17.
+
+Hey presto, the missing percentages have reappeared! The
+noise has ampliﬁed the signal!
+Stochastic  rounding  is  beginning  to  play  an  important
+role  in  weather  modelling 15.  Fig.  18  is  a  simulation  of
+turbulence, like that in Fig.  14, but where each ﬂuid
+variable  is  represented  by  16  bits  instead  of  the  default
+numerical “precision” in scientiﬁc computation, which is 64
+bits.  There  is  a  good  reason  to  try  to  use  as  few  bits  as
+possible when doing a computation. Most of the energy of a
+modern supercomputer is used transporting bits of
+information  inside  the  computer,  e.g.,  from  memory  to  a
+processing  unit.  If  you  can  condense  the  information  into
+packages of 16 bits rather than 64 bits, then you will save
+about three-quarters of the energy otherwise used for
+moving data. The problem is that the 16-bit computation is
+deﬁnitely  not  as  accurate  as  the  64-bit  computation.  It
+looks like we have lost information in the 16-bit
+computation. However, when applying stochastic rounding
+to the 16-bit representations of variables, as shown in the
+bottom panel in Fig. 18, the result is almost identical to the
+original 64-bit computation.
+I strongly believe that future electronic computers must
+develop this type of stochastic rounding capability in
+hardware16.  With  several  billion  variables  in  a  weather
+model, tens of billions of bits are being transported
+unnecessarily  inside  the  computer  when  each  variable  is
+represented  with  64  bits.  This  is  energetically  ineﬀicient
+and  constrains  the  speed  at  which  the  computer  can  do
+calculations.
+
+FIG. 18. Top: a copy of the simulation of the ﬂuid
+turbulence shown in Fig. 14. Here, the individual ﬂuid
+
+variables in the simulation are represented by 64-bit
+numbers. This representation is the default in scientiﬁc
+computation but uses a lot of computer resources.
+Middle: where the number of binary digits representing
+the individual ﬂuid variables in the simulation has been
+reduced from 64 to 16. The turbulent whirls in the
+simulation are degraded in realism compared with the
+top ﬁgure. Bottom: the same simulation but where the
+stochastic rounding technique has been used when
+truncating to 16 bits. Now the simulation is virtually
+identical to the top ﬁgure. Adding noise has made the
+simulation more accurate. From Paxton et al. (2022).
+FIG. 19. Simulated annealing is an algorithm which uses noise to ﬁnd the
+highest point of a complicated set of peaks and troughs. Here the algorithm
+is shown progressing to the highest peak in nine steps.
+These  are  not  the  only  examples  where  noise  can  be
+shown to be a valuable resource.
+Suppose  we  want  to  ﬁnd  the  highest  point  of  some
+complicated  curve,  such  as  the  one  shown  in  Fig.  19.  A
+deterministic algorithm for ﬁnding this highest point would
+typically start at some arbitrarily chosen initial point on the
+curve and then simply move one step to the left or one step
+to the right depending on which direction is up. However,
+such  an  algorithm  will  get  stuck  at  a  local  peak.  Once  at
+this local peak, both directions are “down”, and the
+
+algorithm  will  wrongly  think  it  has  reached  the  highest
+point and stop.
+There is, however, an algorithm (called “simulated
+annealing”) which uses random numbers to ﬁnd the highest
+point. Let’s imagine the algorithm has been running for a
+while and has reached a point on the curve which is not yet
+the highest point. Let’s see what happens in the next step
+of the algorithm.
+First of all, the algorithm consults a PRNG, which
+randomly suggests a new point on the graph for the
+algorithm to consider. The algorithm ﬁrst looks to see if the
+suggested point is higher up the curve than the old point. If
+it is higher, then the algorithm deﬁnitely accepts the
+PRNG’s suggestion and we move on to the next step of the
+algorithm.  If,  on  the  other  hand,  the  new  point  is  lower
+than the original point, the algorithm doesn’t automatically
+reject  the  PRNG’s  suggestion.  However,  as  the  algorithm
+proceeds, it becomes less and less likely that a point which
+is substantially lower than the current point will be
+accepted. That is to say, in the early stages, the algorithm
+won’t  be  too  fussy  about  accepting  a  substantially  lower
+point,  but  later  on  it  becomes  more  discriminating  about
+accepting such a degradation. This latter feature is
+reminiscent  of  annealing  metals,  hence  the  name  of  the
+algorithm—when  a  metal  is  hot,  in  the  early  phases  the
+metal is quite pliable; however, as the metal cools, it
+becomes more rigid.
+Fig.  19 shows the simulated annealing algorithm at
+work. The steps from 1 to 9 correspond to the steps
+suggested by the PRNG and accepted by the algorithm. The
+rejected  steps  are  not  shown.  The  step  from  1  to  2  is
+accepted because 2 is higher than 1. The step from 2 to 3 is
+accepted because, although 3 is lower than 2, we are in the
+early phases of the algorithm; as mentioned, there is a fair
+probability that lower steps will be accepted early on. The
+step from 4 to 5 is accepted because 5 is only very slightly
+
+lower than 4. The likelihood of actually ﬁnding the highest
+point  of  the  graph  depends  on  the  length  of  time  the
+algorithm is run. However, for a given length of time, the
+algorithm  appears  very  eﬀicient  at  estimating  the  highest
+point compared with more deterministic algorithms.
+In the ﬁnal example, we add noise (not too weak, not too
+strong) to the chaotic Lorenz model. The result, shown in
+Fig. 20, is startling. Instead of washing out the structure of
+the  two  lobes  of  the  Lorenz  model,  the  noise  exaggerates
+these lobes. The system typically spends longer in one lobe
+before  making  an  unpredictable  transition  to  the  other
+lobe. This is a rather profound example of the way in which
+nonlinearity can partially stabilise a nonlinear system,
+making it more predictable.
+In conclusion, for nonlinear systems, noise can be your
+friend. It’s not necessarily the nuisance we often think it to
+be.  Perhaps  nature  makes  use  of  this  fact  much  closer  to
+home  than  in  weather  models.  I  will  be  discussing  this  in
+Part III of the book.
+
+FIG. 20. Top: a time series of the X-variable of the standard Lorenz model.
+Bottom: a time series of the X-variable of the Lorenz model where noise has
+been added to the equations. The presence of noise makes the “regime”
+structure of the model much more pronounced, with the system spending
+longer in one of the lobes17. The transitions between the positive and
+negative X regimes remain completely unpredictable.
+...

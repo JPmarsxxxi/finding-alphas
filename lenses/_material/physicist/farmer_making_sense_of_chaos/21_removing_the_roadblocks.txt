@@ -1,0 +1,197 @@
+15.
+Removing the Roadblocks
+I was taught the way of progress was neither swift nor easy.
+Marie Curie
+Complexity economics is still in its infancy, and a great deal of work
+remains to be done to realize its full benefits. What are the costs and what
+would the benefits be? How long will it take?
+Collecting better data
+Data is the principal driver of scientific progress. There’s a bidirectional
+feedback between data and theory: Data both inspires the development of
+theories and makes it possible to test them, while theories determine the
+type of data we collect. Theories can only be proved wrong or right by data;
+when this doesn’t happen, theories become detached from reality, and
+science gets lost.
+Better data is of central importance for improving agent-based models.
+Unlike traditional mainstream models, which need aggregate data, agent-
+based models need fine-grained data about individual firms and consumers
+to realize their potential. This doesn’t mean that they necessarily need data
+about specific firms and consumers, which might violate their privacy, but
+they need data to tell them how typical firms and consumers behave.
+Unfortunately, though it is feasible to collect fine-grained data, this often
+does not happen because current data collection systems are geared to
+provide the aggregate data needed by mainstream models. This creates a
+chicken-and-egg problem: Because agent-based models are not mainstream,
+the data are not collected, and because the data aren’t available, this
+
+handicaps efforts to create agent-based models that make superior
+predictions, which is a prerequisite for acceptance by the mainstream.
+Progress in fundamental physics over the last fifty years illustrates how
+science succeeds when we have the right data to test theories, and how it is
+stymied when this is lacking. Fundamental physics made astounding
+progress during the first two-thirds of the twentieth century, leading to the
+theory of quantum mechanics, which predicts the behavior of atoms, and
+the standard model, which predicts the existence and behavior of the
+elementary particles that are the building blocks of matter and energy. The
+data engines that drove these discoveries were particle accelerators, which
+probe the structure of matter and energy by smashing particles together. But
+making progress requires probing ever-smaller scales, which can only be
+done by bigger, more powerful accelerators, using exponentially increasing
+amounts of energy and money. As larger and larger accelerators were built,
+data flowed in at a steady rate and particle physics advanced rapidly. But
+each discovery cost more and required more energy than the one before it.
+The current state of the art in physics is the Large Hadron Collider at
+CERN. It is 27 kilometers in circumference and consumes 1.3 terawatt-
+hours of electricity a year. The electricity alone costs $23.5 million
+annually, enough to power 300,000 homes. But this is only a small part of
+its cost – it employs about 2,200 people, with an operating budget of about
+$1 billion per year. Its crowning achievement to date was the observation of
+the Higgs boson in 2012, which confirmed theoretical predictions published
+in 1964. This observation required a forty-year effort and cost about $13
+billion.1
+Gathering the data needed to understand the origins of dark matter and
+dark energy requires even higher energies. Building an accelerator that
+could do this would require such a massive expenditure of resources that
+it’s unlikely to ever happen. Absent alternative sources of data, progress in
+fundamental physics has nearly ground to a halt. The theories are far ahead
+of the data and thus have become increasingly speculative, and the field is
+bogged down in doctrinaire battles over the correct approach.
+Fortunately, there are no such fundamental limits in economics. Quite
+the opposite: It is now possible to collect vast quantities of data at a level of
+detail that would have been inconceivable in 1950. Unfortunately, this isn’t
+happening on the scale needed for agent-based models to fully realize their
+potential.
+
+In an ideal situation, to render the economy with verisimilitude, agent-
+based models need data about the behavior of individual households and
+firms. We don’t need information about any actual individuals, but we do
+need to know in general how individuals make their decisions. For example,
+what kind of house is a household with a given income and age profile
+likely to buy? What are they likely to consume? How does this change in a
+recession? Similarly, we need information about supply chains. In agent-
+based modeling heaven, we would have access to the invoices and receipts
+of all the companies in the world. These could then be used to initialize
+agent-based models capable of simulating the economy in detail and
+making much better predictions about everything, including how businesses
+respond to disasters, business cycles and long-term growth.
+Since we do not live in agent-based modeling heaven, the complexity-
+economics group at Oxford and others have been developing methods for
+reconstructing firm-level production networks. Such data is hard to obtain,
+because firms don’t like to make their invoices and receipts public. There
+are some countries (Belgium, Chile, Brazil, Ecuador, the Scandinavian
+nations) where such data exists, but it’s hard to access, and most countries
+don’t even collect this data. In the United States, it’s possible to obtain
+partial information about the production network through a combination of
+public regulatory filings and the media, and there are companies that collect
+and sell such data. This provides a starting point, but the picture is highly
+incomplete.
+Reconstructing the firm-level network from the available data is like
+trying to assemble a jigsaw puzzle with hundreds of thousands of pieces,
+when you only have a small fraction of them and there is no picture on the
+box. This might sound impossible, but, in a paper led by my clever graduate
+student Luca Mungo, we showed that machine-learning methods are
+remarkably effective in solving this problem.2 We’re in the process of
+developing better methods, ones which combine all possible sources of data
+on the production network that are good enough for modeling purposes,
+even if they miss the details.
+You may be thinking: Wait a minute! This sounds really intrusive. What
+about Big Brother? Fortunately, we can do all this without leaking
+confidential information. New statistical methods have been developed that
+make it possible to construct randomized synthetic populations that match
+almost any desired characteristic of a real population, without giving away
+
+any information about real individuals. Similarly, there are now companies
+that specialize in holding the supply chains of individual firms in secure
+silos, allowing models to probe the silos of many different firms, as needed,
+without giving away any firm’s confidential information. It is vital to
+preserve confidentiality, and this requires effort and care, but it is feasible to
+do so.
+Developing methods and infrastructure
+We need to improve techniques for fitting agent-based models to time
+series, create an appropriate software infrastructure, and establish standard
+interfaces and benchmarks so that models can be tested against each other.
+Models always have free parameters; these are like knobs that can be
+turned to produce a whole family of related models. Fitting a model to data
+requires finding the model within this family that most closely
+approximates the data.3 There are now many well-developed procedures for
+fitting models if the functions they’re based on are smooth, meaning that
+there are no discontinuities or kinks, but the problem becomes harder when
+this is not the case. Mapping between the inputs and outputs of agent-based
+models often lacks a simple expression in mathematical terms. Worse still,
+it’s always nonlinear (otherwise no one would bother making an agent-
+based model). For many years, it has been difficult to fit agent-based
+models to data in a systematic manner; however, there has recently been
+substantial progress.4
+Another significant problem is that agent-based models are written in
+many different programming languages that are incompatible with each
+other, making it hard to compare their outputs. There are no standard
+interfaces that let you mix and match, taking part of model A and using it in
+model B. There are no benchmark data sets on which to run different
+models to compare their predictions. Agent-based modeling for economics
+is still in early stages, but fortunately it is beginning to make rapid progress.
+Institutional support
+In its present form, complexity economics lacks a home in academia. In the
+United States, there is only one active research group, led by Robert Axtell
+
+at George Mason University. There are perhaps ten small research groups in
+the rest of the world, and tenure-track positions are extremely rare. The
+situation in central banks is slightly better: Four or five central banks now
+support small agent-based modeling efforts. In industry, in contrast, agent-
+based modelers for problems like traffic control are very much in demand.
+The resistance to complexity economics in conventional economics
+departments is so strong that mainstream academia will likely be the last to
+accept it. Before this happens, I expect agent-based models to find practical
+applications in both industry and central banks. This will put pressure on
+academia, and ultimately the gate to economics departments will open – or,
+alternatively, new departments doing complexity economics may be created
+to provide an academic home.
+One thing that could dramatically alter the future course of economics is
+a change in the criteria for the Nobel Prize in economics, which motivates
+exceptionally ambitious and talented young researchers and strongly
+influences its scientific agenda. The five original Nobel Prizes – in physics,
+chemistry, physiology and medicine, peace, and literature – were
+established in 1896 by a grant from Alfred Nobel. An essential criterion for
+awarding the prizes in physics, chemistry and physiology and medicine is
+empirical validation. If a theory has not been shown to be empirically valid,
+no matter how popular, conceptually appealing or influential it is, no prize
+is given. This criterion is strict. For example, although the general theory of
+relativity is perhaps the most profound and remarkable accomplishment in
+the history of science, Einstein’s Nobel Prize was awarded, in 1921, for
+‘services to Theoretical Physics, and especially for his discovery of the law
+of the photoelectric effect’, because general relativity, while supported by
+observation of the solar eclipse of 1919, was not considered sufficiently
+well verified.5
+The Sveriges Riksbank Prize in Economic Sciences in Memory of Alfred
+Nobel, colloquially called the Nobel Prize in economics, was established
+much later, in 1968. Although the nomination and selection processes
+follow a procedure similar to those used for the other prizes, the selection
+criteria for economics are closer to those used for the literature and peace
+prizes than those for the other science prizes. The main criterion is
+influence within the field of economics. Many of the prizes have been given
+for theories that have not been empirically verified, and probably never will
+be, because in hindsight they are very likely wrong. But why shouldn’t the
+
+same criteria used in other sciences apply to economics as well? If the
+Nobel Prize in economics made empirical validation an essential criterion,
+this could prompt a more scientific approach to the study of economics.
+For the last decade or so, my colleagues and I have been trying to fund
+quantitative, large-scale complexity-economics models in the public sector.
+While we have had some generous supporters (see the Acknowledgements
+to this book), it is difficult to raise the funding needed to do this at scale.
+Government funding agencies usually ask the advice of mainstream
+economists, who do not usually support this idea. With a few exceptions,
+most private foundations have more conventional charitable goals and do
+not understand the need.
+To bring these ideas to scale, my colleagues and I have started a
+company called Macrocosm. Our goal is to build large-scale granular
+models of the economy that make better predictions and reduce them to
+practice, so they can be used day in and day out to address the important
+problems discussed above. Our strategy is to fund our efforts through the
+commercial sector, trying to guide it toward a more sustainable economy,
+while keeping as much of the modeling power as possible available for
+public good. Our intention is to put our models in the hands of treasury
+departments, central banks and other influential actors in the global
+economy so that they can plan more effectively.
+Let’s conclude by zooming out to the big picture and thinking about the
+benefits of complexity economics for humanity as a whole.
+...

@@ -1,0 +1,318 @@
+12.
+How we Learned to Predict Weather and
+Climate
+If a single flap of a butterfly’s wings can be instrumental in generating a
+tornado, so also can all the previous and subsequent flaps of its wings, as
+can the flaps of the wings of millions of other butterflies, not to mention the
+activities of innumerable more powerful creatures, including our own
+species.
+Edward N. Lorenz (1972)1
+Predicting the weather
+Attempts to predict the weather date back thousands of years, but weather
+forecasting achieved a huge breakthrough in the second half of the
+twentieth century, thanks to a combination of better science, better
+measurements and better computers. Over the last seventy years, a
+coordinated, large-scale, global effort and an investment of hundreds of
+billions of dollars have enabled us to predict the weather remarkably well.2
+Because we make daily global weather forecasts, we test weather-
+forecasting models all the time, so we know how good they are. Testing
+climate models is more challenging, because it requires running scenarios
+we have not yet experienced. Nonetheless, reliable weather models give us
+a good starting point for modeling climate.
+Understanding the weather has been a matter of concern throughout
+recorded human history. Babylonian tablets discussing weather forecasting
+date from 650 BCE. The word forecast was coined by Robert FitzRoy, who
+captained the HMS Beagle when Charles Darwin sailed with her. In 1854,
+he founded what would later be called the British Met (Meteorological)
+Office with the help of Francis Beaufort (whose surname all sailors will
+
+recognize). In 1870, the US Weather Bureau (now called the National
+Weather Service) was formed; it collected data from more than 500
+observation stations and made daily forecasts throughout the country.3
+In those days, forecasts were subjective, based on experience and
+intuition. Forecasters kept a large library of past local weather maps, which
+they studied carefully and used to develop rules of thumb (heuristics).
+Much as we did at Prediction Company, they observed patterns in past
+behavior that allowed them to anticipate future behavior. One of the
+procedures they followed, called the method of analogs, illustrates the
+underlying principle that these methods are implicitly based on. It works
+like this: The forecaster studies the current weather map, and might think,
+‘This reminds me of the build-up to that big storm back in December of
+1935.’ Then he looks through his library to find similar weather maps. If
+December 10, 1935 provided a good match, he would look ahead to
+December 11 as a possible forecast for tomorrow’s weather, adjusted to
+account for differences in factors like wind speed and direction. He might
+search for other, similar weather maps and repeat the procedure. Then he
+would lick his finger and put it in the air, make a subjective judgment, and
+produce a forecast.
+The basic principle of the method of analogs is that the future will follow
+the same patterns that existed in the past. This principle is extremely useful,
+and is the basis of all statistical models, with broad applications beyond
+weather forecasting. It underlies the breakthroughs in machine learning that
+are revolutionizing everything from image recognition to writing high-
+school term papers. In fact, such methods are now used by Google to make
+forecasts a few hours ahead in places where the coverage of weather models
+is poor.
+The method of analogs, and its extensions via econometric models, is
+still the most useful forecasting tool in economics. Instead of weather maps,
+the forecaster compares economic conditions in the present to past events.
+This method is limited, however, because there are just too many possible
+patterns. There’s an enormous amount of information in a weather map (or
+in the state of an economy) at any given point in time. Even with a library
+of thousands of historical maps, the weather on any given day is never
+really close enough to the weather on any previous day to produce an
+accurate forecast. (Similarly, the economic conditions now are rarely
+similar enough to conditions in the past to make reliable predictions.)
+
+Because the weather is chaotic, small differences between today’s weather
+map and a historical weather map turn into large differences between them
+on the following day. Subjective weather forecasts were better than nothing,
+but their value was limited. A new approach was needed.
+In 1901, Cleveland Abbe, the Weather Bureau’s chief meteorologist,
+proposed a radically different method that has come to be called numerical
+weather forecasting.4 He suggested using the laws of physics to predict the
+weather. His proposal had the same essential elements as our method for
+beating roulette discussed in Chapter 1: understand the forces, measure
+initial conditions and use them to make predictions. Of course, weather is
+vastly harder to predict than roulette. It involves the interaction of
+temperature, pressure, wind velocity and humidity, as well as many other
+variables, such as topography. Gathering initial conditions requires
+simultaneous measurements over a fine grid covering the entire globe. It
+now seems obvious that we should predict weather this way, but in 1901
+there were no computers, measurements were limited and the physics of the
+weather was still poorly understood. Cleveland Abbe’s proposal was
+regarded as audacious and utopian and led to no immediate action.
+The first numerical weather forecast was published by the English
+polymath Lewis Fry Richardson in 1922.5 Richardson was an early
+complex-systems scientist who made contributions to mathematics, physics,
+meteorology and psychology. He was one of the first to articulate the idea
+of fractals, and he was the first to develop a quantitative theory for the
+causes of wars. His Quaker upbringing made him an ardent pacifist, which
+exempted him from military service, but in England at the time, it also
+disqualified him from holding a proper academic appointment.
+Richardson’s attempts at numerical weather prediction continued even
+while he was working in a Quaker ambulance unit during World War I. He
+eventually set himself a very specific task: To predict the weather for 1.00
+p.m. on May 20, 1910, based on measurements made at 7.00 a.m. that day.
+The weather depends on nonlinear equations whose dynamics are chaotic,
+which means that the equations have to be solved step-by-step through time
+and require an enormous number of arithmetic calculations. To cope with
+this challenge, he introduced a procedure for solving the equations
+numerically by hand. I mean literally by hand: He performed tens of
+thousands of arithmetic calculations with pencil and paper! Even using the
+biggest supercomputers in the world, the time and memory such
+
+calculations take continues to define the limit on how accurately we can
+predict the weather. Imagine what it was like for Richardson using nothing
+but a pencil and paper – and on a battlefield to boot.
+Making a six-hour-ahead forecast took Richardson about six months.
+Unfortunately, the way he ingested the data into his model was flawed, so
+the answers he obtained were off by a factor of 100. The publication of his
+failed results had the opposite effect of the one he had hoped for, putting a
+damper on numerical weather prediction for the next two decades.
+In his 1922 book, Richardson went beyond his weather-forecasting
+results and wrote about how parallel-processing might be used to make his
+methods practical. He imagined a city of 10,000 human ‘computers’, who
+would live in a special city. Every day, they would go to work and take their
+positions in a stadium-like enclosure. Each human computer would perform
+designated calculations with pencil and paper, and pass the results to her
+neighbors on every side (while her neighbors passed their calculations to
+her). Then the process would be repeated, with each ‘computer’ making a
+new calculation in response to the inputs from her neighbors. Richardson
+estimated that even though each calculation would still be slow, the
+parallel-processing power of 10,000 people working simultaneously would
+speed things up enough to produce useful real-time forecasts. It was an
+extraordinary vision, but it was never implemented for weather prediction.
+It was, however, put into action during World War II, when squads of
+human ‘computers’ solved equations relevant for the design of the atom
+bomb and performed other calculations for the war effort.
+In 1950, John von Neumann was searching for non-military applications
+for digital computers and decided that weather prediction was a good
+candidate. He spoke to Carl-Gustaf Rossby, one of the leading
+meteorologists of the day, who in turn recruited his young associate at the
+University of Chicago, Jule Charney, to lead a team of other researchers.
+Working intensely for two years, they produced a weather model simple
+enough to run on the ENIAC computer.6 The ENIAC was extremely crude
+by the standards of modern computers. It had only 10 words of read-write
+memory and 624 words of read-only memory, and could do 357
+multiplications per second – more than a million times slower than a
+modern smartphone. Von Neumann’s wife, Klara, taught the team how to
+program and checked their code. By working around the clock with the
+ENIAC for thirty-three days, they produced four retrospective forecasts.
+
+The results were not as good as existing subjective forecasts, but they were
+good enough to provide a proof of principle – and the field of numerical
+weather prediction was born. At the time, the next day’s forecast still took
+twenty-four hours to perform on the ENIAC, but the meteorologists were
+confident that computers would speed up and reduce calculation times.
+The global scientific community, governments and the military saw the
+potential of numerical weather forecasting, and work began in earnest to
+make forecasts faster and more reliable. Since the 1950s, hundreds of
+billions of dollars of public investment have gone into producing daily
+weather forecasts using numerical weather prediction. This effort has
+included developing a better understanding of the physics involved,
+improving numerical methods for solving the underlying equations on a
+computer, getting more accurate measurements (particularly via satellites)
+and taking advantage of bigger and faster computers.
+With hindsight, it might seem obvious that numerical weather prediction
+would be better than subjective weather forecasting, but it took almost
+thirty years of hard work for this goal to be achieved. I became aware of the
+contest between subjective and numerical forecasters at its turning point,
+around 1980, while I was a graduate student doing research on chaotic
+dynamics. I had the good fortune to be asked to intern at the National
+Center for Atmospheric Research (NCAR) with Edward Lorenz, the pioneer
+of chaos theory and one of the leading meteorologists of his day.
+Since my internship was unpaid, to save money I camped illegally on the
+spectacular mesa that NCAR sits on, near Boulder, Colorado. My tent had
+to be hidden during the day, and because I was using NCAR’s
+supercomputer until late in the evening, it was a nuisance to set my tent up
+in the dark. If I was confident it wasn’t going to rain, I preferred to sleep
+under the stars. I told Ed about my dilemma, and in my conversation with
+him at the end of each day, I would ask him whether he thought it was
+going to rain. He had a corner office with a big window looking out over
+the Great Plains. He would peer at the sky and study the clouds for a few
+moments, and then give me one of three answers: ‘Yep’, ‘Nope’, or ‘Can’t
+tell’. He was an excellent subjective weather forecaster: With the caveat
+that he used ‘Can’t tell’ about 50 per cent of the time, he was never wrong,
+and I never got wet due to a bad forecast. I later learned that he had been a
+weather forecaster in the Pacific during World War II, so he had had some
+practice.
+
+I remember asking him when he thought he and the other physical
+meteorologists would beat the subjective weather forecasters. He told me
+they were breaking even, but steadily getting better and would soon pass
+them. This is exactly what happened – numerical weather prediction now
+produces far more accurate forecasts than subjective weather forecasters
+ever did.
+The enormous improvements in accuracy have changed our whole
+attitude toward weather forecasting. Although reliable long-term forecasts
+are inherently impossible because of the underlying chaotic nature of the
+physics of fluid turbulence, short-term weather forecasts are now
+reasonably accurate. This is economically useful: Estimates indicate that the
+US spends about $5.1 billion per year on weather forecasting, for an
+economic benefit of roughly $30 billion.7 Since 1980, forecasting accuracy
+has improved by about one day per decade – that is, the six-day forecast
+now is about as accurate as the five-day forecast was ten years ago.8
+The standard economic models that many national statistics offices,
+central banks and treasury departments use to make economic predictions
+are on a much smaller scale than weather forecasts, and they aren’t nearly
+as useful. We’re still at the point where the method of analogs and its
+econometric extensions perform as well as or better than theory-based
+models. As discussed, standard models operate at a much higher level of
+aggregation and do not make use of microdata. If weather models have an
+economic value to the US of $30 billion per year, better economic models
+could save us trillions of dollars a year, but there is no large-scale effort to
+build such models.
+Predicting the climate
+The global-circulation models that are used to predict the response of the
+Earth’s climate system to increased levels of greenhouse gases were
+developed out of models for weather prediction. Given that the dynamics of
+the weather are chaotic, and therefore unpredictable in the long run, you
+might think that modeling the climate, which involves predicting on
+timescales of centuries or more, would be impossible. Fortunately, climate
+involves a different kind of prediction, which makes it in a sense easier:
+Climate models make a prediction about the statistical properties of the
+weather rather than a forecast of its future state. We can’t say whether or not
+
+it will rain a hundred days from now; we can, however, estimate how often
+it will rain in a world with more greenhouse gases by running a numerical
+weather simulation with increased carbon dioxide in the atmosphere for a
+very long span of time and recording how often it rains in the simulation.
+Similarly, we can predict how high, on average, global temperatures will
+rise over time in response to a given level of carbon in the atmosphere.
+Thus, while chaos imposes a fundamental limit on short-term weather
+forecasting, it imposes no such limit on the accuracy of climate prediction.
+One of the best ways to test climate models is to use them to predict the
+past. Carbon-dioxide levels and temperature have both varied substantially
+over time. Tests are made by running global-circulation models with past
+carbon concentrations to see whether the resulting temperature predictions
+match the corresponding historical values. The match is still far from
+perfect, but substantial progress has been made.
+Climate models have improved substantially in the last forty years, but
+their predictions are surprisingly consistent with earlier models. In 1979,
+Jule Charney led an early study of climate change entitled Carbon Dioxide
+and Climate: A Scientific Assessment.9 The report stated, ‘We estimate the
+most probable global warming for a doubling of CO2 to be near 3°C with a
+probable error of ± 1.5°C.’ Almost precisely the same statement appeared in
+a report of the United Nations Intergovernmental Panel on Climate Change
+thirty-five years later.10 Our current carbon-dioxide level is about 1.4 times
+the pre-industrial level, and unless we take drastic action immediately we
+are likely to reach the doubling point in about fifty years. The last time the
+Earth was 3°C degrees warmer than it is now was 3 million years ago, when
+beech trees grew in Antarctica, the seas were 80 feet higher, and horses
+galloped across the Canadian coast of the Arctic Ocean.
+It is a remarkable tribute to the power of science and the usefulness of
+large-scale models that we can forecast the complex phenomenon of climate
+change fifty to a hundred years into the future. But climate models can
+inform us only about the consequences of our actions; they don’t tell us
+how to solve the problems we’ve created. Re-wiring the economy so that it
+no longer emits greenhouse gases will require a major structural
+transformation. Our current economic models are woefully inadequate to
+guide us through this transition. If only we had economic models as good as
+our climate models . . .
+
+Lessons for economics
+There are several striking differences between the way we make economic
+predictions and our predictions of weather and climate:
+Weather forecasts have systematically improved over time. Economic forecasting, in
+contrast, has never been very accurate and has made only slow, incremental progress over
+the last eighty years. Numerical forecasting of the economy has yet to convincingly surpass
+simple statistical models implicitly based on the method of analogs.
+Weather is modeled from the bottom up. Weather modelers seek to model the atmosphere at
+the finest scale possible, whereas government models for policymaking operate at the
+aggregate level of a nation-state and use only a single representative household. The contrast
+with weather models is stark: It would be utterly hopeless to predict the US weather based
+solely on measurements of its average temperature, barometric pressure and wind velocity.
+The fact that our ability to make measurements and run models at a finer scale has been
+the biggest driver of improvements in weather forecasting’s predictive power demonstrates
+the importance of a bottom-up approach. Current weather models track the relevant
+variables on a three-dimensional grid in which each cell is 10 kilometers by 10 kilometers
+wide and 100 meters high, with roughly 100 such cells stacked vertically. Each cell requires
+a measurement of temperature, wind and humidity, which makes for a total of about 10
+billion measurements over the entire globe. The global-circulation models for climate use a
+coarser grid, 100 kilometers by 100 kilometers wide and 1 kilometer high, but this still
+produces an enormous amount of information. Just as the improvements in computers over
+the last seventy years have been driven by the increasing density of integrated circuits, many
+if not most of the advances in meteorology have been driven by the increased density of grid
+points in weather measurement and simulation. Weather simulation using the finest grids
+possible requires state-of-the-art computers, and weather prediction employs some of the
+largest computers in the world, each of which consumes about 10 megawatts of power
+(enough to supply about 8,000 American households).
+Weather models are highly nonlinear. Weather is an emergent phenomenon, and a linear
+weather model would be useless. In contrast, while economic dynamics are also an emergent
+phenomenon, and most of the DSGE models we talked about in Chapter 5 are intrinsically
+nonlinear, many of those used for policymaking are simplified and replaced by linear
+approximations that are easier to solve. This means, among other things, that endogenous
+business cycles are ruled out from the get-go.
+Weather models are global. Weather models are closed – that is, they cover the entire world,
+so that a storm never appears from ‘off the map’. This is essential to capture endogenous
+phenomena. In contrast, most official economic models are open – meaning, for example,
+that they pertain only to a single nation-state, so that outside influences from other countries
+(which are clearly important, such as a default in Thailand) have to be treated as exogenous
+shocks. While some types of economic models are global, many, if not most, still model
+only one country at a time.
+If we were to implement agent-based economic models at a global scale,
+similar to those used for weather or epidemiology, all of the ‘in contrast’
+
+statements above would disappear. Such agent-based models would use the
+finest scale feasible. With an all-out effort, it is now conceivable to
+construct agent-based models on a one-to-one scale, so that each simulated
+person in the model corresponds to a similar real person and each company
+corresponds to a specific real company.11 Running such a model, which
+would require state-of-the-art data gathering and computer power, would
+cope with nonlinearities and thus could potentially predict such emergent
+phenomena as recessions, financial crises, inequality and economic growth.
+These predictions could be made at many levels, from individual firms and
+groups of households to industries, nations and the whole planet. While
+there are factors that make simulating the economy harder than simulating
+the weather, there are also factors that make it easier.12
+Complexity economics can do for economics what Cleveland Abbe
+imagined for weather prediction. What Abbe proposed took eighty years to
+reach fruition, but today we complexity economists already have adequate
+computer power and much of the data needed to realize our ambitions. With
+an appropriate effort, we could build much more accurate agent-based
+models in five years or less, which could give us invaluable guidance in
+negotiating the climate-driven transition of the economy and other global
+problems that depend on economics. In Chapter 14 I will briefly describe
+some efforts that are already underway.
+...

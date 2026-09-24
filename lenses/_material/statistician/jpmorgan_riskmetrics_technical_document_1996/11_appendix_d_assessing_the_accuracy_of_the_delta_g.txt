@@ -1,0 +1,1175 @@
+ 
+247
+Appendices
+Appendix D.
+Assessing the accuracy of the delta-gamma approach
+ 
+Peter Zangari
+Morgan Guaranty Trust Company
+Risk Management Research
+(1-212) 648-8641
+ 
+zangari_peter@jpmorgan.com
+ 
+f
+ 
+In this appendix we compare the VaR forecasts of the delta-gamma approach to those produced by 
+full simulation. Before doing so, however, we investigate brieﬂy when the delta-gamma approach 
+is expected to perform poorly in relation to full simulation.
+The accuracy of the delta-gamma approach depends on the accuracy of the approximation used to 
+derive the return on the option. The expression for the option’s return is derived using what is 
+known as a “Taylor series expansion.” We now present the derivation.
+[D.1]
+This expression can be rewritten as follows:
+[D.2]
+We now express the changes in the value of the option and the underlying in relative terms:
+[D.3]
+Dividing Eq. [D.3] by 
+, we get
+[D.4]
+and deﬁne the following terms:
+, 
+, 
+ 
+n 
+ 
+= 
+, and 
+We can now write the return on the option as follows:
+[D.5]
+This expansion is a reasonable approximation when the “greeks”  and 
+are stable as the under-
+lying price changes. In our example, the underlying price is the US dollar/deutschemark exchange 
+rate. If changes in the underlying price causes large changes in these parameters then we should not 
+expect the delta-gamma approach to perform well.
+Chart D.1 shows the changes in the value of delta 
+ when the underlying price and the time to 
+the option’s expiry both change. This example assumes that the option has a strike price of 5. 
+Vt
+n
++
+Vt
+δ
+Pt
+n
++
+Pt
+–
+(
+)
+0.5 Γ
+Pt
+n
++
+Pt
+–
+(
+)
+2
+θ
+τt
+n
++
+τt
+–
+(
+)
+⋅
++
+⋅
+⋅
++
+⋅
++
+≈
+Vt
+n
++
+Vt
+δ
+Pt
+n
++
+Pt
+–
+(
+)
+0.5 Γ
+Pt
+n
++
+Pt
+–
+(
+)
+2
+θ
+τt
+n
++
+τt
+–
+(
+)
+⋅
++
+⋅
+⋅
++
+⋅
+≈
+–
+Vt
+Vt
+n
++
+V
+–
+t
+Vt
+-----------------------
+
+
+
+
+
+
+⋅
+δ
+=
+Pt
+Pt
+n
++
+Pt
+–
+Pt
+----------------------
+
+
+
+
+
+
+0.5 Γ Pt
+2
+⋅
+Pt
+n
++
+Pt
+–
+Pt
+----------------------
+
+
+
+
+
+2
+θ
+τt
+n
++
+τt
+–
+(
+)
+⋅
++
+⋅
+⋅
++
+⋅
+⋅
+Pt
+Vt
+Pt
+----
+
+
+
+
+
+
+Vt
+n
++
+V
+–
+t
+Vt
+-----------------------
+
+
+
+
+
+
+⋅
+δ
+=
+Pt
+n
++
+Pt
+–
+Pt
+----------------------
+
+
+
+
+
+
+0.5 Γ Pt
+⋅
+Pt
+n
++
+Pt
+–
+Pt
+----------------------
+
+
+
+
+
+2
+θ
+Pt
+----
+
+
+
+
+τt
+n
++
+τt
+–
+(
+)
+⋅
++
+⋅
+⋅
++
+⋅
+RV
+Vt
+n
++
+V
+–
+t
+Vt
+-----------------------
+
+
+
+
+
+
+=
+RP
+Pt
+n
++
+P
+–
+t
+Pt
+----------------------
+
+
+
+
+
+
+=
+τt
+n
++
+τt
+–
+(
+)
+η
+Pt
+Vt
+----
+
+
+
+
+
+
+=
+RV
+ηδ
+=
+RP
+0.5 αΓPt
+(
+)
+RP
+(
+)
+2
+θ
+Vt
+----
+
+
+
+n
++
++
+      
+δ˜ RP
+0.5Γ˜
+RP
+(
+)
+2
+θ˜ τt
+n
++
+τt
+–
+(
+)
++
++
+=
+δ
+Γ
+δ
+( )
+
+248
+Appendix D.  Assessing the accuracy of the delta-gamma approach
+RiskMetrics —Technical Document
+Fourth Edition
+Chart D.1
+Delta vs. time to expiration and underlying price
+Notice that large changes in delta occur when the current price in the underlying instrument is near 
+the strike. In other words, we should expect to see large changes in delta for small changes in the 
+underlying price when the option is exactly, or close to being, an at-the-money option. 
+Since the delta and gamma components of an option are closely related, we should expect a similar 
+relationship between the current underlying price and the gamma of the option. For the same option, 
+Chart D.2 presents values of gamma as the underlying price and the time to expiry both change.
+The chart shows that gamma changes abruptly when the option is near to being an at-the-money 
+option and the time to expiry is close to zero. 
+0.06
+0.16
+0.26
+0.36
+0.46
+0.56
+0.66
+0.76
+0.86
+0.96
+2.8
+4.8
+6.8
+8.8
+10.8
+1.00
+0.75
+0.50
+0.25
+0
+Delta (δ)
+Time to expiration
+Underlying price
+(strike = 5)
+
+Appendix D.  Assessing the accuracy of the delta-gamma approach
+249
+Appendices
+Chart D.2
+Gamma vs. time to expiration and underlying price
+Together, Charts D.1 and D.2 demonstrate that we should expect the delta-gamma method to do 
+most poorly when portfolios contain options that are close to being at-the-money and the time to 
+expiry is short (about one week or less).
+D.1  Comparing full simulation and delta-gamma: A Monte Carlo study
+In this section we describe an experiment undertaken to determine the difference in VaR forecasts 
+produced by the full simulation and delta-gamma methodologies. The study focuses on one call op-
+tion. (For more complete results, see the third quarter 1996 RiskMetrics Monitor.) VaR forecasts, 
+deﬁned as the 5th percentile of the distribution of future changes in the value of the option, were 
+made over horizons of one day. The Black-Scholes formula was used to both revalue the option and 
+to derive the “greeks.”
+We set the parameters used to value the option, determine the “greeks”, and generate future prices 
+(for full simulation) as shown in Table D.1.
+Given these parameter settings we generate a series of underlying spot prices, 
+, with values 4.5, 
+4.6, 4.7,..., 5.6. Here the time t subscript denotes the time the VaR forecast is made. These spot pric-
+es imply a set of ratios of spot-to-strike price, 
+, that deﬁne the “moneyness” of the option. 
+The values of 
+ are 0.90, 0.92,0.94,...,1.12. In addition, we generate a set of time to expira-
+tions, 
+, (expressed in years) for the option. Values of 
+ range from 1 day (0.004) to 1 year (1.0).
+Table D.1
+Parameters used in option valuation
+Parameter
+Value
+Strike price (K)
+5.0
+Standard deviation (annualized)
+ 23.0%
+Risk-free interest rate
+ 8.0%
+0.06
+0.16
+0.26
+0.36
+0.46
+0.56
+0.66
+0.76
+0.86
+0.96
+2.0
+4.0
+6.0
+8.0
+10.0
+3.5
+3.0
+2.5
+2.0
+1.5
+1.0
+0.5
+0
+Gamma (Γ)
+Time to expiration
+Underlying price
+(strike = 5)
+Pt
+Pt K
+⁄
+Pt K
+⁄
+τ
+τ
+
+250
+Appendix D.  Assessing the accuracy of the delta-gamma approach
+RiskMetrics —Technical Document
+Fourth Edition
+In full simulation, we are required to simulate future prices of the underlying instrument. Denote 
+the future price of the underlying instrument by 
+ where n denotes the VaR forecast horizon
+(i.e., n = 1 day, 1 week, 1 month and 3 months). We simulate underlying prices at time t+n, 
+, 
+according to the density for a lognormal random variable
+[D.6]
+where z is a standard unit normal random variable.
+In full simulation, VaR is deﬁned as the difference between the value of the option at time t + n (the 
+forecast horizon) and today, time t. This means that all instruments are revalued. 
+[D.7]
+Exact = 
+, 
+where BS() stands for the Black-Scholes formula.
+We use the term “Exact” to represent the fact that the option is being revalued using its exact option 
+pricing formula. In the delta-gamma approach, VaR is approximated in terms of the Taylor series 
+expansion discussed earlier:
+[D.8]
+Approx = 
+Here, the term “Approx” denotes the approximation involved in using only the delta, gamma and 
+theta components of the option. To compare VaR forecasts we deﬁne the statistics 
+ and 
+ 
+as follows:
+ = the 5th percentile of the Exact distribution which represents full simulation.
+ = the 5th percentile of the Approx distribution which represents delta-gamma.
+For a given spot price, 
+, time to expiration, τ, and VaR forecast horizon, n, we generate 5,000 
+future prices, 
+, and calculate 
+and 
+. This experiment is then repeated 50 times to 
+produce 50 
+’s and 
+’s. We then measure the difference in these VaR forecasts by com-
+puting two metrics:
+[D.9]
+[D.10]
+Tables D.2 and D.3 report the results of this experiment. Speciﬁcally, Tables D.2 and D.3 show, re-
+spectively, the mean absolute percentage error (MAPE) and the mean error (ME) for a call option 
+for a one-day forecast horizon. Each row of a table corresponds to a different time to expiration (ma-
+turity). Time to expiration is measured as a fraction of a year (e.g., 1 day = 1/250 or 0.004) and can-
+not be less than the VaR forecast horizon which is one day. Each column represents a ratio of the 
+price of the underlying when the VaR forecast was made (spot) to the option’s strike price, 
+. 
+This ratio represents the option’s “moneyness” at the time VaR was computed. All entries greater 
+than or equal to 10 percent are reported without decimal places.
+Pt
+n
++
+Pt
+n
++
+Pt
+n
++
+Pte
+r
+σ
+2 2
+⁄
+–
+(
+)
+zσ n
++
+(
+)
+=
+BS Pt
+n
++
+t
+n
++
+,
+(
+)
+BS Pt t,
+(
+)
+–
+δ
+Pt
+n
++
+Pt
+–
+(
+)
+0.5 Γ
+Pt
+n
++
+Pt
+–
+(
+)
+2
+θ n
+⋅
++
+⋅
+⋅
++
+⋅
+VaRE
+VaRA
+VaRE
+VaRA
+Pt
+Pt
+n
++
+VaRE
+VaRA
+VaRE
+VaRA
+MAPE
+1
+50
+-----
+VaRA
+i
+VaRE
+i
+–
+
+
+
+
+VaRE
+i
+----------------------------------------   (Mean Absolute Percentage Error)
+i
+1
+=
+50
+∑
+=
+ME
+1
+50
+-----
+VaRA
+i
+VaRE
+i
+–
+
+
+
+  (Mean Error)
+i
+1
+=
+50
+∑
+=
+Pt K
+⁄
+
+Appendix D.  Assessing the accuracy of the delta-gamma approach
+251
+Appendices
+D.2  Conclusions
+The results reported in this appendix show that the relative error between delta-gamma and full sim-
+ulation is reasonably low, but becomes large as the option nears expiration and is at-the-money. 
+Note that the extremely large errors in the case where the option is out-of-the-money reﬂects the 
+fact that the option is valueless. Refer to Tables C.10 and C.19 in the RiskMetrics Monitor (third 
+quarter, 1996) to see the value of the option at various spot prices and time to expirations. Therefore, 
+Table D.2
+MAPE (%) for call, 1-day forecast horizon
+Time to maturity, 
+(years)
+Spot/Strike
+0.90
+0.92
+0.94
+0.96
+0.98
+1.00
+1.02
+1.04
+1.06
+1.08
+1.10
+1.12
+0.004
+3838
+2455
+1350
+633
+187
+28
+21
+1.7463
+0.004
+0.004
+0.004
+0.0036
+0.054
+11
+7.12
+3.960
+1.561
+0.042
+0.762
+0.946
+0.733
+0.372
+0.082
+0.052
+0.069
+0.104
+3.226
+2.061
+1.180
+0.486
+0.021
+0.271
+0.395
+0.399
+0.330
+0.229
+0.133
+0.061
+0.154
+1.592
+1.039
+0.615
+0.272
+0.028
+0.130
+0.216
+0.245
+0.232
+0.195
+0.148
+0.102
+0.204
+0.983
+0.655
+0.400
+0.190
+0.036
+0.069
+0.133
+0.163
+0.168
+0.155
+0.131
+0.104
+0.254
+0.685
+0.465
+0.293
+0.148
+0.040
+0.037
+0.087
+0.115
+0.125
+0.122
+0.111
+0.095
+0.304
+0.515
+0.355
+0.230
+0.123
+0.041
+0.018
+0.059
+0.084
+0.096
+0.098
+0.093
+0.084
+0.354
+0.407
+0.285
+0.189
+0.106
+0.042
+0.007
+0.041
+0.063
+0.075
+0.079
+0.078
+0.073
+0.404
+0.333
+0.237
+0.160
+0.094
+0.041
+0.003
+0.028
+0.047
+0.059
+0.065
+0.066
+0.063
+0.454
+0.28
+0.202
+0.139
+0.084
+0.041
+0.007
+0.019
+0.036
+0.048
+0.054
+0.056
+0.055
+0.504
+0.241
+0.175
+0.123
+0.077
+0.040
+0.010
+0.012
+0.028
+0.038
+0.045
+0.048
+0.048
+0.554
+0.211
+0.155
+0.111
+0.071
+0.039
+0.013
+0.007
+0.021
+0.031
+0.038
+0.041
+0.042
+0.604
+0.187
+0.139
+0.101
+0.066
+0.038
+0.015
+0.003
+0.016
+0.025
+0.032
+0.035
+0.037
+0.654
+0.167
+0.125
+0.092
+0.062
+0.037
+0.016
+0.001
+0.012
+0.021
+0.027
+0.031
+0.033
+0.704
+0.151
+0.114
+0.085
+0.058
+0.035
+0.017
+0.003
+0.008
+0.017
+0.023
+0.026
+0.029
+0.754
+0.138
+0.105
+0.079
+0.055
+0.034
+0.018
+0.005
+0.006
+0.013
+0.019
+0.023
+0.025
+0.804
+0.126
+0.097
+0.074
+0.052
+0.033
+0.018
+0.006
+0.003
+0.011
+0.016
+0.020
+0.022
+0.854
+0.117
+0.09
+0.069
+0.049
+0.033
+0.019
+0.007
+0.002
+0.008
+0.014
+0.017
+0.020
+0.904
+0.108
+0.084
+0.065
+0.047
+0.032
+0.019
+0.008
+0.001
+0.006
+0.011
+0.015
+0.018
+Table D.3 
+ME (%) for call, 1-day forecast horizons
+Time to maturity, 
+(years)
+Spot/Strike
+0.90
+0.92
+0.94
+0.96
+0.98
+1.00
+1.02
+1.04
+1.06
+1.08
+1.10
+1.12
+0.004
+0.000
+0.000
+0.000
+−0.003
+−0.186
+0.569
+−0.180
+−0.010
+0.000
+0.000
+0.000
+0.000
+0.054
+−0.004
+−0.006
+−0.008
+−0.005
+0.000
+0.005
+0.007
+0.005
+0.003
+0.001
+0.000
+0.000
+0.104
+−0.003
+−0.004
+−0.003
+−0.002
+0.000
+0.001
+0.002
+0.003
+0.002
+0.002
+0.001
+0.000
+0.154
+−0.002
+−0.002
+−0.002
+−0.001
+0.000
+0.001
+0.001
+0.002
+0.002
+0.001
+0.001
+0.001
+0.204
+−0.002
+−0.002
+−0.001
+−0.001
+0.000
+0.000
+0.001
+0.001
+0.001
+0.001
+0.001
+0.001
+0.254
+−0.001
+−0.001
+−0.001
+−0.001
+0.000
+0.000
+0.000
+0.001
+0.001
+0.001
+0.001
+0.001
+0.304
+−0.001
+−0.001
+−0.001
+−0.001
+0.000
+0.000
+0.000
+0.000
+0.001
+0.001
+0.001
+0.001
+0.354
+−0.001
+−0.001
+−0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.001
+0.000
+0.404
+−0.001
+−0.001
+−0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.454
+−0.001
+−0.001
+−0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.504
+−0.001
+−0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.554
+−0.001
+−0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.604
+−0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.654
+−0.001
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.704
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.754
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.804
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.854
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.904
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+0.000
+
+252
+Appendix D.  Assessing the accuracy of the delta-gamma approach
+RiskMetrics —Technical Document
+Fourth Edition
+aside from the case where the option is near expiration and at-the-money, the delta-gamma meth-
+odology seems to perform well in comparison to full simulation.
+Overall, the usefulness of the delta-gamma method depends on how users view the trade-off be-
+tween computational speed and accuracy. For risk managers seeking a quick, efﬁcient means of 
+computing VaR that measures gamma risk, delta-gamma offers an attractive method for doing so.

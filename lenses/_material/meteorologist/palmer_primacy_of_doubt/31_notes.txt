@@ -1,0 +1,1025 @@
+Notes
+Epigraphs
+1. Feynman (1999).
+2. Gleick (1992).
+Author’s Note
+1. In my ﬁrst year of graduate research, I was supervised
+by one of Sciama’s earlier students, John Miller, who tried
+to  get  me  interested  in  solving  the  equations  of  general
+relativity by computer. At the time, ironic in the light of my
+later  research  in  weather  and  climate,  this  didn’t  interest
+me at all—I wanted to do something more theoretical. For
+the remaining years of my graduate research, I was
+supervised directly by Sciama.
+2. My main contribution to general relativity theory was
+the formulation of some of the ﬁrst quasi-local descriptions
+of gravitational energy momentum in general space-times.
+See Palmer (1978a, 1978b).
+3. Isham et al. (1975).
+4. Paltridge (1978).
+5. Gleick (1987).
+6. Palmer (1995).
+7. Palem (2014).
+8. Palmer (2015).
+Introduction
+
+1.  Who  was  this  woman  who  called  the  BBC  Weather
+Centre?  It  seems  she  had  a  sister  living  in  France.  The
+sister had been listening to the weather forecasts from the
+French Weather Service, Météo-France. A few days before
+the hurricane hit, Météo-France was warning of an
+exceptional gale in the English Channel region. Then,
+mysteriously, as the time got closer to the expected arrival
+of  these  gales,  the  warnings  from  Météo-France  stopped.
+What was going on? It was the butterﬂy eﬀect at work. For
+all  its  sophisticated  use  of  supercomputers  and  satellite
+technology, weather forecasting in the 1980s had not
+embraced the concept of uncertainty. Like with the
+astrologers, there were no attempts to estimate error bars
+for the forecasts.
+2.  BBC  News,  January  6,  2017:  Crash  was  economists’
+“Michael 
+Fish” 
+moment, 
+says 
+Andy 
+Haldane.
+www.bbc.co.uk/news/uk-politics-38525924.
+3. Kay and King (2020).
+4. 
+Oxford 
+Learner’s 
+Dictionary, 
+n.d.: 
+doubt.
+www.oxfordlearnersdiction
+aries.com/deﬁnition/english/doubt_2.
+Part I: The Science of Uncertainty
+1. Stewart (1997).
+Chapter 1: Chaos, Chaos Everywhere
+1. To construct an ellipse, ﬁrst choose two ﬁxed points in
+the  plane.  These  are  called  the  foci.  Then  the  ellipse  is
+deﬁned as the set of points where the sum of the distances
+between each point and the two foci is a ﬁxed constant.
+2. Wikipedia, accessed February 8, 2022: Laplace’s
+demon. https://en.wikipedia.org/wiki/Laplace%27s_demon.
+
+3. For example, an ellipse can be deﬁned as the locus of
+all points which satisfy the formulas x( t) = a cos t and y( t)
+= b  sin t,  where  cos  and  sin  are  standard  trigonometric
+functions.
+4. Tardivel, S. (@simon_tardivel), January 10, 2020, 3:14
+p.m.: 
+Par 
+exemple.… 
+Twitter.
+https://twitter.com/simon_tardivel/status/12157286590
+10670594.
+5. Tremaine, S., 2011: Is the solar system stable?
+Institute 
+for 
+Advanced 
+Study.
+www.ias.edu/ideas/2011/tremaine-solar-system.
+6. Indeed, in November 2021, NASA launched a mission
+to deliberately strike an asteroid with a spacecraft to test
+whether we can divert a small asteroid which might
+otherwise hit Earth.
+7. A ﬂuid can be a liquid or a gas.
+8.  In  fact,  a  model  which  is  a  ﬁnite  truncation  of  the
+Navier-Stokes equation will eventually repeat itself, unless
+it is perturbed with random noise.
+9. Lorenz (1993).
+10.  “Angela”,  September  2020:  Chaotic  waterwheel  by
+Harvard Natural Sciences Demonstration. Go Science Girls.
+https://gosciencegirls.com/chaotic-waterwheel-harvard-
+natural-sciences-lecture.
+11. Lorenz (1963).
+12. May (1976).
+13. xn + 1 = axn(1 − xn). Here xn denotes the population
+of the nth generation, “normalised” so that xn = 1 denotes
+a  situation  where  the  population  is  as  large  as  it  can
+possibly be given the ﬁnite environmental resources, and xn
+= 0 denotes a situation where the population has crashed
+to  zero.  The  number a  is  a  constant.  When a  >  3.57,  the
+population  varies  chaotically  and  is  impossible  to  predict
+for a long time ahead.
+
+14. There is a ﬁeld called “quantum chaos” which tries
+to understand how classical chaos can emerge from
+quantum mechanics.
+Chapter 2: The Geometry of Chaos
+1. However, if we measure positions and velocities
+relative  to  one  of  the  bodies  (e.g.,  the  sun),  that  reduces
+the  dimension  of  state  space  to  12.  And  it  turns  out  that
+there are various additional 
+constraints 
+implied by
+Newton’s  laws  of  motion  which  reduce  the  dimension  of
+state space to just 7.
+2. Technically the state space of the Navier-Stokes
+equation  is  inﬁnitely  dimensional.  However,  this  assumes
+that scales can become inﬁnitesimally small. In practice the
+Navier-Stokes equation would break down due to quantum
+eﬀects  before  this  limit.  However,  even  if  we  assume  the
+equation applies to only macroscopic non-quantum scales,
+the  dimension  of  the  state  space  of  weather  could  be  as
+large as 1050, certainly much, much larger than could ever
+be represented explicitly in a weather model.
+3. Actually, there is a subtlety here. If you use a
+computer  to  solve  Lorenz’s  equations,  then  in  fact  the
+trajectories  will  be  closed  1-dimensional  curves.  This  is
+because on a computer, the states X, Y and Z are
+represented by a ﬁnite number of binary digits, or bits, as
+they  are  known  in  computer  science  jargon.  In  scientiﬁc
+computation one typically represents variables like X, Y and
+Z  with  64  bits.  With  this  ﬁnite  representation,  the  Lorenz
+attractor will be a rather complicated closed 1-dimensional
+curve.  If  instead  you  allow X, Y  and Z  to  be  represented
+with 128 bits, the 1-dimensional curve will be longer before
+it again joins up to be a closed 1-dimensional curve. Go to
+256  bits  and  the  closed  curve  will  be  longer  still.  What
+happens in the limit when we imagine a hypothetical
+
+computer  where X, Y  and Z  can  be  represented  by  an
+unlimited  number  of  bits?  Being  based  on  calculus,  the
+mathematical 
+forms 
+of 
+Lorenz’s 
+equations 
+do 
+not
+themselves put any restrictions on the number of bits used
+to represent X, Y and Z.
+4. Vallin (2013).
+5.  The  so-called  Hausdorﬀ  dimension  is  equal  to  ln(2)/
+ln(3) where ln denotes the logarithm to the natural base of
+e. This is an irrational number.
+6. Who got his inspiration from the work of L. F.
+Richardson, who showed that the coastline of Britain
+approximated well to a fractal—see Chapter 9.
+7. Rössler (1976).
+8. During World War II, Cambridge mathematicians Mary
+Cartwright and J. L. Littlewood (the distinguished number
+theorist)  had  found  hints  of  chaos  in  what  are  called  the
+van 
+der 
+Pol 
+oscillator 
+equations. 
+In 
+1960, 
+MIT
+mathematician Norman Levinson had contacted celebrated
+topologist  Steve  Smale  about  this,  since  it  appeared  to
+contradict a conjecture of Smale’s about the behaviour of
+dynamical systems. By way of clariﬁcation, Smale realised
+that there may be dynamical systems exhibiting the type of
+folding geometry described in Fig. 9. Smale’s fractal
+construction  is  called  Smale’s  horseshoe.  However,  until
+Lorenz,  Smale  did  not  know  of  speciﬁc  equations  which,
+based  on  Newton’s  calculus,  would  generate  this  type  of
+geometric structure.
+9. Stewart (1997).
+10. See Stewart (2000).
+11. If dX/ dt = F[ X] is a nonlinear dynamical system, so
+that F is at least quadratic in X, then the so-called Jacobian
+operator ( dF/ dX)  in  the  linearised  form  of  the  dynamical
+system dδ X/ dt = ( dF/ dX)δ X depends at least linearly on X.
+In this way, the growth of small perturbations depends on
+the initial conditions.
+
+12. 
+The 
+Liouville 
+equation 
+for 
+a 
+time-reversible
+Hamiltonian system can be written in the form ∂ϱ/ ∂
+t = −
+[ϱ, H] where [. . , . .] is the so-called Poisson bracket and H
+the  Hamiltonian.  In  this  form  the  Liouville  equation  is
+formally very similar to the Schrödinger equation of
+quantum theory.
+13. Epstein (1969).
+14. Here a constant “forcing term”, C, has been added to
+the original Lorenz equations, giving
+dX/ dt = σ( Y − X) + C, dY/ dt = X(ρ − Z) − Y + C , dZ/ dt
+= XY − β Z.
+15. In pure mathematics, it is usually a prime number—a
+whole number greater than 1 only divisible by itself and 1.
+16. Technically, a 2-adic “integer”.
+17. Technically, the 5-adic “integers”.
+18. There are no integers X, Y and Z greater than 2, with
+Xn + Yn = Zn.
+19. Quarmyne, Nyani, June 28, 2016: The oracle of
+arithmetic. 
+Quanta 
+Magazine.
+www.quantamagazine.org/peter-scholze-and-the-future-of-
+arith metic-geometry-20160628.
+20. E.g., Penrose (1989).
+21.  Penrose  (1989).  Some  have  argued  that  since  non-
+computability concerns properties of inﬁnite sets, it should
+play no role in physics. I disagree with this. Non-
+computability can be thought of as a limiting case of ﬁnite
+systems 
+that 
+are 
+called 
+computationally 
+irreducible.
+Computational irreducibility is a concept proposed by
+Wolfram  (2002).  The  idea  is  that  you  can’t  fully  describe
+the behaviour of a computationally irreducible system
+using  a  computationally  simpler  model  of  that  system.  In
+such  a  situation,  the  computationally  simpler  system  will
+always be an incomplete representation of the full system.
+Non-computability  can  be  thought  of  as  describing  the
+
+incompleteness  of  a  system  whose  simpler  representation
+is algorithmic but otherwise as complex as we like.
+22. Penrose (1989).
+23. Dube (1993).
+24. Barnsley (2006).
+25.  However,  Blum  et  al.  (1998)  were  able  to  show
+directly that the problem of ﬁnding an algorithm which will
+halt  if  a  chosen  point  in  state  space  lies  on  a  fractal
+attractor, like the Lorenz attractor, is algorithmically
+impossible.
+Chapter 3: Noisy, Million-Dollar Butterﬂies
+1.  Because  of  the  rotation  of  the  Earth,  Kolmogorov’s
+theory has to be modiﬁed somewhat to describe large-scale
+turbulence in the atmosphere.
+2. Inspired by a satirical poem by Jonathan Swift about
+the politics of his day.
+3. Woollings (2019).
+4. The Navier-Stokes equation is often referred to in the
+plural,  i.e.,  as  “equations”.  However,  it’s  essentially  the
+same  equation  for  each  of  three  diﬀerent  directions  in
+physical space. For conceptual simplicity I will describe it
+in the singular.
+5. Lorenz (1969).
+6. Palmer et al. (2014).
+7. This means that the two horizontal sides have a size of
+100  km.  The  vertical  side  of  the  volume  would  be  much
+smaller than this, say 1 km.
+8.  The  Navier-Stokes  equation  is  not  the  only  equation
+you need to forecast the weather, but it is certainly central.
+9.  The  process  of  using  observations  to  construct  the
+initial 
+state 
+for 
+a 
+weather 
+model 
+is 
+called 
+“data
+assimilation”. It is in fact a mathematically complex
+procedure.
+
+10.  In  fact,  a  doubling  of  resolution  in  this  way  will
+typically take up to sixteen times more computing
+resources: 
+eight 
+times 
+because 
+a 
+volume 
+is 
+three
+dimensional,  and  on  top  of  this  the  ﬁnite  time  steps  over
+which  the  solution  is  calculated  have  to  be  reduced  to
+prevent 
+the 
+model 
+from 
+becoming 
+computationally
+unstable.
+11. 
+Clay 
+Mathematics 
+Institute, 
+n.d.: 
+Millennium
+problems. www.clay math.org/millennium-problems.
+12.  One  problem,  the  famous  Riemann  hypothesis,  is
+common to both lists.
+13. Palmer (2019).
+14. Palmer (2015).
+15. Paxton et al. (2022).
+16. Since writing this, I have discovered that a company
+called  Graphcore  is  producing  a  computer  processor  with
+just such a capability.
+17. This eﬀect was ﬁrst described in Kwasniok (2014).
+Chapter 4: Quantum Uncertainty: Reality Lost?
+1. Indeed Richard Feynman said it was the only quantum
+mystery,  though  not  all  quantum  foundations  researchers
+agree with him on this (Catani et al., 2021).
+2. Their square roots to be more precise.
+3. 
+Now 
+discovered 
+by 
+the 
+Laser 
+Interferometer
+Gravitational-Wave Observatory (LIGO).
+4.  That  is  to  say,  many  researchers  think  Einstein  was
+referring 
+to 
+entanglement 
+when 
+complaining 
+about
+“spooky” quantum action-at-a-distance. This example shows
+that this is not so.
+5. Becker (2018).
+6. Originally the experiment was done using silver atoms
+with a single electron in their outer shell. It is much more
+diﬀicult to do the experiment with free electrons. However,
+
+for conceptual purposes, let’s imagine the particles are free
+electrons.
+7. 
+We could 
+hypothesise, 
+for 
+example, 
+that 
+the
+intermediate  SGx  device  somehow  randomises  the  hidden
+variables of the particles.
+8. Bell (1993).
+9.  The  European  Organization  for  Nuclear  Research,
+home of the Large Hadron Collider.
+10. Bell (1964).
+11. Here is a proof of Bell’s inequality, taken from Rae
+(1986).
+Let n(+  ,  −,  .  )  denote  the  number  of  times  in  a  table,
+like Table 2, that there is a + symbol in the ﬁrst row, a −
+symbol  in  the  second  row,  and  either  symbol  in  the  third
+row.  Similarly,  for  example,  let n(−,  .  ,  +)  denote  the
+number of times there is a − symbol in the ﬁrst row, either
+symbol in the second row, and a + symbol in the third row.
+Generalising in an obvious way we have
+A = n(+, +, . ) = n(+, +, +) + n(+, +, −)
+B = n( . , −, +) = n(+, −, +) + n(−, −, +)
+C = n(+, . , +) = n(+, +, +) + n(+, −, +)
+Adding the ﬁrst two equations together we get
+A + B = n(+, +, +) + n(+, +, −) + n(+, −, +) + n(−, −,
++)
+Now  the  ﬁrst  and  third  terms  of  this  equation,  added
+together, give C. Hence,
+A + B = C + n(+, +, −) + n(−, −, +)
+Since the last two terms are never negative
+A + B ≥ C
+QED.
+12. In practice the experiment is performed with
+photons. The SG devices correspond to photon polarisers.
+13. For example, if a source sends out a red ball in one
+direction and a blue ball in an opposite direction, and I see
+the red ball coming towards me, then I will know for sure
+
+that the blue ball is going away from me, even if I don’t see
+it.
+14. Clauser et al. (1969).
+15. There is now an overwhelming body of experimental
+results  on  the  violation  of  Bell’s  inequality,  starting  with
+Clauser and Horne (1974) and Aspect et al. (1981).
+Part II: Predicting Our Chaotic World
+1.  Pyarelal,  1958: Mahatma  Gandhi:  The  Last  Phase.
+Navajivan Publishing House.
+2. Krebs et al. (2021).
+Chapter 5: The Two Roads to Monte Carlo
+1.  Oceans  also  typically  warm  less  at  the  surface  than
+land because ocean eddies can mix heat from the sun down
+to the subsurface much more eﬀectively than is possible on
+land.
+2. Credit also has to be given to Austrian meteorologist
+Felix Exner, who also developed prediction schemes using
+physically based models around this time.
+3.  Peter  Lynch  once  sent  me  an  email  in  which  he  had
+set the history of meteorology to verse. He asked for
+further contributions. I sent him this about Lewis Fry
+Richardson:
+Although LFR was quite bright
+Some said that his forecasts were sh*te.
+Till Lynch went and built a
+Smart digital ﬁlter
+Which made the predictions just right!
+in  the  hope  it  might  be  included  in  his  anthology.  Alas,  I
+don’t  think  it  made  it  because  of  an  injudicious  choice  of
+word in line two. I include it here as a way of
+
+acknowledging Peter’s work in this area (Lynch and Huang
+[1992]).
+4. It is a sad fact that the main use of the most powerful
+supercomputers today is nuclear weapons testing. I argue
+later that these top-of-the-range supercomputers should be
+dedicated to weather and climate prediction.
+5.  I  can  recall  being  at  a  scientiﬁc  meeting  where  we
+were discussing a recently discovered phenomenon: when
+in  some  years  the  upwelling  got  stronger  than  normal
+rather than weaker. We named this phenomenon the Anti–
+El Niño event, until a colleague pointed out that if El Niño
+stood for “the Christ Child”, then Anti–El Niño would
+presumably stand for “the Antichrist Child”! After that, we
+switched to the term “La Niña”, and the name has stuck.
+6. Horel and Wallace (1981).
+7.  On  the  other  hand,  with  Europe  so  far  from  the
+tropical  Paciﬁc,  these  teleconnections  can  be  quite  noisy,
+akin  to  trying  to  hear  someone  speaking  at  the  opposite
+end of a room at a party full of noisy people.
+8.  One  of  the  achievements  I  am  most  proud  of  during
+this period was working with ﬂuid dynamicist Michael
+McIntyre,  from  Cambridge,  and  discovering  the  largest
+breaking  waves  in  the  atmosphere.  These  occur  in  the
+northern  hemisphere  stratosphere  and  much  less  in  the
+southern  hemisphere  stratosphere—due  primarily  to  the
+diﬀerent distribution of mountains in the two hemispheres
+—and  this  provides  an  explanation  of  why  the  ozone  hole
+was  discovered  in  the  southern  hemisphere  and  not  the
+northern hemisphere.
+9. Shukla (1981).
+10. Murphy and Palmer (1986).
+11. From My Fair Lady, a 1964 movie based on a 1956
+stage musical, itself based on George Bernard Shaw’s stage
+play Pygmalion.
+12.  The  development  of  this  system  was  the  work  of
+many colleagues: see this book’s acknowledgements.
+
+13.  There  is  always  a  chance  of  tossing  10  heads  in  a
+row  with  a  coin  whose  heads  and  tails  are  equally  likely.
+However, the more often this happens, the more likely it is
+that the coin is biased.
+14. Cane et al. (1986).
+15. Palmer et al. (2004).
+Chapter 6: Climate Change: Catastrophe or Just Lukewarm?
+1. My thanks to Peter Webster for this suggestion.
+2. Oreskes and Conway (2011).
+3.  This  is  not  actually  the  mechanism  that  makes  air
+inside  a  greenhouse  warm.  There  the  sun  shines  through
+the glass and warms the ground, which heats the air. The
+glass is a physical barrier preventing the currents of warm
+air  from  escaping  from  the  greenhouse.  But  the  term  has
+stuck, so we have to live with it.
+4. Detecting photons in what would be called the
+broadband infrared part of the electromagnetic spectrum.
+5. Atmospheric circulations, e.g., in the form of
+thunderstorm clouds, help adjust the surface temperature
+to the greenhouse gas warming aloft.
+6.  A  typical  column  of  air  might  contain  about  2.5  mm
+(0.10  inches)  of  water  vapour,  but  only  0.1  mm  (0.004
+inches) of cloud liquid or ice water.
+7.  Such  a  negative  cloud  feedback  eﬀect,  because  it
+cools  the  surface  but  warms  the  mid-atmosphere,  could
+have an undesirable eﬀect on the hydrological cycle, i.e., on
+rainfall around the world.
+8. Though the relationship between the degree of
+subsidence and depth and extent of cloud amount is
+complex. See van der Dussen, J. J., S. R. de Roode and A. P.
+Siebesma, 2016: How large-scale subsidence aﬀects
+stratocumulus transitions. 
+Atmospheric Chemistry and
+Physics, 16, 691–701. doi: 10.5194/acp-16-691-2016.
+
+9.  Since  the  strength  of  the  Walker  circulation  also
+depends on sea surface temperature in the tropical Paciﬁc,
+knowing how marine stratocumulus clouds react to
+increasing greenhouse gases also depends on how the
+tropical Paciﬁc Ocean reacts to increasing greenhouse
+gases. Climate is a very interactive system.
+10.  Suki  Manabe  won  the  Nobel  Physics  prize,  along
+with fellow climatologist Klaus Hasselmann, in 2021. It was
+a  great  moment  for  climate  scientists  like  me  to  see  our
+ﬁeld recognised as part of mainstream physics.
+11. Manabe and Wetherald (1975).
+12. The warming values illustrated are those that arise
+in  the  models  when  the  climate  system  has  come  into
+balance  with  the  extra  amount  of  carbon  dioxide  in  the
+atmosphere.
+13.  See  Zelinka,  M.,  April  2,  2021:  Eﬀective  climate
+sensitivity. 
+Github.
+https://github.com/mzelinka/cmip56_forcing_feedback_ecs/
+blob/master/ECS6_histogram_gavin1.pdf.
+14. Roe and Baker (2007).
+15. It is “fat” compared with a Gaussian or Bell-shaped
+probability distribution.
+16.  Although  my  curve  suggests  substantial  non-zero
+probabilistic values greater than 6°C (10.8°F), such values
+are  not  supported  by  paleoclimatic  data  from  the  distant
+past and should likely be discounted.
+17. Mandelbrot (2008).
+18. See Roe and Baker (2007). There are other feedback
+eﬀects which I have not discussed here. However, the most
+important is the cloud feedback.
+19. And the related eﬀect of aerosols.
+20. These scenarios take other factors into account, like
+changes in land use and in aerosol emissions.
+21. Hausfather et al. (2020).
+22. Dockrill, P., November 5, 2015: Middle East may be
+uninhabitable this century due to deadly heat, study ﬁnds.
+
+Science Alert. www.sciencealert.com/middle-east-may-be-
+uninhabitable-this-century-due-to-deadly-heat -study-ﬁnds.
+23. The polewards shift of the jet streams is predicted by
+many contemporary climate models, but is one of the
+regional  predictions  about  which  we  are  not  completely
+conﬁdent. I discuss the need for developing much- higher-
+resolution models later in the chapter.
+24. It’s not a priori obvious that increased carbon
+dioxide concentrations will make such heatwaves more or
+less 
+likely. 
+Although 
+increased 
+carbon 
+dioxide
+concentrations  will  warm  the  air,  they  could  conceivably
+make  the  circulation  patterns  that  lead  to  heatwaves  less
+likely. This is one reason why it is vital to develop reliable
+physics-based models to study such questions.
+25. Allen, M., 2003: Liability for climate change. Nature,
+421, 891–892. www.nature.com/articles/421891a.
+26.  Currently  we  put  more  computing  resources  into
+simulating  nuclear  weapons  than  we  do  into  simulating
+climate change.
+27. A phenomenon called Rayleigh-Bénard convection.
+28. Palmer and Stevens (2019).
+29. Turing (1950).
+30.  Of  course,  we  should  coarse-grain  the  real-world
+data  onto  gridboxes  the  same  size  as  the  model  before
+doing the comparison.
+31.  National  Academies  of  Sciences,  Engineering,  and
+Medicine, 2021: Reﬂecting sunlight: Recommendations for
+solar  geoengineering  research  and  research  governance.
+The 
+National 
+Academies 
+Press.
+www.nap.edu/catalog/25762/reﬂecting-sunlight-
+recommendations-for-solar-geoenginee 
+ring-research-and-
+research-governance.
+32.  Hossenfelder,  S.,  and  T.  Palmer,  December  9,  2021:
+An international institute will help us manage climate
+change. 
+Scientiﬁc 
+American.
+
+www.scientiﬁcamerican.com/article/an-international-
+institute-will-help-us -manage-climate-change.
+33.  Deser,  C.,  2020:  Certain  uncertainty:  The  role  of
+internal climate variability in projections of regional
+climate  change  and  risk  management. Earth’s  Future,  8.
+doi: 10.1029/2020EF001854.
+Chapter 7: Pandemics
+1. Barabási (2016).
+2. Mandelbrot (2008).
+3. Herrmann and Schwartz (2020).
+4.  MRC  Centre  for  Global  Infectious  Disease  Analysis,
+July 
+19, 
+2021: 
+Eﬀective 
+climate 
+sensitivity. Github.
+https://github.com/mrc-ide/covid-sim.
+5. Edeling et al. (2021).
+6.  In  writing  this  book,  I  was  told  that  in  some  circles,
+the  words  “doubt”  and  “ignorance”  tend  to  go  hand  in
+hand. I tend to think of ignorance as a blanket term for a
+complete lack of knowledge. However, that is not the way it
+is used in epistemological philosophy, and that the
+Rumsfeld quote is a way to distinguish “recognised
+ignorance” (known unknowns) from “total ignorance”
+(unknown unknowns).
+7. Edeling et al. (2021).
+8.  Based  on  models  from  Imperial  College,  the  London
+School  of  Hygiene  and  Tropical  Medicine,  and  Warwick
+University.
+9.  Cramer,  E.  Y.,  E.  L.  Ray,  V.  K.  Lopez,  J.  Bracher,  A.
+Brennen et al., 2021: Evaluation of individual and ensemble
+probabilistic  forecasts  of  COVID-19  mortality  in  the  US.
+medRXiv.
+www.medrxiv.org/content/10.1101/2021.02.03.21250974v1.
+10. Vallance, P., December 23, 2021: It’s not true Covid
+modellers look only at worst outcomes. 
+The Times.
+
+www.thetimes.co.uk/article/its 
+-not-true-covid-modellers-
+look-only-at-worst-outcomes-5c9pcpdwr.
+11. Maher, M. C., et al., January 11, 2022: Predicting the
+mutational drivers of future SARS-CoV-2 variants of
+concern. 
+Science 
+Translational 
+Medicine. 
+doi:
+10.1126/scitranslmed.abk3445.
+Chapter 8: Financial Crashes
+1.  BBC  News,  January  6,  2017:  Crash  was  economists’
+“Michael 
+Fish” 
+moment, 
+says 
+Andy 
+Haldane.
+www.bbc.co.uk/news/uk-politics-38525924.
+2. Kay and King (2020).
+3.  Bank  of  England,  November  2021:  Bank  of  England
+monetary 
+policy 
+report.
+www.bankofengland.co.uk/-/media/boe/ﬁles/monetary-
+policy-report/2021/november/monetary-policy-report-
+november-2021.pdf.
+4. Gabaix et al. (2008).
+5. Gleick (1987).
+6. Hossenfelder (2018).
+7. Bookstaber (2017).
+8. Thurner et al. (2012).
+9. Emergent properties from Sabuco’s agent-based
+model resemble those of the so-called Goodwin class
+struggle model of endogenous economic ﬂuctuations.
+10. Poledna et al. (2020).
+11. Gill et al. (2021).
+12. Indeed, perhaps things are changing. In 2018 Andy
+Haldane  published  a  paper  (Haldane  and  Turrell  [2018])
+assessing  the  value  of  agent-based  models.  He  and  his
+coauthor 
+concluded 
+that 
+agent-based 
+models 
+are
+complementary  to  existing  approaches  and  are  suited  to
+answering macroeconomic questions where complexity,
+
+heterogeneity,  networks  and  heuristics  play  an  important
+role.
+Chapter 9: Deadly Conﬂict and the Digital Ensemble of
+Spaceship Earth
+1.  Department  of  Peace  and  Conﬂict  Research,  n.d.:
+ViEWS: A political violence early-warning system. Uppsala
+University. www.pcr.uu.se/research/views.
+2.  Ferguson,  S.,  April  14,  2020:  Apollo  13:  The  ﬁrst
+digital 
+twin. 
+Siemens 
+Blog.
+https://blogs.sw.siemens.com/simcenter/apollo-13-the-ﬁrst-
+digital-twin.
+3. Dasgupta, S. P., 2021: Final report—The economics of
+biodiversity: 
+The 
+Dasgupta 
+review. 
+HM 
+Treasury.
+www.gov.uk/government/publications/ﬁnal-report-the-
+economics-of-biodiversity-the-dasgupta-review.
+4. European Commission, last updated February 1, 2022:
+Destination 
+earth. 
+https://digital-
+strategy.ec.europa.eu/en/policies/destination-earth.
+5.  The  UK  decided  not  to  contribute  to  Digital  Europe,
+the European Commission’s programme which funds
+DestinE, after leaving the EU.
+Chapter 10: Decisions! Decisions!
+1. The value averaged over all cost-loss ratios is equal to
+a common skill score used to evaluate probability forecasts:
+the so-called Brier skill score.
+2. Cyclone Bhola in 1970.
+3. His book (Webster [2020]) is a masterpiece.
+4. President John. F. Kennedy created the United States
+Agency for International Development to lead the US
+government’s international development and humanitarian
+eﬀorts.
+
+5. Webster et al. (2010).
+6. Lovelock (2006).
+7. See Stern (2015).
+8. Viscusi (2018).
+9. This would actually translate to a VSL less than $10
+million in the US.
+10.  Committee  on  Climate  Change  6th  Budget  Report
+(2021).
+11.  Although  the  price  of  solar  and  wind  power  has
+dropped and will likely continue to drop, these sources of
+energy are subject to the vagaries of weather. Of particular
+relevance in the UK are the persistent high-pressure
+systems which can form over northern Europe and last for
+weeks,  or  even  months.  At  the  time  of  writing,  the  wind
+turbines  in  the  North  Sea  have,  for  many  months,  been
+producing signiﬁcantly less electricity than expected due to
+a  “wind  drought”  caused  by  such  persistent  atmospheric
+high pressure. This has in part contributed to a big
+increase in the price of gas. Although the current spell of
+weak winds is surely temporary, we cannot be certain that
+these wind droughts won’t get more frequent in the future
+due to climate change (as part of a phenomenon known as
+“global 
+stilling”)—such 
+uncertainty 
+is 
+due 
+to 
+the
+inadequacy  of  current-generation  climate  models  on  the
+regional scale, as discussed in Chapter 6. For this reason,
+an over-reliance on wind energy is fraught with risk. Such
+risk can be mitigated by developing plentiful energy
+storage capability, and one idea being considered is storing
+hydrogen in underground caverns. However, we will need
+plentiful hydrogen to decarbonise transport, home heating
+and industry (e.g., cement manufacture), and diverting
+hydrogen to storage may end up meaning we do not have
+enough capacity in total. For this reason, I am personally in
+favour of a much stronger role for modern nuclear energy
+in  the  renewable  mix,  even  though  at  present  nuclear
+power is more expensive than wind and solar. In fact, the
+
+high  temperatures  produced  by  nuclear  reactors  can  be
+used  to  coproduce  hydrogen  along  with  electricity.  At  the
+time of writing, China is about to switch on a new type of
+nuclear reactor based on the thorium cycle. Thorium-based
+reactors  have  few  of  the  disadvantages  of  the  traditional
+uranium (U235) reactors. Putting all this together, the
+estimate  that  decarbonisation  will  cost  only  1  percent  of
+GDP  may  turn  out  to  be  an  underestimate.  However,  this
+does  not  undermine  the  conclusion  that,  based  on  a  cost-
+loss analysis based on VSL, decarbonisation is worth it.
+12. Palmer (2020a).
+Part III: Understanding the Chaotic Universe and Our Place in
+It
+1. Penrose (1997).
+2. Turing (1947).
+Chapter 11: Quantum Uncertainty: Reality Regained?
+1.  Another  possibility,  discussed  further  ahead,  is  that
+the theory of general relativity needs a little modiﬁcation.
+2. Wikipedia, accessed February 20, 2022: Cosmological
+constant.
+https://en.wikipedia.org/wiki/Cosmological_constant.
+3.  In  practice  it  can  be  assumed  that  there  is  another
+term  in  Einstein’s  ﬁeld  equations  for  general  relativity,
+known  as  the  cosmological  constant,  that  almost  but  not
+quite  cancels  this  quantum  acceleration.  Although  adding
+the cosmological constant might technically solve this
+seeming incompatibility of dark energy and quantum
+mechanics, it leaves a feeling that something isn’t right.
+4. At the very end of his paper “Free Variables and Local
+Causality”  (collected  in  Bell  [1993]),  John  Bell  writes,  “Of
+
+course it might be that these reasonable ideas about
+physical  randomisers  are  just  wrong—for  the  purpose  at
+hand.  A  theory  may  appear  in  which  such  conspiracies
+inevitably  occur,  and  these  conspiracies  may  then  seem
+more  digestible  than  the  nonlocalities  of  other  theories.
+When that theory is announced, I will not refuse to listen,
+either on methodological or other grounds.” Sadly, Bell was
+not able to listen when my paper (2020b) was published; he
+died  in  1990.  How  I  would  have  liked  to  discuss  this
+material with him.
+5. Pearl (2009).
+6. Hossenfelder and Palmer (2020).
+7. Tsirelson wrote about Bell’s inequality in the
+“Counterfactual deﬁniteness” section of a Knowino article
+titled 
+“Entanglement 
+(Physics)”:
+www.tau.ac.il/~tsirel/dump/Static/knowino.org/wiki/Entangl
+ement_(physics).html#Counterfactual_deﬁniteness.
+8. Bohm and Hiley (1993).
+9. Like the Lorenz attractor, I assume, the cosmological
+attractor  lies  in  a  bounded  region  of  cosmological  state
+space.
+10. This is a mathematical way of saying that if a state
+lies on the attractor now, then the evolved state will always
+lie on the attractor in the future, and has always lain on the
+attractor in the past. Conversely, if a putative state does not
+lie on the attractor now, then it will never lie on it in the
+future, and has never lain on it in the past. In this sense the
+points  of  the  attractor  are  invariant  under  the  dynamical
+laws which evolve states from one time to another.
+11. It is for this reason my model is not “ﬁne-tuned”, an
+objection sometimes raised about this model.
+12. Palmer (1995, 2009, 2020b, 2021, 2022).
+13. Curiously, it becomes a double helix if one includes
+antimatter eﬀects.
+14. I will describe some of the key ideas in this footnote.
+Whether we are discussing Bell’s experiment or a
+
+sequential  SG  experiment  with  three  SG  devices,  we  are
+dealing  with  look-up  tables  with  three  directions  which  I
+will write as “1”, “2” and “3”. These three directions can be
+represented  by  three  points  on  the  celestial  sphere  (the
+sphere  on  which  the  ancients  used  to  think  the  stars  all
+lay).  Consider  the  spherical  triangle  whose  vertices  are
+these three points. In invariant set theory, the angle
+between  two  arcs  of  such  a  triangle  must  be  a  rational
+angle of the form ( n/ p) × 360°. In addition, the cosine of
+the  angular  arc  length  of  any  of  the  sides  of  this  triangle
+must be a rational number of the form m/ p. Here, m, n and
+p  are  all  whole  numbers,  and  cosine  is  the  elementary
+trigonometric  function  taught  in  high  school.  It  turns  out
+that, using the so-called cosine rule for spherical triangles,
+together  with  Niven’s  theorem  from  number  theory,  it  is
+impossible to satisfy these conditions for such triangles if p
+is a prime number greater than 11. The situation is similar
+to  Penrose’s  “impossible”  triangle—the  tribar.  That  is  to
+say, it is possible to implement the constraints of invariant
+set  theory  for  any  two  sides  of  the  spherical  triangle,  but
+not the full three.
+In  the  case  of  Bell’s  experiment,  this  has  the  following
+implications. Suppose Alice measures her particle’s spin in
+the 1 direction and Bob measures his particle’s spin in the
+2  direction.  By  requiring  that  the  cosine  of  the  angular
+distance  between  the  1  vertex  and  the  2  vertex  of  our
+spherical triangle be rational—no problem with that—Alice
+can deduce that had she measured her particle in Bob’s 2
+direction,  the  spin  would  have  been  the  opposite  to  what
+Bob observed. So far so good. In addition, Bob can assert
+counterfactually that although he actually chose the 2
+direction, he might have chosen the 3 direction. This
+assertion requires the cosine of the angular distance
+between  the  2  and  3  vertices  to  be  rational.  Again,  no
+problem with that. But now Niven’s theorem kicks in to say
+that the cosine of the angular distance between the 1 and 3
+
+vertices—of the third side of the triangle—cannot be
+rational. This means that Alice cannot deduce that had she
+measured her particle in Bob’s counterfactual 3 direction,
+she would have got the opposite result to Bob’s. Following
+the logic of this is a bit of a mental stretch, but it implies
+that  it  is  impossible  for  Alice  and  Bob’s  particles  to  have
+complete 
+look-up tables 
+for 
+all 
+three 
+measurement
+directions. And without complete look-up tables, it is
+impossible  to  assert  that  invariant  set  theory  must  satisfy
+Bell’s inequality, even though invariant set theory is
+deterministic and locally causal.
+In the case of the sequential SG experiment, the
+“impossible triangle” rule means that a counterfactual
+experiment  in  which  we  reverse  the  order  of  the  last  two
+SG devices (keeping the particle ﬁxed) similarly cannot lie
+on the invariant set. The latter situation illustrates what in
+quantum mechanics is called the non-commutativity of spin.
+It means that we cannot treat the individual SG devices as
+single independent apparatuses.
+See Palmer (2022) for more details.
+15.  And  so,  as  Galileo  said,  the  language  of  nature  is
+written in the geometry of triangles.
+16. Making use of number-theoretic properties of
+trigonometric functions, c.f., Niven’s theorem.
+17.  In  ancient  Chinese  philosophy,  yin  and  yang  is  a
+concept that describes how obviously opposite or contrary
+forces may actually be complementary, interconnected and
+interdependent  in  the  natural  world,  and  how  they  may
+give  rise  to  each  other  as  they  interrelate  to  one  another
+(from  Wikipedia,  accessed  April  3,  2022:  Yin  and  yang.
+https://en.wikipedia.org/wiki/Yin_and_yang).
+18. At least until the trajectories decohere by the
+process illustrated in Fig. 44c.
+19. Hance et al. (2021).
+20. A crucial question is, What actually is the numerical
+value  of p?  There  are  good  reasons  to  suppose 
+p  will
+
+depend on the energy, E, of the quantum bits (qubits) being
+described.  For  example,  if  each  qubit  is  associated  with
+some 
+energy, 
+E, 
+then, 
+using 
+the 
+Planck-Einstein
+relationship E = hυ, where h is Planck’s constant, we can
+naturally  associate  a  timescale h/ E  with  that  qubit.  My
+proposal is that the dimensionless number p (for that qubit,
+and hence for the helix in that subset of state space) is the
+ratio h/ E to the Planck time √hG/ c5 where G is the
+gravitational constant and c is the speed of light. This has
+two consequences: 1) The larger is E the smaller is p. That
+is to say, the more energetic they are, the fewer the qubits
+can  be  entangled  together  before  they  become  inherently
+decoherent.  2)  The  larger  is G  the  smaller  is p,  i.e.,  the
+stronger is gravity, the fewer the qubits that can be
+entangled 
+together 
+before 
+they 
+become 
+inherently
+decoherent. This means that my proposal for decoherence
+(when the number of entangled qubits exceeds the
+logarithm  to  base  2  of p)  will  broadly  coincide  with  the
+Penrose/Díosi 
+criterion 
+for 
+gravitationally 
+induced
+decoherence. This makes sense if gravity is a manifestation
+of  the  heterogeneity  of  the  invariant  set  geometry.  For
+example,  if  heterogeneous  clustering  is  very  weak,  you
+would  need  a  very  large  number  of  trajectory  segments
+(large p)  to  diagnose  the  existence  of  discrete  clusters.
+Conversely,  if  clustering  is  very  strong,  you  would  see  it
+with relatively few trajectories (small p).
+21. Steinhardt and Turok (2007).
+22. Penrose (2010).
+23.  Wood,  C.,  December  13,  2021:  Cosmologists  parry
+attacks on the vaunted cosmological principle. Quanta
+Magazine. www.quantamagazine.org/giant-arc-of-galaxies-
+puts-basic-cosmology-under-scrutiny-20211213.
+24. Colin et al. (2019).
+25. Corresponding to a “Janus point” in the language of
+Julian Barbour—see Barbour (2020).
+
+26. See, e.g., Penrose (2004).
+27. Palmer (2017).
+Chapter 12: Our Noisy Brains
+1. What you do is write 2
+b2 = a2 and deduce from this
+that a2 is an even number and hence a is an even number—
+if a was odd, then its square would be odd. This means we
+can write a  =  2c,  and  substituting  into  2b2 =  a2  one  can
+deduce that b must be an even number. But this contradicts
+the assumption that a and b have no common factors, and
+hence the original assumption is false.
+2. Poincaré (1904).
+3.  Nobel  Prize  Outreach,  accessed  February  19,  2022:
+Roger 
+Penrose—Interview. 
+The 
+Nobel 
+Prize.
+www.nobelprize.org/prizes/physics/2020/pen
+rose/interview.
+4. Singh (1997).
+5. Cleese (2021).
+6. Kahneman (2011).
+7. Claxton (1998).
+8. Faisal et al. (2008); Rolls and Deco (2010); Palmer and
+O’Shea (2015).
+9. Liewald et al. (2014).
+10.  And  perhaps  abductive  reasoning  too:  Wikipedia,
+accessed 
+February 
+20, 
+2022: 
+Abductive 
+reasoning.
+https://en.wikipedia.org/wiki/Abductive_reasoning.
+11. Penrose (1989).
+12. Turing (1950).
+13. Shepherd et al. (2018).
+Chapter 13: Free Will, Consciousness and God
+1. Summhammer et al. (2018).
+
+2. Wikipedia, accessed February 19, 2022: Quantum
+supremacy.
+https://en.wikipedia.org/wiki/Quantum_supremacy.
+3. Wikipedia, accessed February 19, 2022: Orchestrated
+objective 
+reduction.
+https://en.wikipedia.org/wiki/Orchestrated_objective_reduct
+ion.
+4. See Kane (2002).
+5. van Inwagen (2002).
+6. Dennett (2002).
+7.  These  would  be p-adic  neighbourhoods  as  shown  in
+Fig. 44.
+8. Pearl (2009).
+9.  Wikipedia,  accessed  February  19,  2022:  Integrated
+information 
+theory.
+https://en.wikipedia.org/wiki/Integrated_information_theory
+.
+10. I was taught by Jesuits. I still recall being taught one
+of their proofs of God. “Hands up, those who have been to
+Australia,”  said  the  priest.  No  one  put  their  hand  up.
+“Hands up, those who doubt the existence of Australia.” No
+one  put  their  hand  up.  “There  you  are,”  concluded  the
+priest. “You do not physically need to experience something
+to believe in it.” If any Jesuits read my book, even though
+they  won’t  agree  with  my  comments  about  God,  they  will
+probably recognise the type of logic I have employed in the
+book. In this respect, their teaching style has rather
+profoundly rubbed oﬀ on me.
+11. As is the so-called Wheeler-DeWitt equation for
+quantum cosmology.
+...

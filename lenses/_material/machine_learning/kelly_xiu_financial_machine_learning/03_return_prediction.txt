@@ -1,0 +1,2771 @@
+3
+Return Prediction
+Empirical asset pricing is about measuring asset risk premia. This
+measurement comes in two forms: one seeking to describe and under-
+stand diﬀerences in risk premia across assets, the other focusing on
+time series dynamics of risk premia. As the ﬁrst moment of returns,
+it is a natural starting point for surveying the empirical literature of
+ﬁnancial machine learning. The ﬁrst moment at once summarizes i) the
+extent of discounting that investors settle on as fair compensation for
+holding risky assets (potentially distorted by frictions that introduce an
+element of mispricing), and ii) the ﬁrst-order aspect of the investment
+opportunities available to a prospective investor.
+A return prediction is, by deﬁnition, a measurement of an asset’s
+conditional expected excess return:1
+Ri,t+1 = Et[Ri,t+1] + ϵi,t+1,
+(3.1)
+Related to equation (1.2), Et[Ri,t+1] = E[Ri,t+1|It] represents a forecast
+conditional on the information set It, and ϵi,t+1, collects all the remain-
+ing unpredictable variation in returns. When building statistical models
+of market data, it is worthwhile to step back and recognize that the
+1Ri,t+1 is an asset’s return in excess of the risk-free rate with assets indexed by
+i = 1, ..., Nt and dates by t = 1, ..., T.
+28
+
+29
+data is generated from an extraordinarily complicated process. A large
+number of investors who vary widely in their preferences and individual
+information sets interact and exchange securities to maximize their well-
+being. The traders intermittently settle on prices, and the sequence of
+price changes (and occasional cash ﬂows such as stock dividends or bond
+coupons) produce a sequence of returns. The information set implied
+by the conditional expectation in (3.1) reﬂects all information—public,
+private, obvious, subtle, unambiguous, or dubious—that in some way
+inﬂuences prices decided at time t. We emphasize the complicated gene-
+sis of this conditional expectation because we next make the quantum
+leap of deﬁning a concrete function to describe its behavior:
+Et[Ri,t+1] = g⋆(zi,t).
+(3.2)
+Our objective is to represent Et[Ri,t+1] as an immutable but otherwise
+general function g⋆of the P-dimensional predictor variables zi,t available
+to we the researchers. That is, we hope to isolate a function that, once
+we condition on zi,t, fully explains the heterogeneity in expected returns
+across all assets and over all time, as g⋆depends neither on i nor t.2
+By maintaining the same form over time and across assets, estimation
+can leverage information from the entire panel, which lends stability
+to estimates of expected returns for any individual asset. This is in
+contrast to some standard asset pricing approaches that re-estimate a
+cross-sectional model each time period, or that independently estimate
+time series models for each asset (see Giglio et al., 2022a). In light
+of the complicated trading process that generates return data, this
+“universality” assumption is ambitious. First, it is diﬃcult to imagine
+that researchers can condition on the same information set as market
+participants (the classic Hansen-Richard critique). Second, given the
+constantly evolving technological and cultural landscape surrounding
+markets, not to mention the human whims that can inﬂuence prices, the
+concept of a universal g⋆(·) seems far-fetched. So, while some economists
+might view this framework as excessively ﬂexible (given that it allows
+for an arbitrary function and predictor set), it seems that (3.2) places
+2Also, g⋆(·) depends on z only through zi,t. In most of our analysis, predictions
+will not use information from the history prior to t, or from individual stocks other
+than the ith, though this is generalized in some analyses that we reference later.
+
+30
+Return Prediction
+onerous restrictions on the model of expected returns. For those that
+view it as implausibly restrictive, then any ability of this framework
+to robustly describe various behaviors of asset returns—across assets,
+time, and particular on an out-of-sample basis—can be viewed as an
+improbable success.
+Equations (3.1) and (3.2) oﬀer an organizing template for the ma-
+chine learning literature on return prediction. This section is organized
+by the functional form g(zi,t) used in each paper to approximate the true
+prediction function g⋆(zi,t) in our template. We emphasize the main
+empirical ﬁndings of each paper, and highlight new methodological
+contributions and distinguishing empirical results of individual papers.
+We avoid discussing detailed diﬀerences in conditioning variables in
+diﬀerent papers, but the reader should be aware that these variations
+are also responsible for variation in empirical results (above and beyond
+diﬀerences in functional form).
+There are two distinct strands of literature associated with the
+time series and cross section research agendas discussed above. The
+literature on time series machine learning models for aggregate assets
+(e.g., equity or bond index portfolios) developed earlier but is the smaller
+literature. Eﬀorts in time series return prediction took oﬀin the 1980’s
+following Shiller (1981)’s documentation of the excess volatility puzzle.
+As researchers set out to quantify the extent of excess volatility in
+markets, there emerged an econometric pursuit of time-varying discount
+rates through predictive regression. Development of the time series
+prediction literature occurred earlier than the cross section literature
+due to the earlier availability of data on aggregate portfolio returns and
+due to the comparative simplicity of forecasting a single time series. The
+small size of the market return data set is also a reason for the limited
+machine learning analysis of this data. With so few observations (several
+hundred monthly returns), after a few research attempts one exhausts
+the plausibility that “out-of-sample” inferences are truly out-of-sample.
+The literature on machine learning methods for predicting returns in
+panels of many individual assets is newer, much larger, and continues to
+grow. It falls under the rubric of “the cross section of returns” because
+early studies of single name stocks sought to explain diﬀerences in
+unconditional average returns across stocks—i.e., the data boiled down
+
+3.1. Data
+31
+a single cross section of average returns. In its modern incarnation,
+however, the so-called “cross section” research program takes the form
+of a true panel prediction problem. The objective is to explain both time-
+variation and cross-sectional diﬀerences in conditional expected returns.
+A key reason for the rapid and continual expansion of this literature is
+the richness of the data. The panel’s cross-section dimension can multiply
+the number of time series observations by a factor of a few thousand or
+more (in the case of single name stocks, bonds, or options, for example).
+While there is notable cross-correlation in these observations, most of
+the variation in single name asset returns is idiosyncratic. Furthermore,
+patterns in returns appear to be highly heterogeneous. In other words,
+the panel aspect of the problem introduces a wealth of phenomena for
+empirical researchers to explore, document, and attempt to understand
+in an economic frame.
+We have chosen an organizational scheme for this section that
+categorizes the literature by machine learning methods employed, and
+in each section we discuss both time series and panel applications. Given
+the prevalence of cross section studies, this topic receives the bulk of
+our attention.
+3.1
+Data
+Much of the ﬁnancial machine learning literature studies a canonical
+data set consisting of monthly returns of US stocks and accompanying
+stock-level signals constructed primarily from CRSP-Compustat data.
+Until recently, there were few standardized choices for building this
+stock-month panel. Diﬀerent researchers use diﬀerent sets of stock-level
+predictors (e.g., Lewellen (2015) uses 15 signals, Freyberger et al. (2020)
+use 36, Gu et al. (2020b) use 94) and impose diﬀerent observation ﬁlters
+(e.g., excluding observations stocks with nominal share prices below
+$5, excluding certain industries like ﬁnancials or utilities, and so forth).
+And it is common for diﬀerent papers to use diﬀerent constructions
+for signals with the same name and economic rationale (e.g., various
+formulations of “value,” “quality,” and so forth).
+Fortunately, recent research has made progress streamlining these
+data decisions by publicly releasing data and code for a standardized
+
+32
+Return Prediction
+stock-level panel, available directly from the Wharton Research Data Ser-
+vices server. Jensen et al. (2021) construct 153 stock signals, and provide
+source code and documentation so that users can easily inspect, analyze,
+and modify empirical choices. Furthermore, their data is available not
+just for US stocks, but for stocks in 93 countries around the world, and
+is updated regularly to reﬂect annual CRSP-Compustat data releases.
+These resources may be accessed at jkpfactors.com. Jensen et al. (2021)
+emphasize a homogenous approach to signal construction by attempting
+to make consistent decisions in how diﬀerent CRSP-Compustat data
+items are used in various signals. Chen and Zimmermann (2021) also
+post code and data for US stocks at openassetpricing.com.
+In terms of standardized data for aggregate market return prediction,
+Welch and Goyal (2008) post updated monthly and quarterly returns
+and predictor variables for the aggregate US stock market.3 Rapach and
+Zhou (2022) provide the latest review of additional market predictors.
+3.2
+Experimental Design
+The process of estimating and selecting among many models is central
+to the machine learning deﬁnition given above. Naturally, selecting a
+best performing model according to in-sample (or training sample) ﬁt
+exaggerates model performance since increasing model parameterization
+mechanically improves in-sample ﬁt. Suﬃciently large models will ﬁt
+the training data exactly. Once model selection becomes part of the
+research process, we can no longer rely on in-sample performance to
+evaluate models.
+Common approaches for model selection are based on information
+criteria or cross-validation. An information criterion like Akaike (AIC)
+or Bayes/Schwarz (BIC) allows researchers to select among models based
+on training sample performance by introducing a probability-theoretical
+performance penalty related to the number of model parameters. This
+serves as a counterbalance to the mechanical improvement in ﬁt due
+to heavier parameterization. Information criteria aim to select a model
+from the candidate set that is likely to have the best out-of-sample
+3Available at sites.google.com/view/agoyal145.
+
+3.2. Experimental Design
+33
+prediction performance according to some metric.
+Cross-validation has the same goal as AIC and BIC, but approaches
+the problem in a more data-driven way. It compares models based on
+their “pseudo”-out-of-sample performance. Cross-validation separates
+the observations into one set used for training and another (the pseudo-
+out-of-sample observations) for performance evaluation. By separating
+the training sample from the evaluation sample, cross-validation avoids
+the mechanical outperformance of larger models by simulating out-of-
+sample model performance. Cross-validation selects models based on
+their predictive performance in the pseudo-out-of-sample data.
+Information criteria and cross-validation each have their advantages
+and disadvantages. In some circumstances, AIC and cross-validation
+deliver asymptotically equivalent model selections (Stone, 1977; Nishii,
+1984). A disadvantage of information criteria is that they are derived
+from certain theoretical assumptions, so if the data or models violate
+these assumptions, the theoretical criteria must be amended and this
+may be diﬃcult or infeasible. Cross-validation implementations are often
+more easily adapted to account for challenging data properties like serial
+dependence or extreme values, and can be applied to almost any machine
+learning algorithm (Arlot and Celisse, 2010). On the other hand, due to
+its random and repetitive nature, cross-validation can produce noisier
+model evaluations and can be computationally expensive. Over time,
+the machine learning literature has migrated toward a heavy reliance
+on cross-validation because of its apparent adaptivity and universality,
+and thanks to the reduced cost in high-performance computing.
+To provide a concrete perspective on model selection with cross-
+validation and how it ﬁts more generally into machine learning empirical
+designs, we outline example designs adopted by Gu et al. (2020b) and
+a number of subsequent studies.
+3.2.1
+Example: Fixed Design
+Let the full research sample consist of time series observations indexed
+t = 1, ..., T. We begin with an example of a ﬁxed sample splitting scheme.
+The full sample of T observations is split into three disjoint subsamples.
+The ﬁrst is the “training” sample which is used to estimate all candidate
+
+34
+Return Prediction
+models. The training sample includes the Ttrain observations from t =
+1, ..., Ttrain. The set of candidate models is often governed by a set of
+“hyperparameters” (also commonly called “tuning parameters”). An
+example of a hyperparameter that deﬁnes a continuum of candidate
+models is the shrinkage parameter in a ridge regression, while an example
+of a tuning parameter that describes a discrete set of models is the
+number of components selected from PCA.
+The second, or “validation,” sample consists of the pseudo-out-of-
+sample observations. Forecasts for data points in the validation sample
+are constructed based on the estimated models from the training sample.
+Model performance (usually deﬁned in terms of the objective function
+of the model estimator) on the validation sample determines which
+speciﬁc hyperparameter values (i.e., which speciﬁc models) are selected.
+The validation sample includes the Tvalidate observations t = Ttrain +
+1, ..., Ttrain + Tvalidate. Note that while the original model is estimated
+from only the ﬁrst Ttrain data points, once a model speciﬁcation is
+selected its parameters are typically re-estimated using the full Ttrain +
+Tvalidate observations to exploit the full eﬃciency of the in-sample data
+when constructing out-of-sample forecasts.
+The validation sample ﬁts are of course not truly out-of-sample
+because they are used for tuning, so validation performance is itself
+subject to selection bias. Thus a third “testing” sample (used for neither
+estimation nor tuning) is used for a ﬁnal evaluation of a method’s pre-
+dictive performance. The testing sample includes the Ttest observations
+t = Ttrain + Tvalidate + 1, ..., Ttrain + Tvalidate + Ttest.
+Two points are worth highlighting in this simpliﬁed design example.
+First, the ﬁnal model in this example is estimated once and for all
+using data through Ttrain + Tvalidate. But, if the model is re-estimated
+recursively throughout the test period, the researcher can produce more
+eﬃcient out-of-sample forecasts. A reason for relying on a ﬁxed sample
+split would be that the candidate models are very computationally
+intensive to train, so re-training them may be infeasible or incur large
+computing costs (see, e.g., the CNN analysis of Jiang et al., 2022).
+Second, the sample splits in this example respect the time series
+ordering of the data. The motivation for this design is to avoid inad-
+vertent information leakage backward in time. Taking this further, it
+
+3.2. Experimental Design
+35
+Figure 3.1: Illustration of Standard K-fold Cross-validation
+Source: https://scikit-learn.org/
+is common in time series applications to introduce an embargo sample
+between the training and validation samples so that serial correlation
+across samples does not bias validation. For stronger serial correlation,
+longer embargoes are appropriate.
+Temporal ordering of the training and validation samples is not
+strictly necessary and may make ineﬃcient use of data for the model
+selection decision. For example, a variation on the temporal ordering
+in this design would replace the ﬁxed validation sample with a more
+traditional K-fold cross-validation scheme. In this case, the ﬁrst Ttrain +
+Tvalidate observations can be used to produce K diﬀerent validation
+samples, from which a potentially more informed selection can be made.
+This would be appropriate, for example, with serially uncorrelated data.
+Figure 3.1 illustrates the K-fold cross-validation scheme, which creates
+K validation samples over which performance is averaged to make a
+model selection decision.
+
+36
+Return Prediction
+Figure 3.2: Illustration of Recursive Time-ordered Cross-validation
+Note: Blue dots represent training observations, green dots represent validation observations,
+and red dots represent test observations. Each row represents a step in the recursive design. This
+illustration corresponds to the case of an expanding (rather than rolling) training window.
+3.2.2
+Example: Recursive Design
+When constructing an out-of-sample forecast for a return realized at
+some time t, an analyst typically wishes to use the most up-to-date
+sample to estimate a model and make out-of-sample forecasts. In this
+case, the training and validation samples are based on observations at
+1, ..., t−1. For example, for a 50/50 split into training/validation samples,
+the ﬁxed design above would be adapted to train on 1, ..., ⌊t−1
+2 ⌋and
+validate on ⌊t−1
+2 ⌋+ 1, ..., t −1. Then the selected model is re-estimated
+using all data through t −1 and an out-of-sample forecast for t is
+generated.
+At t + 1, the entire training/validation/testing processes is repeated
+again. Training uses observations 1, ..., ⌊t
+2⌋, validation ⌊t
+2⌋+ 1, ..., t, and
+the selected model is re-estimated through t to produce out-of-sample
+forecast. This recursion iterates until a last out-of-sample forecast
+is generated for observation T. Note that, because validation is re-
+conducted each period, the selected model can change throughout the
+recursion. Figure 3.2 illustrates this recursive cross-validation scheme.
+A common variation on this design is to use rolling a training window
+rather than an expanding window. This is beneﬁcial if there is suspicion
+of structural instability in the data or if there are other modeling or
+
+3.3. A Benchmark: Simple Linear Models
+37
+testing beneﬁts to maintaining equal training sample sizes throughout
+the recursion.
+3.3
+A Benchmark: Simple Linear Models
+The foundational panel model for stock returns, against which any
+machine learning method should be compared, is the simple linear
+model. For a given set of stock-level predictive features zi,t, the linear
+panel model ﬁxes the prediction function as g(zi,t) = β′zi,t:
+Ri,t+1 = β′zi,t + ϵi,t+1.
+(3.3)
+There are a variety of estimators for this model that are appropriate
+under various assumptions on structure of the error covariance matrix.
+In empirical ﬁnance research, the most popular is Fama and Macbeth
+(1973) regression. Petersen (2008) analyzes the econometric properties
+of Fama-MacBeth and compare it with other panel estimators.
+Haugen and Baker (1996) and Lewellen (2015) are precursors to the
+literature on machine learning for the cross section of returns. First,
+they employ a comparatively large number of signals: Haugen and Baker
+(1996) use roughly 40 continuous variables and sector dummies, and
+Lewellen (2015) uses 15 continuous variables. Second, they recursively
+train the panel linear model in (3.3) and emphasize the out-of-sample
+performance of their trained models. This diﬀerentiates their analysis
+from a common empirical program in the literature that sorts stocks
+into bins on the basis of one or two characteristics—which is essentially
+a “zero-parameter” return prediction model that asserts a functional
+form for g(zi,t) without performing estimation.4 Both Haugen and Baker
+(1996) and Lewellen (2015) evaluate out-of-sample model performance
+in the economic terms of trading strategy performance. Haugen and
+Baker (1996) additionally analyze international data, while Lewellen
+(2015) additionally analyzes model accuracy in terms of prediction R2.
+4To the best of our knowledge Basu (1977) is the ﬁrst to perform a characteristic-
+based portfolio sort. He performs quintile sorts on stock-level price-earnings ratios.
+The adoption of this approach to by Fama and French (1992) establishes portfolio
+sorts as a mainstream methodology for analyzing the eﬃcacy of a candidate stock
+return predictor.
+
+38
+Return Prediction
+Table 3.1: Average Monthly Factor Returns From Haugen and Baker (1996)
+1979/01 through 1986/06
+1986/07 through 1993/12
+Factor
+Mean
+t-stat
+Mean
+t-stat
+One-month excess return
+-0.97%
+-17.04
+-0.72%
+-11.04
+Twelve-month excess return
+0.52%
+7.09
+0.52%
+7.09
+Trading volume/market cap
+-0.35%
+-5.28
+-0.20%
+-2.33
+Two-month excess return
+-0.20%
+-4.97
+-0.11%
+-2.37
+Earnings to price
+0.27%
+4.56
+0.26%
+4.42
+Return on equity
+0.24%
+4.34
+0.13%
+2.06
+Book to price
+0.35%
+3.90
+0.39%
+6.72
+Trading volume trend
+-0.10%
+-3.17
+-0.09%
+-2.58
+Six-month excess return
+0.24%
+3.01
+0.19%
+2.55
+Cash ﬂow to price
+0.13%
+2.64
+0.26%
+4.42
+Variability in cash ﬂow to price
+-0.11%
+-2.55
+-0.15%
+-3.38
+Source: Haugen and Baker (1996).
+Haugen and Baker (1996) show that optimized portfolios built from
+the linear model’s return forecasts outperform the aggregate market,
+and does so in each of the ﬁve countries they study. One of their most
+interesting ﬁndings is the stability in predictive patterns, recreated
+in Table 3.1 (based on Table 1 in their paper). Coeﬃcients on the
+important predictors in the ﬁrst half of their sample have not only
+the same sign but strikingly similar magnitudes and t-statistics in the
+second half of their sample.
+Lewellen (2015) shows that, in the cross section of all US stocks, the
+panel linear model has a highly signiﬁcant out-of-sample R2 of roughly
+1% per month, demonstrating its capability of quantitatively aligning
+the level of return forecasts with realized returns. This diﬀerentiates
+the linear model from the sorting approach, which is usually evaluated
+on its ability to signiﬁcantly distinguish high and low expected return
+stocks—i.e., its ability to make relative comparisons without necessar-
+ily matching magnitudes. Furthermore, the 15-variable linear model
+translates into impressive trading strategy performance, as shown in
+Table 3.2 (recreated from Table 6A of Lewellen (2015)). An equal-weight
+long-short strategy that buys the highest model-based expected return
+decile and shorts the lowest earns an annualized Sharpe ratio of 1.72 on
+an out-of-sample basis (0.82 for value-weight deciles). Collectively, the
+
+3.3. A Benchmark: Simple Linear Models
+39
+Table 3.2: Average Monthly Factor Returns And Annualized Sharpe Ratios From
+Lewellen (2015)
+Equal-weighted
+Value-weighted
+Pred
+Avg
+Std
+t-stat
+Shp
+Pred
+Avg
+Std
+t-stat
+Shp
+Panel A: All stocks
+Low (L)
+-0.90
+-0.32
+7.19
+-0.84
+-0.15
+-0.76
+0.11
+6.01
+0.37
+0.06
+2
+-0.11
+0.40
+5.84
+1.30
+0.24
+-0.10
+0.45
+4.77
+1.89
+0.32
+3
+0.21
+0.60
+5.46
+2.06
+0.38
+0.21
+0.65
+4.65
+2.84
+0.49
+4
+0.44
+0.78
+5.28
+2.74
+0.51
+0.44
+0.69
+4.67
+2.97
+0.51
+5
+0.64
+0.81
+5.36
+2.82
+0.52
+0.63
+0.81
+5.01
+3.34
+0.56
+6
+0.83
+1.04
+5.36
+3.62
+0.67
+0.82
+0.88
+5.22
+3.28
+0.58
+7
+1.02
+1.12
+5.55
+3.68
+0.70
+1.01
+1.04
+5.67
+3.46
+0.64
+8
+1.25
+1.31
+5.97
+4.04
+0.76
+1.24
+1.15
+6.03
+3.62
+0.66
+9
+1.55
+1.66
+6.76
+4.38
+0.85
+1.54
+1.34
+6.68
+3.80
+0.69
+High (H)
+2.29
+2.17
+7.97
+4.82
+0.94
+2.19
+1.66
+8.28
+3.73
+0.70
+H - L
+3.20
+2.49
+5.02
+10.00
+1.72
+2.94
+1.55
+6.56
+4.51
+0.82
+Source: Lewellen (2015).
+evidence of Haugen and Baker (1996) and Lewellen (2015) demonstrates
+that simple linear panel models can, in real time, estimate combinations
+of many predictors that are eﬀective for forecasting returns and building
+trading strategies.
+Moving to time series analysis, the excess volatility puzzle of Shiller
+(1981) prompted a large literature seeking to quantify the extent of time-
+variation in discount rates, as well as a productive line of theoretical work
+rationalizing the dynamic behavior of discount rates (e.g. Campbell and
+Cochrane, 1999; Bansal and Yaron, 2004; Gabaix, 2012; Wachter, 2013).
+The tool of choice in the empirical pursuit of discount rate variation is
+linear time series regression. As noted in the Rapach and Zhou (2013)
+survey of stock market predictability, the most popular predictor is
+the aggregate price-dividend ratio (e.g. Campbell and Shiller, 1988),
+though dozens of other predictors have been studied. By and large, the
+literature focuses on univariate or small multivariate prediction models,
+occasionally coupled with economic restrictions such as non-negativity
+constraints on the market return forecast (Campbell and Thompson,
+2008) and imposing cross-equation restrictions in the present-value
+identity (Cochrane, 2008; Van Binsbergen and Koijen, 2010). In an
+inﬂuential critique, Welch and Goyal (2008) contend that the abundant
+in-sample evidence of market return predictability from simple linear
+
+40
+Return Prediction
+models fails to generalize out-of-sample. However, Rapach et al. (2010)
+show that forecast combination techniques produce reliable out-of-
+sample market forecasts.
+3.4
+Penalized Linear Models
+To borrow a phrase from evolutionary biology, the linear models of Hau-
+gen and Baker (1996) and Lewellen (2015) are a “transitional species”
+in the ﬁnance literature. Like traditional econometric approaches, the
+researchers ﬁx their model speciﬁcations a priori. But like machine learn-
+ing, they consider a much larger set of predictors than their predecessors
+and emphasize out-of-sample forecast performance.
+While these papers study dozens of return predictors, the list of
+predictive features analyzed in the literature numbers in the hundreds
+(Harvey et al., 2016; Hou et al., 2018; Jensen et al., 2021). Add to this an
+interest in expanding the model to incorporate state-dependence in pre-
+dictive relationships (e.g. Schaller and Norden, 1997; Cujean and Hasler,
+2017), and the size of a linear model’s parameterization quickly balloons
+to thousands of parameters. Gu et al. (2020b) consider a baseline linear
+speciﬁcation to predict the panel of stock-month returns. They use
+approximately 1,000 predictors that are multiplicative interactions of
+roughly 100 stock characteristics with demonstrated forecast power
+for individual stock returns and 10 aggregate macro-ﬁnance predictors
+with demonstrated success in predicting the market return. Despite
+the fact that these predictors have individually shown promise in prior
+research, Gu et al. (2020b) show that OLS cannot achieve a stable ﬁt
+of a model with so many parameters at once, resulting in disastrous
+out-of-sample performance. The predictive R2 is −35% per month and a
+trading strategy based on these predictions underperforms the market.
+It is hardly surprising that OLS estimates fail with so many pre-
+dictors. When the number of predictors P approaches the number of
+observations NT, the linear model becomes ineﬃcient or even incon-
+sistent. It begins to overﬁt noise rather than extracting signal. This is
+particularly troublesome for the problem of return prediction where the
+signal-to-noise ratio is notoriously low.
+A central conclusion from the discussion of such “complex” models
+
+3.4. Penalized Linear Models
+41
+in Section 2 is the following: Crucial for avoiding overﬁt is constraining
+the model by regularizing the estimator. This can be done by pushing
+complexity (deﬁned as c in Section 2) far above one (which implicitly
+regularizes the least squares estimator) or by imposing explicit penaliza-
+tion via ridge or other shrinkage. The simple linear model does neither.
+Its complexity is in an uncomfortably high variance zone (well above
+zero, but not above one) and it uses no explicit regularization.
+The prediction function for the penalized linear model is the same
+as the simple linear model in equation (3.3). That is, it continues to
+consider only the baseline, untransformed predictors. Penalized methods
+diﬀer by appending a penalty to the original loss function, such as the
+popular “elastic net” penalty, resulting in a penalized loss of
+L(β; ρ, λ) =
+N
+X
+i=1
+T
+X
+t=1
+ Ri,t+1 −β′zi,t
+2 + λ(1 −ρ)
+P
+X
+j=1
+|βj| + 1
+2λρ
+P
+X
+j=1
+β2
+j
+(3.4)
+The elastic net involves two non-negative hyperparameters, λ and ρ, and
+includes two well known regularizers as special cases. The ρ = 1 case
+corresponds to ridge regression, which uses an ℓ2 parameter penalization,
+that draws all coeﬃcient estimates closer to zero but does not impose
+exact zeros anywhere. Ridge is a shrinkage method that helps prevent
+coeﬃcients from becoming unduly large in magnitude. The ρ = 0 case
+corresponds to the lasso and uses an absolute value, or “ℓ1”, parameter
+penalization. The geometry of lasso sets coeﬃcients on a subset of
+covariates to exactly zero if the penalty is large enough. In this sense,
+the lasso imposes sparsity on the speciﬁcation and can thus be thought
+of as both a variable selection and a shrinkage device. For intermediate
+values of ρ, the elastic net encourages simple models with varying
+combinations of ridge and lasso eﬀects.
+Gu et al. (2020b) show that the failure of the OLS estimator in the
+stock-month return prediction panel is reversed by introducing elastic
+net penalization. The out-of-sample prediction R2 becomes positive and
+an equal-weight long-short decile spread based on elastic net predictions
+returns an out-of-sample Sharpe ratio of 1.33 per annum. In other words,
+it is not the weakness of the predictive information embodied in the
+1,000 predictors, but the statistical cost (overﬁt and ineﬃciency) of the
+
+42
+Return Prediction
+heavy parameter burden, that is a detriment to the performance of
+OLS. He et al. (2022a) analyze elastic-net ensembles and ﬁnd that the
+best individual elastic-net models change rather quickly over time and
+that ensembles perform well at capturing these changes. Rapach et al.
+(2013) apply (3.4) to forecast market returns across countries.
+Penalized regression methods are some of the most frequently em-
+ployed machine learning tools in ﬁnance, thanks in large part to their
+conceptual and computational tractability. For example, the ridge re-
+gression estimator is available in closed form so it has the same computa-
+tional simplicity as OLS. There is no general closed form representation
+of the lasso estimator, so it must be calculated numerically, but eﬃcient
+algorithms for computing lasso are ubiquitous in statistics software
+packages (including Stata, Matlab, and various Python libraries).
+Freyberger et al. (2020) combine penalized regression with a gener-
+alized additive model (GAM) to predict the stock-month return panel.
+In their application, a function pk(zi,t) is an element-wise nonlinear
+transformation of the P variables in zi,t:
+g(zi,t) =
+K
+X
+k=1
+˜β′
+kpk(zi,t).
+(3.5)
+Their model expands the set of predictors by using k = 1, ..., K such
+nonlinear transformations, with each transformation k having its own
+Q × 1 vector of linear regression coeﬃcients ˜βk. Freyberger et al. (2020)
+use a quadratic spline formulation for their basis functions, though the
+basis function possibilities are endless and the nonlinear transformations
+may be applied to multiple predictors jointly (as opposed to element-
+wise).
+Because nonlinear terms enter additively, forecasting with the GAM
+can be approached with the same estimation tools as any linear model.
+But the series expansion concept that underlies the GAM quickly
+multiplies the number of model parameters, thus penalization to control
+the degrees of freedom tends to beneﬁt out-of-sample performance.
+Freyberger et al. (2020) apply a penalty function known as group lasso
+
+3.4. Penalized Linear Models
+43
+(Huang et al., 2010), which takes the form
+λ
+Q
+X
+j=1
+ K
+X
+k=1
+˜β2
+k,j
+!1/2
+,
+(3.6)
+where ˜βk,j is the coeﬃcient on the kth basis function applied to stock
+signal j. This penalty is particularly well suited to the spline expansion
+setting. As its name suggests, group lasso selects either all K spline
+terms associated with a given characteristic j, or none of them.
+Freyberger et al. (2020)’s group lasso results show that less than half
+of the commonly studied stock signals in the literature have independent
+predictive power for returns. They also document the importance of
+nonlinearities, showing that their full nonlinear speciﬁcation dominates
+the nested linear speciﬁcation in terms of out-of-sample trading strategy
+performance.
+Chinco et al. (2019) also use lasso to study return predictability.
+Their study has a number of unique aspects. First is their use of high
+frequency data—they forecast one-minute-ahead stock returns trained
+in rolling 30-minute regressions. Second, they use completely separate
+models for each stock, making their analysis a large collection of time
+series linear regressions. And, rather than using standard stock-level
+characteristics as predictors, their feature set includes three lags of one-
+minute returns for all stocks in the NYSE cross section. Perhaps the
+most interesting aspect of this model is its accommodation of cross-stock
+prediction eﬀects. Their ultimate regression speciﬁcation is
+Ri,t = αi + β′
+i,1Rt−1 + β′
+i,2Rt−2 + β′
+i,3Rt−3 + ϵi,t,
+i = 1, ..., N
+(3.7)
+where Rt is the vector including all stocks’ returns in minute t. The
+authors estimate this model for each stock i with lasso using a stock-
+speciﬁc penalty parameter selected with 10-fold cross-validation. They
+ﬁnd that the dominant predictors vary rather dramatically from period
+to period, and tend to be returns on stocks that are reporting fundamen-
+tal news. The economic insights from these patterns are not fully ﬂeshed
+out, but the strength of the predictive evidence suggest that machine
+learning methods applied to high frequency returns have the potential
+to reveal new and interesting phenomena relating to information ﬂows
+and the joint dynamics they induce among assets.
+
+44
+Return Prediction
+Avramov et al. (2022b) study how dynamics of ﬁrm-level fundamen-
+tals associate with subsequent drift in a ﬁrm’s stock price. They take
+an agnostic view on details of fundamental dynamics. Their data-driven
+approach considers the deviations of all quarterly Compustat data items
+from their mean over the three most recent quarters, rather than hand-
+picking speciﬁc fundamentals a priori. This large set of deviations is
+aggregated into a single return prediction index via supervised learning.
+In particular, they estimate pooled panel lasso regressions to forecast the
+return on stock i using all of stock i’s Compustat deviations, and refer
+to the ﬁtted value from these regressions as the Fundamental Deviation
+Index, or FDI. A value-weight decile spread strategy that is long highest
+FDI stocks and short lowest FDI stocks earns an annualized out-of-
+sample information ratio of 0.8 relative to the Fama-French-Carhart
+four-factor model.
+3.5
+Dimension Reduction
+The regularization aspect of machine learning is in general beneﬁcial
+for high dimensional prediction problems because it reduces degrees of
+freedom. There are many possible ways to achieve this. Penalized linear
+models reduce degrees of freedom by shrinking coeﬃcients toward zero
+and/or forcing coeﬃcients to zero on a subset of predictors. But this
+can produce suboptimal forecasts when predictors are highly correlated.
+Imagine a setting in which each predictor is equal to the forecast target
+plus some i.i.d. noise term. In this situation, the sensible forecasting
+solution is to simply use the average of predictors in a univariate
+predictive regression.
+This idea of predictor averaging is the essence of dimension reduction.
+Forming linear combinations of predictors helps reduce noise to better
+isolate signal. We ﬁrst discuss two classic dimension reduction techniques,
+principal components regression (PCR) and partial least squares (PLS),
+followed by two extensions of PCA, scaled PCA and supervised PCA,
+designed for low signal-to-noise settings. These methods emerge in the
+literature as dimension-reduction devices for time series prediction of
+market returns or macroeconomic variables. We next extend their use
+to a panel setting for predicting the cross-section of returns, and then
+
+3.5. Dimension Reduction
+45
+introduce a more recent ﬁnance-centric method known as principal
+portfolios analysis tailored to this problem. In this section, we focus on
+applications of dimension reduction to prediction. Dimension reduction
+plays an important role in asset pricing beyond prediction, and we
+study these in subsequent sections. For example, a variety of PCA-
+based methods are at the heart of latent factor analysis, and are treated
+under the umbrella of machine learning factor pricing models in Section
+4.
+3.5.1
+Principal Components and Partial Least Squares
+We formalize the discussion of these two methods in a generic predictive
+regression setting:
+yt+h = x′
+tθ + ϵt+h,
+(3.8)
+where y may refer to market return or macroeconomic variables such
+as GDP growth, unemployment, and inﬂation, xt is P × 1 vector of
+predictors, and h is the prediction horizon.
+The idea of dimension reduction is to replace the high-dimensional
+predictors by a set of low-dimensional “factors”, ft, which summarizes
+useful information in xt. Their relationship is often cast in a standard
+factor model:
+xt = βft + ut.
+(3.9)
+On the basis of (3.9), we can rewrite (3.8) as:
+yt+h = f′
+tα + ˜ϵt+h.
+(3.10)
+Equations (3.9) and (3.10) can be represented in matrix form as:
+X = βF + U,
+Y = Fα + E,
+(3.11)
+where X is a P × T matrix, F is K × T, F is the K × (T −h) matrix
+with the last h columns removed from F, Y = (yh+1, yh+2, . . . , yT )′,
+E = (˜ϵh+1, ˜ϵh+2, . . . , ˜ϵT )′.
+Principal components regression (PCR) is a two-step procedure.
+First, it combines predictors into a few linear combinations, bft = ΩKxt,
+
+46
+Return Prediction
+and ﬁnds the combination weights ΩK recursively. The jth linear com-
+bination solves
+wj = arg max
+w
+d
+Var(x′
+tw),
+s.t.
+w′w = 1,
+d
+Cov(x′
+tw, x′
+twl) = 0,
+l = 1, 2, . . . , j −1.
+(3.12)
+Clearly, the choice of components is not based on the forecasting objec-
+tive at all, but aims to best preserve the covariance structure among the
+predictors.5 In the second step, PCR uses the estimated components bft
+in a standard linear predictive regression (3.10).
+Stock and Watson (2002) propose to forecast macroeconomic vari-
+ables on the basis of PCR. They prove the consistency of the ﬁrst-stage
+recovery of factors (up to a rotation) and the second-stage prediction,
+as both the number of predictors, P, and the sample size, T, increase.
+Among the earliest uses of PC forecasts for stock return prediction is
+Ludvigson and Ng (2007). Their forecast targets are either the quarterly
+return to the CRSP value-weighted index or its quarterly volatility.
+They consider two sets of principal components, corresponding to dif-
+ferent choices for the raw predictors that comprise X. The ﬁrst is a
+large collection of indicators spanning all aspects of the macroeconomy
+(output, employment, housing, price levels, and so forth). The second is
+a large collection of ﬁnancial data, consisting mostly of aggregate US
+market price and dividend data, government bond and credit yields,
+and returns on various industry and characteristic-sorted portfolios.
+In total, they incorporate 381 individual predictors in their analysis.
+They use BIC to select model speciﬁcations that include various com-
+binations of the estimated components. Components extracted from
+ﬁnancial predictors have signiﬁcant out-of-sample forecasting power
+for market returns and volatility, while macroeconomic indicators do
+not. Fitted mean and volatility forecasts exhibit a positive association
+providing evidence of a classical risk-return tradeoﬀat the aggregate
+market level. To help interpret their predictions, the authors show that
+“Two factors stand out as particularly important for quarterly excess
+returns: a volatility factor that is highly correlated with squared returns,
+5This optimization problem is eﬃciently solved via singular value decomposition
+of X, a P × T matrix with columns in {x1, . . . , xT }.
+
+3.5. Dimension Reduction
+47
+and a risk-premium factor that is highly correlated with well-established
+risk factors for explaining the cross-section of expected returns.”
+Extending their earlier equity market framework, Ludvigson and
+Ng (2010) use principal components of macroeconomic and ﬁnancial
+predictors to forecast excess Treasury bond returns. They document
+reliable bond return prediction performance in excess of that due to
+forward rates (Fama and Bliss, 1987; Cochrane and Piazzesi, 2005).
+They emphasize i) the inconsistency of this result with leading aﬃne
+term structure models (in which forward rates theoretically span all
+predictable variation in future bond returns) and ii) that their estimated
+conditional expected returns are decidedly countercyclical, resolving the
+puzzling cyclicality of bond risk premia that arises when macroeconomic
+components are excluded from the forecasting model.
+Jurado et al. (2015) use a clever application of PCR to estimate
+macroeconomic risk. The premise of their argument is that a good
+conditional variance measure must eﬀectively adjust for conditional
+means,
+Var(yt+1|It) = E
+h
+(yt+1 −E[yt+1|It])2 |It
+i
+.
+If the amount of mean predictability is underestimated, conditional
+risks will be overestimated. The authors build on the ideas in Ludvigson
+and Ng (2007) and Ludvigson and Ng (2010) to saturate predictions
+of market returns (and other macroeconomic series) with information
+contained in the principal components of macroeconomic predictor
+variables. The resulting improvements in macroeconomic risk estimates
+have interesting economic consequences. First, episodes of elevated
+uncertainty are fewer and farther between than previously believed.
+Second, improved estimates reveal a tighter link between rises in risk
+and depressed macroeconomic activity.
+PCR constructs predictors solely based on covariation among the
+predictors. The idea is to accommodate as much of the total variation
+among predictors as possible using a relatively small number of dimen-
+sions. This happens prior to and independent of the forecasting step.
+This naturally suggests a potential shortcoming of PCR—that it fails to
+consider the ultimate forecasting objective in how it conducts dimension
+reduction.
+
+48
+Return Prediction
+Partial least squares (PLS) is an alternative to PCR that reduces
+dimensionality by directly exploiting covariation between predictors
+and the forecast target. Unlike PCR, PLS seeks components of X that
+maximize predictive correlation with the forecast target, thus weight in
+the jth PLS component are
+wj = arg max
+w
+d
+Cov(yt+h, x′
+tw)2,
+s.t.
+w′w = 1,
+d
+Cov(x′
+tw, x′
+twl) = 0,
+l = 1, 2, . . . , j −1.
+(3.13)
+At the core of PLS is a collection of univariate (“partial”) models
+that forecast yt+h one predictor at a time. Then, it constructs a linear
+combination of predictors weighted by their univariate predictive ability.
+To form multiple PLS components, the target and all predictors are
+orthogonalized with respect to previously constructed components, and
+the procedure is repeated on the orthogonalized dataset.
+Kelly and Pruitt (2015) analyze the econometric properties of PLS
+prediction models (and a generalization called the three-pass regression
+ﬁlter), and note its resilience when the predictor set contains dominant
+factors that are irrelevant for prediction, which is a situation that lim-
+its the eﬀectiveness of PCR. Related to this, Kelly and Pruitt (2013)
+analyze the predictability of aggregate market returns using the present-
+value identity. They note that traditional present-value regressions (e.g.
+Campbell and Shiller, 1988) face an errors-in-variables problem, and
+propose a high-dimensional regression solution that exploits strengths
+of PLS. In their analysis, Z consists of valuation (book-to-market or
+dividend-to-price) ratios for a large cross section of assets. Imposing
+economic restrictions, they derive a present-value system that relates
+market returns to the cross section of asset-level valuation ratios. How-
+ever, the predictors are also driven by common factors in expected
+aggregate dividend growth. Applying PCR to the cross section of valua-
+tion ratios encounters the problem that factors driving dividend growth
+are not particularly useful for forecasting market returns. The PLS
+estimator learns to bypass these high variance but low predictability
+components in favor of components with stronger return predictabil-
+ity. Their PLS-based forecasts achieve an out-of-sample R2 of 13% for
+annual returns. This translates into large economic gains for investors
+
+3.5. Dimension Reduction
+49
+willing to time the market, increasing Sharpe ratios by more than a
+third relative to a buy-and-hold investor. Furthermore, they document
+substantially larger variability in investor discount rates than accommo-
+dated by leading theoretical models. Chatelais et al. (2023) use a similar
+framework to forecast macroeconomic activity using a cross section of
+asset prices, in essence performing a PLS-based version of the Fama
+(1990) analysis demonstrating that asset prices lead macroeconomic
+outcomes.
+Baker and Wurgler (2006) and Baker and Wurgler (2007) use PCR
+to forecast market returns based on a collection of market sentiment
+indicators. Huang et al. (2014) extend this analysis with PLS and show
+that PLS sentiment indices possess signiﬁcant prediction beneﬁts relative
+to PCR. They argue that PLS avoids a common but irrelevant factor
+associated with measurement noise in the Baker-Wurgler sentiment
+proxies. By reducing the confounding eﬀects of this noise, Huang et al.
+(2014) ﬁnd that sentiment is a highly signiﬁcant driver of expected
+returns, and that this predictability is in large part undetected by
+PCR. Similarly, Chen et al. (2022b) combine multiple investor attention
+proxies into a successful PLS-based market return forecaster.
+Ahn and Bae (2022) conduct asymptotic analysis of the PLS esti-
+mator and ﬁnd that the optimal number of PLS factors for forecasting
+could be much smaller than the number of common factors in the origi-
+nal predictor variables. Moreover, including too many PLS factors is
+detrimental to the out-of-sample performance of the PLS predictor.
+3.5.2
+Scaled PCA and Supervised PCA
+A convenient and critical assumption in the analysis of PCR and PLS
+is that the factors are pervasive. Pervasive factor models are preva-
+lent in the literature. For instance, Bai (2003) studies the asymptotic
+properties of the PCA estimator of factors in the case λK(β′β) ≳P.
+Giglio et al. (2022b) show that the performance of the PCA and PLS
+predictors hinges on the signal-to-noise ratio, deﬁned by P/(TλK(β′β)),
+where λK(β′β) is the Kth largest eigenvalue. When P/(TλK(β′β)) ̸→0,
+neither prediction method is consistent in general. This is known as the
+
+50
+Return Prediction
+weak factor problem.6
+Huang et al. (2021) propose a scaled-PCA procedure, which assigns
+weights to variables based on their correlations with the prediction
+target, before applying PCA. The weighting scheme enhances the signal-
+to-noise ratio and thus helps factor recovery.
+Likewise, Giglio et al. (2022b) propose a supervised PCA (SPCA)
+alternative which allows for factors along a broad spectrum of factor
+strength. They note that the strength of factors depends on the set of
+variables to which PCA is applied. SPCA involves a marginal screening
+step to select a subset of predictors within which at least one factor
+is strong. It then extracts a ﬁrst factor from the subset using PCA,
+projects the target and all the predictors (including those not selected)
+on the ﬁrst factor, and constructs residuals. It then repeats the selection,
+PCA, and projection step with the residuals, extracting factors one by
+one until the correlations between residuals and the target vanish. Giglio
+et al. (2022b) prove that both PLS and SPCA can recover weak factors
+that are correlated with the prediction target and that the resulting
+predictor achieves consistency. In a multivariate target setting, if all
+factors are correlated with at least one of the prediction targets, the
+PLS procedure can recover the number of weak factors and the entire
+factor space consistently.
+3.5.3
+From Time-Series to Panel Prediction
+The dimension reduction applications referenced above primarily focus
+on combining many predictors to forecast a univariate time series.
+To predict the cross-section of returns, we need generalize dimension
+reduction to a panel prediction setting as in (3.3). Similar to (3.9) and
+(3.10), we can write
+Rt+1 = Ftα + Et+1,
+Zt = Ftγ + Ut,
+where Rt+1 is an N × 1 vector of returns observed on day t + 1, Ft is an
+N × K matrix, α is K × 1, Et+1 is N × 1 vector of residuals, Zt is an
+6Bai
+and
+Ng
+(2021)
+extend
+their
+analysis
+to
+moderate
+factors,
+i.e.,
+P/(TλK(β′β)) →0, and ﬁnd PCA remains consistent. Earlier work on weak factor
+models includes Onatski (2009), Onatski (2010), and Onatski (2012), who consider the
+extremely weak factor setting in which the factors cannot be recovered consistently.
+
+3.5. Dimension Reduction
+51
+N × P matrix of characteristics, γ is K × P, and Ut is N × P matrix
+of residuals.
+We can then stack {Rt+1}, {Et+1}, {Zt}, {Ft}, {Ut} into NT × 1,
+NT × 1, NT × P, NT × K, NT × P matrices, R, E, Z, F, and U,
+respectively, such that
+R = Fα + E,
+Z = Fγ + U.
+These equations follow exactly the same form as (3.11), so that the
+aforementioned dimension reduction procedures apply.
+Light et al. (2017) apply pooled panel PLS in stock return prediction,
+and Gu et al. (2020b) perform pooled panel PCA and PLS to predict
+individual stocks returns. The Gu et al. (2020b) equal-weighted long-
+short portfolios based on PCA and PLS earn a Sharp ratio of 1.89 and
+1.47 per annum, respectively, which outperforms the elastic-net based
+long-short portfolio.
+3.5.4
+Principal Portfolios
+Kelly et al. (2020a) propose a diﬀerent dimension reduction approach to
+return prediction and portfolio optimization called “principal portfolios
+analysis” (PPA). In the frameworks of the preceding section, high
+dimensionality comes from each individual asset having many potential
+predictors. Most models in empirical asset pricing focus on own-asset
+predictive signals; i.e., the association between Si,t and the return on
+only asset i, Ri,t+1. PPA is motivated by a desire to harness the joint
+predictive information for many assets simultaneously. It leverages
+predictive signals of all assets to forecast returns on all other assets. In
+this case, the high dimensional nature of the problem comes from the
+large number of potential cross prediction relationships.
+For simplicity, suppose we have a single signal, Si,t, for each asset
+(stacked into an N-vector, St). PPA begins from the cross-covariance
+matrix of all assets’ future returns with all assets’ signals:
+Π = E(Rt+1S′
+t) ∈RN×N.
+Kelly et al. (2020a) refer to Π as the “prediction matrix.” The diagonal
+part of the prediction matrix tracks the own-signal prediction eﬀects,
+
+52
+Return Prediction
+Sharpe Ratio
+Information Ratio
+Forecast Horizon (Days)
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+1.4
+PP 1-3
+PEP 1-3
+PAP 1-3
+PEP and PAP 1-3
+Factor
+Figure 3.3: Principal portfolio performance ratios.
+Source: Figure 3 of KMP.
+which are the focus of traditional return prediction models. Oﬀ-diagonals
+track cross-predictability phenomena.
+PPA applies SVD to the prediction matrix. Kelly et al. (2020a)
+prove that the singular vectors of Π—those that account for the lion’s
+share of covariation between signals and future returns—are a set of
+normalized investment portfolios, ordered from those most predictable
+by S to those least predictable.
+The leading singular vectors of Π are “principal portfolios.” Kelly et
+al. (2020a) show that principal portfolios have a direct interpretation as
+optimal portfolios. Speciﬁcally, they are the most “timeable” portfolios
+based on signal S and they oﬀer the highest average returns for an
+investor that faces a leverage constraint (i.e., one who cannot hold
+arbitrarily large positions).
+Kelly et al. (2020a) also point out that useful information about asset
+pricing models and pricing errors is encoded in Π. To tease out return
+predictability associated with beta versus alpha, we can decompose Π
+into its symmetric part (Πs) and anti-symmetric part (Πa):
+Π = 1
+2(Π + Π′)
+|
+{z
+}
+Πs
++ 1
+2(Π −Π′)
+|
+{z
+}
+Πa
+.
+(3.14)
+
+3.6. Decision Trees
+53
+Kelly et al. (2020a) prove that the leading singular vectors of Πa (“prin-
+cipal alpha portfolios”) have an interpretation as pure-alpha strategies
+while those of Πs have an interpretation as pure-beta portfolios (“princi-
+pal exposure portfolios”). Therefore, Kelly et al. (2020a) propose a new
+test of asset pricing models based on the average returns of principal
+alpha portfolios (as an alternative to tests such as Gibbons et al., 1989).
+While Kelly et al. (2020a) focus on the case of a single signal for each
+asset, He et al. (2022b) show how to tractably extend this to multiple
+signals. Goulet Coulombe and Göbel, 2023 approach a similar prob-
+lem as Kelly et al. (2020a)—constructing a portfolio that is maximally
+predictable—using a combination of random forest and constrained
+ridge regression.
+Kelly et al. (2020a) apply PPA to a number of data sets across
+asset classes. Figure 3.3 presents one example from their analysis. The
+set of assets Rt+1 are the 25 Fama-French size and book-to-market
+portfolios, and the signals St are time series momentum for each asset.
+The ﬁgure shows large out-of-sample Sharpe ratios of the resulting
+principal portfolios, and shows that they generate signiﬁcant alpha
+versus a benchmark model that includes the ﬁve Fama-French factors
+plus a standard time series momentum factor.
+3.6
+Decision Trees
+Modern asset pricing models (with habit persistence, long-run risks, or
+time-varying disaster risk) feature a high degree of state dependence
+in ﬁnancial market behaviors, suggesting that interaction eﬀects are
+potentially important to include in empirical models. For example, Hong
+et al. (2000) formulate an information theory in which the momentum
+eﬀect is modulated by a ﬁrm’s size and its extent of analyst coverage,
+emphasizing that expected stock returns vary with interactions among
+ﬁrm characteristics. Conceptually, it is straightforward to incorporate
+such eﬀects in linear models by introducing variable interactions, just
+like equation (3.5) introduces nonlinear transformations. The issue is
+that, lacking a priori assumptions about the relevant interactions, this
+generalized additive approach quickly runs up against computational
+limits because multi-way interactions increase the number of parameters
+
+54
+Return Prediction
+combinatorially.7
+Regression trees provide a way to incorporate multi-way predictor
+interactions at much lower computational cost. Trees partition data
+observations into groups that share common feature interactions. The
+logic is that, by ﬁnding homogenous groups of observations, one can
+use past data for a given group to forecast the behavior of a new
+observation that arrives in the group. Figure 3.4 shows an example with
+two predictors, “size” and “b/m.” The left panel describes how the tree
+assigns each observation to a partition based on its predictor values.
+First, observations are sorted on size. Those above the breakpoint of
+0.5 are assigned to Category 3. Those with small size are then further
+sorted by b/m. Observations with small size and b/m below 0.3 are
+assigned to Category 1, while those with b/m above 0.3 go into Category
+2. Finally, forecasts for observations in each partition are deﬁned as the
+simple average of the outcome variable’s value among observations in
+that partition.
+The general prediction function associated with a tree of K “leaves”
+(terminal nodes) and depth L is
+g(zi,t; θ, K, L) =
+K
+X
+k=1
+θk1{zi,t∈Ck(L)},
+(3.15)
+where Ck(L) is one of the K partitions. Each partition is a product of
+up to L indicator functions. The constant parameter θk associated with
+partition k is estimated as the sample average of outcomes within the
+partition.
+The popularity of decision trees stems less from their structure
+and more in the “greedy” algorithms that can eﬀectively isolate highly
+predictive partitions at low computational cost. While the speciﬁc
+predictor variable upon which a branch is split (and the speciﬁc value
+where the split occurs) is chosen to minimize forecast error, the space of
+7As Gu et al. (2020b) note, “Parameter penalization does not solve the diﬃculty
+of estimating linear models when the number of predictors is exponentially larger
+than the number of observations. Instead, one must turn to heuristic optimization
+algorithms such as stepwise regression (sequentially adding/dropping variables un-
+til some stopping rule is satisﬁed), variable screening (retaining predictors whose
+univariate correlations with the prediction target exceed a certain value), or others.”
+
+3.6. Decision Trees
+55
+Size
+True
+False
+Value>0.4
+Category
+True
+False
+1
+Category
+2
+Category
+3
+<0.5
+Value
+<0.3
+0
+0.5
+1
+0.3
+1
+Value
+Size
+Category 3
+Category 2
+Category 1
+Figure 3.4: Regression Tree Example
+Source: Gu et al. (2020b).
+Note: This ﬁgure presents the diagrams of a regression tree (left) and its equivalent representation
+(right) in the space of two characteristics (size and value). The terminal nodes of the tree are
+colored in blue, yellow, and red, respectively. Based on their values of these two characteristics,
+the sample of individual stocks is divided into three categories.
+possible splits is so expansive that the tree cannot be globally optimized.
+Instead, splits are determined myopically and the estimated tree is a
+coarse approximation of the infeasible best tree model.
+Trees ﬂexibly accommodate interactions (a tree of depth L can
+capture (L −1)-way interactions) but are prone to overﬁt. To counter-
+act this, trees are typically employed in regularized “ensembles.” One
+common ensembling method is “boosting” (gradient boosted regression
+trees, “GBRT”), which recursively combines forecasts from many trees
+that are individually shallow and weak predictors but combine into
+a single strong predictor (see Schapire, 1990; Friedman, 2001). The
+boosting procedure begins by ﬁtting a shallow tree (e.g., with depth
+L = 1). Then, a second simple tree ﬁts the prediction residuals from
+the ﬁrst tree. The forecast from the second tree is shrunk by a factor
+ν ∈(0, 1) then added to the forecast from the ﬁrst tree. Shrinkage helps
+prevent the model from overﬁtting the preceding tree’s residuals. This
+is iterated into an additive ensemble of B shallow trees. The boosted
+ensemble thus has three tuning parameters (L, ν, B).
+Rossi and Timmermann (2015) investigate Merton (1973)’s ICAPM
+to evaluate whether the conditional equity risk premium varies with
+the market’s exposure to economic state variables. The lynchpin to this
+investigation is an accurate measurement of the ICAPM conditional
+
+56
+Return Prediction
+covariances. To solve this problem, the authors use boosted trees to pre-
+dict the realized covariance between a daily index of aggregate economic
+activity and the daily return on the market portfolio. The predictors
+include a collection of macro-ﬁnance data series from Welch and Goyal
+(2008) as well as past realized covariances. In contrast to prior litera-
+ture, these conditional covariance estimates have a signiﬁcantly positive
+times series association with the conditional equity risk premium, and
+imply economically plausible magnitudes of investor risk aversion. The
+authors show that linear models for the conditional covariance are badly
+misspeciﬁed, and this is likely responsible for mixed results in prior tests
+of the ICAPM. They attribute their positive conclusion regarding the
+ICAPM to the boosted tree methodology, whose nonlinear ﬂexibility
+reduces misspeciﬁcation of the conditional covariance function.
+In related work, Rossi (2018) uses boosted regression trees with
+macro-ﬁnance predictors to directly forecast aggregate stock returns
+(and volatility) at the monthly frequency, but without imposing the
+ICAPM’s restriction that predictability enters through conditional vari-
+ance and covariances with economic state variables. He shows that
+boosted tree forecasts generate a monthly return prediction R2 of 0.3%
+per month out-of-sample (compared to −0.7% using a historical mean
+return forecast), with directional accuracy of 57.3% per month. This
+results in a signiﬁcant out-of-sample alpha versus a market buy-and-
+hold strategy and a corresponding 30% utility gain for a mean-variance
+investor with risk aversion equal to two.
+A second popular tree regularizer is the “random forest” model which,
+like boosting, creates an ensemble of forecasts from many shallow trees.
+Following the more general “bagging” (bootstrap aggregation) procedure
+of Breiman (2001), random forest draws B bootstrap samples of the data,
+ﬁts a separate regression tree to each, then averages their forecasts. In
+addition to randomizing the estimation samples via bootstrap, random
+forest also randomizes the set of predictors available for building the
+tree (an approach known as “dropout”). Both the bagging and dropout
+components of random forest regularize its forecasts. The depth L of the
+individual trees, the number of bootstrap samples B, and the dropout
+rate are tuning parameters.
+Tree-based return predictions are isomorphic to conditional (sequen-
+
+3.6. Decision Trees
+57
+tial) sorts similar to those used in the asset pricing literature. Consider
+a sequential tercile sort on stock size and value signals to produce
+nine double-sorted size and value portfolios. This is a two-level ternary
+decision tree with ﬁrst-layer split points equal to the terciles of the
+size distribution and second-layer split points at terciles of the value
+distribution. Each leaf j of the tree can be interpreted as a portfolio
+whose time t return is the (weighted) average of returns for all stocks
+allocated to leaf j in time t. Likewise, the forecast for each stock in leaf
+j is the average return among stocks allocated to j in the training set
+prior to t.
+Motivated by this isomorphism, Moritz and Zimmermann (2016)
+conduct conditional portfolio sorts by estimating regression trees from
+a large collection of stock characteristics, rather than using pre-deﬁned
+sorting variables and break points. While traditional sorts can accom-
+modate at most two or three way interactions among stock signals, trees
+can search more broadly for the most predictive multi-way interactions.
+Rather than conducting a single tree-based sort, they use random for-
+est to produce ensemble return forecasts from 200 trees. The authors
+report that an equal-weight long-short decile spread strategy based on
+one-month-ahead random forest forecasts earns a monthly return of
+2.3% (though the authors also show that this performance is heavily
+inﬂuenced by the costly-to-trade one-month reversal signal).
+Building on Moritz and Zimmermann (2016), Bryzgalova et al. (2020)
+use a method they call “AP-trees” to conduct portfolio sorts. Whereas
+Moritz and Zimmermann (2016) emphasize the return prediction power
+of tree-based sorts, Bryzgalova et al. (2020) emphasize the usefulness of
+sorted portfolios themselves as test assets for evaluating asset pricing
+models. AP-trees diﬀer from traditional tree-based models in that it
+does not learn the tree structure per se, but instead generates it using
+median splits with a pre-selected ordering of signals. This is illustrated
+on the left side of Figure 3.5 for a three-level tree that is speciﬁed (not
+estimated) to split ﬁrst by median value, then again by median value
+(i.e., produce a quartile splits), and ﬁnally by median ﬁrm size. AP-trees
+introduce “pruning” according to a global Sharpe ratio criterion. In
+particular, from the pre-determined tree structure, each node in the
+tree constitutes a portfolio. The AP-trees procedure ﬁnds the mean-
+
+58
+Return Prediction
+Split by Value
+Value
+Value
+Size
+Size
+Size
+Size
+1
+11
+111
+1111
+1112
+112
+1121
+1122
+12
+121
+1211
+1212
+122
+1221
+1222
+Split by Value
+Value
+Size
+1
+11
+12
+121
+1211
+Figure 3: Illustration of pruning with multiple characteristics
+The ﬁgure shows sample trees, original and pruned for portfolios of depth 3, and constructed based on size and book-to-market
+as the only characteristics. The fully pruned set of portfolios is based on eight trees, where the right ﬁgure illustrates a potential
+outcome for one tree.
+Figure 3.5: Source: Bryzgalova et al. (2020)
+variance eﬃcient combination of node portfolios, imposing an elastic
+net penalty on the combination weights. Finally, the procedure discards
+any nodes that receive zero weight in the cross-validated optimization,
+while the surviving node portfolios are used as test assets in auxiliary
+asset pricing analyses. The authors repeat this analysis for many triples
+of signals, constructing a variety of pruned AP-trees to use as test
+assets. Bryzgalova et al. (2020) highlight the viability of their optimized
+portfolio combinations as a candidate stochastic discount factor, linking
+it to the literature in Section 5.5.8
+Cong et al. (2022) push the frontier of asset pricing tree methods
+by introducing the Panel Tree (P-Tree) model, which splits the cross-
+section of stock returns based on ﬁrm characteristics to develop a
+conditional asset pricing model. At each split, the algorithm selects a
+split rule candidate (such as size < 0.2) from the pool of characteristics
+(normalized to the range −1 to 1) and a predetermined set of split
+thresholds (e.g., -0.6, -0.2, 0.2, 0.6) to form child leaves, each representing
+a portfolio of returns. They propose a compelling split criterion based
+on an asset pricing objective. The P-tree algorithm terminates when
+a pre-determined minimal leaf size or maximal number of leaves is
+8Giglio et al. (2021b) point out that test asset selection is a remedy for weak
+factors. Therefore, creating AP-trees without pruning is also a reasonable recipe for
+constructing many well-diversiﬁed portfolios to serve as test assets which can be
+selected to construct hedging portfolios for weak factors.
+
+3.7. Vanilla Neural Networks
+59
+met. The P-tree procedure yields a one-factor conditional asset pricing
+model that retains interpretability and ﬂexibility via a single tree-based
+structure.
+Tree methods are used in a number of ﬁnancial prediction tasks
+beyond return prediction. We brieﬂy discuss three examples: credit risk
+prediction, liquidity prediction, and volatility prediction. Correia et al.
+(2018) use a basic classiﬁcation tree to forecast credit events (bankruptcy
+and default). They ﬁnd that prediction accuracy beneﬁts from a wide
+collection of ﬁrm-level risk features, and they demonstrate superior
+out-of-sample classiﬁcation accuracy from their model compared to
+traditional credit risk models (e.g. Altman, 1968; Ohlson, 1980). Easley
+et al. (2020) use random forest models to study the high frequency
+dynamics of liquidity and risk in a truly big data setting—tick data for 87
+futures markets. They show that a variety of market liquidity measures
+(such as Kyle’s lambda, the Amihud measure, and the probability of
+informed trading) have substantial predictive power for subsequent
+directional moves in risk and liquidity outcomes (including bid-ask
+spread, return volatility, and return skewness). Mittnik et al. (2015) use
+boosted trees to forecast monthly stock market volatility. They use 84
+macro-ﬁnance time series as predictors and use boosting to recursively
+construct an ensemble of volatility prediction trees that optimizes the
+Gaussian log likelihood for monthly stock returns. The authors ﬁnd large
+and statistically signiﬁcant reductions in prediction errors from tree-
+based volatility forecasts relative to GARCH and EGARCH benchmark
+models.
+3.7
+Vanilla Neural Networks
+Neural networks are perhaps the most popular and most successful
+models in machine learning. They have theoretical underpinnings as
+“universal approximators” for any smooth predictive function (Hornik
+et al., 1989; Cybenko, 1989). They suﬀer, however, from a lack of
+transparency and interpretability.
+Gu et al. (2020b) analyze predictions from “feed-forward” networks.
+We discuss this structure in detail as it lays the groundwork before more
+sophisticated architectures such as recurrent and convolutional networks
+
+60
+Return Prediction
+Output Layer
+Input Layer
+Hidden Layer 
+Output Layer
+Input Layer
+f
+f
+f
+f
+f
+Figure 3.6: Neural Networks
+Note: This ﬁgure provides diagrams of two simple neural networks with (right) or
+without (left) a hidden layer. Pink circles denote the input layer and dark red circles
+denote the output layer. Each arrow is associated with a weight parameter. In the
+network with a hidden layer, a nonlinear activation function f transforms the inputs
+before passing them on to the output.
+(discussed later in this review). These consist of an “input layer” of raw
+predictors, one or more “hidden layers” that interact and nonlinearly
+transform the predictors, and an “output layer” that aggregates hidden
+layers into an ultimate outcome prediction.
+Figure 3.6 shows two example networks. The left panel shows a
+very simple network that has no hidden layers. The predictors (denoted
+z1, ..., z4) are weighted by a parameter vector (θ) that includes an inter-
+cept and one weight parameter per predictor. These weights aggregate
+the signals into the forecast θ0 + P4
+k=1 zkθk. As the example makes
+clear, without intermediate nodes a neural network is a linear regression
+model.
+The right panel introduces a hidden layer of ﬁve neurons. A neuron
+receives a linear combination of the predictors and feeds it through a non-
+linear “activation function” f, then this output is passed to the next layer.
+E.g., output from the second neuron is x(1)
+2
+= f
+
+θ(0)
+2,0 + P4
+j=1 zjθ(0)
+2,j
+
+.
+In this example, the results from each neuron are linearly aggregated
+into a ﬁnal output forecast:
+g(z; θ) = θ(1)
+0
++
+5
+X
+j=1
+x(1)
+j θ(1)
+j .
+There are many choices for the nonlinear activation function (such
+
+3.7. Vanilla Neural Networks
+61
+as sigmoid, sine, hyperbolic, softmax, ReLU, and so forth). “Deep”
+feed-forward networks introduce additional hidden layers in which non-
+linear transformations from a prior hidden layer are combined in a
+linear combination and transformed once again via nonlinear activation.
+This iterative nonlinear composure produces richer and more highly
+parameterized approximating models.
+As in Gu et al. (2020b), a deep feed-forward neural network has
+the following general formula. Let K(l) denote the number of neurons
+in each layer l = 1, ..., L. Deﬁne the output of neuron k in layer l as
+x(l)
+k . Next, deﬁne the vector of outputs for this layer (augmented to
+include a constant, x(l)
+0 ) as x(l) = (1, x(l)
+1 , ..., x(l)
+K(l))′. To initialize the
+network, similarly deﬁne the input layer using the raw predictors, x(0) =
+(1, z1, ..., zN)′. The recursive output formula for the neural network at
+each neuron in layer l > 0 is then
+x(l)
+k = f
+
+x(l−1)′θ(l−1)
+k
+
+,
+(3.16)
+with ﬁnal output
+g(z; θ) = x(L−1)′θ(L−1).
+(3.17)
+The number of weight parameters in each hidden layer l is K(l)(1 +
+K(l−1)), plus another 1 + K(L−1) weights for the output layer. The ﬁve-
+layer network of Gu et al. (2020b), for example, has 30,185 parameters.
+Gu et al. (2020b) estimate monthly stock-level panel prediction
+models for the CRSP sample from 1957 to 2016. Their raw features
+include 94 rank-standardized stock characteristic interacted with eight
+macro-ﬁnance time series as well as 74 industry indicators for a total of
+920 features. They infer the trade-oﬀs of network depth in the return
+forecasting problem by analyzing the performance of networks with
+one to ﬁve hidden layers (denoted NN1 through NN5). The monthly
+out-of-sample prediction R2 is 0.33%, 0.40%, and 0.36% for NN1, NN3,
+and NN5 models, respectively. This compares with an R2 of 0.16% from
+a benchmark three signal (size, value, and momentum) linear model
+advocated by Lewellen (2015). For the NN3 model, the R2 is notably
+higher for large caps at 0.70%, indicating that machine learning is not
+merely picking up small scale ineﬃciencies driven by illiquidity. The
+
+62
+Return Prediction
+out-of-sample R2 rises to 3.40% when forecasting annual returns rather
+than monthly, illustrating that the neural networks are also able to
+isolate predictable patterns that persist over business cycle frequencies.
+Table 3.3: Performance of Machine Learning Portfolios
+Panel A: Equal Weights
+NN1
+NN3
+NN5
+Pred
+Avg
+Std
+SR
+Pred
+Avg
+Std
+SR
+Pred
+Avg
+Std
+SR
+L
+-0.45
+-0.78
+7.43
+-0.36
+-0.31
+-0.92
+7.94
+-0.40
+-0.08
+-0.83
+7.92
+-0.36
+2
+0.15
+0.22
+6.24
+0.12
+0.22
+0.16
+6.46
+0.09
+0.33
+0.24
+6.64
+0.12
+3
+0.43
+0.47
+5.55
+0.29
+0.45
+0.44
+5.40
+0.28
+0.51
+0.53
+5.65
+0.32
+4
+0.64
+0.64
+5.00
+0.45
+0.60
+0.66
+4.83
+0.48
+0.62
+0.59
+4.91
+0.41
+5
+0.80
+0.80
+4.76
+0.58
+0.73
+0.77
+4.58
+0.58
+0.71
+0.68
+4.56
+0.51
+6
+0.95
+0.85
+4.63
+0.63
+0.85
+0.81
+4.47
+0.63
+0.80
+0.76
+4.43
+0.60
+7
+1.12
+0.84
+4.66
+0.62
+0.97
+0.86
+4.62
+0.64
+0.88
+0.88
+4.60
+0.66
+8
+1.32
+0.88
+4.95
+0.62
+1.12
+0.93
+4.82
+0.67
+1.01
+0.95
+4.90
+0.67
+9
+1.63
+1.17
+5.62
+0.72
+1.38
+1.18
+5.51
+0.74
+1.25
+1.17
+5.60
+0.73
+H
+2.43
+2.13
+7.34
+1.00
+2.28
+2.35
+8.11
+1.00
+2.08
+2.27
+7.95
+0.99
+H-L
+2.89
+2.91
+4.72
+2.13
+2.58
+3.27
+4.80
+2.36
+2.16
+3.09
+4.98
+2.15
+Panel B: Value Weights
+NN1
+NN3
+NN5
+Pred
+Avg
+Std
+SR
+Pred
+Avg
+Std
+SR
+Pred
+Avg
+Std
+SR
+L
+-0.38
+-0.29
+7.02
+-0.14
+-0.03
+-0.43
+7.73
+-0.19
+-0.23
+-0.51
+7.69
+-0.23
+2
+0.16
+0.41
+5.89
+0.24
+0.34
+0.30
+6.38
+0.16
+0.23
+0.31
+6.10
+0.17
+3
+0.44
+0.51
+5.07
+0.35
+0.51
+0.57
+5.27
+0.37
+0.45
+0.54
+5.02
+0.37
+4
+0.64
+0.70
+4.56
+0.53
+0.63
+0.66
+4.69
+0.49
+0.60
+0.67
+4.47
+0.52
+5
+0.80
+0.77
+4.37
+0.61
+0.71
+0.69
+4.41
+0.55
+0.73
+0.77
+4.32
+0.62
+6
+0.95
+0.78
+4.39
+0.62
+0.79
+0.76
+4.46
+0.59
+0.85
+0.86
+4.35
+0.68
+7
+1.11
+0.81
+4.40
+0.64
+0.88
+0.99
+4.77
+0.72
+0.96
+0.88
+4.76
+0.64
+8
+1.31
+0.75
+4.86
+0.54
+1.00
+1.09
+5.47
+0.69
+1.11
+0.94
+5.17
+0.63
+9
+1.58
+0.96
+5.22
+0.64
+1.21
+1.25
+5.94
+0.73
+1.34
+1.02
+6.02
+0.58
+H
+2.19
+1.52
+6.79
+0.77
+1.83
+1.69
+7.29
+0.80
+1.99
+1.46
+7.40
+0.68
+H-L
+2.57
+1.81
+5.34
+1.17
+1.86
+2.12
+6.13
+1.20
+2.22
+1.97
+5.93
+1.15
+Note: In this table, we report the performance of prediction-sorted portfolios over
+the 1987-2016 testing period (trained on data from 1957-1974 and validated on data
+from 1975-1986). All stocks are sorted into deciles based on their predicted returns
+for the next month. Column “Pred”, “Avg”, “Std”, and “SR” provide the predicted
+monthly returns for each decile, the average realized monthly returns, their standard
+deviations, and Sharpe ratios, respectively.
+Next, Gu et al. (2020b) report decile portfolios sorts based on neural
+network monthly return predictions, recreated in Table 3.3. Panel A
+reports equal-weight average returns and Panel B reports value-weight
+returns. Out-of-sample portfolio returns increases monotonically across
+
+3.7. Vanilla Neural Networks
+63
+deciles. The quantitative match between predicted returns and average
+realized returns using neural networks is impressive. A long-short decile
+spread portfolio earns an annualized equal-weight Sharpe ratio of 2.1,
+2.4, and 2.2 for NN1, NN3, and NN5, respectively. All three earn
+value-weight Sharpe ratios of 1.2. So, while the return prediction R2
+is higher for large stocks, the return prediction content of the neural
+network models is especially proﬁtable when used to trade small stocks.
+Avramov et al. (2022a) corroborate this ﬁnding with a more thorough
+investigation of the limits-to-arbitrage that impinge on machine learning
+trading strategies. They demonstrate that neural network predictions are
+most successful among diﬃcult-to-value and diﬃcult-to-arbitrage stocks.
+They ﬁnd that, after adjusting for trading costs and other practical
+considerations, neural network-based strategies remain signiﬁcantly
+beneﬁcial relative to typical benchmarks. They are highly proﬁtable
+(particularly among long positions), have less downside risk, and continue
+to perform well in recent data.
+As a frame of reference, Gu et al. (2020b)’s replication of Lewellen
+(2015)’s three-signal linear model earns an equal-weight Sharpe ratio of
+0.8 (0.6 value-weight). This is impressive in its own right, but the large
+improvement from neural network predictions emphasizes the important
+role of nonlinearities and interactions in expected return models. Figure
+3.7 from Gu et al. (2020b) illustrates this fact by plotting the eﬀect of a
+few characteristics in their model. It shows how expected returns vary as
+pairs of characteristics are varied over their support [-1,1] while holding
+all other variables ﬁxed at their median value. The eﬀects reported are
+interactions of stock size (mvel1) with short-term reversal (mom1m),
+momentum (mom12m), total volatility (retvol) and accrual (acc). For
+example, the upper-left ﬁgure shows that the short-term reversal eﬀect
+is strongest and is essentially linear among small stocks (blue line).
+But among mega-cap stocks (green line), the reversal eﬀect is concave,
+manifesting most prominently when past mega-cap returns are strongly
+positive.
+The models in Gu et al. (2020b) apply to the stock-level panel. Feng
+et al. (2018) use a pure time series feed-forward network to forecast ag-
+gregate market returns using the Welch-Goyal macro-ﬁnance predictors,
+and ﬁnd signiﬁcant out-of-sample R2 gains compared to linear models
+
+64
+Return Prediction
+mom1m
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-0.6
+0
+0.6
+mvel1=-1
+mvel1=-0.5
+mvel1=0
+mvel1=0.5
+mvel1=1
+mom12m
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-0.6
+0
+0.6
+retvol
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-0.6
+0
+0.6
+acc
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-0.6
+0
+0.6
+Figure 3.7: Expected Returns and Characteristic Interactions (NN3)
+Note: Sensitivity of expected monthly percentage returns (vertical axis) to interactions
+eﬀects for mvel1 with mom1m, mom12m, retvol, and acc in model NN3 (holding all
+other covariates ﬁxed at their median values).
+(including those with penalization and dimension reduction).
+3.8
+Comparative Analyses
+A number of recent papers conduct comparisons of machine learning
+return prediction models in various data sets. In the ﬁrst such study,
+Gu et al. (2020b) perform a comparative analysis of the major machine
+learning methods outlined above in the stock-month panel prediction
+setting. Table 3.4 recreates their main result for out-of-sample panel
+return prediction R2 across models. This comparative analysis helps
+establish a number of new empirical facts for ﬁnancial machine learning.
+First, the simple linear model with many predictors (“OLS” in the
+table) suﬀers in terms of forecast accuracy, failing to outperform a naive
+forecast of zero. Gu et al. (2020b) deﬁne their predictive R2 relative to
+a naive forecast of zero rather than the more standard benchmark of
+
+3.8. Comparative Analyses
+65
+OLS
+OLS-3
+PLS
+PCR
+ENet
+GLM
+RF
+GBRT
+NN1
+NN2
+NN3
+NN4
+NN5
++H
++H
++H
++H
++H
+All
+-3.46
+0.16
+0.27
+0.26
+0.11
+0.19
+0.33
+0.34
+0.33
+0.39
+0.40
+0.39
+0.36
+Top 1000
+-11.28
+0.31
+-0.14
+0.06
+0.25
+0.14
+0.63
+0.52
+0.49
+0.62
+0.70
+0.67
+0.64
+Bottom 1000
+-1.30
+0.17
+0.42
+0.34
+0.20
+0.30
+0.35
+0.32
+0.38
+0.46
+0.45
+0.47
+0.42
+Table 3.4: Monthly Out-of-sample Stock-level Prediction Performance (Percentage
+R2
+oos)
+Note: In this table, Gu et al. (2020b) report monthly R2
+oos for the entire panel of
+stocks using OLS with all variables (OLS), OLS using only size, book-to-market, and
+momentum (OLS-3), PLS, PCR, elastic net (ENet), generalize linear model (GLM),
+random forest (RF), gradient boosted regression trees (GBRT), and neural networks
+with one to ﬁve layers (NN1–NN5). “+H” indicates the use of Huber loss instead
+of the l2 loss. R2
+oos’s are also reported within subsamples that include only the top
+1,000 stocks or bottom 1,000 stocks by market value.
+the historical sample mean return, noting:
+Predicting future excess stock returns with historical aver-
+ages typically underperforms a naive forecast of zero by a
+large margin. That is, the historical mean stock return is so
+noisy that it artiﬁcially lowers the bar for “good” forecasting
+performance. We avoid this pitfall by benchmarking our R2
+against a forecast value of zero. To give an indication of
+the importance of this choice, when we benchmark model
+predictions against historical mean stock returns, the out-
+of-sample monthly R2 of all methods rises by roughly three
+percentage points.9
+Regularizing with either dimension reduction or shrinkage improves
+the R2 of the linear model to around 0.3% per month. Nonlinear models,
+particularly neural networks, help even further, especially among large
+cap stocks. Nonlinearities outperform a low-dimensional linear model
+that uses only three highly selected predictive signals from the literature
+(“OLS-3” in the table).
+Nonlinear models also provide large incremental beneﬁts in eco-
+nomic terms. Table 3.5 recreates Table 8 of Gu et al. (2020b), showing
+9He et al. (2022a) propose an alternative cross-section out-of-sample R2 that
+uses the cross section mean return as the naïve forecast.
+
+66
+Return Prediction
+OLS-3
+PLS
+PCR
+ENet
+GLM
+RF
+GBRT
+NN1
+NN2
+NN3
+NN4
+NN5
++H
++H
++H
++H
+Risk-adjusted Performance (Value Weighted)
+Mean Ret.
+0.94
+1.02
+1.22
+0.60
+1.06
+1.62
+0.99
+1.81
+1.92
+1.97
+2.26
+2.12
+FF5+Mom α
+0.39
+0.24
+0.62
+-0.23
+0.38
+1.20
+0.66
+1.20
+1.33
+1.52
+1.76
+1.43
+t-stats
+2.76
+1.09
+2.89
+-0.89
+1.68
+3.95
+3.11
+4.68
+4.74
+4.92
+6.00
+4.71
+R2
+78.60
+34.95
+39.11
+28.04
+30.78
+13.43
+20.68
+27.67
+25.81
+20.84
+20.47
+18.23
+IR
+0.54
+0.21
+0.57
+-0.17
+0.33
+0.77
+0.61
+0.92
+0.93
+0.96
+1.18
+0.92
+Risk-adjusted Performance (Equally Weighted)
+Mean Ret.
+1.34
+2.08
+2.45
+2.11
+2.31
+2.38
+2.14
+2.91
+3.31
+3.27
+3.33
+3.09
+FF5+Mom α
+0.83
+1.40
+1.95
+1.32
+1.79
+1.88
+1.87
+2.60
+3.07
+3.02
+3.08
+2.78
+t(α)
+6.64
+5.90
+9.92
+4.77
+8.09
+6.66
+8.19
+10.51
+11.66
+11.70
+12.28
+10.68
+R2
+84.26
+26.27
+40.50
+20.89
+21.25
+19.91
+11.19
+13.98
+10.60
+9.63
+11.57
+14.54
+IR
+1.30
+1.15
+1.94
+0.93
+1.58
+1.30
+1.60
+2.06
+2.28
+2.29
+2.40
+2.09
+Table 3.5: Risk-adjusted Performance, Drawdowns, and Turnover of Machine Learn-
+ing Portfolios
+Note: The tables reports average monthly returns in percent as well as alphas,
+information ratios (IR), and R2 with respect to the Fama-French ﬁve-factor model
+augmented to include the momentum factor.
+out-of-sample performance of long-short decile spread portfolios sorted
+on return forecasts from each model. First, it is interesting to note
+that models with relative small out-of-sample R2 generates signiﬁcant
+trading gains, in terms of alpha and information ratio relative to the
+Fama-French six-factor model (including a momentum factor). This is
+consistent with the Kelly et al. (2022a) point that R2 is an unreliable
+diagnostic of the economic value of a return prediction; they instead rec-
+ommend judging ﬁnancial machine learning methods based on economic
+criteria (such as trading strategy Sharpe ratio). Nonlinear models in
+Table 3.5 deliver the best economic value in terms of trading strategy
+performance.
+Subsequent papers conduct similar comparative analyses in other
+asset classes. Choi et al. (2022) analyze the same models as Gu et al.
+(2020b) in international stock markets. They reach similar conclusions
+that the best performing models are nonlinear. Interestingly, they demon-
+strate the viability of transfer learning. In particular, a model trained
+on US data delivers signiﬁcant out-of-sample performance when used to
+forecast international stock returns. Relatedly, Jiang et al. (2018) ﬁnd
+largely similar patterns between stock returns and ﬁrm characteristics
+
+3.8. Comparative Analyses
+67
+OLS
+PCA
+PLS
+Lasso
+Ridge
+ENet
+RF
+FFN
+LSTM
+Combination
+R2
+oos
+−3.36
+2.07
+2.03
+1.85
+1.89
+1.87
+2.19
+2.37
+2.28
+2.09
+Avg. Returns
+0.16
+0.51
+0.63
+0.39
+0.33
+0.43
+0.79
+0.75
+0.79
+0.67
+Table 3.6: Machine Learning Comparative Bond Return Prediction (Bali et al.,
+2020)
+Note: The ﬁrst row reports out-of-sample R2 in percentage for the entire panel of
+corporate bonds using the 43 bond characteristics (from Table 2 of Bali et al. (2020)).
+The second row reports the average out-of-sample monthly percentage returns of
+value-weighted decile spread bond portfolios sorted on machine learning return
+forecasts (from Table 3 of Bali et al. (2020)).
+in China using PCR and PLS. Recently, Leippold et al. (2022) compare
+machine learning models for predicting Chinese equity returns and
+highlight how liquidity, retail investor participation, and state-owned
+enterprises play a pronounced role in Chinese market behavior.
+Ait-Sahalia et al. (2022) study the predictability of high-frequency
+returns (and other quantities like duration and volume) using machine
+learning methods. They construct 13 predictors over 9 diﬀerent time
+windows, resulting in a total of 117 variables. They experiment with
+S&P 100 index components over a sample of two years and ﬁnd that all
+methods have very similar performance, except for OLS. The improve-
+ments from a nonlinear method like random forest or boosted trees are
+limited for most cases when compared with lasso.
+Bali et al. (2020) and He et al. (2021) conduct comparative analyses
+of machine learning methods for US corporate bond return prediction.
+The predictive signals used by Bali et al. (2020) include a large set of 43
+bond characteristics such as issuance size, credit rating, duration, and
+so forth. The models they study are the same as Gu et al. (2020b) plus
+an LSTM network (we discuss LSTM in the next subsection). Table
+3.6 reports results of Bali et al. (2020). Their comparison of machine
+learning models in terms of predictive R2 and decile spread portfolio
+returns largely corroborate the conclusions of Gu et al. (2020b). The
+unregularized linear model is the worst performer. Penalization and
+dimension reduction substantially improve linear model performance.
+And nonlinear models are the best performers overall.
+In addition, Bali et al. (2020) investigate a machine learning predic-
+
+68
+Return Prediction
+tion framework that respects no-arbitrage implications for consistency
+between a ﬁrm’s equity and debt prices. This allows them to form
+predictions across the capital structure of a ﬁrm—leveraging equity
+information to predict bond returns. They ﬁnd that
+“once we impose the Merton (1974) model structure, equity
+characteristics provide signiﬁcant improvement above and
+beyond bond characteristics for future bond returns, whereas
+the incremental power of equity characteristics for predicting
+bond returns are quite limited in the reduced-form approach
+when such economic structure is not imposed.”
+This is a good example of the complementarity between machine learning
+and economic structure, echoing the argument of Israel et al. (2020).
+Lastly, Bianchi et al. (2021) conduct a comparative analysis of ma-
+chine learning models for predicting US government bond returns. This
+is a pure time series environment (cf. comparative analyses discussed
+above which study panel return data). Nonetheless, Bianchi et al. (2021)
+reach similar conclusions regarding the relative merits of penalized and
+dimension-reduced linear models over unconstrained linear models, and
+of nonlinear models over linear models.
+3.9
+More Sophisticated Neural Networks
+Recurrent neural networks (RNNs) are popular models for capturing
+complex dynamics in sequence data. They are, in essence, highly param-
+eterized nonlinear state space models, making them naturally interesting
+candidates for time series prediction problems. A promising use of RNNs
+is to extend the restrictive model speciﬁcation given by (3.2) to capture
+longer range dependence between returns and characteristics. Speciﬁ-
+cally, we consider a general recurrent model for the expected return of
+stock i at time t:
+Et[Ri,t+1] = g⋆(hi,t),
+(3.18)
+where hi,t is a vector of hidden state variables that depend on zi,t and
+its past history.
+The canonical RNN assumes that
+g⋆(hi,t) = σ(c + V hi,t),
+hi,t = tanh(b + Whi,t−1 + Uzi,t),
+
+3.9. More Sophisticated Neural Networks
+69
+where b, c, U, V , and W are unknown parameters, and σ(·) is a sigmoid
+function. The above equation includes just one layer of hidden states.
+It is straightforward to stack multiple hidden state layers together to
+construct a deep RNN that accommodates more complex sequences.
+For instance, we can write h(0)
+i,t = zi,t, and for 1 ≤l ≤L, we have
+g⋆(h(L)
+i,t ) = σ(c + V h(L)
+i,t ),
+h(l)
+i,t = tanh(b + Wh(l)
+i,t−1 + Uh(l−1)
+i,t
+).
+The canonical RNN struggles to capture long-range dependence. Its
+telescoping structure implies exponentially decaying weights of lagged
+states on current states so the long-range gradient ﬂow vanishes rapidly
+in the learning process.
+Hochreiter and Schmidhuber (1997) propose a special form of RNN
+known as the long-short-term-memory (LSTM) model. It accommodates
+a mixture of short-range and long-range dependence through a series
+of gate functions that control information ﬂow from ht−1 to ht (we
+abbreviate the dependence on i for notation simplicity):
+ht = ot ⊙tanh(ct),
+ct = ft ⊙ct−1 + it ⊙˜ct,
+(3.19)
+where ⊙denotes element-wise multiplication, ct is so-called cell state,
+it, ot, and ft are “gates” that are themselves sigmoid functions of zt
+and ht−1:
+at = σ(Wazt + Uaht−1 + ba),
+(3.20)
+where a can be either gate i, o, or f, and Wa, Ua, and ba are parameters.
+The cell state works like a conveyor belt, representing the “memory”
+unit of the model. Past values of ct−1 contributes additively to ct (barring
+from some adjustment by ft). This mechanism enables the network to
+memorize long-range information. Meanwhile, ft controls how much
+information from the past to forget, hence it is called the forget gate.
+Fresh information from ht−1 and zt arrive through ˜ct:
+˜ct = tanh(Wczt + Ucht−1 + bc),
+(3.21)
+which is injected into the memory cell ct. The input gate, it, controls the
+content of ˜ct to be memorized. Finally, ot determines which information
+is passed on to the next hidden state ht, and is hence called output gate.
+
+70
+Return Prediction
+Intuitively, not all information memorized by ct needs be extracted for
+prediction (based on ht).
+Despite their usefulness for time series modeling, LSTM and related
+methods (like the gated recurrent unit of Cho et al., 2014) have seen
+little application in the empirical ﬁnance literature. We have discussed
+a notable exception by Bali et al. (2020) above for predicting corporate
+bond returns. (Guijarro-Ordonez et al., 2022) use RNN architectures to
+predict daily stock returns. Another example is Cong et al. (2020), who
+compare simple feed-forward networks to LSTM and other recurrent
+neural networks in monthly stock return prediction. They ﬁnd that
+predictions from their LSTM speciﬁcation outperform feed-forward
+counterparts, though the description of their speciﬁcations is limited and
+their analysis is conducted more in line with the norms of the computer
+science literature. Indeed, there is a fairly voluminous computer science
+literature using a wide variety of neural networks to predict stock
+returns (e.g. Sezer et al., 2020). The standard empirical analysis in this
+literature aims to demonstrate basic proof of concept through small scale
+illustrative experiments and tend to focus on high frequencies (daily
+or intra-daily, rather than the perhaps more economically interesting
+frequencies of months or years) or tend to analyze one or a few assets at
+a time (as opposed to a more representative cross section of assets).10
+This is in contrast to the more extensive empirical analyses common in
+the ﬁnance and economics literature that tend to analyze monthly or
+annual data for large collections of assets.
+3.10
+Return Prediction Models For “Alternative” Data
+Alternative (or more colloquially, “alt”) data has become a popular
+topic in the asset management industry, and recent research has made
+strides developing machine learning models for some types of alt data.
+We discuss two examples in this section, text data and image data, and
+some supervised machine learning models customized to these alt data
+sources.
+10Examples include Rather et al. (2015), Singh and Srivastava (2017), Chong
+et al. (2017), Bao et al. (2017).
+
+3.10. Return Prediction Models For “Alternative” Data
+71
+3.10.1
+Textual Analysis
+Textual analysis is among the most exciting and fastest growing frontiers
+in ﬁnance and economics research. The early literature evolved from
+“close” manual reading by researchers (e.g. Cowles, 1933) to dictionary-
+based sentiment scoring methods (e.g. Tetlock, 2007). This literature is
+surveyed by Das et al. (2014), Gentzkow et al. (2019), and Loughran
+and McDonald (2020). In this section, we focus on text-based supervised
+learning with application to ﬁnancial prediction.
+Jegadeesh and Wu (2013), Ke et al. (2019), and Garcia et al. (2022)
+are examples of supervised learning models customized to the problem
+of return prediction using a term count or “bag of words” (BoW)
+representation of text documents. Ke et al. (2019) describe a joint
+probability model for the generation of a news article about a stock
+and that stock’s subsequent return. An article is indexed by a single
+underlying “sentiment” parameter that determines the article’s tilt
+toward good or bad news about the stock. This same parameter predicts
+the direction of the stock’s future return. From a training sample of
+news articles and associated returns, Ke et al. (2019) estimate the set
+of most highly sentiment-charged (i.e., most return-predictive) terms
+and their associated sentiment values (i.e., their predictive coeﬃcients).
+In essence, they provide a data-driven methodology for constructing
+sentiment dictionaries that are customized to speciﬁc supervised learning
+tasks.
+Their method, called “SESTM” (Sentiment Extraction via Screening
+and Topic Modeling), has three central components. The ﬁrst step
+isolates the most relevant terms from a very large vocabulary of terms
+via predictive correlation screening. The second step assigns term-speciﬁc
+sentiment weights using a supervised topic model. The third step uses
+the estimated topic model to assign article-level sentiment scores via
+penalized maximum likelihood.
+SESTM is easy and cheap to compute. The model itself is analytically
+tractable and the estimator boils down to two core equations. Their
+modeling approach emphasizes simplicity and interpretability. Thus, it
+is “white box” and easy to inspect and interpret, in contrast to many
+state-of-the-art NLP models built around powerful yet opaque neural
+
+72
+Return Prediction
+Negative Words
+Positive Words
+Figure 3.8: Sentiment-charged Words
+Note: This ﬁgure reports the list of words in the sentiment-charged set S. Font size
+of a word is proportional to its average sentiment tone over all 17 training samples.
+network embedding speciﬁcations. As an illustration, Figure 3.8 reports
+coeﬃcient estimates on the tokens that are the strongest predictors
+of returns in the form of a word cloud. The cloud is split into tokens
+with positive or negative coeﬃcients, and the size of each token is
+proportional to the magnitude of its estimated predictive coeﬃcient.
+Ke et al. (2019) devise a series of trading strategies to demon-
+strate the potent return predictive power of SESTM. In head-to-head
+comparisons, SESTM signiﬁcantly outperforms RavenPack (a leading
+commercial sentiment scoring vendor used by large asset managers) and
+dictionary-based methods such as Loughran and McDonald (2011).
+A number of papers apply supervised learning models to BoW text
+data to predict other ﬁnancial outcomes. Manela and Moreira (2017)
+use support vector regression to predict market volatility. Davis et al.
+(2020) use 10-K risk factor disclosure to understand ﬁrms’ diﬀerential
+return responses to the COVID-19 pandemic, leveraging Taddy (2013)’s
+multinomial inverse regression methodology. Kelly et al. (2018) introduce
+a method called hurdle distributed multinomial regression (HDMR) to
+
+3.10. Return Prediction Models For “Alternative” Data
+73
+improve count model speciﬁcations and use it to build a text-based
+index measuring health of the ﬁnancial intermediary sector.
+These analyses proceed in two general steps. Step 1 decides on the
+numerical representation of the text data. Step 2 uses the representations
+as data in an econometric model to describe some economic phenomenon
+(e.g., asset returns, volatility, and macroeconomic fundamentals in the
+references above).
+The ﬁnancial text representations referenced above have some limi-
+tations. First, all of these examples begin from a BoW representation,
+which is overly simplistic and only accesses the information in text that
+is conveyable by term usage frequency. It sacriﬁces nearly all informa-
+tion that is conveyed through word ordering or contextual relationships
+between terms. Second, the ultra-high dimensionality of BoW repre-
+sentations leads to statistical ineﬃciencies—Step 2 econometric models
+must include many parameters to process all these terms despite many
+of the terms conveying negligible information. Dimension reductions like
+LDA and correlation screening are beneﬁcial because they mitigate the
+ineﬃciency of BoW. However, they are derived from BoW and thus do
+not avoid the information loss from relying on term counts in the ﬁrst
+place. Third, and more subtly, the dimension-reduced representations
+are corpus speciﬁc. For example, when Bybee et al. (2020) build their
+topic model, the topics are estimated only from The Wall Street Journal,
+despite the fact that many topics are general language structures and
+may be better inferred by using additional text outside of their sample.
+Jiang et al. (2023) move the literature a step further by constructing
+reﬁned news text representations derived from so-called “large language
+models” (LLMs). They then use these representations to improve models
+of expected stock returns. LLMs are trained on large text data sets that
+span many sources and themes. This training is conducted by specialized
+research teams that perform the Herculean feat of estimating a general
+purpose language model with astronomical parameterization on truly
+big text data. LLM’s have billions of parameters (or more) and are
+trained on billions of text examples (including huge corpora of complete
+books and massive portions of the internet). But for each LLM, this
+estimation feat is performed once, then the estimated model is made
+available for distribution to be deployed by non-specialized researchers
+
+74
+Return Prediction
+in downstream tasks.
+In other words, the LLM delegates Step 1 of the procedure above
+to the handful of experts in the world that can best execute it. A Step
+2 econometric model can then be built around LLM output. Like LDA
+(or even BoW), the output of a foundation model is a numerical vector
+representation (or “embedding”) of a document. A non-specialized
+researcher obtains this output by feeding the document of interest
+through software (which is open-source in many cases). The main
+beneﬁt of an LLMS in Step 1 is that it provides more sophisticated and
+well-trained text representations than used in the literature referenced
+above. This beneﬁt comes from the expressivity of heavy nonlinear model
+parameterizations and from training on extensive language examples
+across many domains, throughout human history, and in a wide variety
+of languages. The transferability of LLMs make this unprecedented
+scale of knowledge available for ﬁnance research.
+Jiang et al. (2023) analyze return predictions based on a news text
+processed through a number of LLMs including Bidirectional Encoder
+Representations from Transformer (BERT) of Devlin et al. (2018),
+Generative Pre-trained Transformers (GPT) of Radford et al. (2019),
+and Open Pre-trained Transformers (OPT) by Zhang et al. (2022). They
+ﬁnd that predictions from pre-trained LLM embeddings outperform
+prevailing text-based machine learning return predictions in terms
+of out-of-sample trading strategy performance, and that the superior
+performance of LLMs stems from the fact that they can more successfully
+capture contextual meaning in documents.
+3.10.2
+Image Analysis
+Much of modern machine learning has evolved around the task of image
+analysis and computer vision, with large gains in image-related tasks
+deriving from the development of convolutional neural network (CNN)
+models. Jiang et al. (2022) introduce CNN image analysis techniques
+to the return prediction problem.
+A large ﬁnance literature investigates how past price patterns fore-
+cast future returns. The philosophical perspective underpinning these
+analyses is most commonly that of a hypothesis test. The researcher
+
+3.10. Return Prediction Models For “Alternative” Data
+75
+formulates a model of return prediction based on price trends—such as
+a regression of one-month-ahead returns on the average return over the
+previous twelve months—as a test of the weak-form eﬃcient markets
+null hypothesis. Yet it is diﬃcult to see in the literature a speciﬁc
+alternative hypothesis. Said diﬀerently, the price-based return predic-
+tors studied in the literature are by and large ad hoc and discovered
+through human-intensive statistical learning that has taken place be-
+hind the curtain of the academic research process. Jiang et al. (2022)
+reconsider the idea of price-based return predictability from a diﬀerent
+philosophical perspective founded on machine learning. Given recent
+strides in understanding how human behavior inﬂuences price patterns
+(e.g. Barberis and Thaler, 2003; Barberis, 2018), it is reasonable to
+expect that prices contain subtle and complex patterns about which
+it may be diﬃcult to develop speciﬁc testable hypotheses. Jiang et al.
+(2022) devise a systematic machine learning approach to elicit return
+predictive patterns that underly price data, rather than testing speciﬁc
+ad hoc hypotheses.
+The challenge for such an exploration is balancing ﬂexible mod-
+els that can detect potentially subtle patterns against the desire to
+maintain tractability and interpretability of those models. To navigate
+this balance, Jiang et al. (2022) represent historical prices as an image
+and use well-developed CNN machinery for image analysis to search
+for predictive patterns. Their images include daily opening, high, low,
+and closing prices (ofter referred to as an “OHLC” chart) overlaid
+with a multi-day moving average of closing prices and a bar chart for
+daily trading volume (see Figure 3.9 for a related example from Yahoo
+Finance).
+A CNN is designed to automatically extract features from images
+that are predictive for the supervising labels (which are future realized
+returns in the case of Jiang et al., 2022). The raw data consists of
+pixel value arrays. A CNN typically has a few core building blocks that
+convert the pixel data into predictive features. The building blocks are
+stacked together in various telescoping conﬁgurations depending on the
+application at hand. They spatially smooth image contents to reduce
+noise and accentuate shape contours to maximize correlation of images
+with their labels. Parameters of the building blocks are learned as part
+
+76
+Return Prediction
+Figure 3.9: Tesla OHLC Chart from Yahoo! Finance
+Note: OHLC chart for Tesla stock with 20-day moving average price line and daily
+volume bars. Daily data from January 1, 2020 to August 18, 2020.
+of the model estimation process.
+Each building block consists of three operations: convolution, ac-
+tivation, and pooling. “Convolution” is a spatial analogue of kernel
+smoothing for time series. Convolution scans through the image and,
+for each element in the image matrix, produces a summary of image
+contents in the immediately surrounding area. The convolution oper-
+ates through a set of learned “ﬁlters,” which are low dimension kernel
+weighting matrices that average nearby matrix elements.
+The second operation in a building block, “activation,” is a nonlinear
+transformation applied element-wise to the output of a convolution ﬁlter.
+For example, a “Leaky ReLU” activation uses a convex piecewise linear
+function, which can be thought of as sharpening the resolution of certain
+convolution ﬁlter output.
+The ﬁnal operation in a building block is “max-pooling.” This oper-
+ation uses a small ﬁlter that scans over the input matrix and returns
+the maximum value the elements entering the ﬁlter at each location in
+the image. Max-pooling acts as both a dimension reduction device and
+as a de-noising tool.
+Figure 3.10 illustrates how convolution, activation, and max-pooling
+combine to form a basic building block for a CNN model. By stacking
+many of these blocks together, the network ﬁrst creates representations
+
+3.10. Return Prediction Models For “Alternative” Data
+77
+Figure 3.10: Diagram of a Building Block
+Note: A building block of the CNN model consists of a convolutional layer with 3 × 3
+ﬁlter, a leaky ReLU layer, and a 2 × 2 max-pooling layer. In this toy example, the
+input has size 16 × 8 with 2 channels. To double the depth of the input, 4 ﬁlters
+are applied, which generates the output with 4 channels. The max-pooling layer
+shrinks the ﬁrst two dimensions (height and width) of the input by half and keeps
+the same depth. Leaky ReLU keeps the same size of the previous input. In general,
+with input of size h × w × d, the output has size h/2 × w/2 × 2d. One exception is
+the ﬁrst building block of each CNN model that takes the grey-scale image as input:
+the input has depth 1 and the number of CNN ﬁlters is 32, boosting the depth of
+the output to 32.
+of small components of the image then gradually assembles them into
+representations of larger areas. The output from the last building block
+is ﬂattened into a vector and each element is treated as a feature in
+a standard, fully connected feed-forward layer for the ﬁnal prediction
+step.11
+Jiang et al. (2022) train a panel CNN model to predict the direction
+of future stock returns using daily US stock data from 1993 to 2019. A
+weekly rebalanced long-short decile spread trading strategy based on
+the CNN-based probability of a positive price change earns an out-of-
+sample annualized Sharpe ratio of 7.2 on an equal-weighted basis and
+1.7 on a value-weighted basis. This outperforms well known price trend
+strategies—various forms of momentum and reversal—by a large and
+signiﬁcant margin. They show that the image representation is a key
+driver of the model’s success, as other time series neural network speci-
+ﬁcations have diﬃculty matching the image CNN’s performance. Jiang
+11Ch. 9 of Goodfellow et al. (2016) provide a more general introduction to CNN.
+
+78
+Return Prediction
+et al. (2022) note that their strategy may be partially approximated by
+replacing the CNN forecast with a simpler signal. In particular, a stock
+whose latest close price is near the bottom of its high-low range in recent
+days tends to appreciate in the subsequent week. This pattern, which is
+not previously studied in the literature, is detected from image data by
+the CNN and is stable over time and across market size segments and
+across countries.
+Glaeser et al. (2018) study the housing market using images of
+residential real estate properties. They use a pre-trained CNN model
+(Resnet-101 from He et al., 2016) to convert images into a feature vector
+for each property, which they then condense further using principal
+components, and ﬁnally the components are added to an otherwise
+standard hedonic house pricing model. Glaeser et al. (2018) ﬁnd that
+property data derived from images improves out-of-sample ﬁt of the he-
+donic model. Aubry et al. (2022) predict art auction prices via a neural
+network using artwork images accompanied by non-visual artwork char-
+acteristics, and use their model to document a number of informational
+ineﬃciencies in the art market. Obaid and Pukthuanthong (2022) apply
+CNN to classify photos on the Wall Street Journal and construct a daily
+investor sentiment index, which predicts market return reversals and
+trading volume. The association is strongest among stocks with more
+severe limits-to-arbitrage and during periods of elevated risk. They also
+ﬁnd that photos convey alternative information to news text.12
+12Relatedly, Deng et al. (2022) propose a theoretical model to rationalize how the
+graphical content of 10-K reports aﬀects stock returns.

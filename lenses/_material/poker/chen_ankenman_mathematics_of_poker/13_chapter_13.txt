@@ -1,0 +1,711 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         138 
+ 
+Chapter 13 
+Poker Made Simple: The AKQ Game 
+ 
+We continue our investigation of game theory in poker games with a game that represents 
+perhaps the simplest form of symmetrical, non-trivial poker. Our first exposure to this game was 
+a Card Player magazine article by Mike Caro. We suppose that he intended the game as a 
+simplified object lesson in betting and bluffing ratios, and in that capacity it serves quite well. 
+We have also expanded on this by studying this beyond the limit case it was first presented in, 
+and in doing so, discovered something surprising about no-limit poker. But for now we concern 
+ourselves with the half-street limit case for this game. 
+ 
+The fundamental elements of the game are these: 
+ 
+• There is a three-card deck, containing an Ace, a King, and a Queen. 
+• The players are each dealt one card without replacement and there is an initial ante.  
+• There is a round of betting, after which there is a showdown (if neither player folds). In 
+the showdown, the high card wins. 
+ 
+The three-card deck introduces a topic that we have not so far considered in our games - card 
+removal. In the [0,1] game both players had symmetric distributions, and one player's card did 
+not affect his opponent's card. However, in this game, if you hold the ace, then the opponent 
+holds either the king or the queen. Likewise, if you hold the queen, the opponent holds the king 
+half the time and the ace half the time. 
+ 
+Example 13.1 - AKQ Game #1 
+One half street.  
+Pot size of 2 units.  
+Limit betting of 1 unit. 
+ 
+The complete ex-showdown payoff matrix (from Y's point of view) for this game as follows: 
+ 
+ 
+Y 
+Ace 
+King 
+Queen 
+X 
+ 
+Bet 
+Check 
+Bet 
+Check 
+Bet 
+Check 
+Ace 
+Call 
+ 
+ 
+-1 
+0 
+-1 
+0 
+ 
+Fold 
+ 
+ 
++2 
+0 
++2 
+0 
+King 
+Call 
++1 
+0 
+ 
+ 
+-1 
+0 
+ 
+Fold 
+0 
+0 
+ 
+ 
++2 
+0 
+Queen 
+Call 
++1 
+0 
++1 
+0 
+ 
+ 
+ 
+Fold 
+0 
+0 
+0 
+0 
+ 
+ 
+ 
+Our goal is to find the optimal strategies for this game. Immediately we can reduce this game by 
+eliminating dominated strategies. Comparing the options when X holds an ace, we can see that 
+calling has expectation greater than or equal to that of folding in all cases. Thus folding an ace is 
+dominated by calling with it. As a result of this, we can eliminate the strategic option of folding 
+an ace from X's strategy options, since it is dominated by calling with an ace. In the same way, 
+we can see that calling with a queen is dominated by folding a queen. So we can eliminate 
+calling with a queen from the strategic options, leaving us with a simplified game: 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         139 
+ 
+ 
+Y 
+Ace 
+King 
+Queen 
+X 
+ 
+Bet 
+Check 
+Bet 
+Check 
+Bet 
+Check 
+Ace 
+Call 
+ 
+ 
+-1 
+0 
+-1 
+0 
+King 
+ 
+Call 
++1 
+0 
+ 
+ 
+-1 
+0 
+Fold 
+0 
+0 
+ 
+ 
++2 
+0 
+Queen 
+Fold 
+0 
+0 
+0 
+0 
+ 
+ 
+ 
+Now we can turn our attention to strategies that are dominated for Y. We can see that betting a 
+king is dominated by checking it for Y, as well as checking an ace. So we can further simplify 
+our game by eliminating these alternatives: 
+ 
+ 
+Y 
+Ace 
+Queen 
+X 
+ 
+Bet 
+Bet         
+Check 
+Ace 
+Call 
+ 
+ -1        
+0 
+King 
+Call 
++1 
+ -1            
+0 
+ 
+Fold 
+0 
++2        
+0 
+ 
+Let's take a moment to intuitively discuss what's occurred here. First, we considered X's options. 
+We found two strategies where X could always do at least as well: calling with his aces, and 
+folding his queens to bets. Hopefully this is obvious - we never fold the nuts to a bet on the river, 
+nor call when we could fold with a completely hopeless hand. Since X would never take these 
+actions and can never gain by taking them in the future, we can simply eliminate them from the 
+game matrix. 
+ 
+Next, we took the reduced game, and applied the same reasoning to Y's choices. If Y has a king, 
+he knows he can never bluff X's aces out, and can never be called by X's queens. And if he has 
+an ace, he can never lose by betting, and he might get a call from a king. 
+ 
+By eliminating the dominated strategies, we are left with a much more simplified game - in fact, 
+from a strategic option standpoint, this game is a 2x2 matrix, just as games in Chapter 13 were. 
+Here we see the oscillation of strategies from a pure standpoint, as we described there. 
+ 
+If X calls all the time with kings, Y's best response is never bluffing and only value betting. In 
+turn, X responds to that by folding all kings. Y exploits that by bluffing all the time; and X 
+returns to his original strategy of calling all the time with kings. This indicates that we have an 
+equilibrium between these strategies in mixed strategies. 
+ 
+We can actually create a 2x2 matrix by determining the equities of the undominated strategies 
+against each other: 
+ 
+The two undominated strategic options are whether Y should bluff queens, and whether X should 
+call with Kings. 
+ 
+We End Y's equity from the two options by considering the possible hands that X can hold and 
+the outcomes. 
+ 
+We can name the four strategic options: 
+ 
+Υ1 : Y bluffs with queens  
+Υ2 : Y checks queens.  
+X1 : X calls with kings  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         140 
+ 
+X2 : X folds kings. 
+ 
+We can find the expectation of each of these matchups: 
+ 
+Υ1 vs. X1: 
+ 
+When Y has an ace, he gains a bet against X's kings and nothing against X's queens. When Y has 
+a king, no betting occurs. When Y has a queen, he bluffs and loses a bet to X's aces and kings. 
+ 
+Each card matchup occurs 1 6
+ of the time; Y gains a bet in one, and loses a bet in two for a total 
+of: 
+< Υ1 ,  X1> = - 1 6
+	  
+ 
+Υ2 vs. X2: 
+ 
+When Y has an ace, he gains a bet against X's kings and nothing against X’s queens. 
+When Y has a king, no betting occurs. When Y has a queen, no betting occurs. 
+ 
+Y gains a bet in one case, and does not lose a bet, for a total of: 
+ 
+< Υ2 ,  X1> = + 1 6
+  
+ 
+Υ1 vs. X2: 
+ 
+When Y has an ace, he never gains a bet. (X folds.) When Y has a king, no betting occurs.  
+When Y has a queen, he bluffs and wins the pot (of two bets) when X has a king, and loses a bet 
+when X has an ace. 
+ 
+Y gains two bets and loses one, for a total of: 
+ 
+< Υ1 ,  X2> = + 1 6
+  
+ 
+Υ2 vs. X2: 
+ 
+When Y has an ace, he never gains a bet (X folds). When Y has a king, no betting occurs. 
+When Y has a queen, no betting occurs, and so there is no net impact. 
+ 
+< Υ2 ,  X2> = 0 
+ 
+This results in the following 2x2 matrix: 
+ 
+ 
+Y bets queens 
+Y checks queens 
+X calls with kings 
+- 1 6
+  
++ 1 6
+  
+X folds kings 
++ 1 6
+  
+0 
+ 
+Multiplying all the cells of a payoff matrix by a positive constant does not change the strategic 
+implications of the game. Multiplying by -1 simply swaps the payouts between the two players. 
+ 
+If we multiply the AKQ Game #1 matrix by -6, we have: 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         141 
+ 
+ 
+Y bets queens 
+Y checks queens 
+X calls with kings 
++1 
+-1 
+X folds kings 
+-1 
+0 
+ 
+This matrix should be familiar to the reader from Chapter 10; recall that the payoff matrix of 
+Cops and Robbers was: 
+ 
+ 
+Robber robs 
+Robber stays home 
+Cop patrols 
++1 
+-1 
+Cop doesn’t patrol 
+-1 
+0 
+ 
+This game is identical, then, to Cops and Robbers. We know from the analysis of that game that 
+the optimal strategies are 1 3
+  and 1 3
+ , and we can compare this result to a result we will find 
+directly. 
+ 
+We can also solve the game by finding for each player a strategy that makes his opponent 
+indifferent between his two strategic options. Consider Y, who must decide whether to bluff with 
+a queen. His ex-showdown EV from the two actions he can take with a queen (using c as X's 
+calling frequency with a king) is:  
+ 
+<Y, bluff > = (lose to aces) + (lose to kings) -f- (kings fold, win the pot) 
+<Y, bluff > = p(X has an ace) (lose one bet) + p(X has a king) p(X calls) (lose one bet) + 
+p(X has a king) p(X folds) (the pot)  
+<Y, bluff > = ( 1 2
+	  )(-1) + (1 2
+ )(c)(-1) + (1 2
+ )(1 – c) (2)  
+<Y, bluff > = 1 2
+  (-1) + 1 2
+  [c (-1) + (1 - c) (2)] 
+<Y, bluff > = - 1 2
+  - 1 2
+  c  + 1 - c 
+<Y, bluff > = 1 2
+  - 3 2
+  c   
+<Y, check> = 0  
+ 
+ 
+Setting these two things equal: 
+ 
+1 2
+  - 3 2
+  c = 0 
+c = 1 3
+   
+ 
+Next, set X to be indifferent to calling with a king. Using b as Y’s bluffing frequency with a 
+queen: 
+ 
+<X, call > = (lose to aces) + (win against queens) 
+<X, call > = 1 2
+  (-l) + 1 2
+  [b(1)] 
+<X, call > = - 1 2
+  + 1 2
+  b 
+<X, fold > = 1 2
+ (b) (-2) 
+<X, fold > = - b 
+- 1 2
+  + 1 2
+ b = - b 
+b = 1 3
+  
+ 
+So we have the optimal strategy pair: X should call 1 3
+  of the time when he has kings, and Y 
+should bluff 1 3
+  of the time when he has queens. 
+ 
+Let's again take a moment to discuss intuitively what's going on here. The idea for Y is to get 
+value from his set of hands. In an exploitive sense, if he knew what strategy X were going to 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         142 
+ 
+employ with his kings, he could bet or bluff accordingly. However, let's say that he doesn't and 
+he wants to simply get all his value no matter what the opponent does. 
+ 
+There are two sources of value for him: stealing pots with queens, and getting paid off with aces. 
+So he wants to create a situation where the value he gets from each of these options is equal. 
+Then his opponent won't be able to exploit him. What he does, then, is bluff with a frequency so 
+that the value of his whole strategy is the same no matter what the opponent does; specifically, 
+no matter whether the opponent calls with a king or not. It turns out for this situation that the 
+proper ratio of aces to bluffed queens is three to one; hence he should bet 1 3
+  of his queens, since 
+he will bet all his aces. Recall that in Chapter 11, we called this ratio of bluffs to bets α, and 
+showed that it had the value 1/(P+ 1). (See Equation 11.1) For the pot of two bets, we can see 
+that this ratio indeed calculates to 1 3
+ . 
+ 
+Similar reasoning works for X. He wants to call often enough that the opponent is indifferent to 
+bluffing with his queens. When his opponent bluffs successfully, he wins two bets, while 
+bluffing unsuccessfully costs just one bet. So X must call twice as often as he folds in order to 
+make the bluffer indifferent. This fraction is 2 3
+   (leaving 1 3
+  of hands to fold). But half of the 
+time that the opponent is bluffing, X will hold an ace. So he needs to call with an additional 
+fraction of his hands equal to 2 3 
+ - 1 2
+ , or 1 6
+ . Since kings make up 1 2
+  of his hands when the 
+opponent has a queen, he needs to call with 2 6
+  or 1 3
+  of kings. Again recall in Chapter 11, we 
+showed that X would fold α of the time with hands that could beat a bluff. Here again, he folds 
+1 3
+  of the total hands he holds that can beat a bluff. 
+ 
+Y gains value in this game, as you would expect; after all, he could just check behind all the time 
+to get zero value, and the betting and bluffing is valuable to him. We can calculate the value of 
+the game to Y by evaluating the strategies and outcomes. We could calculate all the fractional 
+possibilities for each action, but instead we can use a shortcut. Recall that when the players play 
+optimal strategies, X is indifferent to calling; that is, he does equally well calling or folding. So 
+we can simply pretend that he folds all the time. Now if he actually did fold all the time, he 
+would be exploitable. But since we're only calculating the value of the game and not the 
+strategies, we can simply hold Y's strategy constant. 
+ 
+The value of the game to Y is actually 1 18 
+
+of a bet. We invite the reader to verify that this is the 
+value of the game for all strategies that X may employ as far as calling with kings. 
+ 
+We have now been able to solve this half street game, finding the optimal strategies, for a single 
+pot size (2 bets) - however, we can use the same methodology as we employed to solve it for any 
+arbitrary pot size. If we restate the game with an arbitrary pot size P, we have the easily solvable 
+AKQ Game #2. 
+ 
+Example 13.2 - AKQ Game #2 
+One half street.  
+Pot size of P units.  
+Limit betting of 1 unit 
+ 
+Again, we have the complete game payoff matrix: 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         143 
+ 
+Y 
+Ace 
+King 
+Queen 
+X 
+Bet 
+Check 
+Bet 
+Check 
+Bet 
+Check 
+Ace 
+Call 
+ 
+ 
+-1 
+0 
+-1 
+0 
+Fold 
+ 
+ 
++P 
+0 
++P 
+0 
+King 
+Call 
++1 
+0 
+ 
+ 
+-1 
+0 
+Fold 
+0 
+0 
+ 
+ 
++P 
+0 
+Queen 
+Call 
++1 
+0 
++1 
+0 
+ 
+ 
+Fold 
+0 
+0 
+0 
+0 
+ 
+ 
+ 
+This matrix can be reduced by eliminating dominated strategies, just as in AKQ Game #1 
+(Example 13.1), yielding: 
+ 
+ 
+Y 
+Ace 
+Queen 
+X 
+ 
+Bet 
+Bet 
+ Check 
+Ace 
+Call 
+ 
+-1 
+0 
+King 
+Call 
++1 
+-1 
+0 
+ 
+Fold 
+0 
++P 
+0 
+ 
+Our two indifference equations are modified as follows (assume b is Y's bluffing frequency with 
+queens, and c is X's calling frequency with Icings): 
+ 
+<Y, bluff > = (lose to aces) + (lose to kings) + (kings fold, win the pot) 
+<Y, bluff > = ( 1 2 
+ )(- 1) + ( 1 2 
+ )(c)(- 1) +  1 2 
+ (1 - c)(P) 
+<Y, bluff > =  1 2 
+ (-1) +  1 2 
+ [c (-1) + (1 - c) (P)]  
+<Y, bluff > = - 1 2 
+  -  1 2 
+ c +  1 2 
+ P -  1 2 
+ Pc  
+<Y, check > = 0 
+ 
+Setting these two things equal: 
+ 
+- 1 2 
+  -  1 2 
+ c +  1 2 
+ P -  1 2 
+ Pc = 0 
+1 + c – P + Pc = 0 
+(P + 1)с = P – 1 
+c = (P – 1)/( P + 1) 
+ 
+This value of c is X's calling frequency with kings. When Y has a queen, X holds half aces and 
+half kings. So the total fraction of his hands (aces and kings) with which he calls is  1 2 
+  + 
+( 1 2 
+ )(P- 1)/(P+ 1). This in turn means that he folds 1/(P +1), or the now-familiar constant α, of 
+his hands, to keep Y indifferent from bluffing. 
+ 
+In a similar manner, we have: 
+ 
+<X, call > = (lose to aces) + (win against queens) 
+<X, call > =  1 2 
+  (-1) +  1 2 
+ [b(1)] 
+<X, call > = -  1 2 
+
++  1 2 
+ b 
+<X, fold >= 1 2 
+ (b)(-P) 
+ 
+Again, setting these two equal: 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         144 
+ 
+-  1 2 
+
++  1 2 
+ b =  1 2 
+ (b)(-P) 
+-1 + b = -bP 
+b(1+P) = 1 
+b = 1/(1+P) 
+b = α 
+ 
+And again, we see that the bluffing to betting ratio for Y here should be α as well. 
+ 
+We can also quickly calculate the value of the game to Y: 
+ 
+Hand Matchup 
+Value to second player 
+p(matchup) 
+Weighted Value 
+(A, K) 
+0 
+ 1 6 
+  
+0 
+(A, Q) 
+-1/(P+ 1) 
+ 1 6 
+  
+-  1 6 
+ (P+1) 
+(K, A) 
+0 
+ 1 6
+  
+0 
+(K, Q) 
++P/(P+ 1) 
+ 1 6
+  
+P/6(P+ I) 
+(Q, A) 
+0 
+ 1 6 
+  
+0 
+(Q, K) 
+0 
+ 1 6 
+  
+0 
+Total 
+ 
+ 
+(P-1)/6(P+1) 
+ 
+So the overall value of the game to Y is (P-1)/6(P+1). We can see that as the pot size goes to 
+infinity, the value of this game converges on  1 6 
+ . If the pot is extremely large, then X will 
+simply call with just about all his kings, and Y will almost never bluff, making the case where Y 
+holds an ace and X a king worth a full bet to Y. This case occurs  1 6 
+  of the time. 
+ 
+One additional comment must be made - the above solution is only valid if the pot size is greater 
+than 1. The reason is that when the pot is less than 1. Y loses money by bluffing queens - X calls 
+with aces, which make up half his hands. Since Y gains the pot when X folds a king, and loses a 
+full bet when X calls with an ace, bluffing always loses money, even when X folds all his kings. 
+The entire game changes at that point. As the pot approaches one from the positive side, the 
+bluffing ratio rises - at 2, it's  1 3 
+ , at 1.5, it's 2 5 
+ , at 1.1 it's 10 11 
+
+, and then at precisely 1, Y stops 
+bluffing. 
+ 
+We can also use a graph to see the value of the game as the size of the pot changes. Notice that 
+the graph suddenly changes at P= 1; Y goes from never bluffing to bluffing half of his hands. 
+This happens because calling suddenly becomes a mixed strategy, as does bluffing. Below this 
+pot size, neither side bluffs nor calls; this cannot be exploited because of the frequency of aces, 
+in the opponent's distribution. We can also see at large pot sizes that X has to call frequently 
+while Y can bluff infrequently, as a result, the game favors Y as the pot size increases. 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         145 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+The important lessons here are that changing the size of the pot impacts the players' strategies 
+and their equities; also solving games with specific pot sizes is often just as easy as solving them 
+for arbitrary pot sizes. In the future, we will generally forego solving games with specific pot 
+sizes unless it is necessary for the discussion, preferring to simply treat games as having pot sizes 
+of P. 
+ 
+Key Concepts 
+• Betting and bluffing ratios are the key to optimal play when both sides have clearly 
+defined hand values (i.e., they have the nuts, a hand in the middle, or a dead hand). 
+• In limit poker, it is virtually always wrong to bet hands in second position on the river 
+that can beat only a bluff but will be called by only better hands. 
+• Card removal can have a significant impact on the shape of the opponent's distribution. 
+ 
+ 
+1
+0  
+2       4        6       8       10      12      14      16      18 20 
+Figure 13.1. Optimal strategies for the limit AKQ game by pot size. 

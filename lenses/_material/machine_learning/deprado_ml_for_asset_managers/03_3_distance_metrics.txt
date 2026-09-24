@@ -1,0 +1,824 @@
+3 Distance Metrics
+3.1 Motivation
+In Section 2, we have studied important numerical properties of the empirical
+correlation (and by extension, covariance) matrix. Despite all of its virtues,
+correlation suffers from some critical limitations as a measure of codepen-
+dence. In this section, we overcome those limitations by reviewing informa-
+tion theory concepts that underlie many modern marvels, such as the internet,
+mobile phones, ﬁle compression, video streaming, or encryption. None of
+these inventions would have been possible if researchers had not looked
+beyond correlations to understand codependency.
+As it turns out, information theory in general, and the concept of Shannon’s
+entropy in particular, also have useful applications in ﬁnance. The key idea
+behind entropy is to quantify the amount of uncertainty associated with a
+random variable. Information theory is also essential to ML, because the
+primary goal of many ML algorithms is to reduce the amount of uncertainty
+involved in the solution to a problem. In this section, we review concepts that
+are used throughout ML in a variety of settings, including (1) deﬁning the
+objective function in decision tree learning; (2) deﬁning the loss function for
+classiﬁcation problems; (3) evaluating the distance between two random vari-
+ables; (4) comparing clusters; and (5) feature selection.
+3.2 A Correlation-Based Metric
+Correlation is a useful measure of linear codependence. Once a correlation
+matrix has been denoised and detoned, it can reveal important structural infor-
+mation about a system. For example, we could use correlations to identify
+clusters of highly interrelated securities. But before we can do that, we need
+to address a technical problem: correlation is not a metric, because it does not
+satisfy nonnegativity and triangle inequality conditions. Metrics are important
+because they induce an intuitive topology on a set. Without that intuitive
+topology, comparing non-metric measurements of codependence can lead to
+rather incoherent outcomes. For instance, the difference between correlations
+(0.9,1.0) is the same as (0.1,0.2), even though the former involves a greater
+difference in terms of codependence.
+Consider two random vectors X, Y of size T, and a correlation estimate
+ρ½X; Y, with the only requirement that σ½X; Y ¼ ρ½X; Yσ½Xσ½Y, where
+σ½X; Y is the covariance between the two vectors and σ½: is the standard
+deviation. Pearson’s correlation is one of several correlation estimates that
+38
+Machine Learning for Asset Managers
+
+satisfy these requirements. Then, the measure dρ½X; Y ¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1=2ð1  ρ½X; YÞ
+p
+is
+a metric.
+To prove that statement, ﬁrst consider that the Euclidean distance between the
+two vectors is d½X; Y ¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+PT
+t¼1 Xt  Yt
+ð
+Þ2
+q
+. Second, we z-standardize those
+vectors as x ¼ ðX  X Þ=σ½X, y ¼ ðY  Y Þ=σ½Y, where X is the mean of X,
+and Y is the mean of Y. Consequently, ρ½x; y ¼ ρ½X; Y. Third, we derive the
+Euclidean distance d½x; y as
+d½x; y ¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+X
+T
+t¼1
+xt  yt
+ð
+Þ2
+s
+¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+X
+T
+t¼1
+x2
+t þ
+X
+T
+t¼1
+y2
+t  2
+X
+T
+t¼1
+xtyt
+v
+u
+u
+t
+¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+T þ T  2Tσ½x; y
+p
+¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+2T
+1  ρ½x; y
+¼ρ½X;Y
+0
+B
+B
+B
+@
+1
+C
+C
+C
+A
+v
+u
+u
+u
+u
+u
+u
+t
+¼
+ﬃﬃﬃﬃﬃﬃ
+4T
+p
+dρ½X; Y:
+The implication is that dρ½X; Y is a linear multiple of the Euclidean distance
+between the vectors X; Yg
+f
+after z-standardization (d½x; y), hence it inherits the
+true-metric properties of the Euclidean distance.
+The metric d½x; y has the property that it is normalized, dρ½X; Y 2 ½0; 1,
+because ρ½X; Y 2 ½1; 1. Another property is that it deems more distant two
+random variables with negative correlation than two random variables with
+positive correlation, regardless of their absolute value. This property makes
+sense in many applications. For example, we may wish to build a long-only
+portfolio, where holdings in negative-correlated securities can only offset
+risk, and therefore should be treated as different for diversiﬁcation purposes.
+In other instances, like in long-short portfolios, we often prefer to consider
+highly negatively correlated securities as similar, because the position
+sign can override the sign of the correlation. For that case, we can
+deﬁne
+an
+alternative
+normalized
+correlation-based
+distance
+metric,
+djρj½X; Y ¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1  jρ½X; Yj
+p
+.
+Similarly, we can prove that djρj½X; Y descends to a true metric on the ℤ=2ℤ
+quotient. In order to do that, we redeﬁne y ¼ ðY  Y Þ=σ½Ysgn½ρ½X; Y, where
+sgn½: is the sign operator, so that 0 ≤ρ½x; y ¼ jρ½X; Yj. Then, following the
+same argument used earlier,
+f
+39
+Elements in Quantitative Finance
+
+d½x; y ¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+2T
+1  ρ½x; y
+¼jρ½X;Yj
+0
+B
+@
+1
+C
+A
+v
+u
+u
+u
+u
+t
+¼
+ﬃﬃﬃﬃﬃﬃ
+2T
+p
+djρj½X; Y:
+3.3 Marginal and Joint Entropy
+The notion of correlation presents three important caveats. First, it quantiﬁes the
+linear codependency between two random variables. It neglects nonlinear
+relationships. Second, correlation is highly inﬂuenced by outliers. Third, its
+application beyond the multivariate Normal case is questionable. We may
+compute the correlation between any two real variables, however that correla-
+tion is typically meaningless unless the two variables follow a bivariate Normal
+distribution. To overcome these caveats, we need to introduce a few informa-
+tion-theoretic concepts.
+Let X be a discrete random variable that takes a value x from the set SX with
+probability p½x. The entropy of X is deﬁned as
+H½X ¼ 
+X​
+x2SX
+p½xlog½p½x;
+Throughout this section, we will follow the convention that 0log½0 ¼ 0,
+since limp→0þ plog½p ¼ 0. The value 1=p½x measures how surprising an obser-
+vation is, because surprising observations are characterized by their low
+probability. Entropy is the expected value of those surprises, where the
+log½: function prevents that p½x cancels 1=p½x and endows entropy with
+desirable mathematical properties. Accordingly, entropy can be interpreted
+as the amount of uncertainty associated with X. Entropy is zero when
+all probability is concentrated in a single element of SX. Entropy
+reaches a maximum at log½ ∥SX ∥ when X is distributed uniformly,
+p½x ¼ 1= ∥SX ∥; 8x 2SX.
+Let Y be a discrete random variable that takes a value y from the set SY with
+probability p½y. Random variables X and Y do not need to be deﬁned on the
+same probability space. The joint entropy of X and Y is
+H½X; Y ¼ 
+X​
+x;y2SX SY
+p½x; ylog½p½x; y:
+In particular, we have that H½X; Y ¼ H½Y; X, H½X; X ¼ H½X, H½X; Y ≥
+max H½X; H½Yg
+f
+, and H½X; Y ≤H½X þ H½Y.
+f
+40
+Machine Learning for Asset Managers
+
+It is important to recognize that Shannon’s entropy is ﬁnite only for discrete
+random variables. In the continuous case, one should use the limiting density of
+discrete points (LDDP), or discretize the random variable, as explained in
+Section 3.9 (Jaynes 2003).
+3.4 Conditional Entropy
+The conditional entropy of X given Y is deﬁned as
+H½XjY ¼ H½X; Y  H½Y ¼ 
+X
+y2SY
+p½y
+X
+x2SX
+p½xjY ¼ ylog½p½xjY ¼ y;
+where p½xjY ¼ y is the probability that X takes the value x conditioned on Y having
+taken the value y. Following this deﬁnition, H½XjY is the uncertainty we expect in
+X if we are told the value of Y. Accordingly, H½XjX ¼ 0, and H½X ≥H½XjY.
+3.5 Kullback–Leibler Divergence
+Let p and q be two discrete probability distributions deﬁned on the same
+probability space. The Kullback–Leibler (or KL) divergence between p and q is
+DKL½ p ∥q ¼ 
+X​
+x2SX
+p½xlog q½x
+p½x
+
+
+¼
+X​
+x2SX
+p½xlog p½x
+q½x
+
+
+;
+where q½x ¼ 0 ) p½x ¼ 0. Intuitively, this expression measures how much p
+divergesfromareferencedistributionq.TheKLdivergenceisnotametric:although
+it
+is
+always
+nonnegative
+(DKL½p ∥q ≥0),
+it
+violates
+the
+symmetry
+(DKL½p ∥q 6¼ DKL½q ∥p) and triangle inequality conditions. Note the difference
+with the deﬁnition of joint entropy, where the two random variables did not
+necessarily exist in the same probability space. KL divergence is widely used in
+variational inference.
+3.6 Cross-Entropy
+Let p and q be two discrete probability distributions deﬁned on the same
+probability space. Cross-entropy between p and q is
+HC½p ∥q ¼ 
+X
+x2SX
+p½xlog½q½x ¼ H½X þ DKL½pjjq:
+Cross-entropy can be interpreted as the uncertainty associated with X, where we
+evaluate its information content using a wrong distribution q rather than the true
+distribution p. Cross-entropy is a popular scoring function in classiﬁcation
+problems, and it is particularly meaningful in ﬁnancial applications (López de
+Prado 2018, section 9.4).
+41
+Elements in Quantitative Finance
+
+3.7 Mutual Information
+Mutual information is deﬁned as the decrease in uncertainty (or informational
+gain) in X that results from knowing the value of Y:
+I½X; Y ¼ H½X  H½XjY ¼ H½X þ H½Y  H½X; Y
+¼
+X
+x2SX
+X
+y2SY
+p½x; ylog
+p½x; y
+p½xp½y
+
+
+¼ DKL½p½x; y ∥p½xp½y ¼
+X​
+y2SY
+p½y
+X​
+x2SX
+p½xjylog p½xjy
+p½x
+
+
+¼ EY½DKL½p½xjy ∥p½x ¼
+X​
+x2SX
+p½x
+X​
+y2SY
+p½yjxlog p½yjx
+p½y
+
+
+¼ EX½DKL½p½yjx ∥p½y:
+From the above we can see that I½X; Y ≥0, I½X; Y ¼ I½Y; X and that
+I½X; X ¼ H½X. When X and Y are independent, p½x; y ¼ p½xp½y, hence
+I½X; Y ¼ 0. An upper boundary is given by I½X; Y ≤min H½X; H½Yg
+f
+.
+However, mutual information is not a metric, because it does not satisfy the
+triangle inequality: I½X; Z ≰I½X; Y þ I½Y; Z. An important attribute of
+mutual information is its grouping property,
+I½X; Y; Z ¼ I½X; Y þ I½ X; Y
+ð
+Þ; Z;
+where X; Y
+ð
+Þ represents the joint distribution of X and Y. Since X, Y, and Z can
+themselves represent joint distributions, the above property can be used to
+decompose mutual information into simpler constituents. This makes mutual
+information a useful similarity measure in the context of agglomerative cluster-
+ing algorithms and forward feature selection.
+Given two arrays x and y of equal size, which are discretized into a regular
+grid with a number of partitions (bins) per dimension, Code Snippet 3.1 shows
+how to compute in python the marginal entropies, joint entropy, conditional
+entropies, and the mutual information.
+3.8 Variation of Information
+Variation of information is deﬁned as
+VI½X; Y ¼ H½XjY þ H½YjX ¼ H½X þ H½Y  2I½X; Y
+¼ 2H½X; Y  H½X  H½Y ¼ H½X; Y  I½X; Y:
+Thismeasurecanbeinterpretedastheuncertaintyweexpectinonevariableifweare
+toldthevalueofother.It hasalower boundinVI½X; Y ¼ 0⇔X ¼ Y, andanupper
+42
+Machine Learning for Asset Managers
+
+bound in VI½X; Y ≤H½X; Y. Variation of information is a metric, because it
+satisﬁes
+the
+axioms
+(1)
+nonnegativity,
+VI½X; Y ≥0;
+(2)
+symmetry,
+VI½X; Y ¼VI½Y; X; and (3) triangle inequality, VI½X; Z ≤VI½X; Y þ VI½Y; Z.
+Because H½X; Y is a function of the sizes of SX and SY, VI½X; Y does not
+have a ﬁrm upper bound. This is problematic when we wish to compare
+variations of information across different population sizes. The following
+quantity is a metric bounded between zero and one for all pairs X; Y
+ð
+Þ:
+VIe ½X; Y ¼ VI½X; Y
+H½X; Y ¼ 1  I½X; Y
+H½X; Y :
+Following Kraskov et al. (2008), a sharper alternative bounded metric is
+VI
+≈
+½X; Y ¼ maxfH½XjY; H½YjXg
+maxfH½X; H½Yg
+¼ 1 
+I½X; Y
+maxfH½X; H½Yg ;
+where VI
+≈½X; Y ≤VeI ½X; Y for all pairs X; Y
+ð
+Þ. Following the previous exam-
+ple, Code Snippet 3.2 computes mutual information, variation of information,
+and normalized variation of information.9
+As a summary, Figure 3.1 provides a visual representation of how these
+concepts are interrelated.
+3.9 Discretization
+Throughout this section, we have assumed that random variables were discrete.
+For the continuous case, we can quantize (coarse-grain) the values, and apply
+the same concepts on the binned observations. Consider a continuous random
+variable X, with probability distribution functions fX½x. Shannon deﬁned its
+(differential) entropy as
+SNIPPET 3.1 MARGINAL, JOINT, CONDITIONAL ENTROPIES, AND MUTUAL INFORMATION
+import numpy as np,scipy.stats as ss
+from sklearn.metrics import mutual_info_score
+cXY=np.histogram2d(x,y,bins)[0]
+hX=ss.entropy(np.histogram(x,bins)[0]) # marginal
+hY=ss.entropy(np.histogram(y,bins)[0]) # marginal
+iXY=mutual_info_score(None,None,contingency=cXY)
+iXYn=iXY/min(hX,hY) # normalized mutual information
+hXY=hX+hY-iXY # joint
+hX_Y=hXY-hY # conditional
+hY_X=hXY-hX # conditional
+9 Also, see https://pypi.org/project/pyitlib/.
+43
+Elements in Quantitative Finance
+
+H½X ¼ 
+ð∞
+∞
+fX½xlog½fX½xdx:
+The entropy of a Gaussian random variable X is H½X ¼ 1=2log½2πeσ2, thus
+H½X ≈1:42 in the standard Normal case. One way to estimate H½X on a ﬁnite
+sample of real values is to divide the range spanning the observed values
+xg
+f
+into BX bins of equal size ΔX, ΔX ¼ ðmax xg  min xgÞ=BX
+f
+f
+, giving us
+H½X ≈
+X
+BX
+i¼1
+fX½xilog½fX½xiΔX;
+where fX½xi represents the frequency of observations falling within the ith bin.
+Let p½xi be the probability of drawing an observation within the segment ΔX
+SNIPPET 3.2 MUTUAL INFORMATION, VARIATION OF INFORMATION, AND NORMALIZED
+VARIATION OF INFORMATION
+import numpy as np,scipy.stats as ss
+from sklearn.metrics import mutual_info_score
+#---------------------------------------------------
+def varInfo(x,y,bins,norm=False):
+# variation of information
+cXY=np.histogram2d(x,y,bins)[0]
+iXY=mutual_info_score(None,None,contingency=cXY)
+hX=ss.entropy(np.histogram(x,bins)[0]) # marginal
+hY=ss.entropy(np.histogram(y,bins)[0]) # marginal
+vXY=hX+hY-2*iXY # variation of information
+if norm:
+hXY=hX+hY-iXY # joint
+vXY/=hXY # normalized variation of information
+return vXY
+H[X, Y]
+I[X, Y]
+H[X Y ]
+H [Y X ]
+VI[X, Y ]
+H[X ]
+H[Y]
+Figure 3.1 Correspondence between joint entropy, marginal entropies,
+conditional entropies, mutual information, and variation of information.
+44
+Machine Learning for Asset Managers
+
+corresponding to the ith bin. We can approximate p½xi as p½xi ≈fX½xiΔX,
+which can be estimated as ^p½xi ¼ Ni=N, where Ni is the number of observations
+within the ith bin, N ¼ PBX
+i¼1 Ni, and PBX
+i¼1 ^p½xi ¼ 1. This leads to a discretized
+estimator of entropy of the form
+^H½X ¼ 
+X
+BX
+i¼1
+Ni
+N log Ni
+N
+
+
+þ log½ΔX:
+Following the same argument, the estimator of the joint entropy is
+^H½X; Y ¼ 
+X
+BX
+i¼1
+X
+BY
+j¼1
+Ni;j
+N log Ni;j
+N
+
+
+þ log½ΔXΔY:
+From the estimators ^H½X and ^H½X; Y, we can derive estimators for condi-
+tional entropies, mutual information, and variation of information. As we can
+see from these equations, results may be biased by our choice of BX and BY. For
+the marginal entropy case, Hacine-Gharbi et al. (2012) found that the following
+binning is optimal:
+BX ¼ round ζ
+6 þ 2
+3ζ þ 1
+3
+
+
+ζ ¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+8 þ 324N þ 12
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+36N þ 729N2
+p
+3q
+:
+For the joint entropy case, Hacine-Gharbi and Ravier (2018) found that the
+optimal binning is given by
+BX ¼ BY ¼ round
+1ﬃﬃ
+2
+p
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1 þ
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1 þ 24N
+1  ^ρ2
+s
+v
+u
+u
+t
+2
+64
+3
+75;
+where ^ρ is the estimated correlation between X and Y. Code Snippet 3.3 modiﬁes
+the previous function varInfo, so that it now incorporates the optimal binning
+derived by function numBins.
+3.10 Distance between Two Partitions
+In the previous sections, we have derived methods to evaluate the similarity
+between random variables. We can extend these concepts to the problem of
+comparing two partitions of the same data set, where the partitions can be
+considered random to some extent (Meila 2007). A partition P of a data set D
+is an unordered set of mutually disjoint nonempty subsets:
+45
+Elements in Quantitative Finance
+
+P ¼ fDkgk¼1;...;K;
+∥Dk ∥> 0; 8k;
+Dk ∩Dl ¼ ∅; 8k 6¼ l;
+∪
+k
+k¼1 Dk ¼ D:
+Let us deﬁne the uncertainty associated with P. First, we set the probability of
+picking any element d 2 D as pe½d ¼ 1=‖D‖. Second, we deﬁne the probability
+that an element d 2 D picked at random belongs to subset Dk
+as
+p½k ¼ ‖Dk‖=‖D‖. This second probability p½k is associated with a discrete
+random variable that takes a value k from S ¼ 1; . . . ; Kg
+f
+. Third, the uncer-
+tainty associated with this discrete random variable can be expressed in terms of
+the entropy
+H½P ¼ 
+X
+K
+k¼1
+p½klog½p½k:
+SNIPPET 3.3 VARIATION OF INFORMATION ON DISCRETIZED CONTINUOUS RANDOM
+VARIABLES
+def numBins(nObs,corr=None):
+# Optimal number of bins for discretization
+if corr is None: # univariate case
+z=(8+324*nObs+12*(36*nObs+729*nObs**2)**.5)**(1/3.)
+b=round(z/6.+2./(3*z)+1./3)
+else: # bivariate case
+b=round(2**-.5*(1+(1+24*nObs/(1.-corr**2))**.5)**.5)
+return int(b)
+#---------------------------------------------------
+def varInfo(x,y,norm=False):
+# variation of information
+bXY=numBins(x.shape[0],corr=np.corrcoef(x,y)[0,1])
+cXY=np.histogram2d(x,y,bXY)[0]
+iXY=mutual_info_score(None,None,contingency=cXY)
+hX=ss.entropy(np.histogram(x,bXY)[0]) # marginal
+hY=ss.entropy(np.histogram(y,bXY)[0]) # marginal
+vXY=hX+hY-2*iXY # variation of information
+if norm:
+hXY=hX+hY-iXY # joint
+vXY/=hXY # normalized variation of information
+return vXY
+46
+Machine Learning for Asset Managers
+
+From the above we can see that H½P does not depend on ‖D‖, but on the relative
+sizes of the subsets. Given a second partition P0 ¼ fD0
+k0gk¼1;...;K, we can deﬁne a
+second random variable that takes a value k0 from S0 ¼ 1; . . . ; K0g
+f
+. The joint
+probability that an element d 2 D picked at random belongs to subset Dk in P
+and also belongs to subset D
+0
+k0 in P0 is
+p½k; k0 ¼ ∥Dk ∩D0k0 ∥
+‖D‖
+:
+The joint entropy is deﬁned as
+H½P; P0 ¼ 
+X
+K
+k¼1
+X
+K0
+k0¼1
+p½k; k0log½p½k; k0;
+and the conditional entropy is H½PjP0 ¼ H½P; P0  H½P. The mutual informa-
+tion is
+I½P; P0 ¼ H½P  H½PjP0 ¼
+X
+K
+k¼1
+X
+K0
+k0¼1
+p½k; k0log
+p½k; k0
+p½kp½k0
+
+
+;
+and the variation of information is
+VI½P; P0 ¼ H½PjP0 þ H½P0jP;
+where H½PjP0 measures the amount of information about P that we lose and
+H½P0jP measures the amount of information about P0 that we gain when going
+from partition P to P0. This deﬁnition of variation of information has several
+properties, among which we ﬁnd that (1) it is a metric; (2) it has an absolute upper
+boundary at VI½P; P0 ≤log½‖D‖ (like entropy); and (3) if the number of subsets is
+bounded by a constant K, with K ≤
+ﬃﬃﬃﬃﬃﬃ
+‖D‖
+p
+, then VI½P; P0 ≤2log½K. These three
+properties are important because they allow us to normalize the distance between
+partitions, and compare partitioning algorithms across different data sets. In the
+context of unsupervised learning, variation of information is useful for comparing
+outcomes from a partitional (non-hierarchical) clustering algorithm.
+3.11 Experimental Results
+The mutual information quantiﬁes the amount of information shared by two
+random variables. The normalized mutual information takes real values within
+the range ½0; 1, like the absolute value of the correlation coefﬁcient. Also like
+the correlation coefﬁcient (or its absolute value), neither the mutual information
+nor the normalized mutual information are true metrics. The mutual information
+between two random standardized Gaussian variables X and Y with correlation ρ
+is known to be I½X; Y ¼ 1=2log½1  ρ2.
+47
+Elements in Quantitative Finance
+
+It is in this sense that we can consider the normalized mutual information as
+the information-theoretic analogue to linear algebra’s correlation coefﬁcient.
+Next, we study how both statistics perform under different scenarios.
+3.11.1 No Relationship
+We begin by drawing two arrays, x and e, of random numbers from a standard
+Gaussian distribution. Then we compute y ¼ 0x þ e ¼ e, and evaluate the
+normalized mutual information as well as the correlation between x and y.
+Code Snippet 3.4 details these calculations.
+Figure 3.2 represents y against x, which as expected resembles a cloud.
+Correlation and normalized mutual information are both approximately zero.
+3.11.2 Linear Relationship
+In this example, we impose a strong linear relationship between x and y, by setting
+y ¼ 100x þ e. Now the correlation is approximately 1, and the normalized
+mutual information is also very high, approximately 0.9. Still, the normalized
+mutual information is not 1, because there is some degree of uncertainty asso-
+ciated with e. For instance, should we impose y ¼ 104x þ e, then the normalized
+mutual information would be 0.995. Figure 3.3 plots this relationship.
+SNIPPET 3.4 CORRELATION AND NORMALIZED MUTUAL INFORMATION OF TWO
+INDEPENDENT GAUSSIAN RANDOM VARIABLES
+def mutualInfo(x,y,norm=False):
+# mutual information
+bXY=numBins(x.shape[0],corr=np.corrcoef(x,y)[0,1])
+cXY=np.histogram2d(x,y,bXY)[0]
+iXY=mutual_info_score(None,None,contingency=cXY)
+if norm:
+hX=ss.entropy(np.histogram(x,bXY)[0]) # marginal
+hY=ss.entropy(np.histogram(y,bXY)[0]) # marginal
+iXY/=min(hX,hY) # normalized mutual information
+return iXY
+#---------------------------------------------------
+size,seed=5000,0
+np.random.seed(seed)
+x=np.random.normal(size=size)
+e=np.random.normal(size=size)
+y=0*x+e
+nmi=mutualInfo(x,y,True)
+corr=np.corrcoef(x,y)[0,1]
+48
+Machine Learning for Asset Managers
+
+3.11.3 Nonlinear Relationship
+In this example, we impose a symmetric relationship across the x-axis between
+x and y, by setting y ¼ 100jxj þ e. Now the correlation is approximately 0, and
+the normalized mutual information is approximately 0.64. As expected, the
+correlation has failed to recognize the strong relationship that exists between x
+3
+corr=0.0015
+nmi=0.0068
+y = 0x + ε
+2
+1
+0
+–1
+–2
+–3
+–4
+–3
+–2
+–1
+0
+1
+2
+3
+4
+Figure 3.2 Scatterplot of two independent Gaussian random variables.
+200
+400
+300
+corr=0.9999
+nmi=0.8907
+y = 100x + ε
+100
+0
+–100
+–200
+–300
+–400
+–4
+–3
+–2
+–1
+0
+1
+2
+3
+4
+Figure 3.3 Scatterplot of two Gaussian random variables with a linear
+relationship.
+49
+Elements in Quantitative Finance
+
+and y, because that relationship is nonlinear. In contrast, the mutual information
+recognizes that we can extract a substantial amount of information from x that is
+useful to predict y, and vice versa. Figure 3.4 plots this relationship.
+Unlike in the linear case, raising the coefﬁcient from 102 to 104 will not
+substantially increase the normalized mutual information. In this example, the
+main source of uncertainty is not e. The normalized mutual information is high,
+but not 1, because knowing y does not sufﬁce to know x. In fact, there are two
+alternative values of x associated with each value of y.
+3.12 Conclusions
+Correlations are useful at quantifying the linear codependency between random
+variables. This form of codependency accepts various representations as a
+distance
+metric,
+such
+as
+dρ½X; Y ¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1
+2 1  ρ½X; Y
+ð
+Þ
+q
+,
+or
+djρj½X; Y ¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1  jρ½X; Yj
+p
+. However, when variables X and Y are bound by a
+nonlinear relationship, the above distance metric misjudges the similarity of
+these variables. For nonlinear cases, we have argued that the normalized varia-
+tion of information is a more appropriate distance metric. It allows us to answer
+questions regarding the unique information contributed by a random variable,
+without having to make functional assumptions. Given that many ML algo-
+rithms do not impose a functional form on the data, it makes sense to use them in
+conjunction with entropy-based features.
+y = 100|x| + ε
+corr=–0.008
+nmi=0.6439
+350
+300
+250
+200
+150
+100
+50
+0
+–4
+–3
+–2
+–1
+0
+1
+2
+3
+4
+Figure 3.4 Scatterplot of two Gaussian random variables with a nonlinear
+relationship.
+50
+Machine Learning for Asset Managers
+
+3.13 Exercises
+1 Draw 1,000 observations from a bivariate Normal distribution with unit
+standard deviations and a correlation coefﬁcient ρ 2 1; :5; 0; :5; 1g
+f
+.
+a Discretize the samples, following the method described in Section 3.9.
+b Compute H½X, H½Y, H½X; Y, H½XjY, I½X; Y, VI½X; Y and VIe ½X; Y.
+c Are H½X and H½Y affected by ρ?
+d Are H½X; Y, H½XjY, I½X; Y, VI½X; Y, and e
+VI½X; Y affected by ρ?
+2 Repeat Exercise 1, this time for 1 million observations. What variables are
+impacted by the different sample size?
+3 Repeat Exercise 2, where this time you use the discretization step BX from
+Exercise 1. How does this impact the results?
+4 What is the main advantage of variation of information over mutual informa-
+tion? Can you think of a use case in ﬁnance where mutual information is
+more appropriate than variation of information?
+5 Consider the two correlation-based distance metrics we discussed in Section
+3.2. Can you think of a use case where those distance metrics would be
+preferable to the normalized variation of information?
+6 Code in Python a function to compute the KL divergence between two
+discrete probability distributions.
+7 Code in Python a function to compute the cross-entropy of two discrete
+probability distributions.
+8 Prove that dρ2½X; Y ¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1  ρ½X; Y2
+q
+is also a proper metric.
+51
+Elements in Quantitative Finance

@@ -1,0 +1,687 @@
+16
+Options: the Black and Scholes model
+The heresies we should fear are those which can be confused with orthodoxy.
+(Jorge Luis Borges, The Theologians.)
+16.1 Ito calculus and the Black-Scholes equation
+After having discussed at length the peculiarities of the continuous time Gaussian limit in the
+previous chapters, it is interesting to describe how option pricing theory is usually introduced
+using Ito’s stochastic differential calculus. This framework is extremely powerful and allows
+one to obtain rather quickly some of the results that were painfully derived in the previous
+chapters, such as the optimal hedge or the independence of the price on the drift. Once the
+limitations of the Black-Scholes model and the subtleties of the continuous limit are fully
+understood, the ‘blind’ use of Ito calculus to obtain a ﬁrst approximation to the price of
+derivatives becomes justiﬁed. However, we are convinced that in order to go beyond Black-
+Scholes and study more realistic models, one should be prepared to abandon Ito calculus
+and the world of partial differential equations on which most of mathematical ﬁnance relies.
+16.1.1 The Gaussian Bachelier model
+We ﬁrst assume that the price itself (and not its logarithm) follows a continuous time random
+walk, with drift m and diffusion constant D. We also assume that the interest rate r is equal
+to zero. Consider now the variation between times t and t + dt of the value of the portfolio
+of the writer of an option (worth C) who also holds φ(x, t) underlying assets as a hedge:
+d f
+dt = −dC
+dt + φ dx
+dt .
+(16.1)
+The ﬁrst term comes with a minus sign because the writer is ‘short’ the option (which means
+that he has sold the option). Therefore he loses (gains) if the option increases (decreases)
+in value. The second term reﬂects the variation of value of his hedge.
+Now, we assume that x(t) is a continuous time random walk. We may thus apply Ito’s
+formula, Eq. (3.22) to dC/dt. One ﬁnds:
+d f
+dt = φ dx
+dt −
+∂C(x, t)
+∂t
++ ∂C(x, t)
+∂x
+dx
+dt + D
+2
+∂2C(x, t)
+∂x2
+
+.
+(16.2)
+
+16.1 Ito calculus and the Black-Scholes equation
+291
+One immediately sees in the above formula that if one chooses φ such that φ = φ∗≡
+∂C(x, t)/∂x, the coefﬁcient of the only random term in the above expression, namely dx/dt,
+vanishes. The evolution of the wealth of the writer is then known with certainty!
+Now, writing options cannot be proﬁtable with certainty, otherwise arbitragers would
+massively write options, pushing the price down until the proﬁt disappears. Conversely, this
+wealth variation cannot be negative with certainty, for in that case, arbitragers would do
+the reverse operation (buy and hedge) driving up the price of options. The only remaining
+possibility is that the wealth of the writer must be constant.
+Note that we assumed that the interest rate is zero, so we could ignore return on capital
+and cost of borrowing. Setting d f /dt = 0 leads to a partial differential equation (PDE) for
+the price C:
+∂C(x, t)
+∂t
+= −D
+2
+∂2C(x, t)
+∂x2
+.
+(16.3)
+This PDE is called the diffusion (or heat) equation. However, because of the minus sign,
+the interpretation of this diffusion equation is different from the one that appears in phys-
+ical contexts, where it describes, for example, the way the spatial density of pollutants
+evolves in time. Here, because of the minus sign, time ﬂows ‘backwards’: in order to make
+sense, the above PDE must be supplemented by a boundary condition in the future, and
+not by an ‘initial condition’. In the present ﬁnancial context, this terminal boundary con-
+dition makes perfect sense, since the price of the option at maturity (t = T ) is perfectly
+known in all circumstances and is equal to the pay-off of the option: C(x, T ) = Y(x),
+where, for example Y(x) = max(x −xs, 0) for European options, with xs the strike
+price.
+Before showing how this PDE can be solved for an arbitrary pay-off function, let us note
+the following: (i) the solution of the PDE determines the price of the option everywhere in the
+half plane x, t < T , where the point of interest x = x0, t = 0 is only a special point. In other
+words, the option price C(x, t) is a ﬁeld that cannot be determined on a single point without
+knowing its surroundings; (ii) since the mean return m does not appear in the equation, it
+will not be involved in the solution either. The price and the hedging strategy are therefore
+immediately seen to be completely independent of the average return in this framework, a
+result obtained after rather cumbersome considerations in the previous chapters.
+16.1.2 Solution and Martingale
+In order to ﬁnd the option price for an arbitrary pay-off and get some insight into the meaning
+of the obtained solution, let us ﬁrst examine the following forward diffusion equation:
+∂P(x′, t′|x, t)
+∂t′
+= D
+2
+∂2P(x′, t′|x, t)
+∂x′2
+,
+(16.4)
+with boundary conditions:
+P(x′, t′ = t|x, t) = δ(x′ −x).
+(16.5)
+
+292
+Options: the Black and Scholes model
+The solution to this diffusion equation is well known to be the (zero drift) Gaussian distri-
+bution:
+P(x, t′|x, t) = PG(x′, t′|x, t) =
+1
+√2π D(t′ −t) exp
+
+−(x′ −x)2
+2D(t′ −t)
+
+.
+(16.6)
+Since PG(x′, t′|x, t) only depends on x′ −x and on t′ −t, it also obeys the equation:
+∂P(x′, t′|x, t)
+∂t
+= −D
+2
+∂2P(x′, t′|x, t)
+∂x2
+,
+(16.7)
+Now, let us consider the following quantity:
+CG(x, t) =
+
+Y(x′) PG(x′, T |x, t) dx′
+(16.8)
+which is the average of the pay-off over the probability distribution PG. Take the derivative
+of CG(x, t) with respect to t and use the above Eq. (16.7) to ﬁnd:
+∂CG(x, t)
+∂t
+=
+
+Y(x′) ∂PG(x′, T |x, t)
+∂t
+dx′ = −D
+2
+
+Y(x′) ∂2PG(x′, T |x, t)
+∂x2
+dx′
+= −D
+2
+∂2CG(x, t)
+∂x2
+.
+(16.9)
+Hence, CG(x, t) obeys the pricing PDE, Eq. (16.3). Now, using the boundary condition
+PG(x′, T |x, T ) = δ(x′ −x), it is readily seen that CG(x, t) also obeys the correct terminal
+boundary condition:
+CG(x, T ) =
+
+Y(x′) PG(x′, T |x, T ) dx′ =
+
+Y(x′) δ(x′ −x) dx′ = Y(x).
+(16.10)
+Hence, we ﬁnd that C(x, t) = CG(x, t): the price of the option is equal to average of the
+pay-off over the probability distribution PG that describes the undrifted evolution of the
+underlying price x.
+Now, using the (Chapman-Kolmogorov) chain property of PG(x′, T |x, t), namely:
+PG(x′, T |x, t) =
+
+PG(x′, T |x′′, t′′)PG(x′′, t′′|x, t)dx′′
+(t ≤t′′ ≤T ),
+(16.11)
+we also establish the following martingale property of the price:
+CG(x, t) =
+
+CG(x′′, t′′)PG(x′′, t′′|x, t)dx′′ = ⟨CG(x′′, t′′)⟩0,
+(16.12)
+which means that the price of the option today is equal to the average of the option price
+anytime in the future, provided one uses the undrifted distribution of future prices (hence
+the notation ⟨. . .⟩0. As discussed in Section 15.2.2, this is a more general property that only
+relies on -hedging. In this case, one also has that C(x, t) = ⟨C(x′′, t′′)⟩0 for any t′′ > t. As
+explained in Section 17.2.4, this property allows to price more complicated options, such
+as American options.
+
+16.1 Ito calculus and the Black-Scholes equation
+293
+16.1.3 Time value and the cost of hedging
+Let us discuss an apparent contradiction in the above discussion: we just stated that the
+price of the option is such that it does not vary on average. Yet, Bachelier’s PDE, Eq. (16.3),
+shows that the partial derivative of C(x, t) with respect to time is negative, or in traders
+language, that theta is negative:
+d⟨C⟩
+dt
+= 0
+but
+ = ∂C
+∂t < 0.
+(16.13)
+Equation (16.3) in fact only tells us that, conditional to the fact that the price x does not
+vary at all between t and t + dt, the price of the option C does decay. This variation can
+be seen as the cost of the hedging strategy due to the back and forth motion of the price
+between t and t + dt.
+If we place ourselves in case where x(t + dt) = x(t), we can ﬁrst suppose that be-
+tween t and t + dt/2, the price increases by a small amount dx > 0. The Black-Scholes
+hedging strategy is such that the quantity of stocks held by the writer must increase by
+dφ = (∂φ/∂x)dx = (∂2C/∂x2)dx. But since between t + dt/2 and t + dt the price goes
+back to x, this extra investment causes a loss, since it corresponds to buying high and
+selling low. The loss is equal to dφdx, which must also be the depreciation of the option
+between t and t + dt. Therefore:
+∂C(x, t)
+∂t
+dt = −dφdx = −∂2C(x, t)
+∂x2
+(dx)2.
+(16.14)
+Since only (dx)2 enters this expression, one sees that the hedging strategy is experiencing
+a loss in both cases dx > 0 and dx < 0. But since for a Brownian motion between t and
+t + dt/2, (dx)2 = Ddt/2, the above expression is seen to reproduce Eq. (16.3).
+16.1.4 The log-normal Black-Scholes model
+Now, let us turn to classical Black-Scholes case where the logarithm of the price is a
+continuous time random walk, and the interest rate is non zero. Using again Ito’s formula
+to compute d f/dt, one now ﬁnds:
+d f
+dt = φ dx
+dt −
+∂C(x, t)
+∂t
++ ∂C(x, t)
+∂x
+dx
+dt + σ 2x2
+2
+∂2C(x, t)
+∂x2
+
+.
+(16.15)
+Again, the choice φ = φ∗≡∂C(x, t)/∂x, makes all uncertainty vanish. However, since the
+interest rate is non zero, the wealth differential should now equate the (zero risk) interest
+on the total value of the portfolio φx −C(x, t). Therefore, one must have:
+d f
+dt = r [φx −C(x, t)] = r
+∂C(x, t)
+∂x
+x −C(x, t)
+
+,
+(16.16)
+which leads ﬁnally to the celebrated Black-Scholes partial differential equation:
+∂C
+∂t + rx ∂C
+∂x + σ 2x2
+2
+∂2C
+∂x2 = rC,
+(16.17)
+
+294
+Options: the Black and Scholes model
+where we have dropped the set of variables (x, t) on which C depends. The boundary
+condition is again, obviously, C(x, t = T ) ≡Y(x), i.e. the value of the option at expiry
+t = T .
+The solution of this partial differential equation can be obtained using a variety of different
+methods, including path integral methods (see Chapter 3). The explicit solution reads, as
+already mentioned in Section 13.3.3:
+C(x0, t = 0) = x0PG>
+ y−
+σ
+√
+T
+
+−xse−rT PG>
+ y+
+σ
+√
+T
+
+,
+(16.18)
+where
+y± = log(xs/x0) −rT ± σ 2T/2
+(16.19)
+and PG>(u) is the cumulative normal distribution deﬁned by Eq. (2.36). Since the drift of
+the underlying does not appear in Eq. (16.17), it does not appear in the price of the option
+(nor in the hedging strategy) either. Again, the price of the option can be written as the
+discounted average pay-off over the undrifted distribution of price returns, which is such
+that the average terminal price is equal to the forward: ⟨x(T )⟩0 = x(t = 0)erT .
+16.1.5 General pricing and hedging in a Brownian world
+The Black-Scholes protocol can be generalized to much more complex options or any type
+of derivatives, such as bonds (see Chapter 19). Suppose one has to price an option that
+depends on the terminal price of a set of (possibly correlated) assets {xi}, i = 1, . . . , M, all
+assumed to follow a geometric Brownian motion. The price of the option therefore depends
+both on time and on the price of all assets: C(x1, . . . xM; t). Using Ito’s formula for several
+Gaussian noises (see Eq. (3.23)), one ﬁnds, for the variation of the portfolio of the option
+seller that hedges using a fraction φi of stocks of type i:
+d f
+dt =
+M
+
+i=1
+φi
+dxi
+dt −
+
+∂C
+∂t +
+M
+
+i=1
+∂C
+∂xi
+dxi
+dt +
+M
+
+i, j=1
+σ 2
+i jxix j
+2
+∂2C
+∂xi∂x j
+
+,
+(16.20)
+where σi j is the covariance matrix of the returns. Setting the hedges to their Black-Scholes
+ value, i.e.
+φi ≡∂C
+∂xi
+,
+(16.21)
+leads again to a zero risk portfolio, that must therefore yield a return equal tor[	
+i φixi −C].
+The PDE ﬁxing the price of the option is then a multidimensional diffusion equation:
+∂C
+∂t + r
+M
+
+i=1
+xi
+∂C
+∂xi
++
+M
+
+i, j=1
+σ 2
+i jxix j
+2
+∂2C
+∂xi∂x j
+= rC.
+(16.22)
+Interestingly, the general solution of this equation can again be written as the discounted
+average pay-off over the undrifted distribution of price returns, which is such that the average
+terminal price of all assets is equal to the forwards: ⟨xi(T )⟩0 = xi(t = 0)erT .
+
+16.2 Drift and hedge in the Gaussian model (∗)
+295
+The Black-Scholes machinery is very general and very beautiful: using hedges that are
+the linear sensitivity of the derivative to all assets, one ﬁnds that the resulting portfolio is
+riskless, and that the price of the derivative is simply the discounted average pay-off over
+the undrifted distribution of price returns. This machinery can be applied to many cases,
+including derivatives on the yield curve. In practice, however, the beauty of many theories
+often distract their followers from common sense, and the limitations of the Black-Scholes
+protocol should always be carefully taken into account.
+16.1.6 The Greeks
+The way CBS varies with the current price x0, the maturity T and the volatility deﬁnes the
+‘Greeks’, because they are denoted by Greek letters. For the sake of completeness, we give
+here the explicit formulas of the Greeks in the Black-Scholes. First, the hedging ratios:
+ = ∂C
+∂x0
+= PG>
+ y−
+σ
+√
+T
+
+;
+(16.23)
+(where y−is deﬁned in Eq. (16.19)) and
+ = ∂
+∂x0
+=
+1
+x0σ
+√
+2πT
+exp
+
+−y2
+−
+2σ 2T
+
+.
+(16.24)
+The Vega V, that is actually not a Greek letter and should not exist in the Black-Scholes
+world where the volatility is known and constant, is given by:
+V = ∂C
+∂σ = x0
+
+T
+2π exp
+
+−y2
+−
+2σ 2T
+
+;
+(16.25)
+and ﬁnally, in the limit rT ≪1, the ‘time value’  of the option (see Section 16.1.3):
+ = −∂C
+∂T ≈−σ
+2T V.
+(16.26)
+16.2 Drift and hedge in the Gaussian model (∗)
+16.2.1 Constant drift
+In the continuous-time Gaussian case, the solution of Eqs. (15.47) and (15.48) for the
+optimal strategy φ∗happens to be completely independent of the drift m as is clear from the
+above approach using Ito’s calculus. Let us explicitly show how the compensation between
+the increase in average pay-off and the gain due to the hedging strategy occurs in this case.
+Using the explicit form of the hedging strategy, one has:
+φ∗(x, t) = −
+ ∞
+xs
+x′ −xs
+√2π D(T −t)
+∂
+∂x′ exp
+
+−(x′ −x)2
+2D(T −t)
+
+dx′.
+(16.27)
+The average proﬁt induced by the hedge is thus:
+m1φ∗= m
+ T
+0
+
+1
+√
+2π Dt
+φ∗(x, t) exp
+
+−(x −x0 −mt)2
+2Dt
+
+dx dt.
+(16.28)
+
+296
+Options: the Black and Scholes model
+Performing the Gaussian integral over x, one ﬁnds (setting u = x′ −xs and u0 = x0 −xs):
+m1φ∗= −m
+ T
+0
+ ∞
+0
+u
+√
+2π DT
+∂
+∂u exp
+
+−(u −u0 −mt)2
+2DT
+
+du dt
+=
+ T
+0
+ ∞
+0
+u
+√
+2π DT
+∂
+∂t exp
+
+−(u −u0 −mt)2
+2DT
+
+du dt,
+or else:
+m1φ∗=
+ ∞
+0
+u
+√
+2π DT
+
+exp
+
+−(u −u0 −mT )2
+2DT
+
+−exp
+
+−(u −u0)2
+2DT
+
+du.
+(16.29)
+The price of the option in the presence of a non-zero return m ̸= 0 is thus given, in the
+Gaussian case, by:
+Cm(x0, xs, T ) = ⟨max(x −xs, 0)⟩m −m1φ∗
+=
+ ∞
+0
+u
+√
+2π DT
+exp
+
+−(u −u0 −mT )2
+2DT
+
+du −m1φ∗
+=
+ ∞
+0
+u
+√
+2π DT
+exp
+
+−(u −u0)2
+2DT
+
+du
+(16.30)
+≡Cm=0(x0, xs, T ),
+(16.31)
+(cf. Eq. (13.43)). Hence, the compensation between increased average pay-off and gain of
+the hedging strategy is exact in a Gaussian model, but only approximate in a more general
+model. (see Section 15.1.)
+16.2.2 Price dependent drift and the Ornstein-Uhlenbeck paradox
+Let us now study, in the context of Ito’s stochastic differential calculus, a case where the
+disappearance of the drift from the option price becomes somewhat paradoxical. Suppose
+that the price follows an Ornstein-Uhlenbeck process:
+dx
+dt = −	(x −x) + ξ(t),
+(16.32)
+where ξ(t) is a Gaussian white noise of zero mean, with ⟨ξ(t)ξ(t′)⟩= Dδ(t −t′). For large
+maturities T , the distribution of terminal price becomes stationary, and independent of the
+current price:
+P(x, T |x0, 0) =
+1
+√
+2πσ 2 exp −
+(x −x)2
+22
+
+,
+(16.33)
+with 2 = D/2	. Hence, the potential excursions of the price are bounded; the probability
+that x −x becomes much larger than  rapidly becomes negligible.
+Now, suppose that we want to price an option on such an underlying using the Ito
+technique. Since the drift −	(x −x) never appears in Ito’s formula, the partial differential
+
+16.3 The binomial model
+297
+equation giving the option price is exactly the same as Eq. 16.3. For an at-the-money option,
+the price is therefore C = √DT/2π, independent of the mean reversion strength 	.
+However, the price ﬂuctuations will never much exceed , and therefore the proﬁt of the
+buyer of this option will never be much larger than . On the other hand, if T is large, the
+price of the option is much larger than this potential proﬁt!
+The difference comes from the fact that the mean-reverting anticorrelations in the price
+process plays the role of transaction costs for the writer of the option that hedges according
+to Black-Scholes. The mean reverting effect means that on average the hedger buys high
+and sells low. For long maturity options, his risk minimization strategy becomes inﬁnitely
+costly and therefore unrealistic. (See also the discussion in Chapter 15.)
+16.3 The binomial model
+The binomial model for price evolution – the famous Cox–Ross–Rubinstein model (Cox
+et al. (1979)) – shares with the continuous-time Gaussian model the zero risk property. This
+model is very much used in practice, due to its easy numerical implementation. Furthermore,
+the zero risk property appears in the clearest fashion. Suppose indeed that between tk = kτ
+and tk+1, the price difference can only take two values: δxk = δx1,2. For this very reason,
+the option value itself can only evolve along two paths only, to be worth (at time tk+1) Ck+1
+1,2 .
+Consider now the hedging strategy where one holds a fraction φ of the underlying asset,
+and a quantity B of bonds, with a risk-free interest rate ρ. If one chooses φ and B such that:
+φk(xk + δx1) + Bk(1 + ρ) = Ck+1
+1
+,
+(16.34)
+φk(xk + δx2) + Bk(1 + ρ) = Ck+1
+2
+,
+(16.35)
+or else:
+φk = Ck+1
+1
+−Ck+1
+2
+δx1 −δx2
+,
+Bk(1 + ρ) = δx1Ck+1
+2
+−δx2Ck+1
+1
+δx1 −δx2
+,
+(16.36)
+one sees that in the two possible cases (δxk = δx1,2), the value of the hedging portfolio
+is strictly equal to the option value. The option value at time tk is thus equal to Ck(xk) =
+φkxk + Bk, independently of the probability p [resp. 1 −p] that δxk = δx1 [resp. δx2]. One
+then determines the option value by iterating this procedure from time k + 1 = N, where C N
+is known, and equal to max(xN −xs, 0), or more generally Y(xN). The price of the option
+is in this case completely independent of the ‘historical’ probability p. This unfortunate
+property has led many authors to write that the ‘risk neutral’ probability that one should use
+to price options is in general totally unrelated to the ‘true’ historical probabilities, which is an
+absurd statement that is only valid in oversimpliﬁed situations. It is, for example, easy to see
+that as soon as δxk can take three or more values, it is impossible to ﬁnd a perfect strategy.†
+The Ito process can be obtained as the continuum limit of the binomial tree. But even in its
+discrete form, the binomial model shares some important properties with the Black–Scholes
+model. The independence of the premium on the transition probability p is the analogue of
+† See e.g. Aurell & Simdyankin (1998).
+
+298
+Options: the Black and Scholes model
+the independence of the premium on the excess return m in the Black–Scholes model. The
+magic of zero risk in the binomial model can therefore be understood as follows. Consider
+the quantity s2 = (δxk −a)2 for a ﬁxed value of a; s2 is in general a random number, but for a
+precise value of a, namely a = (δx1 −δx2)/2, s2 is non-ﬂuctuating (s2 ≡(δx1 −δx2)2/4).
+Because there are only two possible outcomes for δx, a proper choice of a can remove all the
+ﬂuctuations in s2, this is the origin of “the hedge that stole the risk.” The Ito process shares
+this property: in the continuum limit quadratic quantities do not ﬂuctuate. For example, the
+quantity
+S2 = lim
+τ→0
+T/τ−1
+
+k=0
+[x((k + 1)τ) −x(kτ) −mτ]2 ,
+(16.37)
+is equal to DT with probability one when x(t) follows an Ito process (see Fig. 3.1). In a
+sense, continuous-time Brownian motion represents a very weak form of randomness since
+quantities such as S2 can be known with certainty. But it is precisely this property that
+allows for zero risk in the Black–Scholes world.
+16.4 Summary
+r The Ito formula allows one to see immediately how perfect hedging is possible in a
+world where uncertainty is taken to be a continuous time Gaussian process.
+r The same Ito formula also immediately shows that any drift term, that can be time
+and price dependent, completely disappears from the option price. As emphasized
+in previous chapters, the same result is only approximately true when the statistics
+of price returns is non Gaussian, if the hedging strategy is the (possibly suboptimal)
+-hedge.
+r The option price can be written, for an arbitrary pay-off, as the average pay-off over
+the undrifted distribution of prices (with possible corrections coming from interest
+rate effects).
+r The binomial model, where the price change can only take two values, is another
+model where complete elimination of risk is possible.
+r A riddle for traders – Black-Scholes in Greek:
+When I hedge my option
+I can’t lose with Delta
+What I lose with Theta
+I will gain with Gamma
+And Greeks have no Vega.
+r Further reading
+L. Bachelier, Th´eorie de la sp´eculation, Gabay, Paris, 1995.
+M. Baxter, A. Rennie, Financial Calculus, An Introduction to Derivative Pricing, Cambridge
+University Press, Cambridge, 1996.
+
+16.4 Summary
+299
+J. P. Fouque, G. Papanicolaou, R. Sircar, Derivatives in Financial Markets with Stochastic Volatility,
+Cambridge University Press, 2000.
+J. C. Hull, Futures, Options and Other Derivatives, Prentice Hall, Upper Saddle River, NJ, 1997.
+M. Musiela, M. Rutkowski, Martingale Methods in Financial Modelling, Springer, New York, 1997.
+D. Lamberton, B. Lapeyre, Introduction au calcul stochastique appliqu´e `a la ﬁnance, Ellipses, Paris,
+1991.
+R. C. Merton, Continuous-Time Finance, Blackwell, Cambridge, 1990.
+M. Musiela, M. Rutkowski, Martingale Methods in Financial Modelling, Springer, New York, 1997.
+I. Nelken (ed.), The Handbook of Exotic Options, Irwin, Chicago, IL, 1996.
+N. Taleb, Dynamical Hedging: Managing Vanilla and Exotic Options, Wiley, New York, 1998.
+P. Wilmott, J. N. Dewynne, S. D. Howison, Option Pricing: Mathematical Models and Computation,
+Oxford Financial Press, Oxford, 1993.
+P. Wilmott, Derivatives, The theory and practice of ﬁnancial engineering, John Wiley, 1998.
+P. Wilmott, Paul Wilmott Introduces Quantitative Finance, John Wiley, 2001.
+r Specialized papers: some classics
+F. Black, M. Scholes, The pricing of options and corporate liabilities, Journal of Political Economy,
+3, 637 (1973).
+J. C. Cox, S. A. Ross, M. Rubinstein, Option pricing: a simpliﬁed approach, Journal of Financial
+Economics, 7, 229 (1979).
+R. C. Merton, Theory of rational option pricing, Bell Journal of Economics and Management Science,
+4, 141 (1973).
+r Specialized papers
+E. Aurell, S. Simdyankin, Pricing risky options simply, International Journal of Theoretical and
+Applied Finance, 1, 1 (1998).
+E. Aurell, R. Baviera, O. Hammarlid, M. Serva, A. Vulpiani, Growth optimal investment and pricing
+of derivatives, Int. Jour. Theo. Appl. Fin., 3, 1 (2000).
+M. Schweizer, Risky options simpliﬁed, International Journal of Theoretical and Applied Finance, 2,
+59 (1999).

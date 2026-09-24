@@ -1,0 +1,184 @@
+3.4 Boundary value problems
+117
+(c) determine UJ, UJ−1 from UJ−1 = E J−1UJ + FJ−1 and the upper boundary
+condition UJ = B1UJ−1 + B2;
+(d) determine U j, j = J −2, . . . , 1 using (3.4.10).
+Tridiagonal matrices can thus be solved very efﬁciently, although problems arise
+when the denominator in (3.4.12) is close to zero.
+3.4.3
+Iterative methods for solving elliptic equations
+The system Aφ = F can be solved iteratively by transforming it into another system,
+φ = (I −A)φ + F
+or
+φ = Mφ + F
+(3.4.13)
+choosing an initial guess φ0 and then iterating (3.4.13): φv+1 = Mφv + F. The
+method converges if the spectral radius σ(M) = max |λi| < 1, where λi are the eigen-
+values of M. The asymptotic convergence rate is deﬁned as
+R = −log10[σ(M)]
+(3.4.14)
+We now give an example for a simple elliptic equation to provide an idea of how to
+attack the problem. The reader is referred to the references cited in subsection 3.4.1
+for a more comprehensive discussion.
+For a uniform grid with x = y = , an elliptic equation like (3.4.3) can be
+written as
+δ2φi, j −αφi, j = gi, j
+(3.4.15)
+where the ﬁnite difference Laplace operator is
+δ2φi, j = (φi+1, j + φi−1, j + φi, j+1 + φi, j−1 −4φi, j)
+(3.4.16)
+Suppose we are in iteration v. Then
+δ2φv
+i, j −αφv
+i, j = gi, j+ ∈v
+i, j
+(3.4.17)
+where ∈v
+i, j is the error in iteration v. If we assume at the point i, j
+φv+1
+i, j
+= φv
+i, j + δφv
+i, j
+(3.4.18)
+and choose δφv
+i, j to make ∈v+1
+i, j = 0, we get
+φv+1
+i, j
+= φv
+i, j +
+δ2φv
+i, j −αφv
+i, j −gi, j
+4 + α
+(3.4.19)
+This is the Jacobi simultaneous relaxation method. If we start at the southwest corner,
+and sweep to the right and up, by the time we reach the point i, j we have already
+
+118
+3 Numerical discretization of the equations of motion
+updated the neighboring points to the west and the south, so we can use these updated
+values:
+φv+1
+i, j
+= φv
+i, j +
+φv+1
+i−1, j + φv
+i+1, j + φv+1
+i, j−1 + φv
+i, j+1 −αφv
+i, j −gi, j
+4 + α
+(3.4.20)
+This is the Gauss–Seidel or successive relaxation method.
+If instead, we overcorrect by changing the sign of ∈v+1
+i, j rather than making it equal
+to zero, i.e.,
+φv+1
+i, j
+= φv
+i, j + ω
+φv+1
+i−1, j + φv
+i+1, j + φv+1
+i, j−1 + φv
+i, j+1 −αφv
+i, j −gi, j
+4 + α
+with 1 < ω < 2
+(3.4.21)
+the rate of convergence is further increased. This is the successive overrelaxation
+(SOR) method. Optimal values for ω can be obtained analytically for simple geome-
+tries such as a rectangular domain. For the equation above, the spectral radius of the
+Jacobi matrix M is
+λ1 = 1 −ε
+where
+ε = sin2
+π
+2(JM + 1) + sin2
+π
+2(KM + 1)
+and JM, KM are the number of intervals in the x and y directions of the problem.
+Then the optimum value of the overrelaxation coefﬁcient is
+ωopt =
+2
+1 +
+
+1 −λ2
+1
+Since the maximum error is reduced after each Jacobi iteration by the spectral radius
+λ1 = (1 −ε), we can deﬁne the rate of convergence as ε.
+The rates of convergence of the three methods are then:
+ε = rate of convergence of the Jacobi iteration;
+2ε = rate of convergence of the Gauss–Seidel iteration;
+2
+√
+2ε = rate of convergence of the SOR iteration with optimum
+overrelaxation.
+3.4.4
+Other iterative methods
+We give only a simple introduction to other methods and refer the reader for further
+details to the references cited in Section 3.4.1.
+Alternating Direction Implicit (ADI)
+An efﬁcient fractional time steps time scheme (Table 3.2.1) is used to obtain the
+solution of the elliptic equation as a steady state solution. For example, to solve the
+
+3.4 Boundary value problems
+119
+Laplace equation we write the parabolic equation
+∂u
+∂t = σ
+∂2u
+∂x2 + ∂2u
+∂y2
+
+(3.4.22)
+The asymptotic long-time solution of (3.4.22) is the solution to the Laplace equation.
+Equation (3.4.22) is integrated numerically by separating it into two fractional steps
+(similar to the time scheme k in Table 3.2.1)
+u∗−un
+t
+= σδx
+2u∗
+un+1 −u∗
+t
+= σδy
+2un+1
+
+
+
+(3.4.23)
+Since each fractional step is implicit, large time steps can be used. And since the
+solution of each fractional step involves only inverting tridiagonal matrices, it can be
+performed very efﬁciently (see, e.g., Hageman and Young (1981)).
+Multigrid methods
+The speed of convergence for iterative schemes depends on the number of grid points,
+and is much faster for coarser grids (see expression for λ1 above). Moreover, the
+errors that take longest to converge correspond to long waves (i.e., they are smooth),
+whereas the shortest waves are damped fastest. Multigrid methods take advantage of
+this and use both coarse and ﬁne grids (see Briggs (1987), Hackbusch (1985), Barrett
+et al. (1995)). The procedure is as follows: Several steps of a basic method on the
+full grid are performed in order to smooth out the error (pre-smoothing). A coarse
+grid is selected from a subset of the grid points, and the iterative method is used to
+solve the problem on this coarse grid. The coarse grid solution is then interpolated
+back to the original grid, and the original method applied again for a few iterations
+(post-smoothing). In carrying out the solution in the second step, the method can be
+applied recursively to coarser grids, until the number of grid points is small enough
+that a direct solution can be obtained.
+The method of descending through a sequence of coarser grids and then ascending
+back to the full grid is known as a V-cycle. A W-cycle results from visiting the coarse
+grid twice, with some smoothing steps in between. Some multigrid methods have
+an (almost) optimal number of operations, i.e., almost proportional to the number of
+variables.
+Krylov subspace methods
+There are a number of iterative algorithms for solving the linear problem of (3.4.7)
+in the Krylov subspace, deﬁned by
+Km(A,r0) = span
+"
+r0, Ar0, A2r0, . . . , Am−1r0
+#
+(3.4.24)
+where r0 = F −Aφ0 is the residual for an arbitrary initial error φ0. The approximate
+solution φm lies in the space φ0 + Km(A,r0). The residual after m steps has to satisfy

@@ -1,0 +1,1494 @@
+2
+Maximum and addition of random variables
+In the greatest part of our concernments, [God] has afforded us only the twilight, as I may
+so say, of probability; suitable, I presume, to that state of mediocrity and probationership
+he has been pleased to place us in here.
+(John Locke, An Essay Concerning Human Understanding.)
+2.1 Maximum of random variables – statistics of extremes
+If one observes a series of N independent realizations of the same random phenomenon, a
+question which naturally arises, in particular when one is concerned about risk control, is
+to determine the order of magnitude of the maximum observed value of the random variable
+(which can be the price drop of a ﬁnancial asset, or the water level of a ﬂooding river, etc.).
+For example, in Chapter 10, the so-called ‘value-at-risk’ (VaR) on a typical time horizon will
+be deﬁned as the possible maximum loss over that period (within a certain conﬁdence level).
+The law of large numbers tells us that an event which has a probability p of occurrence
+appears on average Np times on a series of N observations. One thus expects to observe
+events which have a probability of at least 1/N. It would be surprising to encounter an event
+which has a probability much smaller than 1/N. The order of magnitude of the largest event,
+max, observed in a series of N independent identically distributed (iid) random variables
+is thus given by:
+P>(max) = 1/N.
+(2.1)
+More precisely, the full probability distribution of the maximum value xmax =
+maxi=1,N{xi}, is relatively easy to characterize; this will justify the above simple crite-
+rion Eq. (2.1). The cumulative distribution P(xmax < ) is obtained by noticing that if the
+maximum of all xi’s is smaller than , all of the xi’s must be smaller than . If the random
+variables are iid, one ﬁnds:
+P(xmax < ) = [P<()]N.
+(2.2)
+Note that this result is general, and does not rely on a speciﬁc choice for P(x). When  is
+large, it is useful to use the following approximation:
+P(xmax < ) = [1 −P>()]N ≃e−NP>().
+(2.3)
+
+18
+Maximum and addition of random variables
+Since we now have a simple formula for the distribution of xmax, one can invert it in
+order to obtain, for example, the median value of the maximum, noted med, such that
+P(xmax < med) = 1
+2:
+P>(med) = 1 −
+ 1
+2
+1/N ≃log 2
+N .
+(2.4)
+More generally, the value p which is greater than xmax with probability p is given by
+P>(p) ≃−log p
+N
+.
+(2.5)
+The quantity max deﬁned by Eq. (2.1) above is thus such that p = 1/e ≈0.37. The prob-
+ability that xmax is even larger than max is thus 63%. As we shall now show, max also
+corresponds, in many cases, to the most probable value of xmax.
+Equation (2.5) will be very useful in Chapter 10 to estimate a maximal potential loss
+within a certain conﬁdence level. For example, the largest daily loss  expected next year,
+with 95% conﬁdence, is deﬁned such that P<(−) = −log(0.95)/250, where P< is the
+cumulativedistributionofdailypricechanges,and250isthenumberofmarketdaysperyear.
+Interestingly, the distribution of xmax only depends, when N is large, on the asymptotic
+behaviour of the distribution of x, P(x), when x →∞. For example, if P(x) behaves as an
+exponential when x →∞, or more precisely if P>(x) ∼exp(−αx), one ﬁnds:
+max = log N
+α
+,
+(2.6)
+which grows very slowly with N.† Setting xmax = max + (u/α), one ﬁnds that the deviation
+u around max is distributed according to the Gumbel distribution:
+P(u) = e−e−ue−u.
+(2.7)
+The most probable value of this distribution is u = 0.‡ This shows that max is the most
+probable value of xmax. The result, Eq. (2.7), is actually much more general, and is valid as
+soon as P(x) decreases more rapidly than any power-law for x →∞: the deviation between
+max (deﬁned as Eq. (2.1)) and xmax is always distributed according to the Gumbel law,
+Eq. (2.7), up to a scaling factor in the deﬁnition of u.
+The situation is radically different if P(x) decreases as a power-law, cf. Eq. (1.14). In
+this case,
+P>(x) ≃Aµ
++
+xµ ,
+(2.8)
+and the typical value of the maximum is given by:
+max = A+N
+1
+µ .
+(2.9)
+Numerically, for a distribution with µ = 3
+2 and a scale factor A+ = 1, the largest of N =
+† For example, for a symmetric exponential distribution P(x) = exp(−|x|)/2, the median value of the maximum
+of N = 10 000 variables is only 6.3.
+‡ This distribution is discussed further in the context of ﬁnancial risk control in Section 10.3.2, and drawn in
+Figure 10.1.
+
+2.1 Maximum of random variables
+19
+10 000 variables is on the order of 450, whereas for µ = 1
+2 it is one hundred million! The
+complete distribution of the maximum, called the Fr´echet distribution, is given by:
+P(u) =
+µ
+u1+µ e−1/uµ
+u =
+xmax
+A+N
+1
+µ .
+(2.10)
+Its asymptotic behaviour for u →∞is still a power-law of exponent 1 + µ. Said differently,
+both power-law tails and exponential tails are stable with respect to the ‘max’ operation.†
+The most probable value xmax is now equal to (µ/1 + µ)1/µmax. As mentioned above, the
+limit µ →∞formally corresponds to an exponential distribution. In this limit, one indeed
+recovers max as the most probable value.
+Equation (2.9) allows us to discuss intuitively the divergence of the mean value for
+µ ≤1 and of the variance for µ ≤2. If the mean value exists, the sum of N random
+variables is typically equal to Nm, where m is the mean (see also below). But when
+µ < 1, the largest encountered value of X is on the order of N 1/µ ≫N, and would
+thus be larger than the entire sum. Similarly, as discussed below, when the variance
+exists, the RMS of the sum is equal to σ
+√
+N. But for µ < 2, xmax grows faster than
+√
+N.
+More generally, one can rank the random variables xi in decreasing order, and ask for an
+estimate of the nth encountered value, noted [n] below. (In particular, [1] = xmax.) The
+distribution Pn of [n] can be obtained in full generality as:
+Pn([n]) = NCn−1
+N−1 P(x = [n]) (P(x > [n])n−1(P(x < [n])N−n.
+(2.11)
+The previous expression means that one has ﬁrst to choose [n] among N variables (N
+ways), n −1 variables among the N −1 remaining as the n −1 largest ones (Cn−1
+N−1 ways),
+and then assign the corresponding probabilities to the conﬁguration where n −1 of them
+are larger than [n] and N −n are smaller than [n]. One can study the position ∗[n] of
+the maximum of Pn, and also the width of Pn, deﬁned from the second derivative of logPn
+calculated at ∗[n]. The calculation simpliﬁes in the limit where N →∞, n →∞, with
+the ratio n/N ﬁxed. In this limit, one ﬁnds a relation which generalizes Eq. (2.1):
+P>(∗[n]) = n/N.
+(2.12)
+The width wn of the distribution is found to be given by:
+wn =
+1
+√
+N
+
+(n/N) −(n/N)2
+P(x = ∗[n])
+,
+(2.13)
+which shows that in the limit N →∞, the value of the nth variable is more and more
+sharply peaked around its most probable value ∗[n], given by Eq. (2.12).
+In the case of an exponential tail, one ﬁnds that ∗[n] ≃log(N/n)/α; whereas in the
+case of power-law tails, one rather obtains:
+∗[n] ≃A+
+ N
+n
+ 1
+µ
+.
+(2.14)
+† A third class of laws, stable under ‘max’ concerns random variables, which are bounded from above – i.e. such
+that P(x) = 0 for x > xM, with xM ﬁnite. This leads to the Weibull distributions, which we will not consider
+further in this book. See Gumbel (1958) and Galambos (1987).
+
+20
+Maximum and addition of random variables
+1
+10
+100
+1000
+n
+1
+10
+Λ
+µ=3
+Exp
+Slope -1/3
+Effective slope -1/5
+(n)
+Fig. 2.1. Amplitude versus rank plots. One plots the value of the nth variable [n] as a function of
+its rank n. If P(x) behaves asymptotically as a power-law, one obtains a straight line in log–log
+coordinates, with a slope equal to −1/µ. For an exponential distribution, one observes an effective
+slope which is smaller and smaller as N/n tends to inﬁnity. The points correspond to synthetic time
+series of length 5000, drawn according to a power-law with µ = 3, or according to an exponential.
+Note that if the axes x and y are interchanged, then according to Eq. (2.12), one obtains an estimate
+of the cumulative distribution, P>.
+This last equation shows that, for power-law variables, the encountered values are hierar-
+chically organized: for example, the ratio of the largest value xmax ≡[1] to the second
+largest [2] is of the order of 21/µ, which becomes larger and larger as µ decreases, and
+conversely tends to one when µ →∞.
+The property, Eq. (2.14) is very useful in identifying empirically the nature of the tails
+of a probability distribution. One sorts in decreasing order the set of observed values
+{x1, x2, . . . , xN} and one simply draws [n] as a function of n. If the variables are power-
+law distributed, this graph should be a straight line in log–log plot, with a slope −1/µ,
+as given by Eq. (2.14) (Fig. 2.1). On the same ﬁgure, we have shown the result obtained
+for exponentially distributed variables. On this diagram, one observes an approximately
+straight line, but with an effective slope which varies with the total number of points N: the
+slope is less and less as N/n grows larger. In this sense, the formal remark made above, that
+an exponential distribution could be seen as a power-law with µ →∞, becomes somewhat
+more concrete. Note that if the axes x and y of Figure 2.1 are interchanged, then according
+to Eq. (2.12), one obtains an estimate of the cumulative distribution, P>.
+Let us ﬁnally note another property of power-laws, potentially interesting for their
+empirical determination. If one computes the average value of x conditioned to a certain
+
+2.2 Sums of random variables
+21
+minimum value :
+⟨x⟩ =
+ ∞
+ x P(x) dx
+ ∞
+ P(x) dx ,
+(2.15)
+then, if P(x) decreases as in Eq. (1.14), one ﬁnds, for  →∞,
+⟨x⟩ =
+µ
+µ −1,
+(2.16)
+independently of the tail amplitude Aµ
++.† The average ⟨x⟩ is thus always of the same
+order as  itself, with a proportionality factor which diverges as µ →1.
+2.2 Sums of random variables
+In order to describe the statistics of future prices of a ﬁnancial asset, one a priori needs a
+distribution density for all possible time intervals, corresponding to different trading time
+horizons. For example, the distribution of 5-min price ﬂuctuations is different from the
+one describing daily ﬂuctuations, itself different for the weekly, monthly, etc. variations.
+But in the case where the ﬂuctuations are independent and identically distributed (iid),
+an assumption which is, however, usually not justiﬁed (see Chapter 7) it is possible to
+reconstruct the distributions corresponding to different time scales from the knowledge of
+that describing short time scales only. In this context, Gaussians and L´evy distributions play
+a special role, because they are stable: if the short time scale distribution is a stable law, then
+the ﬂuctuations on all time scales are described by the same stable law – only the parameters
+of the stable law must be changed (in particular its width). More generally, if one sums iid
+variables, then, independently of the short time distribution, the law describing long times
+converges towards one of the stable laws: this is the content of the ‘central limit theorem’
+(CLT). In practice, however, this convergence can be very slow and thus of limited interest,
+in particular if one is concerned about relatively short time scales.
+2.2.1 Convolutions
+What is the distribution of the sum of two independent random variables? This sum can,
+for example, represent the variation of price of an asset over the next two days which is the
+sum of the increment between today and tomorrow (δX1) and between tomorrow and the
+day after tomorrow (δX2), both assumed to be random and independent. (The notation δX1
+will throughout the book refer to increments.)
+Let us thus consider X = δX1 + δX2 where δX1 and δX2 are two random variables, inde-
+pendent, and distributed according to P1(δx1) and P2(δx2), respectively. The probability that
+X is equal to x (within dx) is given by the sum over all possibilities of obtaining X = x (that
+is all combinations of δX1 = δx1 and δX2 = δx2 such that δx1 + δx2 = x), weighted by
+their respective probabilities. The variables δX1 and δX2 being independent, the joint prob-
+ability that δX1 = δx1 and δX2 = x −δx1 is equal to P1(δx1)P2(x −δx1), from which one
+† This means that µ can be determined by a one parameter ﬁt only.
+
+22
+Maximum and addition of random variables
+obtains:
+P(x, N = 2) =
+
+P1(x′)P2(x −x′) dx′.
+(2.17)
+This equation deﬁnes the convolution between P1 and P2, which we shall write
+P = P1 ⋆P2. The generalization to the sum of N independent random variables is
+immediate. If X = δX1 + δX2 + · · · + δX N with δXi distributed according to Pi(δxi), the
+distribution of X is obtained as:
+P(x, N) =
+
+P1(x′
+1) . . . PN−1(x′
+N−1)PN(x −x′
+1 −· · · −x′
+N−1)
+N−1
+
+i=1
+dx′
+i.
+(2.18)
+One thus understands how powerful is the hypothesis that the increments are iid, i.e. that
+P1 = P2 = · · · = PN. Indeed, according to this hypothesis, one only needs to know the
+distribution of increments over a unit time interval to reconstruct that of increments over
+an interval of length N: it is simply obtained by convoluting the elementary distribution N
+times with itself.
+The analytical or numerical manipulations of Eqs. (2.17) and (2.18) are much eased
+by the use of Fourier transforms, for which convolutions become simple products. The
+equation P(x, N = 2) = [P1 ⋆P2](x), reads in Fourier space:
+ˆP(z, N = 2) =
+
+eiz(x−x′+x′)
+
+P1(x′)P2(x −x′) dx′ dx ≡ˆP1(z) ˆP2(z).
+(2.19)
+In order to obtain the Nth convolution of a function with itself, one should raise its
+characteristic function to the power N, and then take its inverse Fourier transform.
+2.2.2 Additivity of cumulants and of tail amplitudes
+It is clear that the mean of the sum of two random variables (independent or not) is equal
+to the sum of the individual means. The mean is thus additive under convolution. Similarly,
+if the random variables are independent, one can show that their variances (when they
+both exist) are also additive. More generally, all the cumulants (cn) of two independent
+distributions simply add. This follows from the fact that since the characteristic functions
+multiply, their logarithm add. The additivity of cumulants is then a simple consequence of
+the linearity of derivation.
+The cumulants of a given law convoluted N times with itself thus follow the simple
+rule cn,N = Ncn,1 where the {cn,1} are the cumulants of the elementary distribution P1.
+Since the cumulant cn has the dimension of X to the power n, its relative importance
+is best measured in terms of the normalized cumulants:
+λN
+n ≡
+cn,N
+(c2,N)
+n
+2 =
+cn,1
+(c2,1)
+n
+2 N 1−n/2.
+(2.20)
+
+2.2 Sums of random variables
+23
+The normalized cumulants thus decay with N for n > 2; the higher the cumulant, the
+faster the decay: λN
+n ∝N 1−n/2. The kurtosis κ, deﬁned above as the fourth normalized
+cumulant, thus decreases as 1/N.† This is basically the content of the CLT: when N is very
+large, the cumulants of order > 2 become negligible. Therefore, the distribution of the sum
+is only characterized by its ﬁrst two cumulants (mean and variance): it is a Gaussian.
+Let us now turn to the case where the elementary distribution P1(δx1) decreases as a
+power-law for large arguments x1 (cf. Eq. (1.14)), with a certain exponent µ. The cumulants
+of order higher than µ are thus divergent. By studying the small z singular expansion of
+the Fourier transform of P(x, N), one ﬁnds that the above additivity property of cumulants
+is bequeathed to the tail amplitudes Aµ
+±: the asymptotic behaviour of the distribution of
+the sum P(x, N) still behaves as a power-law (which is thus conserved by addition for all
+values of µ, provided one takes the limit x →∞before N →∞– see the discussion in
+Section 2.3.3), with a tail amplitude given by:
+Aµ
+±,N ≡N Aµ
+±.
+(2.21)
+The tail parameter thus plays the role, for power-law variables, of a generalized cumulant.
+2.2.3 Stable distributions and self-similarity
+Ifoneaddsrandomvariablesdistributedaccordingtoanarbitrarylaw P1(δx1),oneconstructs
+a random variable which has, in general, a different probability distribution (P(x, N) =
+[P1]⋆N(x)). However, for certain special distributions, the law of the sum has exactly the
+same shape as the elementary distribution – these are called stable laws. The fact that two
+distributions have the ‘same shape’ means that one can ﬁnd a (N-dependent) translation
+and dilation of x such that the two laws coincide:
+P(x, N) dx = P1(x1) dx1
+where x = aN x1 + bN.
+(2.22)
+The distribution of increments on a certain time scale (week, month, year) is thus scale
+invariant, provided the variable X is properly rescaled. In this case, the chart giving the
+evolution of the price of a ﬁnancial asset as a function of time has the same statistical
+structure, independently of the chosen elementary time scale – only the average slope and
+the amplitude of the ﬂuctuations are different. These charts are then called self-similar, or,
+using a better terminology introduced by Mandelbrot, self-afﬁne (Figs. 2.2 and 2.3).
+The family of all possible stable laws coincide with the L´evy distributions deﬁned above,
+which include Gaussians as the special case µ = 2. This is easily seen in Fourier space, using
+the explicit shape of the characteristic function of the L´evy distributions. We shall specialize
+here for simplicity to the case of symmetric distributions P1(−x1) = P1(x1), for which the
+† We will later (Section 7.1.4) study the case of sums of correlated random variables for which the kurtosis still
+decays to zero, but more slowly, as N −ν with ν < 1.
+
+24
+Maximum and addition of random variables
+3700
+3750
+-60
+-50
+-40
+3500
+4000
+-80
+-60
+-40
+0
+1000
+2000
+3000
+4000
+5000
+N
+-150
+-100
+-50
+0
+50
+x(N)
+Fig. 2.2. Example of a self-afﬁne function, obtained by summing random variables. One plots the
+sum x as a function of the number of terms N in the sum, for a Gaussian elementary distribution
+P1(δx1). Several successive ‘zooms’ reveal the self-similar nature of the function, here with
+aN = N 1/2. Note however that for high resolutions, one observes the breakdown of self similarity,
+related to the existence of a discretization scale. Note the absence of large scale jumps (present in
+Fig. 2.3); they are discussed in Chapter 3.
+translation factor is zero (bN ≡0). The scale parameter is then given by aN = N 1/µ,† and
+one ﬁnds, for µ < 2:
+⟨|x|q⟩
+1
+q ∝AN
+1
+µ
+q < µ
+(2.23)
+where A = A+ = A−. In words, the above equation means that the order of magnitude of the
+ﬂuctuations on ‘time’ scale N is a factor N 1/µ larger than the ﬂuctuations on the elementary
+time scale. However, once this factor is taken into account, the probability distributions are
+identical. One should notice the smaller the value of µ, the faster the growth of ﬂuctuations
+with time.
+2.3 Central limit theorem
+We have thus seen that the stable laws (Gaussian and L´evy distributions) are ﬁxed points of
+the convolution operation. These ﬁxed points are actually also attractors, in the sense that
+any distribution convoluted with itself a large number of times ﬁnally converges towards a
+stable law (apart from some very pathological cases). Said differently, the limit distribution
+of the sum of a large number of random variables is a stable law. The precise formulation
+of this result is known as the central limit theorem (CLT).
+† The case µ = 1 is special and involves extra logarithmic factors.
+
+2.3 Central limit theorem
+25
+3700
+3750
+200
+220
+3500
+4000
+100
+200
+0
+1000
+2000
+3000
+4000
+5000
+N
+-400
+-200
+0
+200
+400
+x(N)
+Fig. 2.3. In this case, the elementary distribution P1(δx1) decreases as a power-law with an exponent
+µ = 1.5. The scale factor is now given by aN = N 2/3. Note that, contrarily to the previous graph,
+one clearly observes the presence of sudden ‘jumps’, which reﬂect the existence of very large values
+of the elementary increment δx1. Again, for high resolutions, one observes the breakdown of self
+similarity, related to the existence of a discretization scale.
+2.3.1 Convergence to a Gaussian
+The classical formulation of the CLT deals with sums of iid random variables of ﬁnite
+variance σ 2 towards a Gaussian. In a more precise way, the result is then the following:
+lim
+N→∞P
+
+u1 ≤x −mN
+σ
+√
+N
+≤u2
+
+=
+ u2
+u1
+1
+√
+2π
+e−u2/2 du,
+(2.24)
+for all ﬁnite u1, u2. Note however that for ﬁnite N, the distribution of the sum X =
+δX1 + · · · + δX N in the tails (corresponding to extreme events) can be very different from
+the Gaussian prediction; but the weight of these non-Gaussian regions tends to zero when
+N goes to inﬁnity. The CLT only concerns the central region, which keeps a ﬁnite weight
+for N large: we shall come back in detail to this point below.
+The main hypotheses ensuring the validity of the Gaussian CLT are the following:
+r The δXi must be independent random variables, or at least not ‘too’ correlated (the
+correlation function ⟨δxiδx j⟩−m2 must decay sufﬁciently fast when |i −j| becomes
+large, see Section 2.5 below). For example, in the extreme case where all the δXi are
+perfectly correlated (i.e. they are all equal), the distribution of X is the same as that of the
+individual δXi (once the factor N has been properly taken into account).
+
+26
+Maximum and addition of random variables
+r The random variables δXi need not necessarily be identically distributed. One must
+however require that the variance of all these distributions are not too dissimilar, so
+that no one of the variances dominates over all the others (as would be the case, for
+example, if the variances were themselves distributed as a power-law with an exponent
+µ < 1). In this case, the variance of the Gaussian limit distribution is the average of the
+individual variances. This also allows one to deal with sums of the type X = p1δX1 +
+p2δX2 + · · · + pNδX N, where the pi are arbitrary coefﬁcients; this case is relevant in
+many circumstances, in particular in portfolio theory (cf. Chapter 10).†
+r Formally, the CLT only applies in the limit where N is inﬁnite. In practice, N must be
+large enough for a Gaussian to be a good approximation of the distribution of the sum. The
+minimum required value of N (called N ∗below) depends on the elementary distribution
+P1(δx1) and its distance from a Gaussian. Also, N ∗depends on how far in the tails one
+requires a Gaussian to be a good approximation, which takes us to the next point.
+r As mentioned above, the CLT does not tell us anything about the tails of the distribution of
+X; only the central part of the distribution is well described by a Gaussian. The ‘central’
+region means a region of width at least of the order of
+√
+Nσ around the mean value of X.
+The actual width of the region where the Gaussian turns out to be a good approximation
+for large ﬁnite N crucially depends on the elementary distribution P1(δx1). This problem
+will be explored in Section 2.3.3. Roughly speaking, this region is of width ∼N 3/4σ
+for ‘narrow’ symmetric elementary distributions, such that all even moments are ﬁnite.
+This region is however sometimes of much smaller extension: for example, if P1(δx1)
+has power-law tails with µ > 2 (such that σ is ﬁnite), the Gaussian ‘realm’ grows barely
+faster than
+√
+N (as ∼√N log N).
+The above formulation of the CLT requires the existence of a ﬁnite variance. This
+condition can be somewhat weakened to include some ‘marginal’ distributions such
+as a power-law with µ = 2. In this case the scale factor is not aN =
+√
+N but rather
+aN = √N log N. However, as we shall discuss in the next section, elementary distri-
+butions which decay more slowly than |x|−3 do not belong the the Gaussian basin of
+attraction. More precisely, the necessary and sufﬁcient condition for P1(δx1) to belong
+to this basin is that:
+lim
+u→∞u2 P1<(−u) + P1>(u)
+
+|u′|<u u′2P1(u′) du′ = 0.
+(2.25)
+This condition is always satisﬁed if the variance is ﬁnite, but allows one to include the
+marginal cases such as a power-law with µ = 2.
+The central limit theorem and information theory
+It is interesting to notice that the Gaussian is the law of maximum entropy – or minimum
+information – such that its variance is ﬁxed. The missing information quantity I (or
+† If the pi’s are themselves random variables with a Pareto tail exponent µ < 1, then the distribution of X for a
+given realization of the pi’s does not converge to any ﬁxed shape in the limit N →∞, except if the δXi are
+Gaussian variables, in which case the distribution of X is Gaussian but with a variance that depends on pi.
+
+2.3 Central limit theorem
+27
+entropy) associated with a probability distribution P is deﬁned as:†
+I[P] ≡−
+
+P(x) log P(x) dx.
+(2.26)
+The distribution maximizing I[P] for a given value of the variance is obtained by taking
+a functional derivative with respect to P(x):
+∂
+∂P(x)
+	
+I[P] −ζ
+
+x′2P(x′) dx′ −ζ ′
+
+P(x′) dx′
+
+= 0,
+(2.27)
+where ζ is ﬁxed by the condition
+
+x2P(x) dx = σ 2 and ζ ′ by the normalization of
+P(x). It is immediately seen that the solution to Eq. (2.27) is indeed the Gaussian. The
+numerical value of its entropy is:
+IG = 1
+2 + 1
+2 log(2π) + log(σ) ≈1.419 + log(σ).
+(2.28)
+For comparison, one can compute the entropy of the symmetric exponential distribution,
+which is:
+IE = 1 + log 2
+2
++ log(σ) ≈1.346 + log(σ).
+(2.29)
+It is important to realize that the convolution operation is ‘information burning’, since
+all the details of the elementary distribution P1(x1) progressively disappear while the
+Gaussian distribution emerges.
+Note that generalized ‘non additive’ entropies can also be constructed, as (see
+Tsallis (1988)):
+Iq[P] ≡
+
+Pq(x) dx.
+(2.30)
+Formally, the usual entropy is recovered as I[P] = limq→1(1 −Iq[P])/(q −1). The
+maximization of Iq[P] with a ﬁxed variance and normalization gives, for q < 1, a
+Student distribution of index µ = 2/(1 −q) −1. In the limit q →1, µ →∞and one
+recovers the Gaussian (see Section 1.9).
+2.3.2 Convergence to a L´evy distribution
+Let us now turn to the case of the sum of a large number N of iid random variables, asymp-
+totically distributed as a power-law with µ < 2, and with a tail amplitude Aµ = Aµ
++ = Aµ
+−
+(cf. Eq. (1.14)). The variance of the distribution is thus inﬁnite. The limit distribution for
+large N is then a stable L´evy distribution of exponent µ and with a tail amplitude N Aµ. If
+the positive and negative tails of the elementary distribution P1(δx1) are characterized by
+different amplitudes (Aµ
+−and Aµ
++) one then obtains an asymmetric L´evy distribution with
+parameter β = (Aµ
++ −Aµ
+−)/(Aµ
++ + Aµ
+−). If the ‘left’ exponent is different from the ‘right’
+exponent(µ−̸= µ+),thenthesmallestofthetwowinsandoneﬁnallyobtainsatotallyasym-
+metric L´evy distribution (β = −1 or β = 1) with exponent µ = min(µ−, µ+). The CLT
+generalized to L´evy distributions applies with the same precautions as in the Gaussian case
+above.
+† Note that entropy is deﬁned up to an additive constant. It is common to add 1 to the above deﬁnition.
+
+28
+Maximum and addition of random variables
+A very important difference between the Gaussian CLT and the generalized ‘L´evy’ CLT,
+which appears visually when comparing Figs. (2.2, 2.3) is the following: in the Gaussian
+case, the order of magnitude of the sum of N terms is
+√
+N and is much larger (in the large N
+limit) than the largest of these N terms. In other words, no single term contributes to a ﬁnite
+fraction of the whole sum. Conversely, in the case µ < 2, the whole sum and the largest
+term have the same order of magnitude (N 1/µ). The largest term in the sum contributes
+now to a ﬁnite fraction 0 < f < 1 of the sum, even when N →∞. Note that f does not
+converge to a ﬁxed number, but has a non trivial distribution over the interval [0, 1].†
+Technically, a distribution P1(δx1) belongs to the basin of attraction of the L´evy distri-
+bution Lµ,β if and only if:
+lim
+u→∞
+P1<(−u)
+P1>(u)
+= 1 −β
+1 + β ;
+(2.31)
+and for all r,
+lim
+u→∞
+P1<(−u) + P1>(u)
+P1<(−ru) + P1>(ru) = r µ.
+(2.32)
+A distribution with an asymptotic tail given by Eq. (1.14) is such that,
+P1<(u)
+≃
+u→−∞
+Aµ
+−
+|u|µ and P1>(u) ≃
+u→∞
+Aµ
++
+uµ ,
+(2.33)
+and thus belongs to the attraction basin of the L´evy distribution of exponent µ and
+asymmetry parameter β = (Aµ
++ −Aµ
+−)/(Aµ
++ + Aµ
+−).
+2.3.3 Large deviations
+The CLT teaches us that the Gaussian approximation is justiﬁed to describe the ‘central’
+part of the distribution of the sum of a large number of random variables (of ﬁnite vari-
+ance). However, the deﬁnition of the centre has remained rather vague up to now. The
+CLT only states that the probability of ﬁnding an event in the tails goes to zero for large
+N. In the present section, we characterize more precisely the region where the Gaussian
+approximation is valid.
+If X is the sum of N iid random variables of mean m and variance σ 2, one deﬁnes a
+‘rescaled variable’ U as:
+U = X −Nm
+σ
+√
+N
+,
+(2.34)
+which according to the CLT tends towards a Gaussian variable of zero mean and unit
+variance. Hence, for any ﬁxed u, one has:
+lim
+N→∞P>(u) = PG>(u),
+(2.35)
+† On this point, see: Derrida (1997).
+
+2.3 Central limit theorem
+29
+where PG>(u) is the related to the error function, and describes the weight contained in the
+tails of the Gaussian:
+PG>(u) =
+ ∞
+u
+1
+√
+2π
+exp(−v2/2) dv ≡1
+2erfc
+ u
+√
+2
+
+.
+(2.36)
+However, the above convergence is not uniform. The value of N such that the approximation
+P>(u) ≃PG>(u) becomes valid depends on u. Conversely, for ﬁxed N, this approximation
+is only valid for u not too large: |u| ≪u0(N).
+One can estimate u0(N) in the case where the elementary distribution P1(x1) is ‘narrow’,
+that is, decreasing faster than any power-law when |x1| →∞, such that all the moments
+are ﬁnite. In this case, all the cumulants of P1 are ﬁnite and one can obtain a systematic
+expansion in powers of N −1/2 of the difference P>(u) ≡P>(u) −PG>(u),
+P>(u) ≃exp(−u2/2)
+√
+2π
+ Q1(u)
+N 1/2 + Q2(u)
+N
++ · · · + Qk(u)
+N k/2 + · · ·
+
+,
+(2.37)
+where the Qk(u) are polynomials functions which can be expressed in terms of the normal-
+ized cumulants λn (cf. Eq. (1.12)) of the elementary distribution. More explicitly, the ﬁrst
+two terms are given by:
+Q1(u) = 1
+6λ3(u2 −1)
+(2.38)
+and
+Q2(u) =
+1
+72λ2
+3u5 + 1
+8
+ 1
+3λ4 −10
+9 λ2
+3
+
+u3 +
+ 5
+24λ2
+3 −1
+8λ4
+
+u.
+(2.39)
+One recovers the fact that if all the cumulants of P1(δx1) of order larger than two are
+zero, all the Qk are also identically zero and so is the difference between P(x, N) and the
+Gaussian.
+For a general asymmetric elementary distribution P1, the skewness ς ≡λ3 is non-zero.
+The leading term in the above expansion when N is large is thus Q1(u). For the Gaussian
+approximation to be meaningful, one must at least require that this term is small in the central
+region where u is of order one, which corresponds to x −mN ∼σ
+√
+N. This thus imposes
+that N ≫N ∗= λ2
+3. The Gaussian approximation remains valid whenever the relative error
+is small compared to 1. For large u (which will be justiﬁed for large N), the relative error is
+obtained by dividing Eq. (2.37) by PG>(u) ≃exp(−u2/2)/(u
+√
+2π). One then obtains the
+following condition:†
+λ3u3 ≪N 1/2
+i.e. |x −Nm| ≪σ
+√
+N
+ N
+N ∗
+1/6
+.
+(2.40)
+This shows that the central region has an extension growing as N 2/3.
+A symmetric elementary distribution is such that λ3 ≡0; it is then the kurtosis κ = λ4
+that ﬁxes the ﬁrst correction to the Gaussian when N is large, and thus the extension of the
+† The above arguments can actually be made fully rigorous, see Feller (1971).
+
+30
+Maximum and addition of random variables
+central region. The conditions now read: N ≫N ∗= λ4 and
+λ4u4 ≪N
+i.e. |x −Nm| ≪σ
+√
+N
+ N
+N ∗
+1/4
+.
+(2.41)
+The central region now extends over a region of width N 3/4.
+As an example of application, let us compute the MAD of a symmetric distribution
+to ﬁrst order in kurtosis. For a Gaussian distribution of standard deviation σ = 1, one
+has ⟨|u|⟩= √2/π. Using Eq. (2.37) with λ3 = 0 at the kurtosis order, one ﬁnds that the
+correction is given, after integration by parts, by:
+⟨|u|⟩=
+
+2/π +
+κN
+12
+√
+2π
+ ∞
+0
+(u3 −3u) exp(−u2/2)du =
+
+2/π
+
+1 −κN
+24
+
+.
+(2.42)
+Interestingly, this simple formula is quite accurate even for κ of order one. For example, the
+MAD of a symmetric exponential distribution (for which κ = 3) is σ/
+√
+2, whereas the above
+formula gives an approximate MAD of 0.698σ, off by only 1%. More generally, one can
+compute the relative correction of the qth absolute moment compared to the Gaussian value,
+where q is an arbitrary real positive number. This quantity can be called a hypercumulant
+of order q and will be noted q. To the kurtosis order one ﬁnds a very simple formula:
+q = ⟨|u|q⟩
+⟨|u|q⟩G
+= q(q −2)
+24
+κN.
+(2.43)
+For q = 1, one recovers the previous result −κN/24, whereas for q = 2 the correction
+vanishes as it should, since the variance is ﬁxed. This formula will be used in Chapter 7, as
+an illuminating test of the convergence of price returns towards Gaussian statistics.
+The results of the present section do not directly apply if the elementary distribution
+P1(δx1) decreases as a power-law (‘broad distribution’). In this case, some of the cumulants
+are inﬁnite and the above cumulant expansion, Eq. (2.37), is meaningless. In the next section,
+we shall see that in this case the ‘central’ region is much more restricted than in the case of
+‘narrow’ distributions. We shall then describe in Section 2.3.6, the case of ‘truncated’ power-
+law distributions, where the above conditions become asymptotically relevant. These laws
+however may have a very large kurtosis, which depends on the point where the truncation
+becomes noticeable, and the above condition N ≫λ4 can be hard to satisfy.
+2.3.4 Steepest descent method and Cram`er function (∗)
+More generally, when N is large, one can write the distribution of the sum of N iid random
+variables as:†
+P(x, N)
+≃
+N→∞exp
+
+−N S
+ x
+N
+
+,
+(2.44)
+where S is the so-called Cram`er function, which gives some information about the prob-
+ability of X even outside the ‘central’ region. When the variance is ﬁnite, S grows as
+† We assume that their mean is zero, which can always be achieved through a suitable shift of δx1.
+
+2.3 Central limit theorem
+31
+S(u) ∝u2 for small u’s, which again leads to a Gaussian central region. For ﬁnite u, S can
+be computed using the saddle point (or steepest descent) method, valid for N large: see e.g.
+Hinch (1991). This very useful method allows one to obtain an asymptotic expansion, for
+large N, of integrals of the type:
+JN =
+
+C
+f (z) exp[Ng(z)] dz,
+(2.45)
+where f and g are slowly varying, analytic function of the complex variable z and the
+integral is over a certain contour C in the complex plane. The method makes use of two
+important properties of analytic functions, which allows one to prove that for large N, JN
+is dominated by the vicinity of the stationary point z∗such that g′(z∗) = 0, that we assume
+for simplicity to be unique. The two properties are (i) that one can deform the integration
+contour such as to go through z∗without changing the value of the integral; (ii) the contour
+levels of the real part of g(z) are everywhere orthogonal to the contour levels of the imaginary
+part of g(z). This second property means that along the steepest descent (or ascent) lines
+of the real part of g(z), the imaginary part of g(z) is constant. Therefore, if one deforms
+the contour of integration such as to cross z∗in the direction of steepest descent, the phase
+of exp[Ng(z)] is locally constant, and the integral does not averge to zero. The ﬁnal result
+reads, for N large:
+JN ≃
+
+2π
+−Ng′′(z∗) f (z∗) exp[Ng(z∗)],
+(2.46)
+up to N −1 corrections in the prexponential term. This result also holds when f (z) and g(z)
+are real function of the real variable z, in which case z∗is simply the point where g(z)
+reaches its maximum value.
+Let us now apply this method to ﬁnd the Cram`er function. By deﬁnition,
+P(x, N) = 1
+2π
+
+exp N
+
+−iz x
+N + log[ ˆP1(z)]
+
+dz.
+(2.47)
+When N is large, the above integral is therefore dominated by the neighbourhood of the
+point z∗where the term in the exponential is stationary. The results can be written as:
+P(x, N) ≃exp
+
+−N S
+ x
+N
+
+,
+(2.48)
+with S(u) given by:
+d log[ ˆP1(z)]
+dz
+
+z=z∗
+= iu
+S(u) = −iz∗u + log[ ˆP1(z∗)],
+(2.49)
+which, in principle, allows one to estimate P(x, N) even outside the central region. Note
+that if S(u) is ﬁnite for ﬁnite u, the corresponding probability is exponentially small
+in N.
+
+32
+Maximum and addition of random variables
+2.3.5 The CLT at work on simple cases
+It is helpful to give some ﬂesh to the above general statements, by working out explicitly
+the convergence towards the Gaussian in two exactly soluble cases. On these examples, one
+clearly sees the domain of validity of the CLT as well as its limitations.
+Let us ﬁrst study the case of positive random variables distributed according to the
+exponential distribution:
+P1(x1) = (x1)αe−αx1,
+(2.50)
+where (x1) is the function equal to 1 for x1 ≥0 and to 0 otherwise. A simple computation
+shows that the above distribution is correctly normalized, has a mean given by m = α−1 and
+a variance given by σ 2 = α−2. Furthermore, the exponential distribution is asymmetrical;
+its third moment is given by c3 = ⟨(x −m)3⟩= 2α−3, or ς = 2.
+The sum of N such variables is distributed according to the Nth convolution of the
+exponential distribution. According to the CLT this distribution should approach a Gaussian
+of mean mN and of variance Nσ 2. The Nth convolution of the exponential distribution can
+be computed exactly. The result is:†
+P(x, N) = (x)αN x N−1e−αx
+(N −1)! ,
+(2.51)
+which is called a Gamma distribution of index N. At ﬁrst sight, this distribution does not
+look very much like a Gaussian! For example, its asymptotic behaviour is very far from
+that of a Gaussian: the ‘left’ side is strictly zero for negative x, while the ‘right’ tail is
+exponential, and thus much fatter than the Gaussian. It is thus very clear that the CLT does
+not apply for values of x too far from the mean value. However, the central region around
+Nm = Nα−1 is well described by a Gaussian. The most probable value (x∗) is deﬁned as:
+d
+dx x N−1e−αx
+
+x∗= 0,
+(2.52)
+or x∗= (N −1)m. An expansion in x −x∗of P(x, N) then gives us:
+log P(x, N) = −K(N −1) −log m −α2(x −x∗)2
+2(N −1)
++ α3(x −x∗)3
+3(N −1)2 + O(x −x∗)4,
+(2.53)
+where
+K(N) ≡log N! + N −N log N
+≃
+N→∞
+1
+2 log(2π N).
+(2.54)
+Hence, to second order in x −x∗, P(x, N) is given by a Gaussian of mean (N −1)m and
+variance (N −1)σ 2. The relative difference between N and N −1 goes to zero for large
+N. Hence, for the Gaussian approximation to be valid, one requires not only that N be
+† This result can be shown by induction using the deﬁnition (Eq. (2.17)).
+
+2.3 Central limit theorem
+33
+large compared to one, but also that the higher-order terms in (x −x∗) be negligible. The
+cubic correction is small compared to 1 as long as α|x −x∗| ≪N 2/3, in agreement with
+the above general statement, Eq. (2.40), for an elementary distribution with a non-zero third
+cumulant. Note also that for x →∞, the exponential behaviour of the Gamma function
+coincides (up to subleading terms in x N−1) with the asymptotic behaviour of the elementary
+distribution P1(x1).
+Another very instructive example is provided by a distribution which behaves as a power-
+law for large arguments, but at the same time has a ﬁnite variance to ensure the validity of
+the CLT. Consider the following explicit example of a Student distribution with µ = 3:
+P1(x1) =
+2a3
+π
+
+x2
+1 + a22 ,
+(2.55)
+where a is a positive constant. This symmetric distribution behaves as a power-law with
+µ = 3 (cf. Eq. (1.14)); all its cumulants of order larger than or equal to three are inﬁnite.
+However, its variance is ﬁnite and equal to a2.
+It is useful to compute the characteristic function of this distribution,
+ˆP1(z) = (1 + a|z|)e−a|z|,
+(2.56)
+and the ﬁrst terms of its small z expansion, which read:
+ˆP1(z) ≃1 −z2a2
+2
++ |z|3a3
+3
++ O(z4).
+(2.57)
+The ﬁrst singular term in this expansion is thus |z|3, as expected from the asymptotic
+behaviour of P1(x1) in x−4
+1 , and the divergence of the moments of order larger than three.
+The Nth convolution of P1(δx1) thus has the following characteristic function:
+ˆP1
+N(z) = (1 + a|z|)Ne−aN|z|,
+(2.58)
+which, expanded around z = 0, gives:
+ˆP1
+N(k) ≃1 −Nz2a2
+2
++ N|z|3a3
+3
++ O(z4).
+(2.59)
+Note that the |z|3 singularity (which signals the divergence of the moments mn for
+n ≥3) does not disappear under convolution, even if at the same time P(x, N)
+converges towards the Gaussian. The resolution of this apparent paradox is again that
+the convergence towards the Gaussian only concerns the centre of the distribution,
+whereas the tail in x−4 survives for ever (as was mentioned in Section 2.2.3).
+As follows from the CLT, the centre of P(x, N) is well approximated, for N large, by a
+Gaussian of zero mean and variance Na2:
+P(x, N) ≃
+1
+√
+2π Na
+exp
+
+−
+x2
+2Na2
+
+.
+(2.60)
+
+34
+Maximum and addition of random variables
+On the other hand, since the power-law behaviour is conserved upon addition and that the
+tail amplitudes simply add (cf. Eq. (1.14)), one also has, for large x’s:
+P(x, N) ≃
+x→∞
+2Na3
+πx4 .
+(2.61)
+The above two expressions, Eqs. (2.60) and (2.61), are not incompatible, since these describe
+two very different regions of the distribution P(x, N). For ﬁxed N, there is a characteristic
+value x0(N) beyond which the Gaussian approximation for P(x, N) is no longer accurate,
+and the distribution is described by its asymptotic power-law regime. The order of magnitude
+of x0(N) is ﬁxed by looking at the point where the two regimes match to one another:
+1
+√
+2π Na
+exp
+
+−
+x2
+0
+2Na2
+
+≃2Na3
+πx4
+0
+.
+(2.62)
+One thus ﬁnds,
+x0(N) ≃a
+
+N log N,
+(2.63)
+(neglecting subleading corrections for large N).
+This means that the rescaled variable U = X/(a
+√
+N) becomes for large N a Gaussian
+variable of unit variance, but this description ceases to be valid as soon as u ∼√log N,
+which grows very slowly with N. For example, for N equal to a million, the Gaussian
+approximation is only acceptable for ﬂuctuations of u of less than three or four RMS!
+Finally, the CLT states that the weight of the regions where P(x, N) substantially differs
+from the Gaussian goes to zero when N becomes large. For our example, one ﬁnds that the
+probability that X falls in the tail region rather than in the central region is given by:
+P<(x0) + P>(x0) ≃2
+ ∞
+a√N log N
+2a3N
+πx4 dx ∝
+1
+√
+N log3/2 N
+,
+(2.64)
+which indeed goes to zero for large N.
+Sincethekurtosisisinﬁnite,onecannotexpectthecumulantexpansiongivenbyEq.(2.37)
+to hold. From the exact expression of the characteristic function ˆP1
+N(z) given above, one can
+work out the leading correction to the Gaussian for large N. The trick is to set z = ˆz/
+√
+N
+and let N tend to inﬁnity for ﬁxed ˆz: this has the virtue of selecting the region where the sum
+is of order
+√
+N, that is u = x/
+√
+N of order unity. In this limit, the characteristic function
+writes:
+ˆP1
+N(z) =
+
+1 +
+1
+3
+√
+N
+|ˆza|3
+
+e−ˆz2a2/2.
+(2.65)
+The corresponding correction to the Gaussian distribution reads:
+P(u) =
+1
+3π
+√
+N
+ ∞
+0
+(ˆza)3 cos(ˆzu)e−ˆz2a2/2dˆz,
+(2.66)
+which tends to zero as N −1/2, much more slowly than if the kurtosis was ﬁnite. The shape
+of this correction is shown in Fig. 2.4. From the knowledge of P(u), one can compute,
+
+2.3 Central limit theorem
+35
+0
+2
+4
+6
+u
+-0.2
+-0.1
+0
+0.1
+0.2
+N
+1/2 ∆P(u)
+Fig. 2.4. Plot of
+√
+NP(u), Eq. (2.66), as a function of u.
+for example, the correction to the MAD for large N and ﬁnd:
+⟨|u|⟩=
+
+2
+π
+
+1 −
+1
+6
+√
+2π N
+
+,
+(2.67)
+that can be compared to Eq. (2.42) above.
+The above arguments are not special to the case µ = 3 and in fact apply more generally,
+as long as µ > 2, i.e. when the variance is ﬁnite. In the general case, one ﬁnds that the CLT
+is valid in the region |x| ≪x0 ∝√N log N, and that the weight of the non-Gaussian tails
+is given by:
+P<(x0) + P>(x0) ∝
+1
+N µ/2−1 logµ/2 N ,
+(2.68)
+which tends to zero for large N. However, one should notice that as µ approaches the
+‘dangerous’ value µ = 2, the weight of the tails becomes more and more important. The
+correction to the Gaussian (for example the MAD) only decays as N 1−µ/2. For µ < 2,
+the whole argument collapses since the weight of the tails would grow with N. In this
+case, however, the convergence is no longer towards the Gaussian, but towards the L´evy
+distribution of exponent µ.
+2.3.6 Truncated L´evy distributions
+An interesting case is when the elementary distribution P1(δx1) is a truncated L´evy distri-
+bution (TLD) as deﬁned in Section 1.8. If one considers the sum of N random variables
+distributed according to a TLD, the condition for the CLT to be valid reads (for µ < 2):†
+N ≫N ∗= λ4 =⇒(Naµ)
+1
+µ ≫α−1.
+(2.69)
+† One can see by inspection that the other conditions, concerning higher-order cumulants in Eq. (2.37), which
+read N k−1λ2k ≫1, are actually equivalent to the one written here.
+
+36
+Maximum and addition of random variables
+0
+50
+100
+150
+200
+N
+0
+1
+2
+x(N)
+x=(N/N*)
+1/2
+x=(N/N*)
+2/3
+Fig. 2.5. Behaviour of the typical value of X as a function of N for TLD variables. When N ≪N ∗,
+x grows as N 1/µ (dotted line). When N ∼N ∗, x reaches the value α−1 and the exponential cut-off
+starts being relevant. When N ≫N ∗, the behaviour predicted by the CLT sets in, and one recovers
+x ∝
+√
+N (plain line).
+This condition has a very simple intuitive meaning. A TLD behaves very much like a pure
+L´evy distribution as long as x ≪α−1. In particular, it behaves as a power-law of exponent
+µ and tail amplitude Aµ ∝aµ in the region where x is large but still much smaller than
+α−1 (we thus also assume that α is very small). If N is not too large, most values of x fall
+in the L´evy-like region. The largest value of x encountered is thus of order xmax ≃AN 1/µ
+(cf. Eq. (2.9)). If xmax is very small compared to α−1, it is consistent to forget the exponential
+cut-offandthinkoftheelementarydistributionasapureL´evydistribution.Onethusobserves
+a ﬁrst regime in N where the typical value of X grows as N 1/µ, as if α was zero.† However,
+as illustrated in Figure 2.5, this regime ends when xmax reaches the cut-off value α−1: this
+happens precisely when N is of the order of N ∗deﬁned above. For N > N ∗, the variable
+X progressively converges towards a Gaussian variable of width
+√
+N, at least in the region
+where |x| ≪σ N 3/4/N ∗1/4. The typical amplitude of X thus behaves (as a function of N)
+as sketched in Figure 2.5. Notice that the asymptotic part of the distribution of X (outside
+the central region) decays as an exponential for all values of N.
+2.3.7 Conclusion: survival and vanishing of tails
+The CLT thus teaches us that if the number of terms in a sum is large, the sum becomes
+(nearly) a Gaussian variable. This sum can represent the temporal aggregation of the daily
+ﬂuctuations of a ﬁnancial asset, or the aggregation, in a portfolio, of different stocks. The
+Gaussian (or non-Gaussian) nature of this sum is thus of crucial importance for risk control,
+since the extreme tails of the distribution correspond to the most ‘dangerous’ ﬂuctuations. As
+we have discussed above, ﬂuctuations are never Gaussian in the far-tails: one can explicitly
+† Note however that the variance of X grows like N for all N. However, the variance is dominated by the cut-off
+and, in the region N ≪N ∗, grossly overestimates the typical values of X, see Section 2.3.2.
+
+2.4 From sum to max: progressive dominance of extremes (∗)
+37
+show that if the elementary distribution decays as a power-law (or as an exponential, which
+formally corresponds to µ = ∞), the distribution of the sum decays in the very same
+manner outside the central region, i.e. much more slowly than the Gaussian. The CLT
+simply ensures that these tail regions are expelled more and more towards large values of
+X when N grows, and their associated probability is smaller and smaller. When confronted
+with a concrete problem, one must decide whether N is large enough to be satisﬁed with a
+Gaussian description of the risks. In particular, if N is less than the characteristic value N ∗
+deﬁned above, the Gaussian approximation is very bad.
+2.4 From sum to max: progressive dominance of extremes (∗)
+Although taking the sum of N iid random variables or extracting the largest value may
+look completely unrelated and lead to different limit distributions, one may actually ﬁnd a
+formulation where the two problems are continuously related. Let us consider the following
+generalized sum:
+Sq =
+N
+
+i=1
+δxq
+i ,
+(2.70)
+where q is a real number and δX are restricted to be positive random variables. It is clear
+that when q = 1, one recovers the simple sum considered in the above section. Provided
+that all the moments of X are ﬁnite, the Gaussian CLT applies to Sq for all ﬁnite q in the
+limit N →∞since the random variables δxq
+i are still iid. However, if one chooses q →∞
+and N ﬁnite, the largest term in the sum completely dominates over all the others, in such
+a way that, in that limit, Sq ≃δxq
+max. Is there a way to take simultaneously the limit where
+q and N tend to inﬁnity such that one escapes from the standard CLT?
+Let us consider the speciﬁc case δX = exp Y where the random variable Y is Gaussian,
+of zero mean and variance σ 2. In ﬁnancial applications, Sq would correspond to the value
+of a portfolio containing N assets with random returns Y after time q, such that the initial
+value of each asset is unity. In physics, Sq is a partition function if one identiﬁes Y with
+an energy and q as an inverse temperature. The problem deﬁned by Eq. (2.70) is known
+as the random energy model, and is relevant for the understanding of a surprisingly large
+number of complex systems, from amorphous, glassy materials to error correcting codes or
+other computational science problems (see Derrida (1981), Montanari (2001)).
+Interestingly, one ﬁnds that the statistics of the variable Sq deﬁned by Eq. (2.70) has
+three different regimes as q increases, reﬂecting precisely the three different regimes of the
+CLT discussed above. For small q, the statistics of Sq is Gaussian, for larger q it becomes
+a fully asymmetric (β = 1) L´evy stable distribution with a ﬁnite mean but inﬁnite variance
+(1 < µ < 2) and ﬁnally, for still larger q’s, a fully asymmetric L´evy stable distribution with
+an inﬁnite mean (µ < 1). The precise relation between µ and q reads µ = √2 log N/qσ
+(see Bovier et al. (2002)). The non trivial limit where one does not reach the CLT nor the
+extreme value statistics is therefore the regime where q diverges as √log N. For ‘small’
+enough q, all the terms contributing to Sq are of similar magnitude and the usual Gaussian
+
+38
+Maximum and addition of random variables
+CLT applies. As q becomes larger, the largest terms in the sum Sq are more and more
+dominant, until a point where only a ﬁnite number of terms actually contribute to Sq, even
+in the N →∞limit: this corresponds to the case µ < 1. Eventually, for q →∞or µ →0,
+only one term contributes to Sq and one recovers the extreme value statistics detailed in
+Section 2.1. Note that these results can be extended to the case where Y is not Gaussian,
+but has tails decaying faster than exponentially, for example as exp −yc, c > 1. Only the
+precise relation between µ and q is affected.
+Coming back to our ﬁnancial example, the above results mean that for a given number
+of assets in the portfolio, a correct diversiﬁcation (corresponding to a Gaussian distribution
+of the value of the portfolio) is only achieved up to ‘time’ q∗= √log N/
+√
+2σ. For longer
+times, most of the investor’s wealth will be concentrated in only a few assets, unless the
+portfolio is frequently rebalanced.
+2.5 Linear correlations and fractional Brownian motion
+Let us assume that the correlation function Ci, j of the random variable δX (deﬁned as
+⟨δxiδx j⟩−m2) is non-zero for i ̸= j. We also assume that the process is stationary, i.e.
+that Ci, j only depends on |i −j|: Ci, j = C(|i −j|), with C(∞) = 0. The variance of the
+sum can be expressed in terms of the matrix C as:†
+⟨x2⟩=
+N
+
+i, j=1
+Ci, j = Nσ 2 + 2N
+N
+
+ℓ=1
+
+1 −ℓ
+N
+
+C(ℓ),
+(2.71)
+where σ 2 ≡C(0). From this expression, it is readily seen that if C(ℓ) decays faster than
+1/ℓfor large ℓ, the sum over ℓtends to a constant for large N, and thus the variance of the
+sum still grows as N, as for the usual CLT. If however C(ℓ) decays for large ℓas a power-
+law ℓ−ν, with ν < 1, then the variance grows faster than N, as N 2−ν – correlations thus
+enhance ﬂuctuations. Hence, when ν < 1, the standard CLT certainly has to be amended.
+The problem of the limit distribution in these cases is however not solved in general. For
+example, if the δXi are correlated Gaussian variables, it is easy to show that the resulting
+sum is also Gaussian of width ∝N 1−ν/2, whatever the value of ν < 1: a linear combination
+of Gaussian variables remains Gaussian.
+Another solvable but non trivial case is when the δXi are correlated Gaussian variables,
+but one takes the sum of the squares of the δXi’s. This sum converges towards a Gaussian
+of width
+√
+N whenever ν > 1
+2, but towards a non-trivial limit distribution of a new kind
+(i.e. neither Gaussian nor L´evy stable) when ν < 1
+2. In this last case, the proper rescaling
+factor must be chosen as N 1−ν.
+One can also construct anti-correlated random variables, the sum of which grows slower
+than
+√
+N. In the case of power-law correlated or anti-correlated Gaussian random variables,
+one speaks of fractional Brownian motion.‡ Let us brieﬂy explain how such processes can
+† We again assume in the following, without loss of generality, that the mean m is zero.
+‡ See Mandelbrot and Van Ness (1968).
+
+2.5 Linear correlations and fractional Brownian motion
+39
+be constructed. We will ﬁrst consider the set of random variables xk deﬁned as:
+xk =
+s0
+√
+M
+M/2
+
+m=1
+2πm
+M
+ ν−3
+2 
+ξme
+2iπmk
+M
++ ξ ∗
+me−2iπmk
+N
+
+,
+(2.72)
+where the ξm’s are M/2 independent complex Gaussian variables of zero mean and unit
+variance, i.e. both the real and imaginary part are independent and of variance equal to 1/2.
+Therefore, one has:
+
+ξ 2
+m
+
+=
+
+ξ ∗2
+m
+
+= 0
+⟨ξmξ ∗
+m⟩= 1.
+(2.73)
+From this representation, one may compute the variance of the lagged difference xk+N −xk.
+In the limit where 1 ≪N ≪M, one ﬁnds:
+⟨(xk+N −xk)2⟩≃2s2
+0(ν −2) cos πν
+2 N 2−ν.
+(2.74)
+When 0 < ν < 1, the variance grows faster than N and one speaks about a persistent
+random walk. A plot of xk versus k for ν = 2/5 is given in Fig. 2.6, where ‘trends’ can
+be observed and reﬂect the correlations present in the process (see below). Note that again
+this plot is self afﬁne. When 2 > ν > 1, on the other hand, the variance grows slower than
+N and one now speaks about an anti-persistent random walk. A plot of xk versus k for
+ν = 3/2 is given in Fig. 2.6, where now the walk is seen to curl back on itself, reﬂecting the
+anticorrelations built in the process. The case ν = 1 corresponds to the usual random walk.
+Fig. 2.6. Example of a persistent random walk and an anti-persistent random walk, constructed
+using Eq. (2.72) with M = 50 000. The exponent ν is chosen to be, respectively, ν = 2/5 < 1 and
+ν = 3/2 > 1. Note that is both cases, the process is self-afﬁne. The case ν = 1 corresponds to the
+usual random walk – see Fig. 2.2.
+
+40
+Maximum and addition of random variables
+A way to see this is to compute the correlations of the increments δxk = xk+1 −xk. Using
+the representation (2.72), one ﬁnds that the correlation function C(ℓ) = ⟨δxkδxk+ℓ⟩is given,
+for M ≫1, by:
+C(ℓ) = 4s2
+0
+ 2π
+0
+cos zℓ
+z3−ν (1 −cos z) dz.
+(2.75)
+For 0 < ν < 1, this integral is found to behave, for large ℓ, as ℓν, corresponding to long
+range correlations. For 1 < ν < 2, on the other hand, the integral oscillates in sign and
+integrates to zero, leading to an antipersistent behaviour.
+Another, perhaps more direct way to construct long ranged correlated Gaussian random
+variables is to deﬁne the increments δxk themselves as sums:
+δxk =
+∞
+
+ℓ=0
+K(ℓ)ξk−ℓ,
+(2.76)
+where the ξ’s are now real independent Gaussian random variables of unit variance and
+K(ℓ) a certain kernel. If k represents the time, δxk can be thought of as resulting of a
+superposition of past inﬂuences, with a certain memory kernel K(ℓ). The computation of
+⟨δxiδx j⟩is straightforward and leads to:
+C(|i −j|) =
+∞
+
+ℓ=0
+K(ℓ)K(ℓ+ |i −j|).
+(2.77)
+Choosing K(ℓ) ∼K0/ℓ(1+ν)/2 for large ℓ, one ﬁnds that C(|i −j|) decays asymptotically,
+for 0 < ν < 1, as C0/|i −j|ν with:
+C0 = K 2
+0(ν)(1/2 −ν/2)
+(1/2 + ν/2).
+(2.78)
+An important case, which we will discuss later, is when ν = 0. In this case, one needs
+to introduce a large scale cut-off, for example, K(ℓ) = K0 exp(−αℓ)/
+√
+ℓ. In the limit
+1 ≪|i −j| ≪α−1, one ﬁnds that C(|i −j|) behaves logarithmically, as C(|i −j|) ≃
+−K 2
+0 log(α|i −j|).
+2.6 Summary
+r The maximum (or the minimum) in a series of N independent random variables has,
+in the large N limit and when suitably shifted and rescaled, a universal distribution,
+to a large extent independent of the distribution of the random variables themselves.
+The order of magnitude of the maximum of N independent Gaussian variables only
+grows very slowly with N, as √log N, whereas if the random variables have a Pareto
+tail with an exponent µ, the largest term grows much faster, as N 1/µ. The former
+case corresponds to an asymptotic Gumbel distribution, the latter to an asymptotic
+Fr´echet distribution.
+
+2.6 Summary
+41
+r The sum of a series of N independent random variables with zero mean also has,
+in the large N limit and when suitably rescaled, a universal distribution, again to
+a large extent independent of the distribution of the random variables themselves
+(central limit theorem). If the variance of these variables is ﬁnite, this distribution
+is Gaussian, with a width growing as
+√
+N. If the variance is inﬁnite, as is the case
+for Pareto variables with an exponent µ < 2, the limit distribution is a L´evy stable
+law, with a width growing as N 1/µ. In the latter case, the largest term in the series
+remains of the same order of magnitude as the whole sum in the limit N →∞.
+r The above universal limit distributions only apply in the scaling regime, but do not
+describethefartails,whichretainsomeofthecharacteristicsoftheinitialdistribution.
+For example, the sum of Pareto variables with an exponent µ > 2 converges towards
+a Gaussian random variable in a region of width √N log N, outside which the initial
+Pareto power-law tail is recovered.
+r Further reading
+J. Baschnagel, W. Paul, Stochastic Processes, From Physics to Finance, Springer-Verlag, 2000.
+F. Bardou, J.-P. Bouchaud, A. Aspect, C. Cohen-Tannoudji, L´evy statistics and Laser cooling,
+Cambridge University Press, 2002.
+J. Beran, Statistics for Long-Memory Processes, Chapman & Hall, 1994.
+J.-P. Bouchaud, A. Georges, Anomalous diffusion in disordered media: statistical mechanisms, models
+and physical applications, Phys. Rep., 195, 127 (1990).
+P. Embrechts, C. Kl¨uppelberg, T. Mikosch, Modelling Extremal Events for Insurance and Finance,
+Springer-Verlag, Berlin, 1997.
+W. Feller, An Introduction to Probability Theory and its Applications, Wiley, New York, 1971.
+J. Galambos, The Asymptotic Theory of Extreme Order Statistics, R. E. Krieger Publishing Co.,
+Malabar, Florida, 1987.
+B. V. Gnedenko, A. N. Kolmogorov, Limit Distributions for Sums of Independent Random Variables,
+Addison Wesley, Cambridge, MA, 1954.
+E. J. Gumbel, Statistics of Extremes, Columbia University Press, New York, 1958.
+E. J. Hinch, Perturbation methods. Cambridge University Press, 1991.
+P. L´evy, Th´eorie de l’addition des variables al´eatoires, Gauthier Villars, Paris, 1937–1954.
+B. B. Mandelbrot, The Fractal Geometry of Nature, Freeman, San Francisco, 1982.
+B. B. Mandelbrot, Fractals and Scaling in Finance, Springer, New York, 1997.
+R. Mantegna, H. E. Stanley, An Introduction to Econophysics, Cambridge University Press,
+Cambridge, 1999.
+E. Montroll, M. Shlesinger, The Wonderful World of Random Walks, in Nonequilibrium Phenomena
+II, From Stochastics to Hydrodynamics, Studies in Statistical Mechanics XI (J. L. Lebowitz,
+E. W. Montroll, eds) North-Holland, Amsterdam, 1984.
+G. Samorodnitsky, M. S. Taqqu, Stable Non-Gaussian Random Processes, Chapman & Hall,
+New York, 1994.
+J. Vo¨ıt, The Statistical Mechanics of Financial Markets, Springer-Verlag, 2001.
+N. Wiener, Extrapolation, Interpolation and Smoothing of Time Series, Wiley, New York, 1949.
+G. Zaslavsky, U. Frisch, M. Shlesinger, L´evy Flights and Related Topics in Physics, Lecture Notes in
+Physics 450, Springer, New York, 1995.
+
+42
+Maximum and addition of random variables
+r Some specialized papers
+J.-P. Bouchaud, M. M´ezard, Universality classes for extreme value statistics, J. Phys. A., 30, 7997
+(1997).
+A. Bovier, I. Kurkova, M. Loewe, Fluctuations of the free energy in the REM and the p-spin SK model,
+Ann. Probab., 30, 605 (2002).
+B. Derrida, The Random Energy Model, Phys. Rev. B, 24, 2613 (1981).
+B. Derrida, Non-Self averaging effects in sum of random variables, Physica D, 107, 186 (1997).
+I. Koponen, Analytic approach to the problem of convergence to truncated L´evy ﬂights towards the
+Gaussian stochastic process, Physical Review, E 52, 1197 (1995).
+B. B. Mandelbrot, J. W. Van Ness, Fractional Brownian Motion, fractional noises and applications,
+SIAM Review, 10, 422 (1968).
+A. Montanari, The glassy phase of Gallager codes, Eur. Phys. J., B 23, 121 (2001).
+M. Romeo, V. Da Costa, F. Bardou, Broad distribution effects in sums of lognormal random variables,
+e-print physics/0211065.
+C. Tsallis, Possible generalization of Boltzmann–Gibbs statistics, J. Stat. Phys., 52, 479 (1988).

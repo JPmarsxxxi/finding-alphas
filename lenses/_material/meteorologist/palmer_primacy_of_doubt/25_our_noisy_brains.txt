@@ -1,0 +1,512 @@
+12
+Our Noisy Brains
+IN CHAPTER 11, I ARGUED THAT ULTIMATELY THE LAWS OF
+PHYSICS  may  well  be  deterministic,  and  that  these  laws
+describe the geometry of the attractor/invariant set of the
+highest-order system imaginable—the universe as a whole.
+In Chapter 3,  we  noted  that  if  we  want  to  model  a  high-
+order  deterministic  system  with  a  low-order  deterministic
+system, we should truncate the high-order system and add
+noise to represent the parts of the system we cannot model
+explicitly. We also observed that in many nonlinear
+situations, noise is a useful resource and not the nuisance
+we often imagine it to be; noise can amplify weak signals,
+for example. In this chapter I propose that, consistent with
+this,  the  human  brain  makes  constructive  use  of  noise  in
+trying to create a low-order model of the high-order world
+around us. I will argue that such noise is a key element in
+making us the creative, innovative beings we are. However,
+unlike  in  the  earlier  examples  I  discussed,  noise  is  not
+made  by  mathematical  pseudorandom-number  generators;
+it is made in hardware. The presence of such noise appears
+to  be  a  consequence  of  the  brain’s  extraordinary  energy
+eﬀiciency—that it can run on just 20W of power.
+«  »
+
+THE  GREEK  PHILOSOPHER  EUCLID  is  commonly  attributed
+with  giving  the  ﬁrst  proof  that  there  are  inﬁnitely  many
+prime numbers. A prime number is a whole number greater
+than 1 that is divisible only by itself and 1; numbers such as
+2,  3,  5,  7,  11  and  13  are  prime.  Euclid’s  proof  goes  as
+follows:
+1. Suppose there are only ﬁnitely many prime
+numbers.
+2. Hence there is a largest prime number. Call it P.
+3. Form the product 2 × 3 × 5 × 7 × 11 × 13 ×… × P
+of all the prime numbers, and add 1 to the result.
+Call this number Q.
+4. By construction, Q is not divisible by any of the
+prime numbers up to P, since such division leaves a
+remainder of 1.
+5. But all numbers, including Q, must be divisible by
+some prime number (possibly Q itself).
+6. Hence there must exist a prime greater than P.
+7. Hence the supposition in step 1 must be false.
+8. Hence there are inﬁnitely many prime numbers.
+For  example,  suppose  we  thought  that  5  is  the  largest
+prime number. Then Euclid says—think about Q = 2 × 3 ×
+5 + 1 = 31. Now, 31 is not divisible by 2 or 3 or 5—there is
+always  a  remainder  of  1.  Hence  there  must  be  a  larger
+prime  number  than  5.  In  this  case,  31  is  itself  a  prime
+number.
+What  is  the  creative  step  in  this  proof?  Well,  step  1  is
+based on a commonplace technique in mathematics called
+reductio  ad  absurdum:  assume  the  opposite  to  what  you
+want to prove and show that this leads to a contradiction.
+
+Reductio ad absurdum was, at some stage in the history of
+mathematics,  a  creative  step.  It  was  known  to  be  one  of
+Euclid’s  favourite  tricks.  Hence,  we  can  imagine  that  he
+simply  pulled  this  out  of  his  bag  of  useful  tricks  when  he
+started  to  construct  his  proof.  As  such,  it  is  not  the  key
+creative step for this particular proof. Step 2 is manifestly
+not  a  creative  step—it  follows  immediately  from  step  1.
+Rather, the creative step is step 3. Once Euclid had the idea
+of  forming  the  number Q,  steps  4–8  followed  in  a  fairly
+deductive, mechanical way.
+Let’s try to create a computer that spontaneously
+creates mathematical theorems. We’ll load up two “tricks”
+taken from Euclid’s proof. The ﬁrst is 
+reductio ad
+absurdum: assume the opposite of what you want to prove
+and  show  that  this  leads  to  a  contradiction.  The  second
+trick  will  be  step  3  of  Euclid’s  proof:  if  you  have  some
+numbers, multiply them together and add 1.
+So, have we made our computer creative? Well, let’s see
+if it can come up with another classical mathematical
+theorem from ancient Greece: Pythagoras’s proof that the
+square  root  of  2  is  an  irrational  number,  i.e.,  cannot  be
+written as a fraction a /  b (such as 983 / 765) where a and  b
+are whole numbers.
+The  computer  can  reasonably  start  by  ﬁrst  using  the
+reductio ad absurdum trick: assume the square root can be
+written as a fraction a /  b. Perhaps the computer knows the
+rules  of  arithmetic  and  assumes  that a  and b  have  no
+common factors.
+It  now  needs  to  ﬁnd  a  contradiction.  It  has  one  more
+trick up its sleeve—it’s now time to apply it: multiply a and
+b together and add 1. But that’s a complete dead end. In
+fact, to ﬁnd Pythagoras’s proof, the computer needs a new
+trick (which is to square the numbers 
+a and b)1. But that
+trick is not in its library of tricks.
+
+The  computer  hasn’t  exactly  got  nowhere—using  the
+reductio ad absurdum trick is a good ﬁrst start. But it’s as
+if  it  has  climbed  a  minor  peak  on  the  route  to  the  main
+goal, and then has simply got stuck not knowing where to
+go from there.
+We could add the new trick into the computer’s memory,
+so that it now has three tricks to play with. With a little bit
+of extra help, that might enable the computer to prove that
+the square root of 2 is irrational. But are these tricks going
+to  be  suﬀicient  to  prove  some  other  theorem,  like  the
+Navier-Stokes Millennium Prize problem mentioned in
+Chapter 3?
+Of  course,  lots  more  tricks  will  be  needed  up  one’s
+mathematical sleeves to have any chance of cracking one of
+these big problems. However, the very fact that these are
+unsolved problems raises a rather interesting thought.
+Perhaps we will always need new tricks to prove important
+new theorems: having some ﬁxed memory bank of tricks is
+never going to be good enough. Perhaps there is simply no
+end to the tricks needed to prove all mathematical
+theorems. This is (eﬀectively) what Gödel’s incompleteness
+theorem, which we met in Chapter 2, suggests. If this is so,
+computers  may  have  a  hard  job  coming  up  with  really
+interesting new mathematical theorems.
+How did Euclid get this idea of forming the number 
+Q?
+He didn’t tell us. However, other mathematicians have told
+us how their eureka moments have arisen, and something
+very interesting emerges from them.
+Here is what Henri Poincaré (whose work was discussed
+in  Chapter  1)  said  about  the  moment  when  he  had  a
+creative ﬂash of insight2:
+Just at this time, I left Caen, where I was living, to go
+on  a  geologic  excursion  under  the  auspices  of  the
+School of Mines. The incidents of the travel made me
+
+forget 
+my 
+mathematical 
+work. 
+Having 
+reached
+Coutances, we entered an omnibus to go some place
+or  other.  At  the  moment  when  I  put  my  foot  on  the
+step,  the  idea  came  to  me,  without  anything  in  my
+former thoughts seeming to have paved the way for it,
+that  the  transformations  I  had  used  to  deﬁne  the
+Fuchsian  functions  were  identical  with  those  of  non-
+Euclidian geometry. I did not verify the idea; I should
+not  have  had  time,  as,  upon  taking  my  seat  in  the
+omnibus, I went on with a conversation already
+commenced,  but  I  felt  a  perfect  certainty.  On  my
+return  to  Caen,  for  convenience  sake,  I  veriﬁed  the
+result at my leisure.
+Here is how the critical idea which led to Roger
+Penrose’s 
+Nobel 
+Prize–winning 
+work 
+on 
+space-time
+singularities  came  to  him3.  Penrose  was  walking  to  work
+with a colleague and they were deep in conversation. They
+crossed  the  road  and  stopped  talking  to  watch  out  for
+traﬀic. When they got to the other side, they started talking
+again. When the colleague had left, Penrose had a strange
+feeling  of  elation,  but  couldn’t  work  out  why.  He  went
+through all the things he had done that day, including what
+he had for breakfast. Finally, he thought about the moment
+when  he  was  crossing  the  road  and  realised  that  in  that
+moment he had had the crucial idea about how to
+characterise  extreme  gravitational  collapse  in  a  generic
+way. This idea led to the 1965 paper that was the basis of
+his Nobel Prize.
+Let  me  quote  Andrew  Wiles,  perhaps  the  most  famous
+mathematician  alive  today,  whose  work  was  mentioned  in
+Chapter 2. Here is what Wiles says4 about creative
+moments:
+
+In  particular,  when  you  reach  a  real  impasse,  when
+there’s  a  real  problem  that  you  want  to  overcome,
+then the routine mathematical thinking is of no use to
+you. Leading up to that kind of new idea there has to
+be a long period of tremendous focus on the problem
+without any distraction. You have to really think about
+nothing but that problem—just concentrate on it. Then
+you  stop.  Afterwards  there  seems  to  be  a  kind  of
+period  of  relaxation  during  which  the  subconscious
+appears  to  take  over  and  it’s  during  that  time  that
+some new insight comes.
+And  it’s  not  just  creativity  in  mathematics  and  physics
+research. Comedian John Cleese, part of the famous Monty
+Python  team,  makes  much  the  same  point  about  artistic
+creativity—it 
+occurs 
+when 
+you 
+relax 
+and 
+let 
+your
+unconscious mind wander5.
+In all these cases, the key creative insight comes during
+a moment of relaxation. Now, few of us have been fortunate
+enough to have such moments of creativity as those
+mentioned earlier. However, perhaps an example we can all
+relate  to  (particularly  those  of  us  of  advancing  years)  is
+when  we  have  completely  forgotten  some  person’s  name.
+We  can  see  their  face  in  our  heads,  or  perhaps  even  in
+reality. Perhaps we know them extremely well. Simply
+trying  harder  and  harder  to  remember  the  name  doesn’t
+work. Often the best thing to do is stop trying and just let
+your  mind  relax.  Then,  out  of  nowhere,  the  name  will
+suddenly and mysteriously pop out of the ether.
+But what’s going on here from a physical perspective? If
+we want to create genuinely creative AI systems, should we
+tell  the  AI  program  to  stop  working  ﬂat  out  on  some
+problem and just idle for a few minutes, hoping for
+inspiration?
+
+That seems a silly idea, for the simple reason that digital
+computers are ultimately just on-oﬀ switches. It’s possible
+to express arithmetic operations such as 1 + 1 or 24 × 37
+in  terms  of  switches;  this  is  called  Boolean  logic,  named
+after  Victorian  mathematician  George  Boole.  And  modern
+computers  perform  these  switching  processes  amazingly
+quickly. However, “relaxing” and doing the switching more
+slowly, for example, is clearly not itself going to make the
+computer creative.
+How, by contrast, do our brains add 1 + 1 and make 2?
+Perhaps the answer is so ingrained that we just know that 1
++ 1 = 2. So, let’s try something harder: What’s 24 × 37?
+How would I go about answering that?
+At a very young, preschool age, I would go for walks in
+our local woods with my father. We would take a path up to
+a high point and admire the vista across the neighbouring
+countryside.  We  would  then  walk  down  via  a  diﬀerent
+route, one which was a little steeper and had steps cut into
+the path. There were about twenty steps in all. As we went
+down the steps, we would both count them out loud: one,
+two,  three,  four…  I  learned  to  count  by  repeating  the
+numbers  as  we  walked  down  the  steps  week  after  week
+until they were embedded in my head.
+And  then,  at  my  elementary  school,  the  “times  tables”
+were drummed into my head. After a while I could
+eﬀortlessly recall that “four sevens are twenty-eight”. So, if
+I was later asked by my teacher what 4 × 7 is (on pain of
+having to write out the 7 times table 100 times), I wouldn’t
+set up a biological circuit of Boolean switches in my brain; I
+would simply access my memory and quickly reply “twenty-
+eight”. 
+The 
+external 
+sound 
+“four 
+times 
+seven?”
+automatically triggered the rather mindless response
+“twenty-eight!” in my head.
+Later in school I learned the mechanics of long
+multiplication. As an adult, it’s something I hardly ever use,
+and  although  the  technique  is  in  my  memory  somewhere,
+
+it’s not as readily accessible as it was when I was seven or
+eight years old.
+And so, if I were forced to multiply 24 by 37, I wouldn’t
+use Boolean logic at all. I would simply try as best I could
+to retrieve the relevant patterns from memory: the patterns
+that  describe  the  algorithm  for  doing  long  multiplication,
+then the pattern associated with the “times tables”. Finally,
+I would need some “scratchpad” memory (of which I
+deﬁnitely  don’t  have  enough  these  days)  for  storing  the
+intermediate steps. All in all, it’s a totally diﬀerent process
+to that of a digital computer.
+The eﬀort of retrieving data from memory takes energy.
+If a friend insisted I do this multiplication calculation when
+walking along the road with him (don’t ask me why), then I
+would  have  to  stop  talking,  stop  walking,  close  my  eyes,
+possibly put my hands over my ears and do nothing else but
+focus  on  the  problem  at  hand.  Presumably,  I  do  this  in
+order  to  channel  all  the  available  energy  into  performing
+accurately the required data transfers from memory. To do
+this,  I  shut  down  all  other  tasks  that  may  be  consuming
+energy and focus all available energy to the task in hand.
+Of  course,  this  is  an  unusual  state  to  be  in.  Before  my
+friend asked me to multiply these numbers together, I was
+happily multitasking: walking down the road (unthinkingly
+putting  one  leg  in  front  of  the  other),  chatting  about  the
+latest news, looking up and admiring the clouds in the sky
+and the leaves on the trees, listening to the birds chirping
+and wondering what I might have for lunch. In this state,
+the available energy being fed to my brain was being used
+for a multitude of tasks.
+In his renowned book Thinking, Fast and Slow, the
+psychologist Daniel Kahneman has famously described the
+brain  in  a  binary  way  rather  similar  to  this
+6.  Most  of  the
+time  (when  walking,  chatting,  looking  around)  it  operates
+in a mode he calls “System 1”. System 1 denotes a rather
+
+fast,  automatic,  eﬀortless  mode  of  operation.  By  contrast,
+with eyes closed, focussing on one speciﬁc task, the brain is
+in  what  Kahneman  calls  System  2,  a  much  slower,  more
+deliberate mode of operation.
+This  notion  of  a  binary  mode  of  operation  had  in  fact
+been  described  some  years  earlier  by  cognitive  scientist
+Guy Claxton in his book 
+Hare Brain, Tortoise Mind7 . Here
+“tortoise  mind”  describes  a  more  playful,  leisureful  and
+dreamy state, somewhat akin to Kahneman’s System 1. By
+contrast,  “hare  brain”  describes  the  type  of  thinking  that
+requires reason, logic and deliberate thinking, as in
+Kahneman’s System 2. The key point of Claxton’s book, one
+that seems completely consistent with the experiences
+described earlier, is that the leisurely tortoise mind, for all
+its apparent aimlessness, is just as intelligent as the more
+logical hare brain.
+Here I want to think about energy as a way of describing
+this bimodal operation of the brain.
+Every  second,  the  brain  consumes  about  20  joules  of
+energy. That is, it uses the same amount of power, 20W, as
+an electric light bulb. This is tiny compared with the power
+used  by  a  supercomputer  that  runs  a  weather  forecast
+model—about 20MW, six orders of magnitude more. It
+seems from studies of blood ﬂow into the brain that there
+isn’t much variation in the total amount of power consumed
+whether we are in System 1 or System 2. However, the fact
+that we can multitask when in System 1 suggests that, in
+this mode, power is spread between many active tasks, so
+that  power per  active  task  is  especially  low.  By  contrast,
+when operating in System 2 mode, all the available power
+is perhaps focussed on a single task, making the power per
+active task that much higher. For this reason, I will refer to
+the  two  modes  as  the  low-power  mode  and  the  power-
+intensive mode.
+
+Now,  there  are  some  80  billion  neurons  in  the  brain.
+Information propagates along the slender axons of a
+neuron  (see  Fig.  46)  by  means  of  spiky  electric  signals.
+However, the axons are so long that these electric signals
+would  have  completely  dissipated  long  before  they  got  to
+the  end  of  an  axon,  were  it  not  for  “protein  transistors”
+which boost the spikes at regular intervals along the axon.
+These protein transistors comprise small channels in the
+membrane,  which  otherwise  act  as  an  insulating  sheath
+around the axon. Electrically charged ions—essentially
+atoms  such  as  sodium  or  potassium  with  the  electron  in
+their outer shell stripped oﬀ—ﬂow through these channels
+in  response  to  the  voltage  ﬂuctuations  from  the  signal
+propagating  along  the  axon.  By  being  correlated  with  the
+signal  propagating  along  the  axon,  the  ﬂow  of  ions  can
+amplify the signal.
+FIG. 46. The diﬀerent parts of a neuron. Electric “spike” signals are carried
+along the axon. The signals are ampliﬁed by “protein transistors”
+associated with ﬂows of ions across voltage-gated channels known as
+“nodes of Ranvier”.
+As  I  mentioned  in  Chapter 3,  if  we  start  to  reduce  the
+voltage across regular silicon transistors, they start acting
+unreliably and the switching process starts to become
+susceptible  to  thermal  noise.  Could  it  be  that  in  the  low-
+power mode, there is insuﬀicient energy to ensure that the
+protein transistors operate completely deterministically?
+
+The  answer  seems  to  be  yes.  There  is  evidence  that
+slender  axons  with  a  diameter  less  than  about  1  micron
+(10−3mm) are indeed susceptible to noise8. Now, the
+median  size  of  axons  in  the  human  brain  is  about  0.5
+microns9. Hence, particularly in situations when the
+available  20W  of  power  is  being  spread  around  the  80
+billion  neurons  in  the  brain—i.e.,  in  the  low-power  mode
+when the brain is multitasking—the operation of any one of
+the active neurons will be susceptible to noise.
+There are advantages and disadvantages to such slender
+neurons. A disadvantage is that an electrical signal travels
+more slowly along an axon as the axon diameter decreases.
+If  it  is  vital  to  have  a  super-  fast  reaction  time  to  evade
+predators,  then  a  decrease  in  axon  diameter  may  be  an
+evolutionary dead end. On the other hand, if one can take
+advantage  of  social  groupings  to  fend  oﬀ  predators,  then
+the  disadvantage  of  slower  reaction  times  may  be  more
+than  compensated  by  the  extra  processing  power  arising
+from being able to cram more neurons into a given space.
+If fast reaction time is not vital, could a susceptibility to
+noise 
+arising 
+from 
+neuron 
+miniaturisation 
+have 
+an
+evolutionary advantage? Let’s look at some of the
+processes discussed in Chapter 3, in which noise was found
+to be beneﬁcial, and see if these might apply to the way the
+brain works.
+For example, consider the process of stochastic rounding
+—using  noise  to  truncate  a  signal  comprising  many  bits.
+With reference to Fig. 17, if stochastic rounding was being
+performed on the raw visual data that was being received
+by  our  eyes,  and  the  truncated  data  was  sent  along  our
+neurons to the part of the brain responsible for our
+cognitive  perceptions,  then  perhaps  we  would  be  able  to
+perceive the full grey shading, even though the brain was
+receiving only the 1-bit black-and-white bits.
+
+The  simulated  annealing  algorithm  appears  to  describe
+well  how  we  humans  go  about  ﬁnding  a  solution  to  a
+problem. We start by applying some well-known tricks (like
+reductio ad absurdum) that have helped us in the past. This
+gets  us  some  way  to  the  solution,  but  then  we  become
+completely stuck. We rack our brains for new ideas that will
+help  us  out  of  the  rut.  If  the  ideas  take  us  forward,  we
+accept  them.  However,  in  the  initial  phase  we  are  quite
+prepared to go back to step 0 if it will help us ﬁnd a better
+route  to  the  ﬁnal  solution.  In  these  early  stages,  we  are
+potentially prepared to accept any old idea, however crazy
+it  might  seem.  But  when  we  have  made  a  lot  of  progress
+and feel that we are getting close to the ﬁnal solution, we’ll
+be much more discriminating with the ideas that come to
+us,  accepting  only  the  really  promising  ones  for  further
+analysis.  Remarkably,  the  simulated  annealing  algorithm
+also describes quite well the process of evolution by natural
+selection.
+However,  in  order  to  generate  random  new  ideas,  the
+brain must be susceptible to noise, and this appears
+possible only when the brain is in its low-power mode. This
+could  explain  why  eureka  moments  occur  when  we  are
+relaxing and not concentrating hard on a problem. It is in
+such a relaxation mode that the presence of noise can help
+us  jump  out  of  a  cognitive  roadblock  and  in  this  way
+advance our understanding.
+By  contrast,  when  the  brain  operates  in  the  power-
+intensive mode, i.e., when other units are disabled to allow
+as  much  of  the  20W  of  power  to  be  focussed,  then  it
+appears  there  is  enough  energy  available  to  the  active
+neurons  that  they  operate  deterministically.  This  is  when
+we can check whether the crazy ideas the low-power mode
+provides us are actually any good.
+The theoretical physicist Michael Berry has dubbed
+creative ideas which seemingly arise out of nowhere
+“claritons”—mysterious  particle-like  units  of  creativity.  It
+
+would seem that the clariton is a product of the low-power
+mode. However, Berry notes that more often than not, the
+appearance of a clariton is, in the cold light of day,
+annihilated by an “anti-clariton”. It would appear that the
+anti-clariton is the product of the power-intensive mode of
+thinking, triggered when you apply some logical thinking to
+the idea that has popped out of the blue. It’s just as well we
+have the capability to check all the crazy ideas that come
+out of our head.
+If these ideas are right, then the process we call
+creativity—what otherwise might be called inductive
+reasoning10—involves  a  synergy  between  the  low-power
+and  the  power-intensive  modes:  in  other  words,  a  close
+interplay between stochasticity and determinism. Being
+susceptible  to  noise,  the  low-power  mode  is  producing  a
+stream of sometimes bizarre, sometimes useful ideas. The
+more deterministic power-intensive mode then ﬁlters these,
+rejecting the more bizarre ones and retaining the ones that
+stand up to scrutiny. Like the simulated annealing
+algorithm,  the  closer  we  come  to  the  ﬁnal  solution,  the
+more discriminating we are about the crazy ideas that we
+will pursue.
+In The Emperor’s New Mind11, Roger Penrose famously
+asked  what  it  is  that  makes  us  capable  of  understanding
+Gödel’s  theorem,  the  famous  twentieth-century  theorem
+described in Chapter  2, that there are mathematically
+sound statements that assert their unprovability. He makes
+the point that if our brains worked by algorithm, we would
+not be able to understand the concept that there are
+mathematical truths that cannot be proved algorithmically.
+The  fact  that  we  do  understand  this  could  perhaps  be
+explained  if  random  noise,  something  not  describable  by
+algorithm, is a necessary element of cognition. Of course,
+you  may  complain  that  in  Chapter  11  I  was  arguing  that
+even the most fundamental type of noise, quantum noise, is
+
+not  truly  random,  but  is  associated  with  some  kind  of
+chaotic 
+determinism 
+described 
+by 
+the 
+cosmological
+invariant set postulate. However, as discussed in Chapter 2,
+a fractal invariant set is itself algorithmically undecidable.
+Hence, if the brain is susceptible to this most fundamental
+type  of  noise,  then  it  truly  is  not  fully  describable  by
+algorithm.
+I’m not the ﬁrst to appeal to randomness in this way. In
+his  inﬂuential  paper  “The  Imitation  Game12”  Alan  Turing
+himself commented, “It is wise to include a random
+element  in  a  learning  machine”,  and  cited  yet  another
+simple example where noise can be used to ﬁnd the
+solution to a problem eﬀiciently.
+In this context, it is interesting to note that if the
+miniaturisation 
+of 
+transistors 
+continued, 
+quantum
+tunnelling eﬀects would make the transistors unreliable as
+switches. But if we take the view that noise is a necessary
+resource  for  creativity,  then  taking  at  least  some  of  the
+transistors into this noisy quantum regime, and at the same
+time reducing the voltage across them, could be an
+important step in making a creative AI system capable, for
+example, of coming up with interesting new mathematical
+theorems.
+Perhaps  future  AI  devices  will  comprise  two  classes  of
+chip:  the  conventional  power-intensive  chips,  performing
+computations deterministically, where determinism is vital
+(you don’t want a computer to send money to an incorrect
+bank  account  because  it  got  the  last  digit  of  the  account
+number wrong), and a new class of low-power noisy chips,
+performing computations stochastically. Data transfer
+between these chips and to memory would be performed at
+low numerical precision, using the stochastic rounding
+ideas we’ve discussed.

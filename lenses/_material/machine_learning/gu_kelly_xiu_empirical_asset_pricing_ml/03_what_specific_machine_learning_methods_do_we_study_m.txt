@@ -1,0 +1,128 @@
+are needed, which form should they take? Must we consider interactions among predictors? Such
+questions rapidly proliferate the set of potential model speciﬁcations. The theoretical literature oﬀers
+little guidance for winnowing the list of conditioning variables and functional forms. Three aspects
+of machine learning make it well suited for problems of ambiguous functional form. The ﬁrst is its
+diversity. As a suite of dissimilar methods it casts a wide net in its speciﬁcation search. Second, with
+methods ranging from generalized linear models to regression trees and neural networks, machine
+learning is explicitly designed to approximate complex nonlinear associations.
+Third, parameter
+penalization and conservative model selection criteria complement the breadth of functional forms
+spanned by these methods in order to avoid overﬁt biases and false discovery.
+1.4
+What Speciﬁc Machine Learning Methods Do We Study?
+We select a set of candidate models that are potentially well suited to address the three empirical
+challenges outlined above. They constitute the canon of methods one would encounter in a graduate
+level machine learning textbook.3 This includes linear regression, generalized linear models with pe-
+nalization, dimension reduction via principal components regression (PCR) and partial least squares
+(PLS), regression trees (including boosted trees and random forests), and neural networks. This is
+not an exhaustive analysis of all methods. For example, we exclude support vector machines as these
+share an equivalence with other methods that we study4 and are primarily used for classiﬁcation
+problems. Nonetheless, our list is designed to be representative of predictive analytics tools from
+various branches of the machine learning toolkit.
+1.5
+Main Empirical Findings
+We conduct a large scale empirical analysis, investigating nearly 30,000 individual stocks over 60
+years from 1957 to 2016. Our predictor set includes 94 characteristics for each stock, interactions
+of each characteristic with eight aggregate time series variables, and 74 industry sector dummy
+variables, totaling more than 900 baseline signals. Some of our methods expand this predictor set
+much further by including nonlinear transformations and interactions of the baseline signals. We
+establish the following empirical facts about machine learning for return prediction.
+Machine learning shows great promise for empirical asset pricing. At the broadest level, our
+main empirical ﬁnding is that machine learning as a whole has the potential to improve our empirical
+understanding of expected asset returns. It digests our predictor data set, which is massive from
+the perspective of the existing literature, into a return forecasting model that dominates traditional
+approaches. The immediate implication is that machine learning aids in solving practical investments
+problems such as market timing, portfolio choice, and risk management, justifying its role in the
+business architecture of the ﬁntech industry.
+Consider as a benchmark a panel regression of individual stock returns onto three lagged stock-
+level characteristics: size, book-to-market, and momentum. This benchmark has a number of attrac-
+3See, for example, Hastie et al. (2009).
+4See, for example, Jaggi (2013) and Hastie et al. (2009), who discuss the equivalence of support vector machines
+with the lasso. For an application of the kernel trick to the cross section of returns, see Kozak (2019).
+4
+
+tive features. It is parsimonious and simple, and comparing against this benchmark is conservative
+because it is highly selected (the characteristics it includes are routinely demonstrated to be among
+the most robust return predictors). Lewellen (2015) demonstrates that this model performs about
+as well as larger and more complex stock prediction models studied in the literature.
+In our sample, which is longer and wider (more observations in terms of both dates and stocks)
+than that studied in Lewellen (2015), the out-of-sample R2 from the benchmark model is 0.16% per
+month for the panel of individual stock returns. When we expand the OLS panel model to include
+our set of 900+ predictors, predictability vanishes immediately—the R2 drops deeply into negative
+territory. This is not surprising. With so many parameters to estimate, eﬃciency of OLS regression
+deteriorates precipitously and therefore produces forecasts that are highly unstable out-of-sample.
+This failure of OLS leads us to our next empirical fact.
+Vast predictor sets are viable for linear prediction when either penalization or dimension reduction
+is used.
+Our ﬁrst evidence that the machine learning toolkit aids in return prediction emerges
+from the fact that the “elastic net,” which uses parameter shrinkage and variable selection to limit
+the regression’s degrees of freedom, solves the OLS ineﬃciency problem.
+In the 900+ predictor
+regression, elastic net pulls the out-of-sample R2 into positive territory at 0.11% per month. Principal
+components regression (PCR) and partial least squares (PLS), which reduce the dimension of the
+predictor set to a few linear combinations of predictors, further raise the out-of-sample R2 to 0.26%
+and 0.27%, respectively.
+This is in spite of the presence of many likely “ﬂuke” predictors that
+contribute pure noise to the large model. In other words, the high-dimensional predictor set in a
+simple linear speciﬁcation is at least competitive with the status quo low-dimensional model, as long
+as over-parameterization can be controlled.
+Allowing for nonlinearities substantially improves predictions. Next, we expand the model to
+accommodate nonlinear predictive relationships via generalized linear models, regression trees, and
+neural networks. We ﬁnd that trees and neural networks unambiguously improve return prediction
+with monthly stock-level R2’s between 0.33% and 0.40%. But the generalized linear model, which
+introduces nonlinearity via spline functions of each individual baseline predictor (but with no predic-
+tor interactions), fails to robustly outperform the linear speciﬁcation. This suggests that allowing for
+(potentially complex) interactions among the baseline predictors is a crucial aspect of nonlinearities
+in the expected return function. As part of our analysis, we discuss why generalized linear models
+are comparatively poorly suited for capturing predictor interactions.
+Shallow learning outperforms deeper learning.
+When we consider a range of neural networks
+from very shallow (a single hidden layer) to deeper networks (up to ﬁve hidden layers), we ﬁnd that
+neural network performance peaks at three hidden layers then declines as more layers are added.
+Likewise, the boosted tree and random forest algorithms tend to select trees with few “leaves” (on
+average less than six leaves) in our analysis. This is likely an artifact of the relatively small amount
+of data and tiny signal-to-noise ratio for our return prediction problem, in comparison to the kinds
+of non-ﬁnancial settings in which deep learning thrives thanks to astronomical datasets and strong
+signals (such as computer vision).
+The distance between nonlinear methods and the benchmark widens when predicting portfolio
+5
+
+returns. We build bottom-up portfolio-level return forecasts from the stock-level forecasts produced
+by our models. Consider, for example, bottom-up forecasts of the S&P 500 portfolio return. By
+aggregating stock-level forecasts from the benchmark three-characteristic OLS model, we ﬁnd a
+monthly S&P 500 predictive R2 of −0.22%. The bottom-up S&P 500 forecast from the generalized
+linear model, in contrast, delivers an R2 of 0.71%. Trees and neural networks improve upon this
+further, generating monthly out-of-sample R2’s between 1.08% to 1.80% per month.
+The same
+pattern emerges for forecasting a variety of characteristic factor portfolios, such as those formed on
+the basis of size, value, investment, proﬁtability, and momentum. In particular, a neural network with
+three layers produces a positive out-of-sample predictive R2 for every factor portfolio we consider.
+More pronounced predictive power at the portfolio level versus the stock level is driven by the
+fact that individual stock returns behave erratically for some of the smallest and least liquid stocks
+in our sample. Aggregating into portfolios averages out much of the unpredictable stock-level noise
+and boosts the signal strength, which helps in detecting the predictive gains from machine learning.
+The economic gains from machine learning forecasts are large. Our tests show clear statistical
+rejections of the OLS benchmark and other linear models in favor of nonlinear machine learning
+tools. The evidence for economic gains from machine learning forecasts—in the form of portfolio
+Sharpe ratios—are likewise impressive. For example, an investor who times the S&P 500 based on
+bottom-up neural network forecasts enjoys a 26 percentage point increase in annualized out-of-sample
+Sharpe ratio, to 0.77, relative to the 0.51 Sharpe ratio of a buy-and-hold investor. And when we
+form a long-short decile spread directly sorted on stock return predictions from a neural network, the
+strategy earns an annualized out-of-sample Sharpe ratio of 1.35 (value-weighted) and 2.45 (equal-
+weighted). In contrast, an analogous long-short strategy using forecasts from the benchmark OLS
+model delivers Sharpe ratios of 0.61 and 0.83, respectively.
+The most successful predictors are price trends, liquidity, and volatility. All of the methods we
+study produce a very similar ranking of the most informative stock-level predictors, which fall into
+three main categories. First, and most informative of all, are price trend variables including stock
+momentum, industry momentum, and short-term reversal. Next are liquidity variables including
+market value, dollar volume, and bid-ask spread. Finally, return volatility, idiosyncratic volatility,
+market beta, and beta squared are also among the leading predictors in all models we consider.
+Better understanding our machine learning ﬁndings through simulation. In Appendix A we per-
+form Monte Carlo simulations that support the above interpretations of our analysis. We apply
+machine learning to simulated data from two diﬀerent data generating processes. Both produce data
+from a high dimensional predictor set. But in one, individual predictors enter only linearly and ad-
+ditively, while in the other predictors can enter through nonlinear transformations and via pairwise
+interactions. When we apply our machine learning repertoire to the simulated datasets, we ﬁnd that
+linear and generalized linear methods dominate in the linear and uninteracted setting, yet tree-based
+methods and neural networks signiﬁcantly outperform in the nonlinear and interactive setting.
+6

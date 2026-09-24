@@ -1,0 +1,665 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         24 
+ 
+Chapter 2 
+Predicting the Future: Variance and Sample Outcomes 
+ 
+Probability distributions that have values associated with the elements have two characteristics 
+which, taken together, describe most of the behavior of the distribution for repeated trials. The 
+first, described in the previous chapter, is expected value. The second is variance, a measure of 
+the dispersion of the outcomes from the expectation. To characterize these two terms loosely, 
+expected value measures how much you will win on average; variance measures how far your 
+specific results may be from the expected value. 
+ 
+When we consider variance, we are attempting to capture the range of outcomes that can be 
+expected from a number of trials. In many fields, the range of outcomes is of particular concern 
+on both sides of the mean. For example, in many manufacturing environments there is a band of 
+acceptability and outcomes on either side of this band are undesirable. In poker, there is a 
+tendency to characterize variance as a one-sided phenomenon, because most players are 
+unconcerned with outcomes that result in winning much more than expectation. In fact, 
+"variance" is often used as shorthand for negative swings. 
+ 
+This view is somewhat practical, especially for professional players, but creates a tendency to 
+ignore positive results and to therefore assume that these positive outcomes are more 
+representative of the underlying distribution than they really are. One of the important goals of 
+statistics is to find the probability of a certain measured outcome given a set of initial conditions, 
+and also the inverse of this - inferring the initial conditions from the measured outcome. In 
+poker, both of these are of considerable use. We refer to the underlying distribution of outcomes 
+from a set of initial conditions as the population and the observed outcomes as the sample. In 
+poker, we often cannot measure all the elements of the population, but must content ourselves 
+with observing samples. 
+ 
+Most statistics courses and texts provide material on probability as well as a whole slew of 
+sampling methodologies, hypothesis tests, correlation coefficients, and so on. In analyzing poker 
+we make heavy use of probability concepts and occasional use of other statistical methods. What 
+follows is a quick-and-dirty overview of some statistical concepts that are useful in analyzing 
+poker, especially in analyzing observed results. Much information deemed to be irrelevant is 
+omitted from the following and we encourage you to consult statistics textbooks for more 
+information on these topics. 
+ 
+A commonly asked question in poker is "How often should I expect to have a winning session?" 
+Rephrased, this question is "what is the chance that a particular sample taken from a population 
+that consists of my sessions in a game will have an outcome > 0?" The most straightforward 
+method of answering this question would be to examine the probability distribution of your 
+sessions in that game and sum the probabilities of all those outcomes that are greater than zero. 
+ 
+Unfortunately, we do not have access to that distribution - no matter how much data you have 
+collected about your play in that game from the past, all you have is a sample. However, suppose 
+that we know somehow your per-hand expectation and variance in the game, and we know how 
+long the session you are concerned with is. Then we can use statistical methods to estimate the 
+probability that you will have a winning session. The first of these items, expected value (which 
+we can also call the mean of the distribution) is familiar by now; we discussed it in Chapter 1. 
+ 
+Variance 
+The second of these measures, variance, is a measure of the deviation of outcomes from the 
+expectation of a distribution. Consider two bets, one where you are paid even money on a coin 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         25 
+ 
+flip, and one where you are paid 5 to 1 on a die roll, winning only when the die comes up 6. Both 
+of these distributions have an EV of 0, but the die roll has significantly higher variance. 1 16
+
+ of 
+the time, you get a payout that is 5 units away from the expectation, while 5 6
+  of the time you get 
+a payout that is only 1 unit away from the expectation. To calculate variance, we first square the 
+distances from the expected value, multiply them by the probability they occur, and sum the 
+values. 
+ 
+For a probability distribution P, where each of the n outcomes has a value xi and a probability pi, 
+then the variance of P, Vp is: 
+ 
+ = ∑
+(−<  >) 
+
+
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(2.1) 
+ 
+Notice that because each term is squared and therefore positive, variance is always positive. 
+Reconsidering our examples, the variance of the coinflip is: 
+ 
+VC = ( 1 2 
+ )(1-0)2 +  (1  2
+ )(-1-0)2 
+VC = 1 
+ 
+While the variance of the die roll is: 
+ 
+VD = ( 5 6 
+	 )(-1-0)2 + ( 1 6 
+ )(5-0)2 
+VD = 5 
+ 
+In poker, a loose-wild game will have much higher variance than a tight-passive game, because 
+the outcomes will be further from the mean (pots you win will be larger, but the money lost in 
+pots you lose will be greater). Style of play will also affect your variance; thin value bets and 
+semi-bluff raises are examples of higher-variance plays that might increase variance, 
+expectation, or both. On the other hand, loose-maniacal players may make plays that increase 
+their variance while decreasing expectation. And playing too tightly may reduce both quantities. 
+In Part IV, we will examine bankroll considerations and risk considerations and consider a 
+framework by which variance can affect our utility value of money. Except for that part of the 
+book, we will ignore variance as a decision-making criterion for poker decisions. In this way 
+variance is for us only a descriptive statistic, not a prescriptive one (as expected value is). 
+ 
+Variance gives us information about the expected distance from the mean of a distribution. The 
+most important property of variance is that it is directly additive across trials, just as expectation 
+is. So if you take the preceding dice bet twice, the variance of the two bets combined is twice as 
+large, or 10. 
+ 
+Expected value is measured in units of expectation per event; by contrast, variance is measured 
+in units of expectation squared per event squared. Because of this, it is not easy to compare 
+variance to expected value directly. If we are to compare these two quantities, we must take the 
+square root of the variance, which is called the standard deviation. For our dice example, the 
+standard deviation of one roll is √5 ≈ 2.23. We often use the Greek letter a (sigma) to represent 
+standard deviation, and by extension  is often used to represent variance in addition to the 
+previously utilized V. 
+ 
+ = √ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(2.2) 
+ =  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(2.3) 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         26 
+ 
+The Normal Distribution 
+When we take a single random result from a distribution, it has some value that is one of the 
+possible outcomes of the underlying distribution. We call this a random variable. Suppose we 
+flip a coin. The flip itself is a random variable. Suppose that we label the two outcomes 1 (heads) 
+and 0 (tails). The result of the flip will then either be 1 (half the time) or 0 (half the time). If we 
+take multiple coin flips and sum them up, we get a value that is the summation of the outcomes 
+of the random variable (for example, heads), which we call a sample. The sample value, then, 
+will be the number of heads we flip in whatever the size of the sample. 
+ 
+For example, suppose we recorded the results of 100 coinflips as a single number - the total 
+number of heads. The expected value of the sample will be 50, as each flip has an expected value 
+of 0.5. 
+ 
+The variance and standard deviation of a single flip are: 
+ 
+ = ( 1 2 
+	 )(1 - 1 2 
+ )2  +  (1 2 
+ )(0 - 1 2 
+	 )2 
+= 1 4 
+  
+ = 1 2 
+  
+ 
+From the previous section, we know also that the variance of the flips is additiveю 
+ 
+So the variance of 100 flips is 25. 
+ 
+Just as an individual flip has a standard deviation, a sample has a standard deviation as well. 
+However, unlike variance, standard deviations are not additive. But there is a relationship 
+between the two. 
+ 
+For N trials, the variance will be: 
+ 
+
+	 =  
+	 = √ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(2.4) 
+ 
+The square root relationship of trials to standard deviation is an important result, because it 
+shows us how standard deviation scales over multiple trials. If we flip a com once, it has a 
+standard deviation of  1 2 
+ . If we flip it 100 times, the standard deviation of a sample containing 
+100 trials is not 50, but 5, the square root of 100 times the standard deviation of one flip. We can 
+see, of course, that since the variance of 100 flips is 25, the standard deviation of 100 flips is 
+simply the square root, 5. 
+ 
+The distribution of outcomes of a sample is itself a probability distribution, and is called the 
+sampling distribution. An important result from statistics, the Central Limit Theorem, describes 
+the relationship between the sampling distribution and the underlying distribution. What the 
+Central Limit Theorem says is that as the size of the sample increases, the distribution of the 
+aggregated values of the samples converges on a special distribution called the normal 
+distribution. 
+ 
+The normal distribution is a bell-shaped curve where the peak, of the curve is at the population 
+mean, and the tails asymptotically approach zero as the x-values go to negative or positive 
+infinity. The curve is also scaled by the standard deviation of the population. The total area under 
+the curve of the normal distribution (as with all probability distributions) is equal to 1, and the 
+area under the curve on the interval [x1, x2] is equal to the probability that a particular result will 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         27 
+ 
+fall between x1 and x2. This area is marked region A in Figure 2.1. 
+ 
+ 
+A little less formally, the Central Limit Theorem says that if you have some population and take 
+a lot of big enough samples (how big depends on the type of data you're looking at), the 
+outcomes of the samples will follow a bell-shaped curve around the mean of the population with 
+a variance that's related to the variance of the underlying population. 
+ 
+The equation of the normal distribution function of a distribution with mean  and standard 
+deviation  is: 
+ 
+, ,  =
+
+√ exp (
+(	)
+ )  
+ 
+ 
+ 
+ 
+ 
+ 
+(2.5) 
+ 
+Finding the area between two points under the normal distribution curve gives us the probability 
+that the value of a sample with the corresponding mean and variance will fall between those two 
+points. The normal distribution is symmetric about the mean, so 1 2 
+  of the total area is to the 
+right of the mean, and 1 2 
+ is to the left. A usual method of calculating areas under the normal 
+curve involves creating for each point something called a z-score, where  = ( −)/. This z-
+score represents the number of standard deviations that the outcome x is away from the mean. 
+ 
+ = ( −)/ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(2.6) 
+ 
+We can then find something called the cumulative normal distribution for a z-score z, which is 
+the area to the left of z under the curve (where the mean is zero and the standard deviation is 1). 
+We call this function Ф(z). See Figure 2.2 
+ 
+If z is a normalized z-score value, then the cumulative normal distribution function for z is: 
+ 
+Figure 2.1. Std. Normal Dist, A = p(event between x, and 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         28 
+ 
+Ф =
+
+√ 
+	
+
+→
+(−
+
+ ) 
+ 
+ 
+ 
+ 
+ 
+ 
+(2.7) 
+Finding the area between two values x1 and x2  is done by calculating the z-scores z1 and z2 for 
+x1 and x2, finding the cumulative normal distribution values Ф(z1) and Ф(z2)  and subtracting 
+them. 
+ 
+If Ф(z) is the cumulative normal distribution function for a z-score of z, then the probability that 
+a sample taken from a normal distribution function with mean µ and standard deviation  will 
+fall between two z-scores x1 and x2 is: 
+ 
+
+ = Ф 
+	
+  −Ф 
+	
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(2.8) 
+ 
+Statisticians have created tables of Ф(z) values and spreadsheet programs can derive these values 
+as well. Some key values are well known to students of statistics. The area between Z = -1 and Z 
+= +1 is approximately 0.68; the area between z = -2 and z = +2 is approximately 0.955, and the 
+area between z = -3 and Z= +3 is approximately 0.997. 
+ 
+These values mean that the value of a sample from a normal distribution will fall: 
+ 
+Between ( −) and ( + ) of the mean 68% of the time. 
+Between ( −2) and ( + 2) of the mean 95.5% of the time. 
+Between ( −3) and ( + 3) of the mean 99.7% of the time. 
+ 
+An example may help to make this clear. Let us modify the parameters of the die roll game we 
+discussed before. A die is thrown, and the player loses 1 unit on 1-5, but wins 6 units on a roll of 
+Figure 2.2, Cumulative normal distribution 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         29 
+ 
+6. We'll call this new game D2. 
+ 
+The expectation of the game is: 
+ 
+< D2> = ( 5 6 
+	 )(-1) + ( 1 6 
+ )(6) 
+< D2 > =  1 6 
+ units /trial 
+ 
+When the player wins, he gains six units. Subtracting the mean value of  1 6 
+  from this outcome, 
+we obtain: 
+ 
+Vwin = (6 - 1 6 
+	 )2 
+Vwin = (35 6 
+ )2 
+ 
+Likewise, when he loses he loses one unit. Subtracting the mean value of 1 6 
+ from this, we have: 
+ 
+Vlose = (-1 - 1 6 
+	 )2 
+Vlose = (−7 6 
+	 )2 
+ 
+The variance of the game is: 
+ 
+VD2 = p(win)(Vwin) + p(lose)(Vlose) 
+VD2 = ( 1 6 
+	 )( 35 6 
+ )2 + ( 5 6 
+ )(-  7 6 
+ )2 
+VD2 ≈6.806 units2/trial2 
+ 
+Suppose we toss the die 200 times. What is the chance that the player will win overall in 200 
+tosses? Win 40 units or more? Win 100 units or more? 
+ 
+We can solve this problem using the techniques we have just summarized. We first calculate the 
+standard deviation, sometimes called the standard error, of a sample of 200 trials. This will be: 
+ 
+ = √ = √6.806=2.61 units/trial 
+ 
+Applying equation 2.4 we get:  
+ 
+	 = √ 
+
+
+ = 2.61√200 = 36.89 units/200 trials 
+ 
+For 200 trials, the expected value, or mean (µ) of this distribution is 1 6 
+  units/trial times 200 
+trials or 33.33 units. Using Equation 2.6, we find the z-score of the point 0 as: 
+ 
+zx = (x-µ)/σ 
+ 
+where x=0 
+z0 = (0-33.33)/36.89 
+z0 = -33.33/36.89 
+z0 = -0.9035 
+ 
+Consulting a probability table in a statistics textbook, we find that the probability that an 
+observed outcome will lie to the left of this z-score, Ф(-0.9035) is 0.1831, Hence, there is an 
+18.31% chance that the player will be behind after 200 trials. 
+ 
+To find the chance of being 40 units ahead, we find that point's z-score: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         30 
+ 
+z40 = (40-33.33)/(36.89) = 0.1807 
+Ф(0,1807) = 0,5717 
+ 
+But Ф(0.1807) is the probability that the observed outcome lies to the left of 40 units, or that we 
+lose at least 40 units. To find the probability that we are to the right of this value, or are ahead 40 
+units, we must actually find 1 - Ф(0.1807). 
+ 
+1 - Ф(0.1807)   
+= 1 - 0.5717 
+ 
+ 
+ 
+= 0.4283 
+ 
+So there is a 42.83% chance of being ahead at least 40 units after 200 tosses. 
+ 
+And similarly for 100 units ahead: 
+ 
+z100 = (100-33.33)/(36.89) = 1.8070 
+ 
+From a probability table we find that Ф(1.8070) = 0.9646. Thus, for: 
+ 
+p = 1 - Ф(1.8070)  
+p = 0.0354 
+ 
+The probability of being 100 units ahead after 200 tosses is 3.54%. 
+ 
+These values, however, are only approximations; the distribution of 200-roll samples is not quite 
+normal. We can actually calculate these values directly with the aid of a computer. Doing this 
+yields: 
+ 
+ 
+Direct Calculation 
+Normal Approx 
+Chance of being ahead after 200 trials: 
+81.96% 
+ 81.69% 
+Chance of being ahead at least 40 units: 
+40.46% 
+ 42.83% 
+Chance of being ahead at least 100 units: 
+ 4.44% 
+ 3,54% 
+ 
+As you can see, these values have slight differences. Much of this is caused by the fact that the 
+direct calculations have only a discrete amount of values. 200 trials of this game can result in 
+outcomes of +38 and +45, but not +39 or +42, because there is only one outcome possible from 
+winning, a +6. The normal approximation assumes that all values are possible. 
+ 
+Using this method, we return to the question posed at the beginning of the chapter: "How often 
+will I have a winning session?" To solve this problem, we need to know the player's expectation 
+per hand, his variance per hand and the size of his sessions. Consider a player whose win rate in 
+some particular game is approximately 0.015 bets per hand, and whose standard deviation over 
+the same interval is 2 bets per hand. Assume this player plans to play sessions of 300 hands 
+(these would be roughly nine-hour sessions in live poker; perhaps only two to three hours 
+online). How often should this player expect to win (have a result greater than 0) in a session? 
+ 
+First we can calculate the expected value of a sample, µN : 
+ 
+µN = Nµ 
+µN = (300)(0.015)  
+µN = 4.5 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         31 
+ 
+Second, we calculate his standard deviation for a 300-hand session. 
+ 
+σN = √ 
+σ300 = 2(√300) 
+σ300 =34.6 
+ 
+Next, we find the z-score and Ф(z) for this value: 
+ 
+zx = (x-µN)/σ 
+z0 = (0 - 4.5)/34.6 
+z0 = -0.1299  
+ 
+From a probability table we find: 
+ 
+Ф(-0.1299) =44.83%  
+p = 1 – Ф(-0.1299) 
+p = l- 0.4483 
+p = 0.55171 
+ 
+This indicates that the player has a result of 0 or less 44.83% of the time - or correspondingly has 
+a winning session 55.17% of the time. In reality, players may change their playing habits in order 
+to produce more winning sessions for psychological reasons, and in reality "win rate" fluctuates 
+significantly based on game conditions and for other reasons. But a player who simply plays 300 
+hands at a time with the above performance metrics should expect to be above zero just over 
+55% of the time. 
+ 
+A more extreme example: A player once told one of the authors that he had kept a spreadsheet 
+where he marked down every AQ vs. AK all-in preflop confrontation that he saw online over a 
+period of months and that after 2,000 instances, they were running about 50-50. 
+ 
+How likely is this, assuming the site's cards were fair and we have no additional information 
+based on the hands that were folded? 
+ 
+Fust, let's consider the variance or standard deviation of a single confrontation. 
+ 
+AK vs. AQ is about 73.5% all-in preflop (including all suitedness combinations). Let's assign a 
+result of 1 to AK winning and 0 to AQ winning. Then our mean is 0.735. Calculating the 
+variance of a single confrontation: 
+ 
+V = (0.735) (1- 0.735)2 + (0.265)(0- 0.735)2 
+V = 0.1948 
+σ = 0.4413 
+ 
+The mean of 2,000 hands is: 
+ 
+µN = Nµ 
+µN = (2000)(0.735)  
+µN = 1470 
+ 
+For a sample of 2,000 hands, using Equation 2.4, the standard deviation is:  
+ 
+ σN = √ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         32 
+ 
+σ2000 = 0.4413(√2000) 
+σ2000 =19.737 
+ 
+The result reported here was approximately 50% of 2000, or 1000, while the sample mean would 
+be about 1470 out of 2000. We can find the z-score using Equation 2.6: 
+ 
+zx = (x-µN)/σ 
+z1000 = (1000-1470)/(19.737)  
+z1000 = -23.815 
+ 
+The result reported in this case was 1000 out of 2000, while the expected population mean would 
+be 1470 out of 2000. This result is then about 23.815 standard deviations away from the mean. 
+Values this small are not very easy to evaluate because they are so small - in fact, my 
+spreadsheet program calculates Ф(-23.815) to equal exactly zero. Suffice it to say that this is a 
+staggeringly low probability. 
+ 
+What's likely is that in fact, this player was cither exaggerating, outright lying, or perhaps made 
+the common mistake of forgetting to notice when AK beat AQ, because that is the "expected" 
+result. This is related to a psychological effect known as "perception bias" - we tend to notice 
+things that are out of the ordinary while failing to notice things that are expected. Or perhaps the 
+online site was in fact "rigged." When this example was posed to a mailing list, the reaction of 
+some participants was to point to the high variance of poker and assert that a wide range of 
+outcomes is possible in 2000 hands. However, this confuses the altogether different issue of 
+win/loss outcomes in 2000 poker hands (which docs have quite high variance) with the outcome 
+of a single poker hand (which has far less). The variance of a single hand in terms of big bets in 
+most forms of poker is much higher than the variance of the winner of an all-in preflop 
+confrontation. One lesson of this example is not to confuse the high variance of poker hand 
+dollar outcomes with the comparatively low variance of other types of distributions. 
+ 
+When we play poker, many random events happen. We and the other players at the table are 
+dealt random cards taken from a distribution that includes all two-card combinations. There is 
+some betting, and often some opportunity to either change our cards, or to have the value of our 
+hand change by the dealing of additional cards, and so on. Each hand results in some outcome 
+for us. whether it is whining a big pot, stealing the blinds, losing a bet or two, or losing a large 
+pot. This outcome is subject to all the smaller random events that occur within the hand, as well 
+as events that are not so random - perhaps we get a tell on an opponent that enables us to win a 
+pot we would not otherwise have, or save a bet when we are beaten. Nevertheless, the power of 
+the Central Limit Theorem is that outcomes of individual hands function approximately as 
+though they were random variables selected from our "hand outcomes" distribution. And 
+likewise, outcomes of sessions, and weeks, and months, and our whole poker career, behave as 
+though they were appropriately-sized samples taken from this distribution. 
+ 
+The square root relationship of trials to standard deviation makes this particularly useful, because 
+as the number of trials increases, the probability that our results will be far away from our 
+expected value in relative terms decreases. 
+ 
+Assume we have a player whose distribution of hand outcomes at a particular limit has a mean of 
+S75 per 100 hands, with a variance of $6,400 per hand. If we sample different numbers of hands 
+from this player's distribution, we can see how the size of the sample impacts the dispersion of 
+the results. We know that the probability that this player's results for a given sample will be 
+between the mean minus two standard deviations and the mean plus two standard deviations is 
+95.5%. We will identify for each sample size: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         33 
+ 
+• The mean µN 
+• The standard deviation σ 
+• The two endpoints of the 95.5% probability interval. 
+ 
+Hands 
+µN 
+ 
+σ 
+Lower endpoint 
+Higher endpoint 
+100 
+$75 
+$800.00 
+($1,525.00) 
+$1,675.00 
+500 
+$375.00 
+$1,788.85 
+($3,202.71) 
+$3,952.71 
+1,000 
+ $750.00 
+$2,529.82 
+($4,309.64) 
+$5,809.64 
+5,000 
+ $3,750.00 
+$5,656.85 
+($7,563.71) 
+$15,063.71 
+25,000 
+$18,750.00 
+$12,649.11 
+($6,548.22) 
+$44,048.22 
+50,000 
+$37500.00 
+$17888.54 
+$1,722.91 
+$73,277.09 
+100,000 
+ $75,000.00 
+$25,298.22 
+$24,403.56 
+$125,596.44 
+1,000,000 
+ $750,000.00 
+$80,000.00 
+$590.000.00 
+$910,000.00 
+ 
+As you can see, for smaller numbers of hands, outcomes vary widely between losses and wins. 
+However, as the size of the sample grows, the relative closeness of the sample result becomes 
+larger and larger - although its absolute magnitude continues to grow. Comparing the standard 
+deviation of one million hands to the standard deviation for one hundred hands, the size of a 
+standard deviation is a hundred times as large in absolute terms, but more than a hundred times 
+smaller relative to the number of hands. This is the law of large numbers at work; the larger the 
+sample, the closer on a relative basis the outcomes of the sample will be. 
+ 
+Key Concepts 
+• Variance, the weighted sum of the squares of the distance from the mean of the outcomes 
+of a distribution, is a valuable measurement of dispersion from the mean. 
+• To compare variance to expected value, we often use its square root, standard deviation. 
+• Variance is additive across trials. This gives rise to the square root relationship between 
+the standard deviation of a sample of multiple trials and the standard deviation of one 
+trial. 
+• The Central Limit Theorem tells us that as the size of a sample increases, the distribution 
+of the samples behaves more and more like a normal distribution. This allows us to 
+approximate complex distributions by using the normal distribution and to understand the 
+behavior of multiple-trial samples taken from a known distribution. 
+ 
+ 

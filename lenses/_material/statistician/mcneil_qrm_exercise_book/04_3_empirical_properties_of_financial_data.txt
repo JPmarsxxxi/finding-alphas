@@ -1,0 +1,1545 @@
+3 Empirical Properties of Financial Data
+Review
+Exercise 3.1 (Stylized facts)
+Give a list of univariate stylized facts for ﬁnancial time series.
+Exercise 3.2 (Negative log-returns and the correlogram)
+Figure E.3.1 shows the negative log-returns of the S&P 500 index from 3 January 2011 to 31
+December 2015 (left) and the corresponding correlogram or sample autocorrelation function
+(ACF) plot (right).
+2011
+2012
+2013
+2014
+2015
+2016
+−0.04
+−0.02
+0.00
+0.02
+0.04
+0.06
+Time
+−Log−returns of the S&P 500 index
+Trading days: 1257
+0
+5
+10
+15
+20
+25
+30
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+Lag
+ACF of −log−returns
+Figure E.3.1 Negative log-returns of the S&P 500 index from 3 January 2011 to 31 December
+2015 (left) and the corresponding correlogram (right).
+a) Explain how the correlogram in Figure E.3.1 should be interpreted.
+b) Which stylized fact(s) do the two plots in Figure E.3.1 support?
+c) Explain why it is not suﬃcient to test whether a dataset satisﬁes the iid hypothesis by
+looking at the correlogram of the dataset alone. What else should you do?
+21
+
+3 Empirical Properties of Financial Data
+Exercise 3.3 (Interpreting Q-Q plots)
+Figure E.3.2 shows a Q-Q plot of the negative
+log-returns of the price of one Bitcoin in USD
+from 29 May 2014 to 29 May 2018 against a
+ﬁtted normal distribution.
+a) What does this Q-Q plot suggest about
+the distribution of Bitcoin log-returns?
+b) What numerical test might you carry out
+to support your answer to part a)?
+c) Although the QQ-plot is against a ﬁt-
+ted normal distribution, the ordered data
+could also have been plotted against the
+quantiles of a standard normal. Explain
+why this is the case.
+G
+G
+G
+GG
+G
+GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG
+GGGGG
+GGG
+G G
+G
+−0.10
+−0.05
+0.00
+0.05
+0.10
+−0.2
+−0.1
+0.0
+0.1
+0.2
+0.3
+Quantiles of the fitted normal distribution
+Sample quantiles of −log−returns of Bitcoin
+Location: −0.0017, scale: 0.0395, sample size: 1460
+Figure E.3.2 Q-Q plot of Bitcoin returns
+against a normal distribution.
+Exercise 3.4 (Multivariate stylized facts)
+Give a list of multivariate stylized facts for ﬁnancial time series.
+Exercise 3.5 (Joint negative log-returns and the cross-correlogram)
+Figure E.3.3 shows joint negative log-returns of the S&P 500 and the DAX index from 3
+January to 31 December 2015 (left) and the corresponding cross-correlogram (right).
+a) Based on your knowledge of the correlogram, how do you think the cross-correlogram in
+Figure E.3.3 should be interpreted?
+b) Which stylized fact(s) do the two plots in Figure E.3.3 support?
+c) How would you expect the cross-correlogram of the squared negative log-returns to look?
+Exercise 3.6 (Longer-interval log-returns)
+Let St, . . . , St+h denote the daily values of an asset over a period of h > 1 days and
+Xt+1, . . . , Xt+h the corresponding daily log-returns.
+a) Give a formula for the h-day log-return X(h)
+t+h in terms of Xt+1, . . . , Xt+h for h ≥1.
+b) Explain why X(h)
+t+h may be approximately normally distributed for large h (corresponding
+to a quarter or year) even if the daily returns are not.
+Basic
+Exercise 3.7 (Manipulating logarithmic and relative returns)
+For an asset price with daily values given by the time series (St) the h-day log-return is deﬁned
+by X(h)
+t+h = log(St+h/St) and the h-day relative return by Y (h)
+t+h = (St+h −St)/St for all h ≥1.
+22
+
+Basic
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G GG
+G
+G
+GG GG
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+G
+GG
+G
+G
+G
+−0.04
+−0.02
+0.00
+0.02
+0.04
+0.06
+−0.04
+−0.02
+0.00
+0.02
+0.04
+0.06
+−Log−returns of the S&P 500 index
+−Log−returns of the DAX index
+Trading days: 1288
+−30
+−20
+−10
+0
+10
+20
+30
+0.0
+0.2
+0.4
+0.6
+Lag
+CCF of −log−returns
+Figure E.3.3 Joint negative log-returns of the S&P 500 and DAX index from 3 January 2011
+to 31 December 2015 (left) and the corresponding cross-correlogram (right).
+a) Derive a formula for the h-day log-return X(h)
+t+h in terms of the h-day relative return Y (h)
+t+h.
+b) Derive a formula for the h-day relative return Y (h)
+t+h in terms of the h-day log-return X(h)
+t+h.
+c) Given a series of h-day log-returns X(h)
+t+h, X(h)
+t+2h, . . . and an initial stock price St, explain
+how you would reconstruct the series of prices St+h, St+2h, . . . at h-day intervals.
+d) Given a series of h-day relative returns Y (h)
+t+h, Y (h)
+t+2h, . . . and an initial stock price St, explain
+how you would reconstruct the series of prices St+h, St+2h, . . . at h-day intervals.
+Exercise 3.8 (Experimenting with Q-Q plots)
+Use statistical software to generate 1000 data points from the following distributions; the
+quantity of data corresponds approximately to four years of daily return data. In each case
+form Q-Q plots against the standard normal distribution and interpret the results.
+a) A Student t distribution with 6 degrees of freedom.
+b) A standard uniform distribution.
+c) A standard logistic distribution (with distribution function F(x) = 1/(1+exp(−x)), x ∈R).
+d) A standard lognormal distribution (that is the distribution of a random variable whose
+logarithm follows a standard normal distribution).
+Exercise 3.9 (Ljung-Box test)
+Repeat the analysis of MFE (2015, Table 3.1) for the stocks that comprise the Euro Stoxx 50
+index. Speciﬁcally you should:
+a) Form daily and monthly log-returns for each time series from 2000 to 2015, omitting all
+23
+
+3 Empirical Properties of Financial Data
+stocks with missing data on the ﬁrst trading day in 2000 and ﬁlling the remaining missing
+data by interpolation.
+b) Carry out Ljung-Box tests on both the raw and absolute returns to address the null
+hypothesis that stock returns are iid.
+The data can be found in the dataset EURSTX_const of the R package qrmdata. The function
+na.fill() of the R package zoo might be helpful.
+Exercise 3.10 (Jarque-Bera test)
+Repeat the analysis of MFE (2015, Table 3.2) for the stocks that comprise the Euro Stoxx 50
+index using the same data as in Exercise 3.9. Speciﬁcally you should:
+a) Form weekly, monthly and quarterly log-returns.
+b) Carry out Jarque-Bera tests of normality for each stock and each time step.
+Exercise 3.11 (Skewness, kurtosis and higher moments of standard normal)
+a) Let Z be a random variable with a density f that is symmetric around 0. Show that if the
+kth moment exists it is given by
+E(Zk) =
+(
+2
+R ∞
+0 zkf(z) dz,
+k is even,
+0,
+k is odd.
+b) Let Z ∼N(0, 1). By writing
+R ∞
+0 zkφ(z) dz in terms of the gamma function, derive the
+general formula
+E(Zk) =
+(Qk/2
+j=1(k −(2j −1)),
+k is even,
+0,
+k is odd.
+Hint. You may use the fact that Γ(x + 1) = xΓ(x), x > 0, for the gamma function and the
+identity Γ(1/2) = √π.
+c) Let X be a random variable with a ﬁnite kth moment. The kth standardized moment of X
+is deﬁned by E((X −µ)k)/σk, where µ = E(X) and σ =
+p
+var(X) denote the mean and
+standard deviation of X. The third and fourth standardized moments of X are known as the
+skewness β and the kurtosis κ. Compute the skewness, kurtosis and the 6th standardized
+moment of a normal random variable X ∼N(µ, σ2).
+Exercise 3.12 (Changing correlation over time)
+Repeat the analysis of MFE (2015, Figure 3.7) for the S&P 500 and DAX log-returns from 3
+January 2011 to 31 December 2015 (the data used in Exercise 3.5). Speciﬁcally you should:
+a) Estimate correlations using a rolling 25-day window and plot the time series of estimated
+correlations.
+b) Experiment with diﬀerent window sizes and investigate how the plot changes.
+The data can be found in the datasets SP500 and DAX of the R package qrmdata.
+24
+
+Advanced
+Advanced
+Exercise 3.13 (A simple version of the runs test)
+In this question we study a simple version of a test for iid data known as the runs test. Let
+X1, . . . , Xn be return data from a continuous distribution that is approximately symmetric
+around zero. Let Yt = sign(Xt) denote the sign of Xt. Throughout this question we will assume
+that P(Yt = −1) = P(Yt = 1) = 1/2.
+The runs test is based on the idea of counting the number of runs, Rn, of + values and −
+values in Y1, . . . , Yn. For example if the whole sequence is + + −−−+ −−+ + + then the
+number of runs is 5.
+a) Explain why the number Rn of runs is given by
+Rn = 1 +
+n
+X
+t=2
+1
+4(Yt −Yt−1)2.
+b) Show that Pn
+t=2
+1
+4(Yt −Yt−1)2 has a binomial distribution under the null hypothesis that
+X1, . . . , Xn are iid. Determine the parameters of the binomial distribution.
+c) Using the normal approximation to the binomial distribution, explain how you could
+implement a test of the null hypothesis of independence based on the statistics Rn.
+d) Suppose we ﬁnd no evidence against the iid hypothesis for the return data X1, . . . , Xn. How
+could the runs test be adapted to test for clustering of large values in the squared data?
+Note. The standard Wald–Wolfowitz runs test does not assume that P(Yt = −1) = P(Yt =
+1) = 1/2 and uses a slightly diﬀerent procedure to the one described above; see, for example,
+Bradley (1968, Chapter VIII).
+Exercise 3.14 (Sensitivity of correlation estimates to volatility)
+This exercise is a continuation of Exercise 3.12. Repeat the analysis of MFE (2015, Figure 3.8)
+for the S&P 500 and DAX log-returns from 3 January 2011 to 31 December 2015. Speciﬁcally
+you should:
+a) Carry out a regression analysis to investigate whether correlation estimates calculated for
+non-overlapping 25-day blocks of observations tend to be higher in periods with higher
+volatility estimates.
+b) Repeat the analysis using rolling estimates of correlation and volatility.
+Exercise 3.15 (Geometric spacings between largest values in iid samples)
+This exercise explains the theory underlying MFE (2015, Figure 3.3). Let X1, X2, . . . be a
+sequence of iid random variables from a continuous distribution function F and that p =
+P(X1 > u) = ¯F(u) ∈(0, 1) for some threshold u. Let T0 = 0 and Tj = min{i > Tj−1 : Xi > u},
+j ∈N.
+a) Show that the spacings Sj = Tj −Tj−1, j ∈N, of exceedances of the Xi’s over the threshold
+u form a series of iid random variables following a geometric distribution with parameter p.
+b) Explain how the insight in a) can be used to implement a graphical test for volatility
+clustering?
+25
+
+3 Empirical Properties of Financial Data
+c) Show that the geometric distribution can be approximated by an exponential distribution
+with parameter p if p is small.
+d) Use computer software to investigate the quality of the exponential approximation for
+p ∈{0.01, 0.02, 0.04}.
+Exercise 3.16 (Log-returns implied by geometric Brownian motion)
+The geometric Brownian motion is a widely used model for stock price processes in mathematical
+ﬁnance. According to this model, the stock price process (St)t≥0 satisﬁes St = S0 exp((µ −
+σ2/2)t + σWt) for µ ∈R, σ2 > 0, where the stochastic process (Wt)t≥0 satisﬁes:
+1) W0 = 0 almost surely and t 7→Wt is continuous almost surely;
+2) For any n ∈N and 0 ≤t0 < t1 < · · · < tn, the increments Wt1 −Wt0, . . . , Wtn −Wtn−1 are
+independent; and
+3) For all 0 ≤s < t, Wt −Ws ∼N(0, t −s).
+Answer the following questions:
+a) What model does this assumption imply for the distribution of the h-period risk-factor
+change X(h)
+t+h = −log(St+h/St)? Is this model supported by stylized facts about ﬁnancial
+time series?
+b) Show that the two risk-factor changes X(h)
+t+h and X(h′)
+(t+h)+h′ for h, h′ ≥0 are independent and
+comment on whether this fact is supported by empirical properties of ﬁnancial time series?
+26

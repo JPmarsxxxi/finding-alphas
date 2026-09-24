@@ -1,0 +1,1400 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         194 
+ 
+Chapter 17 
+Mixing in Bluffs: Finite Pot [0,1] Games 
+ 
+For the games in Chapter 16, we made a special rule that does not normally apply to poker 
+situations - that no folding was allowed. In practice, we can sometimes encounter situations 
+analogous to this when the pot is very large. One of the important features of these games is that 
+there is no bluffing - the betting regions for both players are defined only in terms of the 
+strongest hands and are designed only to extract value with those strongest hands. 
+ 
+However, bluffing is a key element of poker, and with its introduction to the game we obtain 
+much more complexity, and additionally better approximations and insight into real poker. In 
+this chapter, we will consider full-street games with finite pots; the primary modification that we 
+make to these games compared to no-fold games is the introduction of bluffing regions that 
+correspond to the value betting and raising regions. 
+ 
+Example 17.1 - [0,1] Game #9 
+One full street.  
+One bet remaining. 
+The pot size is P and the bet size 1 unit. 
+ 
+Recall that when we solved the first finite pot [0,1] game in Chapter 11 (see Example 11.2), in 
+addition to the yn notation we used throughout Chapter 16, we used two other notations, y0 for 
+the threshold between checking and bluffing, and x1* for the threshold between X check-calling 
+and X check-folding to a bet. In the same way that Y bluffed his very worst hands and value bet 
+his best hands, X will likewise bluff his worst hands and value bet his best. 
+ 
+In the full-street game, X can additionally take the action of betting (producing a threshold x1 
+and of bluffing (threshold x0). Y has to add to his options a threshold between calling or folding 
+if X bets, y0*. Here, because the options are between calling and folding, it is dominated for Y to 
+call with hands weaker than hands he would fold. Instead, he could just call with the stronger 
+hands and fold the weaker. 
+ 
+We parameterize the solution this way: 
+ 
+X's strategy consists of the following thresholds: 
+ 
+• x0 between check-folding and bluffing.  
+• x1* between check-folding and check-calling    
+• x1 between value betting and check-calling. 
+ 
+Y's strategy likewise consists of three thresholds: 
+ 
+• y0 between checking and bluffing if X checks. 
+• y1* between calling X's bet and folding to X's bet (if X bets) 
+• y1 between value-betting and checking if X checks. 
+ 
+As far as ordering these thresholds, we can conjecture from our previous games that Y will bet 
+more hands behind X's check than X would have bet - hence y1 > x1. We will also find that α, the 
+bluffing to betting ratio (see Equation 11.1), for this game is the same as α in [0.1] Game #2 (see 
+Example 11.2) for both players. Since the size of the bluffing region will be αx1 for X and αy1 
+for Y, we can place y0 to the left of x0. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         195 
+ 
+The calling thresholds for both players will be somewhere between the opponent's value betting 
+region and his bluffing region (to make him indifferent to bluffing}. Hence we know that x1 < 
+y1* < xo and y1 < x1* <y0. The relationship between y1* and x1* actually turns out to be 
+irrelevant - when we write the indifference equations for the various 
+ 
+thresholds, we only consider one or the other of these thresholds. 
+ 
+So our overall parameterization looks like this: 
+ 
+0 < x1 < y1 <  x1* , y1* < y0 < x1< 1 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 17.1, Strategy structure for [0,1] Game #9 
+ 
+We can now write indifference equations for each of these thresholds. We have purposely left 
+out regions where the given action cannot occur: i.e., at y1, Y's decision is between checking and 
+betting. X's hands in regions [0, x1] and [x0, 1] do not allow for Y to make that decision because 
+X has already bet; hence they are omitted. 
+ 
+For Y at y1 (indifference between checking and betting): 
+ 
+X's hand 
+Y bets 
+Y checks 
+Difference 
+Product 
+[x1, y1] 
+-1 
+0 
+-1 
+-(y1-x1) 
+[y1, x1*] 
++1 
+0 
++1 
+x1*-y1 
+[x1*, xo] 
+0 
+0 
+0 
+0 
+Total 
+ 
+ 
+ 
+-2y1 + x1 +x1* 
+ 
+-2y1 + x1 +x1*= 0  
+y1 = (x1 + x1*)/2 
+ 
+The intuitive meaning of this equation is that Y will clearly bet all the hands that X would have 
+bet for value. Additionally, he will bet with half the hands with which X will check call. So y1 
+will be the midpoint of [x1 x1*}. 
+ 
+For Y at y1*(indifference between checking and betting): 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         196 
+ 
+X's hand 
+Y calls 
+Y folds 
+Difference 
+Product 
+[0, x1] 
+-1 
+0 
+-1 
+-x1 
+[xo, 1] 
++ (P+1) 
+0 
++ (P+1) 
+(P+1)(1-x0) 
+Total 
+ 
+ 
+ 
+(P+1)(1-x0) -x1 
+ 
+(P+1)(1-x0) -x1 = 0 
+1-x0 = αx1 
+ 
+This equation expresses the relationship between the size of the betting region and the size of the 
+bluffing region. 1-x0 is the size of the bluffing region, and x1 is the size of the value betting 
+region. The multiplier α (recall that α = 1/(P + 1)) is the ratio between the two regions. 
+ 
+For X at x1* (indifference between check-calling and check-folding): 
+ 
+Y's hand 
+X check-calls 
+X check-folds 
+Difference 
+Product 
+[0, y1] 
+-1 
+0 
+-1 
+-y1 
+[y0, 1] 
+P + 1 
+0 
++(P+ 1) 
+(P + 1)(1 - y0) 
+Total 
+ 
+ 
+ 
+(P + 1)(1 - y0) – y1 
+ 
+(P + 1)(1 - y0) – y1 = 0 
+1 - y0 = α y1 
+ 
+For Y at y0 (indifference between check-folding and bluffing): 
+ 
+X's hand 
+Y bets 
+Y checks 
+Difference 
+Product 
+[x1, x1*] 
+-1 
+0 
+-1 
+-(x1*-x1) 
+[x1*, y0] 
++ P 
+0 
++ P 
+(P)(y0-x1*) 
+[y0, x0] 
+0 
+0 
+0 
+0 
+Total 
+ 
+ 
+ 
+-(x1*-x1)+(P)(y0-x1*)  
+ 
+ 
+-(x1*-x1)+(P)(y0-x1*) = 0  
+x1* - x1 = P(yo – x1*)  
+x1* = α(py0+ x1)  
+x1* = (1 - α)(y0) + ax1 + (x1 – x1)  
+x1* = (1 - α)(y0) - (1 - α)x1 + x1  
+x1* = (1 - α) (yo – x1) + x1 
+ 
+We saw in [0,1] Game #2 (Example 11.3) that just as the bluffing to betting ratio is α, the player 
+who has been bet into calls with 1 - α of his hands that can beat a bluff. In tills case, however, 
+when X is deciding whether to call, he has already bet with some hands. The hands he has 
+checked are from x1 to x0 - of those, only the hands better than y0 can beat a bluff. 
+ 
+Then x1* is equal to (1 - α) times the size of X's region of hands that can beat a bluff plus x1. 
+ 
+ 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         197 
+ 
+For X at x0. (indifference between check-folding and bluffing): 
+ 
+Y's hand 
+X check-calls 
+X bets 
+Difference 
+Product 
+[0, y1*] 
+0 
+-1 
++1 
+y1* 
+[y1*, x0] 
+0 
++P 
+-P 
+(-P)( x0 - y1*) 
+[y0, 1] 
+-P 
+0 
+-P 
+-P (1 - x0) 
+Total 
+ 
+ 
+ 
+(P + 1) y1* - P 
+ 
+(P + 1) y1* - P = 0 
+y1* = P/(P+1) 
+y1* = 1 – α 
+ 
+Here we have the same situation, except that when X bets, Y has not yet limited his distribution 
+(as X did by checking initially at the last threshold). Hence, Y calls with 1 - α of his hands. We 
+omit the qualifier "that can beat a bluff" here, because for X the decision is between check-
+folding and bluffing; if he check-folds, he would lose to Y's weakest hands anyway, because Y 
+would bluff. 
+ 
+For X at x1 (indifference between check-calling and betting): 
+ 
+Y's hand 
+X bets 
+X check-calls 
+Difference 
+Product 
+[0, x1] 
+-1 
+-1 
+0 
+ x1 
+[x1, y1] 
++ 1 
++1 
+0 
+0 
+[y1, y1*] 
++1 
+0 
++1 
+y1* - y1 
+[y1*, y0] 
+0 
+0 
+0 
+0 
+[y0, 1] 
+0 
++1  
+-1 
+(1- y0) 
+Total 
+ 
+ 
+ 
+y1* - y1 - (1- y0) 
+ 
+y1* - y1 - (1- y0) = 0 
+y1* - y1 = 1- y0 
+ 
+Here we can see that X has two reasonable options with a hand on the cusp of initially betting or 
+checking. When he checks, he induces bluffs and gains a bet; when he bets, he picks up a bet 
+from Y's hands that are too weak to bet but will call a bet. Therefore, the size of these two 
+regions is equal. 
+ 
+We now have six equations, each of which represents a particular relationship that must be 
+satisfied by the optimal strategy. We also have six unknown values (the thresholds). We can 
+solve this system of equations using algebra, to find the values of the thresholds. 
+ 
+y1 = (x1*+x1)/2 
+1 – x0 = αx1 
+1 – y0 = αy1 
+x1* = (1-α)(y0-x1) + x1 
+y1* = 1 – α 
+y1* - y1 = 1 – y0 
+ 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         198 
+ 
+ 
+Solution: 
+ 
+y1 = (l – α)/(l + α)  
+xl = (l – α)2/(l + α)  
+y0 = (l + α)2/(l + α) 
+x0= 1 – α (l -α)2/(l + α) 
+y1* = l – α  
+x1* = 1 – α 
+ 
+ 
+Lets look at these thresholds in a specific example. Suppose the pot is 4 bets. Then, using 
+Equation 11.1, α = 1 5
+ . We know that X will value bet some fraction of his hands. Y, of course, 
+calls with hands equal to the range with which X bluffs, breaking even on that betting, but he 
+must also call with additional hands to make X indifferent to bluffing. When X bluffs and Y 
+calls, he loses a single bet; when Y folds, he gains 4 bets. In order to make X indifferent to 
+bluffing, Y must call four times as often as he folds. Since Y has the entire interval [0,1] to 
+choose from, he calls with 4/s of his hands overall, or 1 - α. 
+ 
+However, X, too, must balance his value bets and bluffs so that Y cannot exploit him by calling 
+more or less often. For example, if X never bluffed, then Y could simply call with fewer hands 
+than X value bet, gaining value on each one. X wants to extract value with his value bets, so he 
+must bluff in order to force Y to call with some hands between X's value betting range and X's 
+bluffing range. 
+ 
+X must bluff enough so that Y is indifferent to calling with hands between x1 and x0. Assuming 
+the pot is again 4, X gains 4 bets when Y folds but loses one bet when Y calls. To make Y 
+indifferent to calling, X must value bet four times as often as he bluffs', he must bluff, then,  1 5
+  
+as often as he value bets, or ax1. It should also be clear by this logic that whatever hands Y value 
+bets after X checks must be equally supported by a ratio of bluffs in the region [y0, 1]. 
+ 
+We then consider how often X should value bet. At the threshold point between betting and 
+check-calling, X has what are essentially two options; he can bet, in which case he gains a bet 
+when Y's hand is between y2 and y1* (when Y calls his bet with a worse hand but would not bet 
+if cheeked to), or he ran check, in which case he gains a bet when he induces a bluff when Y is 
+between y0 and 1. Since we know that X will be indifferent between these two actions, the size 
+of these two regions [y1 y1*] and [y0, 1] must be equal. 
+ 
+Since we know that the second region's size is ay1 and the first region's size is 1 - α – y1 we can 
+easily solve for y1 the number of hands that Y will bet if checked to. As we saw in' the solution 
+above, this value is (1 - α)/(l + α). Returning to the example with pot size 4, we know that y1* is 
+ 4 5.
+  We also know that 1 -y0 is  1 5
+  of y1. So  4 5
+  - y1=  1 5
+ y1, or y1 =  2 3
+ . 
+ 
+Now we have intuitively shown the derivations for y1, y1*, y0, and the relationship between x1 
+and 1 - x0. Solving for x1* and x1 is best done simultaneously. We find two relationships between 
+these two quantities and then reduce them to numbers. 
+ 
+In the no-fold games, recall that we had a principle that when X checks, Y bets half the hands 
+that X would check (provided that X cannot raise). In the finite pot game, however, when Y is 
+deciding to check or bet at y1 he gains a bet when X is between y1 and x1* and loses a bet when 
+X is between x1 and y1. These two regions must be of equal size, so y1 must be the midpoint 
+between x1 and x1*. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         199 
+ 
+We can restate this as: 
+ 
+If your opponent could have bet but checks, you cannot be raised, and your opponent may call or 
+fold, the proper strategy is to value bet all hands that your opponent would have value bet and 
+half the hands with which he will call. 
+ 
+We can see that this dovetails with the earlier principle - in the no-fold case, the opponent must 
+always call. Hence, value betting half the hands is correct. However, if your opponent may fold, 
+the idea is to bet half the hands he will call. 
+ 
+Additionally, X must choose x1* such that he defends against Y's bluffs in the same way that Y 
+defended against X's bluffs. However, X does not have the entire [0,1] distribution for defense; 
+instead, he has only the subset [x1, x0], as he would have bet hands outside of this range, either as 
+a bluff or as a value bet. Still, though, he must defend against Y's bluffs. So he must call with (1 - 
+α) of the region [x1, x0]. This implies that x1* must be 1 - α of the way from x1 to x0. 
+ 
+With pot size 4, y2 =  2 3
+  is the midpoint of x1 and x1* while x1* is  4 5
+  of the way from x1 to 1 - 
+( 1 5
+ )x1. If we call c the distance from x1 to x0, a the distance from x1 to y1 and b the distance 
+from 0 to x1, we get the following relationships: 
+ 
+b =  2 3
+  – α 
+1 =  4 5
+ b +  5 2
+ α 
+b =  4 5
+  (l -  5 2
+ α) =  4 5
+  - 2α 
+ 4 5
+  -2α =  2 3
+  – α 
+α =  2 15
+
+ 
+b =  8 15
+
+ 
+c =  1 3
+  
+ 
+.. .which matches the results we get from plugging into the formulas (b = x1). 
+ 
+Understanding this game is essential for moving on to more complex finite pot games. We spent 
+a fair amount of time explaining intuitively the meanings of the equations. As we move forward, 
+many things that were explained here will be taken for granted, so we encourage you to take 
+some time to try to work back through how the intuitive explanations mirror the algebra above. 
+The next game is the counterpart to [0,1] Game #6 (Example 16.3) - the introduction to raising. 
+ 
+Example 17.2 - [0,1] Game #10 
+One full street.  
+Two bets left. 
+Check-raising is not allowed. 
+The pot size is P and the bet is 1 unit. 
+ 
+You may have already guessed that in this game we will again utilize the y2 notation. 
+Additionally, we will introduce the last piece of notation necessary to generalize the [0,1] game - 
+the raise-bluff notation. 
+ 
+Consider the situation of Player Y after X has bet. What should his strategy look like? It should 
+be intuitively clear by now that in α certain region (his best hands), he will raise for value; with a 
+different, weaker region of hands, he will call to force his opponent to bluff correctly, and with 
+yet another region he will fold because his hands lack the necessary value to continue. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         200 
+ 
+Suppose we set up a strategy with these three regions. Now consider the situation after value-
+raises. Given a strategy of the type above, how should X respond? X knows that Y has a strong 
+hand for a raise, so he can fold hands beneath Y's raising threshold and equalize. This is 
+analogous to what X would do if there were only one bet left and Y never bluffed; X would 
+simply throw away his mediocre hands. So Y cannot just value raise with his best hands without 
+protecting those value raises with some type of raise-bluffs. 
+ 
+The next question is: From where should those bluffs come? 
+ 
+To answer this question, we must consider the nature of a bluff. In cases where there is only one 
+bet remaining, we bluff with our very worst hands. We choose the very worst hands because they 
+are the hands that have the least showdown value if the pot is checked through. These hands 
+stand to gain the most from being played as a bluff. When the opponent calls our bluffs, we 
+should never win the pot if the opponent is playing optimally (or even just rationally). 
+ 
+But now consider the situation when the opponent has already bet. We will still want to raise 
+with our best hands and call with our next group of hands because we want to use the showdown 
+value of our hands most efficiently. Using the principle that raise-bluffs should never win the pot 
+if called, we can see that the raise-bluffs will come from the remaining fraction of hands that are 
+neither raising hands nor calling hands. Of that fraction, some will be raise-bluffs, m a 
+proportion that protects our value raises properly with respect to the size of the pot and the size 
+of our value-raising region, and the remainder will be folded. 
+ 
+Perhaps the reader's intuition now leads to a situation similar to bluffing in one-bet scenarios, 
+where the bluffs are the worst hands in the region. But this is incorrect. Technically speaking, for 
+Y the raise-bluffs can come from anywhere in the group of hands worse than y1* and be at least 
+co-optimal. However, since we are going to fold the non-raise-bluff hands and there is no hope 
+of a showdown with hands better than a bluff, using the strongest hands in the (fold, raise-bluff) 
+region dominates any other strategy. 
+ 
+This gives rise to a new type of threshold and also forces us to redefine a previous threshold for 
+games with more than one bet. 
+• yn* is redefined as the threshold between calling the nth bet and, if the (n + l)th bet and 
+folding are allowed, putting that bet in as a bluff, or otherwise folding.  
+• yn# is the threshold between the region which puts the nth bet in as a bluff and the region 
+which folds to the (n - l)th bet.  
+ 
+As a result of these definitions, yn* will be paired and closely related to yn+1#. 
+ 
+When we perform parameterizations, different game trees are sometimes possible based on 
+previous actions. As a result, sometimes we may draw thresholds above or below other ones 
+when the other is not necessary, because the two are never material at the same time. 
+ 
+For example, x1* only matters if X checks. If X does check, then y1* and y2# are irrelevant. So 
+whether x1* lies above or below y1* is arbitrary for the parameterization (although the solution 
+will still tell the location). 
+ 
+With the above caveats, we parameterize [0,1] Game #6 this way:  
+ 
+0 ,y2, x2*, x1, y1, x1*, y1*, y2#, y0, x0, 1 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         201 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 17.2. Strategy structure for [0,1] Game #10 
+ 
+Translating this parameterization into strategies:  
+ 
+For X: 
+ 
+X bets for value and calls a raise on [0, x2*).  
+X bets for value and folds to a raise on [x2*, x1],  
+X checks and calls a bet on [x1, x1*].  
+X checks and folds to a bet on [x1*, X0].  
+X bluffs on [X0 1], 
+ 
+For Y: 
+ 
+If X bets: 
+ 
+Y raises for value on [0, y2]. 
+Y calls on [y2, y1*] 
+Y raise-bluffs on [y1*, y2#] 
+Y folds on [y2#, 1], 
+ 
+If X checks: 
+ 
+Y bets for value on [0, y1]. 
+Y checks on [y1, y0] 
+Y bluffs on [y0, 1]. 
+ 
+Again, we advise you to carefully review this notation. Understanding what the threshold values 
+mean is of great significance to understanding this and more complex games. In later games, we 
+will see values such as, x4#, which is the threshold between X check-raising and putting in the 
+fourth bet as a bluff and X folding to the third bet after check-raising, and it is easy to become 
+lost as a result of not mastering the notation. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         202 
+ 
+In the one-bet case, we introduced a variable a to represent the fundamental ratio1/(P + 1) that 
+governs in one way or another the relationships between betting and bluffing, as well as calling. 
+In two-bet cases, however, we have situations where there is a larger pot already, and the bluff 
+itself costs two bets. Hence, we will have a different ratio. 
+ 
+α2 = 1/(P + 3) 
+ 
+In other games, we will use this notation for larger number of bets than two, so more generally: 
+ 
+αn = 1/(P + (2n – 1))   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(17.1) 
+ 
+The α from [0.1] Game #2 (Example 11.3), then, is more strictly αl. However, we will use the 
+convention that an unmarked α is α1. 
+ 
+To solve this game, we now have nine unknowns. At each of these unknowns we will have an 
+indifference equation, and solving the system of indifference equations will yield our solution. 
+ 
+For Y at y2: 
+ 
+X's hand 
+Y calls 
+Y raises 
+[0, y2] 
+-1 
+-2 
+[y2, x2*] 
++1 
++2 
+[x2*, x1] 
++1 
++1 
+[x0, 1] 
++1 
++1 
+ 
+Y loses an extra bet by raising X's best hands, and gains a bet from raising hands worse than y2 
+that will call. Since X cannot raise, we see the familiar idea of Y raising with half the hands that 
+X will call. 
+ 
+y2 = x2* - y2  
+y2 = x2*/2 
+ 
+For Y at y1, we have exactly the same situation as in [0,1] Game #9 (Example 17.1), since X 
+cannot raise. Hence, our indifference equation here is the same. 
+ 
+y1 = (x1* + x1)/2 
+ 
+y1 is still the midpoint of X's betting thresholds and X's calling threshold. 
+ 
+For Y at y1*: 
+ 
+X's hand 
+ Y calls 
+Y raise-bluffs 
+[0, x2*] 
+ -1 
+-2 
+[x2*, x1] 
+-1 
+ +(P+1) 
+[x0, 1] 
++1 
++1 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         203 
+ 
+x2* = (P + 2)(x1 - x2*) 
+x2* = x1(P + 2 )/(P+ 3)  
+x2* = (1 - α2)xl 
+ 
+This is the first appearance of the idea of a2. Here we see that the size of X's betting region x1 is 
+related to the size of the region where he bets and calls a raise. In fact, he bets and folds to a raise 
+α2 of the time. This is because he must make his opponent indifferent to raising as a bluff. α2 is 
+used instead of a because the pot is now larger - X's bet and Y's raise are both now in the pot. 
+ 
+For Y at y2#: 
+ 
+X's hand 
+Y raise-bluffs 
+Y folds 
+[0, x2*] 
+-2 
+0 
+[x2*, x1] 
++(P + 1) 
+0 
+[x0, 1] 
++1 
+- P 
+ 
+First, a bit of algebra: 
+ 
+2x2* = (P + 1) (x1 – x2) + (P + 1)(1 – x0) 
+2x2* = (P + 1)(x1 - x2* + 1 - x0) 
+(P + 3) x2* = (P + l)(xl + l - x0)  
+αx2 = α2(x1 + l - x0)  
+α(l - α2)x1 = α2(x1 + 1 - x0)  
+(α/α2 - α)x1 = x1 + 1 - xo 
+ 
+We can also create an identity: 
+ 
+α/α2 = (l/(P+ l))/(l/(P+3))  
+α/α2 = (P+3)/(P+l)  
+α/α2 = 1 + 2α 
+ 
+Substituting for α/α2: 
+ 
+(1 + α)x1 = x1 + 1 - x0  
+αx1 = 1 – x0 
+ 
+Remember that previously we commented that Y's raise-bluffing region could really be 
+anywhere in his folding region. We insist on playing non-dominated strategies, so as a result, we 
+get an indifference between raise-bluffing and folding. However, we could also solve the game 
+for a different threshold between calling and folding; then the above equation would simply 
+appear instead of forcing us to go through algebraic manipulations. 
+ 
+This is the familiar equation (e.g., Equation 11.4, among others) that relates the size of X's 
+betting region to the size of his bluffing region by a factor of α. 
+ 
+For Y at y0, we have the same equation as in [0,1] Game #9 (Example 17.1), because X still 
+cannot check-raise. 
+ 
+x1* = (1 - α)(y0 – x1) + xl  
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         204 
+ 
+For X at x2*: 
+ 
+Y's hand 
+X bet-calls 
+ X bet-folds 
+[0, y2] 
+-1 
+-2 
+[y1*, y2#] 
++2 
+-(P+1) 
+ 
+Notice that X's strategies are more complicated in this game. When we examine the indifference 
+between two actions, it is not enough to state "X bets" or "X checks" - instead we must specify 
+the entire strategy :'X bet-calls" or "X bet-folds." 
+ 
+x2* is one of the new thresholds, between X calling a raise and folding to the raise. X loses a bet 
+by calling against Y's value raises, but picks off Y's raise bluffs. As we shall see, because it costs 
+Y two bets instead of one to make a raise-bluff, the calling ratio for X is differently shaped. 
+ 
+y2 = (P + 3)(y2# - y1*) 
+α2y2 = (y2# - y1*) 
+ 
+This equation is basically the raise-bluff equation analogous to Equation 11.4, but for two bets 
+instead of one from earlier games. The size of the raise-bluffing region y2* - y1# is the size of the 
+value raising region (y2) multiplied by the appropriate ratio (α2). This is a general rule that 
+appears throughout all the [0,1] finite pot games. For every value region, there is a corresponding 
+bluffing region. The size of the bluffing region is related to the size of the value region by some 
+αn value. 
+ 
+For X at x1: 
+ 
+Y's hand 
+X bet-folds 
+X check-calls 
+[0, x1] 
+-1 
+-1 
+[x1, y1] 
++1 
++1 
+[y1, y1*] 
++1 
+0 
+[y1*, y2#] 
+-(P + 1) 
+0 
+[y2#, y0] 
+0 
+0 
+[y0, 1] 
+0 
++1 
+ 
+y1* - y1 = (P+ l)(y2# - y1*) + (1 – yo) 
+ 
+At x1, we have an equation that relates the size of the region where Y calls a bet but wouldn't 
+have bet himself (y1* - y1), and the size of the raise-bluffing and bluffing regions for Y. This is 
+X's choice between trying to induce a bluff with his borderline value betting hand or trying to 
+extract value. If he bets, he gains a bet when Y calls but wouldn't have bet, but loses P+ 1 bets 
+when Y raise-bluffs him out of the pot. If he checks, he sometimes induces a bluff from Y. The 
+value of checking and the value of betting must be equal; this equation reflects that. 
+ 
+For X at x1*, we again have the familiar relationship: 
+ 
+1 – yo = αy1 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         205 
+ 
+For X at x0: 
+ 
+Y's hand 
+X check-folds 
+X bluffs 
+[0, y2#] 
+0 
+ -1 
+[y2#, x0] 
+0 
++P 
+[x0, 1] 
+-P 
+0 
+ 
+y2# = (x0 – y2#)(P) + (1-x0)(P) 
+(P + 1)y2# = P 
+y2# = 1 – α 
+ 
+This result is somewhat analogous to the equation governing y1# in [0,1] Game #9 (Example 
+17.1); the total hands that Y folds to X's bet with is α. In [0,1] Game#9 we characterized this 
+relationship as "Y calls with (1 - α) of his hands," but a more accurate characterization in light of 
+this result is "Y folds a of his hands to a bet." 
+ 
+We now have nine equations. Many of them are the same as the previous game. 
+ 
+y1 = (x1* + x1)/2 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(17.2) 
+ 
+y2 = x2*/2 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(17.3) 
+ 
+x2* = (1 - α2)xl 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(17.4) 
+ 
+αx1= 1 – X0 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(17.5) 
+ 
+x1* = (l - α)(y0 - x1) + x1 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(17.6) 
+ 
+α2y2 = (y2# - y1*) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(17.7) 
+ 
+y1* - y1 = (P+ 1)(y2# - y1*) + (1 – y0)  
+ 
+ 
+ 
+ 
+ 
+ 
+(17.8) 
+ 
+l – y0 = αy1 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(17.9) 
+ 
+y2# = l - α 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(17.10) 
+ 
+We can solve this system of equations and obtain values for all the thresholds. We will 
+(hopefully to your pleasure) omit much of the algebra, but there is at least one point worth a bit 
+of additional scrutiny. 
+ 
+Combining (17.3) and (17.4), we have the important relationship: 
+ 
+y2 = x1(1 - α2)/2  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(17.11) 
+ 
+As in [0,1] Game #6 (Example 16.3), we can rewrite this to capture its identity as the ratio 
+between the hands that X bets and the hands that Y raises: 
+ 
+y2 = Rx1 
+ 
+Here, R = (1 - α2)/2. We can see that as P goes to infinity, this value converges on 1 2
+	 , which 
+was the value that it took in [0,1] Game #6. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         206 
+ 
+The idea behind solving this system of equations is to convert everything to be in terms of y1 and 
+x1. We can solve Equations 17.2 and 17.6 for x1*, set them equal, and obtain one equation that 
+contains only x1 and y1. A second equation can be obtained by working on Equation 17.8. This 
+equation contains y1*,y1, y2#, and y0. 
+ 
+y0 can be put in terms of y1 with 17.9. y2# is a constant by 17.10. We can put y1*  in terms of y1 
+by using 17.7. can be put in terms of x1, as y2 = Rx1. Since y2# is a constant, y1* is now in terms 
+of x1. Substituting for all these variables can make 17.8 a second equation in terms of only x1 and 
+y1. 
+ 
+We can reduce these two equations to the following: 
+ 
+x1 = (l - α)2/[l + α + (2 - α)(l - a2)R]   
+ 
+ 
+ 
+ 
+ 
+ 
+(17.12) 
+ 
+This equation is very important for solving games without check-raise, because it is true for not 
+only the two-bet game but games with more bets where folding is allowed but check-raising is 
+not. This is because the addition of more bets changes the value of R, but does not change the 
+fundamental relationships among the lower thresholds. We will see that this relationship greatly 
+simplifies the infinite bets case addressed below. 
+ 
+Once we have this, we can solve for y1 by substitution and the remaining variables are easily 
+found using Equations 17.2 through 17.10. 
+ 
+ 
+Solution: 
+ 
+y2 = (l - a)2(l + 2a) / (7a2 + 9a + 4)  
+y1 = (1 - a)(8a2 + 9a +3)/(l + a)(7a2 + 9a + 4)  
+y1* = 1 - a - a2((l - a)2(l + 2a) / (7a2 + 9a + 4))  
+y2# = 1 - a 
+y0 = 1 –a(1 - a)(8a2 +9a+3)/(l + a)(7a2+9a + 4) 
+x2* = 2(1 – a)2(1+ 2a) / (7a2 + 9a + 4) 
+x1 = 2(1 - a)2(l + 2a)2/(1 + a)(7a2 + 9a + 4) 
+x1*= 4(1 - a)(2a2 + 2a + 1)/ (7a2 + 9a + 4) 
+x0 = 1 -2a(l -a)2(l + 2a)2/ (1 + a)(7a2 + 9a + 4) 
+ 
+ 
+This is the solution to what is effectively the simplest complete two-bet [0,1] game. Admittedly, 
+this final solution isn't particularly useful - what is useful is the method and the principles that 
+were used in deriving it. 
+ 
+We can look at what the thresholds look like for this game for different pot sizes. The rightmost 
+column in the following table contains a pot size of ε, a value frequently used by mathematicians 
+to represent a tiny quantity. Here we use it to show that as the pot converges on zero, the 
+thresholds converge to "no betting'' as we expect. 
+ 
+Threshold 
+P = ∞ 
+P = 1 
+P = 2 
+P = 9 
+P = ε (~0) 
+y2 
+1 4
+
+2 41
+
+2 21
+  
+0.195573441 
+0 
+x2* 
+1 2
+
+4 41
+
+4 21
+  
+0.391146881 
+0 
+xl 
+1 2
+  
+16 123
+
+5 21
+  
+0.426705689 
+0 
+y1 
+3 4
+
+76 246
+
+279 630
+
+ 
+0.655203951 
+0 
+x1* 
+1 
+20 41
+  
+68 105
+
+0.883702213 
+0 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         207 
+ 
+y1* 
+1 
+20 41
+  
+68 105
+
+ 
+0.883702213 
+0 
+y2# 
+1 
+1 2
+  
+2 3
+  
+0.9 
+0 
+y0 
+1 
+208 246
+
+ 
+537 630
+
+ 
+0.934479605 
+0 
+x0 
+1 
+230 246
+
+ 
+58 63
+
+0.957329431 
+0 
+ 
+We continue our discussion with the two-bet game where X can check-raise: 
+ 
+Example 17.3 - [0,1] Game #11 
+One full street. 
+Two bets left. 
+Check-raising is allowed. 
+The pot size is P and the bet is 1 unit. 
+ 
+As we progress through additional games, we will generally omit listing off the whole solution to 
+the game and calculating each threshold value. As you saw in [0,1] Game #10 (Example 17.2), 
+the solutions to more complex games with finite pots are substantially more complex and not that 
+useful for seeing at a glance. Instead, we will focus on building on the results we have from 
+previous games and showing the areas in which the strategies for more complex games differ 
+from differ less complex counterparts. 
+ 
+In the check-raise game with two bets remaining, we have a number of additional thresholds. 
+However, many of these are easily dismissed because they relate to each other m familiar ways. 
+For example, X will have a check-raise bluff region between x2# and x1*. We know from our 
+experience solving indifference equations that the size of this region will be the size of the value 
+check-raising region (x2) multiplied by the appropriate α value α2- Likewise, instead of just a 
+value betting region to the left of y1, Y will have a "bet-call" region to the left of y2* and a "bet-
+fold" region between y2* and y1. These will be sized such that Y folds 1 - α2 of his value bets to a 
+raise. This makes X indifferent to raise-bluffing, and so on. 
+ 
+"What's interesting and important here, though, is the change in the value regions for both 
+players. Changes in these value regions will cascade through the other thresholds and impact 
+both players' strategies, but the relationships of the other thresholds to the value regions are fairly 
+simple and straightforward. We could apply the method of writing indifference equations for 
+each threshold, but instead let us simply draw attention to the important thresholds. 
+ 
+In the check-raise game, we know that Y's value-betting strategy after X checks will be impacted 
+by X's ability to check-raise; additionally Y's value-raising strategy will be impacted by the fact 
+that X is checking some of his strong hands and likely betting a little weaker than he does in the 
+game with no check-raise. Recall that these were the major shifts in the game with no folding 
+allowed - Y bet a little tighter after X checked (fearing a check-raise), X bet a little looser (to 
+capture some of the value lost by not inducing weaker hands to bet), and Y raised a little looser 
+(because of X's looser betting standards). 
+ 
+There is an important link between the check-raise game and the no-check raise game. To see 
+this, consider the indifference at x2. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         208 
+ 
+For X at x2: 
+ 
+Y's hand 
+X check-raises 
+ X bets-calls 
+[0, x2] 
+-2 
+ -2 
+[x2,y2] 
++2 
+ +2 
+[y2, y2*] 
++2 
+ +1 
+[y2*, y1] 
++1 
+ +1 
+[y1, y1*] 
+0 
+ +1 
+[y1*, y2#] 
+0 
++2 
+[y0, 1] 
++1 
+0 
+ 
+y2* - y2 + (1 – y0) = 2 (y2# - y1*) + y1* - y1 
+ 
+To find y2*, we consider the indifference at x2#: 
+ 
+Y's hand 
+X check-calls 
+X check-raise-bluffs 
+[0, y2*] 
+-1 
+ -2 
+[y2*, y1] 
+-1 
+-(P+ 1) 
+[y0, 1] 
++ 1 
+ +i 
+ 
+y2* = (P + 2) (y1 – y2*) 
+y2* = (1 – α2)y1 
+ 
+We additionally know that y2# -  y1* is equal to α2y2.  
+ 
+So we have: 
+ 
+(1 - α2)y1 - y2 + (1 - y0) = 2α2y2 + y1* - y1  
+ 
+In the no-check-raise game, we had the following from the indifference at x1 
+ 
+y1* -  y1 = (P + 1) + (y2# - y1*) + (1 - yo) 
+ 
+The origin of this equation is that X must be indifferent to bet-folding and check-calling at x1. 
+When he bets, he gains a bet against Y when Y has a hand that will call a bet but not bet if 
+checked to. Against this, he loses (P + 1) bets when Y raise-bluffs, and additionally loses the 
+bluffs that he fails to induce by betting. The bluff terms drop off, and we have: 
+ 
+(1 - α2)y1 - y2 = (P + 3)α2y2  
+(1 - α2)y1 = 2y2  
+y2 = y1(1 – α2)/2 
+ 
+Recall that in the no-check-raise game, we saw that this ratio (1 - α2)/2 was the ratio between y2 
+and x1. Here we see that it is the ratio between y2 and y1. Likewise, when we solved the infinite 
+bets game without check-raise (Example 16.3), we saw that r was the ratio between successive 
+thresholds (y2, x3, y4, etc.), while in the game where check-raise was allowed (Example 16.4), r 
+is the ratio between successive yn thresholds. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         209 
+ 
+As a general result, we find that when converting [0,1] games from no check-raise to including 
+check-raise, this relationship holds (for simple symmetrical cases). The ratio of Y thresholds to 
+X thresholds in the no-check-raise game is the ratio of successive Y thresholds in the game with 
+check-raise. 
+ 
+We can follow this chain of logic to find that the general equation for y1 in this game is: 
+ 
+yl = (1 - α)/[l + α + (1 - α2)R]  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(17.13) 
+ 
+This equation is directly analogous to Equation 17.12, but includes the check-raise element of 
+this game. 
+ 
+Calculating the values of the various thresholds is a straightforward process of creating 
+indifference equations and solving them. Bluffing regions have size related by an a value to their 
+corresponding value regions, and so on. 
+ 
+hi the next game, we tackle the more complex problem of allowing infinite raises. 
+ 
+Example 17.4 - [0,1] Game #12 
+One full street.  
+Check-raise is not allowed. 
+An arbitrary number of bets and raises are allowed.  
+Folding is allowed. 
+ 
+In solving this game, we will relate its components to games we have previously solved. Most of 
+the indifference equations in this game are identical to then counterparts in [0,1] Game #10 
+(Example 17.2); in fact, the only indifference equation that is invalid is the indifference at y2. In 
+that game, the second bet was the last one; hence, Y could not be raised back. We found there 
+that Y raised with half the hands with which X would call. However, here X can additionally 
+raise back, so we must reconsider that equation. 
+ 
+Additionally, we add an infinite number of thresholds to the game, allowing for the arbitrary 
+allowed bets and raises. For each threshold, we have an additional indifference equation. Many 
+of these equations have a clear form, as for example we will obtain for any appropriate n: 
+ 
+anyn = (yn# - yn-1*) 
+ 
+This is the familiar bluffing-to-betting ratio (based on Equation 11.4), governed by the 
+appropriate α. value and the number of bets to be put in the pot. 
+ 
+When we solved [0.1] Game #10, we identified a key equation that is the general form of x1 for 
+non-check-raise games. 
+ 
+(1 - α)2 = x1[l + α + R(2 - α)(l - α2)] 
+ 
+The equation that must be modified to allow for the difference between this game and [0,1] 
+Game #10 is the following: 
+ 
+y2 = Rx1 
+ 
+However, this equation need not change except that R has a new value. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         210 
+ 
+Hence, Equation 17.12 still holds. All that's necessary is that we find the appropriate R. We can 
+check this by looking at games we have already solved. 
+ 
+Consider the game where folding was not allowed (Example 16.4). Allowing the pot to go to 
+infinity, we can see that all the α values go to zero. In that game, y2 was 1 2
+  and x1 was 1 2
+  . 
+Hence, R was 1 2
+ . Plugging this into our formula and letting α and α2 go to zero, we get x1 = 1 2
+ . 
+ 
+In the one-bet game, R was zero because y2 was at 0. So x1 equals (1 - α)2/(l + α). Looking back 
+to the solution for [0,1] Game #9, we see that this is the case. 
+ 
+Returning to the game at hand, we find the following indifferences (which should be intuitive to 
+those who have come this far): 
+ 
+x3# - x2* = α3x3 
+ 
+The size of the nth bluffing region is αn times the size of the corresponding value region.  
+ 
+x3# = (1 - α2)x1, 
+ 
+When you put in the nth bet for value, you must at least call (or raise) with 1 - αn+1 of the hands 
+that originally put in that bet (to avoid being exploited by bluff raises). 
+ 
+We also have the following indifference at y2. (This is the lowest threshold at which this game 
+differs from [0,1] Game #6.) 
+ 
+x2* - y2 = y2 + (P + 3)α3x3 
+ 
+Y picks up a bet at y2 by value raising when X is between y2 and x2*. He loses one additional bet 
+whenever X is better than y2 (folding to additional raises) and also loses (P+ 3) bets when X is in 
+his reraise-bluff region x3# - x2*. 
+ 
+Solving this equation, wу find: 
+ 
+(1 - α2)x1 - α3x3 = 2y2 + (P + 3)α3x3 
+ 
+Converting α terms to include P: 
+ 
+x1(P + 2)/(P+ 3) = 2y2 + x3(P + 4)/(P+ 5)  
+ 
+ 
+ 
+ 
+ 
+ 
+(17.14) 
+ 
+The indifferences here are identical as we increment the thresholds by two bets; hence this 
+equation is a particular case of the general recursion for xn, yn+1, xn+2 as we increment to higher 
+thresholds. 
+ 
+We can take advantage of a principle that once we reach the second raise, the game becomes 
+completely symmetrical in terms of the ratios between thresholds except for the size of the pot. 
+The values of the thresholds are different, of course, because they have been multiplied by the 
+value analogous to r, the same value as in Equation 14.1. We have been calling this value R; 
+because to this point, we have only considered games where one raise was allowed. However, as 
+the pot grows, the value of this multiplier changes as well. 
+ 
+We will then call this changing multiplier Rp because it changes based on the size of the pot, 
+and we have the following: 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         211 
+ 
+y2 = Rpx1  
+x3 = Rp+2y2 
+y4 = Rp+4x3 
+ 
+...and so on. 
+ 
+Substituting into 17.14: 
+ 
+x1(P+ 2)/(P+ 3) = 2Rpx1 + (RpRp+2xl)(P+ 4)/(P+ 5)  
+ 
+The x1 terms drop out, and we have: 
+ 
++ =
+( + 2)
+( + 3)
+2 + 
++( + 4)
+( + 5)
+ 
+ 
+This is the general recursion that describes the relationship between successive values of Rp. To 
+find specific values, we can use the fact that we know that Rp converges on r as P goes to infinity 
+(since this is an approximation of the no-fold game as shown in Example 16.4). Hence, we can 
+choose an arbitrarily large value of n, set it equal to √2 - 1, and work backwards to the desired P. 
+As it happens, this recursive relation converges quite rapidly. Of course, we can see that for the 
+no-fold case, Rp simply is r for all thresholds, and this game simplifies to its no-fold analogue. 
+ 
+Once we have the value of Rp, we can easily calculate the values of the thresholds by solving for 
+x1 and then multiplying by the appropriate Rp values. As usual, the bluffing regions and calling 
+regions follow the value regions, and we have a solution. 
+ 
+Key Concepts 
+• The [0,1] games can be extended to cover more complicated situations, including check-
+raising, an arbitrary number of bets, and so on. 
+• In all of these situations, however, the keys to the game are the value thresholds. For each 
+value region, there are corresponding bluffing, calling, folding, and raise-bluffing regions 
+that can be calculated by relating the size of the pot to the size of the value region. 
+• In games without check-raise, there is a recurrence relation between alternating X and Y 
+thresholds such that x1 - > y2 - > x3 and so on. 
+• In games with check-raise, there is a similar recurrence relation between consecutive Y 
+thresholds. 
+• If your opponent could have bet but checks, you cannot be raised, and your opponent 
+may call or fold, the proper strategy is to value bet all hands that your opponent would 
+have value bet and half the hands with which he will call. 
+ 
+ 

@@ -1,0 +1,367 @@
+9 Market Risk
+Review
+Exercise 9.1 (Mapping and loss operator)
+Brieﬂy explain in words what is meant by the mapping of a portfolio and explain the concept
+of a loss operator.
+Exercise 9.2 (Unconditional and conditional approaches to market risk measurement)
+Brieﬂy explain the ideas behind the unconditional and conditional approaches to market risk
+measurement and summarize the pros and cons of each approach.
+Exercise 9.3 (Comparison of variance–covariance, historical simulation and Monte Carlo)
+List some advantages and disadvantages of the variance–covariance, historical simulation and
+Monte Carlo methods for measuring market risk.
+Exercise 9.4 (Historical simulation)
+a) Give a theoretical justiﬁcation for the basic historical simulation method without volatility
+estimation.
+b) Explain why this is an unconditional approach.
+c) Sketch a method of extending historical simulation to a time-series context where volatility
+is changing.
+Exercise 9.5 (Elicitability and its relevance to model validation)
+a) Brieﬂy explain the notion of elicitability for a law-invariant risk measure ϱ.
+b) Explain why elicitability of a risk measure ϱ is useful for comparing risk measure forecasts.
+c) Categorize the following risk measures according to whether they are elicitable or not:
+value-at-risk, expected shortfall, the expectile risk measure.
+Exercise 9.6 (VaR violations)
+a) Explain the concept of a violation of value-at-risk at level α.
+b) What would be the properties of the time series of VaRα violations produced by an ideal
+forecaster who always uses the correct conditional loss distribution to forecast losses?
+Exercise 9.7 (Factor models for bond portfolios)
+Describe the main diﬀerences between the Nelson-Siegel and PCA methods of building factor
+models for measuring the risk in a bond portfolio.
+69
+
+9 Market Risk
+Basic
+Exercise 9.8 (Mapping an interest-rate swap)
+A (forward-start) interest-rate swap (IRS) is a contract with future start date T0 where two
+parties agree to exchange payment streams at a set of times T1 < · · · < Tn with T1 > T0. One
+party receives the amount NδiK at time Ti where N is the nominal value of the contract, K is
+a ﬁxed interest rate and δi is the length of the interval [Ti−1, Ti] expressed as a fraction of a
+year; in return the other party makes the ﬂoating payment NδiL(Ti−1, Ti) where L(Ti−1, Ti)
+is the simply compounded spot interest rate at time Ti−1 for the maturity time Ti (this is
+typically the LIBOR rate). For simplicity we consider a nominal amount N = 1 and regular
+quarterly payments such that δi = 1/4 for all i.
+Suppose the contract is agreed at time t = 0. The value of the contract at time 0 ≤t < T0
+to the party receiving the ﬁxed payments is given by the formula
+V (t) = −p(t, T0) + p(t, Tn) + K
+4
+n
+X
+i=1
+p(t, Ti),
+where p(t, T) denotes the price of a zero-coupon bond with maturity T at time t; see Brigo
+and Mercurio (2006, Section 1.5).
+a) How is K determined if the contract should be fair when it is agreed upon?
+b) Derive the mapping for the interest-rate swap in the discrete-time form Vt = g(τt, Zt) where
+Zt are risk factors which you should identify, τt = t(∆t) and ∆t is the length of the risk
+management time horizon.
+c) Hence ﬁnd the linearized loss operator for the interest-rate swap.
+Exercise 9.9 (Mapping a currency forward)
+Denote by (et) the exchange rate between two countries (foreign and domestic), that is at time
+T one unit of the foreign currency can be exchanged for eT units of the domestic currency. As
+a concrete example, assume that et is the USD/EUR exchange rate, so that the foreign bond is
+a US treasury bond and the domestic bond a Euro area bond. A currency or FX forward is an
+agreement between two parties to buy/sell a prespeciﬁed amount N of USD at a future time
+point T > t for a prespeciﬁed exchange rate ¯e (and not at the market rate eT ). The future
+buyer is said to hold a long position, the other party is said to hold a short position in the
+contract.
+a) Explain why the value of the contract at maturity T is equal to VT = N(eT −¯e) (from
+the viewpoint of the party holding a long position), and show that a long position in the
+forward is equal to a portfolio of N US treasury bonds pf(t, T) and −N¯e units of the Euro
+area zero coupon bond pd(t, T).
+b) Derive the mapping for the currency forward using as risk factors the yield to maturity of
+the Euro area and of the US treasury bond and the logarithmic exchange rate.
+c) Compute the linearized loss operator for the mapping derived in b).
+70
+
+Basic
+Exercise 9.10 (Asset liability management using duration and convexity)
+Consider a pension fund which makes payments of 1M at the end of each of the next ﬁve years,
+that is for T ∈T = {1, 2, 3, 4, 5}; the current time is t = 0. Assume that the yield curve is ﬂat
+with yield to maturity y(0, T) = 1% for T ∈T . Suppose that the capital of the fund today is
+exactly equal to the present value of the liabilities. The fund manager compares the following
+two strategies:
+1) Perfect matching: Here the manager buys for each maturity T ∈T zero-coupon bonds with
+nominal value 1M.
+2) Immunization with maximal convexity: Here the manager invests only in zero bonds with
+maturity 1 and 5. The nominal values λ1 and λ5 are determined from the condition that
+in t = 0 the value of the assets should be equal to the value of the liabilities and that the
+duration of the cash ﬂows on the asset side should be equal to the duration of the cash
+ﬂows on the liability side.
+a) Use numerical root ﬁnding to show that λ1 ≈2.48M and λ5 ≈2.53M for Strategy 2.
+b) Compute the convexity of both strategies.
+c) Compute for both strategies the change in the overall value of the position (assets −
+liabilities) if i) all yields rise to 2% and ii) all yields drop to 0.1%.
+d) In view of your results in b) and c), comment on the claim that Strategy 2 (which has
+higher convexity) outperforms Strategy 1.
+Exercise 9.11 (Variance-covariance method for multivariate t risk-factor changes)
+Suppose that the vector of risk factor changes satisﬁes X = (X1, . . . , Xd) ∼td(ν, µ, Σ).
+a) Explain why this might be a better model for market risk than a multivariate normal
+distribution.
+b) Suppose that the linearized loss L∆= λ0 + λ′X is a suﬃciently accurate approximation of
+the true loss. Use Exercises 6.20 a) and 2.16 to derive formulas for VaRα(λ0 + λ′X) and,
+for ν > 1, ESα(λ0 + λ′X).
+c) Use b) to calculate VaR0.99(L∆
+t+1) and ES0.99(L∆
+t+1) for the linearized portfolio loss over a
+one-day horizon for a portfolio of two stocks with portfolio weights w1 = 0.7 and w2 = 0.3
+and a value today of Vt = 1 (in M EUR). You should assume that the log-returns are
+bivariate t distributed with annualized volatilities σ1 = 0.2, σ2 = 0.25, correlation ρ = 0.4
+and degrees of freedom ν = 5. Assume that the expected returns are 0 and that one
+year consists of 250 trading days. Use the square-root-of-time scaling to compute daily
+volatilities.
+d) Compare your results with Exercise 2.17 and verify that they are consistent if you allow
+the degree of freedom to tend to inﬁnity.
+71
+
+9 Market Risk
+Exercise 9.12 (Sampling from an empirical distribution function)
+Let L1, . . . , Ln denote realizations of L ∼F and let
+Fn(x) = 1
+n
+n
+X
+i=1
+I{Li≤x},
+x ∈R,
+be the empirical distribution function based on L1, . . . , Ln. Show that sampling from Fn
+corresponds to randomly drawing from L1, . . . , Ln with replacement.
+Exercise 9.13 (Square-root-of-time rule for serially independent risks)
+a) Assume the losses for the next h days can be modelled as independent Lt ∼N(µ, σ2),
+t ∈{1, . . . , h}. Show that the total loss L1 + · · · + Lh satisﬁes the rule
+VaRα(L1 + · · · + Lh) = (h −
+√
+h)µ +
+√
+h VaRα(L1)
+which, for µ = 0, is known as the square-root-of-time rule.
+Note. In MFE (2015, Example 9.4) a multivariate version of this result based on independent
+multivariate normal random vectors is given.
+b) Suppose you hold 100 shares of a stock whose daily returns are independent normal
+distributed with mean 0.01 and standard deviation 0.2. What is VaRα for a 9-day time
+horizon?
+c) Consider independent losses L1, . . . , Lh from a distribution with mean µ ∈R and variance
+σ2 < ∞. Show that for h large,
+VaRα(L1 + · · · + Lh) ≈hµ +
+√
+hσΦ−1(α).
+Exercise 9.14 (Square-root-of-time rule for serially dependent, jointly normal risks)
+Assume the losses for the next h days can be jointly modeled as (L1, . . . , Lh) ∼Nh(µ, Σ), where
+µ = µ1 ∈Rd for µ ∈R and Σ = σ2P for a correlation matrix P with equal oﬀ-diagonal entries
+ρ ∈[0, 1]. Show that the total loss L1 + · · · + Lh satisﬁes the rule
+VaRα(L1 + · · · + Lh) =
+
+h −
+q
+h(1 + (h −1)ρ)
+
+µ +
+q
+h(1 + (h −1)ρ) VaRα(L1).
+Note. For ρ = 0 (independent L1, . . . , Lh), one obtains the (square-root-of-time) rule as in
+Exercise 9.13. For ρ = 1, we obtain VaRα(L1 + · · · + Lh) = h VaRα(L1) which is clear since
+VaRα is comonotone additive.
+Exercise 9.15 (Tests based on VaR violations)
+Suppose you are a regulator trying to assess the quality of the value-at-risk system used by a
+bank. The bank has estimated the one-day VaR0.99 of its trading book every day for two years
+(500 observations). The system has produced 14 VaR0.99 violations on days 7, 61, 70, 75, 90,
+130, 200, 245, 367, 371, 385, 403, 406 and 487.
+72
+
+Advanced
+a) How many VaR0.99 violations would you expect in this period if the bank has a very
+high-quality forecast model for its trading losses?
+b) Carry out a binomial test of the quality of the bank’s forecast model and report the result.
+c) Carry out a test of the hypothesis that the violations occur as an iid Bernoulli sequence.
+Exercise 9.16 (Elicitability and comparison of VaR estimates)
+The scoring function for VaRα(L) is given by Sq
+α(y, l) = |I{l≤y} −α||l −y| where we recall that
+y stands for the forecast and l for the realized loss.
+a) Use software to draw a graph of Sq
+α(y, l) as a function of l for y = 1 and α ∈{0.5, 0.9}. Use
+the graph to explain intuitively why the minimizer of y 7→E(Sq
+α(y, L)) for α = 0.9 is larger
+than for α = 0.5.
+b) Table E.9.1 contains 12 realized one-period losses (generated from a GARCH(1, 1) model
+with standardized t3.5 innovations) and corresponding VaR0.99 predictions [
+VaR
+t
+0.99,N and
+[
+VaR
+t
+0.99,t based on N(0, 1) innovations and ﬁtted standardized t innovations, respectively.
+Use a suitable test statistic based on elicitability theory to compare the quality of the risk
+measure predictions and state whether the result is as you would expect.
+t
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+Lt+1
+−0.73 −2.35 1.30 0.05 −0.93 −0.81 −0.06 0.45 3.72 −0.47 1.21 −0.18
+[
+VaR
+t
+0.99,N
+3.45
+3.45 3.46 3.46
+3.47
+3.47
+3.47 3.48 3.48
+3.48 3.49
+3.49
+[
+VaR
+t
+0.99,t
+3.76
+3.73 3.70 3.67
+3.64
+3.61
+3.58 3.56 3.53
+3.50 3.47
+3.45
+Table E.9.1 Losses from a GARCH(1, 1) model with standardized t3.5 innovations and corre-
+sponding VaR0.99 predictions [
+VaR
+t
+0.99,N and [
+VaR
+t
+0.99,t based on N(0, 1) innovations
+and ﬁtted standardized t innovations, respectively.
+Advanced
+Exercise 9.17 (Delta and delta-gamma approximation)
+The aim of this exercise is to verify the formulas for delta and delta-gamma approximations in
+MFE (2015, Section 9.1.2). The derivation of the ﬁrst-order Taylor series approximation (delta
+approximation) and the second-order Taylor series approximation (delta-gamma approximation)
+of the one-period loss random variable
+Lt+1 = −(g(τt + ∆t, Zt + Xt+1) −g(τt, Zt))
+is easier to carry out if one views the mapping g : R+ × Rd →R as a function of a single vector
+y = (τt, z), so g(τt, z) = g(y).
+a) Derive the delta approximation L∆
+t+1 of Lt+1 by using the ﬁrst-order Taylor series approxi-
+mation of g(y1) about y0 for y0 = (τt, z) and y1 = (τt + ∆t, z + x).
+73
+
+9 Market Risk
+b) Derive the delta-gamma approximation L∆Γ
+t+1 of Lt+1 by using the second-order Taylor series
+approximation of g(y1) about y0 for y0 = (τt, z) and y1 = (τt + ∆t, z + x).
+Exercise 9.18 (Standard methods for market risk)
+The aim of this exercise is to compare the various statistical methods for market risk management
+discussed in MFE (2015, Section 9.2) in the case of a simple portfolio of two stocks. Consider
+BMW and Siemens (SIE) (which were also analysed in MFE (2015, Section 3.2.1)) from 3
+January 2000 to 31 December 2009; see the dataset EURSTX_const of the R package qrmdata
+for the data. You should work through the following steps:
+a) Load the data and plot the stock prices for the period in question. Also compute and plot
+the log-returns and construct a scatterplot of one series against the other.
+b) Consider a portfolio consisting of BMW and SIE stocks in the ratio 1:10. Write a function
+to evaluate the corresponding loss operator (in other words, a function which takes the
+matrix of risk-factor changes and the portfolio weights and returns the resulting losses).
+c) Implement as many of the following methods as you can:
+i)
+the variance-covariance method;
+ii) the standard historical simulation method;
+iii) the Monte Carlo method assuming a multivariate t distribution for the log-returns (you
+will need a function to estimate a bivariate t distribution such as fit.mst() in the R
+package QRM);
+iv) the method which uses a GPD approximation to the tail of the distribution of historically
+simulated losses (you will need a function to ﬁt a GPD model to excess losses over a
+threshold such as fit_GPD_MLE() in the R package qrmtools).
+d) Compute VaR0.99 and ES0.99 estimates for each of the methods; for the Monte Carlo method,
+use a sample size of 104.
+e) Plot a histogram of the losses and display the computed VaR0.99 and ES0.99 estimates (for
+example with vertical lines). Brieﬂy compare the values of the estimates.
+Exercise 9.19 (Standard methods for an option position)
+Suppose a bank has a position consisting of a short put option on the S&P 500 index and a
+long position λ > 0 in the stock with total value in discrete-time mapping notation given by
+Vt = λSt −P BS(τt, St; r, σt, K, T),
+where P BS denotes the Black-Scholes put option formula with the usual terms (see MFE (2015,
+Example 9.1) for a similar situation with a call option). Suppose the option was sold on the 4
+June 2009 and that this is day t = 0. On this day τ0 = 0, the SP500 value is S0 = 942.46 and
+the value of the VIX volatility index is σ0 = 30.18. Consider an option with maturity T = 5
+years and strike K = 1050. Assume that there is a ﬁxed interest rate of r = 1% per annum.
+a) Determine λ if V0 = 0; a function for calculating the value of a put option can be found in
+the R package qrmtools.
+74
+
+Advanced
+b) Taking the log stock price log St and the volatility σt as the risk factors derive the linear
+and quadratic loss operators expressing changes in the value of the position in terms of
+changes in the value of these risk factors.
+c) Suppose that you have to measure the market risk of the position at the end of the day on
+4 June 2010, one year after the option was sold. On this day we have τt = 1, St = 1064.88
+and σt = 35.48. The data can be found in the datasets SP500 and VIX of the R package
+qrmdata. Use the period from 14 June 2006 to 4 June 2010 (1001 values). Estimate the 99%
+one-day value-at-risk and expected shortfall for the position using the following methods
+and summarize the diﬀerences in the results:
+i)
+the variance-covariance method;
+ii) the standard historical simulation method with full revaluation of the position;
+iii) the standard historical simulation method with a delta-gamma approximation for the
+change in the value of the position;
+iv) the univariate dynamic historical simulation method described in MFE (2015, Sec-
+tion 9.2.4); see the R package rugarch.
+Exercise 9.20 (Elicitability of the exponential risk measure)
+For α > 0 and L with E(exp(αL)) < ∞, the exponential risk measure ϱexp
+α (L) for the loss
+function ℓ(x) = exp(αx) is given by the solution of the equation (in m)
+E(1 −exp(α(L −m))) = 0,
+(E1)
+which leads to ϱexp
+α (L) = 1
+α log E(exp(αL)); see MFE (2015, Example 8.8) for details (we consider
+c = 0 for simplicity). Show that ϱexp
+α (L) is elicitable and give a consistent scoring function.
+Hint. For s(m, l) = 1 −exp(α(l −m)), m, l ∈R, (E1) can be written as E(s(m, l)) = 0. Use
+this to show that a consistent scoring function is given by S(y, l) =
+R y
+l s(m, l) dm.
+Exercise 9.21 (Accuracy of the empirical quantile estimator)
+In this exercise we will attempt to understand the magnitude of the error when an empirical
+quantile is used to estimate value-at-risk. Let U1, . . . , Un
+ind.
+∼U(0, 1) and let the corresponding
+order statistics be denoted U(1) ≤U(2) ≤· · · ≤U(n). Let FX be a continuous and strictly
+increasing distribution function and deﬁne Xi = F ←
+X (Ui), i ∈{1, . . . , n}, with corresponding
+order statistics X(1) ≤· · · ≤X(n).
+a) Let N ∼B(n, p) for n ∈N and p ∈[0, 1]. Let G(x; a, b) denote the distribution function
+of a Beta(a, b) distribution with parameters a > 0 and b > 0. Show that the distribution
+function of N satisﬁes FN(x; n, p) = ¯G(p; ⌊x⌋+ 1, n −⌊x⌋).
+Note. This is how R evaluates pbinom(x, size = n, prob = p).
+b) Hence show that U(k) has a Beta(k, n −k + 1) distribution.
+c) Derive an expression for F ←
+X(k)(α) in terms of FX and the quantiles of a beta distribution.
+d) For notational convenience, let qX(u) = F ←
+X (u) and θ(k) = EU(k), k ∈{1, . . . , n}. According
+75
+
+9 Market Risk
+to Taylor’s Theorem, for u ∈(0, 1) close to θ(k), it is known that
+qX(u) ≈qX(θ(k)) + q′
+X(θ(k))(u −θ(k)).
+(E1)
+Find approximations for E(X(k)) and var(X(k)) in terms of qX(θ(k)), q′
+X(θ(k)), k and n.
+Exercise 9.22 (PCA factor model for US zero-coupon bond yields)
+Repeat the analysis of MFE (2015, Example 9.3) for daily US treasury zero-coupon bond yield
+data. Work through the following steps:
+a) Consider daily US treasury ZCB yields with maturities from one to 30 years from 2 January
+2002 to 30 December 2011.
+b) Apply principal component analysis (PCA) to the daily yield changes and determine how
+much of the total variability can be explained by the ﬁrst three sample principal components.
+c) Plot each of the loadings corresponding to the three largest eigenvalues as a function of
+time and compare with MFE (2015, Figure 9.3).
+d) Plot the time series of the ﬁrst three sample principal components.
+The data can be found in the dataset ZCB_USD of the R package qrmdata.
+76

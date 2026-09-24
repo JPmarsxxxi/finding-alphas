@@ -1,0 +1,55 @@
+turn an input to the estimation. Thus the third, or “testing,” subsample, which is used for neither
+estimation nor tuning, is truly out-of-sample and thus is used to evaluate a method’s predictive
+performance. Further details of our sample splitting scheme are provided in Appendix D, and a
+summary of hyperparameter tuning schemes for each model is provided in Appendix E.
+2.2
+Simple Linear
+We begin our model description with the least complex method in our analysis, the simple linear
+predictive regression model estimated via ordinary least squares (OLS). While we expect this to
+perform poorly in our high dimension problem, we use it as a reference point for emphasizing the
+distinctive features of more sophisticated methods.
+Model. The simple linear model imposes that conditional expectations g⋆(·) can be approxi-
+mated by a linear function of the raw predictor variables and the parameter vector, θ,
+g(zi,t; θ) = z′
+i,tθ.
+(3)
+This model imposes a simple regression speciﬁcation and does not allow for nonlinear eﬀects or
+interactions between predictors.
+Objective Function and Computational Algorithm. Our baseline estimation of the simple
+linear model uses a standard least squares, or “l2”, objective function:
+L(θ) =
+1
+NT
+N
+X
+i=1
+T
+X
+t=1
+(ri,t+1 −g(zi,t; θ))2 .
+(4)
+Minimizing L(θ) yields the pooled OLS estimator. The convenience of the baseline l2 objective func-
+tion is that it oﬀers analytical estimates and thus avoids sophisticated optimization and computation.
+2.2.1
+Extension: Robust Objective Functions
+In some cases it is possible to improve predictive performance by replacing equation (4) with a
+weighted least squares objective such as
+LW (θ) =
+1
+NT
+N
+X
+i=1
+T
+X
+t=1
+wi,t (ri,t+1 −g(zi,t; θ))2 .
+(5)
+This allows the econometrician to tilt estimates towards observations that are more statistically or
+economically informative. For example, one variation that we consider sets wi,t inversely proportional
+to the number of stocks at time t. This imposes that every month has the same contribution to
+the model regardless of how many stocks are available that month. This also amounts to equally
+weighting the squared loss of all stocks available at time t. Another variation that we consider sets
+wi,t proportional to the equity market value of stock i at time t. This value weighted loss function
+underweights small stocks in favor of large stocks, and is motivated by the economic rational that
+10

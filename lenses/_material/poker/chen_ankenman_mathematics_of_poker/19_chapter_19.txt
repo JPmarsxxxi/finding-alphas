@@ -1,0 +1,897 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         228 
+ 
+Chapter 19 
+The Road to Poker: Static Multi-Street Games 
+ 
+In the preceding chapters, we have considered a wide variety of games of the half-street and full-
+street varieties. One of the primary virtues that these games have is that they are relatively simple 
+to solve; and games that we can solve can give us insight into the impact of changes to a 
+particular dimension of the game. However, real poker is seldom played in half-street or full-
+street ways, and as we shall see in this chapter and the next, adding additional streets changes 
+strategy in fundamental ways. 
+ 
+We begin by considering what we call static games. These are games where there are multiple 
+streets of betting, but neither player's hand changes value. These games give us insight into how-
+bluffing works across multiple streets without considering the complexity of draws. After 
+covering a few games of this type, we will move on to the more difficult and realistic games 
+where draws are present. 
+ 
+The most basic static game of two streets that corresponds with our treatment of half street and 
+full street games is the clairvoyant game. 
+ 
+Example 19.1 - The Two-Street Static Clairvoyant Game 
+Two full streets.  
+Static hand values.  
+Pot size of P bets.  
+Limit betting.  
+Y is clairvoyant. 
+ 
+Recall that in the one-street clairvoyant game, X never bet because such bets would never have 
+positive value. Since Y was clairvoyant, he could exploit any such bets that X made with perfect 
+information. The same situation occurs here. On either street, X will only check and call because 
+Y can respond to any bet with perfect accuracy. This is the case here only because the game is 
+static; that is, Y knows his ending hand value now. If there were draws where Y did not know 
+the outcome, there might be situations where X would bet. 
+ 
+In the one street game, we found that the solution to the clairvoyrance game was that Y would 
+bet all his winning hands, and bluff with a fraction a of his losing hands. X would respond by 
+folding a of his hands, and calling with the rest. This was true except for the cases where Y had 
+such a strong distribution of hands that he could bet all hands and X would be compelled to fold. 
+ 
+In the two-street game, we have an additional street of betting. This creates some additional 
+strategic options for the two players. First consider Y's options. 
+ 
+Check both streets (strategy Υ0) 
+Check the first street and bet the second (strategy Υ 1} 
+Bet the first street and check the second (equivalent to strategy Υ 1) 
+Bet both streets (strategy Υ 2) 
+ 
+Clearly Y will prefer to bet both streets with his nut hands; this maximizes value. Hands that 
+employ strategies Υ 1 and Υ 0 will be bluffs, as well as some hands that employ strategy Υ 2. Y 
+will also prefer to play the second version of Υ 1 where he bets the first street and checks the 
+second. The check-first version is of course exploitable because X will know that Y does not 
+have a nut hand because of his initial check. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         229 
+ 
+ 
+X's strategy must make Y indifferent between these three options when Y has a dead hand.  
+X has three options in response to Y's bets: 
+ 
+Fold immediately (strategy X0) 
+ 
+Call the first street and fold the second (strategy X1) 
+ 
+Call both streets (strategy X2). 
+ 
+We have the following matrix (values from Y's perspective): 
+ 
+ 
+X0 
+X1 
+X2 
+/0 
+0 
+ 0 
+0 
+/ 1 
++P 
+-1 
+-1 
+/ 2 (bluff) 
++P 
++ (P+ 1) 
+-2 
+/ 2 (value) 
+0 
++1 
++2 
+ 
+When Y uses strategy Υ 2, we will call his fraction of value betting hands yv and his fraction of 
+bluffs yb. We will call X's frequency of using his three strategies x0, x1, and x2, and Y's frequency 
+of using his three strategies y0, y1, and y2. 
+ 
+Then we have the following indifference between Υ 1 and Υ 0: 
+ 
+0 = Px0 – x1 - x2 
+ 
+We know that x1 + x2 = 1 – x0, because the total frequencies for both players must sum to one. 
+Hence: 
+ 
+0 =1 – x0 – Px0 
+x0 = 1/(1 +P) = α 
+ 
+So on the first street. X plays a strategy that is the same as his strategy in the one-street game. He 
+folds α of his hands, and calls with the remainder. 
+ 
+Next, between Υ 1 and Υ 2 (bluff), we have: 
+ 
+aP – x1 - x2 = aP+ (P+ 1)x1 - 2x2 
+(P+2)x1 = x2 
+ 
+We have x1 + x2 = 1 - a, so: 
+ 
+1 - a – x1 = (P+ 2)x1  
+x1 = a2(1 - a) 
+ 
+On the second street, as well, X plays a strategy that is very much like his strategy in the single 
+street game. After folding α of his hands on the first street, he has 1 - α hands left. The pot has 
+grown by two bets because of the betting on the first street, so on the second street he now folds 
+a2 of his hands, and calls with the remainder. This is a very important idea: 
+ 
+The non-clairvoyant player plays each street independently as if it were a single street game. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         230 
+ 
+We now turn our attention to Y's strategy of betting and bluffing. Y must make X indifferent 
+between his three strategies x0, x1, and x2. We have the following indifference between x0 and x1. 
+ 
+Py1+ Pyby2 = - y1 + (P + 1 )yby2 + yvy2 
+(P + 1)y1 = yvy2 + yby2  
+y1 = ay2 
+ 
+This indifference shows the second important result of this game. 
+ 
+The hands that 0 bluffs once and then gives up on have the a bluffing ratio relationship to the 
+total hands that 0 will bet for value and bluff on the second street. 
+ 
+Next, the indifference between X1 and X2: 
+ 
+-y1 + (P + 1 )yby2 + yvy2 = -y1 – 2yby2 + 2yvy2  
+yvy2 = (P + 3)yby2 
+yb = a2yv 
+ 
+So on the second street, Y value bets and bluffs in the typical bluffing ratio out of ерe hands he 
+has left. Here the ratio is a2 because the pot is two bets larger. 
+ 
+Let's recap this idea, because it is an important one. On the final street, Y will have a set of 
+betting and bluffing hands appropriate to the pot size at that point. On the preceding street, he 
+"pretends" that all those hands are value hands and bluffs appropriately to the current pot size. 
+Then on the final street, he gives up on his "bluffs" from the first street, and only continues to 
+bluff out of the "value hands" he carried forward from the last street. 
+ 
+This often leads to Y bluffing a larger number of hands than we saw in the one-street games. For 
+example, suppose the pot is 2 bets before the first street and Y has just a small number of 
+winning hands. Then we have the following: 
+ 
+On the river, the pot will be 4 bets. Y will want to value bet all his winning hands and 1 5
+  as 
+many bluffs on the river. So he "pretends" that his value bets plus another 1 5
+  as many bluffs are 
+value hands. On the first street, the pot is 2 bets, so he wants to bluff with his 'value hands" and 
+1 3
+  as many dead hands. Since he has 6 5
+  as many "value hands," he bluffs with the intention of 
+giving up with 2 5
+  as many hands as he has nut hands on the first street. The total number of dead 
+hands he bets on the first street is 3 5
+  as many as he has value hands. 
+ 
+He then bets all these hands, gives up on 2 3
+  of his dead hands after the first street, and continues 
+with 1 3
+  of the dead hands and all the value bets on the second street. The second player cannot 
+exploit this strategy, as we showed that he is indifferent between calling once, twice, or not at all. 
+ 
+This result generalizes to any number of streets and to any bet size, subject to the usual 
+restrictions on strength of distribution. Suppose that we play the following game: 
+ 
+X and Y ante 2 units. 
+Both players receive hands, but both hands are revealed only to Y.  
+A complete board is dealt but revealed only to Y. 
+There are three streets - a flop where the bets are 1 unit, and a turn and river where they are 2 
+units. 
+ 
+If there's a showdown, the board and both hands are exposed and the showdown is as usual. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         231 
+ 
+Again in this game, X cannot profitably bet on any street; the solution is just as it was in the two-
+street game, except with an additional street and different bet sizes. 
+ 
+With winning hands, Y will bet on each street, and the pot size going into the river will be 4 + 2 
++ 4 = 10 units, with a bet size of 2. On the river, Y will bet with the 1 2
+  of hands with which he 
+will win, plus an additional 2 12
+  as many, for a total of 1 12
+
+. This makes a total of 7 12 
+
+of his hands. 
+ 
+On the turn, the pot will be 6 bets, with a bet size of 2. So Y will have 7 12
+ of his hands designated 
+'Tor value," and will additionally bluff 1 4
+  as many hands as that, or an additional 7 48
+ . So his 
+total betting hands on the turn will be 35 48
+ . 
+ 
+On the flop, the pot will be 4 bets, with a bet size of 1. Y will take his 35 48
+ "value bets" and bluff 
+an additional 1 5
+  of that, or 7 48
+ . So his total betting hands on the flop will be 42 48
+  = 7 8
+ . 
+ 
+The solution is that Y bets 7 8
+  of his hands total and gives up on 1 12
+  of his dead hands after the 
+flop and 7 48
+  of his dead hands after the turn. X simply folds α of his hands on each street. The 
+value of this game is easily found by assuming X folds immediately (since he is indifferent). 1/8 
+of the time, X wins the pot for a net to Y of 1.5 units. It's amazing that X can retain any equity at 
+all in such a biased game. 
+ 
+ 
+We said that this extended to all bet sizes. In games where the clairvoyant player controls the bet 
+size (such as no-limit), we can use the maximization techniques from previous chapters to find 
+optimal bet sizes. 
+ 
+Example 19.2 - The Two-Street Static Clairvoyant No-Limit Game 
+Two full streets.  
+Static hand values.  
+Pot size of 1 unit. 
+No-limit betting (stacks of N units).  
+Y is clairvoyant. 
+ 
+We'll first consider the two-street case; the idea here generalizes to any number of streets. We 
+saw in the previous game that the non-clairvoyant player plays each street as if it were a single-
+street game, folding a of his hands and calling with the remainder. Likewise, the clairvoyant 
+player bets and bluffs using a-ratios to the hands he carries forward from street to street. 
+ 
+These relationships hold even when the bet sizes are not constant and can be determined by the 
+clairvoyant player. As a result, we can find the clairvoyant player's equity in terms of bet sizes s1 
+and s2 and attempt to maximize this value. We have a matrix similar to the previous game, 
+supposing the pot is 1 unit. 
+ 
+ 
+X0 
+X1 
+X2 
+/0 
+0 
+ 0 
+0 
+/ 1 
++1 
+-s1 
+-s1 
+/ 2 (bluff) 
++1 
++ (1+ s1) 
+- ( s1 + s2) 
+/ 2 (value) 
+0 
++ s1 
++( s1 + s2) 
+ 
+Writing the same indifference equations as in the previous game, we have:  
+ 
+X0 — s1x1 – s1x2 = 0 
+x0 = s1(1 - xo) 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         232 
+ 
+X0 = S1/(1+S1) 
+ 
+Again, we see that X folds α of his hands (recall that α = s/(l + s) as well as 1/(P+ 1)).  
+ 
+x0 + (1+s1)x1 – (s1 + s2)x2 = x0 –s1x1 – s1x2 
+(1+2s1)x1 = s2x2 
+x2 = x1(1+2s1)/s2 
+x2+x1 = x1(1+2s1+s2)/s2 
+ 
+Now let's consider what α2 is for this game. 
+ 
+After the first street, the pot size will be 1 + 2s1 (the original pot, plus a bet and a call). So α2 
+would be s2/(l + 2s1 + s2). Substituting this into the above equation, we have: 
+ 
+x2 + xl = xl / α2  
+x1 = α2(x2 + x1) 
+ 
+We saw this result previously. X plays each street as though it were a single street game, folding 
+an appropriate a of his hands on each successive street. Of all the hands that call one bet (x2 + 
+x1), X folds α2 for the second bet. 
+ 
+The indifferences for X are likewise the same: 
+ 
+ 
+X0 
+X1 
+X2 
+/0 
+0 
+ 0 
+0 
+/ 1 
++1 
+-s1 
+-s1 
+/ 2 (bluff) 
++1 
++ (1+ s1) 
+- ( s1 + s2) 
+/ 2 (value) 
+0 
++ s1 
++( s1 + s2) 
+ 
+y1+y2yb = -s1y1+(1+s1)y2yb+s1y2yv 
+(1+s1)y1 = s1y2yb + s1y2yv 
+y1 = y2s1 / (1+s1) 
+y1 = αy2 
+ 
+Here we see, as before, that the number of hands that Y bluffs is equal to a times the number of 
+hands he will both bluff and value bet on the river. 
+ 
+-s1y1+(1+s1)y2yb+s1y2yv = -s1y1 – (s1+s2)y2yb +(s1+s2)y2yv 
+(1+s1)y2yb+s1y2yv = - (s1+s2)y2yb+(s1+s2)y2yv 
+(1+2s1+s2)y2yb = s2y2yv 
+(1+2s1+s2)yb = s2yv 
+yb = α2yv 
+ 
+And on the river, the bluffing ratio is simply α2. So this solution holds for any bet sizes (provided 
+that the distributions are not so strong). To find the proper bet sizes s1 and s2, we maximize Y's 
+equity for the two bet sizes. 
+ 
+We can make a nice simplification that additionally helps us understand the principle of optimal 
+bet sizing. Suppose that Y bets s1 into a pot of 1. If X were to call, then the pot would grow on 
+this street from 1 to (1 + 2 s1). We define r1 as this ratio; the ratio that the pot will grow if the bet 
+s1 is called, hi a similar fashion, we can define r2 as the ratio by which the pot will grow if the bet 
+s2 is called, from (1 + 2s1) to (1 + 2s1 + 2s2), or 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         233 
+ 
+(1 + 2S1)/(1 + 2s1 + 2s2) and so on:  
+rn = (pn+2sn)/pn 
+ 
+Note that this r isn't necessarily the same as the previously discussed r (Equation 14.1). 
+ 
+We know from the above definition of r that for any street, the following is true:  
+ 
+r = 1 + 2s 
+(where 1 is the pot size coming in to this street). 
+ 
+From this, we can derive the following useful transformation: 
+ 
+r – s = l +2s - s  
+r – s = l + s 
+r – s = (2 + 2s)/2  
+r – s = (l + r)/2 
+ 
+We can also find the following: 
+ 
+α = s/(l +s)  
+α = s/(r – s) 
+ 
+Let Mn represent the amount of hands which are "for value," whether this means value bets on 
+the next street or if this is the final street, hands which are the nuts. On any street, the amount of 
+hands bet (bluffs and value bets) Bn for that street is: 
+ 
+Bn = snMn/(rn - sn) + Mn 
+Bn = Mn(rn – sn + sn)/(rn - sn)  
+Bn = Mnrn/(rn – sn) 
+Bn = 2Mnrn/(l + rn) 
+ 
+This is an important result; it provides a "factor" that we can apply to the streets in order to find 
+the number of bluffs on each street. 
+ 
+On the second street of our game, then, the total number of hands bet (if Y has y winning hands 
+overall) will be: 
+ 
+B2 = 2yr2/(l + r2) 
+ 
+while the hands bet on the first street will be: 
+ 
+B1 = 2B2r1/(1+r1) 
+B1 = 4yr1r2/(1+r1)(1+r2) 
+ 
+Let's review all that math to distill it to a couple of results. 
+ 
+We defined values rn that are the ratio of the pot after a bet and a call on that street to the pot 
+before that street. 
+ 
+We found that for each street, we can express the total number of hands that are bet (bluffs or 
+value bets) with the following formula: 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         234 
+ 
+Bn = 2Mnrn/(l + rn) 
+ 
+where M is the number of hands that will be carried forward and bet on the next street (if there 
+are streets remaining) or that are nut hands (if this is the final street). 
+ 
+If Y bets s1 and s2 at optimal frequencies, then X will be indifferent to calling or folding on any 
+street. We can assume, therefore, that he simply folds immediately, which means that Y wins the 
+pot with all his bluffs. We also know that X won't actually fold all his hands - in fact, he will call 
+optimally. Since this is the case, Y will want to maximize the total amount he bets overall when 
+he has a nut hand (and therefore also when he bluffs). As a result of this, we know that s1 + s2 
+will equal a constant of N; that is, Y will bet his entire stack on the two streets when he bets 
+twice. Given that, we can calculate Y's equity by assuming that Y does not fold. Since the pot is 
+one unit, Y maximizes his value by maximizing the fraction of hands that he bets. 
+ 
+The total number of hands Y bets is: 
+ 
+ =
+4",,
+1 + ,(1 + ,) 
+ 
+The 4y term is of course a constant, so we need to maximize the following expression: 
+ 
+r1r2/(1 + r1)(1+r2)  
+ 
+r1r2 is a constant; we can see this as follows: 
+ 
+r1 = (l + 2s1) 
+r2 = (l+ 2s1 + 2s2)/ (1+2s1) 
+r2 = (1 + 2N)/ (1 + 2s1) 
+r1r2 = 1 + 2N 
+ 
+So we are left to maximize 
+ 
+1/(1 + r1)(1 + r2) 
+ 
+We know that both r1 and r2 are positive; hence, we can simply seek to minimize the 
+denominator. 
+ 
+(1+r1)(1+r2) = 1 + r1 + r2 + r1r2 
+(1+r1)(1+r2) = 2 + 2N + r1 + r2 
+ 
+The constant terms fall out, and we are left to minimize r1 + r2 subject to the constraint that r1 r2 
+is constant. The arithmetic-geometric mean inequality shows us then that this expression is 
+minimized when r1 = r2. 
+ 
+In fact this result generalizes to more than two streets. Using the same logic as we used above, 
+we can find that the equity for Y for a three street game is: 
+ 
+ =
+8",,,
+1 + ,1 + ,(1 + ,) 
+ 
+However if B1 >=1, then what is happening is that Y does not have enough bluffs. Y should 
+simply bet the growth of pot. And X should fold all hands. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         235 
+ 
+By reducing out terms as before, we are left to minimize the expression r1 + r2 + r3 subject to the 
+constraint that r1 r2 r3 is a constant. This occurs when r1=r2=r3. This result additionally applies to 
+any number of streets. 
+ 
+We call this betting progression (growing the pot by the same amount on each street) geometric 
+growth of pot. This result is very significant to our understanding of no-limit bet sizing; in fact, 
+as we will see in the next chapter, we use this as one of the bases of our entire bet-sizing scheme 
+in no-limit holdem. When the game is static and one player is clairvoyant, the optimal bet size is 
+to make the pot grow by the same amount on each street, such that on the last street the entire 
+stack has been bet. 
+ 
+We will provide a short example game to contrast this strategy (against an optimal opponent) 
+with another strategy that might seem reasonable but performs dramatically more poorly. 
+ 
+Example 19.3 
+Suppose we play the following game: 
+ 
+X and Y start with stacks of $185 and each antes $5.  
+Y draws a single card from a full deck.  
+There are three streets of no-limit betting. 
+ 
+If there is a showdown, then Y wins if his card is an ace or a king, and loses otherwise. 
+ 
+This game is equivalent to the clairvoyant game we discussed above, but with three streets. First, 
+we can calculate the showdown value of this game; that is, suppose there were no betting. Then 
+Y would win 2 13
+  of the time for a total gross equity of $1.54 per play and a net loss of $3.46. 
+ 
+In order to make this game profitable, Y must make up $3.46 in equity from the betting. We will 
+solve this game using the solutions we found earlier for two betsizing strategies: 
+ 
+Υ1. Y bets one-third of his stack on each street. 
+Υ2: Y bets the geometric growth of pot on each street. 
+For YI, of course, each bet will be $60. For Υ 2 we can take advantage of the fact that 10r1r2r3 = 
+10r3 = $370. So r is the cube root of 37, or about 3.3322.  
+On each street, pn + 2sn = rpn 
+ 
+Street 1: 
+$10 + 2s1 = $10r  
+s1 = $11.66 
+ 
+Street 2: 
+$33.32 + 2s2 = $33.32r  
+s2 = $38.86 
+ 
+Street 3: 
+$111.04 + 2s3 = $111.04r 
+s3 = $129.48 
+ 
+X will play his optimal strategy of calling pn/(pn + sn) of the time on each street. Doing this 
+results in his strategy values as follows: 
+ 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         236 
+ 
+Street 
+Y's bet (/1) 
+X's call freq. 
+Y's bet (/2) 
+X's call freq. 
+1 
+$60 
+14.29% 
+$11.66 
+46.2% 
+2 
+$60 
+68.42% -> 9.77% 
+$38.86 
+46.2% -> 21.3% 
+3 
+$60 
+80.6% -> 7.88°/o 
+$129.48 
+46.2% -> 9.84% 
+Total 
+$60 
+7.88%  
+$90 
+4.06% 
+ 
+We know that Y breaks even on his bluffs - on each street he bluffs appropriately to the number 
+of hands he will carry over to the next street. 
+ 
+On his value hands, then, Y obtains the following value: 
+ 
+< Υ1 >  = (14.29%)($60) + (9.77%) ($60) + (7.88%)($60) =$19.16  
+< Υ2 > = (46.17%) ($8.34) + (21.31%) ($22.26) + (9.84%) ($59.40) = $26.41 
+So Y does better by more than $7 per winning hand by betting the geometric growth. On a per-
+hand basis, this is enough to swing the game from negative (using Υ1) to positive (using Υ2). It is 
+worth noting that the limit of ex-showdown value (no matter how much betting is left) must be 
+equal to X's showdown value; if Y could extract more than that value from him, X would simply 
+fold and surrender his $5 ante. 
+ 
+We also briefly look at a graph of the r constant against the stack sizes for two and three streets: 
+ 
+When r is equal to 3, then s is equal to 1 and the bets are pot-sized. You can see that in order for 
+pot-sized bets to be optimal in the three-street case, the stacks must bet 13 times the initial pot. 
+At stacks of 3.5 times the pot, half-pot bets are sufficient to get all the money in geometrically. 
+ 
+Auction Games (Games with Infinite Streets) 
+The last static games we will consider are not precisely like poker games; in fact, the structure of 
+their solutions is rather different from the structure of some of the preceding games. However, 
+they do provide us with at least one important principle and have some interesting properties of 
+their own. These are games with infinite streets (or arbitrarily large numbers of streets). We call 
+6
+Stack Size 
+ 
+Figure 19.1. Geometric Growth of pot for two and three streets 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         237 
+ 
+these auction games as well because in the limit as the number of streets goes to infinity, they 
+converge onto a different type of game altogether. 
+ 
+Example 19.4 
+We begin by considering a clairvoyance game of an arbitrary number of streets. 
+ 
+M full streets. 
+Static hand values. 
+Initial pot size of 1 unit. 
+No-limit betting (stacks of S units). 
+Y is clairvoyant. 
+ 
+Extending the geometric growth of pot results to M streets, we know the following will be true: 
+ 
+The final pot size (if all bets are called) will be 1 + 2S (that is, the current pot size plus both 
+stacks). 
+ 
+P = 1 + 2S 
+ 
+The growth on each street will be the Mth root of P (this is the geometric growth of pot for M 
+streets), so 
+ 
+G = P(1/M) 
+ 
+The bet size s (in current pots) on each street will be: 
+ 
+s = (G - 1)/2 
+ 
+Suppose that we call the pot on the current street 1. Y will bet the correct number of hands for 
+value yv and bluff with s/(1+ s) times as many hands. His total betting hands, then, will be yv(1 
++ 2s)/(1 + s). 
+ 
+We can state this as follows. The ratio of the hands bet on street m+1 to the hands bet on street m 
+will be: 
+ 
+rb = (1 +2s)/(l +s) 
+ 
+You can think of this value as the "bluff multiplier." Suppose we have a two-street game with 1 
+unit stacks and a pot of 1. Growing the pot geometrically would mean growing the pot from 1 to 
+3 in two streets. So r for this game is √3 and the bet size for each street is (√3 - l)/2, or about 
+0.366. To find the bluffs here, we simply figure that Y has y value bets. So on the river, he will 
+bluff s/(l + s) times y. The expression s/(l + s) for this bet size is about 0.268. Hence, Y will bet 
+1.268y hands on the river, and (1.268)2y hands on the turn. Substituting 0.366 for s in the above 
+expression for rb, we find that rb is 1.268. 
+ 
+Suppose Y has a total number of nut hands for the entire game y. Let ym be the number of hands 
+he bets on street m + 1, while yM is the total number of value hands, or yM = y. Also let y0 be the 
+number of hands he bets on the first street. 
+ 
+Then we have: 
+ 
+ym = y0rbm 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         238 
+ 
+yM = y0rbM = y 
+ym = yrbm-M 
+y0 = yrb
+-M 
+ 
+We may, however, run into a problem here. Suppose that y0 > 1. Then we have a situation we've 
+discussed earlier where Y doesn't have enough bluffs, since adding enough bluffs would make 
+him bet more hands than he has. Hence, he can simply bet and claim the pot and X should 
+optimally fold. 
+ 
+Otherwise, X calls with his typical frequency of 1/(1 + s). Let xm be the number of hands he 
+calls with on the m + 1th street. Then: 
+ 
+rc = l/(l + s) 
+xm = rc
+m 
+ 
+In either of these cases, assuming that Y plays optimally, X is indifferent to calling or folding. So 
+the value of the game is equal to y0 - y, which is the pot for every hand Y bluffs initially. 
+ 
+Next we consider what seems to be an entirely different type of game: 
+ 
+Example 19.5 - The Auction Game 
+Static hand values.  
+Initial pot size of 1 unit.  
+Stacks of S units. 
+ 
+Each player makes a bid secretly, and the bids are simultaneously revealed. 
+The bids are sx and sy and must be on the interval [0, S]. Both bids are put into the pot. 
+ 
+If sx > sy, then X wins, if sy > sx, then Y wins. 
+If sy = sx, then there is a showdown. (This will usually occur when the bids are both S). 
+ 
+This game is not quite so poker-like as some other games we have examined. However, let's be a 
+little abstract. Suppose we have a poker game with static hand values and M streets. Let's 
+suppose we are going to play a strategy that is inspired by the auction game. 
+ 
+For each hand we can hold, we are going to pick a number sx that is some fraction of our total 
+stack 5. 
+ 
+On each street, we are going to bet an equal piece of our remaining stack ε = S/M until we reach 
+our threshold value sx, after which point we will just check and give up. ε is the Greek letter 
+epsilon, which we introduced earlier and represents a very small amount. As we shall see, in this 
+game, epsilon will go to zero as the number of streets grows. If our opponent puts in a raise of 
+any amount, we will call if the raise is to an amount smaller than our threshold value and begin 
+the next street by betting ε for our remaining stack and the remaining streets. If the raise is to an 
+amount higher than our threshold, we will fold. 
+ 
+Now suppose our opponent is the nemesis. How much can he gain from exploiting our strategy? 
+In order to find out where our threshold value is. he must call the initial bets that led up to our 
+check. Thus, he cannot effectively exploit us by calling along and bluffing us out of the pot. In 
+fact, the only gain he can realize is when our strategy forces us to bet an amount that is slightly 
+larger than sx. Suppose that we have 100 streets, and sx is 0.601. For the first sixty streets, we bet 
+0.01 of the initial pot. On the sixty-first street, however, we still have not reached our threshold. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         239 
+ 
+Now we cannot bet a smaller amount without exposing ourselves to exploitation. So we. again 
+bet 0.01, making our total bet 0.61. This is 0.009 more than we were actually willing to risk, and 
+against almost all of the hands that make it to this point, we lose this additional 0.009 of value. 
+ 
+We can assess the value of a raise to the nemesis as well. Suppose that we bet on a particular 
+street, making the total amount we have bet equal to x. Since we bet this street, the nemesis 
+knows that our sx value must be less than x - ε. Suppose he then raises to y units. There are three 
+cases: 
+ 
+sx < y. In this case, we fold. However, the nemesis could have made more money (sx - x at least) 
+by simply calling along until we gave up. 
+ 
+sx > y. In this case, we call. After the raise, however, our bet size for each street has been reduced 
+- instead of betting (S - x)/Mcur per street the rest of the way, we will bet 
+ 
+(S – y)/Mcur, a smaller amount. Since we already showed how the nemesis can gain up to ε 
+against our strategy, he certainly would not want to make it smaller. 
+ 
+sx = y. In this case, we simply call and then check and give up on later streets. The nemesis gains 
+nothing. 
+ 
+In no case can the nemesis gain anything by raising - in fact, he ought to simply call down as 
+well. 
+ 
+Another way of seeing this is to consider two players who play this strategy against each other. 
+The following is a result from game theory: if we have a strategy pair (X, Y), and we know the 
+value of the nemesis of X and the nemesis of Y, the game value must be between those two 
+values. This is because the optimal strategy for X must do worse than the nemesis against Y, and 
+vice versa. Hence, the value to the nemesis of our employing this betting structure instead of the 
+optimal structure is at most the value of the game played optimally G - ε. 
+ 
+We know that as the number of streets M approaches infinity, ε will go to zero, because M is the 
+denominator of the expression for ε = S/M. So we know that the value of any game converges on 
+the value of the auction game that corresponds to the parameters of that game. Likewise, we 
+know that for any number of streets, playing an auction strategy gives up at most ε, or S/M. 
+ 
+Example 19.6 
+Next, we consider the clairvoyant auction game.  
+ 
+Y is clairvoyant. 
+Auction game rules with stacks of S and initial pot 1. 
+ 
+Let Y have y winning hands. Then there are three types of hands total: X's hands, which are all 
+alike and Y's hands, which are winning hands and losing hands. Y will evidently always choose 
+sy = S when he has a winning hand; that is, Y will always be willing to bet his entire stack when 
+he is going to win the pot. Let y be the amount of winning hands that Y has. Let x(s) be the 
+fraction of hands with which X bids at least s, and y(s) be the fraction of hands with which Y 
+bids at least s. 
+ 
+Y's strategy will be to bid S with nut hands, and to choose sy for bluffing hands such that he 
+gradually gives up on bluffing hands until he is left with y(S) = y. To make Y indifferent 
+between bidding two amounts s and (s + ∆s) with a dead hand, we have the following. ∆s, or 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         240 
+ 
+"delta  s" is generally used to denote changes (small or large) in s. So here Y is indifferent 
+between bidding s and bidding an amount greater by ∆s. 
+ 
+-∆x = x(s + ∆s) - x(s) 
+(We use this notation became as s increases, x will decrease). 
+ 
+-x∆s +∆x∆s + (1 + 2s)(- ∆x) = 0  
+(1 + 2s + ∆S) -∆x = x∆s 
+-∆x / x = ∆s / (1 + 2s - ∆s) 
+ 
+as ∆s → 0, we have: 
+-∆x / x = ∆s / (1 + 2s - ∆s) 
+-∆x / x ≈  ∆s / (1 + 2s)  
+-dx/x = ds/(1 + 2s) 
+ 
+Integrating both sides, we have: 
+ 
+-ln(x) + C = ln(l + 2s)/2 
+ln(Cx2) = ln(l + 2s) 
+x = k / )(1 + 2&) 
+ 
+Of course, x(0) = 1 as all hands must bid at least zero. Hence k = 1, and we have: 
+ 
+x(s) = 1/ / )(1 + 2&) 
+ 
+In the tame way, Y must male X indifferent between s and s + ∆s: 
+ 
+(-∆y) (1 + 2s + 2∆s) + y(∆s) = 0  
+-∆y/y = ∆s/ (1 + 2s + 2∆s) 
+ 
+AS ∆S → 0: 
+ 
+dy/y = ds/(l +2s)  
+y(s) = k/ )(1 + 2&) 
+ 
+We know that y(S) = y0, so: 
+ 
+y = k/ )(1 + 2&) 
+ 
+So "& = "1
+
+  and & = 1/)(1 + 2&) 
+ 
+However in this case, too, y0 may be greater than 1, as we saw when looking at the x(s) values 
+ 
+So the solution to the game is:  
+ 
+Solution: 
+ 
+ 
+"& = "1
+
+  
+(or 1, whichever is smaller)  
+& = 1/)(1 + 2&) (or 0 if y( )(1 + 2&)) >1) 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         241 
+ 
+To recap what these solutions mean, these are the total fraction of hands with which X and Y 
+will bid at least s in the auction (if their entire stack is S). Suppose that the stacks are 10 total and 
+Y has a winner 50% of the time. Then Y will bid at least 1 unit with: 
+ 
+"1 = 0.5()(1 + 2(10))/(1 + 2(1)) 
+"1 = 0.5(√7) 
+"(1) ≈1.323 
+ 
+Since this value is greater than one, Y will bid at least 1 with all hands. He wilt bid at least 5 
+with: 
+ 
+"5 = 0.5()(1 + 2(10))/(1 + 2(5)) 
+"5 = 0.5()(21/11) 
+"(5) ≈0.691 
+ 
+Here Y will bid at least 5 with 0.5 winning hands and 0.191 of his hands as "bluffs," and so on. 
+ 
+We can also show that these solutions are the limit as M →∞ of the clairvoyant poker game with 
+M streets. We will ignore here the cases where Y lacks enough bluffs, and concentrate on the 
+more usual case where both sides have mixed strategies on the first street. 
+ 
+To avoid confusion with regard to the values of s, let 
+ 
+sn = (G – 1)/2 
+ 
+which is the one-street betting ratio. (See Example 19.4) 
+ 
+We can use the following approximations: 
+ 
+sn = (G – 1)/2 ≈ ln(G)/2 = ln P/ 2M 
+ 
+We know from the solution to the clairvoyant poker game (Example 19.1) that xm = rc
+m. 
+ 
+xm = rc
+m 
+xm = (1+s1)-m 
+xm ≈ e-ms1 
+xm ≈ exp(−
+
+ 23) 
+xm ≈  
+ 
+ 
+We also know that the pot size after this street will be: 
+ 
+1 + 2s1 = Gm 
+1 + 2s1 = 
+
+ 
+ 
+Substituting, we have:  
+ 
+xm = (1+2s1)-1/2 
+xm = x(s) 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         242 
+ 
+We can show that the same holds true for y(s) - that the solution for the auction game in the limit 
+as M goes to infinity is the same as the clairvoyant no-limit game with M streets. 
+ 
+Key Concepts 
+• The clairvoyant game can be extended to more than one street. The key feature of the 
+multi-street game is that the clairvoyant player carries forward a set of hands from street 
+to street, bluffing many more hands on earlier streets and giving up on a fraction of those 
+hands on each street. 
+• In the no-limit multi-street clairvoyant game, the optimal bet size is the geometric growth 
+of pot - growing the pot by the same fraction on each street. 
+• As the number of streets increases, positional value goes to zero - the auction game is 
+symmetric. 
+• As the auction game (and geometric growth of pot) show, it is optimal to bet small 
+fractions of the pot in static games. Non-static games do not necessarily follow this 
+principle. 
+• Auction strategies assign a value sx, to each hand. This is a reasonable way to think about 
+no-limit games in general, as having a distribution of hands that each has a value. Then 
+the goal is to correlate the pot size with our hand strength. 
+• The non-clairvoyant player plays each street independently as if it were a single street 
+game, 
+• The hands that Y bluffs once and then gives up on have the a bluffing ratio relationship 
+to the total hands that Y will bet for value and bluff on the second street. 
+ 
+ 
+ 

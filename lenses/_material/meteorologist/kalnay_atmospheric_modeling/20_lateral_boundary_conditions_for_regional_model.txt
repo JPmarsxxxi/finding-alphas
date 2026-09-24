@@ -1,0 +1,262 @@
+120
+3 Numerical discretization of the equations of motion
+certain conditions, and the choice of the condition gives rise to different types of
+iterative methods (e.g., Sameh and Sarin, 1999). The requirement that the residual be
+orthogonal to the Krylov subspace, F −Aφm⊥Km(A,r0) leads to the conjugate gra-
+dient and the Lanczos methods. Methods like GMRES, MINRES and ORTHODIR
+are obtained by requiring that the residual be minimized over the Krylov subspace.
+The bi-conjugate gradient and QMR methods are derived requiring the residual to be
+orthogonal to Km(AT ,r0). The discussion of these methods applicable to nonsym-
+metric systems is beyond the scope of this book, but is given in the texts referred in
+Section 3.4.1.
+3.5
+Lateral boundary conditions for regional models
+3.5.1
+Introduction
+The use of regional models for weather prediction has arisen from the desire to reduce
+the model errors through an increase in horizontal resolution that cannot be afforded
+in a global model. Operational regional models have been embedded or “nested”
+into coarser resolution hemispheric or global models since the 1970s. In the USA,
+the ﬁrst regional model was the LFM model (Chapter 1). The nesting of regional
+models requires the use of updated lateral boundary conditions obtained from the
+global model.
+We have seen that for pure hyperbolic equations there should be as many boundary
+conditions imposed at a given boundary as the number of characteristics moving into
+the domain. Parabolic equations with second order diffusion require one boundary
+condition at every point in the boundary for each prognostic equation. Second order
+elliptic equations (such as Laplace, Poisson, and Helmholtz equations) also require
+one boundary condition. The ﬁrst forecast experiment of Charney et al. (1950) used
+the barotropic vorticity equation (conservation of absolute vorticity), and already
+had to deal with boundary conditions. They solved the hyperbolic equation ∂ζ/∂t =
+−v · ∇(ζ + f ) followed by the Poisson (elliptic) equation ∇2∂$/∂t = ∂ζ/∂t.
+Therefore, Charney et al. (1950) had to impose a boundary condition on the stream-
+function at all the boundary points (needed to solve the Poisson equation) and a
+boundary condition for the vorticity at the inﬂow points. They used persistence in
+both cases: for the elliptic equation they used as boundary condition ∂$/∂t = 0
+(i.e., the normal wind remains constant), and then speciﬁed that the vorticity also
+remained constant (∂∇2$/∂t = 0) at the inﬂow points and extrapolated the vorticity
+using upstream differences at the outﬂow points.
+For the SWEs, there are three characteristics, one corresponding to a geostrophic
+solution, moving with the speed of the ﬂow U, and the other two corresponding to
+inertia-gravity waves, moving with speed U ±
+
+f 2k2 + . At the boundaries, if
+the speed of inertia-gravity waves is larger than U and the ﬂow is inward, we have
+
+3.5 Lateral boundary conditions for regional models
+121
+to specify two boundary conditions. If the ﬂow is outward, we have to specify one
+boundary condition (corresponding to the inertia-gravity waves moving in). If U
+is greater than the speed of the inertia-gravity waves, we have to specify all three
+boundary conditions at the inﬂow points and none at the outﬂow points. For parabolic
+equations (with horizontal diffusion), each predicted variable has to be speciﬁed as
+well at all lateral boundaries.
+Oliger and Sundstrom (1978) showed that the hydrostatic primitive equations
+are not purely hyperbolic (because of the loss of the time derivative of the vertical
+velocity), and that they do not have a well-posed set of boundary conditions. In an
+excellent review of the lateral boundary condition used in operational regional NWP
+models, McDonald (1997) pointed out that with the presence of horizontal diffusion
+in models there is a feeling that we can “over-specify slightly the lateral boundary
+conditions and not do very much damage”.
+In practice, boundary conditions are chosen pragmatically and tested numerically
+to check their appropriateness. Several methods have been tried over the years, but
+the most widely used is the boundary relaxation scheme introduced by Davies (1976).
+Davies (1983) has a very illuminating analysis of the impact of the different types
+of boundary conditions and their generation of spurious reﬂection using simple ex-
+amples of wave equations and SWEs. He points out that an overspecifying boundary
+condition scheme is satisfactory if: (a) it transmits incoming waves from the “host”
+model providing boundary information without appreciable change of phase or am-
+plitude, and (b) at the outﬂow boundaries, reﬂected waves do not reenter the domain
+of interest with appreciable amplitude. We follow the Davies (1983) analysis and the
+review by McDonald (1997) in the rest of this section. Durran (1999), Chapter 8,
+is also devoted to this subject.
+3.5.2
+Lateral boundary conditions for one-way
+nested models
+The majority of regional models have “one-way” lateral boundary conditions, i.e.,
+the host model, with coarser resolution, provides information about the boundary
+values to the nested regional model, but it is not affected by the regional model
+solution. This approach has some advantages: (a) it allows for independent develop-
+ment of the regional model, and (b) the host model can be run for long integrations
+without being “tainted” by problems associated with nonuniform resolution or from
+the regional model. Overall, the regional one-way nesting can be considered to have
+been successful, in the sense that the boundary information from the host model
+is able to penetrate the regional model, and the regional model solution is able to
+leave the domain without appreciable deterioration of the solutions. The success
+can also be measured by the fact that there have been several attempts to perform
+long-term integrations of nested regional models. In these long-term integrations, the
+
+122
+3 Numerical discretization of the equations of motion
+initial regional information is swept out of the domain in the ﬁrst day or two, and all
+the additional information comes from the global model integration. This approach
+is denoted “regional climate modeling”. Takle et al. (1999) discuss the Project to
+Intercompare Regional Climate Systems (PIRCS). In these extended integrations,
+the regional model acts as a “magnifying glass” for the global solution, allowing the
+large-scale ﬂow to interact with smaller scale forcing such as orography, variations
+in soil moisture and land–sea contrast, and as a result tend to give a more realistic so-
+lution. The “added value” over the global solutions empirically indicates the overall
+success of the one-way boundary conditions used in different models.
+Therearefourtypesof“pragmatic”boundaryconditionsthathavebeenformulated
+for one-way lateral boundary conditions:
+(a)
+Pseudo-radiation boundary conditions
+Orlanski (1976) proposed a ﬁnite difference approximation of the “radiation condi-
+tion”, i.e., specifying well-posed boundary conditions for pure hyperbolic equations.
+One assumes that the prognostic equations locally satisfy ∂u/∂t + c∂u/∂x = 0 and
+then estimates the phase speed c using a ﬁnite difference equivalent of
+c = −∂u
+∂t
+$
+∂u
+∂x
+(3.5.1)
+at the points immediately inside the boundary (denoted by b −1). Miller and Thorpe
+(1981) used ﬁrst order upstream approximation
+c′ = −un
+b−1 −un−1
+b−1
+t
+$
+un−1
+b−1 −un−1
+b−2
+x
+(3.5.2)
+as well as higher-order approximations. After estimating c′, if it points into the
+domain, un+1
+b
+is speciﬁed. If it points out, the upstream scheme is used: un+1
+b
+=
+un
+b −c′t/x(un
+b −un
+b−1). If c′t/x > 1 because the space derivative of u is
+small, Orlanski (1976) suggested limiting the value of c′ to c′ = x/t. Klemp and
+Lilly (1978) pointed out reasons why the approximate “radiation schemes” are not
+completely successful in avoiding spurious reﬂection: there can be overspeciﬁcation
+at the boundaries, speciﬁcation of the right number of boundary conditions but not
+their correct values, and errors in the estimation of c′. The radiation condition has
+been used for research models (e.g., Durran et al. 1993). Klemp and Durran (1983)
+and Bougeault (1983) used radiation boundary conditions at the top of the model.
+Operational models generally do not use radiation boundary conditions and instead
+impose the condition that the vertical velocity be zero at the top (e.g., ˙σ = 0 at
+σ = σT for sigma coordinates). As a result, the presence of this artiﬁcial “rigid top”
+leads to spurious wave reﬂections and even generates instabilities near the top (e.g.,
+Kalnay and Toth, 1996, Hartman et al., 1997).
+
+3.5 Lateral boundary conditions for regional models
+123
+(b)
+Diffusive damping in a boundary zone or “sponge layer” (Burridge, 1975,
+Mesinger, 1977)
+In this method the global (or host) model boundary conditions are speciﬁed for all
+variables, and horizontal diffusion is added over a boundary zone to dissipate the
+noisy waves generated by the boundary conditions:
+∂u
+∂t + c∂u
+∂x =
+ ∂
+∂x v ∂u
+∂x
+
+BZ
+(3.5.3)
+This would seem to be a natural choice for regional model boundary conditions since
+by increasing the order of the equation to make it parabolic within a limited boundary
+zone, it is possible to specify all variables at the boundary without overspecifying.
+However, this approach also has clear disadvantages: it damps the incoming waves
+from the global model (unless they are long compared to the width of the damping
+zone). It also produces spurious reﬂections of outgoing waves if ν increases abruptly,
+and if it increases slowly it may not be enough to damp the reﬂected waves. As a
+result, this method is not very much in use at this time.
+(c)
+Tendency modiﬁcation scheme (Perkey and Kreitzberg, 1976)
+The wave equation is replaced by
+∂u
+∂t + c∂u
+∂x = −γ ∂(u −u)
+∂t
+(3.5.4)
+where u is prescribed from the host model (which is assumed to be correct near the
+boundary), and γ is zero in the interior and increases to large values at the boundaries.
+Since the host model follows the wave equation
+∂u
+∂t + c∂u
+∂x = 0
+(3.5.5)
+we can write an “error” equation for the difference u′ between the regional and the
+host model:
+∂u′
+∂t + c∗∂u′
+∂x = 0
+(3.5.6)
+where c∗= c/(1 + γ ). Therefore the time tendency scheme advects the error and
+slows it down to almost zero at the boundaries, thus avoiding overspeciﬁcation. In
+practice this scheme is also found to produce spurious reﬂections.
+(d)
+Flow relaxation scheme (Davies 1976, 1983)
+As indicated before, this is the most widely used scheme. The forecast equations are
+modiﬁed by adding a Newtonian relaxation term over a boundary zone:
+∂u
+∂t + c∂u
+∂x = −K(u −u)
+(3.5.7)
+
+124
+3 Numerical discretization of the equations of motion
+The “error” equation is now
+∂u′
+∂t + c∂u′
+∂x = −Ku′
+(3.5.8)
+indicating that the error is advected to or from the boundary and damped. At the
+inﬂow boundaries only the differences between the regional and the host model
+are damped. Therefore this scheme mitigates the effects of overspeciﬁcation at the
+outﬂow boundaries without introducing deleterious effects in the inﬂow boundaries.
+If K increases abruptly, it can also introduce some spurious reﬂection. For this
+reason, Kallberg (1977) proposed the use of a smoothly growing function for K. Let’s
+consider a complete prognostic equation for the regional model near the boundaries
+∂u
+∂t = F −K(u −u)
+(3.5.9)
+In (3.5.9) F includes all the regular “forcing terms” in the interior time derivative
+(e.g., advection, sources/sinks, etc.). We can discretize it in time, using, for example,
+the leapfrog scheme for the regular terms and backward implicit scheme for the
+boundary relaxation term, as
+un+1 −un−1
+2t
+= Fn −K
+	
+un+1
+i
+−un+1
+(3.5.10)
+Here the overbar represents the host model, un+1 is the updated regional model,
+and the subscript i indicates the regional model (internal) solution obtained before
+relaxing towards the host model values un+1:
+un+1
+i
+= un−1 + 2t Fn
+(3.5.11)
+From (3.5.10) and (3.5.11) we can now write
+un+1 = un+1
+i
+−K2tun+1
+i
++ K2tun+1 = (1 −α)un+1
+i
++ αun+1
+(3.5.12)
+Here α = 2t K varies from 0 in the interior (K = 0), to 1 at the boundary, where
+the regional model solution is speciﬁed to coincide with the host model solution.
+McDonald (1997) mentioned three functions that have been proposed for α( j), where
+we deﬁne j = 0, α(0) = 1 at the boundary, and assume that the boundary zone
+has n points so that for j ≥n, α( j) = 0. The ﬁrst function, found to be optimal
+in minimizing false reﬂection of both Rossby and gravity waves by Kallberg (1977),
+starts gently in the interior and has the steepest slope at the boundary: α = 1 −
+tanh( j/2). Jones et al. (1995) used a linear proﬁle α = 1 −j/n, and McDonald
+and Haugen (1992) proposed a cosine proﬁle α = [1 + cos( jπ/n)]/2, which has the
+steepest slope at the center of the boundary zone. Benoit et al. (1997) in the MC2
+model used α( j) = cos2( jπ/2n) and reported good results.

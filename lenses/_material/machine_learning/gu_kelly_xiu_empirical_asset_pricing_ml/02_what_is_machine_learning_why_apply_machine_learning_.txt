@@ -1,0 +1,45 @@
+1.2
+What is Machine Learning?
+The deﬁnition of “machine learning” is inchoate and is often context speciﬁc. We use the term to
+describe (i) a diverse collection of high-dimensional models for statistical prediction, combined with
+(ii) so-called “regularization” methods for model selection and mitigation of overﬁt, and (iii) eﬃcient
+algorithms for searching among a vast number of potential model speciﬁcations.
+The high-dimensional nature of machine learning methods (element (i) of this deﬁnition) enhances
+their ﬂexibility relative to more traditional econometric prediction techniques. This ﬂexibility brings
+hope of better approximating the unknown and likely complex data generating process underlying
+equity risk premia.
+With enhanced ﬂexibility, however, comes a higher propensity of overﬁtting
+the data. Element (ii) of our machine learning deﬁnition describes reﬁnements in implementation
+that emphasize stable out-of-sample performance to explicitly guard against overﬁt. Finally, with
+many predictors it becomes infeasible to exhaustively traverse and compare all model permutations.
+Element (iii) describes clever machine learning tools designed to approximate an optimal speciﬁcation
+with manageable computational cost.
+1.3
+Why Apply Machine Learning to Asset Pricing?
+A number of aspects of empirical asset pricing make it a particularly attractive ﬁeld for analysis with
+machine learning methods.
+1) Two main research agendas have monopolized modern empirical asset pricing research. The
+ﬁrst seeks to describe and understand diﬀerences in expected returns across assets.
+The second
+focuses on dynamics of the aggregate market equity risk premium. Measurement of an asset’s risk
+premium is fundamentally a problem of prediction—the risk premium is the conditional expectation
+of a future realized excess return.
+Machine learning, whose methods are largely specialized for
+prediction tasks, is thus ideally suited to the problem of risk premium measurement.
+2) The collection of candidate conditioning variables for the risk premium is large. The profession
+has accumulated a staggering list of predictors that various researchers have argued possess forecast-
+ing power for returns. The number of stock-level predictive characteristics reported in the literature
+numbers in the hundreds and macroeconomic predictors of the aggregate market number in the
+dozens.2 Additionally, predictors are often close cousins and highly correlated. Traditional predic-
+tion methods break down when the predictor count approaches the observation count or predictors
+are highly correlated. With an emphasis on variable selection and dimension reduction techniques,
+machine learning is well suited for such challenging prediction problems by reducing degrees of free-
+dom and condensing redundant variation among predictors.
+3) Further complicating the problem is ambiguity regarding functional forms through which the
+high-dimensional predictor set enter into risk premia. Should they enter linearly? If nonlinearities
+2Green et al. (2013) count 330 stock-level predictive signals in published or circulated drafts. Harvey et al. (2016)
+study 316 “factors,” which include ﬁrm characteristics and common factors, for describing stock return behavior. They
+note that this is only a subset of those studied in the literature. Welch and Goyal (2008) analyze nearly 20 predictors
+for the aggregate market return. In both stock and aggregate return predictions, there presumably exists a much larger
+set of predictors that were tested but failed to predict returns and were thus never reported.
+3

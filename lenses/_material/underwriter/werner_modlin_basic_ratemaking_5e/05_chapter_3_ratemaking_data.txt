@@ -1,0 +1,758 @@
+Chapter 3:  Ratemaking Data 
+ 
+36 
+ 
+CHAPTER 3:  RATEMAKING DATA 
+One of the most significant underpinnings of the ratemaking process is data.  The quality of the final rates 
+depends largely on the quality and quantity of data available.  
+Most ratemaking work involves analyzing the adequacy of rates for existing insurance products.  In this 
+case, companies generally use internal historical data or industry historical data to project future 
+profitability.  To facilitate a good review, it is imperative that the company collects and maintains 
+pertinent and consistent historical data.  When pricing a new insurance product, the actuary will need to 
+search for internal information that may have some relationship to the new product or acquire relevant 
+external data.    
+This chapter provides high-level specifications for ratemaking data, introduces data aggregation methods, 
+and provides insights on external data.  Often an actuary is required to perform ratemaking analysis with 
+more limited data than is discussed in this chapter.  In those cases, an actuary must understand the impact 
+of not having particular information and should examine the sensitivity of the results of the analysis to the 
+various assumptions.  With this understanding and the data that is available, the actuary can determine 
+data specifications in a manner that minimizes distortions in the results of the study.  
+INTERNAL DATA 
+Data requirements are a function of the type of ratemaking analyses being undertaken.  For example, it is 
+not essential to know the individual characteristics for each policy or risk to perform an analysis of the 
+adequacy of the overall rates for a given product.  On the other hand, a full multivariate classification 
+analysis requires significant historical detail about each item being priced (e.g., an individual risk, policy, 
+or class of policies).     
+Typically, ratemaking analyses are performed on existing insurance products and primarily involve the 
+use of internal historical data to project the future profitability.  (External data is sometimes used as a 
+benchmark to provide context to the internal historical data in cases where internal data may be sparse or 
+unstable.)  There are generally two types of internal data involved in a ratemaking analysis.  The first is 
+risk information, such as exposures, premium, claim counts, losses, and explanatory characteristics about 
+the policy or the claim.  The second type of information is accounting information, such as underwriting 
+expenses and ULAE, which are typically available only at an aggregate level. 
+Data retrieval mechanisms for ratemaking analysis vary considerably from company to company.  Some 
+actuaries have access to a data mart specifically designed for ratemaking analyses.  Other actuaries must 
+access general company databases containing detailed transactional information and manipulate the data 
+to make it more appropriate for ratemaking analysis.  There are a myriad of scenarios that fit between 
+these two extremes. 
+The following sections outline one particular set of database specifications for risk information and 
+accounting information.  These specifications are not intended to be data mart recommendations or 
+guidelines but rather an example of what an actuary may encounter when retrieving company data for 
+ratemaking purposes.  The actuary should review the nuances of the individual insurance product and 
+
+Chapter 3:  Ratemaking Data 
+ 
+37 
+ 
+desired ratemaking analysis to conclude whether existing data specifications are adequate.  In addition, 
+the actuary should review the data for appropriateness for its intended purpose and reasonableness and 
+comprehensiveness of the data elements.  More detailed information on the actuary’s responsibility with 
+respect to data quality is contained in “Actuarial Standard of Practice No. 23, Data Quality” (Actuarial 
+Standards Board of the American Academy of Actuaries).  
+Risk Data 
+Ratemaking analysis ultimately requires information about policy exposure and premium linked with the 
+corresponding claim and loss information.  Company databases, however, typically record this 
+information in two separate databases:  a policy database and a claim database.   
+Policy Database 
+The policy database is defined according to records (i.e., individual policies or some further subdivision 
+of the policy) and fields (i.e., explanatory information about the record).  The way a record is defined for 
+a particular product’s policy database depends on the exposure measure and the way premium is typically 
+calculated.  The following are examples of policy database organization for different lines of business: 
+ 
+In homeowners insurance, a record may be a home for an annual policy period. 
+ 
+In U.S. workers compensation insurance, rating is based on the payroll of relevant industry 
+classifications so separate records are often maintained at the classification level.6 
+ 
+In personal auto insurance, separate records are typically created for each coverage—though this 
+could also be handled via a coverage indicator field in the database.  Separate records also may be 
+created for each individual auto on a policy (if multiple autos are insured on one policy); 
+moreover, separate records may be maintained for individual operators on each auto.  In 
+summary, an auto policy insuring two drivers on two cars for six coverages could involve 24 
+records (or four records if coverage is handled as a field).   
+In addition to the various subdivisions mentioned above, records are also subdivided according to any 
+changes in the risk(s) during the policy period.  If a policy is amended during the policy term, then 
+separate records are created for the partial policy periods before and after the change.  Examples will be 
+provided later to better illustrate this requirement. 
+The following are fields typically present for each record on the policy database: 
+ 
+Policy identifier  
+ 
+Risk identifier(s):  As mentioned earlier, products may only insure one risk per policy, and 
+policy identifier is sufficient.  For other products that insure multiple risks on a policy, unique 
+risk identifiers are required.  As in the example above, vehicle number and operator number may 
+be necessary for personal auto databases.   
+ 
+Relevant dates:  Each individual record contains the original effective and termination dates for 
+the policy or coverage within a policy.  If separate records are maintained for individual risks 
+and/or individual coverages on the policy, the start date of each risk/coverage is recorded.  For 
+example, if collision coverage for a new car is added to an existing auto policy, a record is added 
+with the relevant start date noted.  In addition, if separate records are maintained for midterm 
+amendments (e.g., a change in the deductible), the date of the amendment is recorded.   
+                                                     
+6Some workers compensation carriers record policy information at the individual employee level, but this is not 
+common. 
+
+Chapter 3:  Ratemaking Data 
+ 
+38 
+ 
+ 
+Premium:  This is typically the written premium associated with each record.  If the line of 
+business has multiple coverages, this information is recorded by coverage (represented either as a 
+separate record or via a coverage indicator field).  For example, personal auto insurance databases 
+track premium separately for bodily injury, property damage, comprehensive, collision, etc.  
+Earned and in-force premium can be calculated from the information on the record.  
+ 
+Exposure:  This is typically the written exposure associated with each record.  If the line of 
+business has multiple coverages, this information is recorded by coverage. 
+ 
+Characteristics:  Characteristics include rating variables, underwriting variables, and any other 
+available information regarding the risk represented by the record.  Some characteristics describe 
+the policy as a whole (e.g., the year the policy originated with the company) and as such are the 
+same for every record associated with a particular policy and period of exposure.  Other 
+characteristics describe individual risks (e.g., make/model of automobile) and consequently vary 
+between different records on the same policy.   
+ 
+As separate records are generated for midterm adjustments, the characteristics corresponding to each 
+record are those that were in effect during the relevant period of exposure (e.g., if records are split to 
+reflect a deductible change, the first record shows the initial deductible and the subsequent record(s) 
+shows the new deductible).   
+Frequently, risk characteristic information is captured in multiple databases across the company and, as 
+such, may be difficult to obtain and merge.  For some rating characteristics, it is advantageous to capture 
+a stable element from which the rating characteristic can be derived.  For example, age of driver is a 
+typical rating variable for personal automobile insurance; however, it is better to capture the date of birth 
+of the driver on the data record because the driver’s date of birth will not change from one policy period 
+to the next but the driver’s age will.   
+The following example homeowners policies can help clarify the construction of the policy database:   
+ 
+Policy A is written on January 1, 2010, with an annual premium of $1,100.  The home is located 
+in Territory 1 and the insured has a $250 deductible.  The policy remains unchanged for the full 
+term of the policy.  
+ 
+Policy B is written on April 1, 2010, with an annual premium of $600.  The home is located in 
+Territory 2 and the insured has a deductible of $250.  The policy is canceled on December 31, 
+2010.   
+ 
+Policy C is written on July 1, 2010, with an annual premium of $1,000.  The home is located in 
+Territory 3 and has a deductible of $500.  On January 1, 2011, the insured decreases the 
+deductible to $250.  The full annual term premium after the deductible change is $1,200.   
+ 
+Policy A expired at its original expiration date and had no changes, thus the entire policy can be 
+represented with one record.   
+Policy B was canceled before the policy expired.  This is represented by two records.  The first record for 
+Policy B contains the information known at the inception of the policy (e.g., one exposure and $600 in 
+written premium).  The second record represents an adjustment for the cancelation such that when 
+aggregated, the two records show a result net of cancellation.  As the policy was canceled 75% of the way 
+through the policy period, the second record should show -0.25 exposure and -$150 (=25% x -$600) of 
+written premium.   
+
+Chapter 3:  Ratemaking Data 
+ 
+39 
+ 
+Policy C expired at the original expiration date, but has a mid-term adjustment; this is represented by 
+three records.  The first record includes all the information at policy inception.  The second record negates 
+the portion of the original policy that is unearned at the time of the amendment (i.e., -0.50 exposure and   
+-$500 premium and deductible equal to $500).  The third record represents the information applicable to 
+the portion of the policy written with the new deductible (i.e., +0.50 exposure and +$600 premium and 
+deductible equal to $250).  
+Table 3.1 is an example policy database for the three policies described above. 
+ 
+In a more sophisticated data mart, information for Policy B would be aggregated to one record that shows 
+a “net” exposure of 0.75 and “net” written premium of $450.  Similarly, information for Policy C would 
+be aggregated to two records representing before and after the deductible change.  The first record would 
+reflect the period of time with the $500 deductible and would have a “net” exposure of 0.50 and “net” 
+written premium of $500.  The second record reflecting the period of time with the $250 deductible would 
+be identical to the third record in the original example.  The exposure is 0.50 and written premium is 
+$600.  This type of transaction aggregation is required for statistical ratemaking analysis such as 
+generalized linear models (discussed in more detail in Chapter 10). 
+Claims Database 
+Most companies maintain a separate database to capture all available information about the claims on a 
+specific policy.  In a claims database, each record generally represents a transaction tied to a specific 
+claim (e.g., a payment or a change in reserve).  The fields contain dates or other explanatory information 
+with respect to that claim.  Similar to the policy database, claims involving multiple coverages or causes 
+of loss may be represented as separate records or via indicator fields. 
+The following are the fields typically present for each record on the claims database: 
+ 
+Policy identifier 
+ 
+Risk identifier(s):  If relevant, the claim database contains a way to identify the risk that had the 
+claim.  This will be necessary to match the claim to the corresponding record in the policy 
+database. 
+ 
+Claim identifier:  The claim database contains a unique identifier for each specific claim.  This 
+same identifier is used if the claim has multiple claim transaction records. 
+ 
+Claimant identifier:  The claim database contains a unique identifier for each specific claimant 
+on a particular claim. 
+3.1 Policy Database
+Policy
+Original 
+Effective 
+Date
+Original 
+Termination 
+Date
+Transaction 
+Effective 
+Date
+ Ded Terr
+Other 
+Chars
+Written 
+Exposure
+Written 
+Premium
+A
+01/01/10
+12/31/10
+01/01/10
+$250
+1
+…
+1.00
+$1,100
+B
+04/01/10
+03/31/11
+04/01/10
+$250
+2
+…
+1.00
+$600
+B
+04/01/10
+03/31/11
+12/31/10
+$250
+2
+…
+-0.25
+-$150
+C
+07/01/10
+06/30/11
+07/01/10
+$500
+3
+…
+1.00
+$1,000
+C
+07/01/10
+06/30/11
+01/01/11
+$500
+3
+-0.50
+-$500
+C
+07/01/10
+06/30/11
+01/01/11
+$250
+3
+…
+0.50
+$600
+*For illustrative purposes this is ordered by policy rather than transaction effective date.
+
+Chapter 3:  Ratemaking Data 
+ 
+40 
+ 
+ 
+Relevant loss dates:  The claim record includes fields for the date of loss, the date the company 
+was notified of the loss (i.e., the report date), and the date of the transaction for the specific record 
+(e.g., date of a loss payment, reserve change, or claim status change).   
+ 
+Claim status:  This field is used to track whether the claim is open (i.e., still an active claim) or 
+closed (i.e., has been settled).  For some insurance products it may be common for claims to be 
+re-opened.  If that is the case, it may be advantageous to add the re-opened and re-closed status 
+descriptions. 
+ 
+Claim count:  This field identifies the number of claims by coverage associated with the loss 
+occurrence.  Alternatively, if each record or a collection of records defines a single claim by 
+coverage, aggregating claim counts can be accomplished without this explicit field.   
+ 
+Paid loss:  This field captures the payments made for each claim record.  If there are multiple 
+coverages, perils or types of loss, the loss payments can be tracked in separate fields or separate 
+records.  Additionally, if the product is susceptible to catastrophic losses (e.g., hurricanes for 
+property coverage), then catastrophic payments are tracked separately either through a separate 
+record or an indicator included on the record. 
+ 
+Event identifier:  This field identifies any extraordinary event (e.g., catastrophe) involving this 
+particular claim. 
+ 
+Case reserve:  This field includes the case reserve or the change in the case reserve at the time 
+the transaction is recorded.  For example, if a payment of $500 is made at a particular date, and 
+this triggers a simultaneous change in the case reserve, a record is established for this transaction 
+and the paid loss and case reserve fields are populated accordingly.  As with paid losses, the case 
+reserve is recorded in separate fields or records by coverage, peril or type of loss and by 
+catastrophe or non-catastrophe claim, if applicable.  
+ 
+Allocated loss adjustment expense:  Expenses incurred handling claims are called loss 
+adjustment expenses (LAE) and are commonly separated into allocated and unallocated loss 
+adjustment expenses.  Allocated loss adjustment expenses (ALAE) are expenses that can be 
+assigned to a specific claim and are included on the claim database.  If ALAE can be subdivided 
+into finer categorization, additional fields may be used accordingly.  Unallocated loss adjustment 
+expenses (ULAE) cannot be assigned to a specific claim and are handled elsewhere.  For many 
+insurance products, companies do not set ALAE reserves and only payments are tracked on the 
+database.  If the company sets a case reserve for ALAE, it is maintained in the database.  As with 
+losses, this is captured separately by coverage or peril and by catastrophe or non-catastrophe, if 
+applicable.   
+ 
+Salvage/subrogation:  Companies may be able to recoup some payments made to the insured.  If 
+a company replaces property, the company assumes ownership of the damaged property.  The 
+damaged property may then be reconditioned and sold to offset part of the payments made for the 
+loss; these recoveries are called salvage.  When a company pays for an insured’s loss, the 
+company receives the rights to subrogate (i.e., to recover any damages from a third party who was 
+at fault or contributed fault to the loss event).  Any salvage or subrogation that offsets the loss is 
+tracked and linked to the original claim, if possible. 
+ 
+Claim characteristics:  Companies may collect characteristics associated with the claims (e.g., 
+type of injury, physician information).  If this information is available, it is included on the claim 
+database to the extent the analyst may want to study the characteristic.  However, it is important 
+to note that while studying the impacts of these characteristics on average claim size may be 
+interesting for certain purposes (e.g., loss reserve studies), only characteristics known for every 
+prospective or existing policyholder at the time of policy quotation are usable in the rating 
+algorithm. 
+ 
+ 
+ 
+
+Chapter 3:  Ratemaking Data 
+ 
+41 
+ 
+The following example policies can help clarify these data requirements.   
+ 
+Policy A:  A covered loss occurs on January 10, 2010.  The claim is reported to the insurance 
+company on January 15, 2010, and an initial case reserve of $10,000 is established.  An initial 
+payment of $1,000 is made on March 1, 2010, with a corresponding $1,000 reduction in the case 
+reserve.  A final payment of $9,000 is made on May 1, 2010, and the claim is closed. 
+ 
+Policy B:  No claim activity.  
+ 
+Policy C:  A covered loss occurs on October 1, 2010, is reported on October 15, 2010, and a case 
+reserve of $18,000 is established.  The insurer makes a payment of $2,000 on December 15, 
+2010, and reduces the case reserve to $17,000.  An additional payment of $7,000 is made on 
+March 1, 2011, and the case reserve is reduced to $15,000.  The claim is closed on March 1, 
+2012, when the insurer makes a final payment of $15,000 and receives a $1,000 salvage recovery 
+by selling damaged property. 
+ 
+Policy C:  A second loss occurs on February 1, 2011.  The claim is reported on February 15, 
+2011, and an initial reserve of $15,000 is set.  On December 1, 2011, the company pays a law 
+firm $1,000 for fees related to the handling of the claim.  The claim is closed on that date with no 
+loss payments made. 
+ 
+The claim associated with Policy A generates three separate records:  one when the claim is reported and 
+the initial reserve is set, one when the first payment is made, and one when the last payment is made.  
+There are no records for Policy B as no claims were reported.  Policy C had two separate claims.  The 
+first claim generates four records:  one when the claim is reported and the initial reserve is set, and three 
+for the three different dates that payments and reserve adjustments are made.  The second claim generates 
+a record on the date it is reported and the initial reserve is set and a subsequent record on the date the 
+claim is closed. 
+Table 3.2 is an example claims database for the claim activity on the three policies described above.  
+ 
+Accounting Information 
+Some data required for ratemaking is not specific to any one policy.  In the case of a company selling 
+multiple products, some data may not even be specific to any one product.  The salary of the CEO is a 
+good example of a specific expense that cannot be allocated to line of business or individual policy.  More 
+generally, underwriting expenses and unallocated loss adjustment expenses fall into this category and 
+should be tracked at the aggregate level. 
+3.2 Claim Database
+Policy
+Claim 
+Number
+Accident 
+Date
+Report 
+Date
+Transaction 
+Date
+Claim 
+Status
+Claim 
+Chars
+Loss 
+Payment
+Case  
+Reserve
+Paid 
+ALAE
+Salvage/ 
+Subrogation
+A
+1
+01/10/10
+01/15/10
+01/15/10
+Open
+…
+ $         -   $10,000
+ $      -    $               -   
+A
+1
+01/10/10
+01/15/10
+03/01/10
+Open
+…
+$1,000
+$9,000
+ $      -    $               -   
+A
+1
+01/10/10
+01/15/10
+05/01/10
+Closed
+…
+$9,000
+ $          -    $      -    $               -   
+C
+2
+10/01/10
+10/15/10
+10/15/10
+Open
+…
+ $         -   $18,000
+ $      -    $               -   
+C
+2
+10/01/10
+10/15/10
+12/15/10
+Open
+…
+$2,000
+$17,000
+ $      -    $               -   
+C
+2
+10/01/10
+10/15/10
+03/01/11
+Open
+…
+$7,000
+$15,000
+ $      -    $               -   
+C
+2
+10/01/10
+10/15/10
+03/01/12
+Closed
+…
+$15,000
+ $          -    $      -   
+$1,000
+C
+3
+02/01/11
+02/15/11
+02/15/11
+Open
+…
+ $         -   $15,000
+ $      -    $               -   
+C
+3
+02/01/11
+02/15/11
+12/01/11
+Closed
+…
+$         -   $          -   $1,000
+ $               -   
+*For illustrative purposes this is ordered by policy rather than transaction date.
+
+Chapter 3:  Ratemaking Data 
+ 
+42 
+ 
+Underwriting expenses are expenses incurred in the acquisition and servicing of the policies.  These 
+expenses include general expenses, other acquisition expenses, commissions and brokerage, and taxes, 
+licenses, and fees.  While it may be possible to assign some of these expenses —like commissions —to 
+specific policies, most of these expenses cannot be assigned.  For example, general expenses include 
+some of the costs associated with the company’s buildings, and other acquisition expenses include items 
+like advertising costs.   
+Loss adjustment expenses (LAE) are expenses incurred in the process of settling claims. 
+Allocated loss adjustment expenses (ALAE) are directly attributable to a specific claim and are, 
+therefore, captured on the claim extract.   
+Unallocated loss adjustment expenses (ULAE), on the other hand, cannot be assigned to a specific 
+claim.  ULAE include items like the cost of a claim center or salaries of employees responsible for 
+maintaining claims records.  Since ULAE cannot be assigned to a specific claim, these too are tracked at 
+the aggregate level. 
+Generally speaking, companies track the underwriting and unallocated loss adjustment expenses paid by 
+calendar year.  Further subdivision to items such as line of business and state may also be approximated.  
+These aggregate figures can be used to determine expense provisions that will be used in the ratemaking 
+process. 
+DATA AGGREGATION 
+The aforementioned policy, claim, and accounting databases must be aggregated for use in the ratemaking 
+analysis.  By maintaining data at a detailed level, the data can be aggregated in a variety of ways to 
+support the different types of analyses described within this text.  This section is intended to provide some 
+basics of aggregating data.  More detailed descriptions will be provided in later chapters.   
+When aggregating data for ratemaking purposes, three general objectives apply: 
+ 
+Accurately match losses and premium for the policy 
+ 
+Use the most recent data available 
+ 
+Minimize the cost of data collection and retrieval. 
+ 
+Four common methods of data aggregation are calendar year, accident year, policy year, and report year.  
+Each method differs in how well it achieves the objectives outlined above.  Note that the methods will be 
+discussed in terms of annual accounting periods though other periods (e.g., monthly, quarterly) can be 
+used, too.  Also, with the exception of calendar year aggregation, the annual period does not need to be a 
+calendar year (e.g., January 1 to December 31) but could be a fiscal year (e.g., July 1 to June 30) as well. 
+Calendar year aggregation considers all premium and loss transactions that occur during the twelve-
+month calendar year without regard to the date of policy issuance, the accident date, or the report date of 
+the claim.  Calendar year earned premium and earned exposure implies all premium and exposures earned 
+during that twelve month period.  Hence, at the end of the calendar year, all premium and exposures are 
+fixed.  Calendar year paid losses consider all loss paid during the calendar year regardless of occurrence 
+
+Chapter 3:  Ratemaking Data 
+ 
+43 
+ 
+date or report date.  Reported losses for the calendar year are equal to paid losses plus the change in case 
+reserves during that twelve-month calendar year.  At the end of the calendar year, all reported losses are 
+fixed. 
+The advantage of calendar year aggregation is that data is available quickly once the calendar year ends.  
+This information is typically collected for other financial reporting so it represents no additional expense 
+to aggregate the data this way for ratemaking purposes.  The main disadvantage of calendar year 
+aggregation is the mismatch in timing between premium and losses.  Premium earned during the calendar 
+year come from policies in force during the year (written either in the previous calendar year or the 
+current calendar year).  Losses, however, may include payments and reserve changes on claims from 
+policies issued years ago.  Calendar year aggregation for ratemaking analysis may be most appropriate for 
+lines of business or individual coverages in which losses are reported and settled relatively quickly, such 
+as homeowners. 
+Accident year aggregation of premium and exposures follow the same precept as calendar year premium 
+and exposures—and in fact, the method is often referred to as calendar-accident year or fiscal-accident 
+year.  Accident year aggregation of losses considers losses for accidents that have occurred during a 
+twelve-month period, regardless of when the policy was issued or the claim was reported.  Accident year 
+paid losses include loss payments only for those claims that occurred during the year.  Similarly, reported 
+losses for accident year consist of loss payments made plus case reserves only for those claims that 
+occurred during the year.  At the end of the accident year, reported losses can and often do change as 
+additional claims are reported, claims are paid, or reserves are changed. 
+Accident year aggregation represents a better match of premium and losses than calendar year 
+aggregation.  Losses on accidents occurring during the year are compared to premium earned on policies 
+during the same year.  Since accident year is not closed (fixed) at the end of the year, however, future 
+development on those known losses needs to be estimated.  Selecting a valuation date several months 
+after the end of the year allows the emergence of some development in the data and therefore may 
+improve estimation of ultimate losses.   
+Policy year aggregation, which is sometimes referred to as underwriting year, considers all premium and 
+loss transactions on policies that were written during a twelve-month period, regardless of when the claim 
+occurred or when it was reported, reserved, or paid.  All premium and exposures earned on policies 
+written during the year are considered part of that policy year’s earned premium and earned exposures.  
+Premium and exposures are not fixed until after the expiration date of all policies written during the year.  
+Policy year paid losses include payments made on those claims covered by policies written during the 
+year.  Similarly, reported losses for the policy year consist of payments made plus case reserves only for 
+those claims covered by policies written during the year.  At the end of the policy year, losses can and 
+often do change as additional claims occur, claims are paid, or reserves are changed.  
+Policy year aggregation represents the best match between losses and premium.  Losses on policies 
+written during the year are compared with premium earned on those same policies.  Given that policy year 
+exposures are not fully earned until after the end of the year (e.g., policy year exposures for a product 
+with an annual policy term are not fully earned until 24 months after the start of the policy year), data 
+takes longer to develop than both calendar year and accident year.   
+
+Chapter 3:  Ratemaking Data 
+ 
+44 
+ 
+Report year aggregation is the fourth method.  This method is similar to calendar-accident year except 
+the losses are aggregated according to when the claim was reported, as opposed to when the claim 
+occurred.  This method is typically used for commercial lines products using claims-made policies (e.g., 
+medical malpractice), which is discussed in more detail in Chapter 16.   
+The individual chapters dedicated to exposure, premium, and loss go into considerably more detail about 
+aggregating different statistics (e.g., written and earned premium; paid and reported losses) under each of 
+these aggregation methods. 
+Overall versus Classification Analysis 
+If the purpose of the ratemaking analysis is to review the adequacy of the overall rate level, the data can 
+be highly summarized.  Generally speaking, the premium, losses, and exposures can be aggregated by 
+year (i.e., calendar year, accident year, policy year, report year) for the product and location (e.g., state) 
+being analyzed.   
+On the other hand, if a classification analysis is being performed, then the data must be at a more granular 
+level.  For a traditional univariate classification analysis, the data can be aggregated by year (typically 
+accident year or policy year) for each level of the rating variable being studied.  For example, if it is a 
+territorial analysis, then the premium, losses, and exposures should be aggregated by year for each 
+territory.  In the case of a multivariate analysis (i.e., a simultaneous analysis of multiple variables), it is 
+preferable to organize data at the individual policy or risk level.  Alternatively, the data can be aggregated 
+by year for each unique combination of rating variables being studied.  If numerous rating variables are 
+being considered, the aggregation (and compression) may be minimal and not worth undertaking. 
+Limited Data 
+As mentioned earlier, actuaries are sometimes required to perform ratemaking analysis when the preferred 
+data described above is not available.  In such cases, the actuary must work with the data that is available 
+and use actuarial judgment to overcome the data deficiencies.  For example, earned premium by territory 
+is normally used for an analysis of auto territorial relativities.  If the company does not have earned 
+premium by territory, the actuary may use in-force premium by territory to estimate the earned premium 
+by territory. 
+EXTERNAL DATA 
+When pricing a new line of business, it may be necessary to use external data.  Even when pricing an 
+existing line of business, it is often helpful to supplement internal data with external data.  The most 
+commonly used sources of external information include data calls or statistical plan data, other aggregated 
+insurance industry data, competitors’ rate filings, and third-party data unrelated to insurance.  As with 
+internal data, it is the actuary’s responsibility to select the data with due consideration of reasonableness, 
+appropriateness, comprehensiveness, and other factors from the Actuarial Standards of Practice No. 23, 
+Data Quality (Actuarial Standards Board of the American Academy of Actuaries) before using it.  
+
+Chapter 3:  Ratemaking Data 
+ 
+45 
+ 
+Statistical Plans  
+As discussed above, companies use data for internal business purposes (e.g., ratemaking analysis).  Data 
+is also required by regulators.  In the U.S., property and casualty insurance is regulated at the state level, 
+and regulators frequently require companies to file statistical data in a consistent format.  Normally, state 
+regulators do not need detailed data for their purposes and the required statistical plan is a summary-based 
+plan.     
+One example of a statistical plan is The Texas Private Passenger Automobile Statistical Plan, as 
+promulgated by the Texas Commissioner of Insurance.  For many years, Texas used a benchmark rate 
+system for setting personal automobile premium.  The state set benchmark rates from which companies 
+could deviate.  The benchmark rates were determined based on an analysis of statistical data provided by 
+insurance companies writing personal automobile insurance in Texas.  Texas required statistical data that 
+was aggregated by territory, deductible, and driver class.  In addition to being used as the basis for setting 
+the benchmark rates, the data was publicly available and was used by companies to supplement internal 
+analyses. 
+To comply with various states’ requirements for aggregated industry data as well as for the industry’s 
+needs for aggregated data, certain industry service organizations have been formed to collect and 
+aggregate data from a group of participating companies writing the same insurance product.  For example, 
+the National Council for Compensation Insurance (NCCI) and Insurance Services Office, Inc (ISO) are 
+two such organizations that meet the U.S. industry’s need for aggregated data.  In addition to collecting 
+and summarizing data, these organizations analyze the aggregated data and make the results of the 
+analysis available to the participating companies.  Alternatively, the participating companies may be able 
+to request the aggregated data to perform their own independent analysis.    
+Because this information is used for detailed actuarial analysis, these statistical plans tend to collect data 
+at the transactional level; consequently, the organizations have the flexibility to perform in-depth analysis 
+at both the overall and segment levels.    
+In addition to these statistical plans, state regulators may initiate ad hoc data calls to address a specific 
+need.  Normally, this information is publicly available and can be a good source of additional ratemaking 
+information for companies.  For example, several state regulators have requested closed claim 
+information on medical malpractice claims, and medical malpractice insurers may request the data to 
+supplement their own data.   
+Other Aggregated Industry Data 
+Many insurance companies voluntarily report data to various organizations so that it can be aggregated 
+and used by the insurance industry and in some cases by regulators, public policy makers, or the general 
+public.  For example, a large percentage of U.S. personal lines companies report quarterly loss data for 
+the “Fast Track Monitoring System.”  Fast Track reports are often used by insurance companies and U.S. 
+state regulators to analyze loss trends. 
+Another example of an organization that collects, aggregates, and analyzes insurance data is the Highway 
+Loss Data Institute (HLDI).  HLDI, which is sponsored by several U.S. personal auto insurance 
+companies, compiles insurance data reported by member companies and provides detailed information 
+
+Chapter 3:  Ratemaking Data 
+ 
+46 
+ 
+related to loss information by type of car to member companies and public policy makers.  HLDI also 
+provides highly summarized information that can be useful to insurers as well as the general public.  One 
+such example is information on which make and model cars have the highest incident of auto injury.   
+Examples of other organizations that collect, report, and analyze insurance industry data are the Insurance 
+Research Council (IRC), the Institute for Business and Home Safety (IBHS), and the National Insurance 
+Crime Bureau (NICB).  A more comprehensive list of aggregated industry data providers is beyond the 
+scope of this text.   
+Competitor Rate Filings/Manuals 
+Depending on the jurisdiction, competitor rate filings may be available to the public.  For example, U.S. 
+companies may be required to submit rate filings to the appropriate regulatory body when changing rates 
+or rating structures for some insurance products.  Rate filings normally include actuarial justification for 
+requested rate changes and the manual pages needed to rate a policy. 
+In the simplest scenario, the filed rate change may involve a change to base rates only.  Even in this case, 
+the filing may still include helpful information related to overall indicated loss cost levels and trends in 
+losses and expenses.  If, however, the company is making changes to rating variable differentials (e.g., 
+driver age relativities, territorial relativities, amount of insurance relativities), then the filing may also 
+include information about the indicated relationships between the different levels for each rating variable 
+undergoing a change.     
+Companies may also be required to include the manual pages necessary to rate policies.  As discussed in 
+Chapter 2, the manual contains the rules, rating structures, and rating algorithms in use by the company.  
+This information can be analyzed to estimate the overall average premium level charged by the company 
+and the premium differences due to different characteristics.  Often, it can be very difficult to get a 
+complete copy of a competitor’s rate manual.  First, companies do not file a complete manual with each 
+change, but rather file only the pages that are changing; therefore, it may take several filings to piece 
+together a complete manual.  Additionally, companies often create underwriting tiers for which most 
+jurisdictions do not require companies to file the underwriting rules used to assign risks to the tiers.  Since 
+it is common for the underwriting tier rules to have a significant impact on the final premium, the rating 
+manual without the underwriting rules is incomplete information.  
+Even if complete information is available, a company must take great care when relying on information 
+from a competitor’s rate filing.  Each company has different insureds, goals, expense levels, and operating 
+procedures.  If the differences are material, then the competitor information may not be relevant.  For 
+example, a personal automobile insurer specializing in writing preferred or super-preferred drivers 
+typically has different rates and rating variables than a non-standard personal automobile insurer.   In a 
+more extreme case, commercial lines products often entail discretionary pricing and underwriting rules 
+that would make accurate estimation of a competitor’s final premium even more difficult.    
+Other Third‐Party Data 
+Ratemaking analysis is often supplemented with third-party data that is not specific to insurance.  The 
+most commonly used types of third-party data are economic data and geo-demographic data, but other 
+sources are relevant, too. 
+
+Chapter 3:  Ratemaking Data 
+ 
+47 
+ 
+Insurers may not have enough internal data to accurately project trends in expenses, premium, or losses.  
+If that is the case, companies may supplement internal data with sources like the Consumer Price Index 
+(CPI).  Companies may examine the CPI at the component level (e.g., medical cost and construction cost 
+indices) to find trends that are relevant to the insurance product being priced.     
+Insurance companies may also study geo-demographic data (i.e., average characteristics of a particular 
+area).  In the U.S., census data is frequently used to supplement insurance data.  For example, population 
+density can be an important predictor of the frequency of accidents.  Other examples of geo-demographic 
+data that may be useful include the following:  weather indices, theft indices, and average annual miles 
+driven.   
+Another prime example of third-party data used by insurance companies is credit data.  Starting in the 
+1990s, personal lines insurers began to evaluate the insurance loss experience of risks with different credit 
+scores.  Insurers determined that credit is an important predictor of risk and began to vary rates 
+accordingly.  More recently, commercial lines companies have analyzed similar data available for 
+corporations.  In addition to credit, there is a wealth of information available related to different insurance 
+products.  The following are a few such examples for different insurance products: 
+ 
+Personal automobile insurance:  vehicle characteristics, department of motor vehicle records 
+ 
+Homeowners insurance:  distance to fire station 
+ 
+Earthquake insurance:  type of soil 
+ 
+Medical malpractice:  characteristics of hospital in which doctor practices 
+ 
+Commercial general liability:  type of owner (proprietor, stock) 
+ 
+Workers compensation:  OSHA inspection data. 
+SUMMARY  
+Data is required for all ratemaking, and the quality of the ratemaking conclusions is heavily dependent on 
+the quality of the data used.  For existing insurance products, it is important that companies track policy 
+and claim data at the individual policy, risk, or risk segment level.  By doing so, companies have the 
+flexibility to aggregate data in different ways (e.g., calendar year, accident year, policy year, report year) 
+and determine the granularity of the data needed depending on the type of analysis being performed (e.g., 
+overall rate level analysis or classification analysis).   
+Companies often consider external data, if available.  More specifically, companies may examine data 
+from statistical plans and data calls, other aggregated insurance data, competitor rate filings, and data 
+from other third-party sources.  These types of data can be useful in pricing new lines of business or in 
+supplementing internal data.  
+
+Chapter 3:  Ratemaking Data 
+ 
+48 
+ 
+KEY CONCEPTS IN CHAPTER 3 
+ 
+1. Internal data 
+a. Policy database 
+b. Claim database 
+c. Accounting data 
+ 
+2. Data aggregation 
+a. Calendar year 
+b. Accident year 
+c. Policy year 
+d. Report year  
+ 
+3. External data 
+a. Data calls and statistical plans 
+b. Other insurance industry aggregated data 
+c. Competitor information 
+d. Other third-party data 
+ 

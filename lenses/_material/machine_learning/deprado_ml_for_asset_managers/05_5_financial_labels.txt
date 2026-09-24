@@ -1,0 +1,399 @@
+5 Financial Labels
+5.1 Motivation
+Section 4 discussed clustering, a technique that searches for similarities within a
+data set of features (an X matrix). Clustering is an unsupervised learning
+method, in the sense that the algorithm does not learn through examples. In
+contrast, a supervised learning algorithm solves a task with the help of examples
+(a y array). There are two main types of supervised learning problems: regres-
+sion and classiﬁcation. In regression problems, examples are drawn from an
+inﬁnite population, which can be countable (like integers) or uncountable (like
+real values). In classiﬁcation problems, examples are drawn from a ﬁnite set of
+labels (either categorical or ordinal). When there is no intrinsic ordering
+between the values, labels represent the observations from a categorical vari-
+able, like male versus female. When there is intrinsic ordering between the
+values, labels represent the observations from an ordinal variable, like credit
+ratings. Real variables can be discretized into categorical or ordinal labels.
+Researchers need to ponder very carefully how they deﬁne labels, because
+labels determine the task that the algorithm is going to learn. For example, we
+may train an algorithm to predict the sign of today’s return for stock XYZ, or
+whether that stock’s next 5% move will be positive (a run that spans a
+variable number of days). The features needed to solve both tasks can be
+very different, as the ﬁrst label involves a point forecast whereas the second
+label relates to a path-dependent event. For example, the sign of a stock’s
+daily return may be unpredictable, while a stock’s probability of rallying
+(unconditional on the time frame) may be assessable. That some features
+failed to predict one type of label for a particular stock does not mean that
+they will fail to predict all types of labels for that same stock. Since investors
+typically do not mind making money one way or another, it is worthwhile to
+try alternative ways of deﬁning labels. In this section, we discuss four
+important labeling strategies.
+5.2 Fixed-Horizon Method
+Virtually all academic studies in ﬁnancial ML use the ﬁxed-horizon labeling
+method (see the bibliography). Consider a features matrix X with I rows,
+fXigi¼1;...;I, sampled from a series of bars with index t ¼ 1; . . . ; T, where
+I ≤T. We compute the price return over a horizon h as
+rti;0;ti;1 ¼ pti;1
+pti;0
+ 1;
+65
+Elements in Quantitative Finance
+
+where ti;0 is the bar index associated with the ith observed features and
+ti;1 ¼ ti;0 þ h is the bar index after the ﬁxed horizon of h bars has elapsed.
+This method assigns a label yi ¼ 1; 0; 1g
+f
+to an observation Xi, with
+yi ¼
+1 if rti;0;ti;1 < τ;
+0 if jrti;0;ti;1j ≤τ;
+1 if rti;0;ti;1 > τ;
+8
+<
+:
+where τ is a predeﬁned constant threshold. When the bars are sampled at a regular
+chronological time frequency, they are known as time bars. Time bars are also very
+popular in the ﬁnancial literature. The combination of time bars with ﬁxed-horizon
+labeling results in ﬁxed time horizons. Despite its popularity, there are several
+reasons toavoidthis method.First,returns computedontime bars exhibitsubstantial
+heteroscedasticity, as a consequence of intraday seasonal activity patterns. Applying
+a constant threshold τ in conjunction with heteroskedastic returns frti;0;ti;1gi¼1;...;I
+will transfer that seasonality to the labels, thus the distribution of labels will not
+be stationary. For instance, obtaining a 0 label at the open or the close is more
+informative (in the sense of unexpected) than obtaining a 0 label around noon,
+or during the night. One solution is to apply the ﬁxed-horizon method on tick,
+volume or dollar bars (see López de Prado 2018a). Another solution is to label
+based on standardized returns zti;0;ti;1, adjusted for the volatility predicted over
+the interval of bars ½ti;0; ti;1,
+yi ¼
+1 if zti;0;ti;1 < τ;
+0 if jzti;0;ti;1j ≤τ;
+1 if zti;0;ti;1 > τ:
+8
+<
+:
+A second concern of the ﬁxed horizon method is that it dismisses all information
+regarding the intermediate returns within the interval ½ti;0; ti;1. This is problematic,
+because positions are typically managed according to proﬁt taking and stop-loss
+levels. In the particular case of stop losses, those levels may be self-imposed by the
+portfolio manager, or enforced by the risk department. Accordingly, ﬁxed-horizon
+labels may not be representative of the outcome of a real investment.
+A third concern of the ﬁxed-horizon method is that investors are rarely
+interested in forecasting whether a return will exceed a threshold τ at a precise
+point in time ti;0 þ h. It would be more practical to predict the side of the next
+absolute return that exceeds a threshold τ within a maximum horizon h. The
+following method deals with these three concerns.
+5.3 Triple-Barrier Method
+In ﬁnancial applications, a more realistic method is to make labels reﬂect the
+success or failure of a position. A typical trading rule adopted by portfolio
+66
+Machine Learning for Asset Managers
+
+managers is to hold a position until the ﬁrst of three possible outcomes occurs:
+(1) the unrealized proﬁt target is achieved, and the position is closed with
+success; (2) the unrealized loss limit is reached, and the position is closed
+with failure; (3) the position is held beyond a maximum number of bars, and
+the position is closed without neither failure nor success. In a time plot of
+position performance, the ﬁrst two conditions deﬁne two horizontal barriers,
+and the third condition deﬁnes a vertical barrier. The index of the bar associated
+with the ﬁrst touched barrier is recorded as ti;1. When the proﬁt-taking barrier is
+touched ﬁrst, we label the observation as yi ¼ 1. When the stop-loss barrier is
+touched ﬁrst, we label the observation as yi ¼ 1. When the vertical barrier is
+touched ﬁrst, we have two options: we can either label it yi ¼ 0, or we can label
+it yi ¼ sgn½rti;0;ti;1. See López de Prado (2018a) for code snippets that implement
+the triple-barrier method in python.
+Setting proﬁt taking and stop-loss barriers requires knowledge of the position
+side associated with the ith observation. When the position side is unknown, we can
+still set horizontal barriers as a function of the volatility predicted over the interval
+of bars ½ti;0; ti;0 þ h, where h is the number of bars until the vertical barrier is
+touched. In this case, the barriers will be symmetric, because without side informa-
+tion we cannot know which barrier means proﬁt and which barrier means loss.
+A key advantage of the triple-barrier method over the ﬁxed-horizon method is
+that the former incorporates information about the path spanning the interval of
+bars ½ti;0; ti;0 þ h. In practice, the maximum holding period of an investment
+opportunity can be deﬁned naturally, and the value of h is not subjective. One
+disadvantage is that touching a barrier is a discrete event, which may or may not
+occur by a thin margin. This caveat is addressed by the following method.
+5.4 Trend-Scanning Method
+In this section we introduce a new labeling method that does not require
+deﬁning h or proﬁt-taking or stop-loss barriers. The general idea is to identify
+trends and let them run for as long and as far as they may persist, without setting
+any barriers.14 In order to accomplish that, ﬁrst we need to deﬁne what con-
+stitutes a trend.
+Consider a series of observations fxtgt¼1;...;T, where xt may represent the
+price of a security we aim to predict. We wish to assign a label yt 2 1; 0; 1g
+f
+to
+every observation in xt, based on whether xt is part of a downtrend, no-trend, or
+an uptrend. One possibility is to compute the t-value (^t^β1) associated with the
+estimated regressor coefﬁcient (^β1) in a linear time-trend model,
+14 The idea of trend scanning is the fruit of joint work with my colleagues Lee Cohn, Michael Lock,
+and Yaxiong Zeng.
+67
+Elements in Quantitative Finance
+
+xtþl ¼ β0 þ β1l þ εtþl
+^t^β1 ¼
+^β1
+^σ^β1
+;
+where ^σ^β1 is the standard error of ^β1, and l ¼ 0; . . . ; L  1, and L sets the look-
+forward period. Code Snippet 5.1 computes this t-value on the sample deter-
+mined by L.
+Different values of L lead to different t-values. To solve this indetermination,
+we can try a set of alternative values for L, and pick the value of L that maximizes
+j^tβ1j. In this way, we label xt according to the most statistically signiﬁcant trend
+observed in the future, out of multiple possible look-forward periods. Code
+Snippet 5.2 implements this procedure in python. The arguments are molecule,
+which is the index of observations we wish to label; close, which is the time
+series of xtg
+f
+; and span, which is the set of values of L that the algorithm will
+SNIPPET 5.1 T-VALUE OF A LINEAR TREND
+import statsmodels.api as sm1
+#---------------------------------------------------
+def tValLinR(close):
+# tValue from a linear trend
+x=np.ones((close.shape[0],2))
+x[:,1]=np.arange(close.shape[0])
+ols=sm1.OLS(close,x).ﬁt()
+return ols.tvalues[1]
+SNIPPET 5.2 IMPLEMENTATION OF THE TREND-SCANNING METHOD
+def getBinsFromTrend(molecule,close,span):
+’’’
+Derive labels from the sign of t-value of linear trend
+Output includes:
+- t1: End time for the identiﬁed trend
+- tVal: t-value associated with the estimated trend coefﬁcient
+- bin: Sign of the trend
+’’’
+out=pd.DataFrame(index=molecule,columns=[’t1’,’tVal’,’bin’])
+hrzns=xrange(*span)
+for dt0 in molecule:
+df0=pd.Series()
+iloc0=close.index.get_loc(dt0)
+if iloc0+max(hrzns)>close.shape[0]:continue
+68
+Machine Learning for Asset Managers
+
+evaluate, in search for the maximum absolute t-value. The output is a data frame
+where the index is the timestamp of the xt, column t1 reports the timestamp of
+the farthest observation used to ﬁnd the most signiﬁcant trend, column tVal
+reports the t-value associated with the most signiﬁcant linear trend among the
+set of evaluated look-forward periods, and column bin is the label (yt).
+Trend-scanning labels are often intuitive, and can be used in classiﬁcation as well
+as regression problems. We present an example in the experimental results section.
+5.5 Meta-labeling
+A common occurrence in ﬁnance is that we know whether we want to buy or sell
+a particular security, however we are less certain about how much we should
+bet. A model that determines a position’s side may not be the best one to
+determine that position’s size. Perhaps the size should be a function of the
+recent performance of the model, whereas that recent performance is irrelevant
+to forecast the position’s side.
+Having a good bet-sizing model is extremely important. Consider an invest-
+ment strategy with a precision of 60% and a recall of 90%. A 90% recall means
+that the strategy predicts ninety out of one hundred true investment opportu-
+nities. A 60% precision means that out of one hundred predicted opportunities,
+sixty are true. Such strategy will lose money if bet sizes are small on the sixty
+true positives and large on the forty false positives. As investors, we have no
+(legitimate) control over prices, and the key decision we can and must make is to
+size bets properly.
+Meta-labeling is useful for avoiding or at least reducing an investor’s expo-
+sure to false positives. It achieves that by giving up some recall in exchange for
+higher precision. In the example above, adding a meta-labeling layer may result
+in a recall of 70% and a precision of 70%, hence improving the model’s F1-
+score (the harmonic average of precision and recall). See López de Prado
+(2018a) for a python implementation of meta-labeling.
+for hrzn in hrzns:
+dt1=close.index[iloc0+hrzn-1]
+df1=close.loc[dt0:dt1]
+df0.loc[dt1]=tValLinR(df1.values)
+dt1=df0.replace([-np.inf,np.inf,np.nan],0).abs().idxmax()
+out.loc[dt0,[’t1’,’tVal’,’bin’]]=df0.index[-1],df0[dt1],
+np.sign(df0[dt1]) # prevent leakage
+out[’t1’]=pd.to_datetime(out[’t1’])
+out[’bin’]=pd.to_numeric(out[’bin’],downcast=’signed’)
+return out.dropna(subset=[’bin’])
+69
+Elements in Quantitative Finance
+
+The goal of meta-labeling is to train a secondary model on the prediction
+outcomes of a primary model, where losses are labeled as “0” and gains are
+labeled as “1.” Therefore, the secondary model does not predict the side.
+Instead, the secondary model predicts whether the primary model will succeed
+or fail at a particular prediction (a meta-prediction). The probability asso-
+ciated with a “1” prediction can then be used to size the position, as explained
+next.
+5.5.1 Bet Sizing by Expected Sharpe Ratio
+Let p be the expected probability that the opportunity yields a proﬁt π, and 1  p
+the expected probability that the opportunity yields a proﬁt –π (i.e., a loss), for
+some symmetric payoff of magnitude π > 0. The expected proﬁt from the
+opportunity is μ ¼ pπ þ 1  p
+ð
+Þ π
+ð
+Þ ¼ π 2p  1
+ð
+Þ. The expected variance
+from the opportunity is σ2 ¼ 4π2p 1  p
+ð
+Þ. The Sharpe ratio associated with
+the opportunity can therefore be estimated as
+z ¼ μ
+σ ¼
+p  1
+2
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+p 1  p
+ð
+Þ
+p
+;
+with z 2 ∞; þ∞
+ð
+Þ. Assuming that the Sharpe ratio of opportunities follows a
+standard Gaussian distribution, we may derive the bet size as m ¼ 2Z½z  1,
+where Z½: is the cumulative distribution function of the standard Gaussian, and
+m 2 ½1; 1 follows a uniform distribution.
+5.5.2 Ensemble Bet Sizing
+Consider n meta-labeling classiﬁers that make a binary prediction on whether an
+opportunity will be proﬁtable or not, yi ¼ 0; 1g
+f
+, i ¼ 1; . . . ; n. The true prob-
+ability of being proﬁtable is p, and predictions yi are drawn from a Bernoulli
+distribution, so Pn
+i¼1 yi e B½n; p, where B½n; p is a binomial distribution of n
+trials with probability p. Assuming that the predictions are independent and
+identically distributed, the de Moivre–Laplace theorem states that the distribu-
+tion of Pn
+i¼1 yi converges to a Gaussian with mean np and variance np 1  p
+ð
+Þ as
+n→∞. Accordingly, lim
+n→∞
+1
+n
+Pn
+i¼1 yi e N½p; p 1  p
+ð
+Þ=n, which is a particular case
+of the Lindeberg–Lévy theorem.
+Let us denote as ^p the average prediction across the n meta-labeling classi-
+ﬁers,
+^p ¼ 1=n Pn
+i¼1 yi.
+The
+standard
+deviation
+associated
+with
+^p
+is
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+^p 1  ^p
+ð
+Þ=n
+p
+. Subject to the null hypothesis H0 : p ¼ 1=2, the statistic
+t ¼ ð^p  1=2Þ=
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+^p 1  ^p
+ð
+Þ
+p
+ﬃﬃn
+p ,
+with
+t 2 ∞; þ∞
+ð
+Þ,
+follows
+a
+t-student
+70
+Machine Learning for Asset Managers
+
+distribution with n  1 degrees of freedom. We may derive the bet size as
+m ¼ 2tn1½t  1, where tn1½: is the cumulative distribution function of the t-
+student with n  1 degrees of freedom, and m 2 ½1; 1 follows a uniform
+distribution.
+5.6 Experimental Results
+In this section, we demonstrate how labels can be generated using the trend-
+scanning method. Code Snippet 5.3 generates a Gaussian random walk, to
+which we add a sine trend, to force some inﬂection points. In that way, we
+create concave and convex segments that should make the determination of
+trends more difﬁcult. We then call the getBinsFromTrend function, to retrieve
+the trend horizons, t-values, and labels.
+Figure 5.1 plots a Gaussian random walk with trend, where the colors differ-
+entiate four clearly distinct trends, with 1 labels plotted in yellow and 1 labels
+SNIPPET 5.3 TESTING THE TREND-SCANNING LABELING ALGORITHM
+df0=pd.Series(np.random.normal(0,.1,100)).cumsum()
+df0+=np.sin(np.linspace(0,10,df0.shape[0]))
+df1=getBinsFromTrend(df0.index,df0,[3,10,1])
+mpl.scatter(df1.index,df0.loc[df1.index].values,
+c=df1[’bin’].values, cmap=’viridis’)
+mpl.saveﬁg(’ﬁg 5.1.png’);mpl.clf();mpl.close()
+mpl.scatter(df1.index,df0.loc[df1.index].values,c=c,cmap=’viridis’)
+Figure 5.1 Example of trend-scanning labels.
+71
+Elements in Quantitative Finance
+
+plotted in violet. These binary labels, although appropriate for classiﬁcation
+problems, omit information about the strength of the trend.
+To correct for that omission, Figure 5.2 plots the same Gaussian random walk
+with trend, where the colors indicate the magnitude of the t-value. Highly
+positive t-values are plotted in yellow, and highly negative t-values are plotted
+in violet. Positive values close to zero are plotted in green, and negative values
+close to zero are plotted in blue. This information could be used in regression
+models, or as sample weights in classiﬁcation problems.
+5.7 Conclusions
+In this section, we have presented four alternative labeling methods that can be
+useful in ﬁnancial applications. The ﬁxed-horizon method, although implemented
+in most ﬁnancial studies, suffers from multiple limitations. Among these limita-
+tions, we listed that the distribution of ﬁxed-horizon labels may not be stationary,
+that these labels dismiss path information, and that it would be more practical to
+predict the side of the next absolute return that exceeds a given threshold.
+The triple-barrier method answers these concerns by simulating the outcome
+of a trading rule. One disadvantage is that touching a barrier is a discrete event,
+which may or may not occur by a thin margin. To address that, the trend-
+scanning method determines the side of the strongest linear trend among
+alternative look-forward periods, with its associated p-value. Trend-scanning
+labels are often intuitive, and can be used in classiﬁcation as well as regression
+problems. Finally, the meta-labeling method is useful in applications where the
+side of a position is predetermined, and we are only interested in learning the
+Figure 5.2 Example of trend-scanning t-values.
+72
+Machine Learning for Asset Managers
+
+size. A proper sizing method can help improve a strategy’s performance, by
+giving up some of the recall in exchange for higher precision.
+5.8 Exercises
+1 Given a time series of E-mini S&P 500 futures, compute labels on one-
+minute time bars using the ﬁxed-horizon method, where τ is set at two
+standard deviations of one-minute returns.
+a Compute the overall distribution of the labels.
+b Compute the distribution of labels across all days, for each hour of the
+trading session.
+c How different are the distributions in (b) relative to the distribution in (a)?
+Why?
+2 Repeat Exercise 1, where this time you label standardized returns (instead of
+raw returns), where the standardization is based on mean and variance
+estimates from a lookback of one hour. Do you reach a different conclusion?
+3 Repeat Exercise 1, where this time you apply the triple-barrier method on
+volume bars. The maximum holding period is the average number of bars per
+day, and the horizontal barriers are set at two standard deviations of bar
+returns. How do results compare to the solutions from Exercises 1 and 2?
+4 Repeat Exercise 1, where this time you apply the trend-scanning method,
+with look-forward periods of up to one day. How do results compare to the
+solutions from Exercises 1, 2, and 3?
+5 Using the labels generated in Exercise 3 (triple-barrier method):
+a Fit a random forest classiﬁer on those labels. Use as features estimates of
+mean return, volatility, skewness, kurtosis, and various differences in
+moving averages.
+b Backtest those predictions using as a trading rule the same rule used to
+generate the labels.
+c Apply meta-labeling on the backtest results.
+d Reﬁt the random forest on meta-labels, adding as a feature the label
+predicted in (a).
+e Size (a) bets according to predictions in (d), and recompute the backtest.
+73
+Elements in Quantitative Finance

@@ -1,0 +1,311 @@
+10 Credit Risk
+Review
+Exercise 10.1 (Management of counterparty risk)
+Explain the notion of counterparty risk and the challenges arising in the management of this
+risk type. Describe potential strategies for managing counterparty risk.
+Exercise 10.2 (Bond investment under decreasing credit quality)
+Consider a bond investor who expects the credit quality of bond issuer A to decrease. Develop
+a strategy to proﬁt from this view by using CDS contracts with reference entity A and discuss
+the risks of the strategy.
+Exercise 10.3 (Rating transition matrices)
+A bank uses a simple internal rating system in which there are only two ratings, A and B, as
+well as a default state D. Suppose the one-year transition probabilities are given as follows,
+where the (i, j)th entry denotes the probability of migrating from rating state i to j, with a
+few missing entries:
+A
+B
+D
+A
+0.80
+0.15
+?
+B
+0.10
+?
+0.20
+D
+?
+?
+?
+Complete the table of transition probabilities and calculate the probabilities that A-rated and
+B-rated obligors default over a two-year period.
+Exercise 10.4 (Credit risk in the Merton model)
+a) Explain the modelling of the default of a ﬁrm in the Merton model and discuss the
+relationship between equity and debt and European options on the asset value of the ﬁrm.
+b) Consider a ﬁrm whose asset value follows a geometric Brownian motion with drift µV = 0.1
+and volatility σV = 0.2. Assume that the current (t = 0) value of the assets is equal to
+200, that the nominal value of the liabilities is equal to 100 (all in M EUR) and that the
+maturity of the liabilities is in T = 1 (year). Calculate the default probability of the ﬁrm.
+c) Discuss strengths and weaknesses of the Merton model as a typical structural model.
+Consider in particular the properties of credit spreads.
+d) How does the price of the risky debt react to an increase in the volatility σV of the asset
+value of the ﬁrm? How is this related to the incentives of bondholders?
+77
+
+10 Credit Risk
+Exercise 10.5 (Market-based credit risk management and procyclicality)
+Why might the use of a credit risk management system whose main input are market prices
+such as the public-ﬁrm EDF model described in MFE (2015, Section 10.3.3) lead to procyclical
+capital requirements and what are the resulting economic problems?
+Exercise 10.6 (Limitations of risk-neutral pricing)
+Explain the pros and cons of risk-neutral pricing for credit products and contrast risk-neutral
+pricing with the more traditional pricing methodology for loans. Which approaches would you
+use for the following products?
+a) A retail loan to a small or medium sized company.
+b) An option that gives the holder the right to enter into a CDS contract on a major corporation
+at a future date for a spread ﬁxed today.
+Exercise 10.7 (Models with stochastic hazard rate)
+Explain why a simple hazard-rate model is not suitable for the computation of VaR for corporate
+bonds.
+Basic
+Exercise 10.8 (Risk-neutral valuation)
+Consider a simple one-period model for the price of a defaultable zero-coupon bond with
+nominal value 1, maturity T = 1 (year) and with deterministic recovery rate 1 −δ = 0.4. The
+default probability of the bond is 1 −p = 0.01, the risk-free simple interest rate is 0.025, and
+the current (t = 0) price of the bond is p1(0, 1) = 0.961. The price of the bond in T = 1 is thus
+either 1 (in the case of no default) or 0.4 (in the case of default).
+a) Compute the expected payoﬀof the bond.
+b) Determine the corresponding risk-neutral default probability.
+c) Compute the price and replicating portfolio for a stylized credit default swap with payoﬀ
+I{τ≤T}, where τ denotes the time of default of the bond.
+Exercise 10.9 (Estimating transition probabilities for a discrete-time Markov chain)
+Let S = {0, . . . , n} be the set of rating states of increasing creditworthiness with 0 representing
+default. For t = 0, . . . , T −1, j ∈S \ {0} and k ∈S, let Ntj denote the number of companies
+that are rated j at time t and which are still in the rating system at time t + 1, and let Ntjk
+denote the number of those companies that are rated k at time t+1. A discrete-time, stationary
+Markov chain is ﬁtted to the data (Ntj) and (Ntjk).
+Show that the maximum likelihood estimator of the transition probability pjk is given by
+78
+
+Basic
+ˆpjk =
+PT−1
+t=0 Ntjk
+PT−1
+t=0 Ntj
+.
+Hint. Use the fact that conditional on Ntj, the numbers migrating to each state k have a
+multinomial distribution.
+Exercise 10.10 (Default probability in Merton’s model)
+In Merton’s model assume that the growth rate of assets µV is positive and that the initial
+asset value V0 exceeds the liability B. Show that the probability of default at the horizon date
+T is an increasing function of the volatility σV .
+Exercise 10.11 (The Pareto survival model)
+The Pareto distribution with shape parameter α and scale parameter κ, denoted Pa(α, κ), has
+survival function
+¯F(t) =
+
+κ
+κ + t
+α
+,
+t ≥0, κ > 0, α > 0;
+provided that α > n, the moments of τ ∼Pa(α, κ) are given by E(τ n) = κnn!/ Qn
+i=1(α −i).
+a) Derive the hazard function γ(t) of this distribution.
+Is the hazard rate increasing or
+decreasing in t?
+b) Show that τ ∼Pa(α, κ) can be considered as a mixture model with mixing variable
+Λ ∼Ga(α, κ) where, given Λ = λ, τ has an exponential distribution with parameter λ.
+c) Suppose α > 2 and consider an exponential random variable eτ with parameter λ = (α−1)/κ.
+Show that E(τ) = E(eτ) but var(τ) > var(eτ).
+Note. This illustrates that mixing over λ leads to greater variation in the realizations of τ.
+Exercise 10.12 (The Gompertz survival model)
+The Gompertz model is widely used by actuaries in mortality modelling. The distribution
+function is given by
+F(t) = 1 −exp
+
+−a
+b
+
+ebt −1
+
+,
+t ≥0, a > 0, b > 0.
+a) Caculate the hazard function and the cumulative hazard function of this distribution
+function.
+b) The Gompertz–Makeham model is an extension of the Gompertz model. If the hazard
+function of the Gompertz distribution is γG(t), the Gompertz–Makeham distribution has
+hazard function γGM(t) = γG(t) + c for some constant c > 0. Calculate the distribution
+function of this model.
+Exercise 10.13 (Reduced-form credit spread under diﬀerent recovery assumptions)
+Suppose that under the risk neutral measure Q, the default time τ follows a hazard rate model
+with continuous hazard function γQ. Consider a defaultable zero coupon bond with maturity
+date T and a valuation date t < T such that τ > t. Derive a formula for the price p1(t, T) and
+the credit spread c(t, T) of a defaultable zero coupon bond in the following recovery models:
+79
+
+10 Credit Risk
+a) RT (recovery of treasury);
+b) RF (recovery of face value).
+In both cases, give the limit of the spread for the case where T converges to t.
+Exercise 10.14 (Pricing and calibration of a CDS)
+Consider a CDS on ﬁrm R with time to maturity T = 5 years and quarterly premium payments.
+Assume that the risk free continuously compounded interest rate is equal to r > 0 and that
+under the risk-neutral measure Q the default time τR of the reference entity follows a hazard-rate
+model where the hazard rate is constant and equal to ¯γQ > 0. Assume moreover that the
+loss-given-default of the reference entity is given by the constant δ ∈(0, 1].
+a) Compute the value in t = 0 of the CDS cash-ﬂows from the viewpoint of the protection
+seller for a generic annualized CDS spread x.
+b) Suppose now that the annualized spread of the CDS observed on the market is x∗= 42 bp,
+that the loss-given-default is δ = 0.6 and that r = 0.02. Calibrate a constant hazard model
+for τR under the risk-neutral probability measure Q. Use both the approximate formula
+¯γQ ≈x∗/δ and exact calibration (numerical root ﬁnding is required for the latter).
+c) Can the value of ¯γQ computed as in b) be used for computing the VaR of a credit exposure
+towards R such as a loan?
+Exercise 10.15 (Application of the Feynman–Kac formula)
+Use the Feynman–Kac formula, see MFE (2015, Lemma 10.21), to solve the following two
+terminal value problems. In both cases µ ∈R and σ > 0 are given constants.
+a) ft(t, ψ)+µfψ(t, ψ)+ 1
+2σ2fψψ(t, ψ) = 0, (t, ψ) ∈[0, T)×R, with terminal condition f(T, ψ) =
+ψ2.
+b) ft(t, ψ)+µψfψ(t, ψ)+ 1
+2σ2ψ2fψψ(t, ψ) = rf(t, ψ), (t, ψ) ∈[0, T)×R+ with terminal condition
+f(T, ψ) = log ψ.
+Exercise 10.16 (Vasicek model)
+Consider the stochastic diﬀerential equation (SDE) for an Ornstein–Uhlenbeck process,
+dψt = a(b −ψt) dt + σ dWt,
+a, b > 0.
+This SDE is sometimes used as a model for the short-rate of interest known as the Vasicek
+model. Deﬁne the function F(t, ψ) = E(exp(−
+R T
+t ψs ds) | ψt = ψ), the price of a default-free
+zero coupon bond. Conjecture that F(t, ψ) = exp(α(t, T) + β(t, T)ψ) and derive a system of
+ordinary diﬀerential equations for α and β.
+Exercise 10.17 (Simpliﬁed CDS pricing)
+In this exercise we consider an approximation that reduces CDS pricing to the pricing of
+survival claims. Consider a CDS with deterministic loss-given-default δ and premium payment
+dates t1 < t2 < · · · < tN = T, and let t0 = 0. We slightly modify the standard deﬁnition of the
+payoﬀof the default payment leg and assume that if ti < τR ≤ti+1 for any 0 ≤i ≤N −1, the
+protection buyer receives the amount δ at time ti+1 (and not directly at τR).
+80
+
+Advanced
+a) Denote by Q the risk-neutral measure and by (rt) the short rate of interest. Show that the
+price at (for simplicity) t = 0 of the modiﬁed default payment leg equals
+δ
+N
+X
+i=1
+EQ
+e−R ti
+0 rs ds(I{τR>ti−1} −I{τR>ti})
+
+.
+(E1)
+Suppose that (rt) is a positive process. Is (E1) bigger or smaller than the value of the
+standard default payment where the default payment is made directly at τR?
+b) Suppose that the short rate is deterministic and let p0(t, T) = e−R t
+0 r(s) ds. Show that in
+this case, (E1) can be written as
+δ
+
+p0(0, t1) −p(0, tN)Q(τR > tN) +
+N−1
+X
+i=1
+Q(τR > ti)(p0(0, ti+1) −p0(0, ti))
+
+.
+(E2)
+c) Use the approximation formula (E2) to compute numerically the fair spread of a CDS
+with maturity T = 5 years and quarterly premium payments. Assume that under Q
+the default intensity follows a Cox–Ingersoll–Ross (CIR) process with dynamics dΨt =
+κ(θ −Ψt) dt + σ√Ψt dWt with parameters Ψ0 = 0.03, κ = 1, θ = 0.04 and σ = 0.2, and
+assume r(t) ≡0.01, δ = 0.6. How does an increase in Ψ0, θ or σ aﬀect the spread?
+Advanced
+Exercise 10.18 (Matrix exponential for continuous-time Markov chain)
+The matrix exponential of the Markov chain generator Λ ∈R(n+1)×(n+1) for some n ∈N can
+be calculated using a number of software packages. One case where it can be calculated by
+simple matrix multiplication occurs when the generator is diagonalizable, meaning that there
+exists an invertible matrix A ∈R(n+1)×(n+1) such that A−1ΛA = D where D = diag(d0, . . . , dn)
+is a diagonal matrix containing the eigenvalues of Λ. Show that, in this case, the matrix of
+transition probabilities P (t) for the interval [0, t] may be written as
+P (t) = A diag(ed0t, . . . , ednt)A−1.
+Exercise 10.19 (Calibrating hazard rate model when CDS spread curve is ﬂat)
+Suppose that the positive constant ¯γQ satisﬁes
+x∗∆te−(r+¯γQ)∆t = δ¯γQ
+Z ∆t
+0
+e−(r+¯γQ)t dt.
+(E1)
+a) Show that ¯γQ must also satisfy
+x∗∆t
+N
+X
+k=1
+e−(r+¯γQ)k∆t = δ¯γQ
+Z N∆t
+0
+e−(r+¯γQ)t dt
+for all
+N ∈N.
+81
+
+10 Credit Risk
+b) Conclude that, when the CDS spread curve is ﬂat, when interest rates are constant, and
+when premium payments follow a regular schedule, a constant risk-neutral hazard rate ¯γQ
+can be determined from a quoted market spread x∗by solving (E1).
+Exercise 10.20 (Risk management for a corporate bond)
+Consider a single corporate zero-coupon bond with time to maturity T = 2 years and denote
+by τ the default time of the bond. The recovery value of the bond is zero so that its payment
+at T is I{τ>T} and the current price of the bond is p0. Assume that the risk-free interest rate
+is constant and equal to r > 0, that under the historical probability measure P, τ is doubly
+stochastic with hazard rate process γP and that under the risk-neutral measure Q, τ is doubly
+stochastic with hazard rate process γQ. Moreover,
+γP
+t = ψt and γQ
+t = 2ψt,
+where (ψt) follows a CIR process with P-parameters κP, θP, σ > 0 and Q-parameters κQ, θQ, σ >
+0.
+a) Develop a simulation algorithm to compute the loss distribution and the VaR of the bond
+over the time horizon T = 1 year. Deﬁne for this the function
+p(t1, t2, ψ; r, ρ, κ, θ, σ) = E
+
+exp
+
+−
+Z t2
+t1
+r + ρψs ds
+  ψt1 = ψ
+
+,
+where (ψt) follows a CIR process with generic parameters κ, θ, σ. Note that the function
+p(t1, t2, ψ; r, ρ, κ, θ, σ) is known explicitly, see MFE (2015, Section 10.6.2), but its precise
+form is not required in this exercise. Explain, for which part of the simulation algorithm
+risk-neutral, respectively historical, quantities are needed.
+b) Modify the algorithm proposed in a) so that it can be used for pricing a put option on the
+bond with maturity T = 1 and exercise price K = p0 via Monte Carlo simulation.
+Exercise 10.21 (Credit value adjustment formula)
+The theoretical background for this exercise is discussed in MFE (2015, Section 17.2), but it
+can be solved with a basic understanding of counterparty risk.
+Consider two parties S and B who enter into a contract where the protection seller S provides
+protection against an adverse event and the protection buyer B pays premia in return. A case
+in point would be a credit default swap between protection seller S and protection buyer B or a
+reinsurance treaty between the primary insurer B and the reinsurer S. The market value of this
+contract at time t from the viewpoint of B is denoted Vt and the maturity of the contract is T.
+To account for the possibility that S might default before T, a value adjustment is computed.
+Under the simplifying assumption that the default time of S and the counterparty-risk free
+price process (Vt) are independent and this value adjustment is given by
+CVAindep = δS
+Z T
+0
+e−rtEQ(V +
+t )fS(t) dt.
+Here δS gives the loss given default of S; r ≥0 is the risk-free interest rate, and fS denotes the
+density of the default time τS of S.
+82
+
+Advanced
+a) Explain the formula for CVAindep.
+b) Discuss the assumption that the market value (Vt) of the contract and the default time τS
+are independent for the special case of a reinsurance treaty between primary insurer B and
+reinsurer S.
+c) Evaluate the formula for CVAindep in the case where Vt is normally distributed under Q
+with mean 0 and variance σ2t2. Assume that, under Q, τS is exponentially distributed with
+parameter γS.
+Hint. For α > 0, the indeﬁnite integral of xe−x2/(2α2) is given by −α2e−x2/(2α2). For γ > 0,
+the integral of te−γt is given by −(1/γ)e−γt(t + 1/γ).
+83
+

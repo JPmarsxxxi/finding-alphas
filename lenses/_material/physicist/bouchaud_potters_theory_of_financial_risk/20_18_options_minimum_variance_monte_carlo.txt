@@ -1,0 +1,1026 @@
+18
+Options: minimum variance Monte–Carlo
+If uncertain, randomize!
+(Mark Kac)
+18.1 Plain Monte-Carlo
+18.1.1 Motivation and basic principle
+The calculation of the price of options can only be done analytically in some very special
+cases: the statistics of the underlying contract must be ‘simple enough’ (for example, the
+Black-Scholes log-normal process), and the option contract itself must not be too ‘exotic’.
+For example, ‘American’ options, that can be exercised at any time, cannot be priced exactly,
+even in the simple framework of the Black-Scholes model.
+On the other hand, as emphasized throughout this book, the ﬂuctuations of the underlying
+assets are in general non-Gaussian, with complex volatility-volatility and return-volatility
+correlations. Furthermore, real world options often involve clauses that are difﬁcult to deal
+with analytically. It can therefore be compulsory to rely on numerical methods to price and
+hedgetheseoptions.AversatileandcommonlyusedmethodistheMonte-Carlomethod,that
+we ﬁrst explain in the context of ‘plain vanilla’ European options. Suppose that the interest
+rate r is zero, and that one chooses to -hedge the option. In this case, the price of the option
+today is equal to the average pay-off of the option, over the detrended distribution of price
+returns (this price is called the ‘risk-neutral’ price, see the discussion in Section 15.2.2).
+The most naive method to compute the option price would be to generate an ensemble
+of paths according to a certain (zero-drift) stochastic model, and to compute the average
+pay-off over this ensemble. Suppose for example that one chooses to describe the asset
+dynamics as a succession of independent random increments δxk (additive model). The
+increments are all chosen with a common ‘risk-neutral’ distribution Q(δx) – say a Student
+distribution, or any other distribution. A path is the set of the successive positions of the
+price, x0, x1, . . . , xN, such that xk+1 −xk = δxk, and that start from the current price, x0.
+Each path requires N random variables δxk to be constructed. The construction of these δxk
+from a random number generator giving a uniform distribution in the interval [0, 1], such
+that the correct distribution Q(δx) is obtained, is a standard problem discussed in details in
+Vetterling et al. (1993). Some simple cases are discussed in Appendix F.
+
+318
+Options: minimum variance Monte–Carlo
+An interesting alternative is to draw the price increments (or the returns) of the underlying
+stock using the exact historical distribution, simply by making a list of the historically
+observed δx’s, subtracting their average value (such as to remove the drift) and choosing at
+random from this list the sequence of δxk. In other words, one scrambles the list of returns
+in a random order, a method sometimes called ‘Bootstrap Monte-Carlo’. (Note however
+that this procedure destroys the volatility correlations.)
+Another possibility is to choose independent random returns ηk (multiplicative model),
+such that xk+1 −xk = δxk = xkηk. The ηk can again be drawn according to a given proba-
+bility distribution Q(η), or obtained by scrambling the true (detrended) returns of a given
+asset.
+Now suppose that one wants to price a plain vanilla European option using M such paths,
+labeled by α = 1, . . . , M. For zero interest rate, one would then compute the option price
+as:
+CMC = 1
+M
+M
+
+α=1
+max
+
+xα
+N −xs, 0
+
+,
+(18.1)
+where xs is the strike. For large M, the above sum converges towards the average pay-off
+and gives the required option price. (The error on the price using this method is discussed
+below, see Section 18.2.3.) When the interest rate is non-zero, one can apply the following
+general formula:
+C(x0, xs, T,r) = e−rT C(x0erT , xs, T,r = 0),
+(18.2)
+(see Eq. (17.1)) to convert the price obtained for r = 0 into the correct price. Remember
+however that this formula is approximate in the general case, and only becomes exact for a
+multiplicative model – see Section 17.1.1.
+Of course, the above method is a little silly in the particular case at hand, where increments
+are assumed to be iid and the option pay-off only depends on the terminal price. It would
+be much more efﬁcient to use the hypothesis of iid increments to compute numerically the
+exact form of Q(xN, N|x0, 0), as the Nth convolution of Q(δx). The average pay-off can
+then be computed from a numerical evaluation of a one-dimensional integral. However, if
+the option is price dependent, one needs to generate the whole path to compute its price.
+Take for example an Up and Out call option, such that the option becomes void as soon as
+the underlying stock price exceeds a certain value xb. Using the M paths deﬁned above, the
+price of this option will be given by:
+Cb,MC = 1
+M
+M
+
+α=1
+N−1
+
+k=1
+
+
+xb −xα
+k
+
+
+max
+
+xα
+N −xs, 0
+
+,
+(18.3)
+where (x > 0) = 1 and (x ≤0) = 0. This formula involves the whole paths
+x0, xα
+1 , . . . , xα
+N: the product of  function therefore enforces that xα
+k is always below xb. In
+cases where the method of images can be used (see Section 17.2.5), an analytic formula for
+
+18.1 Plain Monte-Carlo
+319
+barrier option can be given in terms of the plain vanilla prices. However, in the important
+cases where jumps are present, a Monte-Carlo method is needed.
+Another case where option pricing is difﬁcult to achieve analytically is when increments
+are not independent, e.g. when volatility clustering is present. Generating paths with a given
+structure of volatility correlations is not very difﬁcult. For example, the Bacry-Muzy-Delour
+multifractal model can be readily simulated using the construction explained in Sections 2.5
+and 7.3.1. One ﬁrst constructs the volatility process by drawing independent Gaussian
+‘shocks’ ξk with k = −N ′, −N ′ −1, . . . N −1, and summing them using a memory kernel
+K(ℓ) much as in Eq. (2.76). One then draws a second set of independent Gaussian random
+variables ξ ′
+k to construct the return as:
+ηk = ξ ′
+k exp
+
+k−1
+
+k′=−N ′
+K(k −k′)ξk
+
+.
+(18.4)
+A difﬁculty here is that the memory kernel K(ℓ) only decays very slowly with ℓ, which
+requires N ′ to be rather large. A method based on Fourier transforms is then often preferable
+(see Chapter 2), although the strict causality of the process is lost.
+18.1.2 Pricing the forward exactly
+As shown in Section 15.2.2, the implicit use of the -hedge means (at least when the time
+step τ is small enough) that the probability distribution that must be used to generate the
+paths and price the option must be of zero drift, or, when the interest rate is non zero, with
+a drift equal to the interest rate. Another, more precise way to state this is to consider the
+problem of pricing a forward contract, which is a particular option with a linear pay-off
+equal to xN. Therefore, if one prices the forward as the average over all paths of the terminal
+price xN, one should ﬁnd exactly x0eNρ, where ρ = rτ. In fact, this should be true for any
+intermediate price xk: its average over all paths should equal x0ekρ.
+The point here is that the numerical average of xk over a set of random paths can a priori
+only reproduce this result approximately. In the case of an additive model, it is easy to
+impose exactly the price of the forward, by ﬁrst computing the numerical average over the
+paths of the kth increment:
+⟨δxk⟩MC = 1
+M
+M
+
+α=1
+δxα
+k ,
+(18.5)
+and redeﬁning new price increments as:
+xk+1 −xk = ρxk + δxk −⟨δxk⟩MC.
+(18.6)
+Of course, if Q(δx) is chosen to be of zero mean, this shift is useless for large M. However,
+for ﬁnite M, the above procedure removes a systematic bias that would, for example, ruin
+the Put-Call parity relation. Indeed, the numerical difference between the Call and the Put
+
+320
+Options: minimum variance Monte–Carlo
+is equal to:
+CMC −C†
+MC = e−rT
+M
+M
+
+α=1
+max
+
+xα
+N −xs, 0
+
+−max
+
+xs −xα
+N, 0
+
+≡e−rT
+M
+M
+
+α=1
+
+xα
+N −xs
+
+,
+(18.7)
+which should exactly equal x0 −e−rT xs. This is important because in order to gain precision,
+one usually prices the contract with the smallest price (see below): in-the-money Calls from
+out-of-the-money Puts (and vice-versa), using the Put-Call parity relation.
+If Q(δx) is even, a simpler way to impose this condition is to add to all generated paths
+their ‘mirror image’ obtained by changing all the signs of the increments: δxα
+k →−δxα
+k . It
+is clear that in this case, the numerical average of xk over the 2M paths is precisely equal
+to x0ekρ.
+For a multiplicative model, where xk+1 −xk = xkηk, one ﬁrst computes all forward
+prices:
+⟨xk⟩MC = 1
+M
+M
+
+α=1
+xα
+k ,
+(18.8)
+using the generated paths, and then redeﬁne new returns η′
+k such that:
+1 + η′
+k =
+⟨xk⟩MC
+⟨xk+1⟩MC
+(1 + ηk) eρ,
+(18.9)
+such that the new process has now ⟨x′
+k⟩MC ≡x0ekρ exactly for all k.
+Therefore, we see that in order to price the simplest derivative, namely the forward,
+exactly, some treatment of the ‘raw’ random variables is needed to obtain a consistent
+approximate risk neutral measure with a ﬁnite number of paths.
+18.1.3 Calculating the Greeks
+Finite difference method
+Let us now turn to the computation of the Greeks using the Monte-Carlo method. The  is
+equal to ∂C/∂x0. Therefore, the most naive idea is to compute the option price using ﬁnite
+differences, using two nearby values of the initial underlying price, say x0 and x′
+0, where
+dx = x′
+0 −x0 is sufﬁciently small. One then obtains  as:
+MC ≈CMC(x′
+0) −CMC(x0)
+dx
+.
+(18.10)
+However, there is a very important point to notice: the paths used to compute both CMC(x′
+0)
+and CMC(x0) must involve exactly the same random variables δxα
+k , otherwise, the difference
+between the two is dominated by the statistical error and does not reﬂect the true dependence
+
+18.1 Plain Monte-Carlo
+321
+of the price on x0.† The adequate choice of dx depends on the moneyness of the option: the
+larger the Gamma of the option, the smaller dx.
+Choosing the optimal mesh size
+The choice of the ‘mesh’ dx = x′
+0 −x0 is guided by the following consideration: when
+computing CMC(x0) and CMC(x′
+0), one ﬁnds the following contributions:
+CMC(x0) = C(x0) + εMC + εPr,
+(18.11)
+and
+CMC(x′
+0) = C(x0) + (x0)dx + 1
+2(x0)(dx)2 + ε′
+MC + ε′
+Pr,
+(18.12)
+where the εMC are random error terms coming from the Monte-Carlo noise, and the εPr are
+random error terms coming from the ﬁnite machine precision. In general, one has εMC ≫
+εPr. However, if one chooses the very same paths to price the two options, ε′
+MC = εMC
+and this contribution drops out from the computation of the price difference. Therefore, the
+error on the estimated  reads:
+δ ∼1
+2(x0)dx +
+√
+2 εPr
+dx ,
+(18.13)
+which reaches a minimum for dx∗∼√εPr/. Let us estimate the above number. The
+relative numerical error is given by the typical machine precision (10−12) times the square-
+root of the number of operations Nop. On the other hand,  is of the order of the option
+price C divided by the square of the absolute ﬂuctuations of the terminal price (for at the
+money options):  ∼C/(x2
+0σ 2T ). Using C ∼
+√
+σ 2T x0, one ﬁnally gets:
+dx∗
+x0
+∼10−6N 1/4
+op σ
+√
+T ,
+(18.14)
+and an optimal precision on  given by δ∗∼10−6N 1/4
+op . For Nop = 104 and σ
+√
+T = 10%,
+one ﬁnds dx∗/x0 ∼10−6 and δ∗∼10−5. Note that for the same value of , both dx∗and
+δ∗are proportional to
+√
+C, which means that one should compute out of the money calls
+andoutofthemoneyputs,andusethePut-Callparityrelationtocomputethecomplementary
+contract.
+Using some analytical results
+In some special cases, there is actually no need to take a numerical derivative to compute the
+ of the option. Suppose ﬁrst that one deals with an additive model. In this case, the price
+of the option C can be written as
+√
+DT times a function of (x0 −xs)/
+√
+DT , where
+√
+DT
+is the variance of the terminal price. The derivative of C with respect to x0 is then equal, up
+† Similarly, the Gamma of the option can be computed using three nearby values of the initial price, again using
+the very same randomness to compute all three prices.
+
+322
+Options: minimum variance Monte–Carlo
+to a change of sign, to the derivative of C with respect to xs. This last quantity is nothing
+but the probability of exercising the option, which is directly given by the Monte-Carlo
+simulation as:
+(x0)MC ≈1
+M
+M
+
+α=1
+
+
+xα
+N −xs
+
+,
+(18.15)
+which does not require any ﬁnite difference scheme. Similarly, if the model is multiplicative,
+the option price can be written as C = x0 f (xs/x0). Therefore:
+ = ∂C
+∂x0
+≡f −xs
+x0
+f ′ = 1
+x0
+
+C −xs
+∂C
+∂xs
+
+.
+(18.16)
+(This relation is a special case of Euler’s formula for homogeneous functions of several
+variables.) Again, ∂C/∂xs is simply the probability that the option is exercised, and can be
+computed as above. Using Eq. (18.16), one can also directly compute  without introducing
+any small price difference dx. Unfortunately, this is not true for the . In the additive model,
+one would naively get:
+(x0)MC ≈1
+M
+M
+
+α=1
+δ
+
+xα
+N −xs
+
+.
+(18.17)
+However, for a ﬁnite number of points M, one necessarily has to introduce a ﬁnite width to
+the above δ-function, and take for example a Gaussian of width dx.
+The Vega
+If one assumes a multiplicative model where price returns are iid, the Vega V can be usefully
+deﬁned as the derivative of the price with respect to the root mean square σ of the returns,
+for an arbitrary distribution of returns. This Vega can then be computed by estimating the
+price of the option using a set of random variables δxα
+k , and the very same set but scaled by
+a factor 1 + ϵ, with ϵ ≪1. Then,
+VMC ≈σ
+ϵ
+
+C′
+MC −CMC
+
+,
+(18.18)
+where C′
+MC is the option price computed with the scaled δxα
+k .
+18.1.4 Drawbacks of the method
+There are however two serious problems with the simplest implementation of the Monte-
+Carlo method explained above:
+r First, the numerical value of CMC only converges towards its true value when M →
+∞. More precisely, the error on CMC decreases as R0/
+√
+M, where R0 is the bare risk
+computed in Section 14.2.2 precisely as the variance of the pay-off function. Typically,
+this variance is on the order of the option price for an at-the-money option. A precision of
+1% on the price therefore requires 104 different paths. The situation is much worse for out
+of the money options, for which R0 can easily be ten times larger than the option price.
+
+18.2 An ‘hedged’ Monte-Carlo method
+323
+r More fundamentally, this method assumes that one -hedges the option, and therefore that
+the distribution to be used to generate the paths is not the objective, historical distribution
+P, but the ‘risk-neutral’ probability distribution Q, obtained by removing any drifts from
+the historical process P (cf. Section 15.2.2). This is why this method is called ‘Risk-
+neutral Monte-Carlo pricing’. However, this method does not account directly for the
+cost of the hedging strategy, and does not allow to determine the truly optimal hedge,
+which is general is not the -hedge. Furthermore, the formula Eq. (18.2) that allows one
+to account for the effect of a non zero interest rate is only approximate in the general case;
+the corrections come from the precise value of the cost of hedging.
+The above two problems are actually deeply related. If one could simulate the evolution of
+the whole wealth balance, including the hedging strategy, the cost of hedging strategy would
+be accounted for. Furthermore, ﬁnding the optimal strategy would reduce the variance of
+the wealth balance, and therefore the numerical error on CMC. Said differently, the ﬁnancial
+risk arising from the imperfect replication of the option by the hedging strategy is directly
+related to the variance of the Monte-Carlo simulation. The residual risk R is typically ﬁve
+to ten times smaller than R0, which means that for the same level of precision, the number
+of trajectories needed in the Monte-Carlo would be up to a hundred times smaller. The
+Monte-Carlo method that we now describe is directly inspired from the ideas presented in
+this book. It allows one to determine simultaneously a numerical estimate of the price of the
+derivative, but also of the optimal hedge (which may be different from the Black-Scholes
+-hedge for non Gaussian statistics) and of the residual risk. This method is furthermore
+of pedagogical interest, since it illustrates in a very concrete way the basic mechanisms
+involved in option pricing and hedging that were discussed in the previous chapters.
+18.2 An ‘hedged’ Monte-Carlo method
+18.2.1 Basic principle of the method
+The idea is really to think as an option trader, who has sold a stock option and tries to
+hedge it. His proﬁt and losses are ‘marked-to-market’, which means that he has to report his
+position every day. His position at time k is short one option, and long a certain number φk of
+underlying stocks. His concern is that the net value of his position does not vary too much
+(or preferably increases, if possible) between today and tomorrow. Without necessarily
+formulating it consciously, he envisages the probable variations of the stock price and
+considers the impact of these different possibilities on his position. More precisely, his
+position between today and tomorrow varies as:†
+δWk = −Ck+1(xk+1) + Ck(xk) + φk(xk)[xk+1 −xk],
+(18.19)
+where we assume for simplicity that the option price Ck only depends on the underlying
+price xk (and of course on k), but not, for example, on the volatility. How should he price
+† We assume that the interest rate is zero. When the interest rate r is non zero, the change reads: δWk =
+−e−ρCk+1(xk+1) + Ck(xk) + φk(xk)[xk −e−ρxk+1], where ρ = rτ is the interest rate over the elementary time
+step τ.
+
+324
+Options: minimum variance Monte–Carlo
+and hedge his option such that the distribution of δWk is as sharply peaked as possible?
+(This presentation obviously parallels that of Section 13.1.2.) Within a quadratic measure
+of risk, the price and the hedging strategy at time k are such that the variance of the wealth
+change between k and k + 1 is minimized.† The local ‘risk’ Rk is deﬁned as:
+R2
+k = ⟨(Ck+1(xk+1) −Ck(xk) + φk(xk)[xk −xk+1])2⟩,
+(18.20)
+where ⟨...⟩means an average over the objective (true) probability distribution of price
+changes. The option trader is concerned with what can really happen, and thinks in terms
+of real probabilities. The Monte-Carlo method does this in a systematic way; and gives an
+estimate of the local risk as:
+R2
+k ≈1
+M
+M
+
+α=1
+
+Ck+1
+
+xα
+k+1
+
+−Ck
+
+xα
+k
+
++ φk
+
+xα
+k
+	
+xα
+k −xα
+k+1
+
+2 ,
+(18.21)
+where xα
+k is the price at time k along the αth trajectory.
+The functional minimization of Rk with respect to both Ck(xk) and φk(xk) gives equations
+that allow one determine the price and hedge, provided Ck+1 is known. Since the terminal
+price of the option is known, one can work recursively backwards in time. The problem is
+to formulate this in a way that is numerically tractable.‡
+18.2.2 A linear parameterization of the price and hedge
+The idea is to decompose the functions Ck(x) and φk(x) over a set of L appropriately chosen
+basis functions Ca(x) and Fa(x) (which might be themselves k-dependent):§
+Ck(x) =
+L
+
+a=1
+γ k
+a Ca(x)
+φk(x) =
+L
+
+a=1
+ϕk
+a Fa(x).
+(18.22)
+In other words, one solves the above minimization problem within the variational space
+spanned by the functions Ca(x) and Fa(x). The unknown quantities are the 2L coefﬁcients
+γ k
+a , ϕk
+a. This leads to a major simpliﬁcation since the quantity to minimize is a quadratic
+function of these variables, which is very easy to solve explicitly. (This would not be true
+for other measures of risk.) These coefﬁcients must be such that:
+R2
+k ≈1
+M
+M
+
+α=1
+
+Ck+1
+
+xα
+k+1
+
+−
+L
+
+a=1
+γ k
+a Ca
+
+xα
+k
+
++
+L
+
+a=1
+ϕk
+a Fa
+
+xα
+k
+	
+xα
+k −xα
+k+1
+
+2
+,
+(18.23)
+is minimized, assuming that the function Ck+1 is already known. Altogether, there are N
+minimization problems (one for each k = 0, . . . , N −1) which are solved working back-
+wards in time with CN(x) = Y(x) the known ﬁnal pay-off function. Expression (18.23)
+† Of course, as already discussed several times, one could choose other measures for the risk, combining other
+moments of the distribution of δWk, or based on value-at-risk. This would however lead to a much less tractable
+problem from a numerical point of view.
+‡ See Potters et al. (2001).
+§ This method was proposed in Longstaff and Schwartz (2001), in a somewhat different context.
+
+18.2 An ‘hedged’ Monte-Carlo method
+325
+is messy because of the different indices, but it is clear that this is a quadratic form of the
+γ k
+a , ϕk
+a; the minimization therefore leads to a linear system of equations for these quantities,
+that one estimates using the generated trajectories. Interestingly, the value of Rk at the
+minimum is the minimum residual risk (within the variational space spanned by the chosen
+basis functions Ca, Fa).
+Although in general the optimal strategy is not equal to the Black-Scholes -hedge, the
+difference between the two is often small, and only leads to a second order increase of the
+risk (see the discussion in Section 14.4). Therefore, one can choose to work within a smaller
+variational space where the hedging strategy is restricted to be exactly the -hedge. This
+means that:
+ϕk
+a ≡γ k
+a
+Fa(x) ≡dCa(x)
+dx
+.
+(18.24)
+This will lead to exact results only for Gaussian processes, but reduces the computation
+cost by a factor two.
+Of course, a correct choice of the basis functions Fa(x), Ca(x) is crucial to obtain fast
+convergence as a function of the number L of such functions. A simple choice is to take
+these basis function to be piecewise linear for Fa (and therefore piecewise quadratic for Ca
+for -hedge):
+Fa(x) = 0
+for x ≤x−
+a ;
+Fa(x) = x −x−
+a
+x+
+a −x−
+a
+for x−
+a ≤x ≤x+
+a ;
+Fa(x) = 1
+for x ≥x+
+a ;
+(18.25)
+with breakpoints x±
+a such that the intervals are covering the real axis (i.e. x+
+a = x−
+a+1). A
+natural choice is such that the number of Monte-Carlo paths falling in each interval is
+constant, equal to M/(L + 2).
+Note that it is useful to impose L
+a=1 ϕk
+a = L
+a=1 γ k
+a = 1 exactly (note that the problem
+remains quadratic), in such a way that the price of the option tends to that of the underlying,
+and the hedging strategy to 1 for deep in-the-money option, as it should.
+18.2.3 The Black-Scholes limit
+As a ﬁrst illustration, one can choose the paths to be the realizations of a (discretized)
+geometric random walk, and price an at-the-money three month European option, on an asset
+with 30% annualized volatility and a drift equal to the risk-free rate which we set to 5% per
+annum. The number of time intervals N is chosen to be 20. The initial stock and strike price
+are x0 = xs = 100; the corresponding Black-Scholes price is C BS
+0
+= 6.58. The number of
+basis functions is L = 8. One runs 500 simulations containing M = 500 paths each, from
+which one can extract both the average price and standard deviation on the price.
+An example of the result of the optimization of the parameters γ a
+k is plotted in Fig. (18.1).
+Each data point corresponds to one trajectory of the Monte-Carlo at one instant of time k,
+and represents the quantity:
+e−ρCk+1(xk+1) + φk(xk)[xk −e−ρxk+1],
+(18.26)
+
+326
+Options: minimum variance Monte–Carlo
+80
+90
+100
+110
+120
+x
+0
+10
+20
+C 10(x)
+80
+90 100 110 120
+x
+0
+0.5
+1
+f10(x)
+Fig. 18.1. Option price as a function of underlying price for a within the hedged Monte-Carlo
+simulation. Square symbols correspond to the option price on the next step k = 11, corrected by the
+hedge, Eq. (18.26) for individual Monte-Carlo trajectories. The full line corresponds to the ﬁtted
+option price C10(x) at the tenth hedging step (k = 10) of a simulation of length N = 20. Inset:
+Hedge as a function of underlying price at the tenth step of the same simulation.
+as a function of xk. The full line represents the result of the least-squared ﬁt, which is by
+deﬁnition Ck(xk). Note that some points deviate from the best ﬁt, which means that the
+hedging error (or the risk) is non zero. We show in the inset the corresponding hedge φk,
+that was constrained in this case to be the -hedge.
+One obtains the following numerical results. For the standard (un-hedged) Monte-Carlo
+scheme, Eq. (18.1), one obtains as an average over the 500 simulations CMC
+0
+= 6.68 with
+a standard deviation of 0.44. For the hedged scheme, one ﬁnds C H MC
+0
+= 6.55 but with a
+standard deviation of 0.06, seven times smaller than with the un-hedged Monte-Carlo. This
+variance reduction is illustrated in Fig. 18.2, where the histogram of the 500 different MC
+results both for the un-hedged case (full bars) and for the ‘optimally hedged’ case (OHMC,
+dotted bars) are shown.
+Now set the drift to 30% annual. The Black-Scholes price, as is well known, is unchanged.
+A naive un-hedged Monte-Carlo scheme with the objective probabilities gives a completely
+wrong price of 10.72, 60% higher than the correct price, with a standard deviation of 0.56.
+On the other hand, the the hedged Monte-Carlo indeed produces the correct price (6.52)
+with a standard deviation of 0.06.
+Therefore, one checks explicitly that in the case of a geometric random walk, the hedge
+indeed compensates the drift exactly and reproduces the usual Black-Scholes results, as it
+should.
+
+18.3 Non-Gaussian models and purely historical option pricing
+327
+5
+5.5
+6
+6.5
+7
+7.5
+8
+C
+0
+40
+80
+120
+160
+N
+SMC price
+OHMC price
+Black-Scholes price
+Fig. 18.2. Histogram of the option price as obtained of 500 MC simulations with different seeds.
+The dotted histogram corresponds to the unhedged scheme (SMC for standard MC) and the full
+histogram to the hedged Monte-Carlo. The dotted line indicates the exact Black-Scholes price. Note
+that on average both methods give the correct price, but that the hedged Monte-Carlo has an error
+that is more than seven times smaller.
+18.3 Non-Gaussian models and purely historical option pricing
+Obviously, the above method can be used with a realistic model of price changes, with
+fat tails, volatility correlations and leverage correlations, provided one can generate the
+corresponding ensemble of trajectories efﬁciently. A possible application is to calibrate the
+parameters of such a model using market prices of some plain vanilla options, and then use
+the same paths to price exotic options or unquoted options (see below).
+But more interestingly, the method allows one to use purely historical data to price
+derivatives, short-circuiting the modelling of the underlying asset ﬂuctuations. Within the
+hedged Monte-Carlo method, one can directly use ‘chunks’ of the historical time series
+of the asset to generate the paths. This preserves exactly not only the correct statistics of
+price increments, but also all the subtle volatility and leverage correlations. Moreover, when
+several assets are involved in the option, this method also preserves the cross-correlations
+between these assets. The fact that a rather small number of paths is needed to reach good
+accuracy means that the length of the historical time series needs not be very large, at least
+for options of not too long maturities.
+Asanillustration,onecanpriceaonemonth(21businessdays)optiononMicrosoftCorp.,
+hedged daily, with zero interest rates, still assuming that the option price only depends on the
+underlying price and not on the volatility (but see below), and keep the simple -hedge. We
+
+328
+Options: minimum variance Monte–Carlo
+70
+80
+90
+100
+110
+120
+130
+xs
+30
+40
+50
+60
+s(xs)
+80
+100
+120
+xs
+0
+2
+4
+R(xs)/C(xs)
+Fig. 18.3. Smile curve for a purely historical ohmc of a one-month option on Microsoft (volatility as
+a function of strike price). The error bars are estimated from the residual risk. The inset shows this
+residual risk as a function of strike normalized by the ‘time-value’ of the option (i.e. by the call or
+put price, whichever is out-of-the-money). The minimum value of the normalized risk is 0.42.
+use here 2000 paths of length 21 days, extracted from the time series of Microsoft during
+the period May 1992 to May 2000. The initial price is always normalized to 100. From
+the numerically determined option prices, one extracts an implied Black-Scholes volatility
+by inverting the Black-Scholes formula and plot it as a function of the strike, in order to
+construct an implied volatility smile. The result is shown in Fig. 18.3. Since we now only
+perform a single MC simulation, the error bars shown are obtained from the residual risk of
+the optimally hedged options. The residual risk itself, divided by the call or the put option
+price (respectively for out of the money and in the money call options), is given in the
+inset. We ﬁnd that the residual risk is around 42% of the option premium at the money, and
+rapidly reaches 100% when one goes out of the money. These risk numbers are comparable
+to those quoted in Chapter 14, and are much larger than the residual risk that one would get
+from discrete time hedging effects in a Black-Scholes world.
+The obtained smile has a shape quite typical of those observed on option markets. How-
+ever, it should be emphasized that we have neglected here the possible dependence of the
+option price on the local value of the volatility. One could let the function Ck depend not
+only on xk but also on the value of some ﬁltered past volatility σk. This would allow option
+prices to depend explicitly on the volatility, an obviously welcome possibility.
+It is also interesting to price some exotic options within the same framework. We compare
+for example in Table 18.1 the price of a barrier option (Down and Out call) on Microsoft
+Corp. using the optimally hedged method and using the standard Black-Scholes formula
+
+18.4 Discussion and extensions. Calibration
+329
+Table 18.1. Results for a Down and Out Call
+option on Microsoft, with a barrier at $95, for
+different maturities and strike. The spot price is
+normalized to $100.
+Maturity/Strike
+Implied Black-Scholes
+OHMC
+two weeks/100
+$ 2.45
+$ 2.39
+two weeks/105
+$ 0.86
+$ 0.84
+one month/100
+$ 3.10
+$ 3.08
+one month/105
+$ 1.61
+$ 1.61
+for barrier options with the implied volatility corresponding to the same strike, as shown
+in Fig. 19.3. As could be expected, the correct price is lower than the Black-Scholes price,
+reﬂecting the presence of jumps in the underlying that increases the probability to hit the
+barrier. Interestingly, however, the difference becomes small as the maturity increases.
+18.4 Discussion and extensions. Calibration
+The above hedged Monte-Carlo scheme closely follows the ideas and methodology exposed
+in the previous chapters. The inclusion of the optimal hedging strategy allows one to reduce
+the ﬁnancial risk associated to option trading, and for the very same reason the variance
+of the Monte-Carlo pricing scheme as compared to the standard Monte-Carlo schemes.
+Reduced variance Monte-Carlo techniques for option pricing were discussed previously
+in the literature, and bear some similarity with the present method. The general idea is to
+add to the observable one wants to average some so called ‘control variates’ which have by
+constructionazeroaveragevaluebutsuchthattheresultingsumhassmallerﬂuctuations.The
+proﬁt and loss of some appropriate hedging strategy is an obvious candidate for such control
+variates, as was demonstrated in Clewlow & Caverhill (1994). However, the hedge proposed
+in their work is only an approximate hedge (for example, the -hedge corresponding to
+an option not too dissimilar to the one under consideration, and for which an analytical
+formula is known), and not the optimal hedge for the particular option and underlying
+under consideration.
+The explicit accounting of the hedging cost naturally converts the objective probability
+into the ‘risk-neutral’ one. This allows a consistent use of purely historical time series to
+price derivatives and obtain their residual risk. There are many potential extensions of the
+above scheme. For example, with some modiﬁcations and extra numerical cost, the method
+presented here could be used to deal with transaction costs, or with non quadratic risk
+measures (VaR hedging).†
+Another very important extension is to consider cases where the option price depends
+a priori on several variables, for example an option that depends on the behaviour of two
+underlyings, or, as mentioned above, the case where the dependence of the option price on
+† B. Pochart, Ph. D. Thesis, in preparation.
+
+330
+Options: minimum variance Monte–Carlo
+the current value of the volatility must be included. Another very important case is that of
+options on the interest rate curve. In these cases, the hedging strategy will include several
+different assets, for example, short term options to Vega-hedge the volatility of long term
+options. The practical difﬁculty here is to ﬁnd a suitable linear parameterization of functions
+of two or more variables.
+Let us ﬁnally mention a very interesting idea to calibrate the results of a Monte-Carlo
+simulation on a set of option prices that are observed on markets.† The idea is to deﬁne
+a certain set of M ‘possible’ paths, xα
+1 , xα
+2 , . . . , xα
+N, with α = 1, . . . , M, with a priori
+unknown weights pα. Suppose that one observes the market price Ci, i = 1, . . . , K of a
+certain number K of different options, with different maturities and strikes. The weights
+pα are then determined such that the prices of these options are exactly reproduced, subject
+to the constraint that the information entropy associated to the pα is maximum. Since one
+has, very generally,
+Ci =
+M
+
+α=1
+pα fi
+
+xα
+1 , xα
+2 , . . . , xα
+N
+
+,
+(18.27)
+where fi is a certain pay-off function of the path, the entropy maximization program can
+be written by introducing Lagrange parameters ζi:
+∂
+∂pβ
+
+−
+M
+
+α=1
+pα log(pα) +
+K
+
+i=1
+ζi
+M
+
+α=1
+pα fi({xα}) + ζ0
+M
+
+α=1
+pα
+
+,
+(18.28)
+where the ζi are determined such that the prices of the K options have the correct value,
+and ζ0 is such that M
+α=1 pα = 1. The solution of the above problem is well known to be
+the Gibbs measure:
+pα = 1
+Z exp
+K
+
+i=1
+ζi fi({xα}).
+(18.29)
+The trick, as usual in statistical physics, is to compute the ‘partition function’ Z as a function
+of the ζi, as:
+Z =
+M
+
+α=1
+exp
+K
+
+i=1
+ζi fi({xα}),
+(18.30)
+and then to compute the ζi such that the following quantity:
+G = log Z −
+K
+
+i=1
+ζiCi
+(18.31)
+is minimized, which leads to:
+Ci ≡∂log Z
+∂ζi
+,
+(18.32)
+† See Avellaneda et al. (2001).
+
+18.6 Appendix F: generating some random variables
+331
+as it should. Once the ζi (and therefore the weights pα) are determined, one can use the
+same paths with their corresponding weights to compute other option prices, not priced by
+the market, or to check the consistency between the different option prices.
+18.5 Summary
+r The ‘Risk-Neutral’ Monte-Carlo method prices options by computing the average
+pay-off over paths generated using the ‘risk-neutral’ distribution of returns. Care must
+be paid in order to price the futures contract exactly. The Greeks can be computed
+from a ﬁnite-difference scheme, using exactly the same random paths to price the
+nearby options.
+r The hedged Monte-Carlo method aims to accomplish in a systematic way what an
+option trader does intuitively: price and hedge his option, such that the possible
+variations of his position due the potential ﬂuctuations of the underlying varies as
+little as possible. In terms of Monte-Carlo pricing, including the optimal hedge
+reduces considerably the numerical error on the price.
+r Theproperaccountingofthehedgingstrategyallowsonetouseconsistentlyhistorical
+paths to price options. In the case of log-normal price ﬂuctuations, one sees explicitly
+that the hedge converts the historical distribution (possibly with drift) into the ‘risk-
+neutral’ (un-drifted) distribution, and one recovers exactly the Black-Scholes prices.
+r Using ‘chunks’ of historical price series allows one to retain all subtle correlations
+in the volatility and leads to very realistic option prices. The method can easily be
+extended to price exotic options.
+18.6 Appendix F: generating some random variables
+Suppose the one draws a random variable u, uniform in the interval [0, 1] and a sign variable
+ε = ±1 with equal probability. One can transform these random variables, such as to obtain:
+r An exponential random variable: z = ε log u, such that P(z) = e−|z|/2;
+r A power-law variable: z = ε(u−1/µ −1), such that P(z) = µ(1 + |z|)−µ−1/2;
+r A Student variable with µ = 4: z = ε
+√
+2t/
+√
+1 −t2 where t = 2 cos((arccos(1 −2u)
++ 4π)/3), such that P(z) = 3/(2 + z2)5/2.
+In the above formulas, the Student variable has unit variance, while the exponential and
+power law variables should be multiplied by 1/
+√
+2 and √(µ −2)(µ −1)/2 respectively to
+have unit variance, the last case being only valid if the variance exists (i.e. when µ > 2).
+More generally, if one has an explicit expression for the cumulative distribution P>(z) one
+wants to simulate, the random variable z can be obtained from a uniformly distributed vari-
+able u by solving the equation P>(z) = u. This equation must often be solved numerically.
+This procedure can be used to generate µ = 3 Student variables, using Eq. (1.40).
+
+332
+Options: minimum variance Monte–Carlo
+There are sometimes special tricks. For example, with two variables u, v independently
+and uniformly chosen in the interval [0, 1], one can generate two independent Gaussian
+variables z1, z2, such that:
+z1 = cos(2πv)
+
+−log u;
+z2 = sin(2πv)
+
+−log u.
+(18.33)
+With these two variables, one can also generate L´evy stable variables z as follows: set
+u′ = π(u −1/2) and v′ = −log v. Then construct z as:
+z = Aβ,µ
+sin(µ(u′ + Bβ,µ))
+cos1/µ u′
+cos(u′ −µ(u′ + Bβ,µ))
+v′
+1−µ/µ
+,
+(18.34)
+with:
+Aβ,µ = cos−1/µ 
+arctan
+
+β tan πµ
+2
+
+,
+(18.35)
+and
+Bβ,µ =
+1
+1 −|1 −µ| arctan
+
+β tan πµ
+2
+
+.
+(18.36)
+Then, z is a L´evy stable distribution with an tail index equal to µ, an asymmetry coefﬁcient
+equal to β, and with aµ = 1 (see Eq. (1.24)). For µ = 2 the above equations boil down
+to the previous method to generate Gaussians. This method is due to Chambers et al.
+(1976).
+r Further reading
+L. Clewlow, Ch. Strickland, Implementing Derivatives Models, Wiley Series in Financial Engineering,
+1998.
+B. Dupire, Monte Carlo – Methodologies and Applications for Pricing and Risk Management, Risk
+Publications, London, 1998.
+J. C. Hull, Futures, Options and Other Derivatives, Prentice Hall, Upper Saddle River, NJ,
+1997.
+W. T. Vetterling, S. A. Teukolsky, W. H. Press, B. P. Flannery, Numerical recipes in C: the art of
+scientiﬁc computing, Cambridge University Press, 1993.
+P. Wilmott, J. N. Dewynne, S. D. Howison, Option Pricing: Mathematical Models and Computation,
+Oxford Financial Press, Oxford, 1993.
+P. Wilmott, Derivatives, The Theory and Practice of Financial Engineering, John Wiley, 1998.
+P. Wilmott, Paul Wilmott Introduces Quantitative Finance, John Wiley, 2001.
+r Specialized papers
+M. Avellaneda, R. Buff, C. Friedmann, N. Grandechamp, L. Kruk, J. Newman, Weighted Monte-
+Carlo: A new technique for calibrating asset-pricing models, Int. Jour. Theo. Appl. Fin., 4, 91
+(2001).
+J. Chambers, C. Mallows, B. Struck, A method for simulating stable random variables, J. Am. Stat.
+Ass., 71, 340 (1976).
+L. Clewlow, A. Caverhill, On the simulation of contingent claims, Journal of Derivatives, 2, 66 (1994),
+and RISK Magazine, 7, 63 (1994).
+
+18.6 Appendix F: generating some random variables
+333
+J.-P. Laurent, H. Pham, Dynamic programming and mean-variance hedging, Finance and Stochastics,
+3, 83 (1999).
+F. A. Longstaff, E. S. Schwartz, Valuing American options by simulation: a simple least-squares
+approach, Review of Financial Studies, 14, 113 (2001).
+M. Potters, J.-P. Bouchaud, D. ˇSestovi´c, Hedged Monte-Carlo: low variance derivative pricing with
+objective probabilities, Physica A, 289, 517, 2001, Hedge your Monte Carlo, Risk Magazine,
+14, 133 (March 2001).

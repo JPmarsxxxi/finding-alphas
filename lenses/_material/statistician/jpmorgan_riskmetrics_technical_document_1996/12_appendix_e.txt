@@ -1,0 +1,2540 @@
+ 
+253
+Appendices
+Appendix E.
+Routines to simulate correlated normal random variables
+ 
+Peter Zangari
+Morgan Guaranty Trust Company
+Risk Management Research
+(1-212) 648-8641
+ 
+zangari_peter@jpmorgan.com
+ 
+In Section E.1 of this appendix we brieﬂy introduce three algorithms for simulating correlated nor-
+mal random variables from a speciﬁed covariance matrix 
+ 
+Σ
+ 
+ (
+ 
+Σ
+ 
+ is square and symmetric). In 
+Section E.2 we present the details of the Cholesky decomposition.
+ 
+E.1  Three algorithms to simulate correlated normal random variables
+ 
+This section describes the Cholesky decomposition (CD), eigenvalue decomposition (ED) and the 
+singular value decomposition (SVD). CD is efﬁcient when  
+ 
+Σ
+ 
+ is positive deﬁnite. However, CD is 
+not applicable for positive semi-deﬁnite matrices. ED and SVD, while computationally more 
+intensive, are useful when 
+ 
+Σ
+ 
+ is positive semi-deﬁnite.
+• Cholesky decomposition
+We begin by decomposing the covariance matrix as follows:
+[E.1]
+where P is an upper triangular matrix. To simulate random variables from a multivariate nor-
+mal distribution with covariance matrix 
+ 
+Σ
+ 
+ we would perform the following steps:
+1.
+Find the upper triangular matrix P.
+2.
+Compute a vector of standard normal random variables denoted . In other words,  
+has a covariance matrix 
+ 
+I
+ 
+ (identity matrix).
+3.
+Compute the vector 
+. The random vector y has a multivariate normal distri-
+bution with a covariance matrix 
+ 
+Σ
+ 
+.
+Step 3 follows from the fact that 
+[E.2]
+where 
+ 
+V
+ 
+( ) and 
+ 
+E
+ 
+( ) represent the variance and mathematical expectation, respectively.
+• Eigenvalue decomposition
+Applying spectral decomposition to 
+ 
+Σ
+ 
+ yields
+[E.3]
+where 
+ 
+C
+ 
+ is an 
+ 
+N
+ 
+x
+ 
+N
+ 
+ orthogonal matrix of eigenvectors, i.e., 
+ is an 
+ 
+N
+ 
+x
+ 
+N
+ 
+ matrix with the 
+ 
+N
+ 
+-eigenvalues of 
+ 
+X
+ 
+ along its diagonal and zeros elsewhere
+[E.4]
+Σ
+P
+TP
+=
+ε
+ε
+y
+P
+Tε
+=
+V y
+( )
+P
+TE εε
+T
+
+
+
+P
+P
+TIP
+P
+TP
+Σ
+=
+=
+=
+=
+Σ
+C∆C
+T
+Q
+TQ
+=
+=
+C
+TC
+I
+=
+∆
+Q
+∆
+1 2
+⁄ C
+T
+=
+
+ 
+254
+Appendix E.  Routines to simulate correlated normal random variables
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+To simulate random variables from a multivariate normal distribution with covariance matrix 
+ 
+Σ
+ 
+ we would perform the following steps:
+1.
+Find the eigenvectors and eigenvalues of 
+ 
+Σ
+ 
+.
+2.
+Compute a vector of standard normal random variables denoted . In other words,  
+has a covariance matrix I (identity matrix).
+3.
+Compute the vector 
+. The random vector y has a multivariate normal distri-
+bution with a covariance matrix 
+ 
+Σ
+ 
+.
+Step 3 follows from the fact that 
+[E.5]
+The ﬁnal algorithm that is proposed is known as the singular value decomposition.
+• Singular Value decomposition 
+We begin with the following representation of the covariance matrix
+[E.6]
+where 
+ 
+U
+ 
+ and 
+ 
+V
+ 
+ are 
+ 
+N
+ 
+x
+ 
+N
+ 
+ orthogonal matrices, i.e., 
+, and 
+ 
+D
+ 
+ is an 
+ 
+N
+ 
+x
+ 
+N
+ 
+ matrix 
+with the 
+ 
+N
+ 
+ singular values of 
+ 
+Σ
+ 
+ along its diagonal and zeros elsewhere.
+It follows directly from Takagi’s decomposition that for any square, symmetric matrix,   
+. Therefore, to simulate random variables from a multivariate normal distribution 
+with covariance matrix 
+ 
+Σ
+ 
+ we would perform the following steps:
+1.
+Apply the singular value decomposition to 
+ 
+Σ 
+ 
+to get 
+ 
+V
+ 
+ and 
+ 
+D
+ 
+.
+2.
+Compute a vector of standard normal random variables denoted . In other words,  
+has a covariance matrix 
+ 
+I
+ 
+ (identity matrix).
+3.
+Compute the vector 
+ where 
+. The random vector y has a multi-
+variate normal distribution with a covariance matrix 
+ 
+Σ
+ 
+.
+Step 3 follows from the fact that
+[E.7]
+ 
+E.2  Applying the Cholesky decomposition
+ 
+In this section we explain exactly how to create the A matrix which is necessary for simulating 
+multivariate normal random variables from the covariance matrix 
+ 
+Σ
+ 
+. In particular, 
+ 
+Σ
+ 
+ can be decom-
+posed as:
+[E.8]
+If we simulate a vector of independent normal random variables X then we can create a vector of 
+normal random variables with covariance matrix 
+ 
+Σ
+ 
+ by using the transformation Y=A’X. To show 
+how to obtain the elements of the matrix A, we describe the Cholesky decomposition when the 
+dimension of the covariance matrix is 3 x 3. After, we give the general recursive equations used to 
+derive the elements of A from 
+ 
+Σ
+ 
+.
+ε
+ε
+y
+Q
+Tε
+=
+V y
+( )
+Q
+TE εε
+T
+
+
+
+Q
+Q
+TIQ
+Q
+TQ
+C∆
+1 2
+⁄ ∆
+1 2
+⁄ C
+T
+C∆C
+T
+Σ
+=
+=
+=
+=
+=
+=
+Σ
+UDV
+T
+=
+V
+TV
+U
+TU
+I
+=
+=
+Σ
+VDV
+T
+=
+ε
+ε
+y
+Q
+Tε
+=
+Q
+D
+1 2
+⁄ V
+T
+=
+V y
+( )
+Q
+TE εε
+T
+
+
+
+Q
+Q
+TIQ
+Q
+TQ
+VD
+1 2
+⁄ D
+1 2
+⁄ V
+T
+VDV
+T
+Σ
+=
+=
+=
+=
+=
+=
+Σ
+A
+TA
+=
+
+ 
+Appendix E.  Routines to simulate correlated normal random variables
+255
+Appendices
+ 
+Consider the following deﬁnitions:
+[E.9]
+Then we have
+[E.10]
+ equivalent to 
+[E.11]
+Now we can use the elements of 
+ 
+Σ
+ 
+ to solve for the 
+’s – the elements of A. This is done recur-
+sively as follows:
+[E.12]
+Having shown how to solve recursively for the elements in A we now give a more general result. 
+Let 
+ 
+i
+ 
+ and 
+ 
+j
+ 
+ index the row and column of an 
+ 
+N
+ 
+ x 
+ 
+N
+ 
+ matrix. Then the elements of A can be solved for 
+using
+[E.13]
+and
+[E.14]
+Σ
+s11 s12 s13
+s21 s22 s23
+s31 s32 s33
+=
+A
+T
+a11 0
+0
+a21 a22 0
+a31 a32 a33
+=
+A
+a11 a21 a31
+0 a22 a32
+0
+0 a33
+=
+s11 s12 s13
+s21 s22 s23
+s31 s32 s33
+a11 0
+0
+a21 a22 0
+a31 a32 a33
+a11 a21 a31
+0 a22 a32
+0
+0 a33
+=
+s11 s12 s13
+s21 s22 s23
+s31 s32 s33
+a11
+2
+a11a21
+a11a31
+a11a21
+a21
+2
+a22
+2
++
+a21a31
+a32a22
++
+a11a31 a21a31
+a32a22
++
+a31
+2
+a32
+2
+a33
+2
++
++
+=
+ai j
+,
+s11
+a11
+2
+a11
+s11
+=
+⇒
+=
+s21
+a11a21
+a21
+s21
+a11
+-------
+=
+⇒
+=
+s22
+a21
+2
+a22
+2
++
+a22
+s22
+a21
+2
+–
+=
+⇒
+=
+s31
+a11a31
+a31
+s31
+a11
+-------
+=
+⇒
+=
+s32
+a21a31
+a32a22
++
+a32
+1
+a22
+------- s32
+a21a31
+–
+(
+)
+=
+⇒
+=
+s33
+a11
+2
+a22
+2
+a33
+2
++
++
+a33
+a33
+a11
+2
+–
+a22
+2
+–
+=
+⇒
+=
+aii
+sii
+aik
+2
+k
+1
+=
+i
+1
+–
+∑
+–
+
+
+
+
+
+1 2
+⁄
+=
+aij
+1
+aii
+----- sij
+aika jk
+k
+1
+=
+i
+1
+–
+∑
+–
+
+
+
+
+
+1 2
+⁄
+=
+j
+i
+1 i
+2 … N
+,
+,
++
+,
++
+=
+
+256
+Appendix E.  Routines to simulate correlated normal random variables
+RiskMetrics —Technical Document
+Fourth Edition
+
+ 
+257
+Appendices
+Appendix F.
+BIS regulatory requirements
+ 
+Jacques Longerstaey
+Morgan Guaranty Trust Company
+Risk Management Advisory
+(1-212) 648-4936
+ 
+riskmetrics@jpmorgan.com
+ 
+The Basel Committee on Banking Supervision under the auspices of BIS issued in January 1996 a 
+ﬁnal Amendment to the 1988 Capital Accord that requires capital charges to cover market risks in 
+addition to the existing framework covering credit risk. The framework covers risks of losses in 
+on- and off- balance sheet positions arising from movements in market prices.
+Banks' minimum capital charges will be calculated as the sum of credit risk requirements under the 
+1988 Capital Accord, excluding debt and equity securities in the trading book and all positions in 
+commodities, but including the credit counterparty risk on all OTC derivatives, and capital charges 
+for market risks. The proposal sets forth guidelines for the measurement of market risks and the 
+calculation of a capital charge for market risks.
+ 
+I. Measurement of market risk
+ 
+Market risk may be measured using banks' internal models (subject to approval by the national 
+supervisor) and incorporates the following:
+1.
+Market risk in the trading account (i.e., debt and equity securities and derivatives):
+ 
+Standardized method 
+ 
+— uses a “building block” approach where charges for general risk 
+and issuer speciﬁc risk for debt and equities risks are calculated separately.
+ 
+Internal model
+ 
+ — must include a set of risk factors corresponding to interest rates in each 
+currency in which the bank has interest sensitive on- and off-balance sheet positions and 
+corresponding to each of the equity markets in which the bank holds signiﬁcant positions.
+2.
+Foreign exchange risk across the ﬁrm (including gold:
+ 
+Standardized method
+ 
+ — uses the shorthand method of calculating the capital requirement.
+ 
+Internal model
+ 
+ — must include FX risk factors of the bank’s exposures.
+3.
+Commodities risk across the ﬁrm (including precious metals but excluding gold)
+ 
+Standardized method 
+ 
+— risk can be measured using the standardized approach or the sim-
+pliﬁed approach.
+ 
+Internal model
+ 
+ — must include commodity risk factors of the bank’s exposures.
+4.
+Options risk across the ﬁrm:
+ 
+Standardized method
+ 
+ — banks using only purchased options should use a simpliﬁed 
+approach and banks using written options should, at a minimum, use one of the intermedi-
+ate approaches (“delta plus” or simulation method).
+ 
+Internal model
+ 
+ — must include risk factors (interest rate, equity, FX, commodity) of the 
+bank’s exposures.
+
+ 
+258
+Appendix F.  BIS regulatory requirements
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+II. Capital charge for market risk
+Standardized method 
+ 
+—simple sum of measured risk for all factors (i.e., debt/equity/FX/com-
+modities/options)
+ 
+Internal model —
+ 
+ 
+• Higher of the previous day's VaR (calculated in accordance with speciﬁc quantitative stan-
+dards) or average of daily VaR on each of the preceding 60 days times a multiplication factor, 
+subject to a minimum of 3.
+• A separate capital charge to cover the speciﬁc risk of traded debt and equity securities if not 
+incorporated in model.
+• A “plus” will be added that is directly related to the ex-post performance of the model 
+(derived from “back-testing” outcome)
+• Among other qualitative factors, stress testing should be in place as a supplement to the risk-
+analysis based on the day-to-day output of the model.
+ 
+III. Methods of measuring market risks
+ 
+A choice between a Standardized Methodology and an Alternative Methodology (i.e., use of 
+banks' internal models) will be permitted for the measurement of market risks subject to the 
+approval of the national supervisor.
+ 
+1. The standardized methodology
+ 
+This method uses a “building block” approach for debt and equity positions, where issuer-speciﬁc 
+risk and general risk are calculated separately. The capital charge under the standardized method 
+will be the arithmetic sum of the measures of each market risk (i.e., debt/equity/foreign exchange/
+commodities/options).
+ 
+Debt securities
+ 
+Instruments covered include:  debt securities (and instruments that behave like them including 
+non-convertible preferred shares) and interest rate derivatives in the trading account. Matched 
+positions in identical issues (e.g., same issuer, coupon rates, liquidity, call features) as well as 
+closely matched swaps, forwards, futures and FRAs which meet additional conditions are permit-
+ted to be offset. The capital charge for debt securities is the sum of the speciﬁc risk charge and 
+general risk charge.
+• Speciﬁc risk
+The speciﬁc risk charge is designed to protect against an adverse movement in the price of an 
+individual security owing to factors related to the individual issuer. Debt securities and deriv-
+atives are classiﬁed into broad categories (government, qualiﬁed, and other) with a varying 
+capital charge applied to gross long positions in each category. Capital charges range from 0% 
+for the government category to 8% for the Other category.
+• General market risk
+The general risk charge is designed to capture the risk of loss arising from changes in market 
+interest rates. A general risk charge would be calculated separately for each currency in which 
+the bank has a signiﬁcant position. There are two principal methods to choose from:
+
+ 
+Appendix F.  BIS regulatory requirements
+259
+Appendices
+ 
+1.
+ 
+Maturity method
+ 
+ — long and short positions in debt securities and derivatives are slot-
+ted into a maturity ladder with 13 time bands (15 for deep discount securities). The net 
+position in each time band is risk weighted by a factor designed to reﬂect the price sensi-
+tivity of the positions to changes in interest rates.
+2.
+ 
+Duration method 
+ 
+— achieves a more accurate measure of general market risk by calcu-
+lating the price sensitivity of each position separately.
+The general risk charge is the sum of the risk-weighted net short or long position in the whole 
+trading book, a small proportion of the matched positions in each time-band (vertical disal-
+lowance 10% for maturity method; 5% for duration method), and a larger proportion of the 
+matched positions across different time bands (horizontal disallowance).
+ 
+Equities
+ 
+Instruments covered include:  common stocks, convertible securities that behave like equities, 
+commitments to buy or sell equities, and equity derivatives. Matched positions in each identical 
+equity in each market may be fully offset, resulting in a single net short or long position to which 
+the speciﬁc and general market risk charges apply. The capital charge for equities is the sum of the 
+speciﬁc risk charge and general risk charge.
+• Speciﬁc risk
+Speciﬁc risk is the risk of holding a long or short position in an individual equity, i.e., the 
+bank's absolute equity positions (the sum of all long and short equity positions). The speciﬁc 
+risk charge is 8% (or 4% if the portfolio is liquid and diversiﬁed). A speciﬁc risk charge of 2% 
+will apply to the net long or net short position in an index comprising a diversiﬁed portfolio of 
+equities.
+• General market risk
+General market risk is the risk of holding a long or short position in the market as a whole, 
+i.e., the difference between the sum of the longs and the sum of the shorts (the overall net 
+position in an equity market). The general market risk charge is 8% and is calculated on a 
+market by market basis.
+ 
+Foreign exchange risk (including gold)
+ 
+The shorthand method of calculating the capital requirement for foreign exchange risk is per-
+formed by measuring the net position in each foreign currency and gold at the spot rate and apply-
+ing an 8% capital charge to the net open position (i.e., the higher of net long or net short positions 
+in foreign currency and 8% of the net position in gold).
+ 
+Commodities risk
+ 
+Commodities risk including precious metals, but excluding gold, can be measured using the stan-
+dardized approach or the simpliﬁed approach for banks which conduct only a limited amount of 
+commodities business. Under the standardized approach, net long and short spot and forward posi-
+tions in each commodity will be entered into a maturity ladder. The capital charge will be calcu-
+lated by applying a 1.5% spread rate to matched positions (to capture maturity mismatches) and a 
+capital charge applied to the net position in each bucket. Under the simpliﬁed method, a 15% cap-
+ital charge will be applied to the net position in each commodity. 
+ 
+Treatment of options
+ 
+Banks that solely use purchased options are permitted to use a simpliﬁed approach; however, 
+banks that also write options will be expected to use one of the intermediate approaches or a com-
+prehensive risk management model. Under the standardized approach, options should be “carved 
+out” and become subject to separately calculated capital charges on particular trades to be added to 
+other capital charges assessed. Intermediate approaches are the “delta plus approach” and scenario 
+
+ 
+260
+Appendix F.  BIS regulatory requirements
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+analysis. Under the delta plus approach, delta-weighted options would be included in the standard-
+ized methodology for each risk type.
+ 
+2. Alternative methodology: internal models
+ 
+This method allows banks to use risk measures derived from their own internal risk management 
+models, subject to a general set of standards and conditions. Approval by the supervisory authority 
+will only be granted if there are sufﬁcient numbers of staff (including trading, risk control, audit 
+and back ofﬁce areas) skilled in using the models, the model has a proven track record of accuracy 
+in predicting losses, and the bank regularly conducts stress tests.
+• Calculation of capital charge under the internal model approach
+– Each bank must meet on a daily basis a capital requirement expressed as the higher of its 
+previous day's value at risk number measured according to the parameters speciﬁed or an 
+average of the daily value at risk measures on each of the preceding sixty business days, 
+multiplied by a multiplication factor.
+– The multiplication factor will be set by supervisors on the basis of their assessment of the 
+quality of the bank's risk management system, subject to a minimum of 3. The plus factor 
+will range from 0 to 1 based on backtesting results and that banks that meet all of the quali-
+tative standards with satisfactory backtesting results will have a plus factor of zero.The 
+extent to which banks meet the qualitative criteria may inﬂuence the level at which supervi-
+sors will set the multiplication factor.
+– Banks using models will be subject to a separate capital charge to cover the speciﬁc risk of 
+traded debt and equity securities to the extent that this risk is not incorporated into their 
+models. However, for banks using models, the speciﬁc risk charge applied to debt securities 
+or equities should not be less than half the speciﬁc risk charge calculated under the stan-
+dardized methodology.
+– Any elements of market risk not captured by the internal model will remain subject to the 
+standardized measurement framework.
+– Capital charges assessed under the standardized approach and the internal model approach 
+will be aggregated according to the simple sum method.
+• Requirements for the use of internal models:
+ 
+Qualitative standards
+ 
+• Existence of an independent risk control unit with active involvement of senior management
+• Model must be closely integrated into day-to-day risk management and should be used in 
+conjunction with internal trading and exposure limits
+• Routine and rigorous programs of stress testing and back-testing should be in place
+• A routine for ensuring compliance and an independent review of both risk management and 
+risk measurement should be carried out at regular intervals
+• Procedures are prescribed for internal and external validation of the risk measurement process
+
+ 
+Appendix F.  BIS regulatory requirements
+261
+Appendices
+ 
+Speciﬁcation of market risk factors
+ 
+The risk factors contained in a risk measurement system should be sufﬁcient to capture the risk 
+inherent in the bank's portfolio, i.e., interest rates, exchange rates, equity prices, commodity 
+prices. 
+ 
+Quantitative standards
+ 
+• Value at risk should be computed daily using a 99th percentile, one-tailed conﬁdence interval 
+and a minimum holding period of 10 trading days. Banks are allowed to scale up their 1-day 
+VaR measure for options by the square root of 10 for a certain period of time after the internal 
+models approach takes effect at the end of 1997.
+• Historical observation period will be subject to a minimum length of one year. For banks that 
+use a weighting scheme or other methods for the historical observation period, the “effective” 
+observation period must be at least one year.
+• Banks will have discretion to recognize empirical correlations within broad risk categories. 
+Use of correlation estimates across broad risk categories is subject to regulatory approval of 
+the estimation methodology used.
+• Banks should update their data sets no less frequently than once every three months and 
+should reassess them whenever market prices are subject to material change
+• Models must accurately capture the unique risks associated with options within the broad risk 
+categories (using delta/gamma factors if analytical approach is chosen) 
+ 
+IV. Calculation of the capital ratio
+ 
+• The minimum capital ratio representing capital available to meet credit and market 
+risks is 8%. 
+• The denominator of the ratio is calculated by multiplying the measure of market risk by 12.5 
+(reciprocal of the 8% ratio) and adding the results to credit risk-weighted assets. The numera-
+tor is eligible capital, i.e., sum of the bank's Tier 1 capital, Tier 2 capital under the limits per-
+mitted by the 1988 Accord, and Tier 3 capital, consisting of short-term subordinated debt. Tier 
+3 capital is permitted to be used for the sole purpose of meeting capital requirements for mar-
+ket risks and is subject to certain quantitative limitations.
+• Although regular reporting will in principle take place only at intervals (in most countries 
+quarterly), banks are expected to manage the market risk in their trading portfolios in such a 
+way that the capital requirements are being met on a continuous basis, i.e., at the close of each 
+business day.
+
+ 
+262
+Appendix F.  BIS regulatory requirements
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+V. Supervisory framework for the use of backtesting
+ 
+Backtesting represents the comparison of daily proﬁts and losses with model-generated risk mea-
+sures to gauge the quality and accuracy of banks’ risk measurement systems. The backtests to be 
+applied compare whether the observed percentage of outcomes covered by the risk measure is con-
+sistent with a 99% level of conﬁdence. The backtesting framework should use risk measures cali-
+brated to a 1-day holding period. The Committee urges banks to develop the capability to perform 
+backtests using both hypothetical (based on the changes in portfolio value that would occur were 
+end-of-day positions to remain unchanged) and actual trading outcomes.
+The framework adopted by the Committee calculates the number of times that the trading out-
+comes are not covered by the risk measures (exceptions) on a quarterly basis using the most recent 
+12 months of data. The framework encompasses a range of possible responses which are classiﬁed 
+into 3 zones. The boundaries are based on a sample of 250 observations.
+•
+ 
+Green zone
+ 
+ — the backtesting results do not suggest a problem with the quality or accuracy 
+of a bank’s model (only four exceptions are allowed here).
+•
+ 
+Yellow zone
+ 
+ — the backtesting results do raise questions, but such a conclusion is not deﬁni-
+tive (only 9 exceptions are allowed here). Outcomes in this range are plausible for both accu-
+rate and inaccurate models. The number of exceptions will guide the size of potential 
+supervisory increases in a ﬁrm’s capital requirement. The purpose of the increase in the multi-
+plication factor is to return the model to a 99th percentile standard. Backtesting results in the 
+yellow zone will generally be presumed to imply an increase in the multiplication factor 
+unless the bank can demonstrate that such an increase is not warranted. The burden of proof in 
+these situations should not be on the supervisor to prove that a problem exists, but rather 
+should be on the bank to prove that their model is fundamentally sound.
+•
+ 
+Red zone
+ 
+ — the backtesting results almost certainly indicate a problem with a bank’s risk 
+model (10 or more exceptions). If a bank’s model falls here, the supervisor will automatically 
+increase the multiplication factor by one and begin investigation.
+
+ 
+263
+Appendices
+Appendix G.
+Using the RiskMetrics examples diskette
+ 
+Scott Howard
+Morgan Guaranty Trust Company
+Risk Management Advisory
+(1-212) 648-4317
+ 
+howard_james_s@jpmorgan.com
+ 
+A number of the examples in this 
+ 
+Technical Document
+ 
+, are included on the enclosed examples dis-
+kette. This diskette contains a Microsoft Excel workbook ﬁle containing six spreadsheets and one 
+macro ﬁle. The workbook can be used under Excel Version 4.0 or higher.
+Some of the spreadsheets allow the user to modify inputs in order to investigate different scenar-
+ios. Other spreadsheets are non-interactive. In the latter case, the objective is to provide the user 
+with a detailed illustration of the calculations. This workbook and user guide is presented to the 
+experienced user of Microsoft Excel, although we hope the material is meaningful to less experi-
+enced users. Please make a duplicate of the Examples.XLW workbook and save at least one copy 
+on your hard drive and at least one copy on a ﬂoppy disk. This will allow you to manipulate the 
+enclosed spreadsheets without sacriﬁcing their original format.
+Opening the Examples.XLW workbook will show the following ﬁle structure:
+The ﬁles listed above are described as follows:
+ 
+CFMapTD.xls & CFMap.xls
+ 
+These two spreadsheets are similar, although CFMap.xls allows the user to change more of the 
+inputs in order to investigate different scenarios, or to perform sensitivity analysis. CFMap.xls 
+allows provides more vertices to which to map the cash ﬂows. Note that only data in red is change-
+able on all spreadsheets.
+ 
+File
+Section, page
+Description
+ 
+CFMapTD.xls
+Section 6.4, page 134
+Decomposition of the 10-year benchmark OAT into RiskMetrics vertices
+CFMap.xls
+Section 6.4, page 135
+Generic Excel cash ﬂow mapping spreadsheet (users are given ﬂexibility to map 
+standard bullet bonds)
+FRA.xls
+Section 6.4, page 136
+Mapping and VaR calculation of a 6x12 French franc FRA
+FX_Fwd.xls
+Section 6.4, page 143
+Mapping and VaR calculation of a DEM/USD 1-year forward
+Str_note.xls
+Section 6.4, page 139
+Mapping and VaR calculation of a 1-year Note indexed to 2-year DEM swap rates
+FXBase.xls
+Section 8.4, page 183
+Generic calculator to convert U.S. dollar based volatilities and correlations to an-
+other base currency
+Examples.XLM
+Macro sheet that links to buttons on the various spreadsheets
+
+ 
+264
+Appendix G.  Using the RiskMetrics examples diskette
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+In CFMapTD.xls, Example Part 1 illustrates the mapping of a single cash ﬂow, while Example 
+Part II illustrates the mapping of the entire bond.
+To begin mapping on either spreadsheet, enter your chosen data in all cells that display red font. 
+Then click the “Create cash ﬂows” button. Wait for the macro to execute, then click the “Map the 
+cash ﬂows to vertices” button to initiate the second macro, which executes for the ﬁnal output of 
+Diversiﬁed Value at Risk, Market Value, and Percentage of market value. If you wish to print the 
+cash ﬂow mapping output, simply click the “Print Mapping” macro button. 
+ 
+FRA.xls
+ 
+This Forward Rate Agreement example is for illustrative purposes only. We encourage the user, 
+however, to manipulate the spreadsheet is such a way as to increase it’s functionality. Changing 
+any spreadsheet, of course, should be done after creating a duplicate workbook. 
+In this spreadsheet, cells are named so that formulae show the inputs to their respective calcula-
+tions. This naming convention, we hope, increases user friendliness. For example, looking at cell 
+C21 shows the calculation for the FRA rate utilizing the data in 1. Basic Contract Data and data 
+under the Maturity column under 2. FRA Mapping and VaR on 6-Jan-95.
+Cells are named according to the heading under which they fall, or the cell to their left that best 
+describes the data. For example, cell B30 is named Maturity_1, while cell K32 is named 
+Divers_VaR_1. Also note that the RiskMetrics Correlations are named in two-dimensional arrays: 
+cells L30:M31 are named Corr_Matrx_1, while cells L40:N42 are named Corr_Matrx_2.
+If you have any confusion about the naming convention, simply go to the 
+ 
+Formula Deﬁne name…
+ 
+ 
+command. The 
+ 
+Deﬁne Name
+ 
+ dialogue box will appear, where the cell names are listed in alphabet-
+ical order along with their respective cell references.
+The cells containing the individual VaR calculations (K30, K31, K40, K41, K42) contain the abso-
+lute value of the value at risk. In order to calculate the Diversiﬁed VaR, however, in cells K32 and 
+K43, we have placed the actual VaR values to the right of the correlation matrices. If you go to cell 
+K32, you will see that the formula makes use of VaR_Array_1, which refers to cells O31:O32. 
+This VaR array contains the actual values of VaR_1 and VaR_2, which are essential to calculating 
+the Divers_VaR_1. Cells O31 and O32 are formatted in white font in order to maintain the clarity 
+of the spreadsheet. Similarly, the calculation in cell K43 utilizes VaR_Array_2, found in cells 
+O40:O42.
+ 
+FX_Fwd.xls
+ 
+This spreadsheet offers some interaction whereby the user can enter data in all red cells.
+Before examining this spreadsheet, please review the names of the cells in the 1. Basic contract 
+data section in order to better understand the essential calculations. If you have any confusion 
+about the naming convention, simply go to the 
+ 
+Formula Deﬁne name…
+ 
+ command. The 
+ 
+Deﬁne 
+Name
+ 
+ dialogue box will appear, where the cell names are listed in alphabetical order along with 
+their respective cell references.
+Please note that the Diversiﬁed Value at Risk calculation utilizes the var_array input, which refers 
+to cells I33:I35. These cells are formatted in white font in order to maintain the clarity of the 
+worksheet.
+
+ 
+Appendix G.  Using the RiskMetrics examples diskette
+265
+Appendices
+ 
+Str_note.xls
+ 
+This spreadsheet is for illustrative purposes only. Again, we encourage the user to format the 
+spreadsheet for custom use.
+Please notice that the Diversiﬁed VaR calculations make use of VaR_Array1 and VaR_Array2. 
+VaR_Array1 references cells N26:N28, while VaR_Array2 references cells O37:O40. These two 
+arrays are formatted in white font in order to maintain the clarity of the worksheet.
+If you have any confusion about the naming convention, simply go to the 
+ 
+Formula Deﬁne name…
+ 
+ 
+command. The 
+ 
+Deﬁne Name
+ 
+ dialogue box will appear, where the cell names are listed in alphabet-
+ical order along with their respective cell references.
+
+ 
+266
+Appendix G.  Using the RiskMetrics examples diskette
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+267
+Appendices
+Appendix H.
+RiskMetrics on the Internet 
+ 
+Scott Howard
+Morgan Guaranty Trust Company
+Risk Management Advisory
+(1-212) 648-4317
+ 
+howard_james_s@jpmorgan.com
+ 
+RiskMetrics home pages on the Internet are currently located at
+ 
+http://www.jpmorgan.com/RiskManagement/RiskMetrics/RiskMetrics.html
+ 
+and 
+ 
+http://www.riskmetrics.reuters.com
+ 
+The RiskMetrics home page on the Reuters Web is located at:
+ 
+http://riskmetrics.session.rservices.com
+ 
+The Internet can be accessed through such services as CompuServe
+ 
+
+ 
+, Prodigy
+ 
+
+ 
+, or America
+ 
+
+ 
+ 
+Online, or through service providers by using browsers such as Netscape
+ 
+
+ 
+ Navigator, Microsoft
+ 
+
+ 
+ 
+Internet Explorer, Mosaic or their equivalents. The Reuters Web is available with the Reuters 3000 
+series.
+RiskMetrics data sets can be downloaded from the Internet and from the Reuters Web. 
+RiskMetrics documentation and a listing of third parties, both consultants and software developers 
+who incorporate RiskMetrics methodology and/or data sets, are also freely available from these 
+sites or from local Reuters ofﬁces. Users can receive e-mail notiﬁcation of new publications or 
+other information relevant to RiskMetrics by registering at the following address:
+ 
+http://www.jpmorgan.com/RiskManagement/RiskMetrics/rmform.html
+ 
+Note that URL addresses are subject to change.
+ 
+H.1  Data sets
+ 
+RiskMetrics data sets are updated daily on the Internet at 
+ 
+http://www.riskmetrics.reuters.com 
+ 
+and 
+on the Reuters Web at 
+ 
+http://riskmetrics.session.rservices.com.
+ 
+The data sets are available by 10:30 a.m. U. S. Eastern Standard Time. They are based on the pre-
+vious day’s data through close of business, and provide the latest estimates of volatilities and cor-
+relations for daily and monthly horizons, as well as for regulatory requirements.
+The data sets are not updated on ofﬁcial U.S. holidays. For these holidays, foreign market data is 
+included in the following business day’s data sets; U.S. market data is adjusted according to the 
+Expectation Maximization (EM) algorithm described in Section 8.25. EM is also used in a consis-
+tent fashion for ﬁlling in missing data in other markets.
+The data sets are supplied in compressed ﬁle format for DOS, Macintosh, and UNIX platforms. 
+The DOS and Macintosh ﬁles are auto-extracting, i.e., the decompression software is enclosed in 
+the ﬁle.
+
+ 
+268
+Appendix H.  RiskMetrics on the Internet
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+On the same page as the data sets is the Excel add-in, which enables users to perform DEaR/VaR 
+calculations on other than a US dollar currency basis. The add-in allows users full access to the 
+data sets when building customized spreadsheets. Current rate, price volatility, and correlation of 
+speciﬁed pairs can be returned. The add-in was compiled in 16 bit and runs under Excel 4.0 and 
+5.0. It does not run under Windows NT. The name of the add-in is JPMVAR for the Mac and 
+JPMVAR.XLL for the PC. It has an expiration date of November 1, 1997.
+ 
+H.2  Publications
+ 
+http://www.jpmorgan.com/RiskManagement/riskMetrics/pubs.html
+ 
+The annual 
+ 
+RiskMetrics—Technical Document
+ 
+, the quarterly 
+ 
+Monitor
+ 
+ and all other RiskMetrics 
+documents are available for downloading in Adobe Acrobat pdf ﬁle format. Adobe Acrobat Reader 
+is required to view these ﬁles. It can be downloaded from 
+ 
+http://www.adobe.com
+ 
+. 
+RiskMetrics documents are also available from your local Reuters ofﬁce.
+ 
+H.3  Third parties
+ 
+http://www.jpmorgan.com/RiskManagement/RiskMetrics/Third_party_directory.html
+ 
+Setting up a risk management framework within an organization requires more than a quantitative 
+methodology. A listing of several consulting ﬁrms who have capital advisory practices to help 
+ensure the implementation of effective risk management and system developers who have inte-
+grated RiskMetrics methodology and/or data sets is available for viewing or saving as a ﬁle.
+Users should be able to choose from a number of applications that will achieve different goals, 
+offer various levels of performance, and run on a number of different platforms. Clients should 
+review the capabilities of these systems thoroughly before committing to their implementation. 
+ 
+J. P. Morgan and Reuters do not endorse the products of these third parties nor do they war-
+rant their accuracy in the application of the RiskMetrics methodology 
+ 
+and in the use of the 
+underlying data accompanying it.
+
+ 
+269
+Reference
+
+ 
+270
+  
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+271
+Reference
+Glossary of terms
+ 
+absolute market risk.  
+ 
+Risk associated with the change in value of a position or a portfolio result-
+ing from changes in market conditions i.e., yield levels or prices.
+ 
+adverse move X.  
+ 
+Deﬁned in RiskMetrics as 1.65 times the standard error of returns. It is a mea-
+sure of the most the return will move over a speciﬁed time period.
+ 
+ARCH.  
+ 
+ Autoregressive Conditional Heteroskedascticity. A time series process which models 
+volatility as dependent on past returns. GARCH—Generalized ARCH, models volatility as a func-
+tion of past returns and past values of volatility. EGARCH—Exponential GARCH, IGARCH— 
+Integrated GARCH. SWARCH—Switching Regime ARCH.
+ 
+autocorrelation (serial correlation).   
+ 
+When observations are correlated over time. In other 
+words, the covariance between data recorded on the same series sequentially in time is non-zero.
+ 
+beta.  
+ 
+A volatility measure relating the rate of return on a security with that of its market over 
+time. It is deﬁned as the covariance between a security’s return and the return on the market port-
+folio divided by the variance of the return of the market portfolio.
+ 
+bootstrapping.  
+ 
+ A method to generate random samples from the observed data’s underlying, pos-
+sibly unknown, distribution by randomly resampling the observed data. The generated samples 
+can be used to compute summary statistics such as the median. In this document, bootstrapping is 
+used to show monthly returns can be generated from data which are sampled daily. 
+ 
+CAPM.  
+ 
+Capital Asset Pricing Model. A model which relates the expected return on an asset to the 
+expected return on the market portfolio.
+ 
+Cholesky factorization/decomposition.  
+ 
+A method to simulation of multivariate normal returns 
+based on the assumption that the covariance matrix is symmetric and positive-deﬁnite. 
+ 
+constant maturity.  
+ 
+The process of inducing ﬁxed maturities on a time series of bonds. This is 
+done to account for bonds “rolling down” the yield curve.
+ 
+decision horizon.  
+ 
+The time period between entering and unwinding or revaluing a position. Cur-
+rently, RiskMetrics offers statistics for 1-day and 1-month horizons.
+ 
+decay factor.   
+ 
+See lambda.
+ 
+delta equivalent cash ﬂow.  
+ 
+In situations when the underlying cash ﬂows are uncertain (e.g. 
+option), the delta equivalent cash ﬂow is deﬁned as the change in an instrument's fair market value 
+when its respective discount factor changes. These cash ﬂows are used to ﬁnd the net present value 
+of an instrument. 
+ 
+delta neutral cash ﬂows.  
+ 
+These are cash ﬂows that exactly replicate a callable bond’s sensitivity 
+to shifts in the yield curve. A single delta neutral cash ﬂow is the change in the price of the callable 
+bond divided by the change in the value of the discount factor.
+ 
+duration (Macaulay).  
+ 
+The weighted average term of a security’s cash ﬂow.
+ 
+EM algorithm.  
+ 
+A statistical algorithm that can estimate parameters of a function in the presence 
+of incomplete data (e.g. missing data). EM stands for Expectation Maximization. Simply put, the 
+missing values are replaced by their expected values given the observed data.
+
+ 
+272
+Glossary of terms
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+exponential moving average.  
+ 
+Applying weights to a set of data points with the weights declining 
+exponentially over time. In a time series context, this results in weighing recent data more than the 
+distant past.
+ 
+GAAP.  
+ 
+Generally Accepted Accounting Principles.
+ 
+historical simulation.  
+ 
+A non-parametric method of using past data to make inferences about the 
+future. One application of this technique is to take today’s portfolio and revalue it using past his-
+torical price and rates data.
+ 
+kurtosis.  
+ 
+Characterizes relative peakedness or ﬂatness of a given distribution compared to a nor-
+mal distribution.
+ 
+1
+ 
+Since the unconditional normal distribution has a kurtosis of 3, excess kurtosis is deﬁned as 
+ 
+K
+ 
+x
+ 
+-3.
+ 
+λ
+ 
+ lambda (decay factor).  
+ 
+The weight applied in the exponential moving average. It takes a value 
+between 0 and 1. In the RiskMetrics lambda is 0.94 in the calculation of volatilities and correla-
+tions for a 1-day horizons and 0.97 for 1-month horizon.
+ 
+leptokurtosis (fat tails).  
+ 
+The situation where there are more occurrences far away from the mean 
+than predicted by a standard normal distribution.
+ 
+linear risk (nonlinear).  
+ 
+ For a given portfolio, when the underlying prices/rates change, the 
+incremental change in the payoff of the portfolio remains constant for all values of the underlying 
+prices/rates. When this does not occur, the risk is said to be nonlinear.
+ 
+log vs. change returns.  
+ 
+For any price or rate 
+ 
+P
+ 
+t
+ 
+, log return is deﬁned as ln (
+ 
+P
+ 
+t
+ 
+/
+ 
+P
+ 
+t
+ 
+ 
+ 
+− 
+ 
+1
+ 
+) whereas the 
+change return is deﬁned by (
+ 
+P
+ 
+t
+ 
+ 
+ 
+−
+ 
+ 
+ 
+P
+ 
+t
+ 
+ 
+ 
+−
+ 
+1
+ 
+)/P
+ 
+t
+ 
+ 
+ 
+− 
+ 
+1
+ 
+. For small values of (
+ 
+P
+ 
+t
+ 
+ 
+ 
+−
+ 
+ 
+ 
+P
+ 
+t
+ 
+ 
+ 
+−
+ 
+1
+ 
+), these two types of 
+returns give very similar results. Also, both expressions can be converted to percentage 
+returns/changes by simply multiplying them by 100.
+ 
+mapping.  
+ 
+The process of translating the cash ﬂow of actual positions into standardized position 
+(vertices). Duration, Principal, and cash ﬂow.
+ 
+mean.  
+ 
+A Measure of central tendency. Sum of daily rate changes divided by count
+ 
+mean reversion.  
+ 
+When short rates will tend over time return to a long-run value.
+ 
+modiﬁed duration.  
+ 
+An indication of price sensitivity. It is equal to a security’s Macaulay dura-
+tion divided by one plus the yield.
+ 
+outliers.  
+ 
+Sudden, unexpectedly large rate or price returns.
+ 
+1
+ 
+We would like to thank Steven Hellinger of the New York State Banking Department for pointing this formula out 
+for us.
+Kx
+N
+2
+2N
+3
++
+–
+N
+1
+–
+(
+)
+N
+2
+–
+(
+)
+N
+3
+–
+(
+)
+------------------------------------------------------------
+Xi
+x
+–
+σx
+-------------
+
+
+
+
+
+4
+i
+1
+=
+N
+∑
+
+
+
+
+
+
+3
+N
+1
+–
+(
+)
+2N
+3
+–
+(
+)
+N N
+2
+–
+(
+)
+N
+3
+–
+(
+)
+---------------------------------------------
+–
+=
+x
+1
+N---
+Xi
+i
+1
+=
+N
+∑
+=
+
+ 
+Glossary of terms
+273
+Reference
+ 
+overlapping data.  
+ 
+Consecutive returns that share common data points. An example would be 
+monthly returns (25-day horizon) computed on a daily basis. In this instance adjacent returns share 
+24 data points.
+ 
+nonparametric.  
+ 
+Potential market movements are described by assumed scenarios, not statistical 
+parameters.
+ 
+parametric.  
+ 
+When a functional form for the distribution a set of data points is assumed. For 
+example, when the normal distribution is used to characterize a set of returns.
+ 
+principle of expected return.  
+ 
+The expected total change in market value of the portfolio over the 
+evaluation period.
+ 
+relative market risk.  
+ 
+Risk measured relative to an index or benchmark
+ 
+residual risk.  
+ 
+The risk in a position that is issue speciﬁc.
+ 
+skewness.  
+ 
+Characterizes the degree of asymmetry of the distribution around its mean. Positive 
+skews indicate asymmetric tail extending toward positive values (right-hand side). Negative skew-
+ness implies asymmetry toward negative values (left-hand side).
+ 
+speed of adjustment.  
+ 
+A parameter used in modelling forward rates. It is estimated from past data 
+on short rates. A fast speed of adjustment will result in a forward curve that approaches the long-
+run rate at a relatively short maturity.
+ 
+stochastic volatility.  
+ 
+Applied in time series models that take volatility as an unobservable random 
+process. Volatility is often modeled as a ﬁrst order autoregressive process.
+ 
+standard deviation
+ 
+. Indication of the width of the distribution of changes around the mean. 
+ 
+Structured Monte Carlo.  
+ 
+Using the RiskMetrics covariance matrix to generate random normal 
+variates to simulate future price scenarios.
+ 
+total variance.  
+ 
+The variance of the market portfolio plus the variance of the return on an individ-
+ual asset.
+ 
+zero mean.  
+ 
+When computing sample statistics such as a variance or covariance, setting the mean 
+to a prior value of zero. This is often done because it is difﬁcult to get a good estimate of the true 
+mean.
+Sx
+N
+N
+1
+–
+(
+)
+N
+2
+–
+(
+)
+----------------------------------------
+Xi
+x
+2
+–
+σx
+----------------
+
+
+
+
+
+
+i
+1
+=
+N
+∑
+=
+σx
+1
+N
+1
+–
+------------
+Xi
+x
+–
+(
+)
+2
+i
+1
+=
+N
+∑
+=
+
+ 
+274
+Glossary of terms
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+  
+275
+Reference
+Bibliography
+ 
+Ahlburg, Dennis A. “A commentary on error measures,” 
+ 
+International Journal of Forecasting
+ 
+, 8, 
+(1992), pp. 99–111.
+Armstrong, J. Scott and Fred Collopy. “Error measures for generalizing about forecasting meth-
+ods: Empirical comparisons,”
+ 
+International Journal of Forecasting
+ 
+, 8, (1992), pp. 69–80.
+Bachelier, L. 
+ 
+Theorie de la Speculation
+ 
+   (Paris: Gauthier-Villars, 1900).
+Becker, K., Finnerty, J., and A. Tucker. “The intraday interdependence structure between U.S. and 
+Japanese Equity markets,” 
+ 
+Journal of Financial Research
+ 
+, 1, (1992), pp. 27–37.
+Belsley, D.A. 
+ 
+Conditioning Diagnostics: Collinearity and Weak Data in Regression
+ 
+ (New York: 
+John Wiley & Sons, 1980).
+Bera, A.K. and C.M. Jarque. “Efﬁcient tests for Normality, Heteroscedasticity, and Serial Indepen-
+dence in Regression Residuals,” 
+ 
+Economics Letters
+ 
+, 6, (1980), pp. 255–259.
+Blattberg, R. and N. Gonedes. “A comparison of Stable and Student Distributions as Statistical 
+Models for Stock Prices,” 
+ 
+Journal of Business
+ 
+, 47, (1974), pp. 244–280.
+Bollersev, T. “Generalized Autoregressive Conditional Heteroscedasticity,” 
+ 
+Journal of Economet-
+rics
+ 
+, 31, (1986), pp. 307–327.
+Bollersev, T. “A Conditional Heteroskedastic Model for Speculative Prices and Rates of Return,” 
+ 
+Review of Economics and Statistics
+ 
+, 69, (1987), pp. 542–547.
+Boudoukh, J., Richardson, M., and R. F. Whitelaw. “A Tale of Three Schools: Insights on Autocor-
+relations of Short-Horizon Stock Returns,” 
+ 
+The Review of Financial Studies
+ 
+, 3, (1994), 
+pp. 539–573.
+Braun, P.A., Nelson, D.B., and Alain M. Sunier. “Good News, Bad News, Volatility and Betas,” 
+Working Paper 90-93, Graduate School of Business, University of Chicago, (August 1991).
+Campbell, B. and J. Dufour. “Exact NonParametric Orthogonality and Random Walk Tests,” 
+ 
+Review of Economics and Statistics,
+ 
+ 1, (February 1995), pp. 1–15.
+Campbell, J.Y., Lo, A.W., and A.C. MacKinley. “The Econometrics of Financial Markets,” manu-
+script, June 1995.
+Cohen, K., et al. “Friction in the trading process and the estimation of systematic risk,” 
+ 
+Journal of 
+Financial Economics, 
+ 
+(1983), pp. 263–278.
+Crnkovic, Cedomir and Jordan Drachman. “Model Risk Quality Control,” 
+ 
+RISK
+ 
+, 9, (September 
+1996), pp. 138–143
+Davidian, M. and R. J. Carroll. “Variance Function Estimation,” 
+ 
+Journal of the American Statisti-
+cal Association
+ 
+, 400, (1987), pp. 1079–1091. 
+DeGroot, M. 
+ 
+Probability and Statistics
+ 
+, 2nd edition, (Reading, MA: Addison-Wesley Publishing 
+Company, 1989), Chapter 8.
+
+ 
+276
+Bibliography
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Dempster, A.P., Laird, N.M., and D. B. Rubin. “Maximum likelihood from incomplete data via the 
+EM algorithm,” 
+ 
+Journal of the Royal Statistical Society,
+ 
+ 39, (1977), pp. 1–38.
+Diebold, F.X. and R.S. Mariano. “Comparing predictive accuracy,” 
+ 
+Journal of Business and Eco-
+nomic Statistics
+ 
+, 13, (1995), pp. 253–263.
+Engle, R.F. “Autoregressive conditional heteroscedasticity with estimates of the variance of UK 
+inﬂation,” 
+ 
+Econometrica
+ 
+, 50, (1982), pp. 987–1007.
+Engle, R.F. and T. Bollerslev.   “Modelling the Persistence of Conditional Variances,” 
+ 
+Econometric 
+Reviews
+ 
+, 5, (1986), pp. 1–50.
+Engle, R.F. and Ken Kroner. “Multivariate Simultaneous Generalized ARCH,” 
+ 
+Econometric The-
+ory
+ 
+, (1995), pp. 122–150.
+Eun, C.S. and S. Shim. “International Transmission of Stock Market Movements,” 
+ 
+Journal of 
+Financial and Quantitative Analysis
+ 
+, 24, (1989), pp. 241–256.
+Fabozzi, Frank (editor), 
+ 
+The Handbook of Fixed Income Options
+ 
+, (Chicago, IL: Probus Publishing, 
+1989), Chapter 3.
+Fama, E. “The Behavior of Stock Market Prices,” 
+ 
+Journal of Business
+ 
+, 38, (1965), pp. 34–105.
+Fama, E. and K. French. “Permanent and Temporary Components of Stock Prices,” 
+ 
+Journal of 
+Political Economy
+ 
+, 96, (1988), pp. 246–273.
+Figlewski, Stephen. “Forecasting Volatility using Historical Data,” New York University Working 
+Paper, S-94-13, (1994).
+Fildes, Robert. “The evaluation of extrapolative forecasting methods,” 
+ 
+International Journal of 
+Forecasting
+ 
+, 8, (1992), pp. 81–98.
+Finger, Christopher C. “Accounting for the “pull to par” and “roll down” for RiskMetrics cash-
+ﬂows,” 
+ 
+RiskMetrics
+ 
+
+ 
+ Monitor
+ 
+, (September 16, 1996).
+Fisher, L. “Some New Stock-Market Indexes,” 
+ 
+Journal of Business
+ 
+, 39, (1966), pp. 191–225.
+Ghose, Dev and Ken Kroner. “The Relationship between GARCH and Stable Processes: Finding 
+the source of fat-tails in ﬁnancial data,” University of Arizona Working Paper, 93-1, (June 1993).
+ 
+Government Bond Outlines
+ 
+, 8th edition, C. Dulligan, 1995.
+Greene, William. 
+ 
+Econometric Analysis
+ 
+, 2nd edition. (New York: Macmillan Publishing Company, 
+1993).
+Harvey, A.C. 
+ 
+Time Series Models
+ 
+, 2nd edition. (Cambridge, MA: MIT Press, 1993).
+Harvey, A.C., E. Ruiz and N.G. Shepard. “Multivariate Stochastic Variance Models,” 
+ 
+Review of 
+Economic Studies
+ 
+, 61, (1994), pp. 247–264.
+Hendricks, Darryl. “Evaluation of Value-at-Risk Models Using Historical Data,” Federal Reserve 
+Bank of New York 
+ 
+Economic Policy Review
+ 
+, (April 1996).
+Heuts, R.M.J. and S. Rens. “Testing Normality When Observations Satisfy a Certain Low Order 
+ARMA-Scheme,” 
+ 
+Computational Statistics Quarterly
+ 
+, 1, (1986), pp. 49–60.
+
+ 
+Bibliography
+277
+Reference
+ 
+Heynen, R. and H. Kat. “Volatility prediction: A comparison of GARCH(1,1), EGARCH(1,1) and 
+Stochastic Volatility model.” Mimeograph, (1993).
+Hill, I.D., Hill, R. and R.L. Holder. “Fitting Johnson Curves by Moments (Algorithm AS 99),” 
+ 
+Applied Statistics
+ 
+, (1976), pp. 180–189.
+ 
+Introducing the Emerging Markets Bond Index Plus
+ 
+, J.P. Morgan publication, July 12, 1995.
+Jaffe and Westerﬁeld. “Patterns in Japanese Common Stock Returns: Day of the Week and Turn of 
+the Year Effects,” 
+ 
+Journal of Financial and Quantitative Analysis
+ 
+, 20, (1985), pp. 261–272.
+Jarrow, Robert and Donald van Deventer. “Disease or Cure?” 
+ 
+RISK
+ 
+, 9, (February 1996), 
+pp. 54–57.
+Johnson, N.L. “Systems of frequency curves generated by methods of translation,” 
+ 
+Biometrika
+ 
+, 
+(1949), pp. 149–175.
+Johnson, R.A. and D.W. Wichern. 
+ 
+Applied Multivariate Statistical Analysis
+ 
+, 3rd edition (Engle-
+wood Cliffs, NJ: Prentice-Hall, Inc., 1992).
+Johnston, J. 
+ 
+Econometric Methods
+ 
+. (New York: McGraw-Hill, Inc., 1984).
+Jorion, Phillipe. “Predicting Volatility in the Foreign Exchange Market,” 
+ 
+Journal of Finance
+ 
+, 2, 
+(June 1995), pp. 507–528.
+Jorion, P. “On Jump Processes in the Foreign Exchange and Stock Markets,” 
+ 
+Review of Financial 
+Studies
+ 
+, 62, (1988), pp. 281–300.
+Karolyi, G.A. “A Multivariate GARCH Model of International Transmissions of Stock Returns 
+and Volatility: The Case of the United States and Canada,” 
+ 
+Journal of Business and Economic Sta-
+tistics
+ 
+, (January 1995), pp. 11–25.
+Kempthorne, J. and M. Vyas. “Risk Measurement in Global Financial Markets with Asynchro-
+nous, Partially Missing Price Data.” IFSRC Working Paper No. 281–94, (1994).
+Kiefer, N. and M. Salmon. “Testing Normality in Econometric Models,” 
+ 
+Economic Letters
+ 
+, 11, 
+(1983), pp. 123–127.
+King, M., Sentena, E., and S. Wadhwani. “Volatility and links between national stock markets,” 
+ 
+Econometrica
+ 
+, (July 1994), pp. 901–933.
+Kon, S.J. “Models of Stock Returns: A comparison,” 
+ 
+Journal of Finance
+ 
+, 39, (1988), pp. 147–165.
+Kroner, K., Kneafsey, K.P., and S. Claessens. “Forecasting volatility in commodity markets,” 
+forthcoming, 
+ 
+International Journal of Forecasting
+ 
+, (1995).
+Lau, S.T. and J.D. Diltz. “Stock returns and the transfer of information between the New York and 
+Tokyo stock exchanges,” 
+ 
+Journal of International Money and Finance
+ 
+, 13, (1994), pp. 211–222.
+LeBaron, B. “Chaos and Nonlinear Forecastability in Economics and Finance.” Working Paper 
+University of Wisconsin - Madison, (February 1994).
+Leitch, G. and J.E. Tanner. “Economic Forecast Evaluation: Proﬁt Versus The Conventional Error 
+Measures,” 
+ 
+American Economic Review
+ 
+, 3, (1991), pp. 580–590.
+
+ 
+278
+Bibliography
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Li, W.K. and T.K. Mak. “On the squared residual autocorrelations in non-linear time series with 
+conditional heteroskedasticity,” 
+ 
+Journal of Time Series Analysis
+ 
+, 6, (1994), pp. 627–635.
+Lo and MacKinlay. “An econometric analysis of nonsynchronous trading,” 
+ 
+Journal of Economet-
+rics
+ 
+, 45, (1990), pp. 181.
+Looney, Stephen. “How to use test for univariate normality to assess multivariate normality,” 
+ 
+The 
+American Statistician
+ 
+, 49, (1995), pp. 64–70.
+Lumsdaine, R.L. “Finite-Sample properties of the maximum likelihood estimator in GARCH(1,1) 
+and IGARCH(1,1) Models: A Monte Carlo Investigation,” 
+ 
+Journal of Business and Economic Sta-
+tistics
+ 
+, 1, (January 1995), pp. 1–9.
+Maomoni, Hakim. “Valuing and Using FRAs,” J.P. Morgan publication, October 1994.
+Mandlebrot, B. “The Variations of Certain Speculative Prices,” 
+ 
+Journal of Business
+ 
+, 36, (1963), 
+pp. 394–419.
+McLeod, A.I. and W.K. Li. “Diagnostic checking ARMA time series models using squared-resid-
+ual autocorrelations,” 
+ 
+Journal of Time Series Analysis
+ 
+, 4, (1983), pp. 269–273.
+Meese, Richard A. and Kenneth S. Rogoff. “Empirical exchange rate models of the seventies: Do 
+they ﬁt out of sample?” 
+ 
+Journal of International Economics
+ 
+, 14, (1983), pp. 3–24.
+J.P. Morgan & Co., Inc., Arthur Andersen & Co. SC, and Financial Engineering Limited, 
+ 
+The J.P. 
+Morgan/Arthur Andersen Guide to Corporate Exposure Management
+ 
+, published by RISK maga-
+zine, (August 1994).
+Nelson, D. B. “Stationarity and persistence in the GARCH (1,1) model,” 
+ 
+Econometric Theory
+ 
+, 6, 
+(1990), pp. 318–334.
+Pagan, A. and G. W. Schwert.   “Alternative Models for Conditional Stock Volatility,” 
+ 
+Journal of 
+Econometrics
+ 
+, 45, (1990), pp. 267–290.
+Parkinson, M. “The Extreme Value Method for Estimating the Variance of the Rate of Return,” 
+ 
+Journal of Business
+ 
+, 1, (1980), pp. 61–65.
+Perry, P.   “Portfolio Serial Correlation and Nonsynchronous Trading,” 
+ 
+Journal of Financial and 
+Quantitative Analysis
+ 
+, 4, (1985), pp. 517–523.
+ 
+Political Handbook of the World: 1995–1996.
+ 
+ (New York: CSA Publishing, State University of 
+New York, 1996).
+Richardson, M. and T. Smith.   “A Test for Multivariate Normality in Stock Returns,” 
+ 
+Journal of 
+Business
+ 
+, 2, (1993), pp. 295–321.
+Ruiz, Esther. “Stochastic Volatility verses Autoregressive Conditional Heteroskedasticity,” Work-
+ing Paper 93-44, Universidad Carlos III de Madrid (1993).
+Ruiz, Esther. “Quasi-maximum likelihood estimation of stochastic volatility models,” 
+ 
+Journal of 
+Econometrics
+ 
+, 63, (1994), pp. 289–306.
+Schwert, W.G. “Why does Stock Market Volatility Change over Time?” 
+ 
+Journal of Finance
+ 
+, 44, 
+(1989), pp. 1115–1153.
+
+ 
+Bibliography
+279
+Reference
+ 
+Shanken, J. “Nonsynchronous data and covariance-factor structure of returns,” 
+ 
+Journal of 
+Finance
+ 
+, 42, (1987), pp. 221–231.
+Shapiro, S.S. and M.B. Wilk. “An Analysis of Variance Test for Normality,” 
+ 
+Biometrika
+ 
+, 52, 
+(1965), pp. 591–611.
+Sholes, M. and J. Williams. “Estimating beta from non-synchronous data,” 
+ 
+Journal of Financial 
+Economics
+ 
+, 5, (1977), pp. 309–327.
+Silverman, B.W. 
+ 
+Density Estimation for Statistics and Data Analysis
+ 
+, (New York: Chapman and 
+Hall, 1986).
+Taylor, S.J. 
+ 
+Modeling Financial Time Series
+ 
+ (Chichester, UK: John Wiley and Sons, 1986).
+Tucker, A. L. “A Reexamination of Finite- and Inﬁnite-Variance Distributions as Models of Daily 
+Stock Returns,” 
+ 
+Journal of Business and Economic Statistics
+ 
+, 1, (1992), pp. 73–81.
+Warga, Arthur. “Bond Returns, Liquidity, and Missing Data,” 
+ 
+Journal of Financial and Quantita-
+tive Analysis
+ 
+, 27, (1992), pp. 605–617.
+West, Ken and D. Cho. “The predictive ability of several models of exchange rate volatility,” 
+ 
+Jour-
+nal of Econometrics
+ 
+, 69, (1995), pp. 367–391.
+West, K.D., Edison, H.J., and D. Cho. “A utility-based comparison of some models of exchange 
+rate volatility,” 
+ 
+Journal of International Economics
+ 
+, 35, (1993), pp. 23–45.
+White, H. “Maximum likelihood estimation of unspeciﬁed models,” 
+ 
+Econometrica
+ 
+, (1982), 
+pp. 1–16.
+Xu, X. and S. Taylor. “Conditional volatility and the information efﬁciency of the PHLX currency 
+options market,” 
+ 
+Journal of Banking and Finance
+ 
+, 19, (1995), pp. 803–821.
+
+ 
+280
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+281
+
+ 
+282
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+
+ 
+283
+ 
+Look to the  J.P. Morgan site on the Internet for 
+updates of these examples or useful new tools.
+If there is not a diskette in the pocket below, the 
+examples it contains are available from the Internet 
+web pages.
+ 
+http://www.jpmorgan.com/RiskManagement/Risk-
+Metrics/pubs.html
+ 
+The enclosed Excel workbook is intended as a demontration of the 
+RiskMetrics market risk management methodology and volatility and 
+correlation datasets. The worksheets have been designed as an educa-
+tional tool and should not be used for the risk estimation of acutual 
+portfolios. Clients should contact ﬁrms specialized int he design of 
+risk management software for the implementation of a market risk 
+estimation system. If you have any questions about the use of this 
+workbook contact your local J.P.Morgan representative or:
+ 
+North America
+ 
+New York
+Scott Howard (1-212) 648-4317
+howard_james_s@jpmorgan.com
+ 
+Europe
+ 
+London
+Guy Coughlan(44-171) 
+ 
+325-5384
+ 
+coughlan_g@jpmorgan.com
+ 
+Asia
+ 
+Singapore
+Michael Wilson (65) 326-9901
+
+ 
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+ 
+Fourth Edition, 1996
+page 284
+RiskMetrics
+ 
+
+ 
+ is based on, but differs signiﬁcantly from, the market risk management systems developed by J.P. Morgan for its own use. J.P. Morgan does not warrant any results 
+obtained from use of the RiskMetrics
+ 
+
+ 
+ data, methodology, documentation or any information derived from the data (collectively the “Data”) and does not guarantee its sequence, 
+timeliness, accuracy, completeness or continued availability. The Data is calculated on the basis of historical observations and should not be relied upon to predict future market 
+movements. The Data is meant to be used with systems developed by third parties. J.P. Morgan does not guarantee the accuracy or quality of such systems.
+ 
+Additional information is available upon request. Information herein is believed to be reliable, but J.P. Morgan does not warrant its completeness or accuracy. Opinions and estimates constitute our judgement and are 
+subject to change without notice. Past performance is not indicative of future results. This material is not intended as an offer or solicitation for the purchase or sale of any ﬁnancial instrument. J.P. Morgan may hold a 
+position or act as market maker in the ﬁnancial instruments of any issuer discussed herein or act as advisor or lender to such issuer. Morgan Guaranty Trust Company is a member of FDIC and SFA. Copyright 1996 J.P. 
+Morgan & Co. Incorporated. Clients should contact analysts at and execute transactions through a J.P. Morgan entity in their home jurisdiction unless governing law permits otherwise.
+RiskMetrics products
+ 
+Introduction to RiskMetrics
+ 
+
+ 
+:
+ 
+  An eight-page document that 
+broadly describes the RiskMetrics
+ 
+
+ 
+ methodology for 
+measuring market risks.
+ 
+RiskMetrics
+ 
+
+ 
+ Directory:
+ 
+  Available exclusively on-line, a list 
+of consulting practices and software products that incorporate 
+the RiskMetrics
+ 
+
+ 
+ methodology and data sets.
+ 
+RiskMetrics
+ 
+
+ 
+—Technical Document:  
+ 
+A manual describing 
+the RiskMetrics
+ 
+
+ 
+ methodology for estimating market risks. It 
+speciﬁes how ﬁnancial instruments should be mapped and 
+describes how volatilities and correlations are estimated in 
+order to compute market risks for trading and investment 
+horizons. The manual also describes the format of the volatility 
+and correlation data and the sources from which daily updates 
+can be downloaded. 
+ 
+RiskMetrics
+ 
+
+ 
+ Monitor:
+ 
+  A quarterly publication that 
+discusses broad market risk management issues and statistical 
+questions as well as new software products built by third-party 
+vendors to support RiskMetrics
+ 
+
+ 
+.
+ 
+RiskMetrics
+ 
+
+ 
+ data sets:
+ 
+  Two sets of daily estimates of future 
+volatilities and correlations of approximately 480 rates and 
+prices, with each data set totaling 115,000+ data points. One set 
+is for computing short-term trading risks, the other for medium-
+term investment risks. The data sets currently cover foreign 
+exchange, government bond, swap, and equity markets in up to 
+31 currencies. Eleven commodities are also included.
+A RiskMetrics
+ 
+
+ 
+ Regulatory data set, which incorporates the 
+latest recommendations from the Basel Committee on the use 
+of internal models to measure market risk, is also available.
+Worldwide RiskMetrics contacts
+ 
+For more information about RiskMetrics
+ 
+
+ 
+, please contact the 
+authors or any other person listed below.
+ 
+North America
+ 
+New York
+Jacques Longerstaey (1-212) 648-4936
+ 
+longerstaey_j@jpmorgan.com 
+ 
+Chicago
+Michael Moore (1-312) 541-3511 
+ 
+moore_mike@jpmorgan.com 
+ 
+Mexico
+Beatrice Sibblies (52-5) 540-9554
+ 
+sibblies_beatrice@jpmorgan.com 
+ 
+San Francisco
+Paul Schoffelen (1-415) 954-3240
+ 
+schoffelen_paul@jpmorgan.com 
+ 
+Toronto
+Dawn Desjardins (1-416) 981-9264
+ 
+desjardins_dawn@jpmorgan.com
+ 
+Europe
+ 
+London
+Guy Coughlan (44-71) 325-5384
+ 
+coughlan_g@jpmorgan.com
+ 
+Brussels
+Laurent Fransolet (32-2) 508-8517
+ 
+fransolet_l@jpmorgan.com
+ 
+Paris
+Ciaran O’Hagan (33-1) 4015-4058
+ 
+ohagan_c@jpmorgan.com
+ 
+Frankfurt
+Robert Bierich (49-69) 712-4331
+ 
+bierich_r@jpmorgan.com
+ 
+Milan
+Roberto Fumagalli (39-2) 774-4230
+ 
+fumagalli_r@jpmorgan.com
+ 
+Madrid
+Jose Antonio Carretero (34-1) 577-1299
+ 
+carretero@jpmorgan.com
+ 
+Zurich
+Viktor Tschirky (41-1) 206-8686
+ 
+tschirky_v@jpmorgan.com
+ 
+Asia
+ 
+Singapore
+Michael Wilson (65) 326-9901
+ 
+wilson_mike@jpmorgan.com
+ 
+Tokyo
+Yuri Nagai (81-3) 5573-1168
+ 
+nagai_y@jpmorgan.com
+ 
+Hong Kong
+Martin Matsui (85-2) 973-5480
+ 
+matsui_martin@jpmorgan.com
+ 
+Australia
+Debra Robertson (61-2) 551-6200
+ 
+robertson_d@jpmorgan.com

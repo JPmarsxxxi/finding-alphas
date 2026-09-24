@@ -1,0 +1,178 @@
+3.3 Space discretization methods
+91
+3.3
+Space discretization methods
+3.3.1
+Space truncation errors. Computational phase speed.
+Second and fourth order schemes.
+It is convenient to separate the truncation errors in a discretized model into space
+truncation errors and time truncation errors. For explicit ﬁnite difference models,
+the errors introduced by space truncation tend to dominate the total forecast errors
+because for “weather waves” the time step and the Courant number used are much
+smaller than would be required to physically resolve the frequency. Let’s neglect
+for the moment time truncation errors and consider the wave equation ∂U/∂t =
+−c∂U/∂x discretized only in space.
+If we approximate ∂U/∂x using space centered differences, we get
+δ2xU j = U j+1 −U j−1
+2x
+= Ux + x2
+6 Uxxx + x4
+120 Uxxxxx + HOT
+= Ux + Ax2 + Bx4 + · · ·
+(3.3.1)
+If instead of the closest neighboring points j + 1, j −1, we use the points j + 2,
+j −2, we get
+δ4xU j = U j+2 −U j−2
+4x
+= Ux + 4Ax2 + 16Bx4 + · · ·
+(3.3.2)
+This is also a second order scheme, but the truncation errors are four times as large.
+We can now eliminate from (3.3.1) and (3.3.2) the term Ax2, and obtain
+4
+3δ2xU j −1
+3δ4xU j = Ux −4Bx4 + · · ·
+(3.3.3)
+Now (3.3.3) is a fourth order approximation of the space derivative. So
+dU j
+dt
+= −cδ2xU j
+(3.3.4)
+is a second order FDE and
+dU j
+dt
+= −c
+4
+3δ2xU j −1
+3δ4xU j
+
+(3.3.5)
+is a fourth order FDE.
+Assume solutions of the form
+U j(t) = Aeik(x j−c′t) = Aei(kx j−ν′t)
+(3.3.6)
+where c′ is the computational phase speed, and ν′ the computational frequency, so
+that dU j/dt = −iv′U j. Making use of δ2xU j = i (sin kx/x) U j, and replacing
+
+92
+3 Numerical discretization of the equations of motion
+in (3.3.4) and (3.3.5) we ﬁnd that for second order differences,
+c′
+2 = sin kx
+kx
+c
+(3.3.7)
+and for fourth order differences,
+c′
+4 =
+4
+3
+sin kx
+kx
+−1
+3
+sin 2kx
+2kx
+
+c
+(3.3.8)
+Note that (3.3.7) and (3.3.8) imply that the phase speed is always underestimated by
+space ﬁnite differences. For the smallest possible wavelength, L = 2x, kx = π,
+the computational phase speed is zero for both second and fourth order differences:
+the shortest waves don’t move at all (Fig. 3.3.1)! For L = 4x, kx = π/2, a much
+more accurate approximation is obtained with fourth order than with second order
+differences: c′
+2 = 0.64c, c′
+4 = 0.85c, and the fourth order advantage becomes even
+better for longer waves: for L = 8x, c′
+2 = 0.90c, c′
+4 = 0.99c.
+We can also compute the computational group velocity ∂ν′/∂k, where
+ν′ = c′k = csin kx
+x
+(3.3.9)
+for second order differences. Then,
+∂ν′
+∂k = c cos kx
+(3.3.10)
+for second order differences. Therefore, for the shortest waves, L = 2x, kx = π,
+with both second and fourth order differences the energy moves in the oppo-
+site direction to the real group velocity (equal to the phase speed c): c′
+g = −cg.
+Figure. 3.3.1 shows the computational phase speed and group velocity for second
+and fourth order differences. As a result of the negative group velocity, space cen-
+tered FDEs of the wave equation tend to leave a trail of short-wave computational
+noise upstream of where the real perturbation should be. This problem is greatly
+reduced using more advanced recent schemes such as those of Takacs (1985) and
+Smolarkiewicz and Grawoski (1990).
+A second type of fourth order ﬁnite difference scheme, known as the compact or
+implicit fourth order scheme, can be obtained by again making use of (3.3.1) but re-
+placing the third derivative in the truncation error for the centered differences by its ﬁ-
+nite difference approximation Uxxx j ≈(Ux j+1 −2Ux j + Ux j−1)/ (x)2 + O (x)2.
+The new fourth order scheme then becomes
+Ux j+1 + 4Ux j + Ux j−1 = 6U j+1 −U j−1
+2x
+(3.3.11)
+It is called “compact” because it involves only the point j and its closest neighbors,
+and “implicit” because (3.3.11) results in a system of (tridiagonal) equations for the
+x-derivative, rather than an explicit estimate such as (3.3.4) or (3.3.5).
+
+3.3 Space discretization methods
+93
+-0.8
+-0.4
+0
+0.4
+0.8
+0
+0.39
+0.79
+1.18
+1.57
+1.96
+2.36
+2.75
+3.14
+c’/c and c’
+p=kdelta x
+L=infinity
+L=8
+L=4
+L=2
+Group velocity
+Phase speed
+Second order
+Fourth order
+(explicit or 5-point)
+Fourth order
+(implicit or compact)
+Spectral
+L=3
+g/cg
+Figure 3.3.1: Ratio of the computational to the physical phase speed and group
+velocity for a simple wave equation, neglecting time truncation errors, for second
+order, fourth order explicit and implicit and spectral schemes.
+With this scheme, the ﬁnite difference space derivative for a given wavenumber is
+given by
+Ux ≃U i sin kx
+x
+6
+4 + 2 cos kx
+so that
+dU j
+dt
+= −ic′U j
+i sin kx
+x
+6
+4 + 2 cos kx = −iv4I
+′U j
+and the computational phase speed becomes
+c′
+4I = sin kx
+kx
+6
+4 + 2 cos kx c
+(3.3.12)
+and for L = 4x, kx = π/2, the phase speed is c′
+14 = 0.955c, which is consider-
+ably better even than the regular fourth order differences phase speed.

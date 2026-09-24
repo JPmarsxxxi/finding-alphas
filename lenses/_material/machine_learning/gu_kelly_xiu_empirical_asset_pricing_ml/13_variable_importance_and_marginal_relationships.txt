@@ -1,0 +1,67 @@
+To make pairwise comparisons of methods, we use the Diebold and Mariano (1995) test for
+diﬀerences in out-of-sample predictive accuracy between two models.26 While time series dependence
+in returns is suﬃciently weak, it is unlikely that the conditions of weak error dependence underlying
+the Diebold-Mariano test apply to our stock-level analysis due of potentially strong dependence in
+the cross section. We adapt Diebold-Mariano to our setting by comparing the cross-sectional average
+of prediction errors from each model, instead of comparing errors among individual returns. More
+precisely, to test the forecast performance of method (1) versus (2), we deﬁne the test statistic
+DM12 = ¯d12/bσ ¯d12, where
+d12,t+1 =
+1
+n3,t+1
+n3
+X
+i=1
+
+be(1)
+i,t+1
+2
+−
+
+be(2)
+i,t+1
+2
+,
+(20)
+be(1)
+i,t+1 and be(2)
+i,t+1 denote the prediction error for stock return i at time t using each method, and
+n3,t+1 is the number of stocks in the testing sample (year t + 1). Then ¯d12 and bσ ¯d12 denote the
+mean and Newey-West standard error of d12,t over the testing sample.
+This modiﬁed Diebold-
+Mariano test statistic, which is now based on a single time series d12,t+1 of error diﬀerences with
+little autocorrelation, is more likely to satisfy the mild regularity conditions needed for asymptotic
+normality and in turn provide appropriate p-values for our model comparison tests.
+2.9
+Variable Importance and Marginal Relationships
+Our goal in interpreting machine learning models is modest. We aim to identify covariates that have
+an important inﬂuence on the cross-section of expected returns while simultaneously controlling for
+the many other predictors in the system.
+We discover inﬂuential covariates by ranking them according to a notion of variable importance,
+which we denote as VIj for the jth input variable. We consider two diﬀerent notions of importance.
+The ﬁrst is the reduction in panel predictive R2 from setting all values of predictor j to zero, while
+holding the remaining model estimates ﬁxed (used, for example, in the context of dimension reduction
+by Kelly et al., 2019). The second, proposed in the neural networks literature by Dimopoulos et al.
+(1995), is the sum of squared partial derivatives (SSD) of the model to each input variable j, which
+summarizes the sensitivity of model ﬁts to changes in that variable.27
+As part of our analysis, we also trace out the marginal relationship between expected returns
+26As emphasize by Diebold (2015), the model-free nature of the Diebold-Mariano test means that it should be
+interpreted as a comparison of forecasts, and not as a comparison of “fully articulated econometric models.”
+27In particular, SSD deﬁnes the jth variable importance as
+SSDj =
+X
+i,t∈T1
+ 
+∂g(z; θ)
+∂zj
+
+z=zi,t
+!2
+,
+where, with a slight abuse of notation, zj in the denominator of the derivative denotes the jth element of the vector
+of input variables. We measure SSD within the training set, T1. Note that due to non-diﬀerentiabilities in tree-based
+models, the Dimopoulos et al. (1995) method is not applicable.
+Therefore, when we conduct this second variable
+importance analysis, we measure variable importance for random forests and boosted trees using mean decrease in
+impurity (see, e.g., Friedman, 2001).
+23

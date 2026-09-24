@@ -1,0 +1,1748 @@
+12
+Optimal portfolios
+Il n’est plus grande folie que de placer son salut dans l’incertitude.†
+(Madame de S´evign´e, Lettres.)
+12.1 Portfolios of uncorrelated assets
+The aim of this section is to explain, ﬁrst in the very simple case where all assets that can
+be mixed in a portfolio are uncorrelated, how the trade-off between risk and return can be
+dealt with. (The case where some correlations between the asset ﬂuctuations exist will be
+considered in the next section.) One thus considers a set of M different risky assets Xi,
+i = 1, . . . , M and one risk-less asset X0. The quantity of asset i in the portfolio is ni, and
+its present value is x0
+i . If the total wealth to be invested in the portfolio is W, then the ni’s
+are constrained to be such that M
+i=0 nix0
+i = W. We shall rather use the weight of asset
+i in the portfolio, deﬁned as: pi = nix0
+i /W, which therefore must be normalized to one:
+M
+i=0 pi = 1. The pi’s can be negative (short positions). The value of the portfolio at time
+T is given by: S = M
+i=0 nixi(T ) = W M
+i=0 pixi(T )/x0
+i . In the following, we will set the
+initial wealth W to 1, and redeﬁne each asset i in such a way that all initial prices are equal
+to x0
+i = 1. (Therefore, the all returns that we shall consider below are relative, rather than
+absolute, returns.)
+One furthermore assumes that the average return mi is known. A possibility to determine
+the value of the mi’s is to argue that past returns can be used as estimators of future returns,
+i.e. that time series are to some extent stationary. However, this is very far from the truth:
+the life of a company (in particular high-tech ones) is very clearly non-stationary; a whole
+sector of activity can be booming or collapsing, depending upon global factors, not graspable
+withinapurelystatisticalframework.Furthermore,themarketsthemselvesevolvewithtime,
+and it is clear that some statistical parameters do depend on time, and have signiﬁcantly
+shifted over the past 20 years. This means that the empirical determination of the average
+return is difﬁcult: volatilities are such that at least several years are needed to obtain a
+reasonable signal-to-noise ratio, this time must indeed be large compared to the ‘security
+time’ ˆT deﬁned in Chapter 10. But as discussed above, several years is also the time scale
+over which the intrinsically non-stationary nature of the markets starts to be important.
+† Nothing is more foolish than betting on uncertainty for salvation.
+
+12.1 Portfolios of uncorrelated assets
+203
+One should thus rather understand mi as an ‘expected’ (or anticipated) future return, which
+includes some extra information (or intuition) available to the investor. These mi’s can
+therefore vary from one investor to the next. The relevant question is then to determine
+the composition of an optimal portfolio compatible with the information contained in the
+knowledge of the different mi’s.
+The determination of the risk parameters is a priori subject to the same caveat. We
+have actually seen in Chapter 9 that the empirical determination of the correlation matrices
+contains a large amount of noise, which blur the true information. However, the statistical
+nature of the ﬂuctuations seems to be more robust in time than the average returns. Since
+the volatility is correlated in time, the analysis of past price changes distributions is, to a
+certain extent, predictive for future price ﬂuctuations. However, it sometimes happens that
+the correlations between two assets change abruptly.
+12.1.1 Uncorrelated Gaussian assets
+Let us suppose that the variation of the value of the ith asset Xi over the time interval T is
+Gaussian, centred around miT and of variance σ 2
+i T . The portfolio p = {p0, p1, . . . , pM}
+as a whole also obeys Gaussian statistics (since the Gaussian is stable). The average return
+m p of the portfolio is given by:
+m p =
+M
+
+i=0
+pimi = m0 +
+M
+
+i=1
+pi(mi −m0),
+(12.1)
+where we have used the constraint M
+i=0 pi = 1 to introduce the excess return mi −m0, as
+compared to the risk-free asset (i = 0). If the Xi’s are all independent, the total variance of
+the portfolio is given by:
+σ 2
+p =
+M
+
+i=1
+p2
+i σ 2
+i ,
+(12.2)
+(since σ 2
+0 is zero by assumption). If one tries to minimize the variance without any constraint
+on the average return m p, one obviously ﬁnds the trivial solution where all the weight is
+concentrated on the risk-free asset:
+pi = 0
+(i ̸= 0);
+p0 = 1.
+(12.3)
+On the contrary, the maximization of the return without any risk constraint but such that
+pi ≥0, leads to a full concentration of the portfolio on the asset with the highest return.
+More realistically, one can look for a trade-off between risk and return, by imposing a
+certain average return m p, and by looking for the less risky portfolio (for Gaussian assets,
+risk and variance are identical). This can be achieved by introducing a Lagrange multiplier
+in order to enforce the constraint on the average return:
+∂
+
+σ 2
+p −ζm p
+
+∂pi
+
+pi=p∗
+i
+= 0
+(i ̸= 0),
+(12.4)
+
+204
+Optimal portfolios
+while the weight of the risk-free asset p∗
+0 is determined via the equation 
+i p∗
+i = 1. The
+value of ζ is ultimately ﬁxed such that the average value of the return is precisely m p.
+Therefore:
+2p∗
+i σ 2
+i = ζ(mi −m0),
+(12.5)
+and the equation for ζ:
+m p −m0 = ζ
+2
+M
+
+i=1
+(mi −m0)2
+σ 2
+i
+.
+(12.6)
+The variance of this optimal portfolio is therefore given by:
+σ 2∗
+p = ζ 2
+4
+M
+
+i=1
+(mi −m0)2
+σ 2
+i
+.
+(12.7)
+Thecaseζ = 0correspondstotherisk-freeportfolio p∗
+0 = 1.Thesetofalloptimalportfolios
+is thus described by the parameter ζ, and deﬁnes a parabola in the σ 2
+p, m p plane (compare
+the last two equations above, and see Fig. 12.1). This line is called the ‘efﬁcient frontier’;
+all portfolios must lie below this line. Finally, the Lagrange multiplier ζ itself has a direct
+interpretation: Equation (10.30) tells us that the worst drawdown is of order σ 2∗
+p /2m p, which
+is, using the above equations, equal to ζ/4.
+The case where the portfolio only contains risky assets (i.e. p0 ≡0) can be treated
+in a similar fashion. One introduces a second Lagrange multiplier ζ ′ to deal with the
+normalization constraint M
+i=1 pi = 1. Therefore, one ﬁnds:
+p∗
+i = ζmi + ζ ′
+2σ 2
+i
+.
+(12.8)
+0.0
+0.2
+0.4
+0.6
+0.8
+Risk
+-10.0
+-5.0
+0.0
+5.0
+10.0
+Average return
+Available portfolios
+Impossible portfolios
+Fig. 12.1. ‘Efﬁcient frontier’ in the return/risk plane m p, σ 2
+p. In the absence of constraints, this line
+is a parabola (dark line). If some constraints are imposed (for example, that all the weights pi should
+be positive), the boundary moves downwards (dotted line).
+
+12.1 Portfolios of uncorrelated assets
+205
+The least risky portfolio corresponds to the one such that ζ = 0 (no constraint on the average
+return):
+p∗
+i =
+1
+Zσ 2
+i
+Z =
+M
+
+j=1
+1
+σ 2
+j
+.
+(12.9)
+Its total variance is given by σ 2∗
+p = 1/Z. If all the σ 2
+i ’s are of the same order of magnitude,
+one has Z ∼M/σ 2; therefore, one ﬁnds the result, expected from the CLT, that the variance
+of the portfolio is M times smaller than the variance of the individual assets.
+In practice, one often adds extra constraints to the weights p∗
+i in the form of linear
+inequalities, such as p∗
+i ≥0 (no short positions). The solution is then more involved, but
+is still unique. Geometrically, this amounts to looking for the restriction of a paraboloid to
+an hyperplane, which remains a paraboloid. The efﬁcient border is then shifted downwards
+(Fig. 12.1). A much richer case is when the constraint is non-linear – see Section 12.2.2
+below.
+Effective asset number in a portfolio
+It is useful to introduce an objective way to measure the diversiﬁcation, or the asset con-
+centration, in a given portfolio. Once such an indicator is available, one can actually use it
+as a constraint to construct portfolios with a minimum degree of diversiﬁcation. Consider
+the quantity Y2 deﬁned as:
+Y2 =
+M
+
+i=1
+(p∗
+i )2.
+(12.10)
+If a subset M′ ≤M of all p∗
+i are equal to 1/M′, while the others are zero, one ﬁnds
+Y2 = 1/M′. More generally, Y2 represents the average weight of an asset in the portfolio,
+since it is constructed as the average of p∗
+i itself. It is thus natural to deﬁne the ‘effective’
+number of assets in the portfolio as Meff = 1/Y2. In order to avoid an overconcentration
+of the portfolio on very few assets (a problem often encountered in practice), one can look
+for the optimal portfolio with a given value for Y2. This amounts to introducing another
+Lagrange multiplier ζ ′′, associated to Y2. The equation for p∗
+i then becomes:
+p∗
+i =
+ζmi + ζ ′
+2
+
+σ 2
+i + ζ ′′.
+(12.11)
+An example of the modiﬁed efﬁcient border is given in Figure 12.2.
+More generally, one could have considered the quantity Yq deﬁned as:
+Yq =
+M
+
+i=1
+(p∗
+i )q,
+(12.12)
+and used it to deﬁne the effective number of assets via Yq = M1−q
+eff . It is interesting to note
+that the quantity of missing information (or entropy) I associated to the very choice of the
+
+206
+Optimal portfolios
+Risk
+Average return
+z ”=0
+Meff = 2
+Average return
+1
+2
+3
+4
+Meff
+r1
+r2
+z ”=0
+Fig. 12.2. Example of a standard efﬁcient border ζ ′′ = 0 (thick line) with four risky assets. If one
+imposes that the effective number of assets is equal to 2, one ﬁnds the sub-efﬁcient border drawn in
+dotted line, which touches the efﬁcient border at r1, r2. The inset shows the effective asset number of
+the unconstrained optimal portfolio (ζ ′′ = 0) as a function of average return. The optimal portfolio
+satisfying Meff ≥2 is therefore given by the standard portfolio for returns between r1 and r2 and by
+the Meff = 2 portfolios otherwise.
+p∗
+i ’s is related to Yq when q →1. Indeed, one has:
+I = −
+M
+
+i=1
+p∗
+i log p∗
+i ≡−∂Yq
+∂q
+
+q=1
+.
+(12.13)
+Approximating Yq as a function of q by a straight line thus leads to I ≈−Y2.
+12.1.2 Uncorrelated ‘power-law’ assets
+As we have already underlined, tails of distributions are often non-Gaussian. In this case, the
+minimization of the variance is not necessarily equivalent to an optimal control of the large
+ﬂuctuations. The case where these distribution tails are power-laws is interesting because
+one can then explicitly solve the problem of the minimization of the value-at-risk of the full
+portfolio. Let us thus assume that the ﬂuctuations of each asset Xi are described, in the
+region of large losses, by a probability density that decays as a power-law:
+PT (ηi)
+≃
+ηi→−∞
+µAµ
+i
+|ηi|1+µ ,
+(12.14)
+
+12.1 Portfolios of uncorrelated assets
+207
+with an arbitrary exponent µ, restricted however to be larger than 1, so that the average
+return is well deﬁned. (The distinction between the cases µ < 2, for which the variance
+diverges, and µ > 2 will be considered below.) The coefﬁcient Ai provides an order of
+magnitude for the extreme losses associated with the asset i (cf. Eq. (10.16)).
+As we have mentioned in Section 1.5.2, power-law tails are interesting because they are
+stable upon addition: the tail amplitudes Aµ
+i (that generalize the variance) simply add to
+describe the far-tail of the distribution of the sum. Using the results of Appendix C, one
+can show that if the asset Xi is characterized by a tail amplitude Aµ
+i , the quantity pi Xi has
+a tail amplitude equal to pµ
+i Aµ
+i . The tail amplitude of the global portfolio p is thus given
+by:
+Aµ
+p =
+M
+
+i=1
+pµ
+i Aµ
+i ,
+(12.15)
+and the probability that the loss exceeds a certain level  is given by P = Aµ
+p/µ. Hence,
+independently of the chosen loss level , the minimization of the loss probability P requires
+the minimization of the tail amplitude Aµ
+p; the optimal portfolio is therefore independent
+of . (This is not true in general: see Section 12.1.4.) The minimization of Aµ
+p for a ﬁxed
+average return m p leads to the following equations (valid if µ > 1):
+µp∗µ−1
+i
+Aµ
+i = ζ(mi −m0),
+(12.16)
+with an equation to ﬁx ζ:
+ ζ
+µ
+
+1
+µ−1
+M
+
+i=1
+(mi −m0)
+µ
+µ−1
+A
+µ
+µ−1
+i
+= m p −m0.
+(12.17)
+The optimal loss probability is then given by:
+P∗=
+1
+µ
+ ζ
+µ
+
+µ
+µ−1
+M
+
+i=1
+(mi −m0)
+µ
+µ−1
+A
+µ
+µ−1
+i
+.
+(12.18)
+Therefore, the concept of ‘efﬁcient border’ is still valid in this case: in the plane re-
+turn/probability of loss, it is similar to the dotted line of Figure 12.1. Eliminating ζ from
+the above two equations, one ﬁnds that the shape of this line is given by P∗∝(m p −m0)µ.
+The parabola is recovered in the limit µ = 2.
+In the case where the risk-free asset cannot be included in the portfolio, the optimal
+portfolio which minimizes extreme risks with no constraint on the average return is given
+by:
+p∗
+i =
+1
+Z A
+µ
+µ−1
+i
+Z =
+M
+
+j=1
+A
+−
+µ
+µ−1
+i
+,
+(12.19)
+and the corresponding loss probability is equal to:
+P∗=
+1
+µ Z1−µ.
+(12.20)
+
+208
+Optimal portfolios
+If all assets have comparable tail amplitudes Ai ∼A, one ﬁnds that Z ∼M A−µ/(µ−1).
+Therefore, the probability of large losses for the optimal portfolio is a factor Mµ−1 smaller
+than the individual probability of loss.
+Note again that this result is only valid if µ > 1. If µ < 1, one ﬁnds that the risk increases
+with the number of assets M. In this case, when the number of assets is increased, the
+probability of an unfavourable event also increases – indeed, for µ < 1 this largest event
+is so large that it dominates over all the others. The minimization of risk in this case
+leads to pimin = 1, where imin is the least risky asset, in the sense that Aµ
+imin = min{Aµ
+i }.
+One should now distinguish the cases µ < 2 and µ > 2. Despite the fact that the asymp-
+totic power-law behaviour is stable under addition for all values of µ, the tail is progressively
+‘eaten up’ by the centre of the distribution for µ > 2, since the CLT applies. Only when
+µ < 2 does this tail remain untouched. We thus again recover the arguments of Section 2.3.5,
+already encountered when we discussed the time dependence of the VaR. One should there-
+fore distinguish two cases: if σ 2
+p is the variance of the portfolio p (which is ﬁnite if µ > 2),
+the distribution of the changes δS of the value of the portfolio p is approximately Gaussian if
+|δS| ≤
+
+σ 2pT log(M), and becomes a power-law with a tail amplitude given by Aµ
+p beyond
+this point. The question is thus whether the loss level  that one wishes to control is smaller
+or larger than this crossover value:
+r If  ≪
+
+σ 2pT log(M), the minimization of the VaR becomes equivalent to the minimiza-
+tion of the variance, and one recovers the Markowitz procedure explained in the previous
+paragraph in the case of Gaussian assets.
+r If on the contrary  ≫
+
+σ 2pT log(M), then the formulae established in the present section
+are valid even when µ > 2.
+Note that the growth of √log(M) with M is so slow that the Gaussian CLT is not of great
+help in the present case. The optimal portfolios in terms of the VaR are not those with the
+minimal variance, and vice versa.
+12.1.3 ‘Exponential’ assets
+Suppose now that the distribution of price variations is a symmetric exponential around a
+zero mean value (mi = 0):
+P(ηi) = αi
+2 exp[−αi|ηi|],
+(12.21)
+where α−1
+i
+gives the order of magnitude of the ﬂuctuations of Xi (more precisely,
+√
+2/αi
+is the RMS of the ﬂuctuations.). The variations of the full portfolio p, deﬁned as δS =
+M
+i=1 piηi, are distributed according to:
+P(δS) = 1
+2π
+	
+exp(izδS)
+
+M
+i=1
+
+1 +
+
+zpiα−1
+i
+2 dz,
+(12.22)
+
+12.1 Portfolios of uncorrelated assets
+209
+where we have used Eq. (2.17) and the fact that the Fourier transform of the exponential
+distribution Eq. (12.21) is given by:
+ˆP(z) =
+1
+1 + (zα−1)2 .
+(12.23)
+Now, using the method of residues, it is simple to establish the following expression for
+P(δS) (valid whenever the αi/pi are all different):
+P(δS) = 1
+2
+M
+
+i=1
+αi
+pi
+1
+
+j̸=i(1 −[(p jαi)/(piα j)]2) exp
+
+−αi
+pi
+|δS|
+
+.
+(12.24)
+The probability for extreme losses is thus equal to:
+P(δS < −) ≃
+→∞
+1
+2 
+j̸=i∗(1 −[(p jα∗)/α j]2) exp[−α∗],
+(12.25)
+where α∗is equal to the smallest of all ratios αi/pi, and i∗the corresponding value of i.
+The order of magnitude of the extreme losses is therefore given by 1/α∗. This is then the
+quantity to be minimized in a value-at-risk context. This amounts to choosing the pi’s such
+that mini{αi/pi} is as large as possible.
+This minimization problem can be solved using the following trick. One can write for-
+mally that:
+1
+α∗= max
+ pi
+αi
+
+= lim
+µ→∞
+ M
+
+i=1
+pµ
+i
+αµ
+i
+ 1
+µ
+.
+(12.26)
+This equality is true because in the limit µ →∞, the largest term of the sum dominates over
+all the others. (The choice of the notation µ is on purpose: see below.) For µ large but ﬁxed,
+one can perform the minimization with respect to the pi’s, using a Lagrange multiplier to
+enforce normalization. One ﬁnds that:
+p∗µ−1
+i
+∝αµ
+i .
+(12.27)
+In the limit µ →∞, and imposing M
+i=1 pi = 1, one ﬁnally obtains:
+p∗
+i =
+αi
+M
+j=1 α j
+,
+(12.28)
+which leads to α∗= M
+i=1 αi. In this case, however, all αi/p∗
+i are equal to α∗and the result
+Eq. (12.24) must be slightly altered. However, the asymptotic exponential fall-off, governed
+by α∗, is still true (up to polynomial corrections). One again ﬁnds that if all the αi’s are
+comparable, the potential losses, measured through 1/α∗, are divided by a factor M.
+Note that the optimal weights are such that p∗
+i ∝αi if one tries to minimize the probability
+of extreme losses, whereas one would have found p∗
+i ∝α2
+i if the goal was to minimize the
+variance of the portfolio, corresponding to µ = 2 (cf. Eq. (12.9)). In other words, this is
+
+210
+Optimal portfolios
+an explicit example where one can see that minimizing the variance actually increases the
+value-at-risk, and vice versa.
+Formally, as we have noticed in Section 1.8, the exponential distribution corresponds
+to the limit µ →∞of a power-law distribution: an exponential decay is indeed more
+rapid than any power-law. Technically, we have indeed established in this section that
+the minimization of extreme risks in the exponential case is identical to the one obtained
+in the previous section in the limit µ →∞(see Eq. (12.19)).
+12.1.4 General case: optimal portfolio and VaR (∗)
+In all of the cases treated above, the optimal portfolio is found to be independent of the
+chosen loss level . For example, in the case of assets with power-law tails, the minimization
+of the loss probability amounts to minimizing the tail amplitude Aµ
+p, independently of .
+This property is however not true in general, and the optimal portfolio does indeed depend
+on the risk level , or, equivalently, on the temporal horizon over which risk must be
+‘tamed’. Let us for example consider the case where all assets are power-law distributed,
+but with a tail index µi that depends on the asset Xi. The probability that the portfolio p
+experiences a loss greater than  is given, for large values of , by:†
+P(δS < −) =
+M
+
+i=1
+pµi
+i
+Aµi
+i
+µi .
+(12.29)
+Looking for the set of pi’s which minimizes the above expression (without constraint on
+the average return) then leads to:
+p∗
+i = 1
+Z
+ µi
+µi Aµ
+i
+
+1
+µi −1
+Z =
+M
+
+i=1
+ µi
+µi Aµ
+i
+
+1
+µi −1
+.
+(12.30)
+This example shows that in the general case, the weights p∗
+i explicitly depend on the risk
+level . If all the µi’s are equal, µi factors out and disappears from the pi’s.
+Another interesting case is that of weakly non-Gaussian assets, such that the ﬁrst cor-
+rection to the Gaussian distribution (proportional to the kurtosis κi of the asset Xi) is
+enough to describe faithfully the non-Gaussian effects. The variance of the full portfolio
+is given by σ 2
+p = M
+i=1 p2
+i σ 2
+i while the kurtosis is equal to: κp = 
+i=1 p4
+i σ 4
+i κi/σ 4
+p. The
+probability that the portfolio plummets by an amount larger than  is therefore given
+by:
+P(δS < −) ≃PG>
+
+
+
+
+σ 2
+pT
+
++ κp
+4! h
+
+
+
+
+σ 2
+pT
+
+,
+(12.31)
+where PG> is related to the error function (cf. Section 1.6.3) and
+h(u) = exp(−u2/2)
+√
+2π
+(u3 −3u).
+(12.32)
+† The following expression is valid only when the subleading corrections to Eq. (12.14) can safely be neglected.
+
+12.2 Portfolios of correlated assets
+211
+To ﬁrst order in kurtosis, one thus ﬁnds that the optimal weights p∗
+i (without ﬁxing the
+average return) are given by:
+p∗
+i = ζ ′
+2σ 2
+i
+−κiζ ′3
+σ 6
+i
+˜h
+
+
+
+
+σ 2
+pT
+
+,
+(12.33)
+where ˜h is another function, positive for large arguments, and ζ ′ is ﬁxed by the condition
+M
+i=1 pi = 1. Hence, the optimal weights do depend on the risk level , via the kurtosis
+of the distribution. Furthermore, as could be expected, the minimization of extreme risks
+leads to a reduction of the weights of the assets with a large kurtosis κi.
+12.2 Portfolios of correlated assets
+The aim of the previous section was to introduce, in a somewhat simpliﬁed context, the most
+important ideas underlying portfolio optimization, in a Gaussian world (where the variance
+is minimized) or in a non-Gaussian world (where the quantity of interest is the value-at-
+risk). In reality, the ﬂuctuations of the different assets are often strongly correlated (or
+anti-correlated). For example, an increase of short-term interest rates often leads to a drop
+in share prices. All the stocks of the New York Stock Exchange behave, to a certain extent,
+similarly. These correlations of course modify completely the composition of the opti-
+mal portfolios, and actually make diversiﬁcation more difﬁcult. In a sense, the number of
+effectively independent assets is decreased from the true number of assets M.
+12.2.1 Correlated Gaussian ﬂuctuations
+Let us ﬁrst consider the case where all the ﬂuctuations ηi of the assets Xi are Gaussian, but
+with arbitrary correlations (see Section 9.1.2). These correlations are described in terms of
+a (symmetric) correlation matrix Ci j, deﬁned as:
+Ci j = ⟨ηiη j⟩−mim j.
+(12.34)
+As mentioned in Section 9.1.2, an important property of correlated Gaussian variables is
+that they can be decomposed into a weighted sum of independent Gaussian variables ea, of
+mean zero and variance equal to σ 2
+a that are the eigenvalues of C:
+ηi = mi +
+M
+
+a=1
+viaea
+⟨eaeb⟩= δa,bσ 2
+a .
+(12.35)
+The {ea} are usually referred to as the explicative factors (or principal components) for the
+asset ﬂuctuations. They sometimes have a simple economic interpretation.
+The ﬂuctuations δS of the global portfolio p are then also Gaussian (since δS is a weighted
+sum of the Gaussian variables ea), of mean m p = M
+i=1 pi(mi −m0) + m0 and variance:
+σ 2
+p =
+M
+
+i, j=1
+pi p jCi j.
+(12.36)
+
+212
+Optimal portfolios
+The minimization of σ 2
+p for a ﬁxed value of the average return m p (and with the possibility
+of including the risk-free asset X0) leads to an equation generalizing Eq. (12.5):
+2
+M
+
+j=1
+Ci j p∗
+j = ζ(mi −m0),
+(12.37)
+which can be inverted as:
+p∗
+i = ζ
+2
+M
+
+j=1
+C−1
+i j (m j −m0).
+(12.38)
+This is Markowitz’s classical result (Markowitz (1959), Elton & Gruber (1995)) .
+In the case where the risk-free asset is excluded, the minimum variance portfolio is given
+by:
+p∗
+i = 1
+Z
+M
+
+j=1
+C−1
+i j
+Z =
+M
+
+i, j=1
+C−1
+i j .
+(12.39)
+Actually, the decomposition, Eq. (12.35), shows that, provided one shifts to the basis
+where all assets are independent (through a linear combination of the original assets), all
+the results obtained above in the case where the correlations are absent (such as the existence
+of an efﬁcient border, etc.) are still valid when correlations are present.
+In the more general case of non-Gaussian assets of ﬁnite variance, the total variance of
+the portfolio is still given by: M
+i, j=1 pi p jCi j, where Ci j is the correlation matrix. If the
+variance is an adequate measure of risk, the composition of the optimal portfolio is still
+given by Eqs. (12.38) and (12.39). The average return of the optimal portfolio is given by:
+m p −m0 = ζ
+2
+M
+
+i, j=1
+C−1
+i j (mi −m0)(m j −m0),
+(12.40)
+whereas its volatility is given by:
+σ 2
+p = ζ 2
+4
+M
+
+i, j=1
+C−1
+i j (mi −m0)(m j −m0).
+(12.41)
+Therefore, the optimal portfolios are in this case on a line σ 2
+p = (ζ/2m p −m0). Comparing
+with the deﬁnition given in Chapter 10, we see that the choice of ζ ﬁxes the risk, measured
+as the typical drawdown 
+0 since 
+0 = σ 2
+p/2(m p −m0) = ζ/4. Note that the optimal
+portfolios all have the same (maximum) Sharpe ratio S ≡(m p −m0)/σp.
+Let us however again emphasize that, as discussed in Chapter 9, the empirical determi-
+nation of the correlation matrix Ci j is difﬁcult, in particular when one is concerned with the
+small eigenvalues of this matrix and their corresponding eigenvectors. Since the above for-
+mulae involve the inverse of C, the noise on the small eigenvalues leads to large numerical
+
+12.2 Portfolios of correlated assets
+213
+errors in C−1. The ideas developed in Section 9.1.3 can actually be used in practice to re-
+duce the real risk of optimized portfolios. Since the eigenstates corresponding to the ‘noise
+band’ are not expected to contain real information, one should not distinguish the different
+eigenvalues and eigenvectors in this sector. This amounts to replacing the restriction of
+the empirical correlation matrix to the noise band subspace by the identity matrix with a
+coefﬁcient such that the trace of the matrix is conserved (i.e. suppressing the measurement
+broadening due to a ﬁnite observation time). This ‘cleaned’ correlation matrix, where the
+noise has been (at least partially) removed, is then used to construct an optimal portfolio. We
+have implemented this idea in practice as follows. Using the same data sets as in Chapter 9,
+the total available period of time has been divided into two equal sub-periods. We determine
+the correlation matrix using the ﬁrst sub-period, ‘clean’ it, and construct the family of op-
+timal portfolios and the corresponding efﬁcient frontiers. Here we assume that the investor
+has perfect predictions on the future average returns mi, i.e. we take for mi the observed
+return on the next sub-period. The results are shown in Figure 12.3: one sees very clearly that
+using the empirical correlation matrix leads to a dramatic underestimation of the real risk,
+by over-investing in artiﬁcially low-risk eigenvectors. The risk of the optimized portfolio
+obtained using a cleaned correlation matrix is more reliable, although the real risk is always
+larger than the predicted one. This comes from the fact that any amount of uncertainty in
+the correlation matrix produces, through the very optimization procedure, a bias towards
+0
+10
+20
+30
+Risk
+0
+50
+100
+150
+Average return
+Fig. 12.3. Efﬁcient frontiers from Markowitz optimization, in the return versus volatility plane. The
+leftmost dotted curve corresponds to the classical Markowitz case using the empirical correlation
+matrix. The rightmost short-dashed curve is the realization of the same portfolio in the second time
+period (the risk is underestimated by a factor of three!). The central curves (plain and long-dashed)
+represent the case of a cleaned correlation matrix. The realized risk is now only a factor of 1.5 larger
+than the predicted risk.
+
+214
+Optimal portfolios
+low-risk portfolios. This can be checked by permuting the two sub-periods: one then ﬁnds
+nearly identical efﬁcient frontiers. (This is expected, since for large correlation matrices
+these frontiers should be self-averaging.) In other words, even if the cleaned correlation
+matrices are more stable in time than the empirical correlation matrices, they are not per-
+fectly reﬂecting future correlations. This might be due to a combination of remaining noise
+and of a genuine time dependence in the structure of the meaningful correlations.
+A somewhat related idea to reduce the noise in the correlation matrix is to artiﬁcially
+increase the amplitude of the diagonal part of C compared to the off diagonal part, the
+logic being that off-diagonal cross correlations are not as well determined as (diagonal)
+volatilities. Therefore, the portfolio optimization formula will involve C + ζ ′′1 instead of
+C, where ζ ′′ is a parameter accounting for the uncertainty in the determination of C.†
+Interestingly, the ﬁnal formula for p∗
+i is identical to that obtained when imposing a ﬁxed
+effective number of assets Y2, see Eq. (12.11). Imposing a minimal degree of diversiﬁcation
+is therefore, not surprisingly, tantamount to distrusting the information contained in the
+correlation matrix.
+The CAPM and its limitations
+Within the above framework, all optimal portfolios are proportional to one another, that
+is, they only differ through the choice of the factor ζ. Since the problem is linear, this
+means that the linear superposition of optimal portfolios is still optimal. If all the agents
+on the market choose their portfolio using this optimization scheme (with the same values
+for the average return and the correlation coefﬁcients – clearly quite an absurd hypothesis),
+then the ‘market portfolio’ (i.e. the one obtained by taking all assets in proportion of their
+market capitalization) is an optimal portfolio. This remark is at the origin of the ‘CAPM’
+(Capital Asset Pricing Model), which aims at relating the average return of an asset with
+its covariance with the ‘market portfolio’. Actually, for any optimal portfolio p, one can
+express m p −m0 in terms of the p∗, and use Eq. (12.38) to eliminate ζ, to obtain the
+following equality:
+mi −m0 = βi[m p −m0]
+βi ≡⟨(ηi −mi)(δS −m p)⟩
+⟨(δS −m p)2⟩
+.
+(12.42)
+The covariance coefﬁcient βi is often called the ‘β’ of asset i when p is the market portfolio.
+This relation is however not true for other deﬁnitions of optimal portfolios. Let us deﬁne
+the generalized kurtosis Ki jkl that measures the ﬁrst correction to Gaussian statistics,
+from the joint distribution of the asset ﬂuctuations:
+P(η1, η2, . . . , ηM) =
+ 1
+2π
+M 	 	
+· · ·
+	
+exp
+
+−i
+
+j
+z j(η j −m j)
+−1
+2
+
+i j
+ziCi jz j + 1
+4!
+
+i jkl
+Ki jklziz jzkzl + · · ·
+
+M
+
+j=1
+dz j.
+(12.43)
+† The argument can be formalized within the context of Bayesian estimation theory, where the true correlation
+matrix is a priori assumed to be distributed around the identity matrix.
+
+12.2 Portfolios of correlated assets
+215
+If one tries to minimize the probability that the loss is greater than a certain , a
+generalization of the calculation presented above (cf. Eq. (12.33)) leads to:
+p∗
+i = ζ ′
+2
+M
+
+j=1
+C−1
+i j (m j −m0) −ζ ′3 ˜h
+
+
+
+
+σ 2
+pT
+
+
+×
+M
+
+j,k,l=1
+M
+
+j′,k′,l′=1
+Ki jklC−1
+j j′ C−1
+kk′C−1
+ll′ (m j′ −m0)(mk′ −m0)(ml′ −m0),
+(12.44)
+where ˜h is a certain positive function. The important point here is that the level of risk 
+appears explicitly in the choice of the optimal portfolio. If the different operators choose
+different levels of risk, their optimal portfolios are no longer related by a proportionality
+factor, and the above CAPM relation does not hold.
+12.2.2 Optimal portfolios with non-linear constraints (∗)
+In some cases, the constraints on the portfolio composition are non-linear. For example, on
+futures markets, margin calls require that a certain amount of money is left as a deposit,
+whether the position is long (pi > 0) or short (pi < 0). One can then impose a leverage
+constraint, such that M
+i=1 |pi| = f , where f is the fraction of wealth invested as a deposit.
+This constraint leads to a much more complex problem, similar to the one encountered
+in hard optimization problems, where an exponentially large (in M) number of quasi-
+degenerate solutions can be found.† Let us brieﬂy sketch why this is the case. The solution
+can again be obtained using two Lagrange multipliers:
+∂
+∂pi
+
+M
+
+j,k=1
+p jC jk pk −ζ
+M
+
+j=1
+p jm j −ζ ′
+M
+
+j=1
+|p j|
+
+pi=p∗
+i
+= 0.
+(12.45)
+Deﬁning Si to be the sign of p∗
+i , one gets:
+p∗
+i = ζ
+M
+
+j=1
+C−1
+i j m j + ζ ′
+M
+
+j=1
+C−1
+i j Sj,
+(12.46)
+where C−1 is the matrix inverse of C. Taking the sign of this last equation leads to equations
+for the Si’s which are identical to those deﬁning the locally stable conﬁgurations in a
+spin-glass (see M´ezard et al. (1987)):
+Si = sign
+
+Hi + ζ ′
+M
+
+j=1
+C−1
+i j Sj
+
+,
+(12.47)
+where Hi ≡ζ M
+j C−1
+i j m j and ζ ′C−1
+i j are the analogue of the ‘local magnetic ﬁeld’ and of
+the spin interaction matrix, respectively. Once the Si’s are known, the p∗
+i are determined by
+Eq. (12.46), and ζ and ζ ′ are ﬁxed, as usual, so as to satisfy the constraints. Let us consider,
+for the sake of simplicity, the case where one is interested in the least risky portfolio,
+† See Galluccio et al. (1998).
+
+216
+Optimal portfolios
+which corresponds to ζ = 0.† In this case, one sees that only |ζ ′| is ﬁxed by the constraint.
+Furthermore, the minimum risk is given by R = ζ ′2 M
+j,k SjC−1
+jk Sk, which is the analogue
+of the energy of the spin glass. It is now well known that if C is a generic random matrix,
+the so called “TAP” equation (12.47), deﬁning the metastable states of a spin glass at zero
+temperature, generically has an exponentially large (in M) number of solutions (see M´ezard
+et al. (1987)). Note that, as stated above, the multiplicity of solutions is a direct consequence
+of the nonlinear constraint.
+The above calculation counts all local optima, disregarding the associated value of the
+residual risk R. One can also obtain the number of solutions for a given R∗. In analogy with
+Parisi & Potters (1995), one expects this number to grow as exp M f (R), where f (R) has a
+certain parabolic shape, which goes to zero for a certain ‘minimal’ risk R∗. But for any small
+interval around R∗, there will already be an exponentially large number of solutions. The
+most interesting feature, with particular reference to applications in economics, ﬁnance or
+social sciences, is that all these quasi-degenerate portfolios can be very far from each other:
+in other words, it can be rational to follow two totally different strategies! Furthermore,
+these solutions are usually ‘chaotic’ in the sense that a small change of the matrix C, or the
+addition of an extra asset, completely shufﬂes the order of the solutions (in terms of their
+risk). Some solutions might even disappear, while others appear.
+12.2.3 ‘Power-law’ ﬂuctuations – linear model (∗)
+The minimization of large risks also requires, as in the Gaussian case detailed above, the
+knowledge of the correlations between large events, and therefore an adapted measure of
+these correlations. Now, in the extreme case µ < 2, the covariance (as the variance), is
+inﬁnite. A suitable generalization of the covariance is therefore necessary. Even in the case
+µ > 2, where this covariance is a priori ﬁnite, the value of this covariance is a mix of the
+correlations between large negative moves, large positive moves, and all the ‘central’ (i.e.
+not so large) events. Again, the deﬁnition of a ‘tail covariance’, directly sensitive to the
+large negative events, is needed, and was introduced and discussed in Section 11.1.5. In
+this section, we show how this tool can be used to obtain minimal Value-at-Risk portfolios
+when the tail of the distributions are power-laws.
+Let us again assume that the correlations between the ηi’s are well described by a linear
+model:
+ηi = mi +
+M
+
+a=1
+viaea,
+(12.48)
+where the ea are independent power-law random variables, the distribution of which is:
+P(ea)
+≃
+ea→±∞
+µAµ
+a
+|ea|1+µ .
+(12.49)
+† The following results still hold for small enough ζ. For large ζ, the Si will obviously be polarized by the strong
+‘local ﬁeld’ and have a well determined sign.
+
+12.2 Portfolios of correlated assets
+217
+The ﬂuctuations of the portfolio p can then be written as:
+δS ≡
+M
+
+i=1
+piηi =
+M
+
+a=1
+ M
+
+i=1
+pivia
+
+ea.
+(12.50)
+Due to our assumption that the ea are symmetric power-law variables, δS is also a symmetric
+power-law variable with a tail amplitude given by:
+Aµ
+p =
+M
+
+a=1
+
+M
+
+i=1
+pivia
+
+µ
+Aµ
+a .
+(12.51)
+In the simple case where one tries to minimize the tail amplitude Aµ
+p without any constraint
+on the average return, one then ﬁnds:†
+M
+
+a=1
+via Aµ
+a V ∗
+a = ζ ′
+µ ,
+(12.52)
+where
+the
+vector
+V ∗
+a = sign(M
+j=1 v ja p∗
+j)| M
+j=1 v ja p∗
+j|µ−1.
+Using
+the
+results
+of
+Section 11.1.5, one sees that once the tail covariance matrix Ct is known, the optimal
+weights p∗
+i are thus determined as follows:
+(i) From Eq. (11.20), one sees that the diagonalization of Ct gives access to a rotation
+matrix O, from which one can construct the matrix v = sign(O)|O|2/µ (understood
+for each element of the matrix), and the diagonal matrix A.
+(ii) The matrix vA is then inverted, and applied to the vector (ζ ′/µ)⃗1. This gives the vector
+⃗V ∗= ζ ′/µ(vA)−1⃗1.
+(iii) From the vector ⃗V ∗one can then obtain the weights p∗
+i by applying the matrix inverse
+of v† to the vector sign(V ∗)|V ∗|1/(µ−1);
+(iv) The Lagrange multiplier ζ ′ is then determined such as M
+i=1 p∗
+i = 1.
+Rather symbolically, one thus has:
+p = (v†)−1
+ζ ′
+µ (vA)−1⃗1
+
+1
+µ−1
+.
+(12.53)
+In the case µ = 2, one recovers the previous prescription, since in that case: vA =
+vD = Cv, (vA)−1 = v−1C−1, and v† = v−1, from which one gets:
+p = ζ ′
+2 vv−1C−1⃗1 = ζ ′
+2 C−1⃗1,
+(12.54)
+which coincides with Eq. (12.39).
+The problem of the minimization of the value-at-risk in a strongly non-Gaussian world,
+where distributions behave asymptotically as power-laws, and in the presence of correlations
+† If one wants to impose a non-zero average return, one should replace ζ ′/µ by ζ ′/µ + ζmi/µ, where ζ is
+determined such as to give to m p the required value.
+
+218
+Optimal portfolios
+between tail events, can thus be solved using a procedure rather similar to the one proposed
+by Markowitz for Gaussian assets.
+12.2.4 ‘Power-law’ ﬂuctuations – Student model (∗)
+As discussed in Section 9.2.5, another natural model of correlations that induces power-
+law tails is the Student multivariate model, where a stochastic (fat-tailed) volatility factor
+affects a set of Gaussian correlated returns. The multivariate distribution of returns is given
+by Eq. (9.24). In this case, it is not hard to show that the minimum Value-at-Risk portfolio
+is given by the Markowitz formula, Eq. (12.39). This would actually be true for any multi-
+variate distribution of returns that can be written as a function of the rotationally invariant
+combination 
+i, j ηi(C−1)i jη j. In this case, any measure of risk turns out to be an increasing
+function of the variable σ 2
+p = 
+i j piCi j p j. Therefore, one should, as in the Markowitz case,
+minimize σ 2
+p.
+The only difference with the Gaussian case is that the matrix C appearing in Eq. (12.39)
+should be determined from the empirical data using the maximum likelihood formula (9.29)
+giving ˜C rather than using the empirical correlation matrix.
+12.3 Optimized trading
+In this section, we will discuss a slightly different problem of portfolio optimization: how to
+dynamically optimize, as a function of time, the number of shares of a given stock that one
+holds in order to minimize the risk for a ﬁxed level of return. We shall actually encounter
+a similar problem in the next chapter on options when the question of the optimal hedging
+strategy will be addressed.
+We will suppose that the trader holds a certain number of shares φn(gn), where φ depends
+both on the (discrete) time tn = nτ, and on the present value of the realized gains gn. For
+the time being, we assume that the interest rates are negligible and that the total gains at the
+end of the investment period are given by:
+gN =
+N−1
+
+k=0
+φk(gk)δxk,
+(12.55)
+where δxk = xk+1 −xk is the change of price between time k and time k + 1. (See
+Sections 13.1.3 and 13.2.2 for a more detailed discussion of Eq. (12.55).) Let us deﬁne the
+target gain as G and R as the error of the ﬁnal wealth:
+R2 = ⟨(gN −G)2⟩.
+(12.56)
+The question is then to ﬁnd the optimal trading strategy φ∗
+k (gk), such that the risk R is
+minimized, for a given value of G.
+The method to determine φ∗
+k (gk) is to work backwards in time, starting from k = N −1.
+The optimal strategy for the last step is easy to determine, since one has to minimize:
+R2 = ⟨(gN−1 + φN−1δxN−1 −G)2⟩.
+(12.57)
+
+12.3 Optimized trading
+219
+We will assume that the δxk are random iid increments, of mean mτ and variance Dτ.
+Taking into account the fact that δxN−1 is independent of the value of gN−1, the above
+expression reads:
+R2 = (Dτ + m2τ 2)φ2
+N−1 + 2 (gN−1 −G) mτ + (gN−1 −G)2 .
+(12.58)
+Taking the derivative of this expression with respect to φN−1 and setting the result to zero
+immediately leads to:
+φ∗
+N−1 =
+m
+D + m2τ (G −gN−1) .
+(12.59)
+The determination of φ∗
+k for k < N −1 proceeds similarly, in a recursive way, by using the
+already known optimal strategy for all ℓ> k. The result is, perhaps surprisingly, that the
+above result holds for all k:
+φ∗
+k (gk) =
+m
+D + m2τ (G −gk) .
+(12.60)
+The strategy is thus to invest more when one is far from the target, and reduce the investement
+when the gains close in the target. Let us discuss more precisely the above result by taking the
+continuous time limit τ →0 and assuming that the resulting price process is a continuous
+time Brownian motion X(t). Then the current value of the gains evolves according to:
+dg = φ∗dX = m
+D (G −g) (m dt +
+√
+D dW),
+(12.61)
+where W(t) is a Brownian motion of drift zero and unit volatility. Since the price increment
+is posterior to the determination of the optimal strategy φ∗, the above stochastic differential
+equation must be interpreted in the Ito sense (see Section 3.2.1). One recognizes the equation
+deﬁning a geometric Brownian walk for G −g. With the initial condition g(t = 0) = 0, its
+solution reads after time T :
+G −g
+G
+= exp
+
+−3m2
+2D T + m
+√
+D
+W(T )
+
+.
+(12.62)
+Because W(T ) ∼
+√
+T , the above equation shows that for large times T →∞, the gain g
+tends almost surely towards the target G. The typical time for convergence is T ∼D/m2,
+which is precisely the ‘security time’ ˆT discussed above.
+However, the distribution of gains is found to be log-normal, which means that the
+‘negative’ tail, which governs the cases where the gains turn out to be much less than the
+target, are much fatter than Gaussian. In particular, the qth moment of the gain difference
+reads:
+G −g
+G
+q
+= exp
+(q2 −3q)m2
+2D
+T
+
+.
+(12.63)
+In particular, the average gain and the variance converge asymptotically to zero as e−m2T/D.
+However, the fourth moment of G −g, because of the fat tails of the log-normal, actually
+diverge as e2m2T/D!
+
+220
+Optimal portfolios
+Coming back to the general form of the optimal strategy, it is interesting to compare Eq.
+(12.60) with the naive strategy which consists in investing a constant value φ0 = G/mT ,
+where T is the investment horizon. Clearly, the average gain of this strategy is indeed G.
+However, the relative variance of the result is D/m2T , which is much larger (for large T )
+than the exponential result found above. On the other hand, the initial optimal investment,
+at T = 0, is (for D ≫m2τ) given by mG/D, which represents a much larger amount
+than the naive strategy φ0 whenever T ≫ˆT , since Dφ0/mG = ˆT /T . This would appear
+risky to bet so heavily on the asset, but remember that our assumption is that the drift m
+is perfectly known. Unfortunately, the average return is never very precisely known. A
+way to take into account the drift uncertainty is to replace in the above formulae D by
+D + (
+m)2T , where 
+m is the root mean square uncertainty. For large T , this becomes
+the major source of risk. Another important point is that the above strategy allows the
+possibility of tremendous losses for intermediate times, because these will on average
+be compensated by the positive trend. In practice, however, these large losses cannot be
+accepted.
+12.4 Value-at-risk for general non-linear portfolios (∗)
+A very important issue for the control of risk of a complex portfolio, which involves many
+non-linear assets such as options, is to be able to estimate its value-at-risk reliably. This is a
+difﬁcult problem, since both the non-Gaussian nature of the ﬂuctuations of the underlying
+assets and the non-linearities of the price of the derivatives must be dealt with. A solution,
+which is very costly in terms of computation time and not very precise, is the use of Monte-
+Carlo simulations. We shall show in this section that in the case where the ﬂuctuations of
+the ‘explicative variables’ are strong (a more precise statement will be made below), an
+approximate formula can be obtained for the value-at-risk of a general non-linear portfolio.
+Interestingly, this method can be seen as a correctly probabilized ‘scenario’ calculation (or
+‘stress-testing’), much used in the ﬁnancial industry.
+12.4.1 Outline of the method: identifying worst cases
+Let us assume that the variations of the value of the portfolio can be written as a function
+δf (e1, e2, . . . , eM) of a set of M independent random variables ea, a = 1, . . . , M, such that
+⟨ea⟩= 0 and ⟨eaeb⟩= δa,bσ 2
+a . The sensitivity of the portfolio to these ‘explicative variables’
+can be measured as the derivatives of the value of the portfolio with respect to the ea. We
+shall therefore introduce the 
+’s and ’s as:
+
+a = ∂f
+∂ea
+a,b =
+∂2 f
+∂ea∂eb
+.
+(12.64)
+We are interested in the probability for a large ﬂuctuation δf ∗of the portfolio. We will
+surmise that this is due to a particularly large ﬂuctuation of one explicative factor, say
+a = 1, that we will call the dominant factor. This is not always true, and depends on the
+statistics of the ﬂuctuations of the ea. A condition for this assumption to be true will be
+
+12.4 Value-at-risk – general non-linear portfolios (∗)
+221
+discussed below, and requires in particular that the tail of the dominant factor should not
+decrease faster than an exponential. Fortunately, this is a good assumption in ﬁnancial
+markets.
+The aim is to compute the value-at-risk of a certain portfolio, i.e. the value δf ∗such
+that the probability that the variation of f exceeds δf ∗is equal to a certain probability p:
+P>(δf ∗) = p. Our assumption about the existence of a dominant factor means that these
+events correspond to a market conﬁguration where the ﬂuctuation δe1 is large, whereas
+all other factors are relatively small. Therefore, the large variations of the portfolio can be
+approximated as:
+δf (e1, e2, . . . , eM) = δf (e1) +
+M
+
+a=2
+
+aea + 1
+2
+M
+
+a,b=2
+a,beaeb,
+(12.65)
+where δf (e1) is a shorthand notation for δf (e1, 0, . . . , 0). Now, we use the fact that:
+P>(δf ∗) =
+	
+P(e1, e2, . . . , eM)[δf (e1, e2, . . . , eM) −δf ∗]
+M
+
+a=1
+dea,
+(12.66)
+where (x > 0) = 1 and (x < 0) = 0. Expanding the  function to second order leads
+to:
+(δf (e1) −δf ∗) +
+ M
+
+a=2
+
+aea + 1
+2
+M
+
+a=2
+a,beaeb
+
+δ(δf (e1) −δf ∗)
++1
+2
+M
+
+a,b=2
+
+a
+beaebδ′(δf (e1) −δf ∗),
+(12.67)
+where δ′ is the derivative of the δ-function with respect to δf . In order to proceed with the
+integration over the variables ea in Eq. (12.66), one should furthermore note the following
+identity:
+δ(δf (e1) −δf ∗) = 1
+
+∗
+1
+δ(e1 −e∗
+1),
+(12.68)
+where e∗
+1 is such that δf (e∗
+1) = δf ∗, and 
+∗
+1 is computed for e1 = e∗
+1, ea>1 = 0. Inserting
+the above expansion of the  function into Eq. (12.66) and performing the integration over
+the ea then leads to:
+P>(δf ∗) = P>(e∗
+1) +
+M
+
+a=2
+∗
+a,aσ 2
+a
+2
+∗
+1
+P(e∗
+1) −
+M
+
+a=2
+
+∗2
+a σ 2
+a
+2
+∗2
+1
+
+P′(e∗
+1) + ∗
+1,1
+
+∗
+1
+P(e∗
+1)
+
+,
+(12.69)
+where P(e1) is the probability distribution of the ﬁrst factor, deﬁned as:
+P(e1) =
+	
+P(e1, e2, . . . , eM)
+M
+
+a=2
+dea.
+(12.70)
+Inordertoﬁndthevalue-at-riskδf ∗,oneshouldthussolveEq.(12.69)fore∗
+1 withP>(δf ∗) =
+p, and then compute δf (e∗
+1, 0, . . . , 0). Note that the equation is not trivial since the Greeks
+must be estimated at the solution point e∗
+1.
+
+222
+Optimal portfolios
+Let us discuss the general result, Eq. (12.69), in the simple case of a linear portfolio of
+assets, such that no convexity is present: the 
+a’s are constant and the a,a’s are all zero.
+The equation then takes the following simpler form:
+P>(e∗
+1) −
+M
+
+a=2
+
+2
+aσ 2
+a
+2
+2
+1
+P′(e∗
+1) = p.
+(12.71)
+Naively, one could have thought that in the dominant factor approximation, the value of e∗
+1
+would be the value-at-risk value of e1 for the probability p, deﬁned as:
+P>(e1,VaR) = p.
+(12.72)
+However, the above equation shows that there is a correction term proportional to P′(e∗
+1).
+Since the latter quantity is negative, one sees that e∗
+1 is actually larger than e1,VaR, and
+therefore δf ∗> δf (e1,VaR). This reﬂects the effect of all other factors, which tend to increase
+the value-at-risk of the portfolio.
+The result obtained above relies on a second-order expansion; when are higher-order
+corrections negligible? It is easy to see that higher-order terms involve higher-order deriva-
+tives of P(e1). A condition for these terms to be negligible in the limit p →0, or e∗
+1 →∞,
+is that the successive derivatives of P(e1) become smaller and smaller. This is true pro-
+vided that P(e1) decays more slowly than exponentially, for example as a power-law. On
+the contrary, when P(e1) decays faster than exponentially (for example in the Gaussian
+case), then the expansion proposed above completely loses its meaning, since higher and
+higher corrections become dominant when p →0. This is expected: in a Gaussian world,
+a large event results from the accidental superposition of many small events, whereas in a
+power-law world, large events are associated to one single large ﬂuctuation which domi-
+nates over all the others. The case where P(e1) decays as an exponential is interesting, since
+it is often a good approximation for the tail of the ﬂuctuations of ﬁnancial assets. Taking
+P(e1) ≈α1 exp −α1e1, one ﬁnds that e∗
+1 is the solution of:
+e−α1e∗
+1
+
+1 −
+M
+
+a=2
+
+2
+aα2
+1σ 2
+a
+2
+2
+1
+
+= p.
+(12.73)
+Since one has σ 2
+1 ∝α−2
+1 , the correction term is small provided that the variance of the
+portfolio generated by the dominant factor is much larger than the sum of the variance of
+all other factors.
+Coming back to Eq. (12.69), one expects that if the dominant factor is correctly identiﬁed,
+and if the distribution is such that the above expansion makes sense, an approximate solution
+is given by e∗
+1 = e1,VaR + ϵ, with:
+ϵ ≃
+M
+
+a=2
+a,aσ 2
+a
+2
+1
+−
+M
+
+a=2
+
+2
+aσ 2
+a
+2
+2
+1
+ P′(e1,VaR)
+P(e1,VaR) + 1,1
+
+1
+
+,
+(12.74)
+where now all the ‘Greeks’ 
+,  are estimated at e1,VaR.
+In some cases, it appears that a ‘one-factor’ approximation is not enough to reproduce the
+correct VaR value. This can be traced back to the fact that there are actually other different
+
+12.4 Value-at-risk – general non-linear portfolios (∗)
+223
+Table 12.1. Comparison between the value-at-risk of the linear and quadratic portfolios,
+computed either using precise Monte-Carlo simulations, or the different approximation
+schemes discussed in the text, for various levels of the probability p.
+p = 1%
+p = 0.5%
+p = 0.1%
+L
+Q
+L
+Q
+L
+Q
+mc
+2.93
+13.3
+3.53
+18.7
+5.30
+40.6
+Th. 0
+2.65
+9.7
+3.26
+13.9
+5.07
+30.8
+Th. 1
+2.83
+10.9
+3.42
+15.1
+5.20
+32.2
+Th. 2
+2.93
+12.1
+3.52
+17.2
+5.30
+38.6
+dangerous market conﬁgurations which contribute to the VaR. The above formalism can
+however easily be adapted to the case where two (or more) dangerous conﬁgurations need
+to be considered. The general equations read:
+P>a = P>(e∗
+a) +
+M
+
+b̸=a
+∗
+b,bσ 2
+b
+2
+∗a
+P(e∗
+a) −
+M
+
+b̸=a
+
+∗2
+2 σ ∗
+b
+2
+∗2
+a
+
+P′(e∗
+a) + ∗
+a,a
+
+∗a
+P(e∗
+a)
+
+,
+(12.75)
+where a = 1, . . . , K are the K different dangerous factors. The e∗
+a and therefore δf ∗, are
+determined by the following K conditions:
+δf ∗(e∗
+1) = δf ∗(e∗
+2) = · · · = δf ∗(e∗
+K)
+P>l + P>2 + · · · + P>K = p.
+(12.76)
+12.4.2 Numerical test of the method
+One can test numerically the above idea by calculating the VaR of a simple portfolios which
+depend on four independent factors e1, . . . , e4, that we chose to be independent Student
+variables of unit variance with a tail exponent µ = 4. We have considered two different
+portfolios, ‘linear’ (L), such that its variations are given by dL = e1 + 1
+2e2 + 1
+5e3 + 1
+20e4,
+and ‘quadratic’ (Q), such that its variations are given by dQ ≡dL + (dL)2. We have
+determined the 99%, 99.5% and 99.9% VaR of these portfolios both using a Monte-Carlo
+(mc) scheme and the above approach. The results are summarized in Table 12.1, where we
+give the simple estimate based on the VaR of the most dangerous factor e1,VaR, (called
+Th. 0) and the estimate which includes the contribution of the other factors e∗
+1 (called Th.
+1, see Eq. (12.71)). For both L and Q, one sees that the latter estimate represents a signiﬁ-
+cant improvement over the naive e1,VaR estimate. One the other hand, our calculation still
+underestimates the mc result, in particular for the Q portfolio. This can be traced back to the
+fact that there are actually other different dangerous market conﬁgurations which contribute
+to the VaR for this particular choice of parameters.
+We have therefore computed the VaR for the different portfolios in the K = 2 approx-
+imation. The results are reported in Table 12.1 under the name ‘Th. 2’; one sees that the
+agreement with the mc simulations is improved, and is actually excellent in the linear case,
+where both the conﬁgurations e1 positive and large and e2 positive and large contribute.
+
+224
+Optimal portfolios
+In the quadratic case, the two most dangerous conﬁgurations are e1 positive and large and
+e1 negative and large. In order to get perfect agreement with the Monte-Carlo result, one
+should extend the calculation to K = 3, taking into account the conﬁguration where e2
+positive and large.
+12.5 Summary
+r In a Gaussian world, all measures of risk are equivalent. Minimizing the variance or
+theprobabilityoflargelosses(orthevalue-at-risk)leadtothesameresult,whichisthe
+family of optimal portfolios obtained by Markowitz. In the general case, however, the
+VaR minimization leads to portfolios which are different from those of Markowitz.
+These portfolios depend on the level of risk  (or on the time horizon T ), to which
+the operator is sensitive. An important result is that minimizing the variance can
+actually increase the VaR.
+r One can extend Markowitz’s portfolio construction in several ways. One way is to
+control the diversiﬁcation by introducing the concept of effective number of assets.
+Another is to consider the case when the constraints applied to the portfolio are
+non linear. In this case, perhaps surprisingly, an exponential number of solutions,
+that can be quite far from each other, appear. Finally, one can minimize the VaR
+for a portfolio made of power-law assets using the idea of tail covariance. One can
+also look for optimal temporal trading strategies that minimize the variance of the
+investment.
+r Finally, one can take advantage of the strongly non-Gaussian nature of the ﬂuctua-
+tions of ﬁnancial assets to simplify the analytic calculation of the Value-at-Risk of
+complicated non linear portfolios. Interestingly, the calculation allows one to visu-
+alize directly the ‘dangerous’ market conﬁgurations which correspond to extreme
+risks. In this sense, this method corresponds to a correctly probabilized ‘scenario’
+calculation.
+r Further reading
+H. Markowitz, Portfolio Selection: Efﬁcient Diversiﬁcation of Investments, Wiley, New York, 1959.
+M. M´ezard, G. Parisi, M. A. Virasoro, Spin Glasses and Beyond, World Scientiﬁc, 1987.
+T. E. Copeland, J. F. Weston, Financial Theory and Corporate Policy, Addison-Wesley, Reading, MA,
+1983.
+E. Elton, M. Gruber, Modern Portfolio Theory and Investment Analysis, Wiley, New York, 1995.
+S. Rachev, S. Mittnik, Stable Paretian Models in Finance, Wiley 2000.
+r Specialized papers
+V. Bawa, E. Elton, M. Gruber, Simple rules for optimal portfolio selection in stable Paretian markets,
+J. Finance, 39, 1041 (1979).
+L. Belkacem, J. L´evy-Vehel, Ch. Walter, CAPM, Risk and portfolio selection in α-stable markets,
+Fractals, 8, 99 (2000).
+
+12.5 Summary
+225
+J.-P. Bouchaud, D. Sornette, Ch. Walter, J.-P. Aguilar, Taming large events: portfolio selection for
+strongly ﬂuctuating assets, Int. Jour. Theo. Appl. Fin., 1, 25 (1998).
+E. Fama, Portfolio analysis in a stable Paretian market, Management Science, 11, 404–419 (1965).
+S. Galluccio, J.-P. Bouchaud, M. Potters, Rational decisions, random matrices and spin glasses,
+Physica A, 259, 449 (1998).
+L. Gardiol, R. Gibson, P.-A. Bar`es, R. Cont, S. Guger, A large deviation approach to portfolio
+management, Int. Jour. Theo. Appl. Fin., 3, 617 (2000).
+I. Kondor, Spin glasses in the trading book, Int. Jour. Theo. Appl. Fin., 3, 537 (2000).
+J.-F. Muzy, D. Sornette, J. Delour, A. Arneodo, Multifractal returns and hierarchical portfolio theory,
+Quantitative Finance, 1, 131 (2001).
+G. Parisi and M. Potters, Mean-ﬁeld equations for spin models with orthogonal interaction matrices,
+J. Phys., A 28, 5267 (1995).
+D. Sornette, D. P. Simonetti, J. V. Andersen, φq-ﬁeld theory for portfolio optimisation: fat tails and
+non linear correlations, Phys. Rep., 335, 19 (2000).

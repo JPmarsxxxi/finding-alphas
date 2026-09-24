@@ -1,0 +1,1077 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         324 
+ 
+Chapter 27 
+Chips Aren't Cash: Tournaments, Part II 
+ 
+A Survey of Equity Formulas 
+The Theory of Doubling Up is not designed to capture situations near the money or at the final 
+table. Yet we commonly want to have an explicit mapping of our tournament chip stack to its 
+cash value is near the conclusion of a tournament, either because there is the possibility of 
+dealmaking (when this is allowed) or to account for the payout structure's distortion of the chip 
+to cash mapping so that we can make more accurate decisions. 
+ 
+In fact, it is worth noting that the two main sources of this distortion (skill and the payout 
+structure) each apply at different moments throughout the tournament. At the beginning of the 
+tournament, the payout structure is of relatively small importance, but skill is at its maximum 
+effect. By contrast, at the end of a tournament, the blinds are often high and so skill is fairly 
+reduced (although the specific skill of playing shorthanded might be emphasized), while the 
+payout structure's effect on the mapping is maximized. 
+ 
+In any event, there is no easy answer to the question of mapping chip stacks to prize equity, even 
+for players of equal skill. Various approaches have been proposed to generally solve this 
+problem. In this section, we present a number of different models that have been proposed and 
+make some comments about the biases which are present in each. We begin by defining some 
+terms. 
+ 
+Each of the i players remaining in a tournament has a chip stack Si. The total number of chips 
+remaining in the tournament  is then: 
+ 
+ = - ! 
+ 
+A player's fraction of the remaining chips is: 
+ 
+&, = !
+ 
+ 
+Obviously the sum of all si values will be 1. 
+ 
+Additionally, we define vj as the prize payout for finishing in jth place. The sum of all of the 
+prizes is the total prize pool V. The prize pool remaining to be paid out when there are n players 
+left Vn is as follows: 
+ 
+ = - 9
+
+
+ 
+ 
+We can also consider the incremental prize pool, the amount left to be decided by players 
+finishing in places other than nth place: Letting wj be the incremental prize pool for jth place, and 
+Wn the cumulative prize pool through nth place: 
+ 
+wj = vj — v n      
+G = - < =  −39
+
+
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         325 
+ 
+Since the vn value is a constant, the decision processes within the tournament for the gross prize 
+pool payouts and the incremental prize pool payouts are identical. 
+ 
+A tournament is considered in the money if vn > 0; that is, the next player to bust receives a 
+payout. This occurs at the precise n value where vn = 0 but vn + 1 > 0, where the tournament is 
+said to be on the bubble. 
+ 
+Now we define pi,j as the probability that player i finishes in place j. Then we have a basic prize 
+equity formula: 
+ 
+< H >= - ,9
+,	
+ 
+ 
+Most equity formulas that have been presented assume that the chance of finishing in first place 
+pi,1 is approximately equal to the fraction of chips si. This is true if the players are of equal skill; 
+however, in situations where the players are of unequal skill, methods such as the Theory of 
+Doubling Up could be used to estimate the chance of finishing first. Instead of using chip stacks 
+as a proxy for the chance of finishing first, we will simply define xi as the probability of player i 
+finishing first. This can be substituted with any probability-generating method you wish. 
+ 
+Equity formulas typically take the chance of finishing in first place as a given, and provide a 
+simplified methodology for assigning probabilities to the other places. 
+ 
+The Proportional Chip Count Formula 
+The first model for assigning probabilities to the other places that we present is the frequently 
+employed "chip count" method, which can be expressed as follows: 
+ 
+<Xi >= vn+siWn  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(27.1) 
+ 
+This model consists of two parts: 
+ 
+• First, all players receive the guaranteed value of the finish that they are guaranteed.  
+• Then, the remaining prize pool is divided amongst the players according to then chip 
+count. 
+ 
+For example, suppose the stacks are 25,000, 20,000, 10,000, and 5,000, and the payouts are 
+$2,000, $1,400, $900, and $700, Then the "chip count" method using Equation 27.1 would 
+allocate the remaining prize pool of $5,000 as follows: 
+ 
+$2,800 is distributed equally to each player as his guaranteed payout. 
+ 
+The remaining $2,600 divided to each player according to his chip count. 
+ 
+Player 1: <X1> = 700 + (5 12
+ )(2200) = $1,616.67  
+Player 2: <X2> = 700 + (1 3
+ )(2200) = $1,433.33  
+Player 3: <X3> = 700 + (1 6
+ )(2200) =$1,066.67  
+Player 4: <X4> = 700 + (1 12
+ )(2200) = $883.33 
+ 
+At a glance, perhaps these numbers look reasonable. But the flaw of this method can quickly be 
+seen if we change the stacks so that Player 1 has 48,000 and the other players 4,000 each: 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         326 
+ 
+Player 1: <X1> = 700 + (4 5
+ )(2200) = $2,460  
+Players 2-4: <Xi> = 700 + (1 15
+ ){2200) = $846.67 
+ 
+Clearly this isn't right. Player 1 seems to be entitled to receive more than first place money! This 
+is a systemic flaw in this method; it tends to distribute too much of the prize pool to players on 
+the basis of their chips, and too little to players on the basis of their chairs. The more equal the 
+stacks are, the more accurate this formula is. However, this is true of all models - any model that 
+does not tend to equalize the payouts as the xi values equalize cannot be right! 
+ 
+The reason for this flaw is that this model is equivalent to saying that pi,j = si for all values of j! 
+Well, we can see how this is wrong. Suppose our player is the chip leader (equally skilled). Then 
+his chance of 1st place is larger than that of all the other players. But his chance of 2nd, 3rd, 4th and 
+so on down to nth is the same. So his total chance of finishing in any place in the tournament is 
+nsi.  If si is larger than 1/n, then his total chance of finishing in some place in the tournament will 
+be higher than 1. This is obviously incorrect. 
+ 
+One potential modification we can make to this formula is to constrain the finish data to sum to 
+one by making the following corrections: 
+ 
+I = J1
+
+K 
+pi,j≤m = xi 
+pi,m+1 =1 - m xi 
+ 
+ 
+Here, the brackets in the expression for m are the floor function, which returns the largest 
+integer less than or equal to the bracketed expression. 
+ 
+Hence, if xi > 0.5, then m = 1, and we have 
+ 
+pi,1 = xi 
+pi,2 = 1 - xi 
+ 
+This approximation is a more reasonable one when the stacks are very large. Consider the 
+revised probabilities for the example we just considered: 
+ 
+For Player 1, who has 5 12
+  of the chips, m = 2. 
+ 
+Then 
+ 
+pi,1 = 5 12
+
+ 
+pi,2 = 5 12
+  
+pi,3 = 1 16
+  
+ 
+and l's revised equity is: 
+ 
+<X1> = 700 + (5 12
+ )(1300) + (5 12
+ )(700) + (1 6
+ )(200) = $1,566.67 
+ 
+Unfortunately, this modification causes the formula to no longer sum to the total prize pool. 
+Therefore, it is primarily useful to establish a slightly lower upper bound for the equities of the 
+chip leaders. It is still fairly biased on behalf of the tall stacks, however. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         327 
+ 
+The Landrum-Burns Formula 
+The second model we will consider was originally proposed by Stephen Landrum and Jazbo 
+Burns on rec.gambling.poker. This model uses the following methodology: 
+ 
+We calculate each player's chance of finishing first. 
+We then assume that when he does not finish first, he finishes equally often in the remaining 
+places. 
+ 
+< H >= ,9 + ∑
+(,)
+
+9
+
+
+   
+ 
+ 
+ 
+ 
+ 
+ 
+(27.2) 
+ 
+Using this formula, we can recalculate our previous example where the stacks are 25,000, 
+20,000, 10,000, and 5,000, and the payouts are $2,000, $1,400, $900, and $700. Then the 
+"Landrum-Burns" method calculates the equities as follows: 
+ 
+Player 1: (5 12
+ )(2200) + (7 36
+ )(1400) +(7 36
+ )(900) +(7 36
+ )(700) = $1,416.67  
+Player 2: (1 3
+ )(2200) + (2 9
+ )(1400) +(2 9
+ )(900) +(2 9
+ )(700) = $1,333.33  
+Player 3: (1 6
+ )(2200) + (5 18
+ )(1400) +(5 18
+ )(900) +(5 18
+ )(700) =$1,066.67  
+Player 4: (1 12
+ )(2200) + (11 36
+ )(1400) +(11 36
+ )(900) +(11 36
+ )(700) = $1,083.33 
+ 
+But we can equally expose the error of this method by considering the second example, where 
+Player 1 has 48,000 and the other players 4,000: 
+ 
+Player 1: (4 5
+ )(2000) + (1 15
+ ) (1400) + (1 15
+ ) (900) + (1 15
+ ) (700) = $1,800 
+Players 2-4: (1 15
+ ) (2000) + (14 45
+ ) (1400) + (14 45
+ )(900) + (14 45
+ )(700) = $1,066.67 
+ 
+The $1,800 number is at least "reasonable," since it doesn't exceed the payout for first (as 
+occurred with the "chip count" method). However, calculating it directly exposes a difficulty 
+with the method. Player 1 may protest that he is not as likely to finish fourth as second, should he 
+fail to win. In fact, he will finish fourth very infrequently, if the blinds are fairly high. So the 
+"fair" price should be adjusted up from the Landrum-Burns value. Likewise, suppose one player 
+has a tiny stack compared to his opponents. He is not as likely to finish second as he is to finish 
+fourth. 
+ 
+This is the bias of the Landrum-Burns method - it overvalues small stacks at the expense of big 
+stacks. This occurs because large stacks will not bust out immediately as often as they finish 
+second. The proportional chip count method and Landrum-Buras together provide us a lower and 
+upper bound to the plausible values; the "true" fair value lies somewhere between them. 
+ 
+In Gambling Theory and Other Topics, Mason Malmuth introduced two additional equity 
+formulas. 
+ 
+The Malmuth-Harville Formula 
+This formula is parallel to the Harville horse-racing formula.  
+Essentially, what this formula does is the following: 
+ 
+• The chance of finishing first for each player is xi, 
+• We can use the following formula to calculate the chance of finishing in 2nd place given 
+that player k has finished first: 
+ 
+
+H,H, =
+
+1 −
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         328 
+ 
+Then our probability of finishing second is: 
+ 
+pi,2 = p(Xi,2) 
+ 
+, = - 
+H,H,
+-
+(H,) 
+ 
+, = - 
+1 −
+-
+ 
+ 
+This formula was originally developed for betting favorites in show or place pools in horse 
+racing. However, this formula actually applies more strongly to tournament poker because of an 
+idea pointed out to us by Jeff Yass: 
+ 
+In horse racing, if a horse is a prohibitive favorite, where x is closer to one, a substantial amount 
+of his non-wins will be due to a problem or event which will also prevent him from finishing 2nd, 
+such as an injury or disqualification. It is unreasonable, for example, to believe that a horse with 
+an 80% of winning will still have a higher than 80% of finishing second if he fails to win, and 
+even more unreasonable to believe he has a >99% of finishing in the top three. 
+ 
+But in poker tournaments, this effect is minimized. If a tall stack does not win he will still be 
+very likely to finish second, and very- unlikely to finish in the last remaining spot. 
+ 
+We can generalize this rule as well: 
+ 
+(H,|H, ∧H, ∧… ∧H,) =
+
+⋯   
+ 
+ 
+ 
+ 
+(27.3) 
+ 
+That is, the probability of finishing in the jth place is simply the ratio of winning probability for 
+the player to the win probabilities of the remaining players. In most cases, this formula is a more 
+accurate representation of equity than either the proportional chip formula or Landrum-Burns. 
+ 
+One limitation of this method is that if there are many players remaining it is fairly difficult to 
+calculate at the table because the number of permutations of finishes; as such, it is primarily 
+useful at understanding situations away from the table or for analyzing situations that recur 
+frequently, such as sit-and-go tournament equities or the like. 
+ 
+The Malmuth-Weitzman Formula 
+A second model proposed by Malmuth in Gambling Theory and Other Topics was developed by 
+Mark Weitzman, which we will call the Malmuth-Weitzman formula. 
+ 
+In that text, Malmuth seems to prefer this formula over the Malmuth-Harville formula, although 
+he claims that this formula requires the solution of a system of linear equations for each 
+situation. We believe that it is slightly less accurate than the other formula but the solution to the 
+linear equations is unnecessary, as we shall see. 
+ 
+The main idea of this formula is that when a player busts out of the tournament, his chips are 
+distributed equally (on average) among his opponents. 
+ 
+ = 
+H, = - 
+H,H,(H,)
+-
+= -( +
+
+3 −1),
+-
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         329 
+ 
+This results in a series of equations that we have to solve. For each player we have a value pi,n 
+which is the probability of busting out next and a summation for all players of the equities from 
+distributing their chips equally among all players. 
+ 
+For example, if we have four players, then we have the following equations (we use pk here as 
+shorthanded for pk,n). All the probabilities shown are of busting out next. 
+ 
+ = 5 + 
+3 7  + 5 + 
+3 7  + ( + 
+3 ) 
+ = 5 + 
+3 7  + 5 + 
+3 7  + ( + 
+3 ) 
+ = 5 + 
+3 7  + 5 + 
+3 7  + ( + 
+3 ) 
+ 
+ = 5 + 
+3 7  + 5 + 
+3 7  + ( + 
+3 ) 
+ 
+With four equations and four unknowns, we can solve this straightforwardly using algebra. 
+However, we can do better than this. These equations are part of a family of equations called 
+Vandermonde equations. We will simply provide the solution to these equations and show that it 
+is correct. We claim that the above matrix implies that the probability of busting out next is 
+inversely proportional to the number of chips (or win probability) left. If we define b as the sum 
+of the inverses of all win probabilities: 
+ 
+; = ∑
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Then 
+, =
+/
+   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(27.4) 
+ 
+We can substitute this back into the above formula: 
+ = -( +
+
+3 −1),
+-
+ 
+ 
+ = 1
+; -(
+
++
+1
+3 −1)
+-
+ 
+ 
+ = 1
+; -(
+
++ 1)
+-
+ 
+ 
+ = 1
+; [ - 1
+
++ 1]
+-
+ 
+ 
+The summation of l/xk, for all k not equal to I, rather it is b – 1/xi. 
+ 
+So we have: 
+ = 1
+; ; −1 + 1 =  
+ 
+The system of linear equations generated by the assumption of this model implies that each 
+player's chance of going bust next is proportional to the inverse of his chip count or win 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         330 
+ 
+probability. 
+ 
+The Malmuth-Weitzman is a reasonable formula as well and is probably near the edge of some 
+players' ability to calculate at the table, which increases its usefulness. One objection to this 
+formula is that it's a bit sticky when it comes to situations where multiple tables are left in play. 
+If two players are quite short stacked at different tables, it seems counter-intuitive that the player 
+with twice the chips has half the chance of busting. Also, it's a little unclear why players at 
+different tables receive an equal share of the busting chips. However, by and large, this is our 
+favorite formula for assessing tournaments that are in or near the money. When assessing deals 
+at the final table, we use the Malmuth-Weitzman as our baseline equal skill formula. 
+ 
+The important thing to understand from all this is that there are a number of different ways to 
+map chip counts to tournament equities. Because these are all models, they inherently have some 
+sort of bias. Understanding the common methods and the biases they have can lead to an 
+enhanced ability to make in-tournament decisions as well as to make more favorable deals, when 
+the circumstances arise. 
+ 
+Tournament Results and Confidence Intervals 
+In Part I, we discussed confidence intervals as they applied to win rates. For ring games, 
+confidence intervals can be calculated in a typical fashion. This is because ring games are 
+essentially an aggregation of hand results, which are in turn subject to the law of large numbers. 
+However, for tournaments, constructing confidence intervals is not so easy. Indeed, constructing 
+confidence intervals in the usual way doesn't yield the most accurate analysis. 
+ 
+Consider the case of a winner-take-all tournament with 1000 players. Suppose that we assume 
+that the population's win rates will all fall between -1 and +1 buyin per tournament. Say we play 
+the tournament once. The player who wins the tournament will have experienced a 30 standard 
+deviation event. However, each time the tournament is played, someone is going to win. Even if 
+we play the tournament ten times, it doesn't particularly help matters. 
+ 
+Another difference is that unlike ring games, where estimates of variance quickly converge 
+because of the distribution they follow (chi-squared), we don't normally have good estimates of 
+variance for tournaments. Variance is also highly correlated to win rate because, in tournaments, 
+all large variance events are positive, while negative events are smaller variance (-1 buyin, 
+typically). 
+ 
+The real problem is that for tournaments, it takes many more samples before the distribution 
+converges to a normal distribution. 
+ 
+One problem is skew, which we briefly discussed in Chapter 22. This is defined as:  
+ 
+! = < (H −) >
+
+ 
+ 
+Skew for a n-player winner-take-all tourney is around √3, while the skew of a normal 
+distribution is zero. We know the skew of the sum of n identical independent events is the skew 
+of one event divided by √3. As we take a larger and larger sample in trials, the skew of the 
+sample will eventually converge on zero. This is one of the ways in which sampling distributions 
+eventually converge on the normal distribution. But here we need more than n samples for the 
+skew to be within 1. 
+ 
+But we can work on the problem nonetheless. The expectation of our gross profit for the 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         331 
+ 
+tournament is: 
+ 
+< H >= -  
+ 
+Where Vi is the prize for finishing in ith place. Let V be the total prize pool and we can define vi 
+to be the fraction of the prize pool awarded to the ith place finisher. 
+ 
+9 = 
+ 
+ 
+Assuming no rebuys and add-ons, we define the size of the tournament as the prize pool divided 
+by the number of players n. 
+ 
+& = 
+3 
+ 
+We additionally have the cost of the tournament bc, which is the total amount each player must 
+pay to play the tournament. The difference between these two is the entry fee, which can be 
+either positive (when the players pay a fee to the house for spreading the tournament) or negative 
+(such as when the house adds money to the tournament for a guarantee or other promotion). 
+Letting εb denote the entry fee: 
+ 
+εb = bc - s 
+ 
+For example, suppose we had a tournament that was $100 + $10, with a $50,000 guarantee from 
+the casino. So $100 from each player's $110 entry goes to the prize pool; the remainder goes to 
+the house. If the prize poof is short of $50,000, the casino makes up the difference. If there are 
+300 players, then we have: 
+ 
+s = $166.67  
+bc = $110  
+εb = $56.67 
+ 
+Our net expectation w for entering a tournament is then our expectation of gross profit <X> less 
+the cost of the tournament bc, or: 
+ 
+w = <X> - bc  
+< = -  −& −F 
+ 
+This expression effectively has two parts. The first part, 
+ 
+<
+ = -  −& 
+ 
+should be related to the player's poker and tournament skill, while the second part, εb, is be 
+independent of poker skills, except possibly game selection. 
+ 
+We define a normalized win rate, ω, as: 
+ 
+L ≡L
+&  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         332 
+ 
+= - 
+
+& −1 
+ 
+= -(3) 
+ −1 
+ 
+= -(3 −1)9 
+ 
+This normalized win rate is basically the number of buyins (where buyins is normalized to 
+tournament size) that we can expect to net per tournament. 
+ 
+The statistical variable we want to look at is the normalized win, Z, such that: 
+ 
+M = H −&
+&
+ 
+ 
+This has the special property that: 
+ 
+< N >= L 
+ 
+It turns out Z is a statistical variable we are interested in for a number of reasons. The idea here 
+is to get a handle on the behavior of the Z variable, and use that information to construct 
+appropriate confidence intervals. 
+ 
+Note that typically, the mode value for Z is -1. 
+ 
+One possible assumption that would yield an appropriate Z variable is:  
+ 
+ = 1 + L
+3
+ 
+ 
+This assumes that the player's win rate is an effective multiplier on his chance of finishing in 
+each paid place. We begin with the player finishing in each position with equal likelihood. Then 
+we move ω/n finishes from "out of the money" finishes to each payoff spot. This is at odds with 
+the results of the Theory of Doubling Up, which suggests that a skilled player's chance of 
+finishing first is higher than his chance of finishing second, third, and so on. However, we feel 
+this approximation is fairly reasonable to use anyway. Recall from Chapter 25 that: 
+ 
+<x2> = µ2 + σ2 
+σ2 = <x2> - µ2 
+ 
+For this distribution, 
+ 
+x =X - bc 
+µ = < X – bc> 
+ 
+The variance of a single tournament, then, is: 
+ 
+
+ =< (H −;) > −< H −; > 
+ 
+
+ =< H > −< H > 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         333 
+ 
+
+ = - 
+ −(L + ;) 
+ 
+
+ = - 1 + L
+3
+ (9) −(1 + L) ; 
+ 
+
+ = (1 + L)
+3
+(3;) - 9
+ −(1 + L) ; 
+ 
+
+ = O3 5- 9
+7 (1 + L) −(1 + L)P ; 
+ 
+Then we have the variance of Z as: 
+ 
+.
+ =< M > −< N >= 
+
+; = 53 - 9
+ −1 −L7 (1 + L) 
+ 
+Hence, the variance of Z is roughly proportional to 1 + L for reasonable values of ω. If we 
+examine the value of: 
+ 
+Q = 3 ∑9
+ −1  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(27.5) 
+ 
+We will find that this expression is close to the effective number of players that we found when 
+we examined the Theory of Doubling Up. We will call k the tournament variance multiple. 
+Using the variance formula above for the variance of Z is a better estimate of the variance of a 
+tournament than the observed variance of a sample for any sample size that isn't enormous. 
+ 
+Now consider a series of independent tournaments. Suppose that we have a series of normalized 
+outcomes (Z-values) for m tournaments. 
+ 
+The average of these normalized outcomes is Msuch that: 
+ 
+M =
+∑
+M
+
+
+I
+ 
+ 
+Since each Mj value is independent of the number of tournaments played, we have the following 
+formula for the variance of a sample of m Z-values: 
+ 
+ =
+∑
+
+ =
+∑012(1)
+
+=
+012(1)
+
+  
+ 
+ 
+ 
+ 
+ 
+ 
+(27.6) 
+ 
+In all normal circumstances, ω will be much smaller than k. So we can very roughly approximate 
+the above expression with k/m. Then to make the variance of a sample of size m equal to 1. we 
+must play about the same amount of tournaments as the average variance multiplier for the 
+tournaments. If the variance of the sample is equal to 1, then we have an approximately 68% 
+chance of our observed win rate ω being within 1 buyin of the population mean (neglecting 
+Bayesian implications). 
+ 
+We can call Equation 27.6 the win-rate-based variance formula, because it uses our observed 
+win rate and the observed structure of the tournament to calculate the variance of the tournament. 
+ 
+This formula has the flaw that in truth, having a win rate of ω does not normally imply that you 
+enhance your chance of finishing in every paying spot by a factor of ω; in fact, some players' 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         334 
+ 
+finishes are more top-heavy than others, with more firsts than seconds and thirds, while others 
+are more weighted toward lower finishes. Another method of calculating this would be to use the 
+Theory of Doubling Up to predict the rate of finish in each spot and calculate the variance that 
+way. 
+ 
+The reason that we do not use the observed variance is that unless the sample size is very large, 
+these formulas will give us a better estimate. If m were large however, we could utilize another 
+way of calculating variance, which would be to use the observed win rate LR and observed 
+variance 
+S to calculate k. 
+ 
+Q = LR + I
+S
+1 + LR 
+ 
+We then use this value of k in the win-rate-based variance formula. This technique is likely more 
+accurate when m is very large, because the convergence of the observed variance to the true 
+variance occurs more rapidly than the convergence of the sampling distribution to the normal 
+distribution. 
+ 
+The question we are trying to answer with confidence intervals is the following: 
+ 
+If our normalized win rate is ω, how lucky or unlucky is our observed result? 
+ 
+We cannot strictly use the normal distribution as our guide here because the sampling 
+distribution has not yet converged on the normal distribution. However, we can use the normal 
+distribution to map a z-score (see Equation 2.6) to a confidence level (if, for example, being 
+more than 2 standard deviations away fails the 95% confidence test) if ω >LR . 
+ 
+T = LR −L
+(L) < −2 
+ 
+If this expression is true, we can conclude that ω fails the test, because we know that the 
+distribution is skew-positive and the probability of having a negative event (having an outcome 
+more than two sigmas below expectation) is actually less than the normal distribution would 
+indicate. So we can exclude some very high win rates based on observed data. 
+ 
+However, for ω >LR, we have to be more careful. The normal distribution is inappropriate for use 
+here because in our sampling distribution, due to the skew, it is more likely that our observed 
+outcome is a positive event than the normal distribution would indicate. 
+ 
+We can, however, use a statistical idea called Tchebyshev's (or Chebyshev's) Rule: 
+ 
+ LR −L
+(L) = T > B < 1
+B 
+ 
+This says that the probability that our outcome is actually in excess of four standard deviations 
+on one side of the mean is always less than 1 16
+
+. This may seem like a particularly blunt tool, 
+after all, the normal distribution has a similar value of 0.00003. However, this rule has the 
+excellent property of applying to any distribution, no matter how skew. 
+ 
+Let's take a moment now to review all of these ideas in the context of a hypothetical player, 
+player T. Player T is a tournament player, who plays four $50 + $5 tournaments per day. Two of 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         335 
+ 
+the tournaments attract about 100 players (these are the morning tournaments) and the other 
+tournaments attract about 400 players (these are the evening tournaments). 
+ 
+The morning tournaments pay out according to the following schedule: 
+ 
+Place 
+1 
+2 
+3 
+4 
+5 
+6 
+7 
+8 
+9 
+Pct 
+30%  
+20% 
+12% 
+10% 
+8% 
+6% 
+5.5% 
+4.5% 
+4% 
+ 
+The evening tournaments pay out as follows: 
+ 
+Place 
+1 
+2 
+3 
+4 
+5 
+6 
+7 
+8 
+9 
+10-18 19-27 
+Pct 
+27.5%  17.5% 11.6%
+8% 
+6% 
+4.5%
+3.5% 
+2.6% 
+1.7%
+1.2% 0.7%
+ 
+Player T has played these tournaments for 200 days. As a result, he has 400 morning tournament 
+data points, and 400 evening tournament data points. 
+ 
+The following is a list of his finishes in each type of tournament over that span: 
+ 
+Morning tournaments: 
+ 
+Place 
+Frequency 
+Gross Buyins Net Buyins 
+Total net 
+1st 
+11 
+30 
+29 
+319 
+2nd 
+7 
+20 
+19 
+133 
+3rd 
+5 
+12 
+11 
+55 
+4th 
+3 
+10 
+9 
+27 
+5th 
+8 
+ 8                   
+7 
+56 
+6th 
+4 
+6 
+5 
+20 
+7th 
+7 
+5.5 
+4.5 
+31.5 
+8th 
+2 
+4.5 
+3.5 
+7 
+9th 
+5 
+4 
+3 
+15 
+No cash 
+348 
+0 
+-1 
+-348 
+Total 
+400 
+ 
+ 
+315.5 
+ 
+So Player T's overall cash rate in morning tournaments is 52 400
+
+, or 13%. His overall win is 315.5 
+buyins, a rate of about 0.79 buyins per tournament. 
+ 
+Evening tournaments: 
+ 
+Place 
+Frequency 
+Gross Buyins Net Buyins 
+Total net 
+1st 
+4 
+110 
+109 
+436 
+2nd 
+2 
+70 
+69 
+138 
+3rd 
+2 
+46.4 
+45.4 
+90.8 
+4th 
+0 
+32 
+31 
+0 
+5th 
+2 
+24 
+23 
+46 
+6th 
+4 
+18 
+17 
+68 
+7th 
+1 
+14 
+13 
+13 
+8th 
+0 
+10.4 
+9.4 
+0 
+9th 
+2 
+6.8 
+5.8 
+11.6 
+10th - 18th 
+14 
+4.8 
+ 3.8 
+53.2 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         336 
+ 
+19th - 27 th 
+20 
+2.8 
+1.8 
+36 
+No cash 
+349 
+0 
+-1 
+-349 
+Total 
+400 
+ 
+ 
+543.6 
+ 
+And in the evening tournaments, Player T has cashed about 13% of the time again, with an 
+overall win of 543.6 buyins, a rate of about 1.36 buyins per tournament. 
+ 
+Taken together, T has played a total of 800 tournaments, with an aggregate win rate of 1.07 
+buyins per tournament. We can make an inventory of the statistics we've discussed here: 
+ 
+ω = 1.07  
+m = 800 
+M = 1.07 
+Q = 3 - 9
+ −1 
+ 
+For the morning tournaments, we have: 
+ 
+k = (0.30)2 + (0.20)2 + ... + (0.04)2 = 16.105  
+ 
+And for the evening tournaments, we have: 
+ 
+k = (0.275)2 + (0.175)2 + ... + (0.007)2 = 53.6456 
+ 
+Then our average k value is:  
+ 
+Q = 34.875 
+ 
+and our variance for an 800 tournament sample consisting of half morning and half evening 
+tournaments is approximately: 
+ 
+ = 
+Q −L(1 + L)
+I
+=
+34.875 −1.071 + 1.75
+800
+= 0.0876 
+ 
+or a standard deviation of 0.296 buyins per sample (of 800 tournaments). 
+ 
+The observed sample variance (from the sample actually observed) is about 0.3468 buyins. This 
+difference occurs because the sample is slightly more concentrated in first place finishes. You 
+might object that Player T's apparent tendency to finish first more often than other places skews 
+his underlying distribution. This might be true in practice, although the effect would not be 
+terribly important. However, since we wrote the program that randomly generated the above 
+results, we know that Player T's chance of finishing first was the same as his chance of finishing 
+in any other money position. This is yet another case of the possibility of being fooled by 
+random noise. 
+ 
+Applying the normal distribution to the observed win rate and standard deviation would result in 
+a 95% confidence interval of [0.3802, 1.7675]. This is definitely inaccurate on the high side. 
+Because the distribution is skew-positive, the chance that the true win rate is higher than 1.7675 
+and T had a very negative event is actually lower than the normal distribution would indicate. On 
+the low side, it is entirely inappropriate to use the normal distribution, because the chance that 
+the observation is actually a positive event from a lower win rate is much higher. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         337 
+ 
+Utilizing the win rate-based variance calculation, T actually has smaller variance. We find that 
+two standard deviations above would be 1.666 buyins per tournament. This is still slightly 
+inaccurate. In fact, at this point, the sample would fail a hypothesis test for 95% accuracy. The 
+true bound is actually lower than this, but only modestly. On the other side, however, we can use 
+Tchebyshev's Rule and conclude that the chance that the true distribution is lower than 2 
+standard deviations below the observed mean (or below 0.4818) is no greater than 1 4
+ . 
+ 
+Key Concepts 
+• A number of equity formulas have been proposed to map chip equities to tournament 
+equities in the late stages of tournaments. 
+• The Landrum-Burns and Proportional Chip Count methods have clear flaws but are easy 
+to calculate at the table. Since they are flawed in opposite directions, evaluating both can 
+be useful to identify a range of values for the true equity. 
+• The Malmuth-Harville and Malmuth-Weitznan formulas are more accurate, but harder to 
+implement at the table. 
+• Tournament equity confidence intervals are an interesting topic because of their 
+significant skew and also because the variance per tournament is highly correlated to the 
+win rate. We can use these facts to obtain more accurate confidence intervals even 
+without strongly significant data (which is often difficult to gather because it takes so 
+many trials). 
+ 
+ 

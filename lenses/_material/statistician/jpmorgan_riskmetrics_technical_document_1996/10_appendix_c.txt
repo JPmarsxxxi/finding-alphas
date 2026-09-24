@@ -1,0 +1,517 @@
+ 
+243
+Appendices
+Appendix C.
+Methods for determining the optimal decay factor
+ 
+Peter Zangari
+Morgan Guaranty Trust Company
+Risk Management Research
+(1-212) 648-8641
+ 
+zangari_peter@jpmorgan.com
+ 
+Christopher C. Finger
+Morgan Guaranty Trust Company
+Risk Management Research
+(1-212) 648-4657
+ 
+ﬁnger_christopher@jpmorgan.com
+ 
+In this appendix we present alternative measures to assess forecast accuracy of volatility and cor-
+relation forecasts.
+ 
+C.1  Normal likelihood (LKHD) criterion
+ 
+Under the assumption that returns are conditionally normal, the objective here is to specify the 
+joint probability density of returns given a value of the decay factor. For the return on day 
+ 
+t
+ 
+ this 
+can be written as:
+[C.1]
+Combining the conditional distributions from all the days in history for which we have data, we 
+get: 
+[C.2]
+Equation [C.2] is known as the normal likelihood function. Its value depends on 
+ 
+λ
+ 
+. In practice, it is 
+often easier to work with the log-likelihood function which is simply the natural logarithm of the 
+likelihood function.
+The maximum likelihood (ML) principle stipulates that the optimal value of the decay factor 
+ 
+λ 
+ 
+is 
+one which maximizes the likelihood function Eq. [C.2]. With some algebra, it can be shown that 
+this is equivalent to ﬁnding the value of 
+ 
+λ
+ 
+ that minimizes the following function:
+[C.3]
+Notice that the criterion Eq. [C.3] imposes the assumption that returns are distributed condition-
+ally normal when determining the optimal value of 
+ 
+λ. 
+ 
+The RMSE criterion, on the other hand, does 
+not impose any probability assumptions in the determination of the optimal value of 
+ 
+λ
+ 
+.
+ 
+C.2  Other measures
+ 
+In addition to the RMSE and Normal likelihood measures alternative measures could also be 
+applied such as the mean absolute error measure for the variance
+[C.4]
+For individual cashﬂows, RiskMetrics VaR forecasts are based on standard deviations. Therefore, 
+we may wish to measure the error in the standard deviation forecast rather than the variance fore-
+cast. If we take as a proxy for the one period ahead standard deviation,
+, then we can deﬁne the 
+RMSE of the standard deviation forecast as 
+f rt λ
+(
+)
+1
+2πσt t
+1
+–
+λ
+( )
+------------------------------------
+
+
+
+
+
+
+1
+2--
+rt
+2
+σ
+2
+t t
+1
+–
+λ
+( )
+---------------------------
+
+
+
+
+
+
+–
+exp
+=
+f r1 … rT λ
+,
+,
+(
+)
+1
+2πσt t
+1
+–
+λ
+( )
+------------------------------------
+
+
+
+
+
+
+t
+1
+=
+T
+∏
+1
+2--
+rt
+2
+σ
+2
+t t
+1
+–
+λ
+( )
+---------------------------
+
+
+
+
+
+
+–
+exp
+
+
+
+
+
+
+=
+LKLHDv
+σt t
+1
+–
+λ
+( )
+[
+]
+1
+2--
+rt
+2
+σ
+2
+t t
+1
+–
+λ
+( )
+---------------------------
+
+
+
+
+
+
++
+ln
+
+
+
+
+
+
+t
+1
+=
+T
+∑
+=
+MAEv
+1 
+T----
+rt
+1
++
+2
+σˆ t
+1 t
++
+2
+–
+t
+1
+=
+T
+∑
+=
+rt
+
+ 
+244
+Appendix C.  Methods for determining the optimal decay factor
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+[C.5]
+Notice in Eq. [C.5] that 
+. In fact for the normal distribution, the following equa-
+tion holds:  
+.
+Other ways of choosing optimal 
+ 
+λ
+ 
+ include the Q-statistic described by Crnkovic and Drachman 
+(RISK, September, 1996) and, under the assumption that returns are normally distributed, a likeli-
+hood ratio test that is based on the normal probability density likelihood function.   
+ 
+C.3  Measures for choosing an optimal decay factor for multiple time series.
+ 
+In Chapter 5, we explained how an optimal decay factor for the 480 RiskMetrics time series was 
+chosen. This method involved ﬁnding optimal decay factors for each series, and then taking a 
+weighted average of these factors, with those factors which provided superior performance in fore-
+casting volatility receiving the greatest weight. In this section, we brieﬂy describe some alternative 
+methods which account for the performance of the correlation forecasts as well.
+The ﬁrst such method is an extension of the likelihood criterion to a multivariate setting. If we 
+consider a collection of 
+ 
+n
+ 
+ assets whose returns on day 
+ 
+t 
+ 
+are represented by the vector 
+, then the 
+joint probability density for these returns is
+[C.6]
+,
+where 
+ is the matrix representing the forecasted covariance of returns on day 
+ 
+t 
+ 
+using 
+decay factor 
+. The likelihood for the returns for all of the days in our data set may be constructed 
+analogously to Eq. [C.2]. Using the same reasoning as above, it can be shown that the value of  
+ 
+which maximizes this likelihood is the one which also maximizes 
+[C.7]
+.
+As noted before, choosing the decay factor according to this criterion imposes the assumption of 
+conditional normality. In addition, to evaluate the likelihood function in Eq. [C.7], it is necessary 
+at each time to invert the estimated covariance matrix 
+. In theory, this matrix will 
+always be invertible, although in practice, due to limited precision calculations, there will likely be 
+cases where the inversion is impossible, and the likelihood function cannot be computed.
+A second approach is a generalization of the RMSE criterion for the covariance forecasts. Recall 
+from Chapter 5 that the covariance forecast error on day 
+ 
+t
+ 
+ for the 
+ 
+i
+ 
+th and 
+ 
+j
+ 
+th returns is
+[C.8]
+.
+(Recall also that under the RiskMetrics assumptions, 
+.) The total squared 
+error for day 
+ 
+t
+ 
+ is then obtained by summing the above over all pairs 
+, and the mean total 
+squared error (MTSE) for the entire data set is then
+RMSEσ
+1 
+T----
+rt
+1
++
+σˆ t
+1 t
++
+–
+(
+)
+2
+t
+1
+=
+T
+∑
+=
+Et rt
+1
++
+σt
+1
++
+≠
+Et rt
+1
++
+2 π
+⁄
+(
+)
+1 2
+⁄
+–
+σt
+1
++
+=
+rt
+f rt λ
+(
+)
+1
+2π
+(
+)
+n
+2--
+Σt t
+1
+–
+λ
+( )
+1
+2--
+----------------------------------------------
+
+
+
+
+
+
+
+
+
+
+1
+2-- r
+T
+tΣt t
+1
+–
+λ
+( )
+1
+– rt
+
+
+
+
+–
+exp
+=
+Σt t
+1
+–
+λ
+( )
+λ
+λ
+LKLHDv
+Σt t
+1
+–
+λ
+( )
+[
+]
+r
+T
+tΣt t
+1
+–
+λ
+( )
+1
+– rt
++
+ln
+{
+}
+t
+1
+=
+T
+∑
+=
+Σt t
+1
+–
+λ
+( )
+εij t t
+1
+–
+,
+λ
+( )
+ri t, r j t,
+Σij t,
+t
+1
+–
+λ
+( )
+–
+=
+Et
+1
+–
+εij t t
+1
+–
+,
+[
+]
+0
+=
+i j
+,
+(
+)
+
+Appendix C.  Methods for determining the optimal decay factor
+245
+Appendices
+[C.9]
+.
+The value of 
+ which minimizes the MTSE above can be thought of as the decay factor which his-
+torically has given the best covariance forecasts across all of the data series.
+The above description presents a myriad of choices faced by the researcher when determining 
+“optimal λ”. The simple answer is that there is no clear-cut, simple way of choosing the optimal 
+prediction criterion. There has been an extensive discussion among academics and practitioners on 
+what error measure to use when assessing post-sample prediction.1 Ultimately, the forecasting cri-
+terion should be motivated by the modeler’s objective. For example, West, Edison and Cho (1993) 
+note “an appropriate measure of performance depends on the use to which one puts the estimates 
+of volatility….” Recently, Diebold and Mariano (1995) remind us, “of great importance and 
+almost always ignored, is the fact that the economic loss associated with a forecast may be poorly 
+assessed by the usual statistical measures. That is, forecasts are used to guide decisions, and the 
+loss associated with a forecast error of a particular sign and size induced directly by the nature of 
+the decision problem at hand.” In fact, Leitch and Tanner (1991) use proﬁtability rather than size 
+of the forecast error or its squared value as a test of forecast accuracy.
+1 For a comprehensive discussion on various statistical error measures (including the RMSE) to assess forecasting 
+methods, see the following:
+Ahlburg, D.
+Armstrong, J. S., and Collopy, F.
+Fildes, R.
+in the International Journal of Forecasting, 8, 1992, pp. 69–111.
+MTSE
+1
+T---
+εij t t
+1
+–
+,
+λ
+( )
+2
+i j
+,∑
+t
+1
+=
+T
+∑
+=
+λ
+
+246
+Appendix C.  Methods for determining the optimal decay factor
+RiskMetrics —Technical Document
+Fourth Edition

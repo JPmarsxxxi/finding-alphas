@@ -1,0 +1,1113 @@
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         121 
+ 
+Chapter 12 
+Headsup With High Blinds: The Jam-or-Fold Game 
+ 
+In Chapter 11, we discussed three half-street toy poker games. For each of these games, we were 
+able to find the optimal strategies - full solutions to the game. Solving toy games can be useful in 
+terms of real poker because each of these games has a particular lesson that we might attempt to 
+apply to real-life poker games. This is even more valuable because in general, real poker games 
+are too complex to solve directly, even using computers. 
+ 
+In this chapter we will work through a toy game as a preliminary stepping stone, and then 
+discuss and provide the computed solution to a game which is of real and immediate use in no-
+limit holdem games being played every day. The end product of this analysis is the solution to 
+headsup no-limit holdem where the first player must either jam (move all-in) or fold. 
+ 
+We consider these games here in the midst of our half-street games even though they have a 
+slightly different structure because they are more like half-street games than any other type. 
+When we look at jam-or-fold games, instead of considering ex-showdown value, we will 
+consider the total value of the game. By doing this, we create a situation where the first player to 
+act has similar options to Y in the half-street games. He can fold (analogous to a check), which 
+gives him value zero. Or he can bet the amount stipulated by the game, after which the other 
+player may call or fold. Viewed in this fight, jam-or-fold games are an extension of half-street 
+ideas. 
+ 
+Before we begin discussion of this game, however, we invite the reader to test his intuition by 
+considering the following question, the solution to which will be revealed through this analysis. 
+Some readers who know something about the jam-or-fold game may already know the answer. 
+ 
+Two equally skilled players contest a headsup no-limit holdem freezeout where the button must 
+either jam or fold. Each has sixteen chips to begin the hand. The blinds are one chip on the 
+button and two chips in the big blind. With what percentage of hands should the button, playing 
+optimally, move all-in? 
+ 
+We now consider our first toy game, which is a simple game of jam-or-fold with static hand 
+values based on the [0,1] distribution. 
+ 
+Example 12.1 - [0,1] Jam-or-Fold Game #1 
+Both players have equal stacks of S units. 
+Each player receives a number uniformly from [0,1]. 
+The player without the button (call him the defender, X) posts a blind of 1 unit. 
+The button (call him the attacker, Y) posts a blind of 0.5 units and acts first. 
+The attacker may either raise all-in to S units (jam), or fold, surrendering the small blind. 
+If the attacker goes all-in, the defender may call or fold. 
+If there is a showdown, then the hand with the lower number wins the pot. 
+ 
+The first thing to notice about this game is that the attacker has just two alternatives -jamming 
+and folding. When a player has two strategic options, where one of the options involves putting 
+money in the pot and one of them is folding, putting money in the pot with any hand that is 
+worse than a hand you would fold is always dominated. Because of this, the first player's strategy 
+will consist of just two regions - strong hands with which he will jam, and weak hands with 
+which he will fold, hi the same way, the second player will call with his strongest hands and fold 
+his weakest hands. Unlike other situations where we bet our strong hands along with the weakest 
+hands, it does us no good here. In fact, if our jamming frequency is x, jamming with the strongest 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         122 
+ 
+x hands dominates all other sets of jamming hands. 
+ 
+Our two players' strategies can be expressed directly as two numbers, the attacker's strategy y 
+and the defender's strategy x. These numbers are thresholds; with hands better than y, the attacker 
+jams, and with hands better than x, the defender calls. 
+ 
+Additionally, we know that y and x for the optimal strategies are indifference points. This means 
+that when Y (the attacker) holds the exact hand y, he is indifferent to jamming or folding. 
+Likewise, when X (the defender) holds the exact hand x, the defender is indifferent to calling a 
+jam or folding. We also know that X will never call with a hand worse than y, Y's jamming 
+threshold - if he did, he could never win the pot. Using this information, we can solve the game 
+directly using indifference equations, as in the last chapter. For this game, we'll deviate from our 
+usual practice and calculate the total value of the game, including the blinds. 
+ 
+The expectation of folding for Y is simply - 1 2
+  units (he loses his small blind). 
+ 
+<Y, fold> = - 1 2
+  
+ 
+Since X will never call with a hand worse than y, X always wins when he calls. Then the 
+expectation of jamming with the threshold hand y is: 
+ 
+<Y, jam | y > = (defender calls) (-S) + (defender folds) (+1) 
+ 
+For a uniform distribution such as the [0,1] distribution, the probability of an interval being 
+selected is equal to the length of that interval. Then the defender calls with probability x and 
+folds with probability (1 – x). 
+ 
+<Y, jam | -y > = (x)(-S) + (l – x)(+l)  
+<Y, jam | y > = -xS + 1 – x 
+ 
+We know also that at the threshold value, Y will be indifferent between jamming and folding. 
+Hence the value of these two strategic options will be equal. Setting this equal to the value of the 
+folding alternative: 
+ 
+-xS + 1 – x = - 1 2
+  
+x(1+S) =  3 2
+  
+ 
+x= 3/(2 + 2S)  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ (12.1) 
+ 
+The expectation of folding to a jam is -1 unit, while the expectation of calling a jam with the 
+threshold hand x is: 
+ 
+<X, call | x> = (attacker has a better hand)(-S) + (attacker has a worse hand)(+S) 
+ 
+The attacker jams a total of y hands (we know that x < y because X will never call with a hand 
+worse than y.) Of these hands, (y – x)/y are worse than the calling threshold x and x/y are better. 
+For example, suppose that Y jams with 50% of hands, while X calls with 30%. (y = 0.5, x = 0.3) 
+Then (y - x)/y = 2/5 of Y's jamming hands would be worse than X's calling threshold, and the 
+remaining x/y = 3/5 of Y's jamming hands would be able to beat it. 
+ 
+<X, call | x> = p(Y wins)(-S) + p(X wins) (+S)  
+<X, call | x> = (x/y)(-S) + [(y - x)/y](+S)  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         123 
+ 
+<X, fold> = - l 
+ 
+Setting these equal so that X will be indifferent between calling and folding, we have: 
+ 
+(S)(y-2x)/y = -1 
+Sy - 2Sx = - y 
+S - S2x/y = -1 
+ 
+y = S2x/(S + 1)  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(12.2)  
+ 
+Remembering Equation 12.1: 
+ 
+x= 3/(2 + 2S)  
+ 
+Substituting for x gives us: 
+ 
+y = 3S/(1 + S)2   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(12.3) 
+ 
+These two equations, then, are the optimal strategies for this game: the attacker jams with 3S/(1 
++ S)2 of the hands, and the defender calls with 3/(2 + 2S) of the hands. We can test these 
+solutions intuitively to see if they make sense. For example, with stacks of 5 units, the attacker 
+jams (3(5)/(l + 5)2) = 15/36 of the time, and the defender calls (3/(2 + 2(5)) = 1 4
+  of the time. 
+With stacks of 10 units, the attacker jams (3(10)/(1 + 10)2) =30/121 of the time, while the 
+defender calls only 3/(2 + 2(10)) = 3/22 of the time. We can see that at the extreme, with stacks 
+of, for example, a million, both players' frequencies are close to zero. 
+ 
+Is this game good for the attacker or for the defender? We can determine the value of the game to 
+find out. Here we use the matrix method and look at the matchup possibilities. 
+ 
+X → 
+[0, x] 
+[x, y] 
+[y, 1] 
+Y 
+ 
+ 
+ 
+[y, 1] 
+-0.5 
+-0.5 
+-0.5 
+[x, y] 
+-S 
+1 
+1 
+[0, x] 
+0 
+1 
+1 
+ 
+When the attacker folds, the defender gains 0.5 units. This happens 1- y of the time. 
+ 
+When the attacker jams and the defender folds, the attacker gains 1 unit. This happens y(1 - x) of 
+the time. 
+ 
+When the attacker jams and the defender calls, there are two cases. The first case is when the two 
+players are both within the caller's threshold. In this case, they break even, as each will have all 
+numbers from zero to x with equal probability, and so their distributions are equal. The second 
+case is when the attacker is above the defender's threshold. In that case, the defender wins S 
+units. This occurs when the attacker jams with a hand worse than the defenders calling threshold 
+and the defender has a calling hand, which has probability (y - x)(x). 
+ 
+So we have: 
+ 
+< Υ > = p(Y folds)(- 1 2
+ ) + p(Y jams, X folds)(+1) + p(Y jams, X calls and x > y)(-S) +  
+p(Y jams, X calls and x < y)(0) 
+< Υ > = - (1 - y)/2 + (y)(1 – x)(1) + (y - x) x (-S) 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         124 
+ 
+ 
+< Υ > = −
+
+ +  
+
+ + 1 − − +   
+ 
+< Υ > = −1
+2 +  3
+2 −(1 + ) +  
+3
+2(1 + )
+
+ 
+ 
+< Υ > = −
+
+ +  
+
+ −
+
+ +
+
+()  
+ 
+< Υ > = 
+9
+4(1 + ) −1
+2 
+ 
+Using this valuation function, we can examine the value of the game as the stack size grows 
+from 1 to infinity. With stack sizes from 1 to 2, the game favors tire attacker, while above 2 
+units, the game favors the defender. As the stacks go to infinity, the advantage of the defender 
+simply goes to the 0.5 units he wins when the attacker folds, because the attacker must fold so 
+often. So overall, this game is a pretty poor one for the attacker. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Figure 12.2. Jam or Fold Game #1 
+ 
+When we play poker, however, the best hand preflop doesn't always win. In fact, this is 
+dramatically not the case. Even if the defender calls with a fairly strong distribution, the attacker 
+will normally not have less than 33% of equity in the pot. And so our next toy game is a 
+variation on the previous game, but where the worst hand preflop has a 33% chance of winning 
+at showdown. 
+ 
+Example 12.2 - [0,1] Jam-or-Fold Game #2 
+Both players have equal stacks of S units. 
+Each player receives a number uniformly from [0,1]. 
+The player without the button (call him the defender ox X) posts a blind of 1 unit.  
+The button (call him the attacker or Y) posts a blind of 0.5 units and acts first.  
+The attacker may either raise all-in to S units (jam), or fold, surrendering the small blind.  
+If the attacker goes all-in, the defender may call or fold. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         125 
+ 
+If there is a showdown, then the hand with the lower number has 2 3
+  equity in the pot. 
+ 
+This game is quite similar to the previous games, and we can solve it in much the same way, 
+except for two important differences. In the previous game, when the stacks were very small (for 
+example, at S = 1), the attacker still only jammed with 75% of his hands, while the defender only 
+called with 75% of his. This because hands very close to 1 had virtually no value. But in this 
+game, even the very worst hand has 1 3
+  equity in the pot because of the rules of the game. So at 
+stack size 1 the attacker will have higher equity from putting his chips in than from folding. 
+Secondly, in the previous game the defender could not gain from calling with a hand worse than 
+any hand with which the attacker would jam. However, in this game, this is no longer always the 
+case because the defender always has at least 1 3
+  of the pot. 
+ 
+We divide the game into two cases. 
+ 
+Case 1: S < 3. 
+When the stacks are less than 3 units, we can conclude something about the defender's strategy. 
+If the attacker jams, the defender will be getting at least two to one immediately. Since the 
+defender always has at least 1 3
+  of the pot, he should always call - that is, x = 1. This creates a 
+situation where the defender really has no strategic options, as folding is dominated by calling. 
+Thus, the attacker should simply maximize his equity against the defender's static strategy. 
+ 
+<Y, jam> = p(attacker has best) (pot value) (pot equity) + p(attacker has worse) 
+(pot value) (pot equity) - (cost of bet)  
+<Y, jam> = p(attacker has best)(2S)( 2 3
+ ) + p(attacker has worse) (2S) (1 3
+ ) - (S) 
+ 
+The defender will call with all hands. Hence, if the attacker jams with y1, the defender will have 
+a hand better than y1, with p = y1, and a worse hand with p = 1 - y1, 
+ 
+p{attacker has best hand) = 1 - y1 
+p(attacker has worst hand) = y1 
+<Y, jam | y1 > = (1 - y1)(2S)( 2 3
+ ) + y1 (2S)( 1 3
+ ) - (S) 
+<Y, jam | y1 > = S/3 – 2Sy1/3 
+<Y, fold | y1 > = - 1 2
+  
+ 
+Then the attacker should jam whenever:. 
+ 
+S/3 – 2Sy1/3 > - 1 2
+  
+2S  - 4Sy1 > -3  
+y1 < (2S + 3)/4S 
+ 
+Since he will jam whenever his hand value y1 is greater than this, his threshold value y is:  
+ 
+y = (2S + 3)/4S 
+ 
+The optimal strategies for the game when the stacks are less than three, then, is for the attacker to 
+jam whenever this equation is satisfied and fold otherwise, and for the defender to call all the 
+time. If we examine the play at different stack sizes, we can see that this makes sense. For 
+example, at a stack size of less than 1.5 units, the attacker is now getting two to one to jam even 
+if he will be called l00% of the time. So he should always jam below that threshold. As we can 
+see by substituting 1.5 for S, this satisfies the equation for all hands the attacker can hold. 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         126 
+ 
+Likewise, at the stack size 3, we see that the attacker should jam with 3 4
+  of his hands. If we 
+calculate his equity from jamming with the hand 0.75, we find that it is - 0.5 units, just the same 
+as if he had folded. 
+ 
+Case 2: S > 3. 
+At stack sizes greater than 3, however, the defender is no longer getting two to one on his calls. 
+As a result, he cannot call with all hands and do better than folding. In fact, he can no longer call 
+with hands worse than the attacker's jamming threshold. If he does, he will simply have one-third 
+of the equity in the pot, and since the stacks are large enough, this will have worse expectation 
+than folding. As a result, this game is fairly similar to the first jam-or-fold game we examined 
+(Example 12.1), except that the best hand has just 2 3
+   of the equity in the pot. 
+ 
+We can solve the game using the same indifferences from that game (with the modifications 
+regarding the distribution of the pot). One identity we will use is that the if there is a showdown 
+(i.e., a jam and a call), the player with the best hand wins S/3 units, while the player with the 
+worst hand loses S/3 units. 
+ 
+<Y, jam | y > = (defender calls) (-S/3) + (defender folds) (+1) 
+ 
+The defender calls with probability x and folds with probability (1 - x). 
+ 
+<Y, jam | y> = (x)(-S/3) + (l – x)(+l) 
+ 
+<Y, jam | y> = (-xS/3) + 1 - x  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(12.4)  
+<Y, fold > = - 1 2
+  
+ 
+Setting this equal to make Y indifferent between jamming and folding: 
+ 
+-xS/3 + 1 – x = - 1 2
+   
+xS + 3x = 9/2 
+ 
+x = 9/2(S + 3)   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(12.5) 
+ 
+For X, the expectation of folding to a jam is 1 unit, while the expectation of calling a jam with 
+the threshold hand x is: 
+ 
+As in Example 12.1, the attacker jams a total of y hands (we know that x < y from previously). 
+Of these hands, (y – x)/y are worse than the calling threshold x and x/y are better. 
+ 
+<X, call | x>= p(attacker has better) (-S/3) + p((attacker has worse) (+S/3)  
+<X, call | x> = (- S/3)(x/y) + (+S/3)(y - x)/y  
+<X, call | x> = (S/3)(y - 2x)/y 
+ 
+<X, fold> = - l 
+ 
+Setting these equal to make X indifferent between folding to a jam and calling it: 
+ 
+(S/3)(y-2x)/y = - 1  
+S(y - 2x) = -3y  
+y = 2xS/(S + 3) 
+ 
+y = 9S/(S+3)2   
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+(12.6) 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         127 
+ 
+ 
+So the optimal strategy is for the attacker to jam with 9S/(S+3)2of his hands, and the defender to 
+defend with 9S/(S+3) of his hands. 
+ 
+Recall that in Example 12.1, the play was comparatively tight; that is, at stacks around 10, the 
+attacker jammed about a fourth of the time. Contrast that with this game. Here the attacker jams 
+with (9(10)/(10+3)2) = 90/169, or more than half his hands at a stack size of 10! The defender 
+then calls with (9/(6 + 2(10) ) = 9/26 of his hands, or a little more than a third. This might seem 
+quite loose. After all, can it really be right to jam ten times the blind more than half the time, 
+when one is a 2:1 underdog when called? 
+ 
+t is. The reason this seems intuitively wrong is because we are used to considering situations 
+where we "risk X to win Y," putting in a fixed amount and having our chance of succeeding (by 
+the other player folding or winning a showdown) result in a win of a different fixed amount. By 
+that logic, it does seem rather silly to risk ten to win one if the opponent is going to call a third of 
+the time (roughly). However, this is not the case here. Recall that even when the attacker is 
+called, his loss is simply S/3, not S. So in a sense, the attacker is putting in just three and a third 
+to win one and a half (the dead money in the pot). 
+ 
+If we compare the solutions to Game #2 (Example 12.2) with S> 3 to the solution to Game #1 
+(Example 12.1), we can see this relationship more strongly: 
+ 
+Game 1: 
+x = 3/(2 + 2S)  
+y =3S/(1 + S)2 
+ 
+Game 2: 
+x = 9/(2S +6)  
+y = 9S/(S +3)2 
+ 
+The solution to game 2 is simply the solution to game 1, but substituting S/3 for S. This is 
+because the effective stack size of Game 2 is just S/3 - this is the amount that the better hand 
+gains when there is a showdown. We can use this concept of effective stack size to calculate the 
+value of the game, G, by simply substituting S/3 into the game value formula we found in Game 
+#1. 
+ 
+<Υ> = - 1 2
+  + 3 4
+  S/((S/3+1)2) 
+  
+ = −1
+2 +
+27!
+4(! + 3) 
+ 
+However, this is only the game value for S > 3. There are two other regions of stack size that 
+have different solutions. If S < 3 2  
+ then both players play all hands and the game value is zero. In 
+the region between 3 2  
+  and 3, then we found in Case 1 of the last example that: 
+ 
+" =
+
+   and x = 1, so 
+<Υ> = p(Y folds)( - 1 2
+ ) + p(Y jams)p(x1>y)(S/3) 
+< Υ >= −1
+2 1 −" + "(1 −") !
+3 
+< Υ > = (1 −") #−1
+2 + " !
+3$ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         128 
+ 
+< Υ > = 2! −3
+4!
+#−1
+2 + 2! + 3
+12
+$ 
+< Υ > = (2! −3)
+48!
+ 
+ 
+Note that the three game value regions are continuous, as we expect, that is: 
+ 
+< Υ > = 0, for S ≤ 3 2  
+	
+ 
+< Υ > = (2! −3) /48S , for 3 2  
+ ≤ S ≤ 3 
+< Υ > = - 1 2  
+ + (27S)/(4(S+3)2), for 3 ≤  S 
+ 
+However, if we look at the threshold values x and y we notice something unusual. That is, for S < 
+3, x = 1, but suddenly when S becomes a little larger than 3, x = 3/4. That seems unusual. 
+However, it shows that strategies are not continuous with respect to stack sizes or pot sizes. 
+ 
+These two toy games can help us understand how the fact that the best hand does not always win 
+the pot affects play in jam-or-fold games. When the best hand did win the whole pot, proper play 
+was relatively right and the defender had a significant advantage for most stacks. However, when 
+the best hand only won 2 3 
+  of the time in Game #2 (Example 12.2), proper play became much 
+looser and perhaps counter to our intuition, the attacker had an advantage all the way up to a 
+stack size of six. 
+ 
+As we shall see in the next section, play in no-lmit holdem is similarly loose and aggressive. 
+ 
+Example 12.3 - Jam-or-Fold No-limit Holdem 
+Both players have equal stacks of S units.  
+Each player receives a holdem hand. 
+The player without the button (call him the defender) posts a blind of 1 unit. 
+The button (call him the attacker) posts a blind of 0.5 units and acts first. 
+The attacker may either raise all-in to 5units (jam), or fold, surrendering the small blind. 
+If the attacker goes all-in, the defender may call or fold. 
+If there is a showdown, then a holdem board is dealt and the best poker hand wins. 
+ 
+Here we have what might be considered a logical extension to the jam-or-fold games we have 
+considered previously. However, holdem hands do not conform very nicely to the [0,1] structure; 
+there are no hands which have nearly zero preflop value, and just two that have even 80% 
+against a random hand. Also, hand values are not transitive; this can be easily shown by the 
+famous proposition bet where the shark offers a choice from among AKo, 22, and JTs, provided 
+that he gets to choose once the sucker has chosen. We can, however, analyze this game directly 
+by brute force. Before we do that, however, we think it interesting to examine the situations at 
+the extremes (when the stacks are very large, and when the stacks are very small). 
+ 
+In the following discussion, we will make reference to a technique called fictitious play. We 
+have already made informal use of this technique and it is of exceptional value in solving game 
+theory problems with computers. Much has been written in academia about this topic, but we 
+will summarize the basic idea here. Essentially, if we have a game and a "nemesis" strategy for 
+the game (which given an opponent's strategy returns the maximally exploitive strategy), we can 
+use these to find the optimal strategy. 
+ 
+The process is fairly straightforward. We begin with a candidate strategy for each player; this 
+can be anything, although in most cases if we have a reasonable guess at strategy for both sides, 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         129 
+ 
+the process converges more quickly. Suppose that we have two players, A and B. We take a 
+candidate strategy for both players. We then calculate the maximally exploitive strategy for B 
+given that A plays his candidate strategy. We combine this maximally exploitively strategy with 
+the initial candidate strategy by mixing the two together using a "mixing weight" constant. This 
+mixing weight is some sequence that converges to zero but has enough terms chat strategies can 
+move as much as they need to, such as the harmonic sequence 1/n. 
+ 
+The mixing process works like this. Suppose that m is the current mixing weight. For each 
+possible decision point, we combine the old strategy Sold and the new maximally exploitive 
+strategy Snew. 
+ 
+If we apply this process of fictitious play iteratively, it has been proven mathematically that our 
+strategies will converge on the optimal strategy given enough iterations. Often "enough" is some 
+achievable number, which makes this a very useful method for solving games with computers. 
+ 
+ 
+Very Large S 
+When the stacks are very, very large, both sides only play aces. The attacker cannot profitably 
+jam any other hands because the defender can simply pick him off by calling with aces only. 
+However, as we reduce the stack size incrementally, the attacker must add additional hands to his 
+jamming distribution or miss out on additional blind-stealing equity. It should be clear that if the 
+attacker does not add any additional hands, there is no incentive for the defender to call with 
+anything but aces, since the defender is taking down 1.5 unit pots each time the attacker does not 
+hold aces ( 220 221
+
+ of the time). Since calling with any non-AA hands when the attacker is 
+jamming with aces loses a great deal, the defender is content to play this strategy until the 
+attacker modifies his. 
+ 
+Above a certain stack size, however, the attacker simply cannot make money by jamming with 
+additional hands, as he loses too much even when he's only called by Aces. You might think that 
+the next hand to be added (once the stacks become a little smaller) would be KK, as this hand is 
+the second-best hand; however, it turns out that this is not the case because at these high stacks, 
+card removal is more important. Hands that contain aces, even though they do substantially 
+worse against AA than do other pairs, reduce the probability that the other player holds aces by 
+half and thus have higher equity than KK. The hand that performs the very best in jam-or-fold 
+against an opponent who will call with only aces is ATs. We find this by simply evaluating every 
+hand's equity against this strategy. 
+ 
+If the attacker jammed with ATs (the first hand to be added, as we shall soon see) at a stack size 
+of 2000, his equity would be: 
+ 
+<ATs, jam 2000> = p(defender folds) (pot) + p(defender calls)p(attacker wins pot) 
+(pot size) - cost of jam  
+<ATs, jam2000> = ( 1222 1225
+
+) 1.5 + ( 3 1225
+
+) ((0.13336) (4000) - 2000)  
+<ATs, jam 2000> = - 2.09525 
+ 
+for a loss of approximately 2 units per jam. We can use this formula, however, to find the exact 
+stack size, x, at which ATs becomes profitable to jam against a defender who will only call with 
+aces: 
+<ATs, jam x > = 1.5( 1222 1225
+
+) + ( 3 1225
+
+) ((0.13336) (x) – x )  
+ 
+Setting this to zero: 
+ 
+1.5( 1222 1225
+
+) + ( 3 1225
+
+) ((0.13336) (x) – x )  = 0 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         130 
+ 
+x= 833.25 
+ 
+So at a stack size of 833.25, the attacker can begin jamming with an additional hand, ATs. For 
+stack sizes greater than this, only aces are profitable jamming hands. At the exact stack size 
+above, ATs is actually indifferent to jamming or folding; the attacker can utilize any mixed 
+strategy he chooses with ATs. 
+ 
+Now let us consider the defender's options, once the attacker begins to jam ATs as well as AA. 
+Can he call with any additional hands? The hand (other than AA) that performs best against the 
+distribution {AA, ATs} is actually AKs, with 41.442% equity. If the defender calls with AKs, he 
+actually loses money against this distribution of raising hands. Once the stack size of 833.25 is 
+reached, then the attacker's strategy goes from {jam 100% of AA} to {jam 100% of AA and 
+100% of ATs}. There is no gradual ramping-up where the attacker jams with just 1% of his ATs; 
+instead, at the moment it becomes profitable to do so, he jams with every ATs. 
+ 
+This interesting phenomenon is analogous to phase transitions in physics. At a critical 
+temperature, the substance suddenly transforms from solid to liquid, the substance has a 
+drastically different configuration for a minute move in the temperature. That is because the 
+equilibrium state may greatly change even for a small perturbation in the system. This can be 
+seen even in the simplest systems, even in one dimension by perturbing f(x) a little there are 
+critical points where the minimum ''jumps" from one place to another. In the same way, we can 
+think of the relationship between the size of the pot and the stacks in this game as a temperature - 
+as we raise this ratio, the game becomes warmer. Playing with blinds of 0.5 and 1 and stacks of 
+800 is a very low-temperature game. Of course, blinds of zero (where it would be co-optimal to 
+fold all hands) would be analogous to absolute zero temperature - where there is no motion 
+whatsoever. 
+ 
+Raising the temperature of the game just a little, we lower the stacks to approximately 833.12. 
+This brings us to the next hand that becomes profitable to jam, which is A5s. (A5s has 13.331% 
+equity against aces). When ATs became profitable, we simply added it full-force to the attacker's 
+jamming range. However, as we add hands, sooner or later the defender will find it profitable to 
+call with another hand. 
+ 
+For the defender, the hand which has the best equity against the range {AA, ATs, A5s} is AKs - 
+and it is actually the favorite if the attacker jams with all three of those hands (50.9%). So if the 
+attacker were to jam with AA, ATs and A5s, the defender could respond by calling with AKs. 
+and the attacker would lose money. If the attacker were to simply exclude A5s from his range, 
+however, his opponent could respond by calling with only AA and the attacker would give up 
+equity. The attacker must figure out a mix of hands with which he can raise such that be 
+maximizes his profit against the best response strategy his opponent can play. Tb do this, he will 
+seek to make the defender indifferent to calling with AKs. 
+ 
+We'll assume the stacks are exactly 833, a value that is just a little warmer than the threshold of 
+833.12 at which A5s becomes profitable. We'll also only deal with the change in equity (for (fee 
+defender) that occurs between the two defender's strategies. 
+ 
+ 
+Attacker's hand 
+Equity difference (< AKs,call> = p(call)p(AKs wins pot) - cost of call) 
+AA 
+(3/1225)((0.12141)(1666)-833) = -1.5447 
+ATs 
+(3/1225)((0.70473)(1666)-833) = 0.8353 
+A5s 
+(3/1225)((0.69817)(1666)-833) = 0.8085 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         131 
+ 
+ 
+Given this, we can see that jamming with A5s is actually better than jamming with ATs when the 
+opponent will call with both AA and AKs. 
+ 
+In order to make the opponent indifferent, we have to make it such that his equity difference 
+from calling is zero. Hence, 
+ 
+(-1.5447) (AA%) + (0.8353) (ATs %) + (0.8085) (A5s %) = 0 
+ 
+We know that AA% will be 1 because aces have far superior equity to the other hands against 
+any hand, so: 
+ 
+0.8353 ATs% + 0.8085 A5s% = 1.5447 
+ 
+We add hands marginally now as they perform best - so A5s goes to 100% as well: 
+ 
+0.8353 ATs% = 0.70935  
+ATs% = 87.73% 
+ 
+This would indicate that at a stack size of 833, if the attacker jams with the range {AA-100%, 
+ATs - 87.73%, A5s - 100%}, the defender will be indifferent to calling with AKs, and the 
+attacker's equity will be maximized. 
+ 
+Notice the intriguing effect of this - we previously jammed 100% of ATs; now at a stack size 
+less than half a unit smaller, we jam it just a little over 25% of the time. An exhaustive analysis 
+of this game yields any number of oddities like this - in fact, at some stack sizes, hands that were 
+previously jams for the attacker are eliminated completely and replaced by other hands (which 
+do better against the opponent's new range). 
+ 
+Very Small S 
+Now that we have scratched the surface of what the solution to this game looks like at very large 
+stack sizes, let us consider what happens at very small ones. 
+ 
+First, consider the defender's position. For a stack size S, the defender will call with any hands 
+that have positive equity against the opponent's range. The defender will be facing a bet of size 
+(S - 1), and a pot of size (S + 1). If his equity in the pot when called is x, his equity from calling 
+will be: 
+ 
+x(2S) - (S-1) > 0  
+x(2S) > S- 1  
+x > (S- l)/(2S) 
+ 
+So the defender will call when his equity is greater than (S- l)/(2S). 
+ 
+At a stack size of 1.1, for example, the defender would call when his equity is greater than  1 22
+
+. 
+If the attacker jammed with all hands, then the defender would always have a call, as the equity 
+of the worst hand (32o) is 32.3% against all hands. 
+ 
+Let's assume, then, that the defender will call with all hands. The attacker will then jam with all 
+hands whose EV is better by jamming than by folding. For any hand, its EV from jamming is 
+simply the outcome of the all-in confrontation against the range of all hands that the defender is 
+calling against, while folding has an EV of 0. 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         132 
+ 
+ 
+<ATT, all > (2S) - (S - 0.5) > 0  
+<ATT, all > > (S - 0.5)/2S 
+ 
+So the attacker will jam with all hands whose equity is greater than (S - 0.5)/2S. At a stack size 
+of 1.1, then, he will call when his equity is greater than  0.6 2.2
+
+, or  3 11
+
+. All hands have at least 
+this equity, so the attacker would jam with all hands. Since neither player can unilaterally 
+improve by changing his strategy, these strategies of jamming all hands and calling all hands are 
+optimal for a stack size of 1.1 
+ 
+As we decrease the "temperature" of this very hot game, it is the attacker who first runs into 
+hands that have insufficient equity with which to jam. 
+ 
+32o has 32.3% equity, so substituting in the above equity formula: 
+ 
+0.323 > (S - 0.5)/(2S)  
+S > 1.412 
+ 
+So when the stacks get to 1.412 units, the attacker can no longer profitably jam with 32o. 
+Contrast this to the case of very large stacks, where in all cases, the attacker jammed with more 
+hands than the defender called with. 
+ 
+We can use the same fictitious play technique to examine what the proper strategies are at 
+different stack sizes. For example, consider the stack size 2. Using our EV formula from above, 
+the defender will call whenever his equity hi the pot is greater than (2 - l)/(4), or 1 4
+ . Assume 
+temporarily that the defender will call with all hands. The attacker's best counter-strategy then, is 
+to jam with all hands that have more than [2 - 0.5)/4, or 3 8
+  equity. This excludes a total of 13 
+hands: 32o, 42o, 52o, 62o, 72o, 82o, 43o, 53o, 63o, 73o, 83o, 32s, and 42s. 
+ 
+Now we look for the best counter-strategy for the defender. Against a range which excludes the 
+above 13 hands, the hand with the lowest equity is still 32o, with 31.72%. As a result, the 
+defender still defends with all hands. Here, both sides have again maximized their equity against 
+then opponent's strategy and neither side can improve unilaterally, so the strategies are optimal. 
+ 
+This may seem a little peculiar to readers who arc experienced with no-limit. Normally it is 
+Correct (or so the conventional wisdom goes, which we will see in a moment agrees with 
+analysis) to call with fewer hands than one would jam. The reason the opposite is true here at 
+very small stacks is that the additional 0.5 units that the attacker has to expend to play the hand is 
+very significant relative to the size of the stacks. As we increase the size of the stacks, we find 
+that this effect is diminished, and the ratio of optimal attacking hands at a specific stack to 
+defending hands at that stack begins to rise again. 
+ 
+Continuing to lower the temperature of the game, we look at stack size of 3. Now the attacker's 
+equity requirement against a defender who will always defend is (3 - 0.5)/6 = 5 12
+
+. Against a 
+defender who calls all the time, this excludes 34 hands: 
+ 
+32o and 32s  
+42o-43o and 42s-43s  
+52o-54o and 52s-54s  
+62o-65o and 62s-64s  
+72o-75o and 72s-73s  
+82o-85o and 82s-83s  
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         133 
+ 
+92o-94o 
+ 
+The defender's equity to call is (3 - l)/6, or 1 3
+  Against the attacker's range, the following hands 
+have insufficient equity to call against the attacker's janmiing range: 
+ 
+32o  
+42o  
+52o 
+62o-63o  
+72o-73o  
+82o-83o 
+ 
+Now for the attacker, the defender's range has changed, and so his expected value function 
+changes. Now he will jam whenever the following is true: 
+ 
+(% defender calls) (p(ATT wins) (new pot) - cost of call + (% defender folds) (pot) > 0 
+ 
+This equation yields a different range of jamming hands; then the defender reacts to this new 
+range, and so on. What we have described here is a loose variant of the fictitious play algorithm 
+we described earlier. Applying that algorithm to the problem, we can find the optimal strategies 
+at a stack size of 3. 
+ 
+Attacker jams: 
+ 
+{22, A2s, A2, K2s, K2, Q2s, Q2, J2s, J2, T2s, T2, 92s, 95, 84s, 85, 74s, 76, 64s, 54s}  
+ 
+Defender folds: 
+ 
+{32, 42, 52, 63-, 73-, 83-} 
+ 
+In fact, we can solve the jam-or-fold game using the fictitious play technique for any stack size. 
+The jam-or-fold tables, which are the optimal solution to the jam-or-fold game for all stack sizes, 
+are reproduced on the next two pages and in the reference section. The tables contain two 
+numbers for each hand - a "jam" number, which is the stack size S below which the attacker 
+should jam, and a "call" number, which is the stack size S below which the defender should call. 
+It is true that (as we saw) at certain stack sizes hands do appear and disappear (in narrow bands), 
+but this can be safely ignored as a practical matter. The upper threshold for these tables is a stack 
+size of 50. Hands that are labeled JAM or CALL are simply calls at any stack size below 50. The 
+few cases where hands disappear and then reappear at significantly higher stack sizes are noted 
+in the tables. 
+ 
+ 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         134 
+ 
+ 
+No Limit Holdem - Jam or Fold tables 
+ 
+(suited hands to the upper right)  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Starred cells indicate hands that have broken strategies: 
+    * 63s = 2.3, 5.1 – 7.1 
+  ** 53s = 2.4, 4.1 – 12.9  
+*** 43s = 2.2, 4.8 – 10.0 
+ 
+(suited hands to the upper right) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+For attacker, the number indicated is the stack size ( in big blinds) below which he should jam. 
+For defender, the number indicated is the stack size (in big blinds) below which he should call a 
+jam. 
+For both players, the stacks indicated are the stack size in play before the blinds of 1/2 and 1 are 
+posted. 
+ 
+Practical Applications and Additional Comments 
+Most situations that occur in practice do not meet the conditions of these examples - that is, we 
+would not play jam-or-fold with 500 times the blind. But we can see that at extremely large stack 
+sizes, it is optimal to play very few hands, and at extremely small stack sizes, it is optimal to play 
+most, if not all, hands. As the size of the stacks decreases through the range between these 
+extremes, it turns out to be the case that the attacker and defender strategies do in fact add hands 
+at a more or less steady pace. 
+ 
+We can compare the results of jam-or-fold to the results from Jam-or-Fold Game #2 (Example 
+12.2), where the weaker hand had 1 3
+  equity in the pot. In that game, at stack sizes of 10, the 
+attacker jammed with 90 169
+
+ (53.2%) of his hands, and the defender called with 9 26
+
+ (34.6%) of 
+his. In jam-or-fold no-limit holdem, at stack sizes of 10, the attacker jams with 774 1326
+
+ (58.3%) 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         135 
+ 
+of his hands and the defender calls with 494 1326
+
+ (37.3%) of his As you can see, these results are 
+relatively close - the slightly more aggressive strategies in the real no-limit game come from the 
+fact that many matchups are even closer than two to one. 
+ 
+It is of particular interest what types of hands are included in the jamming strategy. In most 
+cases, the hands with the most showdown value against a random hand are included at the upper 
+range of hands (that is, for even very large stack sizes, jamming with high pocket pairs, for 
+example, is indicated). But as the stack size decreases through the typical ranges, a number of 
+hands get added that actually have significantly less showdown equity against random hands. For 
+example, 97s is a jam for stack sizes up to approximately 36 units, despite the fact that it is an 
+underdog against a random hand. The reason for this is that for the attacker, it is irrelevant what 
+equity a jamming hand has against a random hand; what matters is only its equity against the 
+range of hands with which the opponent will call. And middle suited connectors do quite well 
+(relatively speaking) against the types of hands that make up a significant percentage of calling 
+hands, such as high pairs and big aces. The attacker tables also highlight the importance of suited 
+cards - the additional 2.5% that suitedness adds makes it far more attractive to jam with suited 
+cards than their unsuited brethren. 
+ 
+The reader may then ask, "What use is this? I do not play in games where the only options are 
+jamming or folding." It is our contention that playing jam-or-fold for small stack sizes is either 
+the optimal or at minimum a close approximation of the optimal strategy for heads-up no-limit 
+holdem for chose stack sizes and blinds. The proliferation of online single-table tournaments, 
+satellites, and other structures where heads-up high-blind situations are common makes this 
+particularly relevant to the serious player. We concern ourselves, then, with the important 
+question, “When can jam-or-fold reasonably be drought to apply?” 
+ 
+We begin with the following assumptions: 
+ 
+• On an information-hiding basis, it is desirable to play all hands in a consistent manner; 
+that is, raising all hands to a small amount, all-in, calling, or folding. 
+• Because the distribution of hands that the attacker will play is stronger than the 
+distribution of hands that the defender holds, the attacker should raise in preference to 
+calling. 
+ 
+Call the strategy of playing jam-or-fold J. The defender maximizes his expectation against J by 
+playing J in response. Now consider an alternate strategy J1, where the first player raises some 
+set of hands (to be determined later) to 2 units. 
+ 
+Let us assume that the defender plays the following (definitely sub-optimal) strategy J2 in 
+response to the raise to 2 units: 
+ 
+Jam with all hands that would have called a jam.  
+Fold all hands that would have folded to a jam. 
+ 
+Against J2, J1 seems to be stronger than J; the attacker only risks 1.5 units and gets the same 
+number of folds as he would by jamming h is entire stack. If the opponent jams in response, he 
+may be able to fold some of his hands and gain equity. At very small stacks, however, this is 
+impossible. For example, at a stack size of 4, the opponent will jam to 4 units (after a raise to 2) 
+with 115 of 169 different hand types, or approximately 838 1326
+
+ (63%) of his hands (this is 
+actually modified for card removal effects based on the attacker's hand, but we ignore this for 
+now). 
+If the defender jams with 63% of his hands, the attacker clearly has higher equity from calling 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         136 
+ 
+than folding with any hand. Even 32o has more than 30% equity against the range of jamming 
+hands for the defender. So the attacker raising any hand is tantamount to jamming that hand. 
+Since raising to two units in this case is equivalent to jamming, he should only raise the hands in 
+J. But this gives the opponent a strategic option (calling and seeing a flop). Since strategic 
+options have non-negative value, the attacker should simply play jam-or-fold at a stack of 4. 
+ 
+Equally obviously, this is not true, at stacks of, say, a hundred. If the opponent played J2 with 
+such a large stack, this would be excellent for the attacker. He would simply raise to two units 
+with all hands and fold to the defender's jam without a strong hand. Somewhere between these 
+two extremes, however, there is some stack size at which the attacker can likely start to raise 
+smaller amounts profitably. Below this stack size, we can reasonably say that jam-or-fold is 
+essentially the optimal strategy. We're not going to attempt to prove this, or find some specific 
+exact stack size over which this is optimal. Instead, we're looking for a practical recommendation 
+that shows approximately where we can start playing jam-or-fold. We're looking for a stack size 
+above which we can begin to raise a smaller amount profitably with hands outside the jam-or-
+fold range. 
+ 
+In order to find this stack size, we can look for a situation where for a hand just below the 
+attacker's jamming cutoff, the equity from raising to 2 units and then folding to a jam from J2 is 
+equivalent to the equity from jamming. At a stack size of eight, the defender will reraise all-in, 
+playing J2 with 602 1326
+
+ , or 45.4% of his hands. Approximately the worst hand that is jammed 
+by the attacker is Q4o. So Q3o is a hand close to the threshold. Against the defender's range of 
+calling hands, Q3o has about 34.8% equity. 
+ 
+The equity of jamming eight units with Q3o is: 
+ 
+<jam, Q3> = p(defender folds) (defender's blind) + p(defender calls) p(attacker wins)  
+(defender's stack) + p(defender calls) (p(defender wins) (loss of attacker's stack)  
+<jam, Q3>= (0.546) (+1) + (0.454) (0.348) (+8) + (0.454) (0.652) (-8)  
+<jam, Q3> = - 0.558 units 
+ 
+This value is close to what we would expect, as it is just below the cutoff for jamming (compared 
+to the -0.5 units for folding). The difference is caused by card removal effects that impact this 
+particular hand. 
+ 
+The equity of raising to two units with Q3o is (again ignoring card removal effects): 
+ 
+<raise to 2, Q3> = p(defender rejams) (loss of raise) + p(defender folds) (gain of blind)  
+<raise to 2, Q3> = (0.454) (-2) + (0.546) (+1)  
+<raise to 2, Q3> = - 0.638 
+ 
+At a stack size of eight, then, we begin to approximate the situation we're looking for; where the 
+attacker is indifferent to jamming S units or raising to two units and folding to a jam with hands 
+weaker than his set of jamming hands. As a first-order approximation, then, we could use eight 
+units as the threshold to begin playing jam-or-fold. However, there is another important effect 
+that the above analysis neglects. The defender is not restricted to playing J1, in fact, it would be 
+foolish for him to do so! 
+ 
+Since the defender can simply call our 2-unit raise, getting 3-1 on his call, the equity of raising 
+two units is decreased. As a result of this, we add a couple additional units to the stack size 
+threshold at which we begin to play jam-or-fold. Therefore, we believe it is likely optimal to play 
+jam-or-fold in the headsup no-limit case at a stack size of 10 units or below, and potentially as 
+
+_________________________________________________________________________ 
+THE MATHEMATICS OF POKER                                                                                                                         137 
+ 
+high as 12 or 13 units when the attacker will be out of position postflop. In situations where the 
+blinds are not of the 0.5-1 structure (such as when the blinds are 2 or 3 chips) or when there are 
+antes (such as when the full table has anted and the play has become headsup by the entire field 
+folding), we simply allocate the antes into the blinds. Two-thirds of the money in the pot is 
+normalized to 1 unit for the purpose of utilizing the jam-or-fold tables. This is only an 
+approximation, but it is useful in practice. Also note that when playing jam-or-fold, only the 
+smaller of the two stacks needs to be below the 10 blind threshold - it doesn't matter how big 
+your stack is if the opponent's stack is small, or vice versa. 
+ 
+Returning to the question we posed at the beginning of this chapter: 
+ 
+Two equally skilled players contest a headsup jam-or-fold no-limit holdem freezeout. Each has 
+sixteen chips to begin the hand. The blinds are one chip on the button and two chips in the big 
+blind. With what percentage of hands should the button move all-in optimally? 
+ 
+Utilizing the jam-or-fold tables, we can see that the set of jamming hands is approximately 
+61.7% of all hands. That number startles many people on first sight. After all, who would 
+intuitively think that you would put in sixteen chips to win three with more than three-fifths of 
+your hands? This is a powerful idea of which many players are not aware. 
+ 
+These strategies are of great value in the headsup portion of tournaments and in playing in blind 
+vs. blind situations when the blinds are relatively large. These situations occur frequently in, for 
+example, online single-table tournaments where the blinds escalate quickly. In addition, the jam-
+or-fold game shows the great value of jamming preflop in no-limit holdem. By playing jam-or-
+fold even at high stack sizes, a weaker player can fairly effectively neutralize a strong player's 
+postflop skill, giving up only a modest amount of equity by doing so. 
+ 
+Key Concepts 
+• In jam-or-fold where the best hand wins the entire pot, optimal strategy is fairly tight and 
+play favors the defender for most stacks. 
+• When the worst hand has significant showdown equity, however, optimal strategy 
+loosens up a significant amount. 
+• In jam-or-fold no-limit holdem, strategies are significantly looser than most players think. 
+• When selecting hands with which to jam, the showdown equity against the hands that 
+will call is of paramount importance. 
+• Jam-or-fold is at least near-optimal for stack sizes up to about 10 or 11 blinds. 
+ 
+ 
+ 
+ 
+ 

@@ -1,0 +1,1029 @@
+186
+5 Data assimilation
+the imbalance in the initial conditions. Finally we describe a more recently introduced
+type of dynamical initialization, denoted digital ﬁltering, which is simple and very
+effective. We should note that if the analysis is out of balance, all of the initial infor-
+mation that projects on inertia-gravity waves will be lost, whether the inertia-gravity
+waves are ﬁltered out during the model integration through geostrophic adjustment, or
+through the other initialization methods. For this reason it is preferable to enforce bal-
+ance within the analysis as done in 3D-Var, since this reduces the loss of information.
+5.7.1
+Geostrophic adjustment and the relative importance
+of different observations
+If the initial conditions of a model are not in quasi-geostrophic balance, the balanced
+portion of the initial ﬁeld will project on the quasi-geostrophic mode, and the unbal-
+ancedportionwillprojectontoinertia-gravitywaves.Thesewaveshavelargehorizon-
+tal divergence and propagate horizontally, dispersing quite fast. Because of horizontal
+dispersion, after a while the amplitude of the inertia-gravity waves becomes much
+smaller, and the leftover ﬁelds remain in quasi-geostrophic balance. Rossby (1936,
+1938) ﬁrst described this process of “geostrophic adjustment.” The time scale for
+geostrophic adjustment is of the order of f −1 (about 12 h). Arakawa (1997) provided
+an analytic solution of the linear geostrophic adjustment problem for the SWEs.
+In Section 2.4 we showed that the potential vorticity is conserved for individual
+parcels:
+d
+dt
+∇2ψ + f
+
+= 0
+(5.7.1)
+Consider small perturbations on a basic state of rest. The linearized SWE potential
+vorticity is obtained assuming that the relative vorticity ∇2ψ is small compared with
+the Coriolis parameter and that the total geopotential height  = gD + φ, where the
+perturbations to the free surface are small compared to the mean depth of the ﬂuid.
+In that case, the conservation of potential vorticity becomes
+d
+dt η = d
+dt
+
+f + ∇2ψ −f0
+gD φ
+
+= 0
+(5.7.2)
+Parcels will evolve conserving their initial potential vorticity η(0) = f + ∇2ψ −
+( fo/gD)φ even as they undergo the geostrophic adjustment process. This important
+conservation property allows us to assess how much of the initial mass and wind
+increments will project on the slow modes, and be “remembered” by the model
+after geostrophic adjustment, and how much information will be lost through inertia-
+gravity waves. If we introduce a perturbation δψ(0), δφ(0) in the initial conditions
+through data assimilation, the perturbation in potential vorticity will remain in the
+solution even after geostrophic adjustment: δηg = δη(0). Recall that after geostrophic
+adjustment, the winds become geostrophic, so that ψg = φg/f0.
+
+5.7 Dynamical and physical balance in the initial conditions
+187
+Assume that within a univariate analysis, the introduction of observations results in
+an analysis increment ﬁeld associated with either mass observations δφ(x, y) or wind
+observations δψ(x, y). After about 12–24 h the initial unbalanced ﬁeld will disperse
+away as inertia-gravity waves, and the remaining increments will be in geostrophic
+balance:
+δφ →δφg, δψ →δψgwith δψg = δφg/fo
+(5.7.3)
+Assume that the analysis increment ﬁeld was of the form δφ = Aei(kx+ly), with
+k2 + l2 = n2 = (2π/L)2. From (5.7.2), the ﬁnal increment of potential vorticity after
+geostrophicadjustmentisequaltotheinitialanalysisincrementδηg(x, y) = δη(x, y).
+Consider the effect of introducing only mass observations (performing a univariate
+analysis). They will result in an analysis increment δφ, and the potential vorticity
+initial (and ﬁnal) increments are then
+δη = −f0
+gD δφ = ∇2δψg −f0
+gD δφg = −n2δψg −f0
+gD δφg
+(5.7.4)
+The impact of the mass observation after geostrophic adjustment is therefore
+δφg =
+1
+n2R2 + 1δφ
+(5.7.5)
+where R =
+
+gD/ f 2
+0 is the Rossby radius of deformation, the natural quasi-
+geostrophic horizontal scale given a rotation rate and mean depth. Equation (5.7.5)
+indicates that the response depends strongly on whether the waves are short or long
+compared with R. For long waves, for which n2R2 ≪1, the model “remembers” the
+mass data: δφg ≈δφ, i.e., it retains it after geostrophic adjustment. For short waves,
+for which n2R2 ≫1, on the other hand, the model “forgets” the mass information:
+δφg ≈0.
+The situation is reversed for a univariate analysis of only wind data, leading to an
+analysis increment δψ. After geostrophic adjustment,
+δψg =
+n2R2
+n2R2 + 1δψ
+(5.7.6)
+so that for long waves, n2R2 ≪1, the model “forgets” the wind data: δψg ≈0,
+whereas wind information is retained in short waves: δψg ≈δψ.
+Now we have to determine which waves are “short” and which “long”. In mid-
+latitudes, with f0 ∼10−4, for the external or barotropic mode D ∼10 km, so that
+short waves are those for which n2R2 ≫1 or L ≪
+
+4π2gD/ f 2
+0 ≈20000 km, i.e.,
+all but planetary waves are very short. This implies that the model essentially will
+ignore surface pressure data, which is the mass data corresponding to the external
+mode, and it will adjust its surface pressure to the barotropic component of the wind.
+For the ﬁrst internal mode D ∼1 km, and waves are “short” if shorter than about
+
+188
+5 Data assimilation
+6000 km. In other words, most of the energy in the mid-latitude atmosphere is actually
+in short waves. In the tropics, where f is an order of magnitude smaller, the statement
+that “most waves are short” applies even more strongly. For this reason, winds tend to
+be more effective in providing initial conditions for an NWP model than mass data,
+but temperature data are more important for shallower vertical modes, for which the
+wind will adjust to the temperature observations.
+The “acceptance” of wind and/or mass data is enhanced by the use of multivariate
+analysis schemes, because the geostrophic correlation assumed in the background
+error covariance enforces an approximate geostrophic balance in the analysis incre-
+ments. However, even with multivariate analysis, because nonlinearities do not allow
+for a perfect balance, wind observations still have the strongest impact on the skill
+of a forecast in modern data assimilation systems. The full impact of an observing
+system depends on the extent to which they contribute to deﬁne the potential vorticity,
+as discussed above, and on other factors:
+(a)
+Precision
+Assume we observe winds and mass, and in a multivariate scheme we combine them
+optimally, in which case their precisions (inverse of the error variances) are additive.
+This allows a simple estimation of the relative contributions to the analysis precision
+of mass and wind measurements. If we observe heights φ = f0ψmass with an error
+δφob = gδzob, and winds v = k × ∇ψwind with an error |δvob|, they both contribute
+to the streamfunction. If we combine them optimally, the analysis error precision
+will be
+1
+|δψ|2 =
+f 2
+o
+g2|δzob|2 +
+n2
+|δvob|2
+(5.7.7)
+suggesting that the wind ﬁeld contributes more accuracy to the analysis for short
+waves or in the tropics. The higher accuracy of winds for short waves is a result
+of the fact that they measure a gradient ﬁeld, and is independent of the geostrophic
+adjustment argument.
+(b)
+Data coverage, both in the horizontal and in the vertical
+Obviously, the denser an observing system is, the more it will contribute to the
+accuracy of the analysis. This is true in the horizontal as well as in the vertical, so that
+vertical proﬁles of winds, temperature, or moisture are found to be more useful than
+single level observations. An observing system will also contribute more to the skill of
+the forecasts in the absence of other observing systems. For example, in the Northern
+Hemisphere, which has a relatively good network of rawinsondes, the contribution
+of satellite data to the improvement of NWP forecasts is much lower than in the
+Southern Hemisphere, where rawinsondes are much fewer.
+
+5.7 Dynamical and physical balance in the initial conditions
+189
+(c)
+Physical model adjustments and model spin-up
+In the same way that mass and wind initial ﬁelds undergo a dynamical adjustment
+towards geostrophic balance, other variables quickly evolve towards thermal and
+hydrological balance within the model. For example, because of the low heat capacity
+of the surface layer, surface air temperatures (at 2 m) adjust very rapidly towards
+equilibrium with the sea or land surface temperatures. As a result, it is difﬁcult to
+effectively use surface air temperature observations since the model will tend to
+“forget” them (replace them by model adjusted values). Similarly, if the moisture
+analysis proﬁles are wetter or drier than what the model hydrological equilibrium
+would require (i.e., the model has a wet or dry bias), the analysis moisture proﬁles
+are quickly replaced by model adjusted proﬁles. Therefore, a model with a dry
+climatological bias will produce excessive rain during the analysis cycle, as the initial
+conditions bring in higher observed moisture proﬁles every 6 h, and the model rains
+out what it perceives as “excessive moisture”. This adjustment process, which is also
+affected by other physical parameterizations such as surface ﬂuxes and radiation, is
+known as the “spin-up” or “spin-down” of the model, depending on whether there is
+an initial increase or decrease in the precipitation. The spin-up process is strongest
+immediately after the analysis and takes between 12 and 36 h before reaching model
+balance. It can be reduced by “physical initialization” or assimilation of precipitation,
+in which temperature and moisture proﬁles are modiﬁed so that the model during the
+analysis cycle is forced to produce precipitation similar to the observed precipitation
+(e.g., Krishnamurti et al., 1988, Treadon, 1996, Falkovich et al., 2000).
+Fig. 5.7.1 shows the results of a comparison of different 5-day forecasts performed
+every 12 h for February 1998 using the 2000 operational NCEP data assimilation
+system (courtesy of Michiko Masutani and Stephen Lord). The forecasts are based
+on different data assimilation experiments, in which: (a) all available data was as-
+similated (ALL); (b) the satellite radiances were not assimilated (No TOVS 1B);
+(c) the rawinsonde temperatures were not assimilated (No RAOB Temp); and (d) the
+rawinsondes winds were not assimilated (No RAOB Wind). The results illustrate
+several conclusions, in agreement with the discussion above:
+If every statistical assumption about errors was perfect, the ALL experiments
+should have the best forecasts. This is generally but not always true.
+In the Northern Hemisphere where the rawinsonde network is fairly
+abundant, the forecasts from the assimilation without satellite data No TOVS
+1B, are, on the average, slightly worse than the ALL data experiments.
+Eliminating the rawinsonde winds from the data assimilation has a much
+larger negative impact than eliminating the rawinsonde temperatures in the
+Northern Hemisphere.
+In the Southern Hemisphere, where there are relatively few rawinsondes, the
+satellite radiances are the backbone of the information needed in the data
+
+190
+5 Data assimilation
+Day 5 Z500 Anom Corr Verified vs. Control(All) analysis Top NH, Bot SH
+ALL
+No TOVS 1B
+No RAOB Temp
+No RAOB Wind
+100
+95
+90
+85
+80
+75
+70
+65
+60
+55
+50
+45
+40
+1FEB 
+1993
+3FEB
+5FEB
+7FEB
+9FEB
+11FEB
+13FEB
+15FEB
+17FEB
+19FEB
+21FEB
+23FEB
+5FEB
+7FEB
+9FEB
+11FEB
+13FEB
+15FEB
+17FEB
+19FEB
+21FEB
+23FEB
+85
+80
+75
+70
+65
+60
+55
+50
+45
+40
+35
+30
+25
+3FEB
+1FEB
+-------
+Figure 5.7.1: Veriﬁcation (anomaly correlation) for the 5-day forecasts performed
+every 12 h with the NCEP data assimilation system with different combinations of
+data: crosses, all data; open circles, no TOVS radiances; open squares: no rawinsonde
+winds; full circles, no rawinsonde temperatures. (Courtesy of M. Masutani.)
+assimilation. Without satellite radiances, the forecasts in the Southern
+Hemisphere substantially deteriorate.
+We should also note that there is substantial day-to-day variability in the
+5-day forecast skill. This can be attributed to the changes in atmospheric
+predictability, i.e., on some days the atmosphere is simply easier to predict
+than on others. This will be studied in detail in Chapter 6.
+5.7.2
+Normal modes initialization
+Because atmospheric motion is nonlinear, a simple linear geostrophic balance as
+discussed in the previous section is not enough to ensure balanced initial conditions.
+An approach that has been widely used to improve the initial imbalance is that of
+
+5.7 Dynamical and physical balance in the initial conditions
+191
+nonlinear normal modes initialization, introduced by Machenhauer (1977) and by
+Baer and Tribbia (1977). As indicated by its name, it requires the determination of
+the (linear) normal modes of a model as a ﬁrst step. Daley (1991), Temperton and
+Williamson (1981), and others give a complete discussion about how this procedure
+is carried out in a three-dimensional model. Here we only illustrate how it would be
+applied to a simple SWE model on a periodic f-plane model. The SWEs are written
+separating them into their linear terms (on the left-hand sides) and the nonlinear
+terms (on the right-hand sides):
+∂u
+∂t −fv + ∂φ
+∂x = Ru
+∂v
+∂t + fu + ∂φ
+∂y = Rv
+∂φ
+∂t + gD
+ ∂u
+∂x + ∂v
+∂y
+!
+= Rφ
+
+
+
+(5.7.8)
+For the SWEs the nonlinear terms Ru, Rv, Rφ are
+Ru = −u ∂u
+∂x −v ∂u
+∂y
+Rv = −u ∂v
+∂x −v ∂v
+∂y
+Rφ = −u ∂φ
+∂x −v ∂φ
+∂y
+
+
+
+(5.7.9)
+Note that the left-hand sides contain linear terms about a basic state of rest.
+The ﬁrst step is to determine the (linear) normal modes, and for this purpose we
+ﬁnd the eigensolutions or normal modes of (5.7.8) setting Ru = Rv = Rφ = 0. In the
+case of a doubly periodic domain the normal modes are simply of the form
+
+
+Ukl
+Vkl
+Fkl
+
+ei(kx+ly)e−iωt = Xkle−iωt
+(5.7.10)
+In a three-dimensional model there would be an additional functional dependence
+on the vertical, which can be represented by a vertical wavenumber. If we plug
+(5.7.10) into (5.7.8) with zero on the right-hand side, we obtain three solutions for
+the frequency:
+ωS = 0
+(ωF)2 = f 2 + gD(k2 + l2)
+
+
+
+(5.7.11)
+where the subscripts S and F refer to the slow (quasi-geostrophic) and the fast (inertia-
+gravity wave) modes. Because the equations are homogeneous, (U, V, F) are related
+to each other and the amplitude of the normal mode is arbitrary. For the slow modes,
+the relationship is UklS = −ilFklS/f, VklS = ikFklS/f (geostrophic balance). For
+
+192
+5 Data assimilation
+the fast modes, a similar but more complicated relationship exists which, if f 2 ≪
+gD(k2 + l2) reduces to
+U±klF = ±
+kF±klF
+
+gD(k2 + l2)
+V±klF = ±
+lF±klF
+
+gD(k2 + l2)
+The normal modes in (5.7.10) can therefore be written as a set of slow (Ykl) and fast
+(Zkl) modes:Xklm = (Ykl, Zkl) where the subscript m is S for slow modes and F for
+fast modes. The normal modes Xklm constitute a complete orthonormal basis if we
+normalize them by their total energy:
+
+x
+
+y
+[gD(Uklm
+2 + Vklm
+2) + Fklm
+2]dxdy = 1
+(5.7.12)
+Any time-dependent ﬁeld of winds and heights can be expanded in terms of the
+normal modes:
+
+
+u(x, y, t)
+v(x, y, t)
+φ(x, y, t)
+
+=
+
+k
+
+l
+
+m=S,F
+aklm(t)
+
+
+Ukl
+Vkl
+Fkl
+
+
+m
+ei(kx+ly)
+(5.7.13)
+where the (time-dependent) coefﬁcients can be determined from a back Fourier trans-
+form of (5.7.13):
+aklm(t) =
+
+x
+
+y
+[gD(uUklm + vVklm) + φFklm]e−i(kx+ly)dydx
+(5.7.14)
+Now we return to the full nonlinear SWE (5.7.8), multiply the three equations by
+gDUklme−i(kx+ly)e+iωklmt
+gDVklme−i(kx+ly)e+iωklmt
+Fklme−i(kx+ly)e+iωklmt
+
+
+
+(5.7.15)
+respectively, add them and integrate over the domain to obtain the nonlinear equations
+for the amplitudes of the slow and fast modes:
+daklS
+dt
++ iωklSaklS = RklS
+daklF
+dt
++ iωklFaklF = RklF
+
+
+
+(5.7.16)
+Here we have separated slow and fast modes. Rklm(Y, Z) is the result of applying
+this operation to the right-hand side nonlinear terms and depends on both the vector
+Y of slow modes coefﬁcients and on the vector Z of fast modes coefﬁcients. Recall
+(5.7.11) that for this simple geometry, ωklS = 0.
+daklF
+dt
++ iωklFaklF = 0
+(5.7.17)
+is the linear equation for the fast modes.
+
+5.7 Dynamical and physical balance in the initial conditions
+193
+We can choose to perform a linear normal mode initialization by zeroing out the
+initial amplitude of the fast modes: aklF(t) = aklF(0)e−iωklFt = 0 in (5.7.17). This
+will make the linear time derivative of the fast modes equal to zero. But (5.7.16)
+shows that this initialization, which is equivalent to a perfect geostrophic balance,
+is not accurate enough for the realistic nonlinear case. The presence of nonlinear
+forcing will generate fast oscillations even if the basic state is geostrophic. Therefore
+Machenhauer (1977) suggested instead to zero out the time derivative of the fast
+modes in the nonlinear equation for the fast modes in (5.7.16), whose right-hand side
+depends on both slow and fast modes. Therefore, from
+daFkl
+dt
++ iωFklaFkl = RFkl(Y(0), Z(0))
+(5.7.18)
+we obtain the nonlinear normal mode initialization condition:
+aFkl(0) = RFkl(Y(0), Z(0))
+iωFkl
+(5.7.19)
+Since the coefﬁcient aklF(0) appears both in the left- and right-hand sides of (5.7.19)
+in a component of the vector of fast coefﬁcients Z, Machenauer (1977) suggested
+iterating equation (5.7.19) until convergence.
+Nonlinear normal mode initialization (NLNMI) has been widely used in many op-
+erational data assimilation systems, since it is quite effective in substantially reducing
+the amplitude of the inertia-gravity waves from the initial conditions, much better
+than a simple geostrophic balance. It requires the determination of the linear normal
+modes of a model, but Temperton (1988) derived a formulation denoted “implicit
+NLNMI” without this requirement.
+NLNMI has some problems, however:
+(a) In the tropics, diabatic heating plays a fundamental role, essentially balancing
+the vertical advection of static stability. Therefore, diabatic forcing has to be
+included in the nonlinear terms, and this requires estimating the heating from
+short-term forecasts (Wergen, 1988).
+(b) There is some arbitrariness in deﬁning which “fast” modes need to be
+initialized. For example, inertia-gravity waves with high vertical
+wavenumbers are quite slow (see the discussion in the previous subsection),
+so that only the ﬁrst few vertical modes are usually initialized. On the other
+hand, NLNMI eliminates the high-frequency but real atmospheric tides from
+the solution, since they appear as fast modes. This requires a special handling
+of these modes.
+(c) NLNMI is only an approximation of the true slow evolution of the
+atmosphere: if we apply NLNMI to a model that has been running for a day or
+longer, ideally it should not modify it, since it has already reached slow modes
+equilibrium. However, NLNMI will change the initial ﬁelds signiﬁcantly.
+Ballish et al. (1992) developed a modiﬁcation of the procedure denoted incremen-
+tal NLNMI, in which the initialization is applied to the analysis increments, rather
+
+194
+5 Data assimilation
+than to the full analysis ﬁeld. This procedure is able to substantially solve the three
+problems indicated above.
+In recent years the use of NLNMI after the analysis step has become less popular
+because of the development of three alternative approaches. The ﬁrst one is the use
+of 3D-Var, which allows the introduction within the cost function of a term that
+penalizes the lack of balance. Parrish and Derber (1992) included a penalty term
+based on the global linear balance equation applied on the analysis increments. They
+found that this, combined with the use of a more realistic global background error
+covariance based on differences between 24- and 48-h forecasts verifying at the
+same time, yielded an analysis that was well balanced. As a result, the NLNMI step
+became unnecessary in the NCEP system. This is a major advantage of 3D-Var over
+the standard OI procedure followed by NLNMI. It eliminates the artiﬁcial separation
+of the analysis step, which produces ﬁelds that are close to the observations but out
+of balance, and the initialization step, which produces ﬁelds that are balanced but
+further away from the observations.
+Another method that seems to achieve similar balanced results and minimize the
+spin-up problems is the incremental analysis update (Bloom et al., 1996), in which
+the analysis increment is added in small “drips” throughout the 6-h forecast rather
+than once as a large change at the analysis time. Assume that there are n time steps
+in the 6-h forecast. In the incremental analysis update the analysis increments are
+computed at the analysis time. Then the forecast at the analysis time minus 3 h
+is integrated for 6 h adding at each time step the analysis increment divided by
+n, until the forecast reaches the analysis time plus 3 h. At that time a preliminary
+3-h integration of the model without analysis increments is performed until the next
+analysis time is reached, and the cycle is repeated. The overhead of this method is
+only the additional preliminary integration of the model during the second half of
+the interval between analysis times.
+A third development is the introduction of digital ﬁlter initialization, a variation
+of dynamic initialization that has proven to be very simple and efﬁcient.
+5.7.3
+Dynamic initialization using digital ﬁlters
+Some numerical schemes, like the Euler-backwards or Matsuno scheme, damp high
+frequencies, and this property has been used in order to reduce the accumulation of
+high-frequency noise within an assimilation cycle. Assume we have an equation
+du
+dt = −iωu
+(5.7.20)
+The Matsuno scheme is a predictor–corrector type of scheme (see Table 3.2.1) where
+˜u = un −iωtun
+un+1 = un −iωt ˜u
+%
+(5.7.21)
+
+5.7 Dynamical and physical balance in the initial conditions
+195
+so that un+1 = ρun, where the ampliﬁcation factor is ρ = (1 −ω2t2) −iωt.
+Therefore
+|ρ|2 = (1 −ω2t2 + ω4t4)
+(5.7.22)
+It is evident from (5.7.22) that as long as the CFL stability condition |ωmaxtC FL| ≤1
+is satisﬁed, high frequencies are damped at every Matsuno time step. This has been
+found to be reasonably satisfactory for avoiding excessive accumulation of noise in
+the analysis cycle (e.g., Halem et al., 1982), but the damping is slow except for high
+frequencies close to 1/t. Using a damping time scheme does not balance the initial
+ﬁelds; rather the balance is achieved only after integrating the model for a while
+(e.g., 6 h in the analysis cycle). Several dynamical initialization methods using for-
+ward/backward integrations were suggested to balance the initial ﬁeld (e.g., Nitta and
+Hovermale, 1969, Okamura, 1969). Grant (1975) suggested a more efﬁcient dynamic
+initialization based on linear combinations of forward/backward integrations, with
+combinations of time steps some of which are longer than allowed by the CFL condi-
+tion. Dynamic initialization never became widely used, despite its simplicity, because
+it is not efﬁcient, requiring many forward/backward iterations to substantially reduce
+medium frequency waves.
+Exercise 5.7.1: Show that the net damping at t = 0 after the application of a Matsuno
+time step followed by another Matsuno time step integrating backwards in time
+(changing the sign of t) is given by (5.7.22).
+Exercise 5.7.2: Find the damping of the Okamura scheme: u+ = un(1 + iωt);
+u−= u+(1 −iωt); un+1 = 2un −u−. The Okamura–Rivas scheme is the same
+except that the time step cycles over three iterations: t = tC FL; 1.4tC FL;
+2tC FL, resulting in an even faster damping (Grant, 1975).
+The introduction of dynamic initialization based on digital ﬁltering by Lynch and
+Huang (1992) and Lynch (1997) has changed this situation substantially, and es-
+sentially eliminated the need for NLNMI. In a digital ﬁlter, the model is integrated
+forward and backward in time between −tM and tM, as in regular dynamic initializa-
+tion. The difference is that the model ﬁelds are used at every time step to compute a
+weighted average valid at the initial time t = 0, and the weights are optimally chosen
+in order to damp high frequencies, rather than simply using a damping time scheme.
+The idea of a digital ﬁlter is to choose the ﬁltering weights in such a way that for
+low frequencies ω ≪ωs the amplitude of the solution with that frequency remains
+mostly unchanged, whereas for high frequencies ω ≥ωs the amplitude is substan-
+tially reduced. Given a time step t and the corresponding threshold computational
+frequency θs = ωSt, low frequencies are characterized by 0 ≤|θ| ≪θs, and the
+high frequencies that we want to ﬁlter by θs ≤|θ| ≤π.
+
+196
+5 Data assimilation
+One digital ﬁlter approach (Lynch, 1997) is based on a Dolph–Tchebychev ﬁlter,
+which is close to optimal, using the properties of Tchebychev polynomials:
+Tn(x) =
+
+cos(n cos−1 x)
+if |x| ≤1
+cosh(n cosh−1 x)
+if |x| > 1
+(5.7.23)
+from which T0(x) = 1 and T1(x) = x. The higher polynomials can be obtained from
+the recurrence relationship
+Tn(x) = 2xTn−1(x) −Tn−2(x)
+n ≥2
+(5.7.24)
+The following function is ideal for such damping:
+H(θ) = T2M[x0 cos(θ/2)]
+T2M(x0)
+(5.7.25)
+where x0 = 1/ cos(θS/2), since for the low-frequency range, H(θ) falls from 1 to
+r = 1/T2M(x0) as |θ| goes from 0 to θs, and for the high frequency range θS ≤|θ| ≤
+π, H(θ) oscillates within ±r (e.g., see Fig. 5.7.2).
+From the deﬁnition of the Tchebychev polynomials it can be shown that
+H(θ) =
++M
+
+n=−M
+hneinθ
+(5.7.26)
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+-3
+-2
+-1
+0
+1
+2
+3
+theta=2pi*delta t/period for Dolph–Tchebychev filter
+Damping of original amplitude
+Matsuno forward step followed by backward step
+Applied once
+Applied 3 times
+Dolph–Tchebychev M=3
+Figure 5.7.2: Comparison of the damping of high frequencies using a
+Dolph–Tchebychev ﬁlter with θs = π/3, M = 3, and a forward/backward Matsuno
+dynamical initialization.
+
+5.7 Dynamical and physical balance in the initial conditions
+197
+where the coefﬁcients are
+hn =
+1
+2M + 1
+,
+1 + 2r
+M
+
+m=1
+T2M
+ 
+x0 cos θm
+2
+!
+cos mθn
+-
+(5.7.27)
+The solution of the model, integrated from −tM to tM, is weighted averaged:
+u(0) =
+M
+
+n=−M
+hnun
+(5.7.28)
+so that at the end of this procedure the amplitude of each frequency in u is modulated
+by H(θ). The parameters are chosen in the following way: Choose a period τS such
+that waves with periods shorter than this are to be ﬁltered. The cut-off frequency is
+then given by θs = 2πt/τs. The time span of the integration Ts = 2tM = 2Mt
+gives a ﬁlter of order N = 2M + 1.
+In practice, Lynch (1997) recommended to ﬁrst perform a backward integra-
+tion with just the dry adiabatic dynamics (since they are reversible), from t = 0 to
+t = −TS. An application of the weighted average (5.7.28) gives a ﬁltered ﬁeld
+centered at t = −TS/2. Then a forward integration from t = −TS/2 to t = +TS/2
+using the full model with physics results in a ﬁeld centered at t = 0, ﬁltered for the
+second time including ﬁltering of the effects of irreversible diabatic processes. In the
+high resolution-limited area model, with a time step of half an hour, and a ﬁltering
+period of 3 h, the time span is also half an hour, with N = 2M = 7. The double ﬁlter
+gives a reduction in energy of the high frequencies of more than 99%.
+Figure 5.7.2 shows the response of dynamic initialization for this case, using the
+Dolph–Tchebychev ﬁlter with t = 30 min, θs = π/3 (ﬁltering periods shorter than
+3 h) and M = 3. It compares this with the result of using one and three iterations of
+the forward/backward Matsuno time step.
+Another digital ﬁlter is based on the Lanczos ﬁlter, which is widely used to ﬁlter
+out high frequencies from time series (Duchon, 1979, Lynch and Huang, 1992).
+The ﬁlter is similar to the Dolph–Tchebychev one, but now the Lanczos weights in
+(5.7.28) are given by
+hn = sin(nθcritt)
+πn
+sin(nπ/M)
+nπ/M
+(5.7.29)
+Fig. 5.7.3 compares the responses of the Dolph–Tchebychev and Lanczos ﬁlters re-
+quiring the same number of time steps (6), since for the Lanczos ﬁlter the coefﬁcients
+for n = 4 and 5 are zero. The response for the Lanczos ﬁlter with θcrit = π/4, M = 5
+is competitive with the Dolph–Tchebychev ﬁlter.
+In summary, initialization using digital ﬁltering is a very simple process that avoids
+the determination of the model normal modes and the need of NLNMI. Most im-
+portantly, it dampens the high-frequency solutions according to their actual model-
+determined frequency rather than from an arbitrary separation into inertia-gravity
+waves and quasi-geostrophic modes. It does not make any additional approximation
+
+198
+5 Data assimilation
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+1.2
+-3
+-2
+-1
+0
+1
+2
+3
+theta=2pi*delta t/period
+Low-pass filter response
+Lanczos filter
+theta crit=pi/3, M=4
+Dolph–Tchebychev filter
+theta s=pi/3, M =3
+Lanczos filter
+theta crit=pi/4, M=5
+Figure 5.7.3: Comparison of the responses of the Dolph–Tchebychev ﬁlter, with
+θs = π/3, M = 3, and the Lanczos ﬁlter, with θcrit = π/3, M = 4 and
+θcrit = π/4, M = 5. All the choices require six time integrations and are therefore
+computationally comparable.
+and it can include the full diabatic and nonreversible effects to determine the classi-
+ﬁcation of slow and fast modes.
+Exercise 5.7.3: Is it better to achieve balance within 3D-Var or to apply a digital
+ﬁlter afterwards?
+5.8
+Quality control of observations
+The reported atmospheric observations used in data assimilation are not perfect; they
+contain several kinds of errors, including instrumental errors and errors of human
+origin. The reported observations may also contain “errors of representativeness”,
+i.e., actually correct observations may reﬂect the presence of a subgrid-scale at-
+mospheric phenomenon that cannot be resolved by the model or the analysis. The
+representativeness error indicates the observation is not representative of the areally
+averaged measurement required by the model grid. The instrumental and represen-
+tativeness errors can be systematic or random. Systematic errors and biases should
+be determined by calibration or other means such as time averages. Random errors
+are generally assumed to be normally distributed.
+In addition to randomly distributed errors, the reported observations may contain
+errors that are so large that the observations have no useful information content and
+should be tossed out. Frequently, these rough or gross errors are of human origin,
+and take place during the computation or the transmission of the observation. There
+
+5.8 Quality control of observations
+199
+are other sources of observation errors (wrong date, time or location, uncalibrated
+instruments, etc.). The use of an observation with a rough error can cause a dispro-
+portionally big error in the analysis, so there has been a tendency to use observations
+conservatively (“when in doubt, throw it out”). In recent years, however, quality con-
+trol systems have become more sophisticated and many observations that would have
+been thrown out in the past are now corrected, resulting in an improvement in the
+initial conditions, and hence in the forecasts. Newer quality control systems allow for
+a continuous weighting of the observation suspected of having a gross error, rather
+than a “yes or no” decision to toss it out.
+Quality control is based on a comparison between observations and some kind
+of expected value (which could be based on climatology, an average of nearby ob-
+servations, or the ﬁrst guess). The difference between the expected value and the
+reported observation is denoted the “residual”. If the residual is very large (measured
+in standard deviations of the estimate), the observation may be considered to be erro-
+neous. The more sophisticated the estimate of the expected value (i.e., the smaller its
+expected standard deviation with respect to the true value), the more discriminating
+the quality control algorithm will be, i.e., the better it will be able to distinguish be-
+tween observations with large errors, which should not be given credence, and correct
+observations reporting unusual states of the atmosphere, such as very low pressures
+or unusually high winds reported within an area affected by a tropical cyclone. In
+the latter case it is important to keep the observation in order to improve the initial
+conditions of the forecast.
+Earlier quality control systems were based on several checks performed in series
+(one after another) before the analysis. For example DiMego et al. (1985) compared
+each observation with a climatological distribution to see whether it was within a
+reasonable range (“gross check”). If the reported value was outside a prescribed
+range, or differed from the climatological mean by more than, for example, ﬁve
+standard deviations, the observation was tossed out. If the observation survived this
+test, it was then compared to the average of nearby observations, and again tossed
+out if outside a reasonable range. This check (called a “buddy check”, comparing
+the observations with their “buddies”) could also salvage an observation previously
+tossed out even if it was quite different from the expected climatological value.
+An analysis is, in principle, more accurate than either the ﬁrst guess or the ob-
+servation. This led to the development of an “OI” quality control: each observation
+is compared with a simple OI value that would be obtained at the observation lo-
+cation using the ﬁrst guess (background) ﬁeld and nearby observations, but without
+including the observation being checked (Lorenc, 1981, Woollen, 1991). When the
+residual (difference between the observed and analyzed value) is larger than a certain
+number of analysis error standard deviations, it is tossed out. The analysis is iterated
+so some observations may be salvaged after ﬁrst being tossed out.
+Gandin (1988) introduced the idea of complex quality control (where the word
+“complex” means that it uses several tests simultaneously rather than in series).
+The basic idea is to estimate several independent residuals and then apply a decision
+
+200
+5 Data assimilation
+making algorithm based on the information provided by all the independent residuals,
+rather than performing decisions either in a sequential order, or as a single OI quality
+control check using all the information at once. Collins and Gandin (1990) and
+Collins (1998) applied this approach to rawinsonde heights and temperatures with
+great success. The power of this method lies in the fact that several independent
+checks can support each other and reduce the level of uncertainty. Furthermore, if
+the residuals are large and agree reasonably well with each other, they provide the
+basis for a correction of the observation.
+The independent residuals obtained from the different checks used at NCEP for
+the complex quality control of rawinsondes temperature and heights are: (1) Incre-
+mental check (the residual is the increment between the reported observation and
+the 6-h forecast) (2) Horizontal check based on a simple OI horizontal analysis of
+the increments, using one observation per quadrant, and only observations within
+1000 km of the reported observation. The horizontal residual is the difference be-
+tween the increment at the observation location and the horizontally interpolated
+value. (3) Vertical check: the vertical residual is the difference between the observed
+increment and the increment interpolated vertically from the nearest data points for
+the same station, one above and one below. (4) Hydrostatic check, the most powerful
+of the checks since it takes advantage of the redundancy between temperature and
+height information reported in rawinsonde observations. The hydrostatic residual is
+the difference between the values of the thickness of a layer between mandatory
+level heights, calculated using the reported heights, and the thickness calculated in-
+dependently from the reported virtual temperatures. (5) Baseline check computed by
+making a hydrostatic computation downward, from the ﬁrst mandatory level above
+the surface with complete heights and temperatures, to the reported surface pressure.
+The baseline residual is the difference between the station elevation, given by the
+report, and the hydrostatically determined height at the surface pressure. Another
+possible check used at NCEP is based on a temporal interpolation of observations
+at the same station 12 or 24 h before and after the observation time. This check is
+particularly useful for isolated stations within a “reanalysis” mode. It is also possible
+to perform a check of the stability of the lapse rate.
+Collins and Gandin (1990) and Collins (1998) developed a sophisticated decision
+making algorithm that makes generally conﬁdent decisions correcting computation
+or communication errors of human origin. They assumed that human errors have a
+simple structure: a single digit or a sign is wrong or missing. The following example
+of such error detected at a single level in the heights is typical:
+Example of CQC and the decision making algorithm correction of gross
+errors (Collins and Gandin, 1998)
+Reported 1000 hPa height: 8 m
+Computed residuals:
+Incremental residual: −72 m;
+Vertical residual: −66 m;
+
+5.8 Quality control of observations
+201
+Hydrostatic residual (using signiﬁcant levels): 60 m;
+Hydrostatic (using only mandatory levels): 65 m;
+Baseline residual: −58 m.
+With this information, the decision making algorithm concluded that a simple
+correction changing one digit (adding 60 m to make the observation 68 m instead of
+the reported 8 m) could be conﬁdently made.
+The NCEP global system has also an OI-based complex quality control for all
+other data (winds, moisture, satellite retrievals) that makes the ﬁrst three checks
+discussed above and rejects observations with large residuals but does not attempt
+to make corrections, since the strong redundancy of the hydrostatic check is not
+available for variables other than rawinsonde temperatures and heights (Woollen,
+1991).
+The effect of modern quality control systems is difﬁcult to gauge, but Kistler
+et al. (2001) showed an impressive example of the positive impact from the mod-
+ern approach compared with the quality control that was operational at NCEP in
+the 1970s. They pointed out that in 1974 NMC (now NCEP) introduced a modern
+observation formatting system (known as Ofﬁce Note 29, ON29), which later be-
+came the basis of the ofﬁcial World Meteorological Organization (WMO) Binary
+Universal Format Representation system for the encoding of observations. ON29 in-
+cluded more information about the observation than previously used encoders. This
+change in formatting required a complete overhaul of the NMC decoding system,
+and errors must have been introduced during this complex reprogramming process.
+The NMC operational forecast skill actually went down and it took a few years
+before it recovered to the pre-1974 error levels (Kalnay et al., 1998). During the
+production of the NCEP/NCAR reanalysis (Kalnay et al., 1996), both the com-
+plex quality control for rawinsonde heights and temperatures and the OI quality
+control for other observations were used to screen observations. The complex qual-
+ity control found and corrected an unusually large number of rawinsondes errors
+starting in 1974, and, presumably as a result of this correction and the OI qual-
+ity control screening of the other information, the beneﬁt of using the more ad-
+vanced formatting system ON29 became realized. In the reanalysis, the forecast
+skill increased substantially in 1974, rather than deteriorating as in the operational
+forecasts.
+Another approach that has also become popular is variational quality control
+performed within 3D-Var or 4D-Var, rather than before the analysis, like OI and
+complex quality controls (Purser, 1984, Lorenc and Hammon, 1988, Ingleby and
+Lorenc, 1993, Andersson and Jarvinen, 1999, Collins, 2001a,b). It has the advan-
+tage that it is performed as part of the analysis itself, rather than as a preprocess-
+ing step like OI quality control, but because it computes a single (iterative) resid-
+ual for each observation, it is not able to correct observations like complex quality
+control.
+
+202
+5 Data assimilation
+The variational quality control approach is based on modifying the observational
+component Jo of the variational cost function J = Jb + Jo to take into account the
+possibility of gross errors. Note that in the variational analysis approach, the gradient
+∇yo Jo of the cost function with respect to an observation yo determines how quickly
+the analysis estimate x will shift towards that observation (Fig. 5.8.1(b)).
+0
+0. 1
+0. 2
+0. 3
+0. 4
+-10
+-5
+0
+5
+10
+(y-H(x))/σ
+Normal
+Probability density function
+(a)
+With gross errors
+0
+2
+4
+6
+8
+10
+-10
+-5
+0
+5
+10
+(y-H(x))/σ
+With gross errors
+Cost function
+(b)
+Without gross errors
+Figure 5.8.1: (a) Probability density function for an observation with a given scaled
+residual, without gross errors (normal distributions) and with gross errors.
+A = 0.05, d = 5. (b) Observational cost function derived from the logarithm of the
+error distributions in (a). (c) Weight factor applied to the gradient of the cost function
+for different values of the a priori probability of gross errors A and the width of the
+ﬂat distribution.
+
+5.8 Quality control of observations
+203
+(y-H(x))/σ
+Weight
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+-10
+-5
+0
+5
+10
+A=0.05, d=1
+A=0.01, d=5
+A=0.05, d=10
+A=0.05, d=5
+(c)
+Figure 5.8.1: (cont.)
+Consider the cost function term for a single uncorrelated observation yo without
+allowing for gross errors:
+Jo
+N = 1
+2
+ yo −H(x)
+σo
+2
+with ∇Jo
+N =
+ yo −H(x)
+σ 2o
+
+(5.8.1)
+where x is a close approximation of the true value (analysis). In variational quality
+control one assumes that there is an a priori probability A of having a gross error, esti-
+mated from past statistics. 1 −A is then the a priori probability of not having a gross
+error, in which case the observation is assumed to have random errors with a Gaussian
+distribution. Without gross errors (A = 0), the probability that an observation yo, if
+H(x) is the true value, is given by the normal distribution is
+p(yo) = N =
+1
+√
+2πσo
+e−J N
+o
+(5.8.2)
+where (as discussed in Section 5.3) J N
+o = −ln N + const. (Fig. 5.8.1(a), full line)
+and the constant is chosen arbitrarily to make J N(0) = 0.
+If there are gross errors with an a priori probability A (let’s say, 0.05), then the
+probability of an observation yo (Fig. 5.8.1(a), bold dashes) is modiﬁed:
+pQC(yo) = (1 −A)N + AF
+(5.8.3)
+where F is a ﬂat (uniform) distribution for the gross errors:
+F =
+
+
+
+1
+2dσo
+if |yo −H(x)| < dσo
+0
+otherwise
+(5.8.4)
+
+204
+5 Data assimilation
+Here d is the maximum number of standard deviations allowed for gross errors (e.g.,
+d = 5). If |yo −H(x)| > dσo, it is assumed that the observation was so obviously
+wrong that it was eliminated in a preliminary check against climatology or the back-
+ground. The integral of F is therefore equal to 1.
+We can then modify the contribution to the cost function made by the obser-
+vation by including the probability of gross errors: J QC
+o
+= −ln pQC(yo) + const.
+(Fig. 5.8.1(a), full line). Since the ﬂat probability distribution of gross errors does
+not depend on the value yo, the modiﬁed gradient of the cost function is:
+∇yo J QC
+o
+= ∇[−ln pQC(yo)] =
+1 −A
+pQC(yo) N∇J N
+o
+=
+(1 −A)N
+(1 −A)N + AF ∇J N
+o = (1 −P) ∇J N
+o
+(5.8.5)
+where
+P =
+AF
+(1 −A)N + AF
+(5.8.6)
+is the a posteriori probability of having a gross error (after making the observation
+yo). In other words, the gradient of the cost function including variational quality
+control is the gradient without variational quality control multiplied by a weight
+W QC =
+(1 −A)N
+(1 −A)N + AF
+(5.8.7)
+(the probability of NOT having a gross error), which is close to 1 for
+|yo −H(x)|/σo < d and goes to zero for |yo −H(x)|/σo ≥d. Figure 5.8.1(c) shows
+that the weights are not very sensitive to the choice of parameters. A small value for
+the a priori probability of gross errors A will result in a steeper reduction of weights.
+Because of the shape of the normal probability function, the weights are not too
+sensitive to d unless the value chosen is rather small (e.g., d = 1 in the graph).
+Because H(x) is assumed to be close to the truth, at ECMWF variational quality
+control is not turned on (i.e., the weight multiplying the gradient during the mini-
+mization is W = 1) during the ﬁrst 40 iterations of the 4D-Var algorithm, while the
+solution starts to converge towards the analysis. It is then turned on (W = W QC) for
+the last 30 iterations of the 4D-Var, thus giving less weight to observations that are
+likely to contain gross errors (Andersson and Jarvinen, 1999).

@@ -1,0 +1,949 @@
+ 
+235
+Appendices
+Appendix B.
+Relaxing the assumption of conditional normality
+ 
+Peter Zangari
+Morgan Guaranty Trust Company
+Risk Management Research
+(1-212) 648-8641
+ 
+zangari_peter@jpmorgan.com
+ 
+Since its release in October 1994, RiskMetrics has inspired an important discussion on VaR meth-
+odologies. A focal point of this discussion has been the assumption that returns follow a conditional 
+normal distribution. Since the distributions of many observed ﬁnancial return series have tails that 
+are “fatter” than those implied by conditional normality, risk managers may underestimate the risk 
+of their positions if they assume returns follow a conditional normal distribution. In other words, 
+large ﬁnancial returns are observed to occur more frequently than predicted by the conditional nor-
+mal distribution. Therefore, it is important to be able to modify the current RiskMetrics model to 
+account for the possibility of such large returns.
+The purpose of this appendix is to describe two probability distributions that allow for a more real-
+istic model of ﬁnancial return tail distributions. It is organized as follows: 
+• Section B.1 reviews the fundamental assumptions behind the current RiskMetrics calcula-
+tions, in particular, the assumption that returns follow a conditional normal distribution. 
+• Section B.2 presents the RiskMetrics model of returns under the assumption that the returns 
+are conditionally normally distributed and two alternative models (distributions) where the 
+probability of observing a return far away from the mean is relatively larger than the probabil-
+ity implied by the conditional normal distribution. 
+• Section B.3 explains how we estimate each of the three models and then presents results on 
+forecasting the 1st and 99th percentiles of 15 return series representing 9 emerging markets.
+ 
+B.1  A review of the implications of the conditional normality assumption
+ 
+In a normal market environment RiskMetrics VaR forecasts are given by the bands of a conﬁdence 
+interval that is symmetric around zero. These bands represent the maximum change in the value of 
+a portfolio with a speciﬁed level of probability. For example, the VaR bands associated with a 90% 
+conﬁdence interval are given by 
+where 
+ 
+−
+ 
+/
+ 
++
+ 
+1.65 are the 5th/95th percentiles of 
+the standardized normal distribution, and 
+ is the portfolio standard deviation which may depend 
+on correlations between returns on individual instruments. The scale factors 
+ 
+−
+ 
+/
+ 
++
+ 
+ 1.65 result from 
+the assumption that standardized returns (i.e., a mean centered return divided by its standard devi-
+ation) are normally distributed. When this assumption is true we expect 5% of the (standardized) 
+realized returns to lie below 
+ 
+−
+ 
+1.65 and 5% to lie above 
+ 
++
+ 
+1.65. 
+Often, whether complying with regulatory requirements or internal policy, risk managers compute 
+VaR at different probability levels such as 95% and 98%. Under the assumption that returns are con-
+ditionally normal, the scale factors associated with these conﬁdence intervals are 
+ 
+−
+ 
+/
+ 
++
+ 
+1.96 and 
+ 
+−
+ 
+/
+ 
++
+ 
+2.33, respectively. It is our experience that while RiskMetrics VaR estimates provide reasonable 
+results for the 90% conﬁdence interval, the methodology does not do as well at the 95% and 98% 
+conﬁdence levels.
+ 
+1
+ 
+ Therefore, our goal is to extend the RiskMetrics model to provide better VaR 
+estimates at these larger conﬁdence levels.
+Before we can build on the current RiskMetrics methodology, it is important to understand exactly 
+what RiskMetrics assumes about the distribution of ﬁnancial returns. RiskMetrics assumes that re-
+turns follow a conditional normal distribution.   This means that while returns themselves are not 
+normal, returns divided by their respective forecasted standard deviations are normally distributed 
+with mean 0 and variance 1. For example, let 
+, denote the time t return, i.e., the return on an asset 
+over a one-day period. Further, let 
+ denote the forecast of the standard deviation of returns for 
+ 
+1
+ 
+See Darryl Hendricks, “Evaluation of Value-at-Risk Models Using Historical Data,” 
+ 
+FRBNY Economic Policy 
+Review,
+ 
+ April, 1996.
+1.65σ
+–
+p 1.65σp
+,
+{
+}
+σp
+rt
+σt
+
+ 
+236
+Appendix B.  Relaxing the assumption of conditional normality
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+time t based on historical data. It then follows from our assumptions that while 
+ is not necessarily 
+normal, the standardized return, 
+, is normally distributed.
+To summarize, RiskMetrics assumes that ﬁnancial returns divided by their respective volatility 
+forecasts are normally distributed with mean 0 and variance 1. This assumption is crucial because 
+it recognizes that volatility changes over time.
+ 
+B.2  Three models to produce daily VaR forecasts
+ 
+In this section we present three models to forecast the distribution of one-day returns from which a 
+VaR estimate will be derived.
+• The ﬁrst model that is discussed is referred to as standard RiskMetrics. This model is the basis 
+for VaR calculations that are presented in the current 
+ 
+RiskMetrics—Technical Document
+ 
+.
+• The second model that we analyze was introduced in the 2nd quarter 1996 
+ 
+RiskMetrics 
+Monitor
+ 
+. It is referred to in this appendix as the normal mixture model. The name “normal 
+mixture” refers to the idea that returns are assumed to be generated from a mixture of two dif-
+ferent normal distributions. Each day’s return is assumed to be a draw from one of the two 
+normal distributions with a particular probability. 
+• The third, and most sophisticated model that we present is known as RiskMetrics-GED. This 
+model is the same as standard RiskMetrics except the returns in this model are assumed to fol-
+low a conditional generalized error distribution (GED). The GED is a very ﬂexible distribu-
+tion in that it can take on various shapes, including the normal distribution. 
+ 
+B.2.1  Standard RiskMetrics
+ 
+The standard RiskMetrics model assumes that returns are generated as follows
+[B.1]
+where 
+ 
+ is a normally distributed random variable with mean 0 and variance 1
+, respectively, are the time 
+ 
+t
+ 
+ standard deviation and variance of 
+returns (
+)
+ is a parameter (decay factor) that regulates the weighting on past variances. For one-
+day variance forecasts, RiskMetrics sets 
+=0.94.
+In summary, the standard RiskMetrics model assumes that returns follow a conditional normal dis-
+tribution—conditional on the standard deviation—where the variance of returns is a function of the 
+previous day’s variance forecast and squared return.
+rt
+rt σt
+⁄
+rt
+σtεt
+=
+σt
+2
+λσt
+1
+–
+2
+1
+λ
+–
+(
+) rt
+1
+–
+2
++
+=
+εt 
+σt and σt
+2
+
+
+
+
+rt 
+λ 
+λ 
+
+ 
+Appendix B.  Relaxing the assumption of conditional normality
+237
+Appendices
+ 
+B.2.2  Normal mixture
+ 
+In the second quarter 1996 
+ 
+RiskMetrics Monitor
+ 
+ we introduced the normal mixture model of returns 
+that was found to more effectively measure the tails of selected return distributions. In essence, this 
+model allows for a larger probability of observing very large returns (positive or negative) than the 
+conditional normal distribution. 
+The normal mixture model assumes that returns are generated as follows
+[B.2]
+where 
+ is the time t continuously compounded return
+ is a normally distributed random variable with mean 0 and variance 1
+ is a normally distributed random variable with mean 
+ and variance 
+ is a 0/1 variable that takes the value 1 with probability 
+ 
+p
+ 
+ and 0 with probability 1
+ 
+−
+ 
+p
+ 
+ is the standard deviation given in the RiskMetrics model
+Alternatively stated, the normal mixture model assumes that daily returns standardized by the 
+RiskMetrics volatility forecasts, 
+, are generated according to the model
+[B.3]
+Intuitively, we can think of Eq. [B.3] as representing a model where each day’s standardized return 
+is generated from one of two distributions:
+1.
+If 
+ then the standardized return is generated from a standard normal distribution, 
+that is, a normal distribution with mean 0 and variance 1.
+2.
+If 
+ then the return is generated from a normal distribution with mean 
+ and vari-
+ance 
+. 
+We can think of 
+ as a variable that signiﬁes whether a return that is inconsistent with the standard 
+normal distribution has occurred. The parameter p is the probability of observing such a return. It 
+is important to remember that although the assumed mixture distribution is composed of normal 
+distributions, the mixture distribution itself is not normal. Also, note that when constructing a VaR 
+forecast, the normal mixture model applies the standard RiskMetrics volatility.
+Chart B.1 shows the tails of two normal mixture models (and the standard normal distribution) for 
+different values of 
+, and 
+. Mixture(1) is the normal mixture model with parameter values 
+set at 
+ 
+=-4,
+ 
+ 
+ 
+=1, 
+ 
+p
+ 
+=2%, 
+ 
+=0 
+=1. Mixture(2) is the normal mixture model with the 
+same parameter values as mixture(1) except now 
+ 
+=0,
+ 
+ 
+ 
+=10
+ 
+.
+rt
+σ1 t,
+ε
+⋅
+1 t,
+σ1 t,
+δ
+⋅
+t ε
+⋅
+2 t,
++
+=
+rt 
+ε1 t,
+ε2 t,
+µ2 t,
+σ2 t,
+2
+δt
+σ1 t,
+r˜t
+r˜t
+ε1 t,
+δt ε2 t,
+⋅
++
+=
+δt
+0
+=
+δt
+1
+=
+µ2 t,
+1
+σ2 t,
+2
++
+δt
+µ2 t,
+σ2 t,
+µ2 t,
+σ2 t,
+µ1 t,
+σ1 t,
+µ2 t,
+σ2 t,
+
+ 
+238
+Appendix B.  Relaxing the assumption of conditional normality
+RiskMetrics
+ 
+
+ 
+ —Technical Document
+Fourth Edition
+ 
+Chart B.1
+ 
+Tails of normal mixture densities
+ 
+Mixture(1)
+ 
+ 
+ 
+=-4,
+ 
+ 
+ 
+=
+ 
+1
+ 
+, p=2%, 
+ 
+=0 
+=1;
+ 
+Mixture(2) 
+=0, 
+=
+ 
+10
+ 
+, p=2%, 
+=0 
+=
+ 
+1
+Chart B.1 shows that when there is a large negative mean for one of the normal distributions as in 
+mixture(1), this translates into a larger probability of observing a large negative return relative to 
+the standard normal distribution. Also, as in the case of mixture (2) we can construct a probability 
+distribution with thicker tails than the standard normal distribution by mixing the standard normal 
+with a normal distribution with a large standard deviation.
+ 
+B.2.3  RiskMetrics-GED
+ 
+According to this model, returns are generated as follows
+[B.4]
+where 
+ is the time t continuously compounded return
+ is a random variable distributed according to the GED (generalized error distribu-
+tion) with parameter 
+ 
+ν
+ 
+. As will be shown below, 
+ 
+ν
+ 
+ regulates the shape of the GED dis-
+tribution.
+ is the time t variance of returns (
+)
+The random variable (
+) in Eq. [B.4] is assumed to follow a generalized error distribution (GED). 
+This distribution is quite popular among researchers in ﬁnance because of the variety of shapes the 
+GED can take. The probability density function for the GED is 
+µ2 t,
+σ2 t,
+µ1 t,
+σ1 t,
+µ2 t,
+σ2 t,
+µ1 t,
+σ1 t,
+-5
+-4
+-3
+3
+4
+5
+0
+0.02
+0.04
+0.06
+0.08
+0.10
+Normal
+PDF
+Standard deviation
+Mixture (1)
+µ2 = -4, σ2 = 1
+Mixture (2)
+µ2 = 0, σ2 = 10
+rt
+σtξt
+=
+σt
+2
+λσt
+1
+–
+2
+1
+λ
+–
+(
+) rt
+1
+–
+2
++
+=
+rt 
+ξt 
+σt
+2
+rt 
+ξt 
+
+Appendix B.  Relaxing the assumption of conditional normality
+239
+Appendices
+[B.5]
+where  Γ is the gamma function and
+[B.6]
+ 
+When 
+ this produces a normal density while 
+>(<)2 is more thin (ﬂat) tailed than a normal. 
+Chart B.2 shows the shape of the GED distribution for values of 
+ = 1, 1.5 and 2.
+Chart B.2
+GED distribution
+=1, 1.5 and 2
+Notice that when the parameter of the GED distribution is below 2 (normal), the result is a distri-
+bution with greater likelihood of very small returns (around 0) and a relatively large probability of 
+returns far away from the mean. To better understand the effect that the parameter 
+ has on the 
+tails of the GED distribution, Chart B.3 plots the left (lower) tail of the GED distribution when 
+=1, 1.5 and 2.
+f ξt
+(
+)
+ν
+1
+2-- ξt λ
+⁄
+ν
+–
+
+
+
+
+exp
+λ2
+1
+ν
+1
+–
++
+(
+) Γ ν
+1
+–
+
+
+
+
+-------------------------------------------
+=
+λ
+2
+2 ν
+⁄
+(
+)
+–
+Γ 1 ν
+⁄
+(
+)
+3 ν
+⁄
+(
+)
+⁄
+1 2
+⁄
+=
+ν
+2
+=
+ν
+ν
+ν
+-5
+-4
+-3
+-1
+-0
+1
+2
+4
+5
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+GED (1)
+GED (1.5)
+Normal (GED (2))
+PDF
+Standarized returns
+ν
+ν
+
+240
+Appendix B.  Relaxing the assumption of conditional normality
+RiskMetrics —Technical Document
+Fourth Edition
+Chart B.3
+Left tail of GED (ν) distribution
+ν = 1, 1.5, and 2
+Chart B.3 shows that as 
+ becomes smaller, away from 2 (normal), there is more probability 
+placed on relatively large negative returns.
+B.3  Applying the models to emerging market currencies and equity indices
+We applied the three models described above to 15 time series representing 9 emerging market 
+countries to determine how well each model performs at estimating the 1st and 99th percentiles of 
+the return distributions. The time series cover foreign exchange and equity indices. In order to fa-
+cilitate our exposition of the process by which we ﬁt each of the models and tabulate the results on 
+forecasting the percentiles, we focus on one speciﬁc time series, the South African rand.
+B.3.1  Model estimation and assessment
+We ﬁrst ﬁt each model to 1152 returns on each of the 15 time series for the period May 25, 1992 
+through October 23, 1996. Table B.1 shows the parameter estimates from each of the three models 
+for the South African rand.
+Table B.1 points to some interesting results:
+•
+In the RiskMetrics-GED model, the estimate of 
+ implies that the distribution of returns 
+on the rand are much thicker than the normal distribution (recall that 
+=2 is a normal dis-
+Table B.1
+Parameter estimates for the South African rand
+Normal Mixture
+Standard RiskMetrics
+RiskMetrics-GED
+Parameter
+Estimate
+Parameter
+Estimate
+Parameter
+Estimate
+−5.086
+0.94
+0.927
+9.087
+p
+0.010
+1.288
+0.00%
+0.05%
+0.10%
+0.15%
+0.20%
+0.25%
+-5
+-4.9
+-4.8
+-4.7
+-4.6
+-4.5
+-4.4
+-4.3
+-4.2
+-4.1
+-4
+Normal (GED (2))
+GED (1.5)
+GED (1)
+PDF
+Standarized returns
+ν
+µ2 t,
+λ
+ν
+σ2 t,
+σ1 t,
+ν
+ν
+
+Appendix B.  Relaxing the assumption of conditional normality
+241
+Appendices
+tribution). In other words, we are much more likely to observe a return that is far away 
+from the mean return than is implied by the normal distribution.
+•
+In the normal mixture model there is a 1% chance of observing a normally distributed 
+return with a mean −5 and standard deviation 9 and a 99% chance of observing a normally 
+distributed return with mean 0 and standard deviation 1.288.
+•
+The RiskMetrics optimal decay factor for the South African rand is 0.940. This decay fac-
+tor was found by minimizing the root mean squared error of volatility forecasts. Coinci-
+dentally, this happens to be the same decay factor applied to all times series in RiskMetrics 
+when estimating one-day volatility. 
+If a volatility model such as RiskMetrics ﬁts the data well its standardized returns (i.e., the returns 
+divided by their volatility forecast) should have a volatility of 1. Table B.2 presents four sample sta-
+tistics—mean, standard deviation, skewness and kurtosis—for the standard RiskMetrics model and 
+estimates of ν for the RiskMetrics-GED model. Recall that skewness is a measure of a distribution’s 
+symmetry. A value of 0 implies that the distribution is symmetric. Kurtosis measures a distribution’s 
+“tail thickness”. For example, since the kurtosis for a normal distribution is 3, values of kurtosis 
+greater than 3 indicate that there is a greater likelihood of observing returns that are far away from 
+the mean return than implied by the normal distribution. 
+Under the maintained assumption of the RiskMetrics model the statistics of the standardized returns 
+should be as follows;   mean = 0, standard deviation = 1, skewness = 0, kurtosis = 3. Table B.2 
+shows that except for Mexico, Philippines and Taiwan foreign exchange, standard RiskMetrics does 
+a good job at recovering the standard deviation. The fact that kurtosis for many of the time series 
+are well above three signiﬁes that the tails of these return distributions are much larger than the nor-
+mal distribution. 
+Also, note the estimates of 
+ produced from RiskMetrics-GED. Remember that if the distribution 
+of the standardized returns is normal, 
+= 2 and values of 
+< 2 signify that the distribution has 
+thicker tails than that implied by the normal distribution. The fact that all of the estimates of 
+ are 
+well below 2 indicate that these series contain a relatively large number of returns (negative and 
+positive).
+Table B.2
+Sample statistics on standardized returns
+Standard RiskMetrics model
+Instrument type
+Source
+Mean
+Std dev
+Skewness
+Kurtosis
+GED 
+parameter, 
+Foreign exchange
+Mexico
+0.033
+3.520
+−21.744
+553.035
+0.749
+Philippines
+−0.061
+1.725
+−13.865
+327.377
+0.368
+Taiwan
+0.069
+1.720
+8.200
+162.234
+0.492
+Argentina
+0.028
+1.177
+5.672
+112.230
+0.219
+Indonesia
+−0.013
+1.081
+−1.410
+12.314
+0.460
+Korea
+−0.013
+1.106
+−1.142
+10.188
+0.778
+Malaysia
+0.029
+1.210
+−0.589
+12.488
+0.908
+South Africa
+0.040
+1.291
+−6.514
+116.452
+0.927
+Thailand
+−0.004
+1.003
+0.168
+4.865
+1.101
+Equity
+Argentina
+0.043
+1.007
+−0.376
+3.817
+1.221
+Indonesia
+0.020
+1.085
+1.069
+12.436
+0.868
+Malaysia
+0.002
+1.130
+0.346
+5.966
+1.023
+Mexico
+0.007
+1.046
+0.042
+4.389
+0.798
+South Africa
+0.027
+1.023
+0.081
+5.412
+1.136
+Thailand
+−0.019
+1.056
+−0.008
+5.014
+0.999
+ν
+ν
+ν
+ν
+ν
+
+242
+Appendix B.  Relaxing the assumption of conditional normality
+RiskMetrics —Technical Document
+Fourth Edition
+B.3.2  VaR analysis
+In this section we report the results of an experiment to determine how well each of the models de-
+scribed above can predict the 1st and 99th percentiles of the 15 return distribution. These results are 
+provided in Table B.3. 
+Our analysis consisted of the following steps:
+• First, we estimate the parameters in each of the three models using price data from May, 25, 
+1992 through October 23, 1996. This sample consists of 1152 historical returns on each of the 
+15 time series. 
+• Second, we construct one-day volatility estimates for each of the three models using the most 
+recent 952 returns.
+• Third, we use the 952 volatility estimates and the three probability distributions (normal, mix-
+ture normal and GED) evaluated at the parameter estimates to construct VaR forecasts at the 
+1st and 99th percentiles.
+• Fourth, we count the number of times the next day realized return exceeds each of the VaR 
+forecasts. This number is then converted to a percentage by dividing it by the total number of 
+trials—952 in this experiment. The “ideal” model would yield percentages of 1%.
+Table B.3 presents these percentages for the three models.
+Table B.3 shows that for the RiskMetrics-GED model the VaR forecasts at the 1st percentile are ex-
+ceeded 1.315 percent of the time whereas the VaR forecasts at the 99th percentile are exceeded 
+1.286% of the time. Similarly, the VaR forecasts produced from the mixture model are exceeded at 
+the 1st and 99th percentiles by 1.396% and 1.270% of the realized returns, respectively. Both mod-
+els are marked improvements over the standard RiskMetrics model that assumes conditional 
+normality.
+Table B.3
+VaR statistics (in %) for the 1st and 99th percentiles
+RGD = RiskMetrics-GED; RM = RiskMetrics; MX = Normal mixture
+Instrument type
+Source
+ 1st percentile (1%)
+ 99th percentile (99%)
+RGD
+RM
+MX
+RGD
+RM
+MX
+Foreign exchange
+Mexico
+1.477
+2.346
+0.434
+1.043
+1.998
+0.434
+Philippines
+1.390
+2.520
+1.043
+1.216
+1.998
+1.043
+Taiwan
+0.956
+1.651
+0.782
+1.043
+1.911
+0.782
+Argentina
+1.998
+1.998
+1.303
+2.172
+2.172
+1.39
+Indonesia
+1.651
+3.562
+1.651
+1.129
+1.998
+1.411
+Korea
+1.216
+2.433
+1.303
+0.521
+1.303
+0.956
+Malaysia
+1.564
+2.433
+1.477
+1.911
+3.215
+1.911
+South Africa
+1.390
+1.998
+1.216
+1.129
+1.998
+1.303
+Thailand
+0.695
+1.129
+1.043
+1.651
+2.172
+1.072
+Equity
+Argentina
+1.825
+2.520
+1.646
+0.869
+1.129
+1.129
+Indonesia
+0.608
+1.998
+1.564
+1.564
+2.520
+1.564
+Malaysia
+1.651
+2.433
+1.698
+1.651
+2.693
+1.738
+Mexico
+0.956
+2.259
+1.738
+1.043
+1.651
+1.303
+South Africa
+1.216
+2.172
+1.651
+1.477
+2.085
+1.738
+Thailand
+1.129
+1.564
+1.190
+0.869
+2.346
+1.611
+Column average
+1.315
+2.201
+1.396
+1.286
+2.060
+1.270

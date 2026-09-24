@@ -1,0 +1,1696 @@
+ 
+An Introduction to the Kalman Filter
+ 
+by
+Greg Welch
+ 
+1
+ 
+and
+Gary Bishop
+ 
+2
+ 
+TR 95-041
+Department of Computer Science
+University of North Carolina at Chapel Hill
+Chapel Hill, NC 27599-3175
+ 
+Abstract
+ 
+In 1960, R.E. Kalman published his famous paper describing a recursive solution 
+to the discrete-data linear filtering problem. Since that time, due in large part to ad-
+vances in digital computing, the Kalman filter has been the subject of extensive re-
+search and application, particularly in the area of autonomous or assisted 
+navigation.
+The Kalman filter is a set of mathematical equations that provides an efficient com-
+putational (recursive) solution of the least-squares method. The filter is very pow-
+erful in several aspects: it supports estimations of past, present, and even future 
+states, and it can do so even when the precise nature of the modeled system is un-
+known.
+The purpose of this paper is to provide a practical introduction to the discrete Kal-
+man filter. This introduction includes a description and some discussion of the basic 
+discrete Kalman filter, a derivation, description and some discussion of the extend-
+ed Kalman filter, and a relatively simple (tangible) example with real numbers & 
+results.
+ 
+1. 
+ 
+welch@cs.unc.edu, http://www.cs.unc.edu/~welch
+ 
+2. 
+ 
+gb@cs.unc.edu, http://www.cs.unc.edu/~gb
+
+ 
+Welch & Bishop, An Introduction to the Kalman Filter
+2
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+ 
+1
+The Discrete Kalman Filter
+ 
+In 1960, R.E. Kalman published his famous paper describing a recursive solution to the discrete-
+data linear filtering problem [Kalman60]. Since that time, due in large part to advances in digital 
+computing, the 
+ 
+Kalman filter
+ 
+ has been the subject of extensive research and application, 
+particularly in the area of autonomous or assisted navigation. A very “friendly” introduction to the 
+general idea of the Kalman filter can be found in Chapter 1 of [Maybeck79], while a more complete 
+introductory discussion can be found in [Sorenson70], which also contains some interesting 
+historical narrative. More extensive references include [Gelb74], [Maybeck79], [Lewis86], 
+[Brown92], and [Jacobs93].
+ 
+The Process to be Estimated
+ 
+The Kalman filter addresses the general problem of trying to estimate the state 
+ of a 
+discrete-time controlled process that is governed by the linear stochastic difference equation
+,
+(1.1)
+with a measurement 
+ that is
+.
+(1.2)
+The random variables 
+ and 
+ represent the process and measurement noise (respectively). 
+They are assumed to be independent (of each other), white, and with normal probability 
+distributions
+,
+(1.3)
+.
+(1.4)
+The 
+ matrix 
+ 
+A
+ 
+ in the difference equation (1.1) relates the state at time step 
+ 
+k
+ 
+ to the state at step 
+ 
+k
+ 
++1, in the absence of either a driving function or process noise. The 
+ matrix 
+ 
+B
+ 
+ relates the 
+control input 
+ to the state 
+ 
+x
+ 
+. The 
+ matrix 
+ 
+H
+ 
+ in the measurement equation (1.2) relates 
+the state to the measurement 
+ 
+z
+ 
+k
+ 
+.
+ 
+The Computational Origins of the Filter
+ 
+We define 
+ (note the “super minus”) to be our 
+ 
+a priori
+ 
+ state estimate at step 
+ 
+k
+ 
+ given 
+knowledge of the process prior to step 
+ 
+k
+ 
+, and 
+ to be our 
+ 
+a posteriori
+ 
+ state estimate at step 
+ 
+k
+ 
+ given measurement 
+. We can then define 
+ 
+a priori
+ 
+ and 
+ 
+a posteriori
+ 
+ estimate errors as
+The 
+ 
+a priori
+ 
+ estimate error covariance is then
+,
+(1.5)
+x
+ℜn
+∈
+xk
+1
++
+Akxk
+Buk
+wk
++
++
+=
+z
+ℜm
+∈
+zk
+Hkxk
+vk
++
+=
+wk
+vk
+p w
+(
+)
+N 0 Q
+,
+(
+)
+∼
+p v
+( )
+N 0 R
+,
+(
+)
+∼
+n
+n
+×
+n
+l
+×
+u
+ℜl
+∈
+m
+n
+×
+xˆk
+-
+ℜn
+∈
+xˆk
+ℜn
+∈
+zk
+ek
+-
+xk
+xˆk
+- , and
+–
+≡
+ek
+xk
+xˆk.
+–
+≡
+Pk
+-
+E ek
+- ek
+- T
+[
+]
+=
+
+ 
+Welch & Bishop, An Introduction to the Kalman Filter
+3
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+ 
+and the 
+ 
+a posteriori
+ 
+ estimate error covariance is
+.
+(1.6)
+In deriving the equations for the Kalman filter, we begin with the goal of finding an equation that 
+computes an 
+ 
+a posteriori
+ 
+ state estimate 
+ as a linear combination of an 
+ 
+a priori
+ 
+ estimate 
+ and 
+a weighted difference between an actual measurement 
+ and a measurement prediction 
+ as 
+shown below in (1.7). Some justification for (1.7) is given in “The Probabilistic Origins of the 
+Filter” found below.
+(1.7)
+The difference 
+ in (1.7) is called the measurement 
+ 
+innovation
+ 
+, or the 
+ 
+residual
+ 
+. The 
+residual reflects the discrepancy between the predicted measurement 
+ and the actual 
+measurement 
+. A residual of zero means that the two are in complete agreement. 
+The 
+ matrix 
+ 
+K
+ 
+ in (1.7) is chosen to be the 
+ 
+gain
+ 
+ or 
+ 
+blending factor
+ 
+ that minimizes the 
+ 
+a 
+posteriori
+ 
+ error covariance (1.6). This minimization can be accomplished by first substituting (1.7) 
+into the above definition for 
+, substituting that into (1.6), performing the indicated expectations, 
+taking the derivative of the trace of the result with respect to 
+ 
+K
+ 
+, setting that result equal to zero, and 
+then solving for 
+ 
+K
+ 
+. For more details see [Maybeck79], [Brown92], or [Jacobs93]. One form of the 
+resulting 
+ 
+K
+ 
+ that minimizes (1.6) is given by
+ 
+1
+ 
+.
+(1.8)
+Looking at (1.8) we see that as the measurement error covariance 
+ approaches zero, the gain 
+ 
+K
+ 
+ 
+weights the residual more heavily. Specifically,
+.
+On the other hand, as the 
+ 
+a priori
+ 
+ estimate error covariance 
+ approaches zero, the gain 
+ 
+K
+ 
+ weights 
+the residual less heavily. Specifically,
+.
+Another way of thinking about the weighting by 
+ 
+K
+ 
+ is that as the measurement error covariance 
+ 
+approaches zero, the actual measurement 
+ is “trusted” more and more, while the predicted 
+measurement 
+ is trusted less and less. On the other hand, as the 
+ 
+a priori
+ 
+ estimate error 
+covariance 
+ approaches zero the actual measurement 
+ is trusted less and less, while the 
+predicted measurement 
+ is trusted more and more.
+ 
+1. 
+ 
+All of the Kalman filter equations can be algebraically manipulated into to several forms. Equation (1.8)
+represents the Kalman gain in one popular form.
+Pk
+E ekekT
+[
+]
+=
+xˆk
+xˆk
+-
+zk
+Hkxˆk
+-
+xˆk
+xˆk
+-
+K zk
+Hkxˆk
+-
+–
+(
+)
++
+=
+zk
+Hkxˆk
+-
+–
+(
+)
+Hkxˆk
+-
+zk
+n
+m
+×
+ek
+Kk
+Pk
+- HkT HkPk
+- HkT
+Rk
++
+(
+) 1
+–
+=
+Pk
+- HkT
+HkPk
+- HkT
+Rk
++
+---------------------------------
+=
+Rk
+Kk
+Rk
+0
+→
+lim
+Hk 1
+–
+=
+Pk
+-
+Kk
+Pk
+-
+0
+→
+lim
+0
+=
+Rk
+zk
+Hkxˆk
+-
+Pk
+-
+zk
+Hkxˆk
+-
+
+Welch & Bishop, An Introduction to the Kalman Filter
+4
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+The Probabilistic Origins of the Filter
+The justification for (1.7) is rooted in the probability of the a priori estimate 
+ conditioned on all 
+prior measurements 
+ (Bayes’ rule). For now let it suffice to point out that the Kalman filter 
+maintains the first two moments of the state distribution,
+The a posteriori state estimate (1.7) reflects the mean (the first moment) of the state distribution— 
+it is normally distributed if the conditions of (1.3) and (1.4) are met. The a posteriori estimate error 
+covariance (1.6) reflects the variance of the state distribution (the second non-central moment). In 
+other words,
+.
+For more details on the probabilistic origins of the Kalman filter, see [Maybeck79], [Brown92], or 
+[Jacobs93].
+The Discrete Kalman Filter Algorithm
+We will begin this section with a broad overview, covering the “high-level” operation of one form 
+of the discrete Kalman filter (see the previous footnote). After presenting this high-level view, we 
+will narrow the focus to the specific equations and their use in this version of the filter.
+The Kalman filter estimates a process by using a form of feedback control: the filter estimates the 
+process state at some time and then obtains feedback in the form of (noisy) measurements. As such, 
+the equations for the Kalman filter fall into two groups: time update equations and measurement 
+update equations. The time update equations are responsible for projecting forward (in time) the 
+current state and error covariance estimates to obtain the a priori estimates for the next time step. 
+The measurement update equations are responsible for the feedback—i.e. for incorporating a new 
+measurement into the a priori estimate to obtain an improved a posteriori estimate.
+The time update equations can also be thought of as predictor equations, while the measurement 
+update equations can be thought of as corrector equations. Indeed the final estimation algorithm 
+resembles that of a predictor-corrector algorithm for solving numerical problems as shown below 
+in Figure 1-1.
+Figure 1-1. The ongoing discrete Kalman filter cycle. The time update 
+projects the current state estimate ahead in time. The measurement update 
+adjusts the projected estimate by an actual measurement at that time.
+xˆk
+-
+zk
+E xk
+[
+]
+xˆk
+=
+E
+xk
+xˆk
+–
+(
+) xk
+xˆk
+–
+(
+)T
+[
+]
+Pk.
+=
+p xk zk
+(
+)
+N E xk
+[
+] E
+xk
+xˆk
+–
+(
+) xk
+xˆk
+–
+(
+)T
+[
+]
+,
+(
+)
+∼
+N xˆk Pk
+,
+(
+).
+=
+Time Update
+(“Predict”)
+Measurement Update
+(“Correct”)
+
+Welch & Bishop, An Introduction to the Kalman Filter
+5
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+The specific equations for the time and measurement updates are presented below in Table 1-1 and 
+Table 1-2.
+Again notice how the time update equations in Table 1-1 project the state and covariance estimates 
+from time step k to step k+1. 
+ and B are from (1.1), while 
+ is from (1.3). Initial conditions for 
+the filter are discussed in the earlier references.
+The first task during the measurement update is to compute the Kalman gain, 
+. Notice that the 
+equation given here as (1.11) is the same as (1.8). The next step is to actually measure the process 
+to obtain 
+, and then to generate an a posteriori state estimate by incorporating the measurement 
+as in (1.12). Again (1.12) is simply (1.7) repeated here for completeness. The final step is to obtain 
+an a posteriori error covariance estimate via (1.13).
+After each time and measurement update pair, the process is repeated with the previous a posteriori 
+estimates used to project or predict the new a priori estimates. This recursive nature is one of the 
+very appealing features of the Kalman filter—it makes practical implementations much more 
+feasible than (for example) an implementation of a Weiner filter [Brown92] which is designed to 
+operate on all of the data directly for each estimate. The Kalman filter instead recursively 
+conditions the current estimate on all of the past measurements. Figure 1-2 below offers a complete 
+picture of the operation of the filter, combining the high-level diagram of Figure 1-1 with the 
+equations from Table 1-1 and Table 1-2.
+Filter Parameters and Tuning
+In the actual implementation of the filter, each of the measurement error covariance matrix 
+ and 
+the process noise 
+ (given by (1.4) and (1.3) respectively) might be measured prior to operation 
+of the filter. In the case of the measurement error covariance 
+ in particular this makes sense—
+because we need to be able to measure the process (while operating the filter) we should generally 
+be able to take some off-line sample measurements in order to determine the variance of the 
+measurement error.
+Table 1-1: Discrete Kalman ﬁlter time update equations.
+(1.9)
+(1.10)
+Table 1-2: Discrete Kalman ﬁlter measurement update equations.
+(1.11)
+(1.12)
+(1.13)
+xˆk
+1
++
+-
+Akxˆk
+Buk
++
+=
+Pk
+1
++
+-
+AkPkAk
+T
+Qk
++
+=
+Ak
+Qk
+Kk
+Pk
+- HkT HkPk
+- HkT
+Rk
++
+(
+) 1
+–
+=
+xˆk
+xˆk
+-
+K zk
+Hkxˆk
+-
+–
+(
+)
++
+=
+Pk
+I
+KkHk
+–
+(
+)Pk
+-
+=
+Kk
+zk
+Rk
+Qk
+Rk
+
+Welch & Bishop, An Introduction to the Kalman Filter
+6
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+In the case of 
+, often times the choice is less deterministic. For example, this noise source is 
+often used to represent the uncertainty in the process model (1.1). Sometimes a very poor model 
+can be used simply by “injecting” enough uncertainty via the selection of 
+. Certainly in this case 
+one would hope that the measurements of the process would be reliable.
+In either case, whether or not we have a rational basis for choosing the parameters, often times 
+superior filter performance (statistically speaking) can be obtained by “tuning” the filter 
+parameters 
+ and 
+. The tuning is usually performed off-line, frequently with the help of 
+another (distinct) Kalman filter.
+Figure 1-2. A complete picture of the operation of the Kalman filter, com-
+bining the high-level diagram of Figure 1-1 with the equations from 
+Table 1-1 and Table 1-2.
+In closing we note that under conditions where 
+ and 
+.are constant, both the estimation error 
+covariance 
+ and the Kalman gain 
+ will stabilize quickly and then remain constant (see the 
+filter update equations in Figure 1-2). If this is the case, these parameters can be pre-computed by 
+either running the filter off-line, or for example by solving (1.10) for the steady-state value of 
+ 
+by defining 
+ and solving for 
+.
+It is frequently the case however that the measurement error (in particular) does not remain 
+constant. For example, when sighting beacons in our optoelectronic tracker ceiling panels, the 
+noise in measurements of nearby beacons will be smaller than that in far-away beacons. Also, the 
+process noise 
+ is sometimes changed dynamically during filter operation in order to adjust to 
+different dynamics. For example, in the case of tracking the head of a user of a 3D virtual 
+environment we might reduce the magnitude of 
+ if the user seems to be moving slowly, and 
+increase the magnitude if the dynamics start changing rapidly. In such a case 
+ can be used to 
+model not only the uncertainty in the model, but also the uncertainty of the user’s intentions.
+Qk
+Qk
+Qk
+Rk
+Kk
+Pk
+- HkT HkPk
+- HkT
+Rk
++
+(
+) 1
+–
+=
+(1) Compute the Kalman gain
+xˆk
+-
+Initial estimates for 
+andPk
+-
+xˆk
+xˆk
+-
+K zk
+Hkxˆk
+-
+–
+(
+)
++
+=
+(2) Update estimate with measurement zk
+(3) Update the error covariance
+Pk
+I
+KkHk
+–
+(
+)Pk
+-
+=
+Measurement Update (“Correct”)
+(1) Project the state ahead
+(2) Project the error covariance ahead
+Time Update (“Predict”)
+xˆk
+1
++
+-
+Akxˆk
+Buk
++
+=
+Pk
+1
++
+-
+AkPkAkT
+Qk
++
+=
+Qk
+Rk
+Pk
+Kk
+Pk
+Pk
+-
+Pk
+≡
+Pk
+Qk
+Qk
+Qk
+
+Welch & Bishop, An Introduction to the Kalman Filter
+7
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+2
+The Extended Kalman Filter (EKF)
+The Process to be Estimated
+As described above in section , the Kalman filter addresses the general problem of trying to 
+estimate the state 
+ of a discrete-time controlled process that is governed by a linear 
+stochastic difference equation. But what happens if the process to be estimated and (or) the 
+measurement relationship to the process is non-linear? Some of the most interesting and successful 
+applications of Kalman filtering have been such situations. A Kalman filter that linearizes about 
+the current mean and covariance is referred to as an extended Kalman filter or EKF1.
+In something akin to a Taylor series, we can linearize the estimation around the current estimate 
+using the partial derivatives of the process and measurement functions to compute estimates even 
+in the face of non-linear relationships. To do so, we must begin by modifying some of the material 
+presented in section . Let us assume that our process again has a state vector 
+, but that the 
+process is now governed by the non-linear stochastic difference equation
+,
+(2.1)
+with a measurement 
+ that is
+,
+(2.2)
+where the random variables 
+ and 
+ again represent the process and measurement noise as in 
+(1.3) and (1.4). In this case the non-linear function f(•) in the difference equation (2.1) relates the 
+state at time step k to the state at step k+1. It includes as parameters any driving function uk and the 
+zero-mean process noise wk. The non-linear function h(•) in the measurement equation (2.2) relates 
+the state 
+ to the measurement 
+.
+In practice of course one does not know the individual values of the noise 
+ and 
+ at each time 
+step. However, one can approximate the state and measurement vector without them as
+(2.3)
+and
+,
+(2.4)
+where 
+ is some a posteriori estimate of the state (from a previous time step k).
+1. A fundamental “flaw” of the EKF is that the distributions (or densities in the continuous case) of the various
+random variables are no longer normal after undergoing their respective nonlinear transformations. The EKF
+is simply an ad hoc state estimator that only approximates the optimality of Bayes’ rule by linearization. Some
+very interesting work has been done by Julier et al. in developing a variation to the EKF, using methods that
+preserve the normal distributions throughout the non-linear transformations [Julier].
+x
+ℜn
+∈
+x
+ℜn
+∈
+xk
+1
++
+f xk uk wk
+,
+,
+(
+)
+=
+z
+ℜm
+∈
+zk
+h xk vk
+,
+(
+)
+=
+wk
+vk
+xk
+zk
+wk
+vk
+x˜k
+1
++
+f xˆk uk 0
+,
+,
+(
+)
+=
+z˜k
+h x˜k 0
+,
+(
+)
+=
+xˆk
+
+Welch & Bishop, An Introduction to the Kalman Filter
+8
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+The Computational Origins of the Filter
+To estimate a process with non-linear difference and measurement relationships, we begin by 
+writing new governing equations that linearize an estimate about (2.3) and (2.4),
+,
+(2.5)
+.
+(2.6)
+where
+•
+ and 
+ are the actual state and measurement vectors,
+•
+ and 
+ are the approximate state and measurement vectors from (2.3) and (2.4),
+•
+ is an a posteriori estimate of the state at step k,
+•
+the random variables 
+ and 
+ represent the process and measurement noise as in 
+(1.3) and (1.4). 
+•
+A is the Jacobian matrix of partial derivatives of f(•) with respect to x, that is
+,
+•
+W is the Jacobian matrix of partial derivatives of f(•) with respect to w,
+,
+•
+H is the Jacobian matrix of partial derivatives of h(•) with respect to x,
+,
+•
+V is the Jacobian matrix of partial derivatives of h(•) with respect to v,
+.
+Note that for simplicity in the notation we do not use the time step subscript  with the Jacobians 
+, 
+, 
+, and 
+, even though they are in fact different at each time step.
+Now we define a new notation for the prediction error,
+,
+(2.7)
+and the measurement residual,
+.
+(2.8)
+xk
+1
++
+x˜k
+1
++
+A xk
+xˆk
+–
+(
+)
+Wwk
++
++
+≈
+zk
+z˜k
+H xk
+x˜k
+–
+(
+)
+Vvk
++
++
+≈
+xk
+1
++
+zk
+x˜k
+1
++
+z˜k
+xˆk
+wk
+vk
+A i j
+,
+[
+]
+x j
+[ ]
+∂
+∂f i[ ] xˆk uk 0
+,
+,
+(
+)
+=
+W i j
+,
+[
+]
+w j
+[ ]
+∂
+∂f i[ ] xˆk uk 0
+,
+,
+(
+)
+=
+H i j
+,
+[
+]
+x j
+[ ]
+∂
+∂h i[ ] x˜k 0
+,
+(
+)
+=
+V i j
+,
+[
+]
+v j
+[ ]
+∂
+∂h i[ ] x˜k 0
+,
+(
+)
+=
+k
+A W H
+V
+e˜ xk
+xk
+x˜k
+–
+≡
+e˜zk
+zk
+z˜k
+–
+≡
+
+Welch & Bishop, An Introduction to the Kalman Filter
+9
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+Remember that in practice one does not have access to 
+ in (2.7), it is the actual state vector, i.e. 
+the quantity one is trying to estimate. On the other hand, one does have access to 
+ in (2.8), it is 
+the actual measurement that one is using to estimate 
+. Using (2.7) and (2.8) we can write 
+governing equations for an error process as
+,
+(2.9)
+,
+(2.10)
+where 
+ and 
+ represent new independent random variables having zero mean and covariance 
+matrices 
+ and 
+, with 
+ and 
+ as in (1.3) and (1.4) respectively.
+Notice that the equations (2.9) and (2.10) are linear, and that they closely resemble the difference 
+and measurement equations (1.1) and (1.2) from the discrete Kalman filter. This motivates us to 
+use the actual measurement residual 
+ in (2.8) and a second (hypothetical) Kalman filter to 
+estimate the prediction error 
+ given by (2.9). This estimate, call it 
+, could then be used along 
+with (2.7) to obtain the a posteriori state estimates for the original non-linear process as
+.
+(2.11)
+The random variables of (2.9) and (2.10) have approximately the following probability 
+distributions (see the previous footnote):
+Given these approximations and letting the predicted value of 
+ be zero, the Kalman filter 
+equation used to estimate 
+ is
+.
+(2.12)
+By substituting (2.12) back into (2.11) and making use of (2.8) we see that we do not actually need 
+the second (hypothetical) Kalman filter:
+(2.13)
+Equation (2.13) can now be used for the measurement update in the extended Kalman filter, with 
+ and 
+ coming from (2.3) and (2.4), and the Kalman gain 
+ coming from (1.11) with the 
+appropriate substitution for the measurement error covariance.
+xk
+zk
+xk
+e˜ xk
+1
++
+A xk
+xˆk
+–
+(
+)
+εk
++
+≈
+e˜zk
+He˜ xk
+ηk
++
+≈
+εk
+ηk
+WQW T
+VRV T
+Q
+R
+e˜zk
+e˜ xk
+eˆk
+xˆk
+x˜k
+eˆk
++
+=
+p e˜ xk
+(
+)
+N 0 E e˜ xke˜ xk
+T
+[
+]
+,
+(
+)
+∼
+p εk
+(
+)
+N 0 WQkW T
+,
+(
+)
+∼
+p ηk
+(
+)
+N 0 VRkV T
+,
+(
+)
+∼
+eˆk
+eˆk
+eˆk
+Kke˜zk
+=
+xˆk
+x˜k
+Kke˜zk
++
+=
+x˜k
+Kk zk
+z˜k
+–
+(
+)
++
+=
+x˜k
+z˜k
+Kk
+
+Welch & Bishop, An Introduction to the Kalman Filter
+10
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+The complete set of EKF equations is shown below in Table 2-1 and Table 2-2. Note that we have 
+substituted 
+ for 
+ to remain consistent with the earlier “super minus” notation, and that 
+we now attach the subscript  to the Jacobians 
+, 
+, 
+, and 
+, to reinforce the notion that they 
+are different at (and therefore must be recomputed at) each time step. 
+As with the basic discrete Kalman filter, the time update equations in Table 2-1 project the state 
+and covariance estimates from time step k to step k+1. Again f(•) in (2.14) comes from (2.3), 
+ 
+and W are the process Jacobians at step k, and 
+ is the process noise covariance (1.3) at step k.
+As with the basic discrete Kalman filter, the measurement update equations in Table 2-2 correct 
+the state and covariance estimates with the measurement 
+. Again h(•) in (2.17) comes from (2.4), 
+ and V are the measurement Jacobians at step k, and 
+ is the measurement noise covariance 
+(1.4) at step k.
+The basic operation of the EKF is the same as the linear discrete Kalman filter as shown in 
+Figure 1-1. Figure 2-1 below offers a complete picture of the operation of the EKF, combining the 
+high-level diagram of Figure 1-1 with the equations from Table 2-1 and Table 2-2.
+Table 2-1: EKF time update equations.
+(2.14)
+(2.15)
+Table 2-2: EKF measurement update equations.
+(2.16)
+(2.17)
+(2.18)
+xˆk
+1
++
+-
+x˜k
+1
++
+k
+A W H
+V
+xˆk
+1
++
+-
+f xˆk uk 0
+,
+,
+(
+)
+=
+Pk
+1
++
+-
+AkPkAk
+T
+WkQkWk
+T
++
+=
+Ak
+Qk
+Kk
+Pk
+- HkT HkPk
+- HkT
+V kRkV kT
++
+(
+) 1
+–
+=
+xˆk
+xˆk
+-
+K zk
+h xˆk
+- 0
+,
+(
+)
+–
+(
+)
++
+=
+Pk
+I
+KkHk
+–
+(
+)Pk
+-
+=
+zk
+Hk
+Rk
+
+Welch & Bishop, An Introduction to the Kalman Filter
+11
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+Figure 2-1. A complete picture of the operation of the extended Kalman fil-
+ter, combining the high-level diagram of Figure 1-1 with the equations from 
+Table 2-1 and Table 2-2.
+An important feature of the EKF is that the Jacobian 
+ in the equation for the Kalman gain 
+ 
+serves to correctly propagate or “magnify” only the relevant component of the measurement 
+information. For example, if there is not a one-to-one mapping between the measurement 
+ and 
+the state via h(•), the Jacobian 
+ affects the Kalman gain so that it only magnifies the portion of 
+the residual 
+ that does affect the state. Of course if over all measurements there is not 
+a one-to-one mapping between the measurement 
+ and the state via h(•), then as you might expect 
+the filter will quickly diverge. The control theory term to describe this situation is unobservable.
+3
+A Kalman Filter in Action: Estimating a Random Constant
+In the previous two sections we presented the basic form for the discrete Kalman filter, and the 
+extended Kalman filter. To help in developing a better feel for the operation and capability of the 
+filter, we present a very simple example here.
+The Process Model
+In this simple example let us attempt to estimate a scalar random constant, a voltage for example. 
+Let’s assume that we have the ability to take measurements of the constant, but that the 
+measurements are corrupted by a 0.1 volt RMS white measurement noise (e.g. our analog to digital 
+converter is not very accurate). In this example, our process is governed by the linear difference 
+equation
+,
+Kk
+Pk
+- Hk
+T HkPk
+- Hk
+T
+V kRkV k
+T
++
+(
+) 1
+–
+=
+(1) Compute the Kalman gain
+xˆk
+-
+Initial estimates for 
+andPk
+-
+xˆk
+xˆk
+-
+K zk
+h xˆk
+- 0
+,
+(
+)
+–
+(
+)
++
+=
+(2) Update estimate with measurement zk
+(3) Update the error covariance
+Pk
+I
+KkHk
+–
+(
+)Pk
+-
+=
+Measurement Update (“Correct”)
+(1) Project the state ahead
+(2) Project the error covariance ahead
+Time Update (“Predict”)
+xˆk
+1
++
+-
+f xˆk uk 0
+,
+,
+(
+)
+=
+Pk
+1
++
+-
+AkPkAkT
+WkQkWkT
++
+=
+Hk
+Kk
+zk
+Hk
+zk
+h xˆk
+- 0
+,
+(
+)
+–
+zk
+xk
+1
++
+Akxk
+Buk
+wk
++
++
+=
+xk
+wk
++
+=
+
+Welch & Bishop, An Introduction to the Kalman Filter
+12
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+with a measurement 
+ that is
+.
+The state does not change from step to step so 
+. There is no control input so 
+. Our 
+noisy measurement is of the state directly so 
+. (Notice that we dropped the subscript k in 
+several places because the respective parameters remain constant in our simple model.)
+The Filter Equations and Parameters
+Our time update equations are
+,
+,
+and our measurement update equations are
+(3.1)
+,
+.
+Presuming a very small process variance, we let 
+. (We could certainly let 
+ but 
+assuming a small but non-zero value gives us more flexibility in “tuning” the filter as we will 
+demonstrate below.) Let’s assume that from experience we know that the true value of the random 
+constant has a standard normal probability distribution, so we will “seed” our filter with the guess 
+that the constant is 0. In other words, before starting we let 
+.
+Similarly we need to choose an initial value for 
+, i.e. 
+. If we were absolutely certain that our 
+initial state estimate 
+ was correct, we would let 
+. However given the uncertainty in 
+our initial estimate 
+, choosing 
+ would cause the filter to initially and always believe 
+. As it turns out, the alternative choice is not critical. We could choose almost any 
+ 
+and the filter would eventually converge. We’ll start our filter with 
+. 
+z
+ℜ1
+∈
+zk
+Hkxk
+vk
++
+=
+xk
+vk
++
+=
+A
+1
+=
+u
+0
+=
+H
+1
+=
+xˆk
+1
++
+-
+xˆk
+=
+Pk
+1
++
+-
+Pk
+Q
++
+=
+Kk
+Pk
+- Pk
+-
+R
++
+(
+) 1
+–
+=
+Pk
+-
+Pk
+-
+R
++
+---------------,
+=
+xˆk
+xˆk
+-
+K zk
+xˆk
+-
+–
+(
+)
++
+=
+Pk
+1
+Kk
+–
+(
+)Pk
+-
+=
+Q
+1e
+5
+–
+=
+Q
+0
+=
+xˆk
+-
+0
+=
+Pk
+Pk
+-
+xˆk
+-
+0
+=
+Pk
+-
+0
+=
+xˆk
+-
+Pk
+-
+0
+=
+xˆk
+0
+=
+Pk
+-
+0
+≠
+Pk
+-
+1
+=
+
+Welch & Bishop, An Introduction to the Kalman Filter
+13
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+The Simulations
+To begin with, we randomly chose a scalar constant 
+ (there is no “hat” on the z 
+because it represents the “truth”). We then simulated 50 distinct measurements 
+ that had error 
+normally distributed around zero with a standard deviation of 0.1 (remember we presumed that the 
+measurements are corrupted by a 0.1 volt RMS white measurement noise). We could have 
+generated the individual measurements within the filter loop, but pre-generating the set of 50 
+measurements allowed me to run several simulations with the same exact measurements (i.e. same 
+measurement noise) so that comparisons between simulations with different parameters would be 
+more meaningful.
+In the first simulation we fixed the measurement variance at 
+. Because this is 
+the “true” measurement error variance, we would expect the “best” performance in terms of 
+balancing responsiveness and estimate variance. This will become more evident in the second and 
+third simulation. Figure 3-1 depicts the results of this first simulation. The true value of the random 
+constant 
+ is given by the solid line, the noisy measurements by the cross marks, and 
+the filter estimate by the remaining curve.
+Figure 3-1. The first simulation:
+. The true value of the 
+random constant 
+ is given by the solid line, the noisy mea-
+surements by the cross marks, and the filter estimate by the remaining curve.
+When considering the choice for 
+ above, we mentioned that the choice was not critical as long 
+as 
+ because the filter would eventually converge. Below in Figure 3-2 we have plotted the 
+value of 
+ versus the iteration. By the 50th iteration, it has settled from the initial (rough) choice 
+of 1 to approximately 0.0002 (Volts2).
+z
+0.37727
+–
+=
+zk
+R
+0.1
+(
+)2
+0.01
+=
+=
+x
+0.37727
+–
+=
+50
+40
+30
+20
+10
+-0.2
+-0.3
+-0.4
+-0.5
+Iteration
+Voltage
+R
+0.1
+(
+)2
+0.01
+=
+=
+x
+0.37727
+–
+=
+Pk
+-
+Pk
+-
+0
+≠
+Pk
+-
+
+Welch & Bishop, An Introduction to the Kalman Filter
+14
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+Figure 3-2. After 50 iterations, our initial (rough) error covariance 
+ 
+choice of 1 has settled to about 0.0002 (Volts2).
+In section  under the topic “Filter Parameters and Tuning” we briefly discussed changing or 
+“tuning” the parameters Q and R to obtain different filter performance. In Figure 3-3 and Figure 3-
+4 below we can see what happens when R is increased or decreased by a factor of 100 respectively. 
+In Figure 3-3 the filter was told that the measurement variance was 100 times greater (i.e. 
+) 
+so it was “slower” to believe the measurements.
+Figure 3-3. Second simulation: 
+. The filter is slower to respond to 
+the measurements, resulting in reduced estimate variance.
+In Figure 3-4 the filter was told that the measurement variance was 100 times smaller (i.e. 
+) so it was very “quick” to believe the noisy measurements.
+50
+40
+30
+20
+10
+0.01
+.008
+.006
+.004
+.002
+Iteration
+(Voltage)2
+Pk
+-
+R
+1
+=
+50
+40
+30
+20
+10
+-0.2
+-0.3
+-0.4
+-0.5
+Voltage
+R
+1
+=
+R
+0.0001
+=
+
+Welch & Bishop, An Introduction to the Kalman Filter
+15
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+Figure 3-4. Third simulation: 
+. The filter responds to measure-
+ments quickly, increasing the estimate variance.
+While the estimation of a constant is relatively straight-forward, it clearly demonstrates the 
+workings of the Kalman filter. In Figure 3-3 in particular the Kalman “filtering” is evident as the 
+estimate appears considerably smoother than the noisy measurements.
+50
+40
+30
+20
+10
+-0.2
+-0.3
+-0.4
+-0.5
+Voltage
+R
+0.0001
+=
+
+Welch & Bishop, An Introduction to the Kalman Filter
+16
+UNC-Chapel Hill, TR 95-041, October 19, 1998
+References
+Brown92
+Brown, R. G. and P. Y. C. Hwang. 1992. Introduction to Random Signals 
+and Applied Kalman Filtering, Second Edition, John Wiley & Sons, Inc.
+Gelb74
+Gelb, A. 1974. Applied Optimal Estimation, MIT Press, Cambridge, MA.
+Jacobs93
+Jacobs, O. L. R. 1993. Introduction to Control Theory, 2nd Edition. Oxford 
+University Press.
+Julier
+Julier, Simon and Jeffrey Uhlman. "A General Method of Approximating 
+Nonlinear Transformations of Probability Distributions," Robotics Re-
+search Group, Department of Engineering Science, University of Oxford 
+[cited 14 November 1995]. Available from http://www.robots.ox.ac.uk/~si-
+ju/work/publications/Unscented.zip.
+Also see: "A New Approach for Filtering Nonlinear Systems" by S. J. Julier, 
+J. K. Uhlmann, and H. F. Durrant-Whyte, Proceedings of the 1995 Ameri-
+can Control Conference, Seattle, Washington, Pages:1628-1632. Available 
+from http://www.robots.ox.ac.uk/~siju/work/publications/ACC95_pr.zip.
+Also see Simon Julier's home page at http://www.robots.ox.ac.uk/~siju/.
+Kalman60
+Kalman, R. E. 1960. “A New Approach to Linear Filtering and Prediction 
+Problems,” Transaction of the ASME—Journal of Basic Engineering, 
+pp. 35-45 (March 1960).
+Lewis86
+Lewis, Richard. 1986. Optimal Estimation with an Introduction to Stochas-
+tic Control Theory, John Wiley & Sons, Inc.
+Maybeck79
+Maybeck, Peter S. 1979. Stochastic Models, Estimation, and Control, Vol-
+ume 1, Academic Press, Inc.
+Sorenson70
+Sorenson, H. W. 1970. “Least-Squares estimation: from Gauss to Kalman,” 
+IEEE Spectrum, vol. 7, pp. 63-68, July 1970.

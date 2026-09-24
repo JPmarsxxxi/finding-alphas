@@ -1,0 +1,540 @@
+4 Optimal Clustering
+4.1 Motivation
+A clustering problem consists of a set of objects and a set of features associated
+with those objects. The goal is to separate the objects into groups (called
+clusters) using the features, where intragroup similarities are maximized, and
+intergroup similarities are minimized. It is a form of unsupervised learning,
+because we do not provide examples to assist the algorithm in solving this task.
+Clustering problems appear naturally in ﬁnance, at every step of the investment
+process. For instance, analysts may look for historical analogues to current
+events, a task that involves developing a numerical taxonomy of events.
+Portfolio managers often cluster securities with respect to a variety of features,
+to derive relative values among peers. Risk managers are keen to avoid the
+concentration of risks in securities that share common traits. Traders wish to
+understand ﬂows affecting a set of securities, to determine whether a rally or
+sell-off is idiosyncratic to a particular security, or affects a category shared by a
+multiplicity of securities. In tackling these problems, we use the notions of
+distance we studied in Section 3. This section focuses on the problem of ﬁnding
+the optimal number and composition of clusters.
+4.2 Proximity Matrix
+Consider a data matrix X, of order N by F, where N is the number of objects and F is
+the number of features. We use the F features to compute the proximity between the
+N objects, as represented by an NxN matrix. The proximity measure can indicate
+either similarity (e.g., correlation, mutual information) or dissimilarity (e.g., a
+distance metric). It is convenient but not strictly necessary that dissimilarity mea-
+sures satisfy the conditions of a metric: nonnegativity, symmetry and triangle
+inequality (Kraskov et al. 2008). The proximity matrix can be represented as an
+undirected graph wherethe weights are afunction of the similarity(themore similar,
+the greater the weight) or dissimilarity (the more dissimilar, the smaller the weight).
+Then the clustering problem is equivalent to breaking the graph into connected
+components (disjoint connected subgraphs), one for each cluster. When forming the
+proximity matrix, it is a good idea to standardize the input data, to prevent that one
+feature’s scale dominates over the rest.
+4.3 Types of Clustering
+There are two main classes of clustering algorithms: partitional and hierarchi-
+cal. Partitional techniques create a one-level (un-nested) partitioning of the
+objects (each object belongs to one cluster, and to one cluster only).
+52
+Machine Learning for Asset Managers
+
+Hierarchical techniques produce a nested sequence of partitions, with a single, all-
+inclusive cluster at the top and singleton clusters of individual points at the
+bottom. Hierarchical clustering algorithms can be divisive (top-down) or agglom-
+erative (bottom-up). By restricting the growth of a hierarchical tree, we can derive
+a partitional clustering from any hierarchical clustering. However, one cannot
+generally derive a hierarchical clustering from a partitional one.
+Depending on the deﬁnition of cluster, we can distinguish several types of
+clustering algorithms, including the following:
+1 Connectivity: This clustering is based on distance connectivity, like hier-
+archical clustering. For an example in ﬁnance, see López de Prado (2016).
+2 Centroids: These algorithms perform a vector quantization, like k-means.
+For an example in ﬁnance, see López de Prado and Lewis (2018).
+3 Distribution: Clusters are formed using statistical distributions, e.g., a
+mixture of Gaussians.
+4 Density: These algorithms search for connected dense regions in the data
+space. Examples include DBSCAN and OPTICS.
+5 Subspace: Clusters are modeled on two dimensions, features and observa-
+tions. An example is biclustering (also known as coclustering). For instance,
+they can help identify similarities in subsets of instruments and time periods
+simultaneously.10
+Some algorithms expect as input a measure of similarity, and other algorithms
+expect as input a measure of dissimilarity. It is important to make sure that you
+pass the right input to a particular algorithm. For instance, a hierarchical
+clustering algorithm typically expects distance as an input, and it will cluster
+together items within a neighborhood. Centroids, distribution and density
+methods expect vector-space coordinates, and they can handle distances
+directly. However, biclustering directly on the distance matrix will cluster
+together the most distant elements (the opposite of what say k-means would
+do). One solution is to bicluster on the reciprocal of distance.
+If the number of features greatly exceeds the number of observations, the curse of
+dimensionality can make the clustering problematic: most of the space spanning the
+observations will be empty, making it difﬁcult to identify any groupings. One
+solution is to project the data matrix X onto a low-dimensional space, similar to
+how PCA reduces the number offeatures (Steinbach et al. 2004; Ding and He 2004).
+An alternative solution is to project the proximity matrix onto a low-dimensional
+space, and use it as a new X matrix. In both cases, the procedure described inSection
+2 can help identify the number of dimensions associated with signal.
+10 For an illustration, see https://quantdare.com/biclustering-time-series/.
+53
+Elements in Quantitative Finance
+
+4.4 Number of Clusters
+Partitioning algorithms ﬁnd the composition of un-nested clusters, where the
+researcher is responsible for providing the correct number of clusters. In practice,
+researchers often do not know in advance what the number of clusters should be.
+The “elbow method” is a popular technique that stops adding clusters when the
+marginal percentage of variance explained does not exceed a predeﬁned thresh-
+old. In this context, the percentage of variance explained is deﬁned as the ratio of
+the between-group variance to the total variance (an F-test). One caveat of this
+approach is that the threshold is often set arbitrarily (Goutte et al. 1999).
+In this section we present one algorithm that recovers the number of clusters
+from a shufﬂed block-diagonal correlation matrix. López de Prado and Lewis
+(2018) denote this algorithm ONC, since it searches for the optimal number of
+clusters. ONC belongs to the broader class of algorithms that apply the silhou-
+ette method (Rousseeuw 1987). Although we typically focus on ﬁnding the
+number of clusters within a correlation matrix, this algorithm can be applied to
+any generic observation matrix.
+4.4.1 Observations Matrix
+If your problem does not involve a correlation matrix, or you already possess an
+observation matrix, you may skip this section.11 Otherwise, assume that we
+have N variables that follow a multivariate Normal distribution characterized by
+a correlation matrix ρ, where ρi;j is the correlation between variables i and j. If a
+strong common component is present, it is advisable to remove it by applying
+the detoning method explained in Section 2, because a factor exposure shared
+by all variables may hide the existence of partly shared exposures.
+For the purposes of correlation clustering, we can follow at least three
+approaches: (a) circumvent the X matrix, by directly deﬁning the distance
+matrix as di;j ¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1
+2 1  ρi;j
+
+
+r
+or a similar transformation (see Section 3); (b)
+use the correlation matrix as X; (c) derive the X matrix as Xi;j ¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1
+2 1  ρi;j
+
+
+r
+,
+or a similar transformation (the distance of distances approach). The advantage
+of options (b) and (c) is that the distance between two variables will be a
+function of multiple correlation estimates, and not only one, which makes the
+analysis more robust to the presence of outliers. The advantage of option (c) is
+11 Ideally, your observations matrix will be based on one of the information-theoretic metrics explained
+in Section 3. However, I must concede that correlation is still more prevalent in ﬁnance. ONC is
+agnostic as to how the observations matrix is formed, so the purpose of this section is to explain one
+way of computing this matrix for readers who feel more comfortable using correlations.
+54
+Machine Learning for Asset Managers
+
+that it acknowledges that a change from ρi;j ¼ 0:9 to ρi;j ¼ 1:0 is greater than a
+change from ρi;j ¼ 0:1 to ρi;j ¼ 0:2. In this Section we follow approach (c), thus
+we deﬁne the observations matrix as Xi;j ¼
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+1
+2 1  ρi;j
+
+
+r
+.
+The clustering of correlation matrices is peculiar in the sense that the features
+match the observations: we try to group observations where the observations
+themselves are the features (hence the symmetry of X). Matrix X appears to be a
+distance matrix, but it is not. It is still an observations matrix, on which distances
+can be evaluated.
+For large matrices X, generally it is good practice to reduce its dimension via
+PCA. The idea is to replace X with its standardized orthogonal projection onto a
+lower-dimensional space, where the number of dimensions is given by the number
+of eigenvalues in X’s correlation matrix that exceed λþ (see Section 2). The
+resulting observations matrix, Xe, of size NxF, has a higher signal-to-noise ratio.
+4.4.2 Base Clustering
+At this stage, we assume that we have a matrix that expresses our observations
+in a metric space. This matrix may have been computed as described in the
+previous section, or applying some other method. For example, the matrix may
+be based on the variation of information between random variables, as
+explained in Section 3. Next, let us discuss the base clustering algorithm. One
+possibility would be to use the k-means algorithm on our observation matrix.12
+While k-means is simple and frequently effective, it does have two notable
+limitations: ﬁrst, the algorithm requires an user-set number of clusters K, which
+is not necessarily optimal a priori; second, the initialization is random, and
+hence the effectiveness of the algorithm can be similarly random.
+In order to address these two concerns, we need to modify the k-means
+algorithm. The ﬁrst modiﬁcation we make is to introduce an objective function,
+so that we can ﬁnd the “optimal K.” For this, we choose the silhouette score
+introduced by Rousseeuw (1987). As a reminder, for a given element i and a
+given clustering, the silhouette coefﬁcient Si is deﬁned as
+Si ¼
+bi  ai
+maxfai; big ; i ¼ 1; . . . ; N;
+where ai is the average distance between i and all other elements in the same
+cluster, and bi is the average distance between i and all the elements in the
+12 Another possibility is to use a hierarchical algorithm, where the base clustering occurs at the
+dendrogram’s distance that maximizes the quality of the partitions. For an example, see https://
+ssrn.com/abstract=3512998
+55
+Elements in Quantitative Finance
+
+nearest cluster of which i is not a member. Effectively, this is a measure
+comparing intracluster distance and intercluster distance. A value Si ¼ 1
+means that element i is clustered well, while Si ¼ 1 means that i was clustered
+poorly. For a given partition, our measure of clustering quality q is deﬁned as
+q ¼
+E½ Sig
+f
+
+ﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+V½ Sig
+f
+
+p
+;
+where E½ Sig
+f
+ is the mean of the silhouette coefﬁcients and V½ Sig
+f
+ is the
+variance of the silhouette coefﬁcients. The second modiﬁcation we make
+deals with k-mean’s initialization problem. At the base level, our clustering
+algorithm performs the following operation: ﬁrst, evaluate the observation
+matrix; second, we perform a double for . . . loop. In the ﬁrst loop, we try
+different k ¼ 2; . . . ; N on which to cluster via k-means for one given initializa-
+tion, and evaluate the quality q for each clustering. The second loop repeats the
+ﬁrst loop multiple times, thereby attempting different initializations. Third, over
+these two loops, we select the clustering with the highest q. Code Snippet 4.1
+implements this procedure, and Figure 4.1 summarizes the workﬂow.
+SNIPPET 4.1 BASE CLUSTERING
+import numpy as np,pandas as pd
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_samples
+#---------------------------------------------------
+def clusterKMeansBase(corr0,maxNumClusters=10,n_init=10):
+x,silh=((1-corr0.ﬁllna(0))/2.)**.5,pd.Series()# observations matrix
+for init in range(n_init):
+for i in xrange(2,maxNumClusters+1):
+kmeans_=KMeans(n_clusters=i,n_jobs=1,n_init=1)
+kmeans_=kmeans_.ﬁt(x)
+silh_=silhouette_samples(x,kmeans_.labels_)
+stat=(silh_.mean()/silh_.std(),silh.mean()/silh.std())
+if np.isnan(stat[1]) or stat[0]>stat[1]:
+silh,kmeans=silh_,kmeans_
+newIdx=np.argsort(kmeans.labels_)
+corr1=corr0.iloc[newIdx] # reorder rows
+corr1=corr1.iloc[:,newIdx] # reorder columns
+clstrs={i:corr0.columns[np.where(kmeans.labels_==i)[0]].tolist() \
+for i in np.unique(kmeans.labels_) } # cluster members
+silh=pd.Series(silh,index=x.index)
+return corr1,clstrs,silh
+56
+Machine Learning for Asset Managers
+
+4.4.3 Higher-Level Clustering
+Our third modiﬁcation to k-means deals with clusters of inconsistent quality.
+The base clustering may capture the more distinct clusters, while missing the
+less apparent ones. To address this issue, we evaluate the quality qk of each
+cluster k ¼ 1; . . . ; K given the clustering quality scores obtained from the base
+clustering algorithm. We then take the average quality q, and ﬁnd the set of
+clusters with quality below average, qkjqk < q; k ¼ 1; . . . ; Kg
+f
+. Let us denote
+as K1 the number of clusters in that set, K1 < K. If the number of clusters to
+rerun is K1 ≤1, then we return the clustering given by the base algorithm.
+However, if K1 ≥2, we rerun the clustering of the items in those K1 clusters,
+while the rest are considered acceptably clustered.
+We form a new (reduced) observations matrix out of the elements that
+compose the K1 clusters, and rerun the base clustering algorithm on that reduced
+correlation matrix. Doing so will return a, possibly new, clustering for those
+elements in K1. To check its efﬁcacy, we compare the average cluster quality
+Input
+correlation
+matrix ρ
+Base clustering algo
+NO
+YES
+i = 1
+k = k + 1
+i = i + 1
+k ≤ N
+k = 2 and
+X = sqrt[.5(1–p)]
+i ≤ imax
+NO
+Cluster using K-means
+for k clusters using X,
+Evaluate quality
+(t-stat of silhouette scores)
+Return highest-
+quality clustering
+YES
+YES
+NO
+Figure 4.1 Structure of ONC’s base clustering stage.
+57
+Elements in Quantitative Finance
+
+before and after reclustering those elements in K1. If the average cluster quality
+improves, we return the accepted clustering from the base clustering concate-
+nated with the new clustering for the redone nodes. Otherwise, we return the
+clustering formed by the base algorithm. Code Snippet 4.2 implements this
+operation in python, and Figure 4.2 summarizes the workﬂow.
+SNIPPET 4.2 TOP-LEVEL OF CLUSTERING
+from sklearn.metrics import silhouette_samples
+#---------------------------------------------------
+def makeNewOutputs(corr0,clstrs,clstrs2):
+clstrsNew={}
+for i in clstrs.keys():
+clstrsNew[len(clstrsNew.keys())]=list(clstrs[i])
+for i in clstrs2.keys():
+clstrsNew[len(clstrsNew.keys())]=list(clstrs2[i])
+newIdx=[j for i in clstrsNew for j in clstrsNew[i]]
+corrNew=corr0.loc[newIdx,newIdx]
+x=((1-corr0.ﬁllna(0))/2.)**.5
+kmeans_labels=np.zeros(len(x.columns))
+for i in clstrsNew.keys():
+idxs=[x.index.get_loc(k) for k in clstrsNew[i]]
+kmeans_labels[idxs]=i
+silhNew=pd.Series(silhouette_samples(x,kmeans_labels),
+index=x.index)
+return corrNew,clstrsNew,silhNew
+#---------------------------------------------------
+def clusterKMeansTop(corr0,maxNumClusters=None,n_init=10):
+if maxNumClusters==None:maxNumClusters=corr0.shape[1]-1
+corr1,clstrs,silh=clusterKMeansBase(corr0,maxNumClusters= \
+min(maxNumClusters,corr0.shape[1]-1),n_init=n_init)
+clusterTstats={i:np.mean(silh[clstrs[i]])/ \
+np.std(silh[clstrs[i]]) for i in clstrs.keys()}
+tStatMean=sum(clusterTstats.values())/len(clusterTstats)
+redoClusters=[i for i in clusterTstats.keys() if \
+clusterTstats[i]<tStatMean]
+if len(redoClusters)<=1:
+return corr1,clstrs,silh
+else:
+keysRedo=[j for i in redoClusters for j in clstrs[i]]
+corrTmp=corr0.loc[keysRedo,keysRedo]
+tStatMean=np.mean([clusterTstats[i] for i in redoClusters])
+corr2,clstrs2,silh2=clusterKMeansTop(corrTmp, \
+maxNumClusters=min(maxNumClusters, \
+corrTmp.shape[1]-1),n_init=n_init)
+58
+Machine Learning for Asset Managers
+
+4.5 Experimental Results
+We now design a Monte Carlo experiment to verify the accuracy of the ONC
+algorithm introduced earlier: ﬁrst, we create an NxN correlation matrix ρ from
+random draws with a predeﬁned number of blocks K, where intrablock correla-
+tion is high and across-block correlation is low; second, we shufﬂe that correla-
+tion matrix. Third, we apply ONC, and verify that the ONC algorithm recovers
+the blocks we injected.13
+4.5.1 Generation of Random Block Correlation Matrices
+Given the tuple N; M; K
+ð
+Þ, we wish to create a random block correlation matrix
+of size NxN, made up of K blocks, each of size greater or equal than M. Let us
+describe the procedure for randomly partitioning N items into K disjoint groups,
+each of size at least M. Note that this is equivalent to randomly partitioning
+N0 ¼ N  K M  1
+ð
+Þ items into K groups each of size at least 1, so we reduce
+our analysis to that. Consider randomly choosing K  1 distinct items, denoted
+as a set B, from the set A ¼ 1; . . . ; N0  1
+ð
+Þ, then add N0 to B, so that B is of size
+K. Thus, B contains i1; . . . ; iK, where 1 ≤i1 < i2 < . . . < iK ¼ N0. Given B,
+consider the K partition sets C1 ¼ 0; . . . ; i1  1; C2 ¼ i1; . . . ; i2  1; . . . ; and
+CK ¼ iK1; . . . ; iK  1. Given that ij are distinct, each partition contains at least
+one element as desired, and furthermore completely partitions the set
+0; . . . ; N0  1
+ð
+Þ. In doing so, each set Cj contains ij  ij1 elements for
+j ¼ 1; . . . ; K, letting i0 ¼ 0. We can generalize again by adding M  1 elements
+to each block.
+Let each block k ¼ 1; . . . ; K have size xk by xk, where xk ≥M, thus implying
+x1 þ . . . þ xK ¼ N ≥MK. First, for each block k, we create a time series of
+length T that is drawn from independent and identically distributed (IID)
+# Make new outputs, if necessary
+corrNew,clstrsNew,silhNew=makeNewOutputs(corr0, \
+{i:clstrs[i] for i in clstrs.keys() if i not in redoClusters}, \
+clstrs2)
+newTstatMean=np.mean([np.mean(silhNew[clstrsNew[i]])/ \
+np.std(silhNew[clstrsNew[i]]) for i in clstrsNew.keys()])
+if newTstatMean<=tStatMean:
+return corr1,clstrs,silh
+else:
+return corrNew,clstrsNew,silhNew
+13 I thank Michael J. Lewis for his help in carrying out this experiment.
+59
+Elements in Quantitative Finance
+
+standard Gaussians, then make copies of that to each column of a matrix X of
+size T; xk
+ð
+Þ. Second, we add to each Xi;j a random Gaussian noise with standard
+deviation σ > 0. By design, the columns of X will be highly correlated for small
+σ, and less correlated for large σ. Third, we evaluate the covariance matrix ΣX
+for the columns of X, and add ΣX as a block to Σ . Fourth, we add to Σ another
+covariance matrix with one block but larger σ. Finally, we derive the correlation
+matrix ρ associated with Σ.
+Input
+correlation
+matrix ρ
+Top-level clustering algo
+Cluster ρ using base clustering algo
+Evaluate quality (t- stat of silhouette
+scores) of each cluster
+NO
+YES
+Keep good (high-
+quality) clusters
+Redo instruments in
+bad (low-quality)
+clusters
+Return clustering from
+base clustering algo
+Return good + redone
+clusters
+New clustering
+higher quality?
+Figure 4.2 Structure of ONC’s higher-level stage.
+Source: López de Prado and Lewis (2018)
+60
+Machine Learning for Asset Managers
+
+By construction, ρ has K blocks with high correlations inside each block, and
+low correlations otherwise. Figure 4.3 is an example of a correlation matrix
+constructed this way. Code Snippet 4.3 implements this operation in python.
+SNIPPET 4.3 RANDOM BLOCK CORRELATION MATRIX CREATION
+import numpy as np,pandas as pd
+from scipy.linalg import block_diag
+from sklearn.utils import check_random_state
+#---------------------------------------------------
+def getCovSub(nObs,nCols,sigma,random_state=None):
+# Sub correl matrix
+rng=check_random_state(random_state)
+if nCols==1:return np.ones((1,1))
+ar0=rng.normal(size=(nObs,1))
+ar0=np.repeat(ar0,nCols,axis=1)
+ar0+=rng.normal(scale=sigma,size=ar0.shape)
+ar0=np.cov(ar0,rowvar=False)
+return ar0
+#---------------------------------------------------
+def getRndBlockCov(nCols,nBlocks,minBlockSize=1,sigma=1.,
+random_state=None):
+# Generate a block random correlation matrix
+rng=check_random_state(random_state)
+parts=rng.choice(range(1,nCols-(minBlockSize-1)*nBlocks), \
+nBlocks-1,replace=False)
+parts.sort()
+parts=np.append(parts,nCols-(minBlockSize-1)*nBlocks)
+parts=np.append(parts[0],np.diff(parts))-1+minBlockSize
+cov=None
+for nCols_ in parts:
+cov_=getCovSub(int(max(nCols_*(nCols_+1)/2.,100)), \
+nCols_,sigma,random_state=rng)
+if cov is None:cov=cov_.copy()
+else:cov=block_diag(cov,cov_)
+return cov
+#---------------------------------------------------
+def randomBlockCorr(nCols,nBlocks,random_state=None,
+minBlockSize=1):
+# Form block corr
+rng=check_random_state(random_state)
+cov0=getRndBlockCov(nCols,nBlocks,
+minBlockSize=minBlockSize,sigma=.5,random_state=rng)
+cov1=getRndBlockCov(nCols,1,minBlockSize=minBlockSize,
+sigma=1.,random_state=rng) # add noise
+61
+Elements in Quantitative Finance
+
+4.5.2 Number of Clusters
+Using the above described procedure, we create random NxN correlation
+matrices with K blocks of size at least M. We shufﬂe the rows and columns of
+each correlation matrix, so that the blocks are no longer identiﬁable. Then, we
+test the efﬁcacy of the ONC algorithm in recovering the number and composi-
+tion of those blocks. For our simulations, we chose N ¼ 20; 40; 80; 160. As we
+would expect clusters to be formed of at least two objects, we set M ¼ 2, and
+thus necessarily K=N ≤1=2. For each N, we test K ¼ 3; 6; . . ., up to N=2.
+Finally, we test 1,000 random generations for each of these parameter sets.
+Figure 4.4 displays various boxplots for these simulations. In particular, for
+K=N in a given bucket, we display the boxplot of the ratio of K predicted by the
+clustering (denoted E½KÞ to the actual K tested. Ideally, this ratio should be near
+1. Results indicate that ONC frequently recovers the correct number of clusters,
+with some small errors.
+As a reminder, in a boxplot, the central box has the bottom set to the 25th
+percentile of the data (Q1), while the top is set to the 75th percentile (Q3). The
+cov0+=cov1
+corr0=cov2corr(cov0)
+corr0=pd.DataFrame(corr0)
+return corr0
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1.0
+Figure 4.3 Example of a random block correlation matrix, before shufﬂing.
+Source: López de Prado and Lewis (2018)
+62
+Machine Learning for Asset Managers
+
+interquartile range (IQR) is set to Q3-Q1. The median is displayed as a line
+inside the box. The “whiskers” extend to the largest datum less than
+Q3 þ 1:5IQR, and the smallest datum greater than Q1–1:5IQR. Points outside
+that range are considered outliers.
+4.6 Conclusions
+In this section, we have studied the problem of determining the optimal com-
+position and number of clusters by a partitioning algorithm. We have made three
+modiﬁcations to the k-means algorithm: (1) we have deﬁned an objective
+function that measures the quality of the clusters; (2) we have addressed k-
+mean’s initialization problem by rerunning the algorithm with alternative seeds;
+and (3) an upper-level clustering looks for better partitions among the clusters
+the exhibit below-average quality. Experimental results show that the algorithm
+effectively recovers the number and composition of the clusters injected into a
+block-diagonal matrix.
+We have applied the proposed solution to random correlation matrices,
+however nothing in the method prevents its application to other kinds of
+matrices. The starting point of the algorithm is an observations matrix, which
+can be deﬁned in terms of correlation-based metrics, variation of information, or
+some other function.
+0.98
+(–0.001, 0.1]
+(0.1, 0.2]
+(0.2, 0.3]
+[K/N deciles]
+(–0.3, 0.4]
+(0.4, 0.5]
+1.00
+1.02
+E[K ] / K
+1.04
+1.06
+Boxplot groupted by K/N deciles
+Figure 4.4 Boxplots of estimated K/actual K for bucketed K/N.
+Source: López de Prado and Lewis (2018)
+63
+Elements in Quantitative Finance
+
+4.7 Exercises
+1 What is the main difference between outputs from hierarchical and partition-
+ing clustering algorithms? Why can’t the output from the latter be converted
+into the output of the former?
+2 Is MSCI’s GICS classiﬁcation system an example of hierarchical or parti-
+tioning clustering? Using the appropriate algorithm on a correlation matrix,
+try to replicate the MSCI classiﬁcation. To compare the clustering output
+with MSCI’s, use the clustering distance introduced in Section 3.
+3 Modify Code Snippets 4.1 and 4.2 to work with a spectral biclustering algorithm.
+Do you get fundamentally different results? Hint: Remember that, as proximity
+matrix, biclustering algorithms expect a similarity matrix, not a distance matrix.
+4 Repeat the experimental analysis, where this time ONC’s base algorithm
+selects the number of clusters using the “elbow method.” Do you recover the
+true number of clusters consistently? Why?
+5 In Section 2, we used a different method for building block-diagonal correla-
+tion matrices. In that method, all blocks had the same size. Repeat the
+experimental analysis on regular block-diagonal correlation matrices. Do
+you get better or worse results? Why?
+64
+Machine Learning for Asset Managers

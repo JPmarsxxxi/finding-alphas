@@ -1,0 +1,336 @@
+6
+Atmospheric predictability and
+ensemble forecasting
+6.1
+Introduction to atmospheric predictability
+In his 1951 paper on NWP, Charney indicated that he expected that even as models
+improved there would still be a limited range to skillful atmospheric predictions, but
+he attributed this to inevitable model deﬁciencies and ﬁnite errors in the initial condi-
+tions. Lorenz (1963a,b) discovered the fact that the atmosphere, like any dynamical
+system with instabilities, has a ﬁnite limit of predictability (which he estimated to be
+about two weeks) even if the model is perfect, and even if the initial conditions are
+known almost perfectly. He did so by performing what is now denoted an “identical
+twin” experiment: he compared two runs made with the same model but with initial
+conditions that differed only very slightly. Just from round-off errors, he found that
+after a few weeks the two solutions were as different from each other as two random
+trajectories of the model.
+Lorenz (1993) described how this fundamental discovery took place: His original
+goal had been to show that statistical prediction could not match the accuracy at-
+tainable with a nonlinear dynamical model, and therefore that NWP had a potential
+for predictive skill beyond that attainable purely through statistical methods. He had
+acquired a Royal-McBee LGP-30 computer, with a memory of 4K words and a speed
+of 60 multiplications per second, which for the late 1950s was very powerful. He
+developed and programmed in machine language a “low-order” atmospheric model
+(i.e., a model whose evolution was described by only 12 variables) driven by external
+heating and damped by dissipation. During 1959 he changed parameters in the model
+for several months trying to ﬁnd a nonperiodic solution (since a periodic solution
+would be perfectly predictable from past statistics, and that would have defeated his
+205
+
+206
+6 Atmospheric predictability and ensemble forecasting
+purpose). He submitted a preliminary title, “The statistical prediction of solutions of
+dynamical equations”, to the NWP conference that was going to take place during
+1960 in Tokyo, gambling that he would indeed be able to ﬁnd, for the ﬁrst time in
+history, a nonperiodic numerical solution. After making the external heating a func-
+tion of both latitude and longitude, he ﬁnally found the nonperiodic behavior that
+he was seeking. He rounded off and printed the evolution of the variables with three
+signiﬁcant digits, which seemed sufﬁcient to deﬁne the state of the model with plenty
+of accuracy. After running the model for several simulated years and satisfying him-
+self that the solution had no periodicities, he decided to repeat part of an integration
+in more detail. When he came back from a coffee break, Lorenz found that the new
+solution was completely different from the original run. Before calling service for
+the computer, he checked the results and found that at the beginning the new run did
+coincide with the original printed numbers, but that after a few days the last digit
+became different, and then the next one, and after about two months any resemblance
+with the original integration disappeared (Lorenz, 1993):
+The initial round-off errors were the culprits; they were steadily amplifying until
+they dominated the solution. In today’s terminology, there was chaos. . . . It soon
+struck me that, if the real atmosphere behaved like the simple model, long-range
+forecasting would be impossible. . . . In due time I convinced myself that the
+ampliﬁcation of small differences was the cause of the lack of periodicity. Later,
+when I presented my results at the Tokyo meeting, I added a brief description of
+the unexpected response of the equations to the round-off errors.
+Lorenz (1963a,b) thus discovered the fundamental theorem of predictability: Un-
+stable systems have a ﬁnite limit of predictability, and conversely, stable systems are
+inﬁnitely predictable (since they are either stationary or periodic), as suggested by
+the schematic Fig. 6.1.1.
+In his 1972 talk“Predictability:doesthe ﬂapof abutterﬂy’s wings in Brazil set off a
+tornado in Texas?” Lorenz further reviewed basic ideas on atmospheric predictability
+(Lorenz, 1993):
+. . . I am proposing that over the years minuscule disturbances neither increase
+nor decrease the frequency of occurrence of various weather events such as
+tornadoes; the most that they can do is to modify the sequence in which these
+events occur. The question which really interests us is whether they can even do
+this – whether, for example, two particular weather situations differing by as
+little as the immediate inﬂuence of a single butterﬂy will generally after
+sufﬁcient time evolve into two situations differing by as much as the presence of
+a tornado. In more technical language, is the behavior of the atmosphere
+unstable with respect to perturbations of small amplitude?1
+1 Gleick (1987) pointed out that the concept of a “butterﬂy effect” existed in some form from
+literary sources long before Lorenz’s work. There is a short story by Ray Bradbury which deals
+with this nearly as well as Lorenz does, right down to the butterﬂy. In this story, A Sound of
+
+6.1 Introduction to atmospheric predictability
+207
+(a)
+(b)
+Figure 6.1.1: Schematic
+illustrating trajectories of:
+(a) a dynamical system with
+instabilities, which no
+matter how close they
+initially are, inevitably drift
+apart, and (b) a stable
+system with stationary or
+periodic orbits: after a
+possible transient stage, the
+trajectories stay close to
+each other, i.e., they become
+inﬁnitely predictable.
+The connection between this question and our ability to predict the weather is
+evident. Since we do not know how many butterﬂies there are, nor whether they
+are all located, let alone which ones are ﬂapping their wings at any instant, we
+cannot, if the answer to our question is afﬁrmative, accurately predict the
+occurrence of tornadoes at a sufﬁcient distant future time. More signiﬁcantly,
+our general ability to detect systems as large as thunderstorms when they slip
+between weather stations may impair our ability to predict the general weather
+pattern even in the near future. . . .
+. . . The evidence [that the answer to the question whether the atmosphere is
+unstable is afﬁrmative] is overwhelming. The most signiﬁcant results are the
+following:
+1. Small errors in the coarser structure of the weather pattern – those features
+which are readily resolved by conventional observing networks – tend to
+double in about three days.2 As the errors become larger the growth rate
+subsides. This limitation alone would allow us to extend the range of
+acceptable prediction by three days every time we cut the observation error in
+Thunder, some time-travelers go back to the prehistoric era and are very careful not to touch
+anything lest they alter the future to which they wish to return. When they return to the present,
+they ﬁnd everything altered (for the worse it seems to them). It turns out one of them had
+accidentally stepped on a butterﬂy. ‘ “Not a little thing like that! Not a butterﬂy!” cried Eckels.
+It fell to the ﬂoor, an exquisite thing, a small thing that could upset balances and knock down a
+line of small dominoes and then big dominoes and then gigantic dominoes, all down the years
+across Time. Eckels’ mind whirled. It couldn’t change things. Killing one butterﬂy couldn’t be
+that important! could it?’. This story was ﬁrst published in 1952. (Courtesy of Bill Martin, pers.
+comm. 1998.)
+2 Current estimates are that small errors in synoptic (coarser) scales double even faster, in about
+2 days (e.g., Simmons et al., 1995, Dalcher and Kalnay, 1987, Toth and Kalnay, 1993).
+
+208
+6 Atmospheric predictability and ensemble forecasting
+half, and would offer the hope of eventually making good forecasts several
+weeks in advance.
+2. Small errors in the ﬁner structure – e.g. the positions of individual clouds –
+tend to grow much more rapidly, doubling in hours or less. This limitation
+alone would not seriously reduce our hopes for extended-range forecasting,
+since ordinarily we do not forecast the ﬁner structure at all.
+3. Errors in the ﬁner structure, having attained appreciable size, tend to produce
+errors in the coarser structure. This result, which is less ﬁrmly established
+than the previous ones, implies that after a day or so there will be appreciable
+errors in the coarser structure, which will thereafter grow just as if they had
+been present initially. Cutting the observations in the ﬁner structure in half – a
+formidable task – would extend the range of acceptable prediction of even the
+coarser structure only by hours or less. The hopes for predicting two weeks or
+more in advance are thus greatly diminished.
+4. Certain special quantities such as weekly average temperatures and weekly
+total rainfall may be predictable at a range at which entire weather patterns
+are not.
+Since the early days of Lorenz’s momentous discovery, which gave impetus to
+the new science of chaos,3 additional progress has been made, but his ﬁndings have
+not been changed in any fundamental way. In NWP, substantial progress has been
+made through the realization that the chaotic behavior of the atmosphere requires
+the replacement of single “deterministic” forecasts by “ensembles” of forecasts
+with differences in the initial conditions and in the model characteristics that re-
+alistically reﬂect the uncertainties in our knowledge of the atmosphere. This real-
+ization led to the introduction of operational ensemble forecasting at both NCEP
+and ECMWF in December 1992. It also led to work on extending the usefulness
+of NWP forecasts through a systematic exploitation of the chaotic nature of the
+atmosphere.
+6.2
+Brief review of fundamental concepts
+about chaotic systems
+Lorenz (1963a) introduced a three-variable model that is a prototypical example of
+chaos theory. These equations were derived as a simpliﬁcation of Saltzman’s (1962)
+nonperiodic model for convection. Like Lorenz’s (1962) original 12-variable model,
+the three-variable model is a dissipative system. This is in contrast to Hamiltonian
+3 It should be noted that Poincar´e (1897, see Alligood et al., 1997) had already discovered that
+the planetary system is chaotic, i.e., that the orbits of the planets cannot be predicted well
+beyond a certain number of (millions of) years. He showed this for the simplest three-body
+problem of two stars with circular orbits moving on a plane around their center of mass, and a
+third “asteroid” with negligible mass in comparison with the ﬁrst two, moving in the same
+plane. He found that the motion of the third body was sensitively dependent on the initial
+conditions, the hallmark of chaos (Alligood et al., 1997).
+
+6.2 Brief review of fundamental concepts about chaotic systems
+209
+systems, which conserve total energy or some other similar property of the ﬂow. The
+systemisnonlinear(itcontainsproductsofthedependentvariables)butautonomous
+(the coefﬁcients are time-independent). Sparrow (1982) wrote a whole book on the
+Lorenz three-variable model that provides a nice introduction to the subject of chaos,
+bifurcations and strange attractors. Lorenz (1993) is a superbly clear introduction
+to chaos with a very useful glossary of the nomenclature used in today’s literature.
+Alligood et al. (1997) is also a very clear introduction to dynamical systems and
+chaos. In this section we use bold type to introduce some of the words used in the
+dynamical system vocabulary.
+The Lorenz (1963a) equations are
+dx
+dt = σ(y −x)
+dy
+dt = rx −y −xz
+dz
+dt = xy −bz
+
+
+
+(6.2.1)
+The solution obtained by integrating the differential equations in time is called a
+ﬂow. The parameters σ, b,r are kept constant within an integration, but they can
+be changed to create a family of solutions of the dynamical system deﬁned by the
+differential equations. The particular parameter values chosen by Lorenz (1963a),
+σ = 10, b = 8/3, r = 28, result in chaotic solutions (sensitively dependent on the
+initial conditions), and since this publication they have been widely used in many
+papers. The solution of a time integration from a given initial condition deﬁnes
+a trajectory or orbit in phase space. The coordinates of a point in phase space
+are deﬁned by the simultaneous values of the independent variables of the model,
+x(t), y(t), z(t). The dimension of the phase space is equal to the number of inde-
+pendent variables (in this case three). The dimension of the subspace actually visited
+by the solution after an initial transient period (i.e., the dimension of the attractor)
+can be much smaller than the dimension of the phase space. A volume in phase space
+can be deﬁned by a set of points in phase space such as a hypercube V = δxδyδz, a
+hypersphere V = {δr; |δr| ≤ε}, etc.
+The fact that the Lorenz system (6.2.1) is dissipative can be seen from the diver-
+gence of the ﬂow:
+∂˙x
+∂x + ∂˙y
+∂y + ∂˙z
+∂z = −(σ + b + 1)
+(6.2.2)
+which shows that an original volume V contracts with time to V e−(σ+b+1)t. This
+proves the existence of a bounded globally attracting set of zero volume (i.e., an
+attractor of dimension smaller than n, the dimension of the phase space). A solu-
+tion may start from a point away from the attracting set but it will eventually settle
+on the attractor. This initial portion of the trajectory is known as a transient. The
+attracting set (the set of points approached again and again by the trajectories after
+
+210
+6 Atmospheric predictability and ensemble forecasting
+the transients are over) is called the attractor of the system. The attractor can have
+several components: stationary points (equilibrium or steady state solutions of the
+dynamical equations), periodic orbits, and more complicated structures known as
+strange attractors (which can also include periodic orbits). The different compo-
+nents of the attractor have corresponding basins of attraction in the phase space,
+which are all the initial conditions that will evolve to the same attractor. The fact
+that any initial volume in phase space contracts to zero with time is a general prop-
+erty of dissipative bounded systems, including atmospheric models with friction.
+Hamiltonian systems, on the other hand, are volume-conserving.
+If we change the parameters of a dynamical system (in this example σ, b,r)
+and obtain families of solutions, we ﬁnd that there is a point at which the behavior
+of the ﬂow changes abruptly. The point at which this sudden change in the charac-
+teristics of the ﬂow occurs is called a bifurcation point. For example in Lorenz’s
+equations the origin is a stable, stationary point for r < 1, as can be seen by investi-
+gating the local stability at the origin. The local stability of a point can be studied
+by linearizing the ﬂow about the point and computing the eigenvalues of the lin-
+ear ﬂow. For r < 1 the stationary point is stable: all three eigenvalues are negative.
+This means that all orbits near the origin tend to get closer to it. At r = 1 there is
+a bifurcation, and for r > 1 two new additional stationary points C± are born, with
+coordinates (x, y, z)± = (±√b(r −1),±√b(r −1),r −1). For r > 1 the origin be-
+comes nonstable: one of the three eigenvalues becomes positive (while the other
+two remain negative), indicating that the ﬂow diverges locally from the origin in one
+direction. For 1 < r < 24.74. . . , C+ and C−are stable, and at r = 24.74. . . there
+is another bifurcation so that above that critical value C+ and C−also become
+unstable. As discussed by Lorenz (1993), a ubiquitous phenomenon is the occur-
+rence of bifurcations of periodic motion leading to period doubling, and sequences
+of period doubling bifurcations leading to chaotic behavior (see Sauer et al.,
+1991).
+A solution of a dynamical system can be deﬁned to be stable if it is bounded,
+and if any other solution once sufﬁciently close to it remains close to it for all times.
+This indicates that a bounded stable solution must be periodic (repeat itself exactly)
+or at least almost periodic, since once the trajectory approaches a point in its past
+history, the trajectories will remain close forever (Fig. 6.1.1(b)). A solution that is
+not periodic or almost periodic is therefore unstable: two trajectories that start very
+close will eventually diverge completely (Fig. 6.1.1(a)).
+Thelong-termstabilityofadynamicalsystemofn-variablesischaracterizedbythe
+Lyapunov exponents. Consider a point in a trajectory, and introduce a (hyper)sphere
+of small perturbations about that point. If we apply the model to evolve each of those
+perturbations, we ﬁnd that after a short time the sphere will be deformed into a
+(hyper)ellipsoid. In an unstable system, at least one of the axes of the ellipsoid
+will become larger with time, and once nonlinear effects start to be signiﬁcant the
+ellipsoid will be deformed into a “banana” (Fig. 6.2.1). Consider the linear phase,
+
+6.2 Brief review of fundamental concepts about chaotic systems
+211
+(a) Initial volume: a small
+hypersphere
+(c) Nonlinear phase: folding needs
+to take place in order for the
+solution to stay within the bounds
+(d) Asymptotic evolution to a
+strange attractor of zero volume
+and fractal structure. All
+predictability is lost
+(b) Linear phase: a hyper
+ellipsoid
+Figure 6.2.1: Schematic of the evolution of a small spherical volume in phase space
+in a bounded dissipative system. Initially (during the linear phase) the volume is
+stretched into an ellipsoid while the volume decreases. The solution space is bounded,
+and a bound is schematically indicated in the ﬁgure by the hypercube. The ellipsoid
+continues to be stretched in the unstable directions, until (because the solution phase
+space is bounded) it has to fold through nonlinear effects. This stretching and folding
+continues again and again, evolving into an inﬁnitely foliated (fractal) structure. This
+structure, of zero volume and fractal dimension, is called a “strange attractor.” The
+attractor is the set of states whose vicinity the system will visit again and again (the
+“climate” of the system). Note that in phases (a), (b), and (c), there is predictive
+knowledge: we know where the original perturbations generally are. In (d), when the
+original sphere has evolved into the attractor, all predictability is lost: we only know
+that each original perturbation is within the climatology of possible solutions, but we
+don’t know where, or even in which region of the attractor it may be.
+during which the sphere evolves into an ellipsoid. We can maintain the linear phase for
+an inﬁnitely long period by taking an inﬁnitely small initial sphere, or, alternatively,
+by periodically scaling down the ellipsoid dimensions dividing all its dimensions by
+the same scalar. Each axis j of the ellipsoid grows or decays over the long term by
+amountsgivenbyeλ jt,wheretheλ jsaretheLyapunovexponentsorderedbysizeλ1 ≥
+λ2 ≥. . . ≥λn. The total volume of the ellipsoid will evolve like V0e−(λ1+λ2+···λn)t.
+Therefore, a Hamiltonian (volume-conserving) system is characterized by a sum
+
+212
+6 Atmospheric predictability and ensemble forecasting
+of Lyapunov exponents equal to zero, whereas for a dissipative system the sum is
+negative.
+Because the attractor of a dissipative system is bounded (the trajectories are en-
+closed within some hyperbox), if the ﬁrst Lyapunov exponent is greater than zero, at
+least one of the axes of the ellipsoid keeps getting longer with time. The ellipsoid will
+eventually be distorted into a banana shape: it has to be folded in order to continue
+ﬁtting into the box. The banana will be further stretched along the unstable axis and
+then necessarily folded again and again onto itself in order to continue ﬁtting into the
+box. Since the volume of the ellipsoid eventually goes to zero for a dissipative system,
+the repeated stretching and folding of the ellipsoid of a chaotic system eventually
+converges to a zero-volume attractor with an inﬁnitely foliated structure (a process
+similar to the stretching and folding used to make “phyllo” dough!). This structure is
+known as “strange attractor” (Ruelle, 1989). It has a fractal structure: a dimension
+which in general is not an integer and is smaller than the original space dimension
+n, estimated by Kaplan and Yorke (1979) to be
+d = k + (λ1 + · · · + λk)/|λk+1|
+(6.2.3)
+where the sum of the ﬁrst k Lyapunov exponents is positive, and the sum of the ﬁrst
+k + 1 exponents is negative. If the system is Hamiltonian, its invariant manifold has
+the same dimension as the phase space.
+In summary, a stable system has all Lyapunov exponents less than or equal to zero.
+A chaotic system has at least one Lyapunov exponent greater than zero: if at least
+λ1 > 0 chaotic behavior will take place because at least one axis of the ellipsoid
+will be continuously stretched, leading to the separation of orbits originally started
+closely along that axis. Note that a chaotic bounded ﬂow must also have a Lyapunov
+exponent equal to zero, with the corresponding local Lyapunov vector parallel to an
+orbit. This can be understood by considering two initial conditions such that the
+second is equal to the ﬁrst after applying the model for one time step. The solutions
+corresponding to these initial conditions will remain close together, since the second
+orbit will always be the same as the ﬁrst orbit shifted by one time step, and on the
+average, the distance between the solutions will remain constant. If we add a tiny
+perturbation, though, the second solution will diverge from the ﬁrst one because there
+is a positive Lyapunov exponent.
+6.3
+Tangent linear model, adjoint model, singular
+vectors, and Lyapunov vectors
+In 1965 Lorenz published another paper based on a low-order model that behaved
+like the atmosphere. It was a quasi-geostrophic two-level model in a periodic chan-
+nel, with a “Lorenz” vertical grid (velocity and temperature variables deﬁned at the
+same two levels, see Section 3.3), and a spectral (Fourier) discretization in longitude

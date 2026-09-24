@@ -1,0 +1,3072 @@
+Chapter 14:  Implementation 
+263 
+ 
+CHAPTER 14:  IMPLEMENTATION 
+As discussed throughout the paper, the fundamental insurance equation is: 
+Premium= Losses + LAE + UW Expenses + UW Profit.                                                 
+Prior chapters provide techniques to project the individual components of the equation in order to 
+determine whether or not the equation will be in balance for a given set of rates.  This chapter discusses 
+potential actions a company can take if its current rates do not produce an average premium that is 
+equivalent to the sum of the expected costs and target underwriting profit.  In particular, this chapter 
+discusses: 
+ 
+Non-pricing solutions to an imbalanced fundamental insurance equation 
+ 
+Rate change solutions, including detailed discussion of how to calculate final rates for existing 
+products and products being introduced 
+ 
+Communicating the expected effect of rate changes to key stakeholders (e.g., regulators and 
+company management) and monitoring results after implementation. 
+EXAMPLE IMBALANCE  
+This chapter uses the notation introduced in the Foreword to this text, and considers the same pricing 
+example and assumptions presented in prior chapters (referred to as the “simple example”): 
+ 
+The average expected loss and LAE (
+L
+ 
+ 
+E
+L 
+) for each exposure is $180. 
+ 
+Each time the company writes an exposure, the company incurs $20 in fixed expenses (
+F
+E ). 
+ 
+15% of each dollar of premium collected covers expenses (V) that vary with the amount of 
+premium, such as premium taxes. 
+ 
+Company management has determined that the target profit provision (
+T
+Q ) is 5% of premium. 
+Based on the expected losses, expenses, and target underwriting  profit in the future policy period, the 
+indicated average premium per exposure is $250 (= ($180 + $20) / (1.0 – 15% – 5%)).   
+If the projected average premium assuming the company’s current rates is $235, then the fundamental 
+insurance equation is not in balance.  The company can bring the equation into balance by reducing its 
+costs (non-pricing solutions) or increasing its rates or both.   
+NON‐PRICING SOLUTIONS  
+A company may try to achieve balance through expense reductions (i.e., reduction in UW or LAE 
+expenses).  For example, the company may try to reduce the marketing budget or reduce the staffing 
+levels.  In the simple example, the equation will be brought into balance if the fixed expenses per 
+exposure are reduced from $20 to $8, or the variable expenses are reduced from 15% to 10%.  If the 
+company actuary projects a reduction in expenses, the overall rate level indication should be updated 
+accordingly.    
+
+Chapter 14:  Implementation 
+264 
+ 
+A company can also achieve balance by reducing the average expected loss.  One way to do this is to 
+change the make-up of the portfolio of insureds.  For example, a company may tighten the underwriting 
+criteria or non-renew policies that have grossly inadequate premium relative to expected costs.  It is 
+important to note that when the portfolio changes, both the expected losses and expected premium may 
+change; however, if the loss reduction is greater than the premium reduction, the underwriting action 
+could move the fundamental equation to the balanced position.  If a company does this, then the actuary 
+should adjust the premium and loss projections and recalculate the overall rate level indication.   
+Another way to reduce average expected loss is to reduce the coverage provided by the policy.  A 
+reduction or expansion of coverage is referred to as a coverage level change.  For example, a homeowners 
+insurer may adjust the policy to exclude coverage for mold losses.  If this action eliminates previously 
+covered losses and rates are not decreased accordingly, then this coverage level change is equivalent to a 
+rate level increase.  In the simple example, the company needs to reduce the average expected loss and 
+LAE from $180 to $168 to bring the fundamental insurance equation into equilibrium.  If a company 
+accomplishes such a change, then the actuary should adjust the projected losses and LAE and recalculate 
+the overall rate level indication. 
+These two methods above are not the only approaches to reduce average expected loss.  Companies may 
+also institute better loss control procedures.  For example, a workers compensation carrier may be able to 
+reduce average severity by applying proactive medical management procedures and return-to-work 
+programs for disability claims that are likely to escalate.   
+PRICING SOLUTIONS 
+The typical company response to an unbalanced fundamental equation is to adjust the rates or expect an 
+underwriting profit below the target underwriting profit until adjustments can be made.  In the simple 
+example, the overall rate level analysis indicates a need to increase the average rate from $235 to $250, 
+but the company may choose not to do this.  Chapter 13 addressed reasons a company may implement 
+rates different from those indicated.  If the company decides that $235 is the most that can be charged in 
+the short run, then the company is, in effect, forced to accept the resulting target underwriting profit 
+provision of -0.1% ( = ($235 - $180 - $20 – (15%  x $235) ) / $235 ) until rates can be increased.   
+Since achieving the target underwriting profit is important, most companies choose to change the current 
+rates (i.e., implement a rate change) to achieve or at least get closer to the desired equilibrium.  The next 
+section covers the process that the actuary may use to revise the rates of an existing product to the desired 
+level.  Calculating rates for a new product will be covered later in the chapter. 
+CALCULATING NEW RATES FOR AN EXISTING PRODUCT 
+In order to calculate a final set of rates for an existing product, the company must: 
+ 
+Select an overall average premium target for the future policy period 
+ 
+Finalize the structure of the rating algorithm 
+ 
+Select the final rate differentials for each of the rating variables 
+ 
+Calculate proposed fixed expense fees and other dollar additives, if applicable 
+ 
+Derive the base rate necessary to achieve the overall average premium target 
+
+Chapter 14:  Implementation 
+265 
+ 
+Chapter 8 discusses the calculation of the overall rate level indication, and Chapters 9 through 11 discuss 
+calculation of the proposed rate differentials.  Chapter 13 discusses conditions that may cause selections 
+of overall rate levels or rate differentials to deviate from indicated. 
+The next sections of this chapter use a simple example to illustrate the calculation of the fixed expense 
+fees and the derivation of the base rate. 
+Example Rating Algorithm 
+As discussed in Chapter 2, the rating algorithm describes in detail how to combine the various rate 
+components (e.g., base rates, rate differentials, expense fees, and other additive premium) to calculate the 
+overall premium charged for any risk.  Rating algorithms vary considerably by company and by product, 
+and the determination of the most appropriate rating algorithm47 is outside the scope of this text.  When 
+using any of the formulae described in this chapter, consider the specific rating algorithm of the product 
+being priced, and modify as necessary. 
+The portion of the total premium that varies by risk characteristics (i.e., is a function of the base rate and 
+rate differentials) is often referred to as variable premium.  The portion of the premium derived from 
+expense fees and other dollar additives is often referred to as flat or additive premium.  These terms will 
+be used throughout the remainder of the chapter. 
+For the purpose of explaining the expense fee and base rate derivation formulae, assume a simple rating 
+algorithm that includes a base rate (B), two multiplicative rating variables (R1 and R2), two discounts (D1 
+and D2) that are subtracted from one and applied multiplicatively in the rating algorithm, and an additive 
+per exposure expense fee (A).  As before, P and X are used to denote premium and exposures, 
+respectively.  Using a subscript of P to refer to proposed and the subscripts of i, j, k, m to refer to different 
+levels for the different rating variables/discounts, the proposed premium for a given risk can be defined as 
+follows:48 
+ .
+  
+ ]
+)]
+2
+-
+1
+-
+(1.0
+ 
+ 
+2
+ 
+ 
+1
+ x 
+[[
+p
+P,
+P,
+P,
+P,
+P
+P,
+ijkm
+m
+k
+j
+i
+ijkm
+X
+A
+D
+D
+R
+R
+B
+P
+
+
+
+
+
+ 
+Example Rating Variable Differentials 
+The rating algorithm in the example contains two multiplicative rating variables (R1 and R2) and two 
+discounts (D1 and D2).  Assume the company relied on the following information to select proposed rate 
+differentials for each rating variable: 
+                                                     
+47 For example, the extent to which the formula should be multiplicative or additive. 
+48 For some lines of business (e.g., homeowners insurance), the Xijkm can be 1.0. 
+
+Chapter 14:  Implementation 
+266 
+ 
+ 
+Calculation of Fixed Expense Fees and Other Additive Premium  
+If the rating algorithm incorporates fixed expenses through an additive per exposure expense fee, that fee 
+is typically based on the average fixed expense per exposure.  In addition, the fee must be adjusted to 
+account for variable underwriting expenses and underwriting profit in the same way that losses and LAE 
+per exposure are adjusted for these items in the rate level indication formulae.  In other words, the 
+company incurs variable expenses and expects target profit on all premium, including that which comes 
+from fixed expense fees.   
+The adjustment to the expense fee to account for variable expense and profit is accomplished by dividing 
+the average fixed underwriting expense by the variable permissible loss ratio:   
+ 
+.)
+(1.0
+T
+F
+P
+Q
+V
+E
+A
+
+
+
+ 
+The following shows the calculation of the proposed expense fee in the simple example:  
+ 
+In this example, the proposed $25 additive fee includes $20 to cover the fixed expenses and $5 to cover 
+the variable expense (e.g., premium tax) and profit associated with the $20.  
+Some companies use a fixed per policy expense fee rather than a fixed per exposure expense fee in the 
+rating algorithm.  It is important that base rate derivation formulae discussed in the next section combine 
+average variable premium and average flat premium on a consistent basis (i.e., per policy or per 
+exposure).  A per policy expense fee can be converted to a per exposure expense fee by dividing by the 
+average number of exposures per policy.   
+14.1 Differentials and Discounts
+R 1
+Current 
+Differential
+Indicated 
+Differential
+Competitor 
+Differential
+Proposed 
+Differential
+R 2
+Current 
+Differential
+Indicated 
+Differential
+Competitor 
+Differential
+Proposed 
+Differential
+1
+0.8000
+          
+0.9000
+         
+0.9200
+        
+0.9000
+         
+A
+1.0000
+            
+1.0000
+        
+1.0000
+        
+1.0000
+         
+2
+1.0000
+          
+1.0000
+         
+1.0000
+        
+1.0000
+         
+B
+1.0500
+            
+0.9000
+        
+0.9500
+        
+0.9500
+         
+3
+1.2000
+          
+1.2500
+         
+1.2500
+        
+1.2500
+         
+C
+1.2000
+            
+1.3000
+        
+1.3500
+        
+1.3000
+         
+D1
+Current 
+Discount
+Indicated 
+Discount
+Competitor 
+Discount
+Proposed 
+Discount
+D2
+Current 
+Discount
+Indicated 
+Discount
+Competitor 
+Discount
+Proposed 
+Discount
+Y
+5.0%
+4.0%
+5.0%
+5.0%
+Y
+10.0%
+2.5%
+7.5%
+5.0%
+N
+0.0%
+0.0%
+0.0%
+0.0%
+N
+0.0%
+0.0%
+0.0%
+0.0%
+14.2 Calculation of Fee
+(1)
+       
+Average Fixed Expense per Exposure
+20.00
+$ 
+(2)
+       
+Variable Expense %
+15.0%
+(3)
+       
+Target Profit %
+5.0%
+(4)
+       
+Variable Permissible Loss Ratio
+80.0%
+(5)
+       
+Proposed Expense Fee
+25.00
+$ 
+(4)= 1.0 - (2) - (3)
+(5)= (1) / (4)
+
+Chapter 14:  Implementation 
+267 
+ 
+Also, it is possible that the variable expense provision (V) used to adjust the fixed expense fee differs 
+from that used in calculating the overall rate level indication.  This can occur when companies elect not to 
+apply certain aspects of the variable expenses to the flat fee.  For example, some companies do not make 
+the flat fee subject to agent commissions. 
+If the premium-based expense projection method is used (as discussed in Chapter 7), a fixed expense ratio 
+is calculated rather than a fixed expense dollar amount.  The ratio can be converted to a dollar amount by 
+multiplying it by the projected average premium per exposure, as shown in the following table. 
+ 
+In addition to fixed expense fees, some rating algorithms have other additive premium components.  For 
+example, in the homeowners line of business, many endorsements that add or extend coverage are priced 
+separately and added to the variable premium of the standard policy.  The same adjustment as described 
+above for fixed expense fees applies to other additive premium as well. 
+Derivation of Base Rate:  No Rate Differential Changes 
+Once the actuary selects the proposed average premium (or proposed change in average premium), 
+proposed rate differentials, and proposed fixed expense fees and other additive premium, the remaining 
+task is to determine the proposed base rate.  Essentially, the base rate is derived such that proposed 
+average premium (or change in average premium) is expected to be achieved.  Regardless of whether the 
+pure premium method is used to calculate a target average premium, or the loss ratio method is used to 
+calculate a target change in average premium, the goal is the same:  to derive a base rate that achieves the 
+target. 
+First consider the simple scenario when there is only variable premium and rate differentials are not 
+changing.  In this case, the proposed base rate is equal to the current base rate times the ratio of the 
+proposed average premium to current average premium: 
+ 
+.
+P
+P
+C
+C
+P
+P
+B
+B
+
+
+ 
+ 
+ 
+14.3 Calculation of Fee (Fixed Expense Ratio)
+(1) Fixed Expense Ratio
+8.0%
+(2) Projected Average Premium per Exposure
+250.00
+$     
+(3) Average Fixed Expense per Exposure
+20.00
+$       
+(4) Variable Expense %
+15.0%
+(5) Target Profit %
+5.0%
+(6) Variable Permissible Loss Ratio
+80.0%
+(7) Proposed Expense Fee
+25.00
+$       
+(3) = (1) x (2)
+(6) =1.0 - (4) - (5)
+(7) = (3) / (6)
+
+Chapter 14:  Implementation 
+268 
+ 
+If there are flat premium components (and rate differentials are still not changing), the proposed base rate 
+is equal to the current base rate times the ratio of the proposed average variable premium to the current 
+average variable premium: 
+.
+C
+P
+P
+P
+)
+A
+P
+(
+)
+A
+P
+(
+B
+B
+C
+C
+
+
+
+
+ 
+To understand this base rate formula when there is a flat premium component, consider the example 
+where a 5.0% overall average premium change is targeted.  The 5.0% change can be achieved by 
+increasing the base rate 5.0% and increasing the flat premium 5.0%.  Alternatively, if it is undesirable to 
+change flat premium (i.e., keep AP the same as AC), the base rate change needs to be increased such that 
+the total average premium change will be achieved.  This is because the base rate change only affects 
+variable premium.  If flat premium is assumed to be 10% of the total average premium (and the amount of 
+flat premium is not changing with this rate review), the base rate has to increase by 5.56% in order to 
+achieve the 5.0% overall change (i.e., 5.0% = 90% (5.56%) + 10% (0.0%)).   
+Derivation of Base Rate:  Rate Differential Changes  
+The next section describes three base rate derivation approaches to use if rate differentials are changing: 
+ 
+Extension of exposures 
+ 
+Approximated average rate differential 
+ 
+Approximated change in average rate differential 
+ 
+The extension of exposures method is the most direct and most accurate, but requires detailed data.  The 
+approximated methods are used when application of extension of exposures is not practical for the 
+product being priced. 
+Extension of Exposures Method 
+Chapter 5 discussed the extension of exposures technique as a method to rerate individual policies, or 
+unique combinations of rating variables, according to a current set of rates in order to calculate earned 
+premium at current rate level.  The same general technique is applied to derive a proposed base rate.  
+Policies are rerated in consideration of the proposed rate differentials, proposed flat premium, and a 
+placeholder value for the unknown proposed base rate (referred to as a seed base rate or BS49).  If the 
+resulting proposed average premium matches the target average premium, then the placeholder base rate 
+is the correct proposed base rate.  If not, the placeholder base rate requires adjustment, as described 
+below. 
+                                                     
+49 The seed base rate is an initial approximation of the proposed base rate.  It is merely a means to an end.  The 
+proposed base rate will be derived from the seed base rate using algebra, as will be discussed.  In practice, the seed 
+base rate is often selected as the current base rate or the current base rate adjusted by the selected overall change in 
+average premium.   
+
+Chapter 14:  Implementation 
+269 
+ 
+In the example, the extension of exposures technique is used to rerate individual policies50 using the 
+proposed rate differentials (R1P, R2P, D1P, D2P), a proposed fixed expense fee per exposure (AP), and 
+some seed value for the proposed base rate (BS).  Using the notation presented earlier, the proposed 
+premium per policy, assuming the seed base rate, is: 
+ .
+  
+ ]
+)]
+2
+-
+1
+-
+(1.0
+ 
+ 
+2
+ 
+ 
+1
+ x 
+[[
+p
+P,
+P,
+P,
+P,
+S
+S,
+ijkm
+m
+k
+j
+i
+ijkm
+X
+A
+D
+D
+R
+R
+B
+P
+
+
+
+
+
+ 
+Once each set of policies is rerated, the premium is aggregated across some distribution (e.g., the latest in-
+force distribution) and divided by the total exposures.  The resulting average proposed premium assuming 
+the seed base rate is: 
+,
+]
+  
+ ]
+)]
+2
+-
+1
+-
+(1.0
+ 
+ 
+2
+ 
+ 
+1
+ x 
+[[[
+p
+P,
+P,
+P,
+P,
+S
+X
+X
+A
+D
+D
+R
+R
+B
+P
+i
+j
+k
+m
+ijkm
+m
+k
+j
+i
+S
+
+
+
+
+
+
+ 
+which can be simplified as: 
+ 
+
+
+
+
+.
+]
+2
+1
+0
+1
+2
+1
+P
+P
+P
+P
+p
+i
+j
+k
+m
+ijkm
+,m
+,k
+,j
+,i
+S
+S
+A
+X
+X
+D
+D
+.
+R
+[R
+B
+P
+
+
+
+
+
+
+
+
+
+  
+Table 14.4 shows the extension of exposures method applied to data from the example.  Assuming a seed 
+base rate of $215, the resulting proposed average premium is $246.83.  
+ 
+                                                     
+50 For lines of business that are priced by coverage and/or by individual exposure, the extension of exposures and 
+base rate derivation is calculated at that same level.  For example, in personal automobile insurance, the base rate 
+applies to the individual car at the coverage level. 
+
+Chapter 14:  Implementation 
+270 
+ 
+ 
+ 
+14.4 Extention of Exposures (Assuming Seed Base Rate)
+(1)
+(2)
+(3)
+(4)
+(5)
+(6)
+ 
+Exposures 
+R 1
+R 2
+D1
+D2
+Proposed 
+Premium 
+(assuming Seed 
+Base Rate = 
+$215) 
+10,000
+      
+1
+A
+Y
+Y
+1,991,500.00
+$       
+7,500
+        
+2
+A
+Y
+Y
+1,638,750.00
+$       
+3,000
+        
+3
+A
+Y
+Y
+800,625.00
+$          
+9,000
+        
+1
+B
+Y
+Y
+1,713,982.50
+$       
+20,000
+      
+2
+B
+Y
+Y
+4,176,500.00
+$       
+5,000
+        
+3
+B
+Y
+Y
+1,273,960.00
+$       
+1,875
+        
+1
+C
+Y
+Y
+471,365.63
+$          
+5,000
+        
+2
+C
+Y
+Y
+1,382,750.00
+$       
+2,000
+        
+3
+C
+Y
+Y
+678,875.00
+$          
+3,500
+        
+1
+A
+N
+Y
+730,887.50
+$          
+7,500
+        
+2
+A
+N
+Y
+1,719,375.00
+$       
+3,500
+        
+3
+A
+N
+Y
+981,093.75
+$          
+15,000
+      
+1
+B
+N
+Y
+2,994,667.50
+$       
+36,000
+      
+2
+B
+N
+Y
+7,885,350.00
+$       
+9,000
+        
+3
+B
+N
+Y
+2,407,873.50
+$       
+3,750
+        
+1
+C
+N
+Y
+989,896.88
+$          
+10,000
+      
+2
+C
+N
+Y
+2,905,250.00
+$       
+2,000
+        
+3
+C
+N
+Y
+713,834.00
+$          
+3,500
+        
+1
+A
+Y
+N
+730,887.50
+$          
+7,500
+        
+2
+A
+Y
+N
+1,719,375.00
+$       
+3,500
+        
+3
+A
+Y
+N
+981,093.75
+$          
+15,000
+      
+1
+B
+Y
+N
+2,994,667.50
+$       
+36,000
+      
+2
+B
+Y
+N
+7,885,350.00
+$       
+9,000
+        
+3
+B
+Y
+N
+2,407,873.50
+$       
+3,750
+        
+1
+C
+Y
+N
+989,896.88
+$          
+10,000
+      
+2
+C
+Y
+N
+2,905,250.00
+$       
+5,000
+        
+3
+C
+Y
+N
+1,784,585.00
+$       
+48,000
+      
+1
+A
+N
+N
+10,488,000.00
+$     
+112,500
+    
+2
+A
+N
+N
+27,000,000.00
+$     
+25,000
+      
+3
+A
+N
+N
+7,343,750.00
+$       
+11,000
+      
+1
+B
+N
+N
+2,297,075.00
+$       
+250,000
+    
+2
+B
+N
+N
+57,312,500.00
+$     
+65,000
+      
+3
+B
+N
+N
+18,220,312.50
+$     
+28,125
+      
+1
+C
+N
+N
+7,777,968.75
+$       
+68,000
+      
+2
+C
+N
+N
+20,706,000.00
+$     
+15,000
+      
+3
+C
+N
+N
+5,615,625.00
+$       
+869,500
+    
+214,616,746.63
+$   
+(7) Avg Prop Prem (Base Seed = $215)
+246.83
+$                 
+(6)=
+(7)=
+Calculated via extension of exposures with B S  =$215
+(Tot6) / (Tot1)
+
+Chapter 14:  Implementation 
+271 
+ 
+The proposed average premium assuming a seed base rate is lower than the target average premium of 
+$250 so the seed base rate needs to be increased.  The actuary can derive the proposed base rate via trial 
+and error (i.e., testing various base rates until the target average premium is achieved).  Alternatively, the 
+actuary can calculate the amount the seed base rate needs to be adjusted via formula.   
+Recall that the formula for the proposed average premium assuming a seed base rate is: 
+
+
+
+
+,
+]
+2
+1
+0
+1
+2
+1
+P
+P
+P
+P
+p
+i
+j
+k
+m
+ijkm
+,m
+,k
+,j
+,i
+S
+S
+A
+X
+X
+D
+D
+.
+R
+[R
+B
+P
+
+
+
+
+
+
+
+
+
+ 
+and the formula for the proposed average premium assuming the proposed base rate is: 
+
+
+
+
+p
+i
+j
+k
+m
+ijkm
+,m
+,k
+,j
+,i
+A
+X
+X
+D
+D
+.
+R
+[R
+B
+P
+
+
+
+
+
+
+
+
+
+]
+2
+1
+0
+1
+2
+1
+P
+P
+P
+P
+P
+P
+ 
+The only difference between these formulae is the base rate used (i.e., the former uses BS and the latter 
+uses BP).   
+Rearranging the terms and dividing one formula by the other yields: 
+.
+P
+P
+P
+P
+S
+S
+B
+B
+)
+A
+P
+(
+)
+A
+P
+(
+
+
+
+ 
+ 
+Thus, the proposed base rate in the extension of exposure method is derived by adjusting the seed base 
+rate as follows: 
+.
+P
+P
+P
+P
+)
+A
+P
+(
+)
+A
+P
+(
+B
+B
+S
+S
+
+
+
+
+ 
+If no fixed expense fee or other additive premium applies, the calculation of the proposed base rate is 
+simple: 
+.
+P
+P
+S
+S
+P
+P
+B
+B
+
+
+ 
+The table below summarizes the calculation of the proposed base rate in the example, according to the 
+formula provided earlier: 
+
+Chapter 14:  Implementation 
+272 
+ 
+ 
+If the loss ratio method is used to calculate an overall rate level indication, the target is a change in 
+average premium rather than an average premium.  In this case, the first step is to calculate the proposed 
+average premium based on the selected change (Δ): 
+.
+1
+C
+P
+P
+Δ%)
+(
+P
+
+
+
+ 
+This value can then be used in the same base rate derivation formula: 
+ 
+.
+1
+P
+P
+C
+P
+P
+P
+P
+A
+P
+A
+P
+Δ%)
+(
+B
+A
+P
+A
+P
+B
+B
+S
+S
+S
+S
+
+
+
+
+
+
+
+
+
+
+ 
+In our example, assume the current average premium is $242.13.  This value was selected for illustrative 
+purposes.  If the current base rate and expense fee is known, then extension of exposures could be 
+undertaken in a manner parallel to Table 14.4 in order to determine the current average premium.  If the 
+indicated percent change in average premium is 3.25%, the resulting proposed average premium is $250.  
+The table below uses these inputs to calculate the proposed base rate. 
+ 
+Approximated Average Rate Differential Method 
+It may not be feasible for a company to retrieve the detailed data necessary to undertake the extension of 
+exposures method for deriving the proposed base rate.  One alternative method involves estimating the 
+weighted average proposed rate differential across all rating variables (referred to as 
+P
+S ).   
+Recall from the prior section that he formula for the proposed average premium in our example is: 
+14.5 Proposed Base Rate (Extension of Exposures)
+(1) Seed Base Rate
+215.00
+$     
+(2) Average Premium assuming Seed Base Rate
+246.83
+$     
+(3) Proposed Fixed Fee
+25.00
+$       
+(4) Proposed Average Premium
+250.00
+$     
+(5) Proposed Base Rate
+218.07
+$     
+(2)= from Table 14.4, Row (7)
+(5)= (1) x [(4) - (3)] /[(2) - (3)]
+14.6 Proposed Base Rate (Extension of Exposures, Loss Ratio Method)
+(1) Target % Change in Average Premium
+3.25%
+(2) Current Average Premium
+242.13
+$      
+(3) Proposed Average Premium
+250.00
+$      
+(4) Seed Base Rate
+215.00
+$      
+(5) Average Premium assuming Seed Base Rate
+246.83
+$      
+(6) Proposed Fixed Fee
+25.00
+$        
+(7) Proposed Base Rate
+218.07
+$      
+(3)= (1.0 + (1)) x (2)
+(7)= (4) x [(3) - (6)] /[(5) - (6)]
+
+Chapter 14:  Implementation 
+273 
+ 
+
+
+
+
+.
+2
+1
+0
+1
+2
+1
+P
+P
+P
+P
+P
+P
+P
+A
+X
+X
+D
+D
+.
+R
+[R
+B
+P
+i
+j
+k
+m
+ijkm
+,m
+,k
+,j
+,i
+
+
+
+
+
+
+
+
+
+ 
+In order to simplify the notation, 
+P
+S is substituted for the weighted average proposed rate differential 
+across all rating variables: 
+
+
+
+
+.
+2
+1
+0
+1
+2
+1
+P
+P
+P,
+P
+P
+X
+X
+D
+D
+.
+R
+[R
+S
+i
+j
+k
+m
+ijkm
+,m
+,k
+j
+,i
+
+
+
+
+
+
+
+ 
+The terms can then be rearranged to solve for the proposed base rate: 
+.
+P
+P
+p
+P
+S
+A
+P
+B
+
+
+ 
+When a rating algorithm is purely multiplicative, 
+P
+S  is typically approximated as the product of the 
+exposure-weighted average differentials for each of the rating variables.  In our example rating algorithm, 
+which has discounts that are additive in nature, the exposure-weighted average discounts are calculated 
+and subtracted from one before being multiplied by the average differentials of the multiplicative rating 
+variables: 
+.
+2
+1
+0.1
+2
+1
+P
+P
+P
+P
+P
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+X
+D
+X
+X
+D
+X
+X
+R
+X
+X
+R
+X
+S
+m
+,m
+m
+k
+,k
+k
+j
+,j
+j
+i
+,i
+i
+ 
+The following tables show the approximation of 
+P
+S for the example, using exposures as weights: 
+
+Chapter 14:  Implementation 
+274 
+ 
+ 
+The proposed base rate assuming the exposure-weighted average proposed rate differential across all 
+rating variables from Table 14.7 is:  
+$217.96.
+1.0323
+$25
+$250
+P
+P
+P
+p
+
+
+
+
+
+S
+A
+P
+B
+  
+This proposed base rate ($217.96) is different than that which was calculated using the extension of 
+exposures method ($218.07).  Exposure-weighting each variable’s differentials independently and then 
+combining those averages according to the structure of the rating algorithm ignores the dependence of the 
+exposure distribution by level of one rating variable on the level of another rating variable (i.e., the 
+distributional bias between variables, as discussed in Chapters 9 and 10).  The example data was not 
+14.7 Proposed Differentials Wtd by Exposures
+(1)
+(2)
+(3)
+R 1
+Exposures
+Proposed 
+Differential
+1
+152,500
+    
+0.9000
+2
+570,000
+    
+1.0000
+3
+147,000
+    
+1.2500
+Total
+869,500
+    
+1.0247
+(1)
+(2)
+(3)
+R 2
+Exposures 
+Proposed 
+Differential
+A
+235,000
+    
+1.0000
+B
+480,000
+    
+0.9500
+C
+154,500
+    
+1.3000
+Total
+869,500
+    
+1.0257
+(1)
+(2)
+(3)
+D1
+ 
+Exposures 
+Proposed 
+Discount
+Y
+156,625
+    
+5.00%
+N
+712,875
+    
+0.00%
+Total
+869,500
+    
+0.90%
+(1)
+(2)
+(3)
+D2
+Exposures 
+Proposed 
+Discount
+Y
+153,625
+    
+5.00%
+N
+715,875
+    
+0.00%
+Total
+869,500
+    
+0.88%
+(4)
+1.0323
+(Tot3) = (3) weighted  by (2)
+(4) = (Tot3R 1) x (Tot3R 2) x (1.0-Tot3D 1 - Tot3D 2)
+P
+S
+~
+
+Chapter 14:  Implementation 
+275 
+ 
+largely biased, but in practice the bias can drive larger discrepancies in the proposed base rate.  One way 
+to mitigate this bias is to use variable premium at current rate level and at base level instead of exposures 
+for weights in the approximation.  Recall that variable premium is the premium before addition of any 
+fixed expense fees or other additive premium.  The current rate level adjustment for the premium in this 
+analysis should be done at the class level (i.e., applying the parallelogram method to fully aggregated data 
+would not be suitable).  The phrase “at base level” means that the variable premium for non-base levels is 
+adjusted to remove the effect of the current rate differential.  For multiplicative factors this means 
+dividing the variable premium for each non-base level by the current rate differential for the given 
+variable.  Assuming the rating algorithm is entirely multiplicative and the current rate level adjustment is 
+not too time-consuming, calculating variable premium at base level may be a feasible improvement.  
+When the rating algorithm has both multiplicative and additive components, the derivation of variable 
+premium at current rate level and at base level becomes so challenging that the effort to improve the 
+approximation would be better spent compiling data to undertake the extension of exposures technique.    
+Approximated Change in Average Rate Differential Method  
+One of the issues with this approximated average rate differential method is that the actuary needs to 
+calculate the weighted average proposed rate relativities for each rating variable.  When the variable 
+premium portion of the rating algorithm is entirely multiplicative, the actuary may prefer to estimate the 
+change in the average rate differential; by doing so, the actuary can focus solely on the rating variables 
+that are changing. 
+Recall that the proposed average premium is the current average premium multiplied by the proposed 
+overall change in average premium: 
+.
+0.1
+C
+P
+P
+Δ%)
+(
+P
+
+
+
+ 
+The proposed overall change in average premium is comprised of changes to the variable and additive 
+premium components.  Using the notation ΔV% and ΔA% to indicate the percentage changes to the 
+variable and additive premium components, respectively, the formula can be transformed: 
+.
+0
+1
+0
+1
+C
+A
+C
+C
+V
+P
+)
+(A
+%)
+Δ
+.
+(
+)
+A
+P
+(
+%)
+Δ
+.
+(
+P
+
+
+
+
+
+
+
+ 
+Taking into account that the last term on the right side of the equation is equivalent to the proposed 
+additive premium per exposure,
+P
+A , this equation can be rewritten as follows: 
+.
+0
+1
+C
+C
+V
+P
+P
+)
+A
+P
+(
+%)
+Δ
+.
+(
+A
+P
+
+
+
+
+
+ 
+This can be further simplified to show the proposed change in variable premium given the overall change, 
+the current average premium, and the current and proposed additive premium: 
+.
+0.1
+0
+1
+C
+C
+P
+C
+C
+C
+P
+P
+V
+A
+P
+A
+P
+Δ%)
+(
+A
+P
+A
+P
+%)
+Δ
+.
+(
+
+
+
+
+
+
+
+
+
+ 
+The change in variable premium is comprised of the change in base rate and the change in the average 
+rate differential across all variables:   
+
+Chapter 14:  Implementation 
+276 
+ 
+.
+0
+1
+C
+P
+C
+P
+V
+S
+S
+B
+B
+%)
+Δ
+.
+(
+
+
+
+ 
+By substituting and reordering terms, the base rate adjustment is defined as follows: 
+.
+0.1
+P
+C
+C
+C
+P
+C
+C
+P
+S
+S
+A
+P
+A
+P
+Δ%)
+(
+B
+B
+
+
+
+
+
+
+ 
+Using ΔB% and ΔS% to represent the percentage base rate change and the percentage change in average 
+rate differential, the equation becomes: 
+.
+0
+1
+0
+1
+0.1
+0
+1
+S
+C
+C
+P
+C
+B
+%)
+Δ
+.
+(
+.
+A
+P
+A
+P
+Δ%)
+(
+%
+Δ
+.
+
+
+
+
+
+
+
+
+ 
+The final term of the equation, which is the reciprocal of one plus the change in average rate differential, 
+is commonly referred to as the off-balance factor.  It is called that as it represents the amount the base 
+rate needs to be adjusted to balance the changes in the rate differentials.  
+The only component of the formulae above not previously discussed is the calculation of the change in 
+the average rate differential across all variables (
+S
+Δ ).  An exact calculation of 
+S
+Δ can be made using the 
+extension of exposures method described earlier in this section.  When data at that level of detail is not 
+available, the change in average rate differential needs to be approximated. 
+When the rating algorithm is entirely multiplicative, the formula for the approximated average rate 
+differential across all variables is shown below (the subscript w refers to each rating variable).  Only 
+multiplicative variables that are changing need to be considered in the product. 
+ 
+.
+0
+1
+0
+1
+S
+S
+
+
+
+
+w
+,w%)
+Δ
+.
+(
+%
+Δ
+.
+ 
+The change in average rate differential for each multiplicative rating variable is calculated as the change 
+in the rate differential for each level of the rating variable weighted by the current variable premium.  The 
+formula for the change in average rate differential for R1 is given below:   
+
+
+
+
+
+
+
+
+
+i
+,i
+i
+,i
+,i
+,i
+,R
+A
+P
+A
+P
+R
+R
+%)
+Δ
+.
+(
+)
+(
+1
+1
+0
+1
+C
+C
+C
+C
+C
+P
+1
+S
+ 
+Said in another way, this formula is simply the change in the current variable premium due to the change 
+in the rate differentials for the given rating variable.   
+The use of variable premium as weights may be difficult for various reasons.  First, it may be difficult to 
+obtain the current variable premium data (particularly at current rate level).  Second, weighting by 
+variable premium is challenging when a rating algorithm has additive components.  For these reasons, 
+actuaries may choose to measure the average change in rating differentials using exposures as weights.  
+
+Chapter 14:  Implementation 
+277 
+ 
+This method of weighting introduces the same distributional bias as discussed in the previous section, but 
+it may be the most feasible alternative. 
+In the example rating algorithm, the additive discounts can be combined and restated as a single 
+multiplicative variable (i.e., 1-D1-D2).  The formula for the average rate differential across all variables 
+in the example is as follows: 
+%)
+Δ
+.
+x
+%
+Δ
+.
+x
+%
+Δ
+.
+(
+%
+Δ
+.
+)
+D
+D
+S,(
+S,R
+S,R
+S
+2
+1
+1
+2
+1
+0
+1( 
+ )
+0
+1( 
+ )
+0
+1
+0
+1
+
+
+
+
+
+
+
+ 
+Actuaries approximate the average rate differential changes for multiplicative variables (e.g., R1) as 
+follows: 
+,
+1
+1
+ 
+ 
+0
+1
+C
+P
+1
+S
+R
+R
+%)
+Δ
+.
+(
+,R
+
+
+ 
+where the current and proposed average differentials are determined using exposures as weights:  
+X
+X
+R
+R
+i
+i
+,i 
+
+P
+P
+1
+1
+ and 
+.
+1
+1
+C
+C
+X
+X
+R
+R
+i
+i
+,i 
+
+ 
+The change in (1-D1-D2) can be approximated as follows:
+ 
+,
+2
+1
+1
+2
+1
+1 
+ 
+0
+1
+C
+ 
+C
+P
+ P
+)
+2
+1
+1(
+S
+D
+D
+D
+D
+%)
+Δ
+.
+(
+D
+D
+,
+
+
+
+
+
+
+
+
+ 
+ 
+ 
+where the current and proposed average discounts are determined using exposures as weights, as shown 
+below for D1: 
+ 
+X
+X
+D
+D
+i
+i
+,i 
+
+P
+P
+1
+1
+ and 
+,
+1
+1
+C
+C
+X
+X
+D
+D
+i
+i
+,i 
+
+ 
+The following table shows the approximation of the average change in differentials (
+%)
+Δ
+.
+(
+S
+0
+1 
+for the 
+example using exposures as weights.   
+
+Chapter 14:  Implementation 
+278 
+ 
+ 
+14.8 Proposed Average Change in Differentials 
+(1)
+(2)
+(3)
+(4)
+D 1 
+Exposures
+Current 
+Discount
+Proposed 
+Discount
+Y
+156,625
+  
+5.00%
+5.00%
+N 
+712,875
+  
+0.00%
+0.00%
+Total
+869,500
+  
+0.90%
+0.90%
+(1)
+(2)
+(3)
+(4)
+D 2 
+Exposures
+Current 
+Discount
+Proposed 
+Discount
+Y
+153,625
+  
+10.00%
+5.00%
+N 
+715,875
+  
+0.00%
+0.00%
+Total
+869,500
+$  
+1.77%
+0.88%
+(Tot3) = (3) Weighted by (2)
+(Tot4) = (4) Weighted by (2)
+(5)
+(6)
+(7)
+(8)
+(9)
+R 1 
+Exposures
+Current 
+Differential
+Proposed 
+Differential
+Proposed 
+/ Current
+1 
+152,500
+  
+0.8000
+ 
+ 
+0.9000
+ 
+ 
+1.1250
+  
+2 
+570,000
+  
+1.0000
+ 
+ 
+1.0000
+ 
+ 
+1.0000
+  
+3 
+147,000
+  
+1.2000
+ 
+ 
+1.2500
+ 
+ 
+1.0417
+  
+Total
+869,500
+  
+0.9987
+ 
+ 
+1.0247
+ 
+ 
+1.0260
+   
+(5)
+(6)
+(7)
+(8)
+(9)
+R 2 
+ Exposures 
+Current 
+Differential
+Proposed 
+Differential
+Proposed 
+/ Current
+A 
+235,000
+  
+1.0000
+ 
+ 
+1.0000
+ 
+ 
+1.0000
+  
+B 
+480,000
+  
+1.0500
+ 
+ 
+0.9500
+ 
+ 
+0.9048
+  
+C 
+154,500
+  
+1.2000
+ 
+ 
+1.3000
+ 
+ 
+1.0833
+  
+Total
+869,500
+  
+1.0631
+ 
+ 
+1.0257
+ 
+ 
+0.9648
+   
+(10)
+(11)
+(12)
+(13)
+(14)
+1-D 1-D 2
+Exposures
+Current 
+Differential
+(1-D 1-D 2)
+Proposed 
+Differential
+(1-D 1-D 2)
+Proposed 
+/ Current
+Total
+(8) / (7)
+0.9733
+ 
+ 
+0.9822
+ 
+ 
+1.0091
+   
+(15)
+  
+  
+Average Change in Differential
+0.9989
+   
+(9)= (8) / (7)
+(Tot9)= (Tot8) / (Tot7)
+(12)= 1 - (Tot3D 1) - (Tot3D 2)
+(13)= 1 - (Tot4D 1) - (Tot4D 2)
+(14)= (13) / (12)
+(15) = (Tot9R 1) x (Tot9R 2) x (Tot14) 
+
+Chapter 14:  Implementation 
+279 
+ 
+ 
+Using the results from Table 14.8 and the previously derived formula: 
+,
+0
+1
+0
+1
+0.1
+0
+1
+S
+C
+C
+P
+C
+B
+%)
+Δ
+.
+(
+.
+A
+P
+A
+P
+Δ%)
+(
+%
+Δ
+.
+
+
+
+
+
+
+
+
+ 
+the proposed base rate can be calculated as shown in the following table. 
+ 
+Other Considerations 
+Minimum Premium 
+Some rating algorithms have a minimum premium requirement.  The minimum premium requirement is 
+intended to ensure that, on an individual risk basis, premium covers the expected fixed expenses plus 
+some minimum expected loss, as determined by the company.  In most cases, companies that use a 
+minimum premium requirement do not have additive fixed expense fees in their rating algorithms.  
+Implementation of a minimum premium requirement can effectively increase total premium.  The effect is 
+calculated as follows:   
+.0.1
+Minimum
+ Without  
+Premium
+Minimum
+ With  
+Premium
+Effect
+
+
+ 
+To offset this increase in premium, the otherwise applicable base rate should be multiplied by the 
+following factor: 
+.
+Effect
+1.0
+1.0
+Factor
+Offset 
+
+
+ 
+Limiting the Premium Effect of a Single Variable  
+In practice, actuaries may decide to limit the premium impact caused by the change in rate differentials 
+for a single rating variable.  For example, the actuary may perform a territorial analysis and determine a 
+set of proposed relativities.  After taking into account other business considerations (e.g., marketing) as 
+discussed in Chapter 13, the actuary may decide to limit or “cap” the premium impact on any one territory 
+14.9 Proposed Base Rate (Approximated Method)
+(1)
+    
+Current Base Rate
+210.00
+$     
+(2)
+    
+Current Average Premium
+242.13
+$     
+(3)
+    
+Target Change in Average Premium
+3.25%
+(4)
+    
+Proposed Average Premium
+250.00
+$     
+(5)
+    
+Proposed Additive Premium (same as Current)
+25.00
+$       
+(6)
+    
+Average Rating Differential Adjustment
+0.9989
+(7)
+    
+Proposed Base Rate Adjustment
+1.0374
+(8)
+    
+Proposed Base Rate
+217.85
+$     
+(4)= (1.0 + (3)) x (2)
+(7)= [ (4) - (5) ] / [ (2) - (5) ] x [ 1.0 / (6) ]
+(8)= (1) x (7)
+
+Chapter 14:  Implementation 
+280 
+ 
+by adjusting the proposed relativities.  If the actuary caps the proposed relativity for any one territory, this 
+will reduce the proposed average rate differential across all territories, which will necessitate an offsetting 
+increase in the proposed base rate in order to achieve the target average premium.  The extent of the 
+increase will depend on the magnitude of the capping and the number of insureds affected by the cap.  
+The following example outlines a rate change scenario in which the insurer is targeting an overall rate 
+level change of 15.0%.  As part of the rate change, the insurer is revising relativities for a particular rating 
+variable, and management requires that the premium increase for any level of this variable not exceed 
+20%.   
+Table 14.10 shows the current and selected relativities (prior to capping) in Columns (3) and (4).  These 
+relativity changes would result in an off-balance factor of 0.9749 (= 1 / (1 + 2.57%)).  (For simplicity, the 
+example assumes that there is no additive premium.)  The total change to each level is the product of the 
+relativity change factor, the off-balance factor, and the target overall change factor, as displayed in 
+Column (8). 
+ 
+ 
+The total change for Level 1 is 26.13%, which exceeds the desired maximum change of 20.0%.  The new 
+capped relativity for Level 1 (refer to this as X) is determined such that the product of the relativity 
+change factor (new capped relativity for Level 1 / current relativity for Level 1 = X / 0.8000), the off-
+balance factor (0.9749), and the overall change factor (1.1500) results in a 20% total change.  The new 
+capped relativity for Level 1 (X) that satisfies this equation is 0.8563. 
+If the total change for Level 1 were limited to 20.0%, the premium achieved would be $165,600 
+(=$138,000 x 1.20).  This presents a shortfall of $8,459 (=$174,059 - $165,600) which will need to be 
+made up by charging the other levels (Levels 2 and 3) higher premium.  The premium proposed for 
+Levels 2 and 3 is $975,889 ( = $738,805 + $237,084).  This premium must be increased to cover the 
+$8,459 shortfall.  One way to achieve this is to increase the base rate by 0.87% (=$8,459 / $975,889).   
+Since all levels are affected by any base rate change, one problem remains.  If the base rate is being 
+increased by 0.87%, this means the premium for capped Level 1 will increase beyond the desired 20% 
+limit.  Therefore, the capped relativity for Level 1 must be further reduced by 0.87% to essentially undo 
+(1)
+(2)
+(3)
+(4)
+(5)
+(6)
+(7)
+(8)
+(9)
+Level
+Premium
+Current
+Selected
+Relativity 
+Change
+Off-
+Balance 
+Factor
+Selected 
+Overall 
+Change
+Total 
+Change
+Premium on 
+Proposed 
+Rates
+1
+138,000
+$       
+0.8000
+       
+0.9000
+       
+12.50%
+0.9749
+15.00%
+26.13%
+174,059
+$          
+2
+659,000
+$       
+1.0000
+       
+1.0000
+       
+0.00%
+0.9749
+15.00%
+12.11%
+738,805
+$          
+3
+203,000
+$       
+1.2000
+       
+1.2500
+       
+4.17%
+0.9749
+15.00%
+16.79%
+237,084
+$          
+Total
+1,000,000
+$    
+2.57%
+0.9749
+15.00%
+14.99%
+1,149,948
+$       
+(5)=
+(4) / (3) - 1.0
+(Tot5)=
+(5) weighted by (2)
+(6)=
+1.0 / (1.0 + (Tot5))
+(8)=
+[1.0 + (5)] x (6) x  [1.0 + (7)] - 1.0
+(9)=
+(2) x (1.0 + (8))
+14.10  Rate Change Before Capping
+
+Chapter 14:  Implementation 
+281 
+ 
+the effect of the base rate increase on this level.  This adjustment results in a relativity for Level 1 of 
+0.8489 (= 0.8563 / 1.0087). 
+ Table 14.11 summarizes these calculations. 
+ 
+The final base rate offset factor would be the original off-balance factor (0.9749) times the base rate 
+adjustment to cover the premium shortfall from capping (1.0087).  The revision to the Level 1 relativity 
+achieves the 20% desired cap, and the adjustment to the base rate ensures the overall change is still 
+15.0%.   
+The calculations are a little different if capping is necessary for the base class.  Table 14.12 shows a rate 
+change scenario (with the same selected overall change and same premium capping requirement) in which 
+the base class exceeds the premium cap.   
+ 
+ 
+ 
+ 
+(1)
+(2)
+(3)
+(4)
+(5)
+(6)
+(7)
+(8)
+(9)
+Level
+Premium
+Current
+Selected
+Relativity 
+Change
+Off-
+Balance 
+Factor
+Selected 
+Overall 
+Change
+Total 
+Change
+Premium 
+Shortfall if 
+Total Change 
+Capped to 
+20%
+1
+138,000
+$       
+0.8000
+       
+0.9000
+       
+12.50%
+0.9749
+15.00%
+26.13%
+8,459
+$              
+2
+659,000
+$       
+1.0000
+       
+1.0000
+       
+0.00%
+0.9749
+15.00%
+12.11%
+-
+$                 
+3
+203,000
+$       
+1.2000
+       
+1.2500
+       
+4.17%
+0.9749
+15.00%
+16.79%
+-
+$                 
+Total
+1,000,000
+$    
+2.57%
+0.9749
+15.00%
+14.99%
+8,459
+$              
+(10) Proposed Premium from Non-capped Levels (2, 3)
+975,889
+$          
+(11) Proposed Level 1 Relativity to Comply with Cap
+0.8563
+(12) Base Rate Adjustment to Cover Shortfall
+1.0087
+(13) Proposed Level 1 Relativity Further Adjusted for Base Rate Offset
+0.8489
+(5)=
+(4) / (3) - 1.0
+(Tot5)=
+(5) weighted by (2)
+(6)=
+1.0 / (1.0 + (Tot5))
+(8)=
+[1.0 + (5)] x (6) x  [1.0 + (7)] - 1.0
+(9)=
+max of [(2) x ((1.0 + (8))] - [ (2) x (1.0 + 20%)] and 0
+(10)=
+(2) x (1+(8)) summed over Levels 2 and 3
+(11)=
+[(1.0 + 20%) / ((6Row 1) x (1.0 + (7Row 1))] x (3Row 1)
+(12)=
+1.0 + (Tot9) / (10) 
+(13)=
+(11) / (12)
+14.11  Rate Change After Capping Non-Base Level at 20%
+
+Chapter 14:  Implementation 
+282 
+ 
+ 
+In this case, the base rate is adjusted downward to cap the change for the base level.  The non-base 
+relativities are adjusted upward to cover the amount of premium shortfall due to the cap and to offset the 
+effect of the base rate change in the non-base levels.  This is explained in detail below. 
+In order to limit the total change for Level 2 to 20.0%, the base rate is decreased by applying a factor of 
+0.9899 (= 1.2000 / 1.2122).  This results in a shortfall in Level 2 premium of $8,040 (= (21.22% - 
+20.00%) x $659,000).  The premium collected from the non-base levels need to make up for that shortfall.  
+Prior to capping, the premiums from Levels 1 and 3 was $351,238 (=135,916 + 215,322).  The relativities 
+for these levels need to increase by 2.29% (=$8,040 / $351,238).  Furthermore, the relativities for Level 1 
+and Level 3 need to be adjusted to negate the effect of the base rate offset.  This means the final 
+adjustment factor for these levels’ relativities is 1.0333 (=1.0229 / 0.9899).   
+Table 14.13 summarizes these calculations.  
+(1)
+(2)
+(3)
+(4)
+(5)
+(6)
+(7)
+(8)
+(9)
+Level
+Premium
+Current
+Selected
+Differential 
+Change
+Off-balance 
+Factor
+Selected 
+Overall 
+Change
+Total Change
+Premium on 
+Proposed 
+Rates
+1
+138,000
+$             
+0.8000
+      
+0.6500
+      
+-18.75%
+1.0541
+15.00%
+-1.51%
+135,916
+$          
+2
+659,000
+$             
+1.0000
+      
+1.0000
+      
+0.00%
+1.0541
+15.00%
+21.22%
+798,840
+$          
+3
+203,000
+$             
+1.2000
+      
+1.0500
+      
+-12.50%
+1.0541
+15.00%
+6.07%
+215,322
+$          
+Total
+1,000,000
+$          
+-5.13%
+1.0541
+15.00%
+15.01%
+1,150,078
+$       
+(5)=
+(4) / (3) - 1.0
+(Tot5)=
+(5) weighted by (2)
+(6)=
+1.0 / (1.0 + (Tot5))
+(8)=
+[1.0 + (5)] x (6) x  [1.0 + (7)] - 1.0
+(9)=
+(2) x (1.0 + (8))
+14.12  Rate Change Before Capping Base Level Impact
+
+Chapter 14:  Implementation 
+283 
+ 
+ 
+Thus, the revised Level 1 differential is 0.6716 (= 0.6500 x 1.0333) and the Level 3 differential is 1.0850 
+(=1.0500 x 1.0333).  The final base rate offset factor would be the original off-balance factor (1.0541) 
+times the base rate adjustment to comply with the cap (0.9899).  These changes result in a 15.0% overall 
+change with no level’s premium exceeding the 20.0% limit. 
+Premium Transition Rules 
+The last section dealt with capping the rate differential change for any one rating variable.  Even if caps 
+are used to minimize this effect, the impact on an individual insured’s premium can still be quite large if 
+the proposed rate change includes changes to several rating variables.  In other words, even if the change 
+for any one rating variable is small, the cumulative effect of the changes to all of the rating variables may 
+be significant.    
+The company may wish to mitigate the premium impact for any single insured to reduce the probability 
+that the insured shops for a better deal.  In addition, a regulation or law may limit the increase an 
+insurance company may offer a renewing insured.  The company can try to alter the proposed rates such 
+that no insured’s renewal increase exceeds the limit, but that may be practically impossible if the change 
+includes changes to multiple rating variables.  Consequently, the company may choose to pursue a 
+premium transition rule.   
+(1)
+(2)
+(3)
+(4)
+(5)
+(6)
+(7)
+(8)
+(9)
+Level
+Premium
+Current
+Selected
+Relativity 
+Change
+Off-Balance 
+Factor
+Selected 
+Overall 
+Change
+Total Change 
+Premium 
+Shortfall if 
+Total Change 
+Capped to 
+20%
+1 
+138,000 
+$ 
+  
+0.8000
+    
+0.6500
+   
+-18.75%
+1.0541
+15.00%
+-1.51%
+2 
+659,000 
+$ 
+  
+1.0000
+    
+1.0000
+   
+0.00%
+1.0541
+15.00%
+21.22%
+8,040
+$ 
+ 
+3 
+203,000 
+$ 
+  
+1.2000
+    
+1.0500
+   
+-12.50%
+1.0541
+15.00%
+6.07%
+-
+$ 
+ 
+Total
+1,000,000
+$
+  
+-5.13%
+1.0541
+15.00%
+15.00%
+8,040
+$ 
+ 
+(10)
+Base Rate Adjustment to Comply with Cap
+0.9899
+(11)
+Premium from Non-capped Levels (1, 3)
+351,238
+$ 
+ 
+(12)
+Adjustment to Level 1, 3 Relativities due to Cap
+1.0229
+(13)
+Total Adjustment to Level 1, 3 Relativities
+1.0333
+(5)=
+(4) / (3) - 1.0
+(Tot5)=
+(5) weighted by (2) 
+(6)=
+1.0 / (1.0 + (Tot5)) 
+(8)=
+[1.0 + (5)] x (6) x  [1.0 + (7)] - 1.0 
+(9)=
+max of [(2) x ((1.0 + (8))] - [ (2) x (1.0 + 20%)] and 0
+(10)=
+(1.0 + 20.0%) / (1.0 + (8 
+Row 2 ))
+(11)=
+(2) x (1+(8)) summed over Levels 1 and 3
+(12)=
+1.0 + (9) / (11)
+(13)=
+(12) / (10)
+14.13  Rate Change After Capping Base Level at 20%
+
+Chapter 14:  Implementation 
+284 
+ 
+A premium transition rule dictates the maximum and/or minimum amount of change in premium that an 
+insured can receive at a single renewal.  For example, a company may decide to cap the renewal premium 
+increase for each individual insured to 15%.  If the company’s rate change results in an insured receiving 
+a 20% premium increase, the insured will receive a 15% rate change at the first renewal following the 
+implementation of the rate change, and the remaining 4.3% ( = 1.20 / 1.15 - 1.0 ) at the second renewal. 
+The following are some key considerations when using a premium transition rule: 
+ 
+The company needs to determine the maximum and minimum premium change amounts.  As 
+discussed in Chapter 13, the company can test various scenarios of minimum and maximum 
+amounts, to determine the optimal selections.    
+ 
+Typically premium transition rules apply only to premium changes directly resulting from 
+company initiated rate changes.  If premium change is affected by a change in risk characteristics 
+(e.g., the insured buys a newer car), the transition rule algorithm must be adjusted to neutralize 
+the effect of the risk characteristics change.  For example, the premium change may be calculated 
+as the ratio of new premium on new risk characteristics to old premium on new risk 
+characteristics.   
+ 
+The length of time necessary to fully transition the renewal portfolio to the manual rates depends 
+on the extent of the proposed rate change and the premium transition rule implemented.  The 
+company should try to avoid long transition periods in order to minimize the chances of multiple 
+overlapping transition periods created by multiple rate changes.   
+ 
+The effect on the average premium level should also be considered and the base rate altered 
+accordingly.  The actuary must decide whether the base rate should be set so that the equilibrium 
+is achieved over the whole time the proposed rates are in effect, or by the expected end of the 
+transition period.  In other words, if the company is targeting an average premium of $250 and 
+using a premium transition rule that is expected to span two years, then the company needs to 
+decide whether the base rate should be set so that average premium will equal $250 over the two 
+years combined or at the end of the two-year period.  If the cap applies equally to premium 
+increases and decreases, and the rate changes are uniformly distributed, this is not an issue.  
+However, that is not normally the case.    
+Expected Distribution 
+Whether using extension of exposures or the approximated average rate differential methods to derive 
+base rates, the actuary makes an assumption about the distribution expected during the period the rates 
+will be in effect.  Normally, actuaries use the latest in-force distribution as the best estimate of the 
+expected future distribution.  If the company intends to non-renew certain policies, this distribution can be 
+adjusted accordingly. 
+By using the latest in-force distribution to measure the proposed average premium or the proposed 
+average rate differential across all rating variables, the actuary assumes the rate change will not alter the 
+existing portfolio.  The validity of that assumption may vary significantly based on the product, market 
+conditions, and the extent of the proposed changes.  For example, a small change that applies uniformly to 
+all homeowners insureds will probably have very little impact on the overall distribution.  In this case, the 
+actual average premium change will be close to that estimated using the latest in-force distribution.  On 
+the other hand, a non-standard auto insurer implementing a significant rate change that varies widely by 
+age of insured may see a significant change in the overall volume and distribution of business (i.e., 
+insureds receiving large rate changes may non-renew their policies).  In this case, the actual average 
+premium change realized may be different than proposed using the latest in-force distribution.  If all risks 
+
+Chapter 14:  Implementation 
+285 
+ 
+are equally profitable, then loss of premium will be offset by a corresponding loss in expected costs, and 
+the overall rate level adequacy will be unaffected.  If the risks are not equally profitable, however, then 
+the distributional shift can affect the adequacy of the overall rates.   
+This is a shortcoming of the standard actuarial techniques.  Price optimization techniques, as discussed in 
+Chapter 13, address this issue by taking into consideration how the rate change is expected to affect 
+demand (i.e., volume).  
+CALCULATING NEW RATES BASED ON BUREAU OR COMPETITOR 
+RATES 
+Companies writing a brand new insurance product generally do not have the data necessary to project the 
+individual components of the fundamental insurance equation.  Consequently, these companies generally 
+rely on information from their other similar products, similar products sold by competitors (if information 
+is publicly available), or information from rating bureaus, and make adjustments accordingly.   
+If the company has data from a related product or rating bureau, then the pricing actuary may be able to 
+calculate the rates directly using the techniques described under the pure premium approach.  The more 
+likely scenario is that the company must use the rates of a competitor or rating bureau as a guide.  This 
+requires a copy of the relevant rating manual or rating bureau filing.  Even if a competitor’s rating manual 
+is publicly available, the underwriting guidelines may not be.  To the extent that the competitor varies 
+premium significantly based on underwriting criteria, the rating manual may not describe how these 
+criteria affect the premium.  In such cases, the company will need to use judgment to supplement the 
+competitor information. 
+In addition to the competitor’s rating manual, the company should try to obtain information regarding the 
+relative expense levels and profitability of the target competitor.  This information can normally be 
+obtained from recent rate filings or from annual statement data.  The company can use this information to 
+better estimate the profit expected if it copies the competitor’s rates.  Since there will be differences in the 
+way the companies operate as well as differences in the distribution of the portfolios, copying a 
+competitor’s rates exactly will not guarantee the same results for the company introducing the new 
+product.  The company should use judgment to determine a range of outcomes with respect to how much 
+better or worse it expects profit for the new product to be based on the assessment of the company’s 
+situation compared to the competitor’s situation. 
+Depending on the situation, the company may simply use the competitor’s manual as a starting point and 
+make adjustments based on known or suspected differences.  The following are a few examples of 
+potential adjustments. 
+First, the company may estimate its fixed expenses will be higher or lower than those of the target 
+competitor.  In such a case, the company can simply increase or decrease the competitor’s expense fee by 
+the appropriate percentage.  For example, assume the company estimates its fixed expenses will be 10% 
+lower than the competitor’s.  If the competitor has an expense fee of $25.00, then the company should 
+implement an expense fee of $22.50, which is equivalent to the target competitor’s fee of $25 multiplied 
+by a factor of 0.90 ( = 1.0 - 0.10 ). 
+
+Chapter 14:  Implementation 
+286 
+ 
+Second, the company may estimate its variable expenses will be higher or lower than those of the target 
+competitor.  In such a case, the company can adjust the base rate and the expense fee by the ratio of the 
+target competitor’s variable permissible loss ratio to the expected variable permissible loss ratio.  For 
+example, assume the company plans to use a commission percentage that is 5 percentage points higher 
+than the competitor’s but all other variable expenses are expected to be the same.  Assuming that the 
+competitor’s variable expense ratio is 15% and the target profit percentage for both companies is 5%, then 
+the company should adjust the target competitor’s base rate and expense fees by a factor of 1.067 
+[ = ( 1.0- 0.15 - 0.05 ) / (1.0 - 0.20 - 0.05 ) ].    
+Third, the company may believe its expected loss costs will be different than the target competitor’s due 
+to operational differences or a lack of experience with the product.  In such cases, the company should 
+judgmentally change the base rate to account for the anticipated difference.  For example, the company 
+may feel its lack of experience in settling claims for the new product will result in expected costs that are 
+5% to 10% higher than those of the target competitor’s.  The company should increase the base rates by 
+5% to 10% to account for this. 
+Fourth, the company may want to target a certain segment of the market that the competitor does not 
+seem to be targeting.  In such a case, the company may adjust the rate differentials accordingly.  For 
+example, if the company aims to write a significant amount of new business in a certain territory, then it 
+may choose to reduce the rate differential in that territory.  If any adjustments are made, then the company 
+can adjust the base rate to offset the change in the average territorial differential. 
+COMMUNICATING AND MONITORING 
+Prior to implementing a final set of rates, the ratemaking actuary typically communicates the expected 
+rate change effect to key stakeholders such as regulators and company management. 
+If the proposed rates apply to a brand new product for new insureds, then communication to regulators 
+may be limited to the source of the derivation of rates (e.g., competitor or bureau rates) and some 
+justification for any judgmental adjustments made.  Internal decision-makers will likely want to 
+understand the expected profitability and how the proposed rates position the company in the competitive 
+marketplace.   
+On the other hand, if the company is implementing rate changes that will impact existing policies, then 
+the communications to key stakeholders may be more extensive.  Internal management may want to 
+understand some of the assumptions and selections involved in the overall rate level indication or rate 
+differential changes, but more importantly, they will want to understand the impact on competitive 
+position, expected volume, and expected profitability.  As discussed in detail in Chapter 13, the actuary 
+will typically prepare competitive comparisons (e.g., percent wins) under the current and final proposed 
+rates, as well as policyholder dislocation analysis for company management (in total as well as by key 
+segments).51  This information is useful for the marketing, sales, and customer service functions to 
+prepare for any potential repercussions of large policyholder premium impacts or, on the positive side, to 
+focus advertising on customer segments that will be priced more competitively. 
+                                                     
+51 Ideally company management will have seen such analysis prior to the rates being considered final.  This analysis 
+is merely confirming the effect of the final proposed set of rates.  
+
+Chapter 14:  Implementation 
+287 
+ 
+In addition, some companies use models to estimate the conversion and retention rates (per individual risk 
+and in aggregate) expected after implementation of a rate change.  Once individual risk conversion and 
+retention rates are estimated, models and assumptions can be used to estimate future expected loss costs, 
+premium, and expenses on these risks.  This allows calculation of expected profitability after the rate 
+change.  This information aids in business forecasting. 
+Depending on the jurisdiction, regulators may require considerable detail about the methods and 
+assumptions underlying the overall rate level and rate differential indications and selections.  Moreover, 
+they too may want to understand the expected policyholder dislocation.     
+In addition to communicating the effect of the rate change, it is important for the ratemaking actuary to 
+establish a strategy to monitor the actual effect of the rate change against the expected effect.  This may 
+involve comparing actual and expected close rates, retention rates, distributions, and claim frequencies 
+against those expected.  The comparison allows quick identification of any strong differences, and allows 
+the company to investigate the potential source of any differences and act accordingly. 
+SUMMARY 
+Preceding chapters explained how to calculate actuarial indications and discussed reasons that companies 
+may implement something other than what was indicated.  If the actuarial analysis indicates that a product 
+has an inadequate rate level, the company can respond with non-pricing solutions (e.g., reduce expected 
+expenses or expected losses) or it can implement a rate change.  Much of this chapter focused on rate 
+change solutions, and in particular derivation of the base rate.  Two approaches for derivation of the base 
+rate were outlined:  extension of exposures and an approximation of the average rate differential across all 
+rating variables. 
+This chapter also discussed options for calculating rates for a new product.  The company actuary 
+typically obtains raw data or rate information on related products (from the same company or a 
+competitor) or from a rating bureau, and adjusts judgmentally. 
+Finally, the actuary’s role in communicating the rate change effect to internal and external stakeholders 
+was discussed, as well as the importance of establishing a strategy to monitor the actual rate change effect 
+as compared to what was expected. 
+ 
+ 
+
+Chapter 14:  Implementation 
+288 
+ 
+KEY CONCEPTS IN CHAPTER 14 
+1. Non-pricing solutions to an imbalanced fundamental insurance equation 
+a. Reduce expenses 
+b. Reduce loss costs 
+ 
+2. Pricing solutions for an existing product 
+a. Calculation of additive fixed expense fee and other additive premium 
+b. Derivation of base rate 
+i. Extension of exposures method 
+ii. Approximated average rate differentials method 
+iii. Approximated change in average rate differentials method 
+c. Other considerations 
+i. No fixed expense fees or additive premium 
+ii. Minimum premium 
+iii. Limit on the premium effect of a single variable 
+iv. Premium transition rules 
+v. Expected distribution 
+ 
+3. Pricing solutions for a new product 
+a. Use of related data, competitor’s rates, or bureau rates 
+b. Consideration of differences in expected loss, expense, and target segments 
+ 
+4. Communicating rate change effect to key stakeholders 
+a. New product 
+b. Existing product 

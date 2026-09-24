@@ -1,0 +1,206 @@
+3
+Numerical discretization of the equations
+of motion
+3.1
+Classiﬁcation of partial differential equations (PDEs)
+3.1.1
+Reminder about PDEs
+Second order linear PDE
+α ∂2u
+∂x2 + β ∂2u
+∂x∂y + γ ∂2u
+∂y2 + 2δ ∂u
+∂x + 2ε ∂u
+∂x + ϕu = 0
+Second order linear partial differential equations are classiﬁed into three types de-
+pending on the sign of β2 −αγ (e.g., Courant and Hilbert, 1962). Equations are
+hyperbolic, parabolic or elliptic if the sign is positive, zero, or negative, respectively.
+The simplest (canonical) examples of these equations are
+(a) ∂2u
+∂t2 = c2 ∂2u
+∂x2
+Wave equation (hyperbolic).
+Example: vibrating string.
+(b) ∂u
+∂t = σ ∂2u
+∂x2
+Diffusion equation (parabolic).
+Example: heated rod.
+(c) ∂2u
+∂x2 + ∂2u
+∂y2 = 0 (or f (x, y))
+Laplace’s or Poisson’s equations (elliptic).
+Examples: steady state temperature of a
+plate, streamfunction/vorticity
+relationship.
+The behavior of the solutions, the proper initial and/or boundary conditions, and the
+numerical methods that can be used to ﬁnd the solutions depend essentially on the type
+68
+
+3.1 Classiﬁcation of partial differential equations (PDEs)
+69
+of PDE that we are dealing with. Although nonlinear multidimensional PDEs cannot
+in general be reduced to these canonical forms, we need to study these prototypes
+of the PDEs to develop an understanding of their properties, and then apply similar
+methods to the more complicated NWP equations.
+(d) ∂u
+∂t = −c∂u
+∂x
+Advection equation, with solution u(x, t) = u(x −ct, 0).
+TheadvectionequationisaﬁrstorderPDE,butitcanalsobeclassiﬁedasahyperbolic,
+since its solutions satisfy the wave equation (a), and the latter is usually written as
+the system
+∂u
+∂t = A∂u
+∂x
+where
+u =
+
+
+∂u
+∂t
+c∂u
+∂x
+
+
+and
+A =
+0
+c
+c
+0
+
+or an equivalent transformation
+3.1.2
+Well-posedness, initial and boundary conditions
+A well-posed initial/boundary condition problem has a unique solution that depends
+continuously on the initial/boundary conditions. Clearly, the speciﬁcation of proper
+initial conditions and boundary conditions for a PDE is essential in order to have a
+well-posed problem. If too many initial/boundary conditions are speciﬁed, there will
+be no solution. If too few are speciﬁed, the solution will not be unique. If the number
+of initial/boundary conditions is right, but they are speciﬁed at the wrong place or
+time, the solution will be unique, but it will not depend smoothly on initial/boundary
+conditions, i.e., small errors in the initial/boundary conditions will produce huge
+errors in the solution. In any of these cases we have an ill-posed problem. And we
+can never ﬁnd a numerical solution of a problem that is ill posed: the computer will
+show its disgust by “blowing up”.
+We brieﬂy discuss well-posed initial/boundary conditions:
+Second order elliptic equations require one boundary condition on each point
+of the spatial boundary. These are “boundary value”, time-independent
+problems, and the methods used to solve them are introduced in Section 3.4.
+The boundary conditions may be on the value of the function (Dirichlet
+problem), as when we specify the temperature in the borders of a plate, or on
+
+70
+3 Numerical discretization of the equations of motion
+its normal derivative (Neumann problem), as when we specify the heat ﬂux.
+We could also have a mixed “Robin” boundary condition, involving a linear
+combination of the function and its derivative.
+Linear parabolic equations require one initial condition at the initial time and
+one boundary condition at each point of the spatial boundaries (if they exist).
+Linear hyperbolic equations require as many initial conditions as the number
+of characteristics that come out of every point in the surface t = 0, and as
+many boundary conditions as the number of characteristics that cross a point
+in the (space) boundary pointing inwards (into the spatial domain). For
+example: to solve ∂u/∂t = −c∂u/∂x for x > 0, t > 0; characteristics:
+solutions of dx/dt = c; space boundary: x = 0 (see Fig. 3.1.1(a),(b)). If
+c > 0, we need the initial condition u(x, 0) = f (x) and the boundary
+condition u(0, t) = g(t). If c < 0, we need the initial condition
+u(x, 0) = f (x) but no boundary conditions.
+For nonlinear equations, no general statements can be made, but physical insight
+and local linearization can help to determine proper initial/boundary conditions. For
+example, in the nonlinear advection equation ∂u/∂t = −u∂u/∂x, the characteristics
+are dx/dt = u, and since we don’t know a priori the sign of u at the boundary, and
+whether the characteristics will point inwards or outwards, we have to estimate the
+value of u from the nearby solution, and deﬁne the boundary condition accordingly.
+t
+(b)
+t
+(a)
+BC:
+IC:
+x
+No BC:
+IC:
+x
+Figure 3.1.1: Schematic of
+the characteristics of the
+advection equation
+∂u/∂t = −c∂u/∂x for
+(a) positive and (b) negative
+velocity c and the
+corresponding well-posed
+initial/boundary conditions
+(IC/BC).
+
+3.1 Classiﬁcation of partial differential equations (PDEs)
+71
+One method of solving simple PDEs is the method of separation of variables, but
+unfortunately in most cases it is not possible to use it (hence the need for numerical
+models!). Nevertheless, it is useful to try to solve some simple PDE’s analytically.
+Exercise 3.1.1: Solve by the method of separation of variables these prototype PDEs:
+(1) ∂2u
+∂x2 + ∂2u
+∂y2 = 0
+0 ≤x ≤1
+0 ≤y ≤1
+Boundary condition: u(x, 0) = f (x), u(x, 1) = u(0, y) = u(1, y) = 0
+Assume
+f (x) =
+∞
+
+k=1
+ak sin kπx with
+∞
+
+k=1
+k2 |ak| < ∞
+Find the solution
+u(x, y) =
+∞
+
+k=1
+ak
+sinh kπ(1 −y)
+sinh kπ
+sin kπx
+(2) ∂u
+∂t = σ ∂2u
+∂x2
+0 ≤x ≤1
+t ≥0
+Boundary condition: u(0, t) = u(1, t) = 0
+Initial condition: u(x, 0) = f (x) = ∞
+k=1 ak sin kπx
+Find
+u(x, t) =
+∞
+
+k=1
+ake−σk2π2t sin kπx
+Note that the higher the wavenumber, the faster it goes to zero, i.e., the
+solution is smoothed as time goes on.
+(3) ∂2u
+∂t2 = c2 ∂2u
+∂x2
+0 ≤x ≤1
+0 ≤t ≤1
+Boundary condition: u(0, t) = u(1, t) = 0
+Initial condition: u(x, 0) = f (x) =
+∞
+
+k=1
+ak sin kπx;
+∂u
+∂t (x, 0) = g(x) =
+∞
+
+k=1
+bk sin kπx
+(4) Same as (3), but now, instead of two initial conditions, we give an initial and a
+“ﬁnal” condition:
+Boundary condition: u(0, t) = u(1, t) = 0
+Initial condition: u(x, 0) = f (x); “ﬁnal condition” u(x, 1) = g(x)
+In other words, we try to solve a hyperbolic (wave) equation as if it was a boundary
+value problem. Show that the solution is unique but it does not depend continuously
+on the boundary conditions, and therefore it is not a well-posed problem.

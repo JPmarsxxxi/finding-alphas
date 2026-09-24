@@ -1,0 +1,829 @@
+8
+Skewness and price-volatility correlations
+It seemed to me that calculation was superﬂuous, and by no means possessed of the
+importance which certain other players attached to it, even though they sat with ruled
+papers in their hands, whereon they set down the coups, calculated the chances, reck-
+oned, staked, and–lost exactly as we more simple mortals did who played without any
+reckoning at all.
+(Fyodor Dostoevsky, The Gambler.)
+8.1 Theoretical considerations
+8.1.1 Anomalous skewness of sums of random variables
+In the previous chapter, we have assumed that the ‘sign’ part of the ﬂuctuations ϵi and the
+‘amplitude’ part σi were independent. For ﬁnancial applications, this might be somewhat
+restrictive. We will indeed discuss below that there are in ﬁnancial time series interesting
+correlations between past price changes and future volatilities. These appear when one
+considers the following correlation function:†
+L(i, j) =
+
+ηiη2
+j
+
+−⟨ηi⟩
+
+η2
+j
+
+≡σ 23/2gL(|i −j|).
+(8.1)
+This correlation function is essentially zero when i > j, but signiﬁcantly negative for i < j,
+indicating that price drops tend to be followed by higher volatilities (and vice versa).
+Much as volatility correlations induce anomalous kurtosis, these price-volatility
+correlations induce some anomalous skewness.
+Taking into account the fact that in the stochastic volatility model deﬁned by Eq. (7.4)
+the ϵi are iid, the third moment of the sum log(xN/x0) = N
+i=1 ηi reads:
+
+N
+
+i, j,k=1
+ηiη jηk
+
+=
+N
+
+i=1
+
+η3
+i
+
++ 3
+N
+
+i=1
+N
+
+j>i
+
+ηiη2
+j
+
+.
+(8.2)
+† The choice of the letter L to denote this correlation refers to the ‘leverage effect’ to which it is usually, but
+somewhat incorrectly, associated – see the discussion below, Section 8.3.1.
+
+8.1 Theoretical considerations
+131
+0
+200
+400
+600
+800
+1000
+ N
+-1.5
+-1.0
+- 0.5
+0.0
+ Skewness N
+Fig. 8.1. Unconditional skewness ςN at scale N as a function of N, when the rescaled
+price-volatility correlation function gL(ℓ) is equal to −exp(−αℓ), with α = 1/100. Note that the
+skewness is non monotonous, and decays for N ≫α−1 as N −1/2.
+The unconditional skewness ςN is then found to be:
+ςN = ς0gL(0)
+√
+N
++
+3
+√
+N
+N
+
+ℓ=1
+	
+1 −ℓ
+N
+
+gL(ℓ),
+(8.3)
+where ς0 is the skewness of ϵ.
+The above formula is quite interesting, since it shows that even for an unskewed distri-
+bution of increments (i.e. for ς0 = 0), some skewness can appear on longer time scales. In
+this case, the skewness can actually be non monotonous if gL(ℓ) decreases fast enough. We
+show this in Figure 8.1 for gL(ℓ) = −exp(−αℓ) with α = 1/100.
+In the above calculation, we have assumed the price process to be multiplicative, and
+considered the skewness of the log-price distribution. Empirically, as discussed below,
+skewness effects are actually quite small, much smaller than the volatility ﬂuctuation effects
+discussed in the previous chapter, that lead to a large kurtosis. This large kurtosis is seen
+both on price increments and on log-price increments: considering one or the other does
+not change the results much (if the time lag N is not too large). The skewness, on the other
+hand, is small and is therefore very sensitive to the quantity that one studies, absolute price
+increments δx or relative price increments η. Take for example η to be Gaussian with a
+volatility σ ≪1. By deﬁnition, the skewness of η is zero, but the random variable exp η has
+a positive skewness equal to 3σ. We thus need at this stage to discuss in greater detail if one
+should choose absolute price changes, or relative price changes, or yet another quantity, as
+the ‘fundamental’ random variable.
+
+132
+Skewness and price-volatility correlations
+8.1.2 Absolute vs. relative price changes
+A standard hypothesis in theoretical ﬁnance is to assume that price changes are proportional
+to prices themselves, therefore leading to a multiplicative model xk+1 = xk(1 + ηk), where
+the random returns ηk are the fundamental objects. The logarithm of the price is thus a sum
+of random variables. Some justiﬁcations of this assumption have been given in Chapter 6;
+it is clear that the order of magnitude of relative ﬂuctuations (a few percent per day for
+stocks) is much more stable in time and across stocks than absolute price changes. This
+fact is also, to some extent, related to important approximate symmetries in ﬁnance. For
+example, the price of stocks is somewhat arbitrary, and is controlled by the total number
+of stocks in circulation. One can for example split each share into ten, thereby dividing
+the price of each stock by ten. This split is often done to keep the share prices around
+$100. It is clear that the day just after the split, the typical absolute price variations will
+also be divided by a factor ten (dilation symmetry). Another symmetry exists in foreign
+exchange markets, between two similar currencies. In this case, there cannot be any distinc-
+tion between expressing currency A in units of B and get a price X, or vice-versa, giving a
+price 1/X. Relative returns, deﬁned such that δx/x = −δ(1/x)/(1/x), indeed respect this
+symmetry.
+However, these symmetries are not exactly enforced in ﬁnancial markets. There are
+several effects that explicitly break the dilation symmetry. One is the fact that prices are
+discrete: price changes are quoted in ticks, which are ﬁxed fraction of dollars (i.e. not in
+percent), which introduce a well deﬁned scale for price changes. Another effect is round
+numbers:sharesareusuallyboughtandsoldbylotsofmultiplesoftens.Theverymechanism
+leading to price changes is therefore not expected to vary continuously as prices evolve,
+but rather to adapt only progressively if prices are seen to rise (or decrease) signiﬁcantly
+over a certain time window. This will be the motivation of the ‘retarded’ model developed
+below.
+In foreign exchange markets, the symmetry between X and 1/X is obviously vi-
+olated when the two currencies are very dissimilar. For example, the Mexican peso
+vs. U.S. dollar shows very sudden downward moves, not reﬂected on the other side of the
+distribution.
+Finally, there are various ﬁnancial instruments for which the dilation argument does not
+work. For example, the BUND contract is computed as the value of a ten year bond paying
+a ﬁxed rate (currently 6% per annum) every three months on a nominal value of 100 000
+Euros. The short term interest rates are modiﬁed by central banks, in general in steps of
+0.25% or 0.50%, independently of the value of the rate itself. Another interesting example
+is the volatility itself, which is traded on option markets; there is not clear reason why
+volatility changes should be proportional to the volatility itself.
+It is therefore interesting to study this issue empirically, by looking at the mean absolute
+deviation of δx, conditioned to a certain value of the price x itself, which we shall denote
+⟨|δx|⟩|x. If the return η were the natural random variable, one should observe that ⟨|δx|⟩|x =
+σ1x, where σ1 is constant (and equal to the MAD of η). Of course, since the volatility is
+
+8.1 Theoretical considerations
+133
+250
+500
+750
+1000
+1250
+1500
+0
+5
+10
+15
+20
+<|dx|>
+S&P 500
+140
+150
+160
+170
+180
+190
+0.5
+1.0
+<|dx|>
+GBP/USD
+60
+70
+80
+90
+100
+110
+120
+x
+0
+0.2
+0.4
+<|dx|>
+Bund
+Fig. 8.2. MAD of the increments δx, conditioned to a certain value of the price x, as a function of x,
+for the three chosen assets. Although this quantity, overall, grows with the price x for the S&P 500
+or the GBP/USD, there are plateau-like regions where the absolute price change is nearly
+independent of the price: see for example when the S&P 500 was around 400. In the case of the
+Bund, the absolute volatility is nearly ﬂat.
+itself random, there will be ﬂuctuations; however, ⟨|δx|⟩|x and
+
+⟨δx2⟩|x should on average
+increase linearly with x.
+Now, in many instances (Figs. 8.2 and 8.3), one rather ﬁnds that ⟨|δx|⟩|x is roughly
+independent of x for long periods of time. The case of the CAC 40 is particularly interesting,
+since during the period 1991–95, the index went from 1400 to 2100, leaving the absolute
+volatility nearly constant (if anything, it is seen to decrease with x).
+On longer time scales, however, or when the price x rises substantially, the MAD of
+δx increases signiﬁcantly, as to become indeed proportional to x (see Fig. 8.2 (a)). A way
+to model this crossover from an additive to a multiplicative behaviour is to postulate that
+the RMS of the increments progressively (over a time scale T×) adapt to the changes of
+price. A precise implementation of this idea is given in the next section. Schematically,
+for T < T×, the prices behave additively, whereas for T > T×, multiplicative effects start
+
+134
+Skewness and price-volatility correlations
+1400
+1600
+1800
+2000
+x
+1.5
+2
+2.5
+3
+3.5
+σ
+Fig. 8.3. RMS of the increments δx, conditioned to a certain value of the price x, as a function of x,
+for the CAC 40 index for the 1991–95 period; it is quite clear that during that time period ⟨δx2⟩|x
+was almost independent of x.
+playing a signiﬁcant role.† Mathematically, this reads:
+⟨(x(T ) −x0)2⟩= DT
+(T ≪T×);
+
+log2
+	x(T )
+x0
+
+
+= σ 2T
+(T ≫T×).
+(8.4)
+On liquid stock markets, this time scale is on the order of months (see below).
+8.1.3 The additive-multiplicative crossover and the q-transformation
+A convenient way to parametrize the crossover between the two regimes is to introduce an
+additive random variable ξ(T ), and to represent the price x(T ) as:
+x(T ) = x0 (1 + q(T )ξ(T ))1/q(T )
+q(T ) ∈[0, 1].
+(8.5)
+For T ≪T×,q →1, the price process is additive, with x = x0(1 + ξ), whereas for T ≫T×,
+q →0, (1 + qξ)1/q →exp ξ, which corresponds to the multiplicative limit. The index q
+can be taken as a quantitative measure of the ‘additivity’ of the process. This representation
+† In the additive regime, where the variance of the increments can be taken as a constant, we shall write ⟨δx2⟩=
+σ 2
+1 x2
+0 = Dτ.
+
+8.2 A retarded model
+135
+can be inverted to deﬁne a ‘fundamental’ additive variable as:
+ξ(T ) =
+1
+q(T )
+
+exp
+	
+q(T ) log
+x(T )
+x0
+
+−1
+
+,
+(8.6)
+which we will refer to as the ‘q-transformation’. It is interesting to compute the skewness
+ς(T ) of the return log(x(T )/x0) as a function of q(T ), assuming that ξ(T ) has zero skewness,
+and a volatility σ(T ) ≪1. One ﬁnds, to lowest order in σ:
+ς(T ) = −3 q(T ) σ(T ).
+(8.7)
+If q(T ) = 0, the skewness is zero as it should, since in this case log(x(T )/x0) ≡ξ(T ).
+However, if q(T ) = 1, the skewness of log(x(T )/x0) is negative. Therefore, a negative
+skewness in the log-price can arise simply because as a consequence of taking the logarithm
+of an unskewed variable.
+8.2 A retarded model
+8.2.1 Deﬁnition and basic properties
+Let us give some more quantitative ﬂesh to the idea that price changes only progressively
+adapt if prices are seen to rise (or decrease) signiﬁcantly over a certain time window. A way
+to describe this lagged response to price changes is generalize Eq. (7.4) and to postulate
+that price changes are proportional not to instantaneous prices but to a moving average x R
+i
+of past prices over a certain time window:
+δxi = x R
+i σiϵi,
+x R
+i =
+∞
+
+ℓ=0
+K(ℓ)xi−ℓ,
+(8.8)
+where K(ℓ) is a certain averaging kernel, normalized to one, ∞
+ℓ=0 K(τ) ≡1, and decaying
+over a typical time T×. It will be more convenient to rewrite x R
+i as:
+x R
+i =
+∞
+
+ℓ=0
+K(ℓ)
+
+xi −
+ℓ
+
+ℓ′=1
+δxi−ℓ′
+
+(8.9)
+≡xi −
+∞
+
+ℓ′=1
+
+K(ℓ′)δxi−ℓ′,
+(8.10)
+where 
+K(ℓ) = ∞
+ℓ′=ℓK(ℓ′). Note that from the normalization of K(ℓ), one has 
+K(0) = 1,
+independently of the speciﬁc shape of K. (This will turn out to be important in the following.)
+For the sake of simplicity, one can take for K(ℓ) a simple exponential with a certain
+decay rate α, such that T× = 1/ log α. In this case, 
+K(ℓ) = αℓ. From Eq. (8.10), one sees
+that the limit α →1 (T× →∞) corresponds to the case where x R is a constant, equal to the
+initial price x0. Therefore, in this limit, the retarded model corresponds to a purely additive
+model. The other limit α →0 (inﬁnitely small T×) leads to x R ≡x and corresponds to a
+
+136
+Skewness and price-volatility correlations
+purely multiplicative model. More generally, for time lags much smaller than T×, x R does
+not vary much, and the model is additive, whereas for time lags much larger than T×, x R
+roughly follows (in a retarded way) the value of x and the process is multiplicative.
+The retarded model with an exponential kernel K(ℓ) can indeed be reformulated in terms
+of a product of random 2 × 2 matrices. Deﬁne the vector ⃗Vk as the set x R
+k , xk. One then
+has:
+⃗Vk+1 = Mk ⃗Vk,
+(8.11)
+where Mk is a random matrix whose elements are M11,k = α, M12,k = 1 −α, M21,k =
+σkϵk and M22,k = 0. Using standard theorems on products of random matrices that
+generalize the classic results on products of random scalars, one directly ﬁnds that the
+large time statistics of both components of ⃗V is log-normal.†
+In the following, we will assume that the relative difference between x and x R is small.
+This is the case when σ√T× ≪1, which means that the averaging takes place on a time
+scale such that the relative changes of price are not too large. Typically, for stocks one ﬁnds
+T× = 50 days, σ = 2% per square-root day, so that σ√T× ∼0.15.
+Let us calculate the ‘leverage’ correlation function deﬁned by Eq. (8.1) above, to ﬁrst
+order in σ√T×. One ﬁnds, using ηi ≡δxi/xi and Eq. (8.8), and assuming for a while that
+σ is constant:
+
+η2
+i+ℓηi
+
+= σ 2 
+ϵ2
+i+ℓ
+
+
+1 −2
+∞
+
+ℓ′=1
+
+K(ℓ′)δxi+ℓ−ℓ′
+xi+ℓ
+
+δxi
+xi
+
+.
+(8.12)
+To lowest order in the retardation effects, one can replace in the above expression
+δxi+ℓ−ℓ′/xi+ℓby σϵi+ℓ−ℓ′ and δxi/xi by σϵi, because xR/x = 1 + O(σ√T×). Since the
+ϵ are assumed to be independent of zero mean and of unit variance, one has:
+⟨ϵi+ℓ−ℓ′ϵi⟩= δℓ,ℓ′.
+(8.13)
+Therefore, using the deﬁnition of gL given in Eq. (8.1):
+gL(ℓ) ≈−2σ 
+K(ℓ).
+(8.14)
+Taking into account the volatility ﬂuctuations would amount to replacing in the above result
+σ by σ 2
+i σ 2
+i+ℓ/σ 2
+i
+3/2.
+8.2.2 Skewness in the retarded model
+Using Eq. (8.14) in Eq. (8.3), we ﬁnd for the skewness of the log-price distribution (assuming
+that ϵ has zero skewness):
+ςN = −6σ
+√
+N
+N
+
+ℓ=1
+	
+1 −ℓ
+N
+
+
+K(ℓ).
+(8.15)
+† See, e.g., Crisanti et al. (1993).
+
+8.3 Price-volatility correlations: empirical evidence
+137
+It is interesting to compute the q-transform ξN (see Eq. (8.5)) of log xN/x0, where xN is
+obtained using the retarded model with a constant volatility and a Gaussian ϵ. In order to ﬁnd
+an unskewed ξN, a natural choice for q, if σ is small, is given by Eq. (8.7). Using Eq. (8.15),
+one ﬁnds that q varies from 1 for small N to 0 at large N. Interestingly, the statistics of
+the resulting ‘fundamental’ variable ξN has a distribution which is found numerically to be
+very close to a Gaussian when the kernel is a pure exponential .
+Therefore, for the Gaussian retarded model, the q-transformation with an appropriate
+value of q allows one to approximately account for the non Gaussian distribution of
+log(xN/x0).
+8.3 Price-volatility correlations: empirical evidence
+We now report some empirical study of this volatility-return correlation both for individual
+stocks and for stock indices. One indeed ﬁnds that correlations are between future volatilities
+and past price changes. For both stocks and stock indices, the volatility-return correlation
+is short ranged, with however a different decay time for stock indices (around 10 days) than
+for individual stocks (around 50 days). The amplitude of the correlation is also different,
+and is much stronger for indices than for individual stocks. We then argue that this effect for
+stocks can be interpreted within the retarded model deﬁned above. This model does however
+not account properly for the data on stock indices, which seems to reﬂect a ‘panic’-like
+effect, whereby large price drops of the market as a whole triggers a signiﬁcant increase of
+activity.
+Eq. (8.14) suggests a normalization for the ‘leverage’ correlation function different from
+the ‘natural’ one, as:
+L(ℓ) = ⟨[ηi+ℓ]2ηi⟩e
+
+η2
+i
+2
+e
+,
+(8.16)
+where ⟨. . .⟩e refers to the empirical average. Within the retarded model with a constant
+volatility, one ﬁnds: L ≡−2
+K.
+The analyzed set of data consists in 437 U.S. stocks, constituent of the S&P 500 index and
+7 major international stock indices (S&P 500, NASDAQ, CAC 40, FTSE, DAX, Nikkei,
+Hang Seng). The data is daily price changes ranging from January 1990 to May 2000 for
+stocks and from January 1990 to October 2000 for indices. One can compute L both for
+individual stocks and stock indices. The raw results were rather noisy. If one assumes that
+all individual stocks behave similarly and average L over the 437 different stocks, one
+obtains a somewhat cleaner quantity noted L S. Similarly, averaging over the 7 different
+indices, gives L I. The results are given in Figure 8.4 and Figure 8.5 respectively. The
+insets of these ﬁgures show L S(ℓ) and L I(ℓ) for negative values of ℓ. For stocks the results
+are not signiﬁcantly different from zero for ℓ< 0. For indices, one ﬁnds some signiﬁcant
+positive correlations for ℓ< 0 up to |ℓ| = 4 days, which might reﬂect the fact that large
+daily drops (that contribute signiﬁcantly to ⟨η2
+i+ℓ⟩e) are often followed by positive ‘rebound’
+days.
+
+138
+Skewness and price-volatility correlations
+0
+50
+100
+150
+200
+τ
+-5
+-4
+-3
+-2
+-1
+0
+1
+LS(τ)
+-200
+-150
+-100
+-50
+0
+-3
+-2
+-1
+0
+1
+2
+3
+Fig. 8.4. Return-volatility correlation for individual stocks. Data points are the empirical correlation
+averaged over 437 U.S. stocks, the error bars are two sigma errors bars estimated from the
+inter-stock variability. The full line shows an exponential ﬁt (Eq. (8.17)) with AS = 1.9 and
+T×S = 69 days. Note that L S(0) is not far from the retarded model value −2. The inset shows the
+same function for negative times. τ is in days.
+We now focus on positive values of ℓ. The correlation functions can rather well be ﬁtted
+by single exponentials:
+L(ℓ) = −A exp
+	
+−ℓ
+T×
+
+.
+(8.17)
+For U.S. stocks, one ﬁnds AS = 1.9 and T×S ≈69 days, whereas for indices the amplitude
+AI is signiﬁcantly larger, AI = 18 and the decay time shorter: T×I ≈9 days.
+As can be seen from the ﬁgures, both L S and L I are signiﬁcant and negative: price drops
+increase the subsequent volatility – this is the so-called “leverage” effect. The economic
+interpretation of this effect is still very much controversial.† Even the causality of the effect
+is sometimes debated: is the volatility increase induced by the price drop or conversely do
+prices tend to drop after a volatility increase? An early interpretation, due to Black, argues
+that a price drop increases the risk of a company to go bankrupt, and its stock therefore
+becomes more volatile. On the contrary, one can argue that an increase of volatility makes
+the stock less attractive, and therefore pushes its price down.
+A more subtle interpretation still is the so-called ‘volatility feedback’ effect, where an
+anticipatedincreaseoffuturevolatilitybymarketoperatorstriggerssellorders,andtherefore
+decreases the price. If the volatility indeed increases, this generates a correlation between
+price drop and volatility increase. This of course assumes that the market anticipation of
+the future volatility is correct, which is dubious in general.
+† A recent survey of the different models can be found in Bekaert & Wu (2000).
+
+8.3 Price-volatility correlations: empirical evidence
+139
+0
+50
+100
+150
+200
+τ
+-30
+-20
+-10
+0
+10
+LI(τ)
+-200
+-150
+-100
+-50
+0
+-20
+-10
+0
+10
+20
+Fig. 8.5. Return-volatility correlation for stock indices. Data points are the empirical correlation
+averaged over 7 major stock indices, the error bars are two sigma errors bars estimated from the
+inter-index variability. The full line shows an exponential ﬁt (Eq. (8.17)) with AI = 18 and
+T×I = 9.3 days. The inset shows the same function for negative times. τ is in days.
+8.3.1 Leverage effect for stocks and the retarded model
+A simpler interpretation, which accounts rather well for the data on individual stocks, is
+that the observed ‘leverage’ correlation is induced by the retardation mechanism discussed
+above. Because the amplitude of absolute price changes remains constant for a while, the
+relative volatility increases when the price goes down and vice versa. From Eq. (8.14), one
+expects L(ℓ→0) to be equal to −2, independently of the detailed shape of K. This property
+entirely relies on the normalization of K. Taking into account the volatility ﬂuctuations
+would multiply the above result by a factor ⟨σ 2(t)σ 2(t + τ)⟩/⟨σ 2(t)⟩2 ≥1.
+As shown in Figure 8.4, L S(ℓ→0) is close to (although indeed slightly below) the
+value −2 for individual stocks. One can give weight to this ﬁnding by analyzing a set of
+500 European stocks and 300 Japanese stocks, again in the period 1990–2000. One again
+ﬁnds an exponential behaviour for L S with a time scale on the order of 40 days and, more
+importantly, and initial values of L S close to the retarded model value −2: AS = 1.96 and
+T×S = 38 days for European stocks and AS = 1.5 and T×S = 47 days for Japanese stocks.
+One should emphasize that these numbers (including the previously quoted U.S. results)
+carry large uncertainties as they vary signiﬁcantly with the time period and averaging
+procedure.
+As a more direct test of the retarded model, one can study the correlation between δxi/xi
+and (δxi+ℓ/x R
+i+ℓ)2. This correlation is found to be zero within error bars, which should be
+expected if most of the leverage correlations indeed come from a simple retardation effect.
+
+140
+Skewness and price-volatility correlations
+Another test of the retarded model when the volatility is ﬂuctuating is to study the residual
+variance of the local squared volatility (δx/xR)2 as a function of the horizon T of the aver-
+aging kernel. The above value of T×S is found to correspond to a minimum of this quantity.
+In the retarded model, the leverage effect has a simple interpretation: in a ﬁrst
+approximation, price changes are independent of the price. But since the volatility is
+deﬁned as a relative quantity, it of course increases when the price decreases, simply
+because the price appears in the denominator.
+We therefore conclude that the leverage effect for stocks might not have a very deep
+economical signiﬁcance, but can be assigned to a simple ‘retarded’ effect, where the change
+of prices are calibrated not on the instantaneous value of the price but rather on a moving
+average of the price. This means that on short times scales (< T×S), the relevant model for
+stock price variations is additive rather than multiplicative. The observed skewness of the
+log-price is therefore induced by the ‘wrong’ choice of the relevant variable in this case –
+see the discussion of Eq. (8.7).
+8.3.2 Leverage effect for indices
+Figure 8.5 shows that the ‘leverage effect’ for indices has a much larger amplitude and
+tends to decay to zero much faster with the lag ℓ. This is at ﬁrst sight puzzling, since the
+stock index is, by deﬁnition, an average over stocks. So one can wonder why the strong
+leverage effect for the index does not show up in stocks and conversely why the long time
+scale seen in stocks disappears in the index.† These seemingly paradoxical features can be
+rationalized within the framework a simple one factor model (see Chapter 11), where the
+‘market factor’ is responsible for the strong leverage effect.
+The empirical leverage effect on indices shown in Figure 8.5 suggests that there exists
+an index speciﬁc ‘panic-like’ effect, resulting from an increase of activity when the market
+goes down as a whole. A natural question is why this panic effect does not show up also
+in the statistics of individual stocks. A detailed analysis of the one factor model actually
+indicates that, to a good approximation, the index speciﬁc leverage effect and the stock
+leverage effect do not mix in the limit where the volatility of individual stocks is much
+larger than the index volatility. Since the stock volatility is indeed found to be somewhat
+larger than the index volatility, one expects the mixing to be small and difﬁcult to detect.
+From a practical point of view, the fact that the leverage correlation for indices cannot
+be explained solely in terms of a retarded effect means that the skewness of the log-price
+is a real effect rather than an artifact based on a bad choice of the fundamental variable.
+The strong, genuine negative skewness observed for indices has important consequences
+for option pricing that will be expanded upon in Chapter 13.
+† A close look at Fig. 8.4 actually suggests that there is indeed a stronger, short time effect for stocks as well.
+
+8.4 The Heston model: a model with volatility ﬂuctuations and skew
+141
+0
+2
+4
+6
+8
+1(hour)
+-0.008
+-0.006
+-0.004
+-0.002
+0.000
+0.002
+Return-volume correlation
+Fig. 8.6. Intraday return-volume correlation for the S&P 500 futures. The plain line corresponds
+to a ﬁt with the sum of two exponentials, one with a rather short time scale (a few hours), and a
+second with a correlation time of 9 days, as extracted from the leverage correlation function.
+8.3.3 Return-volume correlations
+As explained in Section 7.3.2, the sources of volatility are twofold: trading volume on the
+one hand, amplitude of individual price jumps in the other. In the above ‘panic’ interpretation
+of the strong leverage effect for stocks, we have implied that a price drop triggers an increase
+of activity. It is interesting to check this directly by studying the return-volume correlation
+function, deﬁned as:
+Crv(ℓ) = ⟨ηk · δNk+ℓ⟩
+
+⟨η2⟩⟨δN 2⟩
+,
+(8.18)
+where δNk is the deviation from the average number of trades in a small time interval
+centered around time t = kτ. Figure 8.6 shows this correlation function for the S&P 500
+futures, with τ = 5 minutes. As expected, this correlation shows the same features as the
+leverage correlation: it is negative, implying that the trading activity indeed increases after a
+price drop. This correlation function decays on two time scales: one rather short (one hour)
+corresponding to intraday reactions, and a longer one (several days) similar to the leverage
+correlation time reported above.
+8.4 The Heston model: a model with volatility ﬂuctuations and skew
+It is interesting at this stage to discuss a continuous time model for price ﬂuctuations,
+introduced by Heston (1993), that contains both volatility correlations and the ‘leverage’
+effect, and that is exactly solvable, in the sense that the distribution of price changes for
+
+142
+Skewness and price-volatility correlations
+different time intervals can be explicitly computed. We ﬁrst give the equations deﬁning the
+model, then give without proof some exact results, and ﬁnally discuss the limitations of this
+model as compared with empirical data.
+The starting point is to write Eq. (7.4) in continuous time:
+dxt = xt (mdt + σtdW) ,
+(8.19)
+where σt is the volatility at time t and dW is a Brownian noise with unit volatility. Now, let
+us assume that the volatility itself has random, mean reverting ﬂuctuations such that:
+d
+
+σ 2
+t
+
+= −
+
+σ 2
+t −σ 2
+0
+
+dt + ϒσtdW ′,
+(8.20)
+where 
+ is the inverse mean reversion time towards the average volatility level σ0, and dW ′ is
+another Brownian white noise of unit variance, possibly correlated with dW. The correlation
+coefﬁcient between these two noises will be called ρ. When ρ < 0, this model describes
+the leverage effect, since a decrease of price (i.e. dW < 0) is typically accompanied by
+an increase of volatility (i.e. dW ′ > 0). The coefﬁcient ϒ measures the ‘volatility of the
+volatility’.
+Remarkably, many exact results can be obtained within this framework, due to the partic-
+ular form of the noise term in the second equation, proportional to σt itself.† First, one can
+compute the stationary distribution P(v) of the squared volatility v = σ 2, which is found
+to be a gamma distribution (not an inverse gamma distribution):
+P(v) =
+vβ−1
+(β)vβ
+0
+e−v/v0,
+(8.21)
+with:
+v0 = ϒ2
+2
+,
+β = 2
+σ 2
+0
+ϒ2 .
+(8.22)
+The unconditional distribution of price returns (averaged over the volatility process) can
+also be exactly computed, in terms of its characteristic function. The expression is too
+complicated to be given here; let us only mention three important features of the explicit
+solution:
+r It is strongly non Gaussian for short time scales, and becomes progressively more and
+more Gaussian for longer time scales. Its skewness and kurtosis can be exactly computed
+for all time lags τ. For ρ = 0, the kurtosis to lowest order in ϒ, reads:
+κ(τ) =
+ϒ2
+2σ 2
+0 
+e−
+τ + 
+τ −1
+(
+τ)2
+,
+(8.23)
+which is plotted in Fig. 8.7. As expected, the kurtosis in this model is induced by the
+volatility of the volatility ϒ. For 
+τ →0, the kurtosis tends to a constant, whereas for
+
+τ →∞, the kurtosis has the expected τ −1 behaviour.
+† The results given here are discussed in details in Dragulescu & Yakovlenko (2002).
+
+8.4 The Heston model: a model with volatility ﬂuctuations and skew
+143
+0
+20
+40
+60
+80
+100
+Wτ
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+s(τ), κ(τ)
+Kurtosis
+Skewness
+Fig. 8.7. Time structure of the skewness and kurtosis in the Heston model, as given by the non
+dimensional part of the expressions of ς(τ) and κ(τ).
+r The skewness of the distribution can be tuned by choosing the correlation coefﬁcient ρ.
+To lowest order in ϒ and ρ, the skewness reads:
+ς(τ) =
+√
+2ϒρ
+√
+
+σ0
+e−
+τ −1 + 
+τ
+(
+τ)3/2
+,
+(8.24)
+which is again plotted in Fig. 8.7. Note that the skewness is negative when ρ < 0, and
+has a non monotonous time structure. When 
+τ →∞, the skewness decays like τ −1/2,
+as for independent increments.
+r The asymptotic tails of the distribution are exponential for all times. The parameter of
+this exponential fall off becomes time independent in the limit 
+τ ≫1.
+This model has however three important limitations:
+r First, as shown in Section 7.2.2, the empirical distribution of the volatility is closer to
+an inverse gamma distribution than to a gamma distribution. Note that Eq. (8.21) above
+predicts a Gaussian like decay of the distribution of the volatility for large arguments, at
+variance with the observed, much slower, power-law.
+r Second, the asymptotic decay of the kurtosis is as τ −1 for 
+τ ≫1, i.e. much faster than
+the power-law decay mentioned in Section 7.2.1. This is related to the fact that there is
+a well deﬁned correlation time in the Heston model, given by 1/
+, beyond which the
+volatility correlation function decays exponentially. Therefore, the multiscale nature of
+the volatility correlations is missed in the Heston model.
+
+144
+Skewness and price-volatility correlations
+r Finally, the correlation time for the skewness is, in the Heston model, also equal to 1/
+. In
+other words, the temporal structure of the leverage effect and of the volatility ﬂuctuations
+are, in this model, strongly interconnected.
+8.5 Summary
+r Price returns and volatility are negatively correlated. This effect induces a negative
+skew in the distribution of returns.
+r In an additive model for price changes, returns and volatility (deﬁned using relative
+price changes) are negatively correlated for a trivial reason. This simple mechanism,
+embedded in the retarded volatility model where price increments progressively
+(rather than instantaneously) adapt to the price level, accounts well for the empirical
+data on individual stocks. The retarded model interpolates smoothly between an
+additive and a multiplicative random process.
+r For stock indices, the negative correlation is much stronger and cannot be accounted
+for by the retarded model. A similar negative correlation exists between price changes
+and volume of activity.
+r The Heston model is a continuous time stochastic volatility model that captures
+both the volatility ﬂuctuations and the skewness effect. However, this model fails to
+describe the detailed shape of the empirical volatility distribution, and the multi-time
+scale nature of the volatility correlations.
+r Further reading
+J. Y. Campbell, A. W. Lo, A. C. McKinley, The Econometrics of Financial Markets, Princeton
+University Press, Priceton, 1997.
+A. Crisanti, G. Paladin and A. Vulpiani, Products of Random Matrices in Statistical Physics, Springer-
+Verlag, Berlin, 1993.
+r Specialized papers
+G. Bekaert, G. Wu, Asymmetric volatility and risk in equity markets, The Review of Financial Studies,
+13, 1 (2000).
+J.-P. Bouchaud, M. Potters, A. Matacz, The leverage effect in ﬁnancial markets: retarded volatility
+and market panic, Phys. Rev. Lett., 87, 228701 (2001).
+A. Dragulescu and V. Yakovlenko, Probability distribution of returns for a model with stochastic
+volatility, Quantitative Finance, 2, 443 (2002).
+C. Harvey, A. Siddique, Conditional skewness in asset pricing tests, Journal of Finance, LV, 1263
+(2000).
+S. L. Heston, A closed-form solution for options with stochastic volatility with applications to bond
+and currency options, Review of Financial Studies, 6, 327 (1993).
+J. Perello, J. Masoliver, Stochastic volatility and leverage effect, e-print cond-mat/0202203.
+J. Perello, J. Masoliver, J. P. Bouchaud, Multiple time scales in volatility and leverage correlations:
+a stochastic volatility model, e-print cond-mat/0302095.
+B. Pochart, J.-P. Bouchaud, The skewed multifractal random walk with applications to option smiles,
+Quantitative Finance, 2, 303 (2002).

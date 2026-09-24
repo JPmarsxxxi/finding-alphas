@@ -1,0 +1,390 @@
+Here is our ﬁrst example of the application of the
+ensemble prediction method. It allows us to conclude that
+it’s extremely unlikely that the Earth will be ejected from
+the solar system. However, such ensemble forecasts
+indicate that the chance of the Earth being hit by a minor
+asteroid, one that could easily destroy a large city such as
+London,  is  not  so  completely  negligible.  This  is  why  we
+monitor threats from such asteroids as best we can6.
+«  »
+AFTER THE DEATH OF Henri Poincaré, a Harvard University
+mathematician,  George  Birkhoﬀ,  took  over  the  mantle  as
+the world’s leading expert on the gravitational n-body
+problem.  In  the  1930s,  Birkhoﬀ  took  on  a  bright  student,
+Ed Lorenz, who was setting out on his postgraduate
+studies, having studied mathematics at a nearby New
+England  Ivy  League  college.  The  mathematical  topic  that
+Lorenz worked on under Birkhoﬀ was not the gravitational
+n-body  problem,  but  was  in  an  area  called  Riemannian
+geometry. However, it would seem that some of Birkhoﬀ’s
+thinking  rubbed  oﬀ  on  the  young  Lorenz,  as,  in  the  early
+1960s, Lorenz was to make one of the greatest discoveries
+of chaos theory, indeed of science in general I will argue.
+Lorenz discovered the fractal geometry of chaos.
+Lorenz’s plans to become a mathematician were
+disrupted by the Second World War, and as a result he had
+to decide how to best use his mathematical talents for the
+war  eﬀort.  Since  he  had  been  rather  fascinated  by  the
+weather as a child, Lorenz signed on for a wartime training
+course for meteorologists and eventually went out into the
+Paciﬁc arena as an operational weather forecaster.
+After  the  war,  Lorenz  had  the  option  to  continue  his
+mathematics  research  at  Harvard.  However,  his  wartime
+
+work had rekindled his interest in weather, and he switched
+ﬁelds and worked for a PhD at the Massachusetts Institute
+of  Technology  (universally  known  as  MIT)  on  the  new,
+physics-based  weather  forecast  models  that  were  starting
+to  be  developed  in  the  immediate  postwar  years.  Having
+completed his PhD at MIT and a postdoctoral appointment
+at the University of California, in 1956 Lorenz was oﬀered
+a permanent job back at MIT. His duties included leading a
+group of researchers who were exploring the possibility of
+predicting weather a month or more into the future.
+In 
+those 
+days, 
+little 
+was 
+understood 
+about 
+the
+predictability of weather more than a day or two into the
+future.  Some  of  the  leading  statisticians  of  the  day  told
+Lorenz that long-range weather forecasting 
+was in
+principle an easy problem to crack. Say you want to
+forecast the weather a month ahead. Then you simply go to
+the  weather  archives  and  ﬁnd  a  weather  map  that  looks
+close enough to today’s weather map—this would be called
+an analogue. The forecast for a month hence would simply
+be  the  weather  map  in  the  archive  a  month  following  the
+date of the analogue map.
+The  method  didn’t  seem  to  work  in  practice.  However,
+the statistical experts argued that this was simply because
+the  archives  were  not  large  enough,  and  hence  did  not
+contain  close-enough  analogues.  Wait  for  the  archives  to
+grow,  they  would  say,  and  then  you  will  ﬁnd  that  the
+analogue  method  will  start  to  work.  Lorenz  was  sceptical
+about  this.  For  analogue  forecasting  to  work  in  this  way,
+Lorenz  argued,  the  weather  would  have  to  be  periodic,
+repeating itself over and over, as in the movie 
+Groundhog
+Day.  Lorenz’s  intuition  was  that  the  weather  equations
+would not support such periodic behaviour. Indeed, this is
+exactly what Poincaré had shown in the case of the 3-body
+gravitational problem.
+But  there  are  two  important  diﬀerences  between  the
+motion of the planets and the evolution of weather. Firstly,
+
+unlike the solar system, with a relatively small number of
+planets  and  moons,  the  atmosphere  is  a  turbulent  ﬂuid7
+with literally trillions upon trillions of whirls or eddies with
+all  sorts  of  diﬀerent  sizes.  If  you  had  asked  most  of  the
+meteorological experts of the day, they, like Lorenz, would
+also have been sceptical that the atmosphere ever repeated
+itself. However, the experts would have said that such non-
+periodicity arose because the atmosphere is such a
+complex multiscale system, with numerous interacting
+whirls from the planetary scale down to the microscale. In
+other words, conventional wisdom had it that the
+complexity of the atmosphere was the origin of its
+unpredictability. The more the weather equations are
+simpliﬁed, the experts of the time would have conjectured,
+the more the simpliﬁed weather equations would produce
+periodic and hence predictable behaviour.
+Lorenz had the idea of trying to use the computer-based
+weather  forecast  models  he  had  helped  develop  as  a  PhD
+student  to  demonstrate  his  intuition  that  weather  did  not
+repeat itself. However, the very fact that these were
+complex models posed a practical problem. You might run a
+model for a hundred years and conclude that the simulated
+weather  did  not  repeat  itself.  But  perhaps  years  101–200
+were exact repeats8 of years 1–100. Who’s to say?
+In thinking about this, Lorenz began to wonder whether
+non-periodicity could be found in simpliﬁed systems which
+could be described with a very small number of equations.
+Where did he get this idea? Was it from practical
+experience, running simpliﬁed weather models on the
+computer? Or did he get the idea from the fact that the 3-
+body  gravitational  problem  was  not  periodic?  In  his  semi-
+biographical  book9, The  Essence  of  Chaos,  Lorenz  writes
+that,  despite  working  with  Birkhoﬀ,  he  was  not  familiar
+with Poincaré’s work. And so we have to assume it was a
+
+hypothesis he formed from his experience in running
+weather models.
+In  any  case,  Lorenz  was  right  and  the  meteorological
+experts 
+were 
+wrong. 
+Lorenz 
+kept 
+simplifying 
+and
+simplifying until he devised a mathematical model of ﬂuid
+motion  based  on  just  three  equations  for  three  variables,
+conventionally labelled X, Y and Z. This is actually a
+simpler  set  of  equations  than  for  the n  =  3  gravitational
+problem,  since  each  planet  in  the  gravitational  problem
+needs six variables to represent it: three spatial coordinate
+positions and three components of velocity.
+Lorenz’s model is so idealised it no longer makes much
+sense to relate these three variables to speciﬁc ﬂuid
+quantities (though it is possible to make a chaotic
+waterwheel whose motion is described by the Lorenz
+equations10). So, let’s just think of 
+X, Y and Z as abstract
+variables  whose  values  change  with  time.  At  a  particular
+instant in time, these variables can be described by three
+numbers, e.g., X = 3.327, Y = 5.674, Z = 0.485. Lorenz’s
+equations describe how these numbers evolve in time. The
+equations  make  use  of  the  mathematical  technique  called
+calculus,  discovered  by  Newton  and  independently  by  the
+German mathematician, philosopher and engineer Gottfried
+Leibniz. Using the calculus, the time rate of change of 
+X, Y
+and Z can be described in terms of the current values of X,
+Y and Z and various ﬁxed parameters (see Fig. 2). Lorenz’s
+equations would have been quite understandable and
+recognisable to Newton or Leibniz as three so-called
+nonlinear diﬀerential equations.
+The word “nonlinear” is of crucial importance here.
+Nonlinear systems are those whose outputs do not change
+in direct proportion to their inputs. Assuming you are not a
+wealthy person, you would be very happy indeed to win $1
+million in the lottery. You would be even happier to win $2
+million, but likely not twice as happy. You would very likely
+
+not  be  ten  times  as  happy  to  win  $10  million  (substitute
+billions  for  millions  if  you  are  very  wealthy).  That’s  an
+example of nonlinearity—your happiness (output) does not
+vary in direct proportion to your lottery winnings (input). In
+the case of the Lorenz system, if you double the size of the
+X, Y and Z variables, the time rate of change of the X, Y and
+Z variables does not double. You, dear reader, are a
+nonlinear system, just as Lorenz’s equations are. Lorenz’s
+system  would  be  predictable  if  its  governing  equations
+were linear.
+
+FIG. 2. THE LORENZ EQUATIONS AS A WORK OF ART.
+Solving  these  equations  on  a  computer  of  the  early
+1960s  was  a  challenging  task.  However,  with  just  three
+variables, Lorenz could run the equations for long enough
+periods  of  time  for  him  to  ﬁnally  realise  that  the  model
+state was never going to repeat itself. How exactly he came
+to this realisation will be discussed in the next chapter—it
+
+is one of the great discoveries of twentieth-century science.
+Published  in  the Journal  of  the  Atmospheric  Sciences
+  in
+1963, Lorenz’s most famous paper announces the discovery
+of  “Deterministic  Non-periodic  Flow”11.  As  before,  “non-
+periodic” means non-repeating. Because it was published in
+such  a  “niche”  journal,  it  took  another  decade  before  the
+paper  became  known  to  the  mathematical  community  at
+large, and this delayed the explosion of chaos science by a
+similar period of time.
+However,  Lorenz’s  model  is  not  best  known  for  this
+property of non-periodicity. Instead, it’s known for a
+property which is a consequence of non-periodicity, though
+Lorenz himself did not fully understand this at ﬁrst.
+Lorenz  used  to  tell  the  story  about  how  he  wanted  to
+repeat  a  simulation  on  his  computer  in  order  to  get  the
+computer  to  output  data  more  frequently.  He  took  some
+values  which  the  computer  had  previously  outputted  onto
+printer  paper,  and  restarted  the  computer  initialising  the
+model  with  these  printed  values.  After  he  had  returned
+from  a  coﬀee  break,  Lorenz  noticed  that  the  repeated
+values of X, Y and Z bore no relation to the original values
+that  the  computer  had  earlier  outputted.  An  example  of
+what Lorenz saw is shown in Fig. 3. At ﬁrst, he thought that
+the computer had become faulty (valves, or “tubes”, often
+failed in these early computers). However, he quickly
+realised that this wasn’t the problem. Rather the problem
+was related to the fact that the printer did not record the
+variables  at  “machine  precision”  but  instead  printed  only
+the  leading  digits  of  the  variables.  For  example,  if  the
+precise value of a variable was 
+X = 0.506127, the printer
+printed only X = 0.506. Starting the model with X = 0.506
+instead of 0.506127 eventually led to big diﬀerences in the
+future values of X, Y and Z.
+This 
+“sensitive 
+dependence 
+on 
+initial 
+conditions”
+eventually became known as the butterﬂy eﬀect. However,
+
+in some ways this is a misnomer. Butterﬂies are very small
+creatures,  certainly  much  smaller  than  weather  systems.
+The Lorenz model, with only three variables, has no
+concept of spatial scale. It is too simple to describe
+weather,  never  mind  butterﬂies.  In  particular,  the  Lorenz
+model cannot describe how a small-scale error can aﬀect a
+large-scale weather system. All it can do is describe how a
+small-amplitude error can grow into a large-amplitude
+error. We will look at the butterﬂy eﬀect in terms of small-
+scale  errors  growing  into  large-scale  errors  in  Chapter  3.
+And we will ﬁnd something even more mind-boggling than
+the type of chaos shown here.
+FIG. 3. This is the classic illustration of chaos in the Lorenz model. Two
+almost but not quite identical initial conditions eventually lead to very
+diﬀerent evolutions. This is the way chaos is traditionally described.
+However, there is something deeper underpinning this behaviour.
+In  some  ways,  the  illustration  of  chaos  in  Fig. 3  seems
+not so diﬀerent to that in Fig. 1. In Fig. 1, the position of
+the  planets  is  unpredictable,  whilst  in  Fig.  3,  the  more
+abstract  variables  in  Lorenz’s  equations  are  seen  to  be
+
+unpredictable. We might well ask whether Lorenz’s chaos is
+somehow described by the earlier theory of Poincaré.
+The answer is no. There is one very important diﬀerence
+between  Lorenz’s  chaos  and  Poincaré’s  chaos.  Real-world
+ﬂuids are viscous. If a ﬂuid’s viscosity is large, the ﬂuid is
+sticky like treacle. Viscosity is a kind of internal friction in
+the ﬂuid which makes it resistant to small-scale gradients
+in ﬂuid velocity. In practice, viscosity converts such small-
+scale  changes  in  ﬂuid  velocity  into  the  random  motion  of
+molecules and hence into heat. This process is called
+energy  dissipation.  All  realistic  ﬂuids,  water  or  air  for
+example, are viscous to a greater or lesser extent.
+Imagine a tank of water at rest that is suddenly stirred
+vigorously  with  a  paddle.  Whilst  the  paddle  is  moving,  it
+excites  turbulent  whirls  that  spread  out  from  the  paddle.
+However, as soon as one stops stirring, the whirls die out
+due to the eﬀects of viscosity. The ﬂuid returns to a state of
+rest  but  is  very  slightly  warmer  than  it  was,  due  to  the
+eﬀects of energy dissipation by viscosity. Now, if we
+videoed  this,  and  ran  the  video  backwards,  we  would  see
+something completely unrealistic: small eddies growing in
+the  ﬂuid  far  from  the  paddle  and  converging  onto  the
+paddle. In this backwards-in-time video, it would seem the
+paddle’s motion is being powered by a slight uniform
+cooling of the ﬂuid, contradicting the second law of
+thermodynamics,  which  says  that  uniform  low-grade  heat
+can’t  be  converted  into  work  in  such  a  way.  Because  the
+backwards-in-time  motion  is  unrealistic,  we  say  that  the
+equations  that  govern  the  motion  of  viscous  ﬂuids  are
+irreversible in time—the video and hence the ﬂuid
+equations  can  realistically  be  run  in  only  one  direction  in
+time.
+By  contrast  the  equations  that  govern  the  motion  of
+planets are time reversible. If we had a video of the planets
+moving around the sun and reversed it, the motion would
+be consistent with the laws of physics. In some sense, it is
+
+only chance that makes the planets rotate the way they do
+about the sun.
+Lorenz felt that it was vital to include this time
+irreversibility into his equations. He was right. Time
+irreversibility  is  crucial  for  generating  the  geometry  of
+chaos, a geometry that will form a central part of this book.
+The irreversibility we see in ﬂuid motions is much more
+commonplace than the reversibility in time that we see in
+planetary  motion.  For  example,  when  we  drop  a  glass,  it
+smashes into hundreds of pieces. We never see the reverse.
+A baby grows into an adult. We never see the reverse. We
+can  easily  scramble  eggs.  We  can’t  unscramble  them  into
+whites  and  yolks.  We  can  think  of  many  similar  types  of
+examples.  What  is  the  origin  of  such  irreversibility?  This
+has  perplexed  scientists  for  centuries  because  Newton’s
+laws of motion, or indeed Schrödinger’s equation of
+quantum  mechanics,  are  themselves  time  reversible;  the
+same equation describes a system in a movie, irrespective
+of  whether  the  movie  is  run  forwards  or  backwards.  The
+way most scientists deal with this problem is to say that the
+universe must have begun at the time of the Big Bang in an
+exceptionally 
+ordered 
+state. 
+That 
+is 
+to 
+say, 
+the
+irreversibility we see arises from the fact that the
+cosmological initial conditions were special. I will attempt a
+diﬀerent explanation, using the geometry of chaos, in
+Chapter 11.
+Now, although the type of chaos studied by Poincaré and
+Lorenz made use of Newton’s calculus, calculus is not itself
+an essential ingredient of chaos. Before ﬁnishing this
+chapter,  I  want  to  give  a  very  simple  example  of  chaos—
+popularised by physicist-ecologist Bob May and applied to
+population growth—which doesn’t use calculus.
+If  Adam  and  Eve  had  four  children,  two  boys  and  two
+girls, and in the next generation, each pair of adult males
+and females in turn produced four children, then the size of
+the  population  for  each  generation  would  double  (2,  4,  8,
+
+16…  ).  Prior  to  May,  it  was  assumed  that  the  population
+would grow until it eventually either came into some kind
+of  steady  state  consistent  with  the  ﬁnite  environmental
+resources  available  to  the  population  or,  at  most,  would
+oscillate 
+periodically. 
+As 
+a 
+result, 
+when 
+irregular
+ﬂuctuations  in  some  species’  populations  were  observed,
+ecologists assumed this must be because the environmental
+resources were changing because of external factors—
+maybe because of irregular ﬂuctuations in the climate, for
+example.
+However,  with  a  very  simple  equation,  May12  showed
+that  this  was  not  necessarily  the  case.  May’s  equation13
+determines the size of a population at the next generation,
+given  the  population  at  this  generation.  The  size  of  the
+population  at  each  generation  can  be  computed  using  a
+simple  calculator—the  equation  is  that  simple.  In  May’s
+equation,  there  is  a  free  parameter  called a.  It  describes
+the  number  of  oﬀspring  each  single  adult  produces  on
+average,  at  least  in  the  initial  phases  of  growth.  In  Adam
+and  Eve’s  example, a  =  2.  However,  once  the  population
+becomes large enough, its growth becomes limited by
+environmental resources. In such circumstances, the
+population can suddenly crash to small values, before
+starting  to  grow  again.  What  May  showed  was  that  if a
+exceeds  about  3.57,  the  evolution  of  the  population  over
+multiple  generations  is  chaotic—the  periods  of  boom  and
+bust start to occur irregularly. This means two things. Like
+the Lorenz-model variables, the population ﬂuctuates non-
+periodically without any external forcing in environmental
+resources. And like in the Lorenz model, it is very diﬀicult
+to predict these ﬂuctuations—they are sensitive to the
+starting conditions for the population size.
+In this way, chaos theory has had a signiﬁcant impact in
+the science of ecology. Indeed, over the years, chaos theory
+has  impacted  on  almost  all  branches  of  science:  not  only
+
+astronomy, meteorology 
+and 
+ecology, but 
+chemistry,
+engineering,  biology  and  social  science;  you  name  it!  But
+perhaps one ﬁeld where chaos theory hasn’t had so much
+impact is the foundations of quantum physics 14. The reason
+is simple: the basic equation which governs the evolution of
+quantum mechanical systems, the Schrödinger equation, is
+a linear equation. As such, the governing equation of
+quantum  mechanics  doesn’t  exhibit  the  type  of  sensitive
+dependence on initial conditions that we discussed earlier.
+It  is  sometimes  argued  that  because  we  expect  planetary
+motion,  the  weather  and  indeed  population  dynamics  to
+somehow follow from quantum mechanics (not that anyone
+has actually shown this), chaos is somehow only an
+approximate notion and uncertainty in the weather is
+ultimately due to quantum uncertainty, not chaos. My view
+is  180°  diﬀerent.  I  believe  chaos  actually  underpins  the
+dynamical equations of quantum physics; chaos is a
+property of the planets and the weather, precisely because
+chaos  is  a  property  of  the  fundamental  dynamics  of  the
+universe. I will discuss in the next chapter why such a view
+is  in  fact  consistent  with  the  linearity  of  the  Schrödinger
+equation.
+...

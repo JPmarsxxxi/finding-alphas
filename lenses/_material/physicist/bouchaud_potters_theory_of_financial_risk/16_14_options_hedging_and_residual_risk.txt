@@ -1,0 +1,1332 @@
+14
+Options: hedging and residual risk
+La n´ecessit´e des affaires nous oblige souvent `a nous determiner avant que nous ayons
+eu le loisir de les examiner soigneusement.†
+(Ren´e Descartes, M´editations.)
+14.1 Introduction
+In the previous chapter, we have chosen a model of price increments such that the average
+cost of the hedging strategy (i.e. the term ⟨ψkδxk⟩) could be neglected, which is justiﬁed if
+the excess return m is small, or for short maturity options. Beside the fact that the correction
+to the option price induced by a non-zero return is important to assess (this will be done in
+the next chapter), the determination of an ‘optimal’ hedging strategy and the corresponding
+minimal residual risk is crucial for the following reason. Suppose that an adequate measure
+of the risk taken by the writer of the option is given by the variance of the global wealth
+balance associated to the operation, i.e.:‡
+R =
+
+⟨W 2[φ]⟩.
+(14.1)
+As we shall ﬁnd below, there is a special strategy φ∗such that the above quantity reaches
+a minimum value. Within the hypotheses of the Black–Scholes model, this minimum risk is
+even, rather surprisingly, strictly zero. Under less restrictive and more realistic hypotheses,
+however, the residual risk R∗≡
+
+⟨W 2[φ∗]⟩actually amounts to a substantial fraction
+of the option price itself. It is thus rather natural for the writer of the option to try to
+reduce further the loss probability by overpricing the option, adding to the ‘fair price’ a risk
+premium proportional to R∗.
+Therefore, a market maker on option markets will offer to buy and to sell options at
+slightly different prices (the ‘bid-ask’ spread), centred around the fair price C. The am-
+plitude of the spread is presumably governed by the residual risk, and is thus ±λR∗,
+where λ is a certain numerical factor, which measures the price of risk. The search
+for minimum risk corresponds to the need of keeping the bid-ask spread as small as
+† Some matters force us to take decisions before we have had time to examine them carefully.
+‡ The case where a better measure of risk is the loss probability or the value-at-risk will be discussed in Section 14.5
+
+14.1 Introduction
+255
+-2
+-1
+0
+1
+∆W
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+P(∆W )
+Unhedged 
+0
+1
+2
+3
+4
+5
+Optimally hedged
+Fig. 14.1. Histogram of the wealth balance W associated to writing of a certain at-the-money
+option of maturity 60 trading days. The dotted line corresponds to the case where the option is not
+hedged (φ ≡0). The RMS of the distribution is 1.04, to be compared with the price of the option
+C = 0.6. The ‘peak’ at 0.6 thus corresponds to the cases where the option is not exercised. The full
+line corresponds to the optimal hedge (φ = φ∗), recalculated every half-hour. The RMS R∗is
+clearly smaller (= 0.28), but non-zero. Note that the distribution is skewed towards W < 0.
+possible, because several competing market makers are present. One therefore expects
+the coefﬁcient λ to be smaller on liquid markets, and the price closer to the fair price.
+On the contrary, the writer of an OTC option usually claims a rather high risk pre-
+mium λ.
+Let us illustrate this idea by Figure 14.1, generated using real market data (these ﬁgures
+should be compared to the schematized graph, Figure 13.1). We show the histogram of the
+global wealth balance W, corresponding to an at-the-money option, of maturity equal
+to 3 months, in the case of a bare position (φ ≡0), and in the case where one follows
+the optimal strategy (φ = φ∗) prescribed below. The fair price of the option is such that
+⟨W⟩= 0 (vertical thick line). It is clear that without hedging, option writing is a very
+risky operation. The optimal hedge substantially reduces the risk, though the residual risk
+remains quite high. Increasing the price of the option by an amount λR∗corresponds to
+a shift of the vertical thick line to the left of Figure 14.1, thereby reducing the weight of
+unfavourable events.
+Another way of expressing this idea is to use R∗as a scale to measure the difference
+between the market price of an option CM and its theoretical price:
+λ = CM −C
+R∗
+.
+(14.2)
+An option with a large value of λ is an expensive option, which includes a large risk premium.
+
+256
+Options: hedging and residual risk
+14.2 Optimal hedging strategies
+14.2.1 A simple case: static hedging
+Let us now discuss how an optimal hedging strategy can be constructed, by focusing ﬁrst on
+the simple case where the amount of the underlying asset held in the portfolio is ﬁxed once
+and for all when the option is written, i.e. at t = 0. This extreme case would correspond
+to very high transaction costs, so that changing one’s position on the market is very costly.
+Another situation is that of illiquid assets, such as hedge funds for example, which are often
+only liquid once a month. We shall furthermore assume, for simplicity, that interest rate
+effects are negligible, i.e. ρ = 0. The global wealth balance, Eq. (13.28), then reads:
+W = C −max(xN −xs, 0) + φ
+N−1
+
+k=0
+δxk.
+(14.3)
+In the case where the average return is zero (⟨δxk⟩= 0) and where the increments are
+uncorrelated (i.e. ⟨δxkδxl⟩= Dτδk,l), the variance of the ﬁnal wealth, R2 = ⟨W 2⟩−
+⟨W⟩2, reads:
+R2 = N Dτφ2 −2φ⟨(xN −x0) max(xN −xs, 0)⟩+ R2
+0,
+(14.4)
+where R2
+0 is the intrinsic risk, associated to the ‘bare’, unhedged option (φ = 0):
+R2
+0 = ⟨max(xN −xs, 0)2⟩−⟨max(xN −xs, 0)⟩2.
+(14.5)
+The dependence of the risk on φ is shown in Figure 14.2, and indeed reveals the existence
+of an optimal value φ = φ∗for which R takes a minimum value. Taking the derivative of
+Eq. (14.4) with respect to φ,
+dR
+dφ
+
+φ=φ∗= 0,
+(14.6)
+-1.0
+-0.5
+0.0
+0.5
+1.0
+f
+0.0
+0.5
+1.0
+1.5
+2.0
+R
+2(f)
+φ
+∗
+Fig. 14.2. Dependence of the residual risk R as a function of the strategy φ, in the simple case
+where this strategy does not vary with time. Note that R is minimum for a well-deﬁned value of φ.
+
+14.2 Optimal hedging strategies
+257
+one ﬁnds:
+φ∗=
+1
+Dτ N
+ ∞
+xs
+(x −xs)(x −x0)P(x, N|x0, 0) dx,
+(14.7)
+thereby ﬁxing the optimal hedging strategy within this simpliﬁed framework. Interestingly,
+if P(x, N|x0, 0) is Gaussian (which becomes a better approximation as N = T/τ increases),
+one can write:
+1
+DT
+ ∞
+xs
+1
+√
+2π DT
+(x −xs)(x −x0) exp
+
+−(x −x0)2
+2DT
+
+dx =
+−
+ ∞
+xs
+1
+√
+2π DT
+(x −xs) ∂
+∂x exp
+
+−(x −x0)2
+2DT
+
+dx,
+(14.8)
+giving, after an integration by parts: φ∗≡P, or else the probability, calculated from t = 0,
+that the option is exercised at maturity: P ≡
+ ∞
+xs P(x, N|x0, 0) dx.
+Hence, buying a certain fraction of the underlying allows one to reduce the risk associated
+to the option. As we have formulated it, risk minimization appears as a variational problem.
+The result therefore depends on the family of ‘trial’ strategies φ. A natural idea is thus to
+generalize the above procedure to the case where the strategy φ is allowed to vary both with
+time, and with the price of the underlying asset. In other words, one can certainly do better
+than holding a certain ﬁxed quantity of the underlying asset, by adequately readjusting this
+quantity in the course of time.
+14.2.2 The general case and ‘∆’ hedging
+If one writes again the complete wealth balance, Eq. (13.26), as:
+W = C(1 + ρ)N −max(xN −xs, 0) +
+N−1
+
+k=0
+ψ N
+k (xk)δxk,
+(14.9)
+the calculation of ⟨W 2⟩involves, as in the simple case treated above, three types of terms:
+quadratic in ψ, linear in ψ, and independent of ψ. The last family of terms can thus be
+forgotten in the minimization procedure. The ﬁrst two terms of R2 are:
+N−1
+
+k=0
+	
+ψ N
+k
+
+2
+δx2
+k
+
+k −2
+N−1
+
+k=0
+
+ψ N
+k δxk max(xN −xs, 0)
+
+k.
+(14.10)
+The subscript k indicates that the average is taken conditional to all information available
+at time k. We have used ⟨δxk⟩k = 0 and assumed the increments to be of ﬁnite variance and
+uncorrelated (but not necessarily stationary nor independent):†
+⟨δxkδxl⟩k =
+
+δx2
+k
+
+kδk,l.
+(14.11)
+We introduce again the distribution P(x, k|x0, 0) for arbitrary intermediate times k. The
+dynamic strategy ψ N
+k may now depend on the value of the price xk. One can express the
+† The case of correlated Gaussian increments is treated in Section 15.3.
+
+258
+Options: hedging and residual risk
+terms appearing in Eq. (14.10) in the following form:
+	
+ψ N
+k
+
+2
+δx2
+k
+
+k =
+ 
+ψ N
+k (x)
+2P(x, k|x0, 0)
+
+δx2
+k
+
+k dx,
+(14.12)
+and
+
+ψ N
+k δxk max(xN −xs, 0)
+
+k =
+
+ψ N
+k (x)P(x, k|x0, 0) dx
+×
+ +∞
+xs
+⟨δxk⟩(x,k)→(x′,N)(x′ −xs)P(x′, N|x, k) dx′,
+(14.13)
+where the notation ⟨δxk⟩(x,k)→(x′,N) means that the average of δxk is restricted to those
+trajectories which start from point x at time k and end at point x′ at time N, conditional to
+all information available at time k. Without the restriction on the end points, the average
+would of course be zero since we have assumed ⟨δxk⟩to be zero.
+The functions ψ N
+k (x), for k = 1, 2, . . . , N, must be chosen so that the risk R is as small
+as possible. Technically, one must ‘functionally’ minimize Eq. (14.10). We shall not try to
+justify this procedure mathematically; one can simply imagine that the integrals over x are
+discrete sums (which is actually true, since prices are expressed in cents and therefore are not
+continuous variables). The function ψ N
+k (x) is thus determined by the discrete set of values
+of ψ N
+k (i). One can then take usual derivatives of Eq. (14.10) with respect to these ψ N
+k (i).
+The continuous limit, where the points i become inﬁnitely close to one another, allows one
+to deﬁne the functional derivative ∂/∂ψ N
+k (x), but it is useful to keep in mind its discrete
+interpretation. Using Eqs. (14.12) and (14.13), one thus ﬁnds the following fundamental
+equation:
+∂R
+∂ψ N
+k (x) = 2ψ N
+k (x)P(x, k|x0, 0)
+
+δx2
+k
+
+k
+−2P(x, k|x0, 0)
+ +∞
+xs
+⟨δxk⟩(x,k)→(x′,N)(x′ −xs)P(x′, N|x, k) dx′.
+(14.14)
+Setting this functional derivative to zero then provides a general and rather explicit expres-
+sion for the optimal strategy ψ N∗
+k (x), where the only assumption is that the increments δxk
+are uncorrelated (cf. Eq. (14.11)):†
+ψ N∗
+k (x) =
+1
+
+δx2
+k
+
+k
+ +∞
+xs
+⟨δxk⟩(x,k)→(x′,N)(x′ −xs)P(x′, N|x, k) dx′.
+(14.15)
+This formula can be simpliﬁed in the case where the increments δxk are identically
+distributed (of variance ⟨δx2
+k⟩k ≡Dτ) and when the interest rate is zero. As shown in
+† This is true within the variational space considered here, where φ only depends on x and t. If some volatility
+correlations are present, one could in principle consider strategies that also depend on the past values of the
+volatility.
+
+14.2 Optimal hedging strategies
+259
+Appendix D, one then has:
+⟨δxk⟩(x,k)→(x′,N) = x′ −x
+N −k .
+(14.16)
+The intuitive interpretation of this result is that all the N −k increments δxl along the
+trajectory (x, k) →(x′, N) contribute on average equally to the overall price change x′ −x.
+The optimal strategy then ﬁnally reads, for ρ = 0:
+φN∗
+k (x) =
+ +∞
+xs
+x′ −x
+Dτ(N −k)(x′ −xs)P(x′, N|x, k) dx′.
+(14.17)
+One can show that the above expression varies monotonically from φN∗
+k (−∞) = 0 to
+φN∗
+k (+∞) = 1; this result is valid without any further assumption on P(x′, N|x, k).
+In order to show this, note that within an additive model, P(x′, N|x, k) only depends
+on x′ −x, and we will write P(x′, N|x, k) = fN−k(x −x′). Introducing the moneyness
+M = xs −x of the option, one ﬁnds, after setting u = x′ −x:
+φN∗
+k (x) =
+ +∞
+M
+u
+Dτ(N −k)(u −M) fN−k(u) du.
+(14.18)
+Note that since fN−k(u) is a probability density that we assume to be of ﬁnite variance,
+it must decay faster than 1/u3. Using this, and the fact that:
+
+u fN−k(u)du = 0 and
+
+u2 fN−k(u)du = Dτ(N −k), one sees directly that φN∗
+k (−∞) = 0 and φN∗
+k (+∞) = 1.
+Furthermore, taking once the derivative of φN∗
+k (x) with respect to x gives:
+∂φN∗
+k (x)
+∂x
+=
+ +∞
+M
+u
+Dτ(N −k) fN−k(u) du,
+(14.19)
+which is seen to be zero both for x →0 and to x →∞. Taking one further derivative
+with respect to x leads to:
+∂2φN∗
+k (x)
+∂x2
+=
+xs −x
+Dτ(N −k) fN−k(xs −x).
+(14.20)
+This last quantity has a unique zero for x = xs, is positive for x > xs and negative for
+x < xs. Therefore ∂φN∗
+k (x)/∂x must be everywhere non negative.
+If P(x′, N|x, k) is well approximated by a Gaussian, the following identity then holds
+true:
+x′ −x
+Dτ(N −k) PG(x′, N|x, k) ≡∂PG(x′, N|x, k)
+∂x
+.
+(14.21)
+The comparison between Eqs. (14.17) and (13.33) then leads to the so-called ‘Delta’ hedging
+of Black and Scholes:
+φN∗
+k (x = xk) = ∂CBS[x, xs, N −k]
+∂x
+
+x=xk
+≡(xk, N −k).
+(14.22)
+
+260
+Options: hedging and residual risk
+One can actually show that this result is true even if the interest rate is non-zero (see
+Appendix D), as well as if the relative returns (rather than the absolute returns) are indepen-
+dent Gaussian variables, as assumed in the Black–Scholes model (see Section 14.2.3 below.)
+Equation (14.22) has a very simple (perhaps sometimes misleading) interpretation. If
+between time k and k + 1 the price of the underlying asset varies by a small amount dxk, then
+to ﬁrst order in dxk, the variation of the option price is given by [x, xs, N −k] dxk (using
+the very deﬁnition of  as the derivative of the price). This variation is therefore exactly
+compensated by the gain or loss of the strategy, i.e. φN∗
+k (x = xk) dxk. In other words, φN∗
+k
+=
+(xk, N −k) appears to be a perfect hedge, which ensures that the portfolio of the writer of
+the option does not vary at all with time (cf. Chapter 16, when we will discuss the differential
+approach of Black and Scholes). However, as we discuss now, the relation between the
+optimal hedge and  is not general, and does not hold for non-Gaussian statistics.
+Cumulant corrections to  hedging
+More generally, using Fourier transforms, one can express Eq. (14.17) as a cumulant
+expansion. Using the deﬁnition of the cumulants of P, one has:
+(x′ −x)P(x′, N|x, 0) ≡
+1
+2π
+
+ˆP N(z)
+∂
+∂(−iz)e−iz(x′−x) dz
+= −
+∞
+
+n=2
+(−)ncn,N
+(n −1)!
+∂n−1
+∂x′n−1 P(x′, N|x, 0),
+(14.23)
+where log ˆP N(z) = ∞
+n=2(iz)ncn,N/n!. Assuming that the increments are independent,
+one can use the additivity property of the cumulants discussed in Chapter 2, i.e.: cn,N ≡
+Ncn,1, where the cn,1 are the cumulants at the elementary time scale τ. One ﬁnds the
+following general formula for the optimal strategy:†
+φN∗(x) =
+1
+Dτ
+∞
+
+n=2
+cn,1
+(n −1)!
+∂n−1C[x, xs, N]
+∂xn−1
+,
+(14.24)
+where c2,1 ≡Dτ, c4,1 ≡κ1[c2,1]2, etc. In the case of a Gaussian distribution, cn,1 ≡0
+for all n ≥3, and one thus recovers the previous ‘Delta’ hedging. If the distribution
+of the elementary increments δxk is symmetrical, c3,1 = 0. The ﬁrst correction is then
+of order c4,1/c2,1 × (1/
+√
+Dτ N)2 ≡κ/N, where we have used the fact that C[x, xs, N]
+typically varies with x on the scale
+√
+Dτ N, which allows us to estimate the order of
+magnitude of its derivatives with respect to x. Equation (14.24) shows that in general,
+the optimal strategy is not simply given by the derivative of the price of the option with
+respect to the price of the underlying asset.
+It is interesting to compute the difference between φ∗and the Black–Scholes strategy
+as used by the traders, φ∗
+M, which takes into account the implied volatility of the option
+(xs, T = Nτ):‡
+φ∗
+M(x, ) ≡∂C[x, xs, T ]
+∂x
+
+σ=
+.
+(14.25)
+† This formula can actually be generalized to the case where the volatility is time dependent, see Appendix D and
+Section 5.2.3.
+‡ Note that the market does not compute the total derivative of the option price with respect to the underlying
+price, which would also include the derivative of the implied volatility.
+
+14.2 Optimal hedging strategies
+261
+If one chooses the implied volatility  in such a way that the ‘correct’ price (cf.
+Eq. (13.52) above) is reproduced, one can show that:
+φ∗(x) = φ∗
+M(x, ) + κT
+12
+M
+√
+2π
+exp
+
+−M2
+2
+
+,
+(14.26)
+where M = (xs −x0)/
+√
+DT is the rescaled moneyness, κT is the kurtosis on scale T
+and higher-order cumulants are neglected. The Black–Scholes strategy, even calculated
+with the implied volatility, is thus not the optimal strategy when the kurtosis is non-zero.
+However, the difference between the two is zero both at the money and far from the
+money. It reaches a maximum when M = 1, and is equal to:
+δφ∗≈0.02κT
+T = Nτ.
+(14.27)
+For T = 20 days, and a typical kurtosis of κT = 1, one ﬁnds that the ﬁrst correction
+to the optimal hedge is on the order of 0.02, see also Figure 14.3. As will be discussed
+below, the use of such an approximate hedging induces a rather small increase of the
+residual risk.
+For the inﬁnite kurtosis case treated in Section 13.3.5, the optimal hedge is given by:
+φ∗(x0, xs, T ) = 1
+2 −1
+π arctan M,
+(14.28)
+that has the expected limits φ∗(−∞) = 1, φ∗(0) = 1/2, and φ∗(+∞) = 0.
+92
+96
+100
+104
+108
+xs
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+f(x)
+φ
+*(x)
+φM(x)
+P>(x)
+Fig. 14.3. Three hedging strategies for an option on an asset of terminal value xN distributed
+according to a TLD, of kurtosis κ = 5, as a function of the strike price xs. φ∗denotes the optimal
+strategy, calculated from Eq. (14.17), φM is the Black–Scholes strategy computed with the
+appropriate implied volatility, such as to reproduce the correct option price, and P> is the
+probability that the option is exercised at expiry. These three strategies are actually quite close to
+each other (they coincide at-the-money, and deep in-the-money and out-the-money). Note however
+that, the variations of φ∗with the price are slower (smaller ).
+
+262
+Options: hedging and residual risk
+14.2.3 Global hedging vs. instantaneous hedging
+It is important to stress that the above procedure, where the global risk associated to the
+option (calculated as the variance of the ﬁnal wealth balance) is minimized is equivalent
+to the minimization of an ‘instantaneous’ hedging error – at least when the increments are
+independent. The latter consists in minimizing the difference of value of a position which
+is short one option and φ long in the underlying stock, between two consecutive times kτ
+and (k + 1)τ. This is closer to the concern of many option traders, since the value of their
+option books is calculated every day: the risk is estimated in a ‘marked to market’ way. If
+the price increments are iid, we show now that the optimal strategy is indeed identical to
+the ‘global’ one discussed above.
+The change of wealth between times k and k + 1 is, in the absence of interest rates, given
+by:
+δWk = Ck −Ck+1 + φk(xk)δxk.
+(14.29)
+The global wealth balance is simply given by the sum over k from 0 to N −1 of all these
+δWk. If the price increments are uncorrelated, so are the δWk’s. Therefore, the variance of
+the total wealth balance is the sum of the instantaneous variances ⟨δW 2
+k ⟩. Minimizing the
+global risk therefore requires the instantaneous risk to be minimum.
+Let us now calculate the part of ⟨δW 2
+k ⟩which depends on φk. Using the fact that the
+increments are iid, one ﬁnds:
+φ2
+k(xk)
+
+δx2
+k
+
+−2φk(xk)⟨Ck+1δxk⟩.
+(14.30)
+Using now the explicit expression for Ck+1:
+Ck+1 =
+ ∞
+xs
+(x′ −xs)P(x′, N|xk+1, k + 1) dx′,
+(14.31)
+one sees that the second term in the above expression contains the following average:
+
+(xk+1 −xk)P(xk+1, k + 1|xk, k)P(x′, N|xk+1, k + 1) dxk+1.
+(14.32)
+Using the methods of Appendix D, one can show that the above average is equal to (x′ −xk/
+N −k)P(x′, N|xk, k). Therefore, the part of the risk that depends on φk is given by:
+φ2
+k(xk)
+
+δx2
+k
+
+−2φk(xk)
+ ∞
+xs
+(x′ −xs)(x′ −xk)
+N −k
+P(x′, N|xk, k) dx′.
+(14.33)
+Taking the derivative of this expression with respect to φk ﬁnally leads exactly to the optimal
+strategy, Eq. (14.17), above.
+If the price increments can be written as δxk = fk(xk)ϵk, where fk(xk) is an arbitrary
+function of xk (possibly time dependent) and ϵk are iid Gaussian random variables, there
+is a more direct path from Eq. (14.30) to the -hedge. Using Novikov’s formula (see
+Eq. (3.24)), one ﬁnds that:
+⟨Ck+1δxk⟩≡
+∂Ck+1
+∂x
+ 
+δx2
+k
+
+.
+(14.34)
+
+14.3 Residual risk
+263
+But since ⟨Ck+1⟩= Ck(xk), the minimum of Eq. (14.30) is given by:
+φk(xk) = ∂Ck
+∂xk
+,
+(14.35)
+which is the -hedge. This formula is valid for a quite general class of Gaussian pro-
+cesses, deﬁned above by the function fk. For example, the multiplicative Black-Scholes
+case corresponds to fk(xk) = σ1xk.
+This ‘instantaneous’ viewpoint is actually that of Black-Scholes, on which we shall
+expand in Chapters 16 and 18.
+14.3 Residual risk
+14.3.1 The Black–Scholes miracle
+We shall now compute the residual risk R∗obtained by substituting φ by φ∗in Eq. (14.10).
+In the case where the variance of price increments is constant, one ﬁnds:
+R∗2 = R2
+0 −Dτ
+N−1
+
+k=0
+
+P(x, k|x0, 0)
+
+φN∗
+k (x)
+2 dx,
+(14.36)
+where R0 is the unhedged risk.
+The Black–Scholes ‘miracle’ is the following: in the case where P is Gaussian, the
+two terms in the above equation exactly compensate in the limit where τ →0, with
+Nτ = T ﬁxed.
+The ‘zero-risk’ property is true both within an ‘additive’ Gaussian model and the Black–
+Scholes multiplicative model, or for more general continuous-time Brownian processes.
+This property is easily obtained using Ito’s stochastic differential calculus, see Chapters 3
+and 16, but the latter formalism is only valid in the continuous-time limit (τ = 0).
+This ‘miraculous’ compensation is due to a very peculiar property of the Gaussian
+distribution, for which:
+PG(x1, T |x0, 0)δ(x1 −x2) −PG(x1, T |x0, 0)PG(x2, T |x0, 0) =
+D
+ T
+0
+
+PG(x, t|x0, 0)∂PG(x1, T |x, t)
+∂x
+∂PG(x2, T |x, t)
+∂x
+dx dt.
+(14.37)
+Integrating this equation with respect to x1 and x2 after multiplication by the corre-
+sponding payoff functions, the left-hand side gives R2
+0. As for the right-hand side, one
+recognizes the limit of N−1
+k=0
+
+P(x, k|x0, 0)[φN∗
+k (x)]2 dx when τ = 0, where the sum
+becomes an integral.
+Therefore, in the continuous-time Gaussian case, the -hedge of Black and Scholes
+allows one to eliminate completely the risk associated with an option, as was the case for
+
+264
+Options: hedging and residual risk
+the forward contract. However, contrarily to the forward contract where the elimination
+of risk is possible whatever the statistical nature of the ﬂuctuations (and follows from the
+linearityofthepay-off),theresultofBlackandScholesisonlyvalidinaveryspeciallimiting
+case. For example, as soon as the elementary time scale τ is ﬁnite (which is the case in
+reality), the residual risk R∗is non-zero even if the increments are Gaussian. The calculation
+is easily done in the limit where τ is small compared to T : the residual risk then comes from
+the difference between a continuous integral D
+
+dt′ 
+PG(x, t′|x0, 0)φ∗2(x, t′) dx (which is
+equal to R2
+0) and the corresponding discrete sum appearing in Eq. (14.36). This difference
+is given by the Euler–McLaurin formula and is equal to:
+R∗2 = Dτ
+2 P(1 −P) −(Dτ)3/2
+24
+√
+2π
+P(xs, T |x0, 0) + · · · ,
+(14.38)
+where P is the probability (at t = 0) that the option is exercised at expiry (t = T ), and
+we have written explicitly the sub-leading term, of order τ 3/2 (and not τ 2).† In the limit
+τ →0, one indeed recovers R∗= 0, which also holds if P →0 or 1, since the outcome
+of the option then becomes certain. However, Eq. (14.38) already shows that in reality, the
+residual risk is not small. Take for example an at-the-money option, for which P = 1
+2. The
+comparison between the residual risk and the price of the option allows one to deﬁne a
+‘quality’ ratio Q for the hedging strategy, which is larger for better hedges:
+1
+Q ≡R∗
+C ≈
+ π
+4N ,
+(14.39)
+with N = T/τ. For an option of maturity 1 month, rehedged daily, N ≈25. Assuming
+Gaussian ﬂuctuations, the quality ratio is then Q ≈5. In other words, the residual risk is
+one-ﬁfth of the price of the option itself. Even if one rehedges every 30 min in a Gaussian
+world, the quality ratio is only Q ≈20. If the increments are not Gaussian, then R∗can
+never reach zero. This is actually rather intuitive, the presence of unpredictable price ‘jumps’
+jeopardizes the differential strategy of Black–Scholes. The miraculous compensation of the
+two terms in Eq. (14.36) no longer takes place. Figure 14.4 gives the residual risk as a
+function of τ for an option on the Bund contract, calculated using the optimal strategy φ∗,
+and assuming independent increments. As expected, R∗increases with τ, but does not tend
+to zero when τ decreases: the theoretical quality ratio saturates around Q ≈7, reﬂecting the
+non zero kurtosis (jumps) of the underlying process. In fact, the real risk is even larger than
+the theoretical estimate since the model is imperfect. In particular, it neglects the volatility
+ﬂuctuations. (The importance of these volatility ﬂuctuations for determining the correct
+price was discussed above in Section 13.3.4.) In other words, the theoretical curve shown in
+Figure 14.4 neglects what is usually called the ‘volatility’ risk. A Monte-Carlo simulation of
+the proﬁt and loss associated to an at-the-money option, hedged using the optimal strategy
+φ∗determined above leads to the histogram shown in Figure 14.1. The empirical variance of
+this histogram corresponds to Q ≈3.6, substantially smaller than the theoretical estimate
+that neglects volatility risk.
+† The above formula is only correct in the additive limit, but can be generalized to any Gaussian model, in particular
+the log-normal Black–Scholes model: see Eq. (14.40) below.
+
+14.3 Residual risk
+265
+0
+5
+10
+15
+20
+25
+30
+t (days)
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+ Residual risk
+Monte Carlo
+Non-Gaussian distribution
+Black-Scholes world
+Fig. 14.4. Residual risk R∗as a function of the time τ (in days) between adjustments of the hedging
+strategy φ∗, for at-the-money options of maturity equal to 60 trading days. The risk R∗decreases
+when the trading frequency increases, but only rather slowly: the risk only falls by 10% when the
+trading time drops from 1 day to 30 min. Furthermore, R∗does not tend to zero when τ →0, at
+variance with the Gaussian case (dotted line). Finally, the present model neglects the volatility risk,
+which leads to an even larger residual risk (marked by the star symbol), corresponding to a
+Monte-Carlo simulation using real price changes.
+Let us also consider the case of a multiplicative Gaussian model in discrete time. A similar
+Euler–Mc Laurin treatment ﬁnally leads to:
+R∗2 = σ 2τ
+2
+
+⟨x2⟩|s −⟨x⟩
+2
+s
+
++ · · · ,
+(14.40)
+where ⟨xq⟩|s =
+ ∞
+xs xq P(x, T |x0, 0) dx. One can check that in the limit σ 2T ≪1 this for-
+mula becomes identical to the additive formula (14.38). On the other hand, in the limit
+T →∞, R∗2 grows without limit for any ﬁnite τ.
+14.3.2 The ‘stop-loss’ strategy does not work
+There is a very simple strategy that leads, at ﬁrst sight, to a perfect hedge. This strategy
+is to hold φ = 1 of the underlying as soon as the price x exceeds the strike price xs, and
+to sell everything (φ = 0) as soon as the price falls below xs. For zero interest rates, this
+‘stop-loss’ strategy would obviously lead to zero risk, since either the option is exercised at
+time T , but the writer of the option has bought the underlying when its value was xs, or the
+option is not exercised, but the writer does not possess any stock. If this were true, the price
+
+266
+Options: hedging and residual risk
+of the option would actually be zero, since in the global wealth balance, the term related to
+the hedge perfectly matches the option pay-off!
+In fact, this strategy does not work at all. A way to see this is to realize that when the
+strategy takes place in discrete time, the price of the underlying is never exactly at xs, but
+slightly above, or slightly below. If the trading time is τ, the difference between xs and
+xk (where k is the time in discrete units) is, for a random walk, of the order of
+√
+Dτ.
+The difference between the ideal strategy, where the buy or sell order is always executed
+precisely at xs, and the real strategy is thus of the order of N×
+√
+Dτ, where N× is the number
+of times the price crosses the value xs during the lifetime T of the option. For an at-the-
+money option, this is equal to the number of times a random walk returns to its starting point
+in a time T . The result is well known (see Feller (1971)), and is N× ∝√T/τ for T ≫τ.
+Therefore, the uncertainty in the ﬁnal result due to the accumulation of the above small
+errors is found to be of order
+√
+DT , independently of τ, and therefore does not vanish in
+the continuous-time limit τ →0. This uncertainty is of the order of the option price itself,
+even for the case of a Gaussian process. Hence, the ‘stop-loss’ strategy is not the optimal
+strategy, and was therefore not found as a solution of the functional minimization of the
+risk presented above.
+14.3.3 Instantaneous residual risk and kurtosis risk
+It is also illuminating to consider the risk from an instantaneous point of view, as in Section
+14.2.3 above. We write again the local wealth balance as:
+δWk = Ck −Ck+1 + φk(xk)δxk.
+(14.41)
+Now, we suppose δxk small and Taylor expand in powers of δxk the difference Ck −Ck+1:
+Ck −Ck+1 ≃−∂Ck
+∂t τ −∂Ck
+∂xk
+δxk −1
+2
+∂2Ck
+∂x2
+k
+(δxk)2 + · · · .
+(14.42)
+The choice φk = ∂C/∂xk obviously removes the ﬁrst order term in δxk. The residual risk to
+lowest order therefore reads:†
+R2
+k =
+
+δW 2
+k
+
+−⟨δWk⟩2 = 1
+4
+∂2Ck
+∂x2
+k
+2
+[⟨(δxk)4⟩−⟨(δxk)2⟩2].
+(14.43)
+Using the very deﬁnition of kurtosis κ1 on scale τ, this expression can be rewritten as:
+R2
+k = 2 + κ1
+4
+2
+k D2τ 2,
+(14.44)
+where k = C′′
+k is the Gamma of the option at time k. In the absence of kurtosis, the total
+residual risk is the sum of N = T/τ terms, each of order τ 2. The total risk is thus of order τ,
+† Note that since δWk −⟨δWk⟩is proportional to δx2
+k with a negative coefﬁcient (minus the Gamma of the option),
+the distribution of δWk is negatively skewed for the option seller, a result already discussed in the caption of
+Fig. 14.1.
+
+14.3 Residual risk
+267
+as already found above, Eq. (14.38). On the other hand, if κT is ﬁnite for ﬁnite time lags, the
+elementary kurtosis κ1 is inversely proportional to τ. The contribution of the kurtosis to the
+residual risk remains ﬁnite when the rehedging time becomes small, as seen in Fig. 14.4.
+Taking into account that for Gaussian increments Dτ2
+k ∼1/(N −k), the total residual
+risk for an at the money option is, for τ small, of order:
+R∗2 ∼Dκ1τ
+N
+
+k=1
+1
+k ∼(Dτ) κ1 log N ∼(DT )κT log N.
+(14.45)
+Therefore, tail effects, as measured by the kurtosis, constitute the major source of
+the residual risk when the trading time τ is small.
+This remark is the echo of the discussion in Section 4.2.4, where we showed that a non
+zero kurtosis becomes the major source of uncertainty for the high frequency volatility: the
+risk is non zero precisely because the volatility is not perfectly known.
+14.3.4 Stochastic volatility models∗
+Along the same line of thought, it is instructive to consider the case where the ﬂuctuations
+are purely Gaussian, but where the volatility itself is randomly varying. In other words, the
+instantaneous variance is given by Dk = D + δDk, where δDk is itself a random variable
+of variance (δD)2. If the different δDk’s are uncorrelated, this model leads to a non-zero
+kurtosis (cf. Eq. (7.15) and Section 7.1) equal to κ1 = 3(δD)2/D
+2.
+Suppose then that the option trader follows the Black–Scholes strategy corresponding
+to the average volatility D. This strategy is close, but not identical to, the optimal strategy
+which he would follow if he knew all the future values of δDk (this strategy is given in
+Appendix D). If δDk ≪D, one can perform a perturbative calculation of the residual risk
+associated with the uncertainty on the volatility. This excess risk is certainly of order (δD)2
+since one is close to the absolute minimum of the risk, which is reached for δD ≡0. The
+calculation does indeed yield a relative increase in risk whose order of magnitude is given
+by:
+δR∗
+R∗∝(δD)2
+D
+2 .
+(14.46)
+Iftheobservedkurtosisisentirelyduetothisstochasticvolatilityeffect,oneﬁndsδR∗/R∗∝
+κ1. One thus recovers the result of the previous section. Again, this volatility risk can
+represent an appreciable fraction of the real risk, especially for frequently hedged options.
+Figure 14.4 actually suggests that the fraction of the risk due to the ﬂuctuating volatility is
+comparable to that induced by the intrinsic kurtosis of the distribution.
+
+268
+Options: hedging and residual risk
+14.4 Hedging errors. A variational point of view
+The formulation of the hedging problem as a variational problem has a rather in-
+teresting consequence, which is a certain amount of stability against hedging errors.
+Suppose indeed that instead of following the optimal strategy φ∗(x, t), one uses (as the
+market does) a suboptimal strategy close to φ∗, such as the Black–Scholes hedging strategy
+with the value of the implied volatility, discussed in Section 14.2.2. Denoting the difference
+between the actual strategy and the optimal one by δφ(x, t), one can show that for small
+δφ, the increase in residual risk is given by:
+δ[R2] = Dτ
+N−1
+
+k=0
+
+[δφ(x, tk)]2P(x, k|x0, 0) dx,
+(14.47)
+which is quadratic in the hedging error δφ, as expected since we expand around the op-
+timal hedge. Therefore, the extra risk is rather small. For example, we have estimated in
+Section 14.2.2 that within a ﬁrst-order cumulant expansion, δφ is at most equal to 0.02κN,
+where κN is the kurtosis corresponding to the terminal distribution. (See also Fig. 14.3.)
+Therefore, one has:
+δ[R2] ≤4 10−4κ2
+N DT.
+(14.48)
+For at-the-money options C ∼√DT/2π. One can reexpress the above result in terms of
+the quality ratio of the optimal hedge Q, to ﬁnd:
+δR
+R∗≤1.2 10−3κ2
+N Q2.
+(14.49)
+For a typical hedging quality ratio Q = 4 and κN = 1, this represents a rather small relative
+increase equal to 2% at most. In reality, as numerical simulations show, the increase in risk
+induced by the use of the Black–Scholes -hedge instead of the optimal hedge is indeed
+only of a few per cent for 1-month maturity options. This difference however increases as
+the maturity of the options decreases.
+14.5 Other measures of risk – hedging and VaR (∗)
+It is conceptually illuminating to consider a model where the price increments δxk are
+L´evy variables of index µ < 2, for which the variance is inﬁnite. Such a model is useful to
+describe extremely volatile markets, such as emergent countries (like the Mexican Peso),
+or very speculative assets (cf. Chapter 6). In this case, the variance of the global wealth
+balance W is meaningless and cannot be used as a reliable measure of the risk associated
+to the option. Indeed, one expects that the distribution of W behaves, for large negative
+W, as a power-law of exponent µ.
+
+14.5 Other measures of risk – hedging and VaR (∗)
+269
+In order to simplify the discussion, let us come back to the case where the hedging strategy
+φ is independent of time, and suppose interest rate effects negligible. The wealth balance,
+Eq. (13.28), then clearly shows that the catastrophic losses occur in two complementary
+cases:
+r Either the price of the underlying soars rapidly, far beyond both the strike price xs and x0.
+The option is exercised, and the loss incurred by the writer is then:
+|W+| = xN(1 −φ) −xs + φx0 −C ≈xN(1 −φ).
+(14.50)
+The hedging strategy φ, in this case, limits the loss, and the writer of the option would
+have been better off holding φ = 1 stock per written option.
+r Or, on the contrary, the price plummets far below x0. The option is then not exercised,
+but the strategy leads to important losses since:
+|W−| = φ(x0 −xN) −C.
+(14.51)
+In this case, the writer of the option should not have held any stock at all (φ = 0).
+However, both dangers are a priori possible. Which strategy should one follow? Summing
+the probability of the above events, the probability p that the loss exceeds (in absolute value)
+a certain level Rp is given by:
+p = P(W < −Rp) = P>
+Rp + C + (xs −x0)
+1 −φ
+
++ P<
+
+−Rp + C
+φ
+
+,
+(14.52)
+where P>,< are the cumulative distributions of the price difference xN −x0. One has at this
+stage two a rather different options for the optimization: either minimizing the probability of
+loss p for a given threshold Rp, or minimizing the Value-at-Risk Rp for a given probability
+of loss p. Let us ﬁrst investigate the ﬁrst choice, which is slightly simpler. The equation
+ﬁxing the optimal φ reads:
+
+φ∗
+1 −φ∗
+2
+=
+R
+R + xs −x0
+P[−R/φ∗]
+P[(xs −x0 + R)/(1 −φ∗)],
+(14.53)
+where P is the probability density corresponding to P>,<, and R ≡Rp + C is the part of
+the loss due to the trading. This equation is general and does not depend on the precise
+shape of P. Consider the case where this distribution decreases as a power-law for large
+arguments:
+P(x = xN −x0)
+≃
+x→±∞
+µAµ
+±
+|x|1+µ .
+(14.54)
+For at the money options, such that M = xs −x0 = 0, the solution of the optimization
+equation reads, for large enough R:
+φ∗(M = 0) =
+Aζ
++
+Aζ
++ + Aζ
+−
+ζ ≡
+µ
+µ −1,
+(14.55)
+
+270
+Options: hedging and residual risk
+for 1 < µ ≤2.† For µ < 1, φ∗is equal to 0 if A−> A+ or to 1 in the opposite case. For a
+general moneyness, the optimal strategy can be expressed in terms of φ∗(M = 0) as:
+φ∗
+M =
+φ∗
+M=0
+(1 −φ∗
+M=0)F(M) + φ∗
+M=0
+(14.56)
+with:
+F(M) =
+
+1 + M
+R
+ µ+1
+µ−1
+.
+(14.57)
+Several points are worth emphasizing:
+r The hedge ratio φ∗becomes independent of moneyness M when extreme risks are con-
+sidered, i.e. when R →∞. In this limit, F(M) = 1. The result (14.55) could have been
+obtained directly by noting that the distribution of losses also decays as a power-law for
+large arguments:
+P(W)
+≃
+W→−∞
+µW µ
+0
+|W|1+µ
+W µ
+0 ≡Aµ
++(1 −φ)µ + Aµ
+−φµ.
+(14.58)
+The optimal φ∗obtained above for R →∞can indeed be seen to minimize the tail
+amplitude W µ
+0 .
+More generally, the optimal VaR hedging strategy varies with the price of the underlying
+on the scale of the value at risk itself, since only the ratio M/R enters the expression of φ∗.
+r Similarly, when hedging extreme risks, the strategy φ∗is time independent, and also
+corresponds to the optimal instantaneous hedge, where the VaR between times k and
+k + 1 is minimum. The fact that this strategy is time independent is quite interesting from
+the point of view of transaction costs (see Section 17.1.4).
+r Even when the tail amplitude W0 of the loss probability is minimum, the variance of
+the ﬁnal wealth is still inﬁnite for µ < 2. However, W ∗
+0 = W0(φ∗) sets the order of
+magnitude of probable losses, for example with 95% conﬁdence. As in the example of
+the optimal portfolio discussed in Chapter 12, inﬁnite variance does not necessarily mean
+that the risk cannot be diversiﬁed. The option price, ﬁxed for µ > 1 by Eq. (13.33), ought
+to be corrected by a risk premium proportional to W ∗
+0 . Note also that with such violent
+ﬂuctuations, the smile becomes a spike!
+r It is instructive to note that the histogram of W is completely asymmetrical, since
+extreme events only contribute to the loss side of the distribution. As for gains, they
+are limited, since the distribution decreases very fast for positive W.‡ In this case, the
+analogy between an option and an insurance contract is most clear, and shows that buying
+or selling an option are not at all equivalent operations, as they appear to be in a Black–
+Scholes world. Note that the asymmetry of the histogram of W is visible even in the
+case of weakly non-Gaussian assets (Fig. 14.1).
+† Note that the above strategy is still valid for µ > 2, and corresponds to the optimal VaR hedge for power-law-
+tailed assets, see below.
+‡ For at-the-money options, one can actually show that W ≤C.
+
+14.6 Conclusion of the chapter
+271
+80
+90
+100
+110
+120
+ x
+0.00
+0.02
+0.04
+0.06
+0.08
+ Γ(x)
+Fig. 14.5. The price dependence of the  of an option hedged using the Black–Scholes  (plain
+line), or a hedge that minimizes ⟨W 4⟩(dashed line). The strike is 100, and the terminal distribution
+has a kurtosis κ = 3.
+r Finally, one could have considered the problem where the probability of loss p, rather
+than the level of loss Rp, is ﬁxed and one looks for the minimum VaR R∗
+p. In this case, the
+relation between φ∗and R∗
+p is still given by Eq. (14.53). The use of Eq. (14.52) for a given
+value of p then gives the second relation between φ∗and R∗
+p, needed to determine both.
+Other measure of risks can also be considered, such as the fourth moment of the wealth
+balance, ⟨W 4⟩.† As a rule of thumb, the more sensitive to extreme events the risk measure
+is, the ‘ﬂatter’ the hedging strategy as a function of the underlying price. In a Black–Scholes
+language: hedging extreme risks reduces the Gamma, as illustrated in Fig. 14.5
+14.6 Conclusion of the chapter: the pitfalls of zero-risk
+The traditional approach to derivative pricing is to ﬁnd an ideal hedging strategy, which
+perfectly duplicates the derivative contract. Its price is then, using an arbitrage argument,
+equal to that of the hedging strategy, and the residual risk is zero. This argument appears as
+such in nearly all the available books on derivatives and on the Black–Scholes model. For
+example, the last chapter of Hull (1997), called ‘Review of Key Concepts’, starts by the
+following sentence: The pricing of derivatives involves the construction of riskless hedges
+from traded securities. Although there is a rather wide consensus on this point of view, we
+feel that it is unsatisfactory to base a whole theory on exceptional situations: as explained
+above, both the continuous-time Gaussian model and the binomial model (see Section 16.3)
+† see Selmi & Bouchaud (2000).
+
+272
+Options: hedging and residual risk
+are very special models indeed. We think that it is more appropriate to start from the
+ingredient which allow the derivative markets to exist in the ﬁrst place, namely risk. In this
+respect, it is interesting to compare the above quote from Hull to the following disclaimer,
+found on most Chicago Board Options Exchange documents: Option trading involves risk!
+The idea that zero risk is the exception rather than the rule is important for a better peda-
+gogy of ﬁnancial risks in general; an adequate estimate of the residual risk – inherent to the
+trading of derivatives – has actually become one of the major concern of risk management.
+The idea that the risk is zero is inadequate because zero cannot be a good approximation of
+anything. It furthermore provides a feeling of apparent security which can prove disastrous
+on some occasions. For example, the Black–Scholes strategy allows one, in principle, to
+hold an insurance against the fall of one’s portfolio without buying a true Put option, but
+rather by following the associated hedging strategy. This is called a portfolio insurance,
+and was much used in the 1980s, when faith in the Black–Scholes model was at its highest.
+The idea is simply to sell a certain fraction of the portfolio when the market goes down.
+This fraction is ﬁxed by the Black–Scholes  of the virtual option, where the strike price
+is the security level below which the investor does not want to plummet. During the 1987
+crash, this strategy has been particularly inefﬁcient: not only because crash situations are
+the most extremely non-Gaussian events that one can imagine (and thus the zero-risk idea
+is totally absurd), but also because this strategy feeds back onto the market to make it crash
+further (a drop of the market mechanically triggers further sell orders when ‘put’ options are
+-hedged). According to the Brady commission, this mechanism has indeed signiﬁcantly
+contributed to enhance the amplitude of the crash (see the discussion in Hull (1997)): around
+80 billion dollars of stocks were managed this way!
+14.7 Summary
+r One can ﬁnd an optimal hedging strategy, in the sense that the risk (measured by
+the variance of the change of wealth) is minimum. This strategy can be obtained
+explicitly, with very few assumptions, and is given by Eqs. (14.17), or (14.24).
+r For a general non-linear pay-off (i.e. for any derivative except the futures contract)
+the residual risk is non-zero, and actually represents an appreciable fraction of the
+price of the option itself. The exception is the Black–Scholes model where the risk,
+rather miraculously, disappears. Kurtosis effects (or volatility ﬂuctuations) lead to
+irreducible residual risks.
+r The theory presented here generalizes that of Black and Scholes, and is formulated as
+a variational theory. Interestingly, this means that small errors in the hedging strategy
+increases the risk only to second order. Risk is therefore stable against small hedging
+errors.
+r Other measures of risk, more sensitive to tail events, can be considered. The optimal
+strategies are found the vary less rapidly with the price of the underlying than the
+standard Black-Scholes -hedge.
+
+14.8 Appendix D
+273
+14.8 Appendix D: computation of the conditional mean
+On many occasions in this chapter, we needed to compute the mean value of the in-
+stantaneous increment δxk, restricted on trajectories starting from xk and ending at xN.
+We assume that the δxk’s are identically distributed, up to a volatility factor σk. In other
+words:
+P1k(δxk) ≡1
+σk
+P10
+δxk
+σk
+
+.
+(14.59)
+The quantity we wish to compute is then:
+P(xN, N|xk, k)⟨δxk⟩(xk,k)→(xN ,N) =
+
+δxk δ
+
+xN −xk −
+N−1
+
+j=k
+δx j
+ N−1
+
+j=k
+P10
+δx j
+σ j
+dδx j
+σ j
+
+,
+(14.60)
+where the δ function insures that the sum of increments is indeed equal to xN −xk. Using
+the Fourier representation of the δ function, the right-hand side of this equation reads:
+1
+2π
+
+eiz(xN −xk)iσk ˆP′
+10(σkz)
+ N−1
+
+j=k+1
+ˆP10(zσ j)
+
+dz.
+(14.61)
+r In the case where all the σk’s are equal to σ0, one recognizes:
+1
+2π
+
+eiz(xN −xk)
+i
+N −k
+∂
+∂z [ ˆP10(zσ0)]N−k dz.
+(14.62)
+Integrating by parts and using the fact that:
+P(xN, N|xk, k) ≡1
+2π
+
+eiz(xN −xk)[ ˆP10(zσ0)]N−k dz,
+(14.63)
+one ﬁnally obtains the expected result:
+⟨δxk⟩(xk,k)→(xN ,N) ≡xN −xk
+N −k .
+(14.64)
+r In the case where the σk’s are different from one another, one can write the result as
+a cumulant expansion, using the cumulants cn,1 of the distribution P10. After a simple
+computation, one ﬁnds:
+P(xN, N|xk, k)⟨δxk⟩(xk,k)→(xN ,N) =
+∞
+
+n=2
+(−σk)ncn,1
+(n −1)!
+∂n−1
+∂xn−1
+N
+P(xN, N|xk, k),
+(14.65)
+which allows one to generalize the optimal strategy in the case where the volatility is time
+dependent. In the Gaussian case, all the cn for n ≥3 are zero, and the last expression
+
+274
+Options: hedging and residual risk
+boils down to:
+⟨δxk⟩(xk,k)→(xN ,N) = σ 2
+k (xN −xk)
+N−1
+j=k σ 2
+j
+.
+(14.66)
+This expression can be used to show that the optimal strategy is indeed the Black–Scholes
+, for arbitrary Gaussian increments in the presence of a non-zero interest rate. Suppose
+that
+xk+1 −xk = ρxk + δxk,
+(14.67)
+where the δxk are identically distributed. One can then write xN as:
+xN = x0(1 + ρ)N +
+N−1
+
+k=0
+δxk(1 + ρ)N−k−1.
+(14.68)
+The above formula, Eq. (14.66), then reads:
+⟨δxk⟩(xk,k)→(xN ,N) = γ 2
+k (xN −xk(1 + ρ)N−k)
+N−1
+j=k γ 2
+j
+.
+(14.69)
+with γk = (1 + ρ)N−k−1.
+r Further reading
+M. Baxter, A. Rennie, Financial Calculus, An Introduction to Derivative Pricing, Cambridge
+University Press, Cambridge, 1996.
+N. Dunbar, Inventing Money, John Wiley, 2000.
+W. Feller, An Introduction to Probability Theory and its Applications, Wiley, New York, 1971.
+J. C. Hull, Futures, Options and Other Derivatives, Prentice Hall, Upper Saddle River, NJ, 1997.
+D. Lamberton, B. Lapeyre, Introduction au Calcul Stochastique Appliqu´e `a la Finance, Ellipses, Paris,
+1991.
+M. Musiela, M. Rutkowski, Martingale Methods in Financial Modelling, Springer, New York, 1997.
+N. Taleb, Dynamical Hedging: Managing Vanilla and Exotic Options, Wiley, New York, 1998.
+P. Wilmott, Derivatives, The theory and practice of ﬁnancial engineering, John Wiley, 1998.
+P. Wilmott, Paul Wilmott Introduces Quantitative Finance, John Wiley, 2001.
+r Specialized papers
+E. Aurell, S. Simdyankin, Pricing risky options simply, International Journal of Theoretical and
+Applied Finance, 1, 1 (1998).
+J.-P. Bouchaud, D. Sornette, The Black–Scholes option pricing problem in mathematical ﬁnance:
+generalization and extensions for a large class of stochastic processes, Journal de Physique I, 4,
+863–881 (1994).
+S. Esipov, I. Vaysburd, On the proﬁt and loss distribution of dynamic hedging strategies, Int. Jour.
+Theo. Appl. Fin., 2, 131 (1998).
+S. Fedotov and S. Mikhailov, Option pricing for incomplete markets via stochastic optimization:
+transaction costs, adaptive control and forecast, Int. Jour. Theo. Appl. Fin., 4, 179 (2001).
+H. Follmer, D. Sondermann, Hedging of non redundant contigent claims, in Essays in Honor of
+G. Debreu, (W. Hildenbrand, A. Mas-Collel Etaus, eds), North-Holland, Amsterdam, 1986.
+
+14.8 Appendix D
+275
+H. Follmer, P. Leukert, Efﬁcient hedges: cost versus shortfall risk, Finance and Stochastics, 4, 117
+(2000).
+J.-P. Laurent, H. Pham, Dynamic programming and mean-variance hedging, Finance and Stochastics,
+3, 83 (1999).
+M. Sch¨al, On quadratic cost criteria for option hedging, The Mathematics of Operations Research,
+19, 121–131 (1994).
+M. Schweizer, Variance–optimal hedging in discrete time, The Mathematics of Operations Research,
+20, 1–32 (1995).
+M. Schweizer, Risky options simpliﬁed, International Journal of Theoretical and Applied Finance, 2,
+59 (1999).
+F. Selmi, J.-P. Bouchaud, Hedging large risks reduces the transaction costs, e-print cond-mat/0005148
+(2000), Wilmott magazine, March (2003).

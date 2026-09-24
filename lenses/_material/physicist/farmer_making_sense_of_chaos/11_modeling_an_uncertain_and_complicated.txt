@@ -1,0 +1,431 @@
+6.
+Modeling an Uncertain and Complicated
+Economy
+[T]he task is to replace the global rationality of economic man with a kind
+of rational behavior that is compatible with the access to information and
+the computational capacities that are actually possessed by organisms,
+including man, in the kinds of environments in which such organisms exist.
+Herbert Simon (1955)1
+Even as the theory of rational expectations was being developed in the mid-
+1950s, its limitations were being criticized. One of the most prominent
+critics was Herbert Simon, who is perhaps the pioneer of complexity
+economics, even if that term didn’t exist in his day.2
+Simon held that in real situations people often make complicated
+decisions with imperfect knowledge, noting that ‘the capacity of the human
+mind for formulating and solving complex problems is very small
+compared with the size of the problems whose solution is required for
+objectively rational behavior in the real world – or even for a reasonable
+approximation to such objective rationality’.3 Simon argued that when we
+are confronted with a hard problem, the cognitive limitations of the mind
+make rationality moot. In his view, we seek ‘good enough’ choices rather
+than optimal ones. He called this bounded rationality. His views on the
+subject have been confirmed by psychologists and behavioral economists
+alike. Yet despite his 1978 Nobel Prize, Simon is not a central figure in
+mainstream economics – perhaps because his approach would have required
+abandoning the standard theoretical assumptions that captured the
+mainstream. Fortunately, Simon’s research program is far easier to
+implement now than it was in the 1950s, because we now have a much
+
+better understanding of psychology, as well as more data and far better
+computer power.
+Heuristics
+Real people don’t solve day-to-day problems by doing complicated math
+calculations. As a simple analogy, let’s consider two ways of playing
+baseball. Imagine Mr Spock in center field. Let’s contrast his rational
+approach to that of a human baseball player.
+When a fly ball is hit, Spock knows that his team’s utility will be
+maximized if he catches the ball before it touches the ground. To make this
+happen, he measures the position and velocity of the ball. He then solves
+Newton’s laws to compute the ball’s estimated landing point and runs to
+that point in the field.
+This is how we predicted the game of roulette using a computer in
+Chapter 1, but it isn’t the way real center-fielders catch baseballs. A human
+baseball player uses simple rules of thumb that she may not even be
+consciously aware of. For example, she waits until the ball is sufficiently
+high in the air, then fixes the angle between her body and the ball and
+begins running to maintain this angle as consistently as possible. If she
+succeeds, she’ll automatically be in the right place to catch the ball.
+This rule of thumb is called the gaze heuristic.4 Baseball players use it
+(along with other rules of thumb) to help catch fly balls. Dogs use it to
+catch Frisbees, and sailors use a similar technique to determine whether
+they’re on a collision course with another boat. Unlike Mr Spock’s method,
+it doesn’t require any math calculations and takes complicating factors like
+wind into account. It doesn’t always result in optimal behavior – a player
+may first back up and then run forward – but it is useful in practice.
+The term heuristic comes from a Greek word meaning ‘to find out or
+discover’. Heuristics are simple mental processes that humans, animals and
+organizations use to quickly form judgments, make decisions and find
+solutions to complex problems. We use heuristics all the time. To decide
+whether or not to buy an umbrella, trial-and-error provides a simple
+alternative to rational expectations: If you have recently been drenched, you
+are more likely to remember to carry your umbrella. Or you might observe
+that your friends all carry umbrellas and imitate them. Imitation and trial-
+and-error are examples of common heuristics that work well in many
+
+different contexts. In the next chapter we’ll revisit the Solow model, and see
+how an agent-based model that replaces rational expectations with these
+two simple heuristics leads to a surprising example of emergent behavior.
+We’ve already seen a powerful and widely used heuristic in action, in the
+way real-estate agents set house prices, initially offering the house at a price
+slightly higher than the current market. If the house doesn’t sell, they mark
+it down and wait for a buyer, repeating the process until it finally sells.
+Psychologists call this heuristic aspiration-level adaptation. It is commonly
+used in many other contexts, like selling used cars. Aspiration-level
+adaptation proved very useful in our agent-based housing model, since it
+allowed housing prices to roam far from the point where supply equals
+demand, better matching reality (see Chapter 4). Although aspiration-level
+adaptation is easy to simulate in a computer, it isn’t easy to write down and
+solve equations for it. As a result, because of their desire for models with a
+mathematical underpinning, mainstream economists are loath to use it.
+A long list of heuristics have been identified by psychologists, with
+names like the availability heuristic, the representativeness heuristic, the
+anchoring heuristic, the affect heuristic, the consistency heuristic and the
+control heuristic – and many others.5 Unlike utility maximization using
+rational expectations, which requires knowledge that most of us don’t have
+and math calculations that most of us can’t do, heuristics are quick and
+simple, operate on limited information and require little or no math.
+Heuristics have verisimilitude. Psychology experiments show that real
+people rely on them. They’re not the only way we solve problems, but
+they’re an essential component.
+You might think that because heuristics are simple, they cannot be a
+good way to predict the future. But in uncertain environments simplicity is
+a virtue.6 As psychologist Gerd Gigerenzer and his colleagues have
+documented, there are many situations where heuristics make better
+predictions than more complicated methods. This is called the less-is-more
+effect.7
+Portfolio choice provides a great example. Given a choice between
+different assets, like stock or bonds, how much of each should you hold in
+your portfolio? Suppose, just for the sake of argument, that you know their
+expected future returns, as well as their volatility and their correlations with
+each other. Harry Markowitz of UC San Diego got the 1990 Nobel Prize in
+economics for using rational expectations to find an optimal formula for
+
+how much of each asset you should buy in order to make the largest
+possible return on your portfolio (on average) for a given level of risk.8 This
+is a simple and elegant result – but there’s a problem.
+Later, in Part III of the book, I will describe my adventures as a
+quantitative financial trader, but let me give a little preview that illustrates
+how a simple heuristic outperforms Markowitz’s ‘optimal’ result. In 1991, I
+was one of the founders of an enterprise called Prediction Company. In our
+early days, we developed strategies for trading currencies, and we wanted to
+decide what fraction of our trading capital to allocate to the model for each
+currency. I bought a standard textbook on finance written by Eugene Fama
+and read the chapter on portfolio theory.9 It presented Markowitz’s method
+as the right way to solve this problem, without any caveats. I tried it and
+discovered that it worked fine – as long as the expected return and risk for
+each currency strategy were known perfectly. But when I made a more
+realistic test, by pretending I was at some point in the past and didn’t know
+what would happen in the future, the results were terrible.
+The reason for the poor performance of Markowitz’s formula is
+uncertainty. At Prediction Company, it was impossible for us to know
+precisely how well the strategy we applied to each currency would actually
+perform in the future. Based on Markowitz’s formula, small variations in
+the expected risk and return made the allocation to each currency vary
+wildly. In fact, the trading system always did better if we used the simple
+heuristic of assigning equal weights to each currency. Later I found out that
+Markowitz himself knew the same thing: Ironically, when he invested the
+money from his Nobel Prize, he used a portfolio with equal weights to pick
+a few of his favorite stocks rather than the formula he received the prize for
+discovering.10,11
+This brings up a key point: When testing a model, one should focus on
+its ability to make predictions about the future, rather than its ability to fit
+past data.12 Unfortunately, most studies in economics don’t do this. Models
+that fit past data well but fail to make good predictions on data they have
+not seen are worthless. Heuristics often perform relatively poorly at fitting
+data, but they nonetheless frequently make better predictions of the future.
+The portfolio example is just one of many where heuristics outperform
+rational expectations in realistic settings. This is because our library of
+heuristics has developed through a process of cultural evolution to help us
+deal with uncertainty, which is a pervasive feature of the real world.13
+
+Modeling behavior directly
+Heuristics are a good example of what I call modeling behavior directly. In
+contrast to utility, which is cumbersome to observe and must be inferred
+indirectly, behavior is observable and easily measured – in the laboratory or
+using data collected via surveys, censuses, the internet, or any forum that
+records people’s decisions. Modeling behavior directly means developing
+rules that encapsulate the way people actually make decisions. Utility
+theory, in contrast, deduces people’s decisions from their preferences.
+Utility theory often relies on ‘as-if’ arguments, while modeling behavior
+directly is grounded on ‘as-is’ arguments, at least when it is done well.
+Of course, heuristics are only part of modeling behavior directly. Even if
+our ability to reason is finite – we are only boundedly rational – we
+nonetheless use reasoning to solve many problems, and we need to take this
+into account. We have a variety of different methods for doing this; we have
+ways of deciding which heuristics to use in different situations, and we
+combine heuristics with other (usually simple) modes of reasoning.
+As an example, consider how people – as opposed to computers – play
+complicated games like chess. There are about 1040 possible sequences of
+moves in a chess game; even the most powerful supercomputer can
+examine only a tiny fraction of such sequences. Human chess players solve
+this problem using a mixture of experience and intuition. The goal – to
+checkmate your opponent’s king – looms in the distance at the start of the
+game, which on average takes about 40 moves but can take as many as 200.
+A human player can look only a few moves ahead – seeing further becomes
+too difficult because of the explosion of possibilities. The problem must be
+broken into pieces and addressed one step at a time.
+Checkmate usually requires first gaining an advantage over the
+opponent. This can be a piece advantage or a position advantage, or a
+combination of the two. To gain a piece advantage, we’re guided by
+heuristics such as ‘a queen is better than a rook’; to gain a position
+advantage, we use heuristics such as ‘control the middle of the board’. This
+narrows things down so that we need consider only the most promising
+lines of attack – seeing whether we can swap a rook for a queen, for
+example, or positioning pawns to better control the middle. In this case,
+heuristics guide our limited powers for logical reasoning so that we use
+them more effectively. And as we gain experience, we develop intuition that
+
+allows us to search more efficiently and to know which heuristics to use
+when.
+Following in Herbert Simon’s footsteps, Gerd Gigerenzer and economist
+Reinhard Selten have proposed that an essential part of problem-solving is
+our ability to draw on an ‘adaptive toolbox’ of heuristics.14 The toolbox is
+adaptive because the heuristics we deploy depend on the situation. Our
+intuition helps us guess which heuristics to apply, and we learn by
+experience, favoring heuristics that have been successful recently and
+abandoning those that have performed poorly. Gigerenzer calls this way of
+solving problems ecological rationality.15 The word ecological emphasizes
+that our cognitive strategies exploit the representation and structure of
+information (heuristics, search, learning, simple reasoning) to make
+reasonable decisions. Unlike rational expectations, ecological rationality
+allows us to cope with the fundamental uncertainties we encounter in day-
+to-day life.
+Learning is another important way we solve problems. This has been
+extensively studied in psychology, computer science and behavioral
+economics, leading to the development of standard algorithms that
+characterize how people learn. A good example is reinforcement learning,
+in which actions that have worked well in the past become more likely and
+actions that have worked poorly become less likely. While reinforcement
+learning doesn’t fully capture how real people behave, it provides a
+reasonable approximation in many circumstances.
+In the early part of the twenty-first century the field of machine learning
+– which is essentially the application of sophisticated learning algorithms –
+has exploded. Problems that previously seemed out of reach in artificial
+intelligence, like facial recognition and speech recognition, are now
+routinely solved by artificial neural networks (which are just another type of
+learning algorithm). Complicated neural-network models that have been
+trained on a vast corpus of human text, like ChatGPT, are writing student
+term papers and making tasks like computer programming much easier.
+Mainstream economists are beginning to use machine learning for
+statistical data analysis, as an alternative to traditional econometrics. That
+said, with a few exceptions, using learning algorithms to simulate the
+behavior of agents in models is the domain of agent-based modeling.16,17
+Learning algorithms are easy to incorporate into agent-based models. For
+example, a corporation might be assigned the goal of maximizing profits.
+
+The model could then be given a learning algorithm that uses experience
+over time to arrive at better decisions. This is a bit like utility maximization,
+except that it doesn’t guarantee perfection – the decisions can be far from
+optimal – and it can be applied even in complicated settings, using
+information that is plausibly available. The explosive advances in machine
+learning provide a huge opportunity for agent-based modeling that is still in
+its early stage. The challenge is not to create models where the agents use
+the ‘smartest’ possible learning algorithms, but rather to faithfully mimic
+the way people actually make decisions.
+Modeling behavior directly is still an unfinished research program.18 So
+far, there’s no one-size-fits-all method that tells us how people will make
+decisions in any given situation. In the meantime, agent-based modelers
+have cobbled together their own models of behavior, which incorporate
+many different elements. Here are some of the ways agent-based modelers
+incorporate behavior:
+• State the obvious. There are many circumstances for which there is an
+obvious decision rule. For example, a class of stock traders called
+value investors (think Warren Buffett) follow the rule ‘buy
+undervalued assets’.
+• Ask experts, like psychologists and sociologists, who have done lab
+experiments or field studies or performed surveys to understand how
+people made decisions in a similar context.
+• Study data where similar decisions have been made. In our housing
+model for Washington DC, for example, we used data from the US
+census on people’s housing choices, conditioned on income and
+wealth.
+• Do experiments in the context of the model. One can slow down an
+agent-based model to human speed, unplugging the computer’s
+decision-making algorithms and replacing them with the decisions of
+real people, and then build a model mimicking the choices of the
+human decisionmakers. This is a promising approach that remains
+largely unexplored.19
+• Use learning algorithms to train agents to make better decisions
+through time. This is the closest thing to a one-size-fits-all approach,
+and is the way agent-based models answer the Lucas critique.
+
+Although there are many learning algorithms, they often lead to similar
+behaviors.
+In mainstream economics there is a very clear and explicit formula for
+modeling behavior, but the procedures used in agent-based modeling to
+model behavior directly, as the list above shows, are less cut and dried.
+They require more judgment on the part of the modeler. At the end of the
+day, what matters is whether the models are able to represent the economic
+world with sufficient verisimilitude to make good predictions.
+Exploring the wilderness of bounded rationality
+If instead we take the view that prices themselves may adjust sluggishly, we
+enter the wilderness of ‘disequilibrium economics’.
+Chris Sims (1980)20
+Although they have similar goals, mainstream economics and complexity
+economics model the world completely differently. To see the difference
+clearly, let’s recap the standard modeling template from Chapter 5, updating
+it to account for the rejection of rational expectations by behavioral
+economics:
+1. Give each agent a utility function (or some other way of ranking the
+desirability of different outcomes).
+2. Give each agent a model of beliefs (which might be based on rational
+expectations or on something more behaviorally grounded) and find
+the set of decisions that selfishly maximize each agent’s utility, subject
+to these beliefs.
+3. Solve for the equilibrium values of the relevant economic variables
+(like prices and quantities traded).
+Complexity economics replaces this with agent-based modeling, which
+follows a completely different template:
+1. Assign each agent a method for making decisions. This can involve
+heuristics, simple reasoning, search, learning, or a mixture of any of
+
+these. When learning algorithms are used, goals may need to be
+assigned to some agents, but these need not be utility functions.
+2. Mimic the institutions, market mechanisms and other economic
+factors that are actually involved, with as much verisimilitude as
+necessary (remembering that it can be counterproductive to introduce
+details that don’t matter).
+3. Simulate the collective interactions of the agents as time unfolds.
+Both methods have their pros and cons. In simple settings, it is reasonable
+to model real agents ‘as if’ they follow rational expectations. If things
+change sufficiently slowly, equilibrium is a plausible assumption. Then we
+can use the standard framework to write down equations and solve them.
+This has the advantage of being simple, comprehensible and easy to
+implement.
+In contrast, agent-based modeling is more useful in complicated settings
+where agents do not plausibly understand things well enough to reason ‘as
+if’ they follow rational expectations, or where things are changing
+sufficiently fast that equilibrium is not a plausible assumption. Agent-based
+modeling more easily captures the rich structure and interactions that play
+important roles in the real economic world. There is much more latitude in
+how things can be done, depending on the problem that needs to be solved.
+A key difference is in step 3. In the standard template, equilibrium is
+assumed from the outset – there is no consideration of what might happen
+outside of it. The complexity-economics template makes no such
+assumption; rather, as the collective dynamics unfold, equilibrium is a
+possible outcome, which may or may not be attained.
+I like to visualize the quest to find better models of human reasoning as
+exploring a wilderness, like the cartoon in Figure 8. This metaphor is
+inspired by a warning that is given to young economists who are tempted to
+venture into complexity economics: There is a danger of getting lost in the
+wilderness of bounded rationality. There is only one way to be rational, but
+there are an infinite number of possible ways to be boundedly rational. This
+makes it easy to get lost. Hence, aspiring economists are encouraged to
+stick to the well-known path offered by the standard framework.
+This advice is partly sound. The human mind is complicated, and until
+we have a good model of how it works, well supported by empirical
+findings, there is a danger of getting lost by trying out half-baked models.
+
+Rational expectations is like a gate leading into the wilderness of bounded
+rationality, which provides a useful reference point. By keeping this gate
+carefully in sight, the mainstream hopes to avoid getting lost. It is a poor
+approximation of reality when the economic setting gets complicated, but it
+is a useful guide in simple settings. It provides a well-defined point of
+departure that can be built on to incorporate more realistic assumptions and
+get closer to the truth.
+But this advice is missing something important: Rational expectations is
+not the only way to enter the wilderness. Complexity economists like to
+enter through a different gate, on the other side of the wilderness, by
+assuming instead that people make decisions in very simple ways.
+Heuristics, for example, require very little reasoning to implement and sit at
+the opposite end of the intelligence spectrum from rational expectations. As
+an extreme case, starting with ‘zerointelligence’ agents, who literally make
+decisions at random, as if they were throwing darts at a dartboard, can be
+very useful. Maria’s occupational labour model in Chapter 3 provides a
+good example: Workers simply apply for jobs at random – their only
+intelligence is in knowing which jobs they are suited for. Such zero-
+intelligence models also provide a well-defined point of departure that can
+be built on by incrementally adding learning or incorporating more
+knowledge from behavioral economics.21 They provide an alternate gate
+into the wilderness of bounded rationality.
+
+Figure 8. The wilderness of bounded rationality. The human brain is complicated, like a wilderness,
+and creating a reliable model of the way we make decisions is difficult. To avoid getting lost, it helps
+to start with simple assumptions and build incrementally more complicated models. Rationality is the
+conventional starting point used in economics, but heuristics, and even the extreme assumption of
+zero intelligence (random decision-making), provide useful and much less developed alternative
+reference points.
+To make good economic models we should use both gates, depending on
+which is more effective for solving the problem at hand. In Chapter 8 we
+will even see an example where it was useful to go through both gates at
+once and meet in the middle.22 To capture the complex and complicated
+nature of real economies, we need to thoroughly explore the wilderness of
+bounded rationality, entering through both gates.
+Tractable models for complicated economies
+The real economy – the one that we live and work in – is a complicated
+beast with many interacting moving parts. The agents whose behavior needs
+to be modeled include firms, households, banks, financial investors and
+governments. There are many different kinds of firms producing many
+different goods and services. Poor people behave differently than rich
+
+people, and old people behave differently than young people. Financial
+globalization and trading connect the economies of 195 different nation-
+states. Building a macroeconomic model that takes all this into account is
+challenging.
+I think there are serious limitations to utility maximization as a
+foundation for quantitative models, but my opinions on this are
+controversial, and since this book is not about criticizing mainstream
+economics, I have reduced them to an endnote.23 There is, however, one
+problem with utility maximization that is uncontroversial: In complicated
+situations, the equations become very hard to solve. To quote two
+prominent economists, Xavier Gabaix and David Laibson:
+Tractable models are easy to analyze. Models with maximal tractability can be solved with
+analytic methods – i.e. paper and pencil calculations. At the other extreme, minimally
+tractable models cannot be solved even with a computer, since the necessary
+computations/simulations would take too long. For instance, optimization is typically not
+computationally feasible when there are dozens of continuous state variables – in such cases,
+numerical solution times are measured on the scale of years or centuries.24
+A realistic model of a complicated economic phenomenon like the 2008
+financial crisis requires understanding the behavior of many agents and
+many institutions, which require ‘dozens of continuous state variables’ to
+represent them. The reason that standard models fail is because they require
+calculating the optimal decisions for each agent. It can be difficult for real
+people to do this, and it becomes impossible even for a computer to do it
+when things get complicated.25 The tractability problems of the standard
+modeling approach are unavoidable: It will never be possible to make
+successful models of complicated real-world situations that take the many
+interacting moving pieces of the economy into account.
+In contrast, agent-based models don’t try to find optima, so they don’t
+suffer from this problem. In our housing model, for example, we considered
+as many as 100,000 households, all of whom differed from one another. We
+had not dozens, but hundreds of thousands of continuous-state variables. It
+would have been impossible to maximize each household’s utility function
+while taking all the others into account. Instead, we mimicked the way that
+real households behave. At each step, each agent processed the information
+available to her and used simple heuristics to make decisions. Each agent’s
+decisions consumed very little computer time, and as a result we could
+
+model 100,000 heterogeneous agents on a laptop. This will never be
+possible for a standard model based on utility maximization.
+Agent-based simulation can easily incorporate realistic assumptions
+about the complicated structure of the economy. We can come closer to
+modeling the complexities of the real world, gaining verisimilitude in two
+different ways: The decisions of the agents can be more realistic, and the
+structure of the economy can be more realistic. But the most important
+consequence is that we can make tractable models, ones that produce
+solutions even when things get complicated. Whether or not direct models
+of behavior are more realistic than utility maximization (or its variants) will
+likely remain controversial for some time. However, the tractability
+problem of utility maximization for confronting complicated economic
+problems is not controversial.
+This point was hammered home to me when I gave a presentation for the
+Macrofinancial Seminar at the London School of Economics in 2018. I was
+invited by Wouter den Haan, who is one of the leading European
+macroeconomists. After the seminar I met with a few expert micro-founded
+macro–modelers. To my surprise, they peppered me with procedural
+questions: ‘How do you do this? How do you do that?’ They were
+particularly keen to know how much effort it took to build and extend more
+complicated agent-based models. When I asked them why they were asking
+me all these questions, they began describing how much painstaking effort
+was required to add new features to their models.
+In Chapter 5 you may have wondered why there are no microfounded
+models that can simultaneously deal with the diversity of households and
+firms in a realistic way. The reason is that building complicated micro-
+founded models using rational expectations is hard, and one rapidly reaches
+a point where adding more realistic features becomes impossible. Agent-
+based models, in contrast, are only limited by the size and speed of the
+computers that run them. With a big enough budget for cloud computing, it
+is now feasible to build a model that includes every person and every firm
+in the world. Perhaps more importantly, it is possible to include all the
+relevant economic effects that cause the economy to change.
+...
