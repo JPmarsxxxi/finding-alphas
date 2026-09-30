@@ -42,7 +42,7 @@ Computed on the yearly gross means, in this order:
 
 ## Outcome
 An idea goes to Step 2 only if Gate 1 is PASS or MARGINAL AND Gate 2 survives. Anything else is a light sub-entry in
-alpha_log #049, as a finding, not a verdict.
+alpha_log EDA#2, as a finding, not a verdict.
 
 K: this step adds 3 looks (one per idea) on TRAIN, which the EDA already looked at (EDA K = 18). A 1b pass here is
 **not** fresh evidence — it is a cost/decay screen on already-seen data.

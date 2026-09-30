@@ -1,4 +1,4 @@
-# Step 2 — express it simply (#049, 2026-09-30)
+# Step 2 — express it simply (EDA#2, 2026-09-30)
 
 Both ideas, as the simplest formulas that encode the Step 1 sentences (RULES.md in step1b). Raw versions only. Neutralisation
 variants are listed for Step 4 (lever 1), not used in Step 3.

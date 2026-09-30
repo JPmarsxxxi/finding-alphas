@@ -72,7 +72,11 @@ Engine: `backtest_engine/backtest_engine2` (notebook `reversal_alpha.ipynb`, ker
 
 ---
 
-## #049 — Crypto 10-coin reversal family (EDA-born, crypto-cost10 hunt) — FINDINGS ONLY, arc OPEN (Step 1b closed 2026-09-30)
+## EDA#2 — Crypto 10-coin reversal family (EDA-born, crypto-cost10 hunt) — FINDINGS ONLY, arc OPEN (Step 1b closed 2026-09-30)
+
+*Naming (user directive 2026-09-30): arcs whose signal came out of the eda-routine pipeline are numbered `EDA#n`, separate from
+the `#nnn` series. EDA#1 = the 2026-09-25 BTC-spot 1m EDA runs; EDA#2 = this arc (logged briefly as #049 before the rename;
+#049 is left unused).*
 
 Hunt folder: `hunts/2026-09-30_crypto-cost10/` (data pull, `MECHANISMS.md`, `step1b/`). Ideas came from the isolated eda-routine v3
 run `runs/2026-09-30_crypto-panel-1h` (mode E, data-born; eda-v3-judge PASS; gate.py PASS; EDA K = 18, up to ~120 counting
