@@ -72,6 +72,43 @@ Engine: `backtest_engine/backtest_engine2` (notebook `reversal_alpha.ipynb`, ker
 
 ---
 
+## #049 — Crypto 10-coin reversal family (EDA-born, crypto-cost10 hunt) — FINDINGS ONLY, arc OPEN (Step 1b closed 2026-09-30)
+
+Hunt folder: `hunts/2026-09-30_crypto-cost10/` (data pull, `MECHANISMS.md`, `step1b/`). Ideas came from the isolated eda-routine v3
+run `runs/2026-09-30_crypto-panel-1h` (mode E, data-born; eda-v3-judge PASS; gate.py PASS; EDA K = 18, up to ~120 counting
+printed descriptives). Universe: the 10 FTMO crypto CFDs, measured on Binance spot 1h (2018 → 2023-03-19, TRAIN only). Costs:
+x098 menu (coin round trip) + 8.2 bp per rollover crossed. Rules pre-committed in `step1b/RULES.md`.
+
+```
+1b finding — H7: a coin's extreme down day (below its trailing-365d 10th pct) predicts a positive next day, because
+             liquidation cascades overshoot   [source: EDA data-born (redirect of H1)]   [ledger: ALPHA]
+  C1 next-day gross on events — supported   (+105.5 bp, day-clustered t 2.33, n 1,261 coin-days / 354 days)
+  decay-first: STRONGEST-RECENT (per rule)   2018 +58 · 2019 +19 · 2020 +131 · 2021 +192 · 2022 +28 · 2023Q1 +38 bp
+  cost:  edge/cost = 4.06   (mean cost 26.0 bp incl. one rollover; net +79.5 bp, t 1.65)
+  K so far: EDA 18 + 3 (this step)      notebook: hunts/2026-09-30_crypto-cost10/step1b/
+  still untested: entry LAG (measured close-to-close from the signal bar = the zero-lag ceiling; #048 lost half its edge
+    to a one-bar lag); bull-market dependence (2020-21 carry it, 2022 bear ~ break-even net); SURVIVORSHIP (today's FTMO list,
+    no LUNA/FTT: user chose to measure anyway); per-coin spread (SOL -96 bp, LTC +2 bp while DOGE +265); tail concentration.
+1b finding — H2: a panel-wide volume-shock day predicts next-day reversal of each coin's move, because liquidity providers
+             absorbing forced flow are paid back   [source: EDA data-born]   [ledger: ALPHA]
+  C1 gross reversal on HIGH-shock days — supported, weakly   (+35.7 bp, t 2.28, n 4,109 coin-days / 476 days)
+  decay-first: FLAT (per rule; 2 sign flips, Spearman -0.49)   2018 +118 · 2019 +47 · 2020 +53 · 2021 -6 · 2022 +33 · 2023Q1 +47
+  cost:  edge/cost = 1.35   (net +9.3 bp, t 0.85: positive but not distinguishable from zero)
+  still untested: the weakening shape (2018 largest; Spearman -0.49 is below the -0.7 decay line but leans that way);
+    overlap with H7 (shock days are big-move days, EDA OBS #11); per-coin (DOGE, SOL, DOT, XRP net-negative).
+1b finding — H6: high trailing panel vol predicts 6h-block reversal   [source: EDA data-born (child of H5)]
+  REJECTED at 1b: cost gate edge/cost 0.31 (gross +6.3 bp vs 20.4 bp) AND decay-first ALTERNATING (4 flips:
+  2018 -18 · 2019 +40 · 2020 +17 · 2021 -2 · 2022 +27 · 2023Q1 -48). Every coin net-negative.
+Light sub-entries (died at the EDA's own cost line, not re-measured here):
+  H5 6h reversal — HIGH-VAL as a data fact (VAL IC -0.063) but 7-10 bp per 1-sd block vs 19.8 bp: sub-economic.
+  H3 same-hour-yesterday 1h reversal — NO-STORY, 4-5 bp vs 6.6 bp at the cheapest coin.
+  H1 plain daily reversal — weakly refuted on CONFIRM (IC -0.047, power 0.56); lives on as H2/H7 (extreme/shock days).
+  H4 high-volume winners continue — refuted, opposite sign.
+```
+**Next:** H7 and H2 → Step 2 (express simply). H7 first (edge/cost 4.06). The lag test belongs in Step 3.
+
+---
+
 ## #048 — BTC VWAP-reversal (extreme dislocation, 4h) — KILLED 2026-09-23 (real effect, decays faster than any realistic execution lag)
 
 Notebook: `backtest_engine2/notebooks/x048_vwap_momentum_btc/` (13 cells: EDA 1-8, engine build 9-13; persistent kernel `_x048_kernel.json`).
