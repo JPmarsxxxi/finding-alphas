@@ -111,6 +111,10 @@ Light sub-entries (died at the EDA's own cost line, not re-measured here):
 ```
 **Next:** H7 and H2 → Step 2 (express simply). H7 first (edge/cost 4.06). The lag test belongs in Step 3.
 
+**Status 2026-10-02 (cloud session, handed back to local):** Step 2 done (`step2/EXPRESSIONS.md`). Step 3 in progress in
+`backtest_engine2/notebooks/eda02_crypto_reversal/` — Cells 1–2 final, Cell 3 (costs) under revision, Cell 4 not run. Open: bid/ask
+source for mids (Dukascopy / FTMO-MT5 depth check), SOL/DOGE/DOT/BNB coverage. Full handover: `hunts/2026-09-30_crypto-cost10/SESSION_NOTES.md`.
+
 ---
 
 ## #048 — BTC VWAP-reversal (extreme dislocation, 4h) — KILLED 2026-09-23 (real effect, decays faster than any realistic execution lag)
