@@ -1,0 +1,27 @@
+DOT spread fix check vs FTMO ticks (p11 sample, 15th of each month 2022-02..2023-11):
+  tick min spread / bar spread, monthly medians: min 10.0  max 10.0  (fix assumes 10)
+  built mid error vs tick mid: BEFORE median -15.99 bp, |p90| 21.87   AFTER median -0.00 bp, |p90| 4.39
+  fixed bar spread 33.12 bp vs tick min 33.12 bp
+
+DOT fix accepted: True
+
+BTCUSD: 42,642 hours  2019-01-01 -> 2023-11-30   switches/holes flagged 167   junction Jan-2022 Binance vs FTMO: median -2.97 bp, |p90| 8.23 bp (690 h)
+ETHUSD: 42,646 hours  2019-01-01 -> 2023-11-30   switches/holes flagged 164   junction Jan-2022 Binance vs FTMO: median -3.04 bp, |p90| 8.84 bp (690 h)
+XRPUSD: 42,642 hours  2019-01-01 -> 2023-11-30   switches/holes flagged 168   junction Jan-2022 Binance vs FTMO: median -3.08 bp, |p90| 9.18 bp (690 h)
+LTCUSD: 42,643 hours  2019-01-01 -> 2023-11-30   switches/holes flagged 166   junction Jan-2022 Binance vs FTMO: median -2.34 bp, |p90| 11.65 bp (690 h)
+ADAUSD: 33,909 hours  2020-01-01 -> 2023-11-30   switches/holes flagged 163   junction Jan-2022 Binance vs FTMO: median -0.37 bp, |p90| 10.85 bp (690 h)
+DOGEUSD: 25,145 hours  2021-01-01 -> 2023-11-30   switches/holes flagged 153   junction Jan-2022 Binance vs FTMO: median -0.86 bp, |p90| 9.48 bp (690 h)
+DOTUSD: 28,379 hours  2020-08-18 -> 2023-11-30   switches/holes flagged 158   junction Jan-2022 Binance vs FTMO: median -0.59 bp, |p90| 9.56 bp (690 h)
+BNBUSD: 43,020 hours  2019-01-01 -> 2023-11-30   switches/holes flagged 21
+BCHUSD: 18,319 hours  2019-11-28 -> 2021-12-31   switches/holes flagged 15
+SOLUSD: 25,522 hours  2021-01-01 -> 2023-11-30   switches/holes flagged 8
+
+HOURS PER YEAR BY SOURCE (blank year = cut / not available; full year = 8760)
+     binance_trade                                                                 ftmo_mid                                                                
+coin        ADAUSD BCHUSD BNBUSD BTCUSD DOGEUSD DOTUSD ETHUSD LTCUSD SOLUSD XRPUSD   ADAUSD BCHUSD BNBUSD BTCUSD DOGEUSD DOTUSD ETHUSD LTCUSD SOLUSD XRPUSD
+year                                                                                                                                                       
+2019             0    806   8732   8732       0      0   8732   8732      0   8732        0      0      0      0       0      0      0      0      0      0
+2020          8766   8766   8766   8766       0   3235   8766   8766      0   8766        0      0      0      0       0      0      0      0      0      0
+2021          8747   8747   8747   8747    8747   8747   8747   8747   8747   8747        0      0      0      0       0      0      0      0      0      0
+2022             0      0   8760      0       0      0      0      0   8760      0     8551      0      0   8550    8553   8551   8554   8551      0   8552
+2023             0      0   8015      0       0      0      0      0   8015      0     7845      0      0   7847    7845   7846   7847   7847      0   7845
